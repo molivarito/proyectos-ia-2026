@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo · IA Generativa & Forense Espectral — Sesión 12</title>
+<style>
+:root {
+  --bg:        #0a0820;
+  --panel:     #181226;
+  --panel-2:   #261c3a;
+  --accent:    #ff7755;
+  --accent-2:  #6ddb7a;
+  --accent-3:  #ff5577;
+  --accent-4:  #4ec3ff;
+  --accent-5:  #b86dff;
+  --text:      #ecedf2;
+  --text-dim:  #97a0b5;
+  --border:    #2c2440;
+  --font:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono:      "SF Mono", "Menlo", "Consolas", monospace;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.5; font-size:15px; min-height:100vh; }
+header {
+  background:linear-gradient(135deg,#2d0a4a 0%,#a02ad6 50%,#ff7755 100%);
+  padding:22px 32px; border-bottom:1px solid var(--border);
+}
+header h1 { font-size:1.55em; font-weight:600; letter-spacing:0.3px; }
+header .subtitle { color:rgba(255,255,255,.85); font-size:1em; margin-top:4px; font-weight:300; }
+header .meta { color:rgba(255,255,255,.7); font-size:0.85em; margin-top:6px; }
+nav.tabs { display:flex; gap:0; background:var(--panel); padding:0 32px; border-bottom:1px solid var(--border); overflow-x:auto; }
+nav.tabs button {
+  background:transparent; color:var(--text-dim); border:none; border-bottom:3px solid transparent;
+  padding:14px 20px; font:inherit; font-weight:500; cursor:pointer; white-space:nowrap; transition:.15s;
+}
+nav.tabs button:hover { color:var(--text); }
+nav.tabs button.active { color:var(--accent); border-bottom-color:var(--accent); }
+main { padding:24px 32px; max-width:1400px; margin:0 auto; }
+section.module { display:none; }
+section.module.active { display:block; }
+section.module > h2 { font-size:1.35em; margin-bottom:6px; color:var(--accent); }
+section.module .prose { color:var(--text-dim); margin-bottom:16px; max-width:880px; }
+section.module .prose strong { color:var(--text); }
+section.module .prose code { font-family:var(--mono); background:var(--panel); padding:1px 6px; border-radius:3px; color:var(--accent-2); font-size:.9em; }
+.layout { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:18px; }
+.layout-wide { display:grid; grid-template-columns:1fr; gap:18px; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px 18px; min-width:0; }
+.panel h3 { font-size:1em; color:var(--accent); margin-bottom:10px; }
+.panel.sub { background:var(--panel-2); }
+canvas { width:100%; height:auto; display:block; background:#08051a; border-radius:6px; border:1px solid var(--border); }
+.row { display:flex; gap:10px; align-items:center; margin:8px 0; flex-wrap:wrap; }
+button.btn { background:var(--accent); color:#0a0820; border:none; padding:9px 16px; border-radius:5px; font:inherit; font-weight:600; cursor:pointer; transition:.1s; }
+button.btn:hover { filter:brightness(1.15); }
+button.btn.ghost { background:transparent; color:var(--text); border:1px solid var(--border); }
+button.btn.ghost:hover { background:var(--panel-2); }
+button.btn.danger { background:var(--accent-3); color:#fff; }
+button.btn.preset { background:var(--panel-2); color:var(--text); border:1px solid var(--accent-5); padding:8px 12px; font-weight:500; font-size:.92em; }
+button.btn.preset:hover { background:var(--accent-5); color:#fff; }
+button.btn.preset.active { background:var(--accent-5); color:#fff; }
+.slider-group { margin:10px 0; }
+.slider-group label { display:flex; justify-content:space-between; font-size:.92em; color:var(--text-dim); margin-bottom:4px; }
+.slider-group label .val { color:var(--accent); font-family:var(--mono); font-weight:600; }
+input[type=range] { width:100%; -webkit-appearance:none; height:6px; background:var(--panel-2); border-radius:3px; outline:none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%; background:var(--accent); cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,.4); }
+input[type=range]::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background:var(--accent); cursor:pointer; border:none; }
+.kv { display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:.9em; color:var(--text-dim); margin-top:8px; }
+.kv .k { color:var(--text); font-family:var(--mono); }
+.note { background:var(--panel-2); border-left:3px solid var(--accent); padding:10px 14px; border-radius:4px; font-size:.93em; color:var(--text-dim); margin-top:10px; }
+.note strong { color:var(--text); }
+.callout { background:rgba(255,119,85,.08); border:1px solid rgba(255,119,85,.3); border-radius:6px; padding:10px 14px; font-size:.92em; color:var(--text); margin-bottom:12px; }
+.preset-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin:8px 0; }
+.led { display:inline-block; width:9px; height:9px; border-radius:50%; background:#444; transition:.1s; vertical-align:middle; margin-right:6px; }
+.led.on { background:var(--accent-2); box-shadow:0 0 8px var(--accent-2); }
+table { border-collapse:collapse; width:100%; font-size:.9em; margin:8px 0; }
+th, td { padding:6px 10px; text-align:left; border-bottom:1px solid var(--border); }
+th { color:var(--accent-2); font-weight:600; }
+small.dim { color:var(--text-dim); font-size:.85em; }
+hr.div { border:none; border-top:1px solid var(--border); margin:14px 0; }
+.metric-bar { background:var(--panel-2); border-radius:4px; height:24px; position:relative; overflow:hidden; margin:6px 0; }
+.metric-bar .fill { background:linear-gradient(90deg,var(--accent),var(--accent-2)); height:100%; transition:width .3s; }
+.metric-bar .label { position:absolute; left:10px; top:3px; font-family:var(--mono); font-size:.85em; color:white; z-index:2; }
+.metric-bar .score { position:absolute; right:10px; top:3px; font-family:var(--mono); font-size:.85em; color:white; z-index:2; }
+.verdict { display:inline-block; padding:4px 14px; border-radius:4px; font-weight:bold; font-family:var(--mono); }
+.verdict.humano { background:var(--accent-2); color:#0a0820; }
+.verdict.ia     { background:var(--accent-3); color:#fff; }
+.verdict.unknown { background:var(--panel-2); color:var(--text-dim); }
+.quiz-card { background:var(--panel-2); border:2px solid var(--border); border-radius:8px; padding:16px; margin:8px 0; transition:.2s; }
+.quiz-card.correct { border-color:var(--accent-2); background:rgba(109,219,122,.1); }
+.quiz-card.wrong { border-color:var(--accent-3); background:rgba(255,85,119,.1); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🤖 Demo · IA Generativa & Forense Espectral</h1>
+  <div class="subtitle">Sesión 12 (última del curso) — Análisis y Síntesis de Señales Musicales</div>
+  <div class="meta">Difusión paso a paso · análisis forense · quiz IA-vs-humano · Prof. Patricio de la Cuadra</div>
+</header>
+
+<nav class="tabs">
+  <button data-tab="diffusion" class="active">🌀 Difusión paso a paso</button>
+  <button data-tab="forense">   🔬 Forense en vivo</button>
+  <button data-tab="quiz">      🎯 Quiz: ¿IA o humano?</button>
+  <button data-tab="comparacion">📊 Comparación lado a lado</button>
+  <button data-tab="cierre">    🎓 Cierre del curso</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DIFUSIÓN paso a paso
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module active" id="diffusion">
+  <h2>🌀 El proceso de difusión — destruir y reconstruir</h2>
+  <p class="prose">
+    Un modelo de difusión aprende dos procesos. <strong>Forward:</strong> agregar ruido gaussiano al audio en $T$ pasos hasta que solo quede ruido puro. <strong>Reverse:</strong> una red neuronal aprende a deshacer cada paso. Para generar, partes de ruido y aplicas el reverse $T$ veces. Acá puedes ver el proceso forward sobre un espectrograma real.
+  </p>
+
+  <div class="layout">
+    <div class="panel">
+      <h3>Forward diffusion: x_t = √ᾱ_t · x_0 + √(1−ᾱ_t) · ε</h3>
+      <div class="row">
+        <button class="btn preset active" data-source="harmonic">Tono armónico</button>
+        <button class="btn preset" data-source="percussive">Percusivo</button>
+        <button class="btn preset" data-source="speech">Voz simulada</button>
+        <button class="btn preset" data-source="chirp">Chirp ascendente</button>
+      </div>
+      <canvas id="diff-canvas" width="1100" height="300"></canvas>
+      <small class="dim">⬆ Espectrograma original (izq) → ruido puro (der) en T pasos.</small>
+
+      <div class="slider-group" style="margin-top:14px">
+        <label>Paso de difusión <code>t</code> <span class="val" id="diff-t-val">0 / 200</span></label>
+        <input id="diff-t" type="range" min="0" max="200" step="1" value="0">
+      </div>
+      <div class="row">
+        <button id="diff-play-fwd" class="btn">▶ Forward (animar)</button>
+        <button id="diff-play-rev" class="btn ghost">◀ Reverse (denoise simulado)</button>
+        <button id="diff-stop" class="btn danger">■ Stop</button>
+        <button id="diff-listen" class="btn ghost">🔊 Oír este paso</button>
+      </div>
+    </div>
+
+    <div class="panel sub">
+      <h3>Lo que aprende la red</h3>
+      <p class="prose" style="margin-bottom:8px">
+        En forward, el ruido se agrega de manera <em>predecible</em>:
+      </p>
+      <div class="kv" style="margin-bottom:8px">
+        <div class="k">ᾱ_t</div><div id="diff-alpha">1.000</div>
+        <div class="k">√ᾱ_t</div><div id="diff-sqrt-alpha">1.000 (señal)</div>
+        <div class="k">√(1−ᾱ_t)</div><div id="diff-sqrt-1minus">0.000 (ruido)</div>
+      </div>
+      <hr class="div">
+      <div class="note">
+        <strong>Reverse en clase real:</strong> una red <code>ε_θ(x_t, t, c)</code> predice qué ruido se añadió, condicionada por el texto <code>c</code>. Aquí lo "simulamos" mostrando lo que la red <em>debería</em> producir. En la práctica, modelos grandes (MusicGen, AudioLDM2, Stable Audio) tienen U-Nets de 100M+ parámetros entrenadas con miles de horas de audio.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:14px">
+    <strong>Observación didáctica:</strong> el forward es <em>analítico</em> (solo agrega ruido) y por eso es trivial. La magia está en el reverse — cómo la red aprende a quitar exactamente el ruido correcto en cada paso. Eso requiere el set de entrenamiento + una loss bien diseñada (predicción del ruido en lugar de la señal).
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FORENSE en vivo
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="forense">
+  <h2>🔬 Forense espectral en vivo</h2>
+  <p class="prose">
+    4 clips de audio: 2 imitan grabación humana, 2 imitan audio generado por IA. Selecciona uno, oye, y mira las 4 métricas espectrales con su veredicto. La pregunta clave: <strong>¿coincide el dictamen automático con tu intuición auditiva?</strong>
+  </p>
+
+  <div class="layout">
+    <div class="panel">
+      <h3>Clip bajo análisis</h3>
+      <div class="preset-grid" style="grid-template-columns:repeat(4,1fr)">
+        <button class="btn preset active" data-clip="A">Clip A</button>
+        <button class="btn preset" data-clip="B">Clip B</button>
+        <button class="btn preset" data-clip="C">Clip C</button>
+        <button class="btn preset" data-clip="D">Clip D</button>
+      </div>
+      <div class="row">
+        <button id="for-play" class="btn">▶ Reproducir</button>
+        <button id="for-stop" class="btn danger">■ Stop</button>
+        <span class="led" id="for-led"></span>
+        <small class="dim" id="for-status">parado</small>
+      </div>
+      <canvas id="for-spec-canvas" width="1100" height="240"></canvas>
+      <small class="dim">⬆ Espectrograma — vertical = "humano" (transientes); horizontal estable = "IA"</small>
+      <canvas id="for-onset-canvas" width="1100" height="100" style="margin-top:6px"></canvas>
+      <small class="dim">⬆ Envolvente de onsets (spectral flux) — picos altos y nítidos = transientes humanos</small>
+    </div>
+
+    <div class="panel sub">
+      <h3>Métricas forenses</h3>
+      <div class="metric-bar"><div class="fill" id="for-bar-sharp" style="width:0%"></div><span class="label">Onset sharpness</span><span class="score" id="for-sharp">—</span></div>
+      <small class="dim">Alto = ataques nítidos (humano)</small>
+      <div class="metric-bar" style="margin-top:10px"><div class="fill" id="for-bar-std" style="width:0%"></div><span class="label">Spectral std (dB)</span><span class="score" id="for-std">—</span></div>
+      <small class="dim">Alto = espectro variable en el tiempo (humano)</small>
+      <div class="metric-bar" style="margin-top:10px"><div class="fill" id="for-bar-zcr" style="width:0%"></div><span class="label">ZCR variability</span><span class="score" id="for-zcr">—</span></div>
+      <small class="dim">Alto = ZCR cambia mucho frame a frame (humano)</small>
+      <div class="metric-bar" style="margin-top:10px"><div class="fill" id="for-bar-roll" style="width:0%"></div><span class="label">Spectral rolloff (Hz)</span><span class="score" id="for-roll">—</span></div>
+      <small class="dim">Solo informativo (no usado en dictamen)</small>
+
+      <hr class="div">
+
+      <div style="text-align:center;margin:12px 0">
+        <small class="dim">DICTAMEN AUTOMÁTICO:</small><br>
+        <span class="verdict unknown" id="for-verdict" style="font-size:1.4em;margin-top:8px;display:inline-block">aún sin analizar</span>
+        <div id="for-votes" style="margin-top:6px;font-family:var(--mono);color:var(--text-dim);font-size:.9em">— / 3 votos</div>
+      </div>
+
+      <div class="note" id="for-truth" style="display:none">
+        <strong>Verdad:</strong> <span id="for-truth-text">—</span>
+      </div>
+      <button id="for-reveal" class="btn ghost" style="margin-top:8px;width:100%">👁 Revelar verdad</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     QUIZ — modo juego
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="quiz">
+  <h2>🎯 Quiz: ¿IA o humano? — modo desafío</h2>
+  <p class="prose">
+    8 clips presentados aleatoriamente, sin pistas. Tu trabajo: oírlos y votar antes de ver el dictamen automático. Al final compara tu accuracy con la del algoritmo.
+  </p>
+
+  <div class="panel">
+    <div class="row">
+      <button id="quiz-start" class="btn">🎲 Empezar nueva ronda</button>
+      <button id="quiz-reset" class="btn ghost">↻ Reset</button>
+      <span style="margin-left:auto;font-family:monospace">
+        Tu score: <span id="quiz-user-score" style="color:var(--accent-2);font-weight:bold">0/0</span>
+        &nbsp;·&nbsp;
+        Algoritmo: <span id="quiz-algo-score" style="color:var(--accent-4);font-weight:bold">0/0</span>
+      </span>
+    </div>
+    <div id="quiz-cards"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     COMPARACIÓN lado a lado
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="comparacion">
+  <h2>📊 Comparación lado a lado: humano vs IA</h2>
+  <p class="prose">
+    Dos clips con la misma frecuencia base, lado a lado. Las diferencias son obvias en el espectrograma: el humano tiene "rayas verticales" (transientes), el IA tiene "líneas horizontales" (armónicos demasiado estables).
+  </p>
+
+  <div class="layout-wide">
+    <div class="panel">
+      <h3>Humano (clip A) — ataque nítido + variabilidad expresiva</h3>
+      <canvas id="cmp-human-canvas" width="1300" height="200"></canvas>
+      <small class="dim">Observa: rayas verticales nítidas en cada beat (transientes percusivos), variación frame-a-frame.</small>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>IA (clip B) — armónicos estables + envolvente trapezoidal</h3>
+      <canvas id="cmp-ia-canvas" width="1300" height="200"></canvas>
+      <small class="dim">Observa: líneas horizontales estables (armónicos), sin transientes nítidos, ataque suavizado.</small>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:14px">
+    <h3>Métricas comparadas</h3>
+    <table>
+      <thead><tr><th>Métrica</th><th>Humano</th><th>IA</th><th>Ratio H/IA</th><th>Discriminativo</th></tr></thead>
+      <tbody id="cmp-table"></tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CIERRE — recap del curso
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="cierre">
+  <h2>🎓 Cierre del curso — el camino completo</h2>
+  <p class="prose">
+    Las herramientas que aprendiste a lo largo del semestre te permitieron resolver el problema más actual de hoy: <strong>distinguir audio generado por IA de audio humano</strong>. La STFT, los picos espectrales, el ZCR y los onsets — los mismos conceptos de las primeras semanas — son la base del forense de IA.
+  </p>
+
+  <div class="layout-wide">
+    <div class="panel">
+      <h3>El camino de tus 12 sesiones</h3>
+      <table>
+        <thead><tr><th>Sesión</th><th>Concepto clave</th><th>Donde lo usaste hoy</th></tr></thead>
+        <tbody>
+          <tr><td>S01–S04</td><td>Sumas de senos, convolución, filtros, delays</td><td>Reglas para reconstruir el audio "limpio" desde ruido</td></tr>
+          <tr><td>S05</td><td>STFT</td><td>El espectrograma del forense</td></tr>
+          <tr><td>S06</td><td>Phase vocoder</td><td>Cómo los modelos preservan/destruyen fase</td></tr>
+          <tr><td>S07</td><td>Modelo sinusoidal (SMS)</td><td>Picos espectrales para análisis</td></tr>
+          <tr><td>S08</td><td>Substractiva (ADSR)</td><td>Carácter de transientes</td></tr>
+          <tr><td>S09</td><td>FM (Bessel)</td><td>Riqueza armónica de instrumentos reales</td></tr>
+          <tr><td>S10</td><td>Karplus-Strong</td><td>Modelado físico ↔ pretensión de la IA</td></tr>
+          <tr><td>S11</td><td>MIR / fingerprinting</td><td>Features espectrales de hoy (ZCR, centroide, rolloff)</td></tr>
+          <tr><td>S12</td><td><strong>Difusión + forense</strong></td><td><strong>Estás aquí</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:14px">
+    <strong>Pregunta abierta para llevarse:</strong> en 2 años, los modelos de difusión van a aprender a producir audio que pase los detectores forenses (adversarial training). ¿Se vuelve esto una carrera técnica perdida? Posibles respuestas: regulación legal, watermarks criptográficos, autenticación en la fuente. <em>El problema deja de ser DSP y se vuelve socio-técnico.</em>
+  </div>
+
+  <div class="panel" style="margin-top:14px;text-align:center;padding:24px">
+    <h3 style="color:var(--accent);font-size:1.4em">Gracias por el semestre.</h3>
+    <p class="prose" style="text-align:center;max-width:680px;margin:8px auto 0">
+      Si en 5 años tienes que resolver un problema de audio que ni siquiera existe hoy, recuerda: <em>los principios sobreviven a las herramientas</em>. La STFT que aprendiste va a seguir siendo la STFT. La paciencia para escuchar antes de modelar va a seguir siendo la habilidad clave.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// AUDIO ENGINE
+// ═══════════════════════════════════════════════════════════════
+let audioCtx = null;
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)({sampleRate: 44100});
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+const FS = 44100;
+const N_FFT = 1024;
+const HOP = 256;
+
+// Tabs
+document.querySelectorAll('nav.tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('section.module').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.tab).classList.add('active');
+  });
+});
+
+// FFT iterativa
+function fft(re, im) {
+  const n = re.length;
+  let j = 0;
+  for (let i = 1; i < n - 1; i++) {
+    let bit = n >> 1;
+    for (; (j & bit) !== 0; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; }
+  }
+  for (let size = 2; size <= n; size *= 2) {
+    const half = size / 2;
+    const step = n / size;
+    for (let i = 0; i < n; i += size) {
+      for (let k = 0, ti = 0; k < half; k++, ti += step) {
+        const angle = -2 * Math.PI * ti / n;
+        const wr = Math.cos(angle), wi = Math.sin(angle);
+        const xr = re[i + k + half] * wr - im[i + k + half] * wi;
+        const xi = re[i + k + half] * wi + im[i + k + half] * wr;
+        re[i + k + half] = re[i + k] - xr;
+        im[i + k + half] = im[i + k] - xi;
+        re[i + k] += xr;
+        im[i + k] += xi;
+      }
+    }
+  }
+}
+
+function stft(audio, nFft = N_FFT, hop = HOP) {
+  const nFrames = Math.max(1, Math.floor((audio.length - nFft) / hop) + 1);
+  const win = new Float32Array(nFft);
+  for (let i = 0; i < nFft; i++) win[i] = 0.5 - 0.5*Math.cos(2*Math.PI*i/(nFft-1));
+  const result = new Float32Array(nFrames * (nFft/2 + 1));
+  for (let fr = 0; fr < nFrames; fr++) {
+    const re = new Float32Array(nFft), im = new Float32Array(nFft);
+    for (let i = 0; i < nFft; i++) re[i] = (audio[fr*hop + i] || 0) * win[i];
+    fft(re, im);
+    for (let k = 0; k <= nFft/2; k++) {
+      const mag = Math.sqrt(re[k]*re[k] + im[k]*im[k]);
+      result[fr * (nFft/2 + 1) + k] = 20 * Math.log10(mag + 1e-9);
+    }
+  }
+  return { data: result, nFrames, nBins: nFft/2 + 1 };
+}
+
+function drawSpec(canvas, spec, options = {}) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.fillStyle = '#08051a'; ctx.fillRect(0, 0, W, H);
+  const { nFrames, nBins } = spec;
+  const yMaxBin = Math.min(nBins, options.maxBin || 280);
+  const img = ctx.createImageData(W, H);
+  let dbMin = options.dbMin ?? -60, dbMax = options.dbMax ?? 0;
+  for (let x = 0; x < W; x++) {
+    const fr = Math.floor(x / W * nFrames);
+    if (fr >= nFrames) continue;
+    for (let y = 0; y < H; y++) {
+      const bin = Math.floor((1 - y/H) * yMaxBin);
+      const db = spec.data[fr * nBins + bin];
+      const v = Math.max(0, Math.min(1, (db - dbMin) / (dbMax - dbMin)));
+      const r = Math.floor(255 * Math.pow(v, 0.7));
+      const g = Math.floor(60*v + 30*Math.pow(v, 3));
+      const b = Math.floor(120 * (1-v) * v * 4 + 30 * (1-v));
+      const idx = (y * W + x) * 4;
+      img.data[idx] = r; img.data[idx+1] = g; img.data[idx+2] = b; img.data[idx+3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  // labels
+  ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '10px monospace';
+  ctx.fillText('t →', W - 18, H - 4);
+  ctx.fillText(`${Math.floor(yMaxBin * FS / N_FFT)} Hz`, 4, 12);
+  ctx.fillText('0', 4, H - 4);
+}
+
+// ── Generadores de audio (mismos que el notebook, en JS) ────
+function makeRng(seed) {
+  let s = seed || 1;
+  return () => { s = Math.sin(s * 9301 + 49297) * 233280; return (s - Math.floor(s)); };
+}
+function randn(rng) {
+  const u = rng() || 1e-9, v = rng();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function genHumano(dur = 6.0, baseFreq = 220, seed = 1) {
+  const rng = makeRng(seed);
+  const N = Math.floor(dur * FS);
+  const y = new Float32Array(N);
+  // tono base con vibrato
+  let phase = 0;
+  for (let i = 0; i < N; i++) {
+    const t = i / FS;
+    const vib = 1.0 + 0.015*Math.sin(2*Math.PI*5.5*t) + 0.005*randn(rng);
+    phase += 2*Math.PI*baseFreq*vib / FS;
+    let s = 0;
+    for (let k = 1; k <= 4; k++) s += (0.3/k) * Math.sin(k*phase);
+    const dyn = 0.4 + 0.4*Math.sin(2*Math.PI*0.5*t) + 0.1*randn(rng);
+    y[i] = s * dyn + 0.03 * randn(rng);
+  }
+  // transientes percusivos fuertes
+  for (let beat = 0.2; beat < dur; beat += 0.5) {
+    const start = Math.floor(beat * FS);
+    for (let k = 0; k < 300 && start + k < N; k++) {
+      y[start + k] += randn(rng) * Math.exp(-k * 25 / 300) * 1.5;
+    }
+  }
+  // normalizar
+  let peak = 0; for (let i=0;i<N;i++) peak = Math.max(peak, Math.abs(y[i]));
+  if (peak > 0) for (let i=0;i<N;i++) y[i] = y[i] / peak * 0.4;
+  return y;
+}
+
+function genIA(dur = 6.0, baseFreq = 220, seed = 1) {
+  const rng = makeRng(seed);
+  const N = Math.floor(dur * FS);
+  const y = new Float32Array(N);
+  for (let i = 0; i < N; i++) {
+    const t = i / FS;
+    let s = 0;
+    for (const [k, amp] of [[1, 0.35], [2, 0.18], [3, 0.10], [4, 0.06], [5, 0.04]]) {
+      s += amp * Math.sin(2*Math.PI*baseFreq*k*t);
+    }
+    y[i] = s + 0.002 * randn(rng);
+  }
+  // envolvente trapezoidal
+  const fade = Math.floor(N / 4);
+  for (let i = 0; i < N; i++) {
+    let env = 1;
+    if (i < fade) env = i / fade;
+    else if (i > N - fade) env = (N - i) / fade;
+    y[i] *= env;
+  }
+  let peak = 0; for (let i=0;i<N;i++) peak = Math.max(peak, Math.abs(y[i]));
+  if (peak > 0) for (let i=0;i<N;i++) y[i] = y[i] / peak * 0.4;
+  return y;
+}
+
+function genSource(kind) {
+  const dur = 4.0, N = Math.floor(dur * FS);
+  const y = new Float32Array(N);
+  if (kind === 'harmonic') {
+    for (let i = 0; i < N; i++) {
+      const t = i / FS;
+      y[i] = 0.4*Math.sin(2*Math.PI*220*t) + 0.2*Math.sin(2*Math.PI*440*t) + 0.1*Math.sin(2*Math.PI*660*t);
+    }
+  } else if (kind === 'percussive') {
+    for (let beat = 0; beat < dur; beat += 0.4) {
+      const start = Math.floor(beat * FS);
+      for (let k = 0; k < 800 && start + k < N; k++) {
+        y[start + k] += (Math.random()*2 - 1) * Math.exp(-k * 8 / 800) * 0.7;
+      }
+    }
+  } else if (kind === 'speech') {
+    for (let i = 0; i < N; i++) {
+      const t = i / FS;
+      const f0 = 130 + 30*Math.sin(2*Math.PI*4*t);
+      const env = (Math.sin(2*Math.PI*4*t) > 0 ? 1 : 0.2);
+      y[i] = env * (Math.sin(2*Math.PI*f0*t) + 0.3*Math.sin(2*Math.PI*f0*3*t)) * 0.5;
+    }
+  } else if (kind === 'chirp') {
+    let phase = 0;
+    for (let i = 0; i < N; i++) {
+      const t = i / FS;
+      const f = 200 + 800 * t / dur;
+      phase += 2*Math.PI*f / FS;
+      y[i] = 0.5 * Math.sin(phase);
+    }
+  }
+  return y;
+}
+
+function addNoise(audio, sigma) {
+  const out = new Float32Array(audio.length);
+  for (let i = 0; i < audio.length; i++) out[i] = audio[i] + sigma * (Math.random()*2-1);
+  return out;
+}
+
+function playAudio(audio) {
+  const ctx = getCtx();
+  const buf = ctx.createBuffer(1, audio.length, ctx.sampleRate);
+  buf.getChannelData(0).set(audio);
+  const src = ctx.createBufferSource();
+  src.buffer = buf; src.connect(ctx.destination); src.start();
+  return src;
+}
+
+// ── Métricas forenses (versión JS) ──────────────────────────
+function forensicMetrics(audio) {
+  const spec = stft(audio);
+  const { nFrames, nBins } = spec;
+  // onset strength (spectral flux)
+  const flux = new Float32Array(nFrames - 1);
+  for (let fr = 1; fr < nFrames; fr++) {
+    let s = 0;
+    for (let k = 0; k < nBins; k++) {
+      const d = spec.data[fr*nBins + k] - spec.data[(fr-1)*nBins + k];
+      if (d > 0) s += d;
+    }
+    flux[fr-1] = s;
+  }
+  // sharpness = std of diff(flux)
+  const dflux = new Float32Array(flux.length - 1);
+  for (let i = 1; i < flux.length; i++) dflux[i-1] = flux[i] - flux[i-1];
+  const dfMean = dflux.reduce((a,b)=>a+b, 0) / dflux.length;
+  let dfVar = 0; for (const x of dflux) dfVar += (x - dfMean)**2;
+  const sharpness = Math.sqrt(dfVar / dflux.length);
+
+  // spectral_std
+  let spStd = 0;
+  for (let k = 0; k < nBins; k++) {
+    let m = 0; for (let fr = 0; fr < nFrames; fr++) m += spec.data[fr*nBins + k]; m /= nFrames;
+    let v = 0; for (let fr = 0; fr < nFrames; fr++) v += (spec.data[fr*nBins + k] - m)**2;
+    spStd += Math.sqrt(v / nFrames);
+  }
+  spStd /= nBins;
+
+  // ZCR variability
+  const zcrFrames = [];
+  const frameLen = 1024;
+  for (let fr = 0; fr * HOP + frameLen < audio.length; fr++) {
+    let z = 0;
+    for (let i = 1; i < frameLen; i++) {
+      if ((audio[fr*HOP + i] >= 0) !== (audio[fr*HOP + i - 1] >= 0)) z++;
+    }
+    zcrFrames.push(z / (2 * frameLen));
+  }
+  let zcrMean = zcrFrames.reduce((a,b)=>a+b, 0) / zcrFrames.length;
+  let zcrVar = 0; for (const z of zcrFrames) zcrVar += (z - zcrMean)**2;
+  const zcrStd = Math.sqrt(zcrVar / zcrFrames.length);
+
+  // rolloff
+  let rolloff = 0;
+  for (let fr = 0; fr < nFrames; fr++) {
+    let total = 0;
+    for (let k = 0; k < nBins; k++) total += Math.pow(10, spec.data[fr*nBins + k] / 20);
+    let cum = 0, idx = 0;
+    for (let k = 0; k < nBins; k++) {
+      cum += Math.pow(10, spec.data[fr*nBins + k] / 20);
+      if (cum >= 0.85 * total) { idx = k; break; }
+    }
+    rolloff += idx * FS / N_FFT;
+  }
+  rolloff /= nFrames;
+
+  return { sharpness, spStd, zcrStd, rolloff, flux };
+}
+
+function dictamen(m) {
+  // Umbrales calibrados (mismo que notebook)
+  const TH_SHARP = 800, TH_STD = 5.9, TH_ZCR = 0.05;
+  const v1 = m.sharpness > TH_SHARP, v2 = m.spStd > TH_STD, v3 = m.zcrStd > TH_ZCR;
+  const votos = (v1?1:0)+(v2?1:0)+(v3?1:0);
+  return { verdicto: votos >= 2 ? 'HUMANO' : 'IA', votos };
+}
+
+// Cache
+const CLIPS = {};
+function ensureClip(name) {
+  if (CLIPS[name]) return CLIPS[name];
+  const seedMap = { A: 1, B: 2, C: 3, D: 4 };
+  const truth   = { A: 'HUMANO', B: 'IA', C: 'HUMANO', D: 'IA' };
+  const baseFreqMap = { A: 220, B: 220, C: 330, D: 330 };
+  const audio = (truth[name] === 'HUMANO')
+    ? genHumano(4.0, baseFreqMap[name], seedMap[name])
+    : genIA    (4.0, baseFreqMap[name], seedMap[name]);
+  CLIPS[name] = { audio, truth: truth[name], spec: stft(audio), metrics: forensicMetrics(audio) };
+  return CLIPS[name];
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 1: DIFUSIÓN
+// ═══════════════════════════════════════════════════════════════
+(function diffusion() {
+  let currentSrc = 'harmonic', baseAudio = null, animating = false, animDir = 1;
+  const tEl = document.getElementById('diff-t');
+  const tVal = document.getElementById('diff-t-val');
+  const T_MAX = 200;
+
+  function alphaBar(t) {
+    // schedule cosine simplificado: ᾱ_t va de 1 a 0 según t/T
+    const u = t / T_MAX;
+    return Math.cos(u * Math.PI / 2) ** 2;
+  }
+
+  function refresh() {
+    if (!baseAudio) baseAudio = genSource(currentSrc);
+    const t = parseInt(tEl.value);
+    const ab = alphaBar(t);
+    const sqrtAb = Math.sqrt(ab);
+    const sqrt1m = Math.sqrt(1 - ab);
+    tVal.textContent = `${t} / ${T_MAX}`;
+    document.getElementById('diff-alpha').textContent = ab.toFixed(3);
+    document.getElementById('diff-sqrt-alpha').textContent = sqrtAb.toFixed(3) + ' (señal)';
+    document.getElementById('diff-sqrt-1minus').textContent = sqrt1m.toFixed(3) + ' (ruido)';
+
+    // x_t = sqrt(ab) * x0 + sqrt(1-ab) * eps
+    const noisy = new Float32Array(baseAudio.length);
+    for (let i = 0; i < baseAudio.length; i++) {
+      noisy[i] = sqrtAb * baseAudio[i] + sqrt1m * 0.5 * (Math.random()*2 - 1);
+    }
+    drawSpec(document.getElementById('diff-canvas'), stft(noisy), { dbMin: -50, dbMax: 0 });
+  }
+
+  document.querySelectorAll('#diffusion .preset[data-source]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#diffusion .preset[data-source]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); currentSrc = b.dataset.source; baseAudio = null; refresh();
+    });
+  });
+
+  document.getElementById('diff-play-fwd').addEventListener('click', () => {
+    animating = true; animDir = 1;
+    function step() {
+      if (!animating) return;
+      let v = parseInt(tEl.value) + 2;
+      if (v >= T_MAX) { v = T_MAX; animating = false; }
+      tEl.value = v; refresh();
+      if (animating) requestAnimationFrame(step);
+    }
+    step();
+  });
+  document.getElementById('diff-play-rev').addEventListener('click', () => {
+    animating = true;
+    function step() {
+      if (!animating) return;
+      let v = parseInt(tEl.value) - 2;
+      if (v <= 0) { v = 0; animating = false; }
+      tEl.value = v; refresh();
+      if (animating) requestAnimationFrame(step);
+    }
+    step();
+  });
+  document.getElementById('diff-stop').addEventListener('click', () => { animating = false; });
+  document.getElementById('diff-listen').addEventListener('click', () => {
+    if (!baseAudio) baseAudio = genSource(currentSrc);
+    const t = parseInt(tEl.value);
+    const ab = alphaBar(t);
+    const noisy = new Float32Array(baseAudio.length);
+    const sqrtAb = Math.sqrt(ab), sqrt1m = Math.sqrt(1 - ab);
+    for (let i = 0; i < baseAudio.length; i++) noisy[i] = sqrtAb*baseAudio[i] + sqrt1m*0.5*(Math.random()*2-1);
+    playAudio(noisy);
+  });
+  tEl.addEventListener('input', refresh);
+  refresh();
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 2: FORENSE
+// ═══════════════════════════════════════════════════════════════
+(function forense() {
+  let current = 'A', src = null;
+  const led = document.getElementById('for-led');
+  const status = document.getElementById('for-status');
+
+  function refresh() {
+    const c = ensureClip(current);
+    drawSpec(document.getElementById('for-spec-canvas'), c.spec, { dbMin: -50, dbMax: 0 });
+    // onsets
+    const ctx = document.getElementById('for-onset-canvas').getContext('2d');
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    ctx.fillStyle = '#08051a'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#ff7755'; ctx.lineWidth = 1.4; ctx.beginPath();
+    const flux = c.metrics.flux;
+    let mx = 1; for (const v of flux) if (v > mx) mx = v;
+    for (let i = 0; i < flux.length; i++) {
+      const x = (i / flux.length) * W;
+      const y = H - (flux[i] / mx) * H * 0.9;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // métricas
+    document.getElementById('for-sharp').textContent = c.metrics.sharpness.toFixed(0);
+    document.getElementById('for-bar-sharp').style.width = Math.min(100, c.metrics.sharpness/30) + '%';
+    document.getElementById('for-std').textContent = c.metrics.spStd.toFixed(2);
+    document.getElementById('for-bar-std').style.width = Math.min(100, c.metrics.spStd*10) + '%';
+    document.getElementById('for-zcr').textContent = c.metrics.zcrStd.toFixed(4);
+    document.getElementById('for-bar-zcr').style.width = Math.min(100, c.metrics.zcrStd*500) + '%';
+    document.getElementById('for-roll').textContent = c.metrics.rolloff.toFixed(0);
+    document.getElementById('for-bar-roll').style.width = Math.min(100, c.metrics.rolloff/200) + '%';
+
+    // dictamen
+    const d = dictamen(c.metrics);
+    const verdEl = document.getElementById('for-verdict');
+    verdEl.textContent = d.verdicto;
+    verdEl.className = 'verdict ' + (d.verdicto === 'HUMANO' ? 'humano' : 'ia');
+    document.getElementById('for-votes').textContent = d.votos + ' / 3 votos';
+    document.getElementById('for-truth').style.display = 'none';
+  }
+
+  document.querySelectorAll('#forense .preset[data-clip]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#forense .preset[data-clip]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); current = b.dataset.clip; refresh();
+    });
+  });
+  document.getElementById('for-play').addEventListener('click', () => {
+    const c = ensureClip(current);
+    if (src) try { src.stop(); } catch(e){}
+    src = playAudio(c.audio);
+    led.classList.add('on'); status.textContent = `tocando clip ${current}`;
+    src.onended = () => { led.classList.remove('on'); status.textContent = 'parado'; };
+  });
+  document.getElementById('for-stop').addEventListener('click', () => {
+    if (src) try { src.stop(); } catch(e){}
+    led.classList.remove('on'); status.textContent = 'parado';
+  });
+  document.getElementById('for-reveal').addEventListener('click', () => {
+    const c = ensureClip(current);
+    document.getElementById('for-truth').style.display = 'block';
+    document.getElementById('for-truth-text').innerHTML =
+      `Clip ${current} es <strong>${c.truth}</strong> (${c.truth === dictamen(c.metrics).verdicto ? '✓ algoritmo acertó' : '✗ algoritmo se equivocó'}).`;
+  });
+  refresh();
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 3: QUIZ
+// ═══════════════════════════════════════════════════════════════
+(function quiz() {
+  let userScore = 0, userTotal = 0, algoScore = 0, algoTotal = 0;
+  const truths = ['HUMANO', 'IA'];
+
+  function startRound() {
+    const container = document.getElementById('quiz-cards');
+    container.innerHTML = '';
+    // 8 cartas aleatorias
+    for (let i = 0; i < 8; i++) {
+      const truth = truths[Math.floor(Math.random()*2)];
+      const baseFreq = 180 + Math.floor(Math.random()*5)*40;
+      const seed = 1000 + i;
+      const audio = (truth === 'HUMANO')
+        ? genHumano(3.0, baseFreq, seed)
+        : genIA(3.0, baseFreq, seed);
+      const m = forensicMetrics(audio);
+      const algoVerdict = dictamen(m).verdicto;
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.innerHTML = `
+        <div class="row">
+          <strong style="font-family:monospace;color:var(--accent);font-size:1.1em">Clip #${i+1}</strong>
+          <button class="btn quiz-play">▶ Oír</button>
+          <span style="margin-left:auto">Tu voto: </span>
+          <button class="btn ghost quiz-vote" data-vote="HUMANO">HUMANO</button>
+          <button class="btn ghost quiz-vote" data-vote="IA">IA</button>
+          <span class="quiz-result" style="margin-left:auto;font-family:monospace"></span>
+        </div>
+      `;
+      card.dataset.truth = truth;
+      card.dataset.algo = algoVerdict;
+      card._audio = audio;
+      container.appendChild(card);
+      card.querySelector('.quiz-play').addEventListener('click', () => playAudio(card._audio));
+      card.querySelectorAll('.quiz-vote').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (card.dataset.voted) return;
+          const vote = btn.dataset.vote;
+          card.dataset.voted = vote;
+          userTotal++;
+          if (vote === truth) { userScore++; card.classList.add('correct'); }
+          else { card.classList.add('wrong'); }
+          algoTotal++;
+          if (algoVerdict === truth) algoScore++;
+          card.querySelector('.quiz-result').innerHTML =
+            `Verdad: <strong>${truth}</strong> · Algoritmo: ${algoVerdict}` +
+            (vote === truth ? ' · <span style="color:var(--accent-2)">tú ✓</span>' : ' · <span style="color:var(--accent-3)">tú ✗</span>') +
+            (algoVerdict === truth ? ' · <span style="color:var(--accent-4)">algo ✓</span>' : ' · <span style="color:var(--accent-3)">algo ✗</span>');
+          updateScore();
+        });
+      });
+    }
+    updateScore();
+  }
+
+  function updateScore() {
+    document.getElementById('quiz-user-score').textContent = `${userScore}/${userTotal}`;
+    document.getElementById('quiz-algo-score').textContent = `${algoScore}/${algoTotal}`;
+  }
+
+  document.getElementById('quiz-start').addEventListener('click', startRound);
+  document.getElementById('quiz-reset').addEventListener('click', () => {
+    userScore = userTotal = algoScore = algoTotal = 0;
+    document.getElementById('quiz-cards').innerHTML = '';
+    updateScore();
+  });
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 4: COMPARACIÓN
+// ═══════════════════════════════════════════════════════════════
+(function comparacion() {
+  const cH = ensureClip('A'), cI = ensureClip('B');
+  drawSpec(document.getElementById('cmp-human-canvas'), cH.spec, { dbMin: -50, dbMax: 0 });
+  drawSpec(document.getElementById('cmp-ia-canvas'), cI.spec, { dbMin: -50, dbMax: 0 });
+  const tbody = document.getElementById('cmp-table');
+  const metricas = [
+    { name: 'Onset sharpness', h: cH.metrics.sharpness, i: cI.metrics.sharpness, fmt: v => v.toFixed(0) },
+    { name: 'Spectral std (dB)', h: cH.metrics.spStd, i: cI.metrics.spStd, fmt: v => v.toFixed(2) },
+    { name: 'ZCR variability', h: cH.metrics.zcrStd, i: cI.metrics.zcrStd, fmt: v => v.toFixed(4) },
+    { name: 'Spectral rolloff (Hz)', h: cH.metrics.rolloff, i: cI.metrics.rolloff, fmt: v => v.toFixed(0) },
+  ];
+  for (const m of metricas) {
+    const ratio = m.i > 0 ? (m.h / m.i) : '∞';
+    const isDisc = Math.abs(ratio) > 2 || ratio < 0.5;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${m.name}</td><td style="color:var(--accent-2)">${m.fmt(m.h)}</td>
+                    <td style="color:var(--accent-3)">${m.fmt(m.i)}</td>
+                    <td>${typeof ratio === 'number' ? ratio.toFixed(2) + '×' : ratio}</td>
+                    <td>${isDisc ? '<span style="color:var(--accent-2)">✓ alto</span>' : '<span style="color:var(--text-dim)">~ similar</span>'}</td>`;
+    tbody.appendChild(tr);
+  }
+})();
+</script>
+
+</body>
+</html>

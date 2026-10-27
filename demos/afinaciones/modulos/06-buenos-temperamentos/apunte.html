@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M6 · Apunte — Buenos temperamentos: cerrar el círculo sin igualarlo</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../05-mesotonicos/apunte.html">◀ Mesotónicos: temperar es negociar</a><a class="nav-link" href="../07-temperamento-igual/apunte.html">Temperamento igual: la solución final y su costo ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m6.-buenos-temperamentos-cerrar-el-círculo-sin-igualarlo">M6.
+Buenos temperamentos: cerrar el círculo sin igualarlo</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Estamos en Turingia, hacia 1710. Un organista tiene que preparar un
+culto que empieza en Re mayor, pasa por un pasaje en Fa# menor en el
+sermón cantado, y termina con un coral en Sib mayor. Si su órgano está
+afinado en mesotónico de 1/4 de coma —el sistema que dominó el teclado
+europeo casi dos siglos, el que estudiamos en M5—, dos de esas tres
+tonalidades son jardines espléndidos: los acordes de Re mayor sonarán
+con terceras casi puras, dulces, “asentadas”. Pero en algún lugar del
+círculo, típicamente entre Sol# y Mib, hay un precipicio: la <em>quinta
+del lobo</em>, aquella quinta que acumuló todo el desajuste que las
+otras once rehusaron cargar, tan desafinada (737.637 c, 35.68 cents más
+ancha que una quinta pura) que suena directamente rota. Si el pasaje en
+Fa# menor necesita un acorde con Do# o con Sol#, el organista puede
+pisar el lobo sin darse cuenta, y el efecto no es “un color distinto”:
+es un error grosero, un animal aullando en medio de la música.</p>
+<p>La pregunta de este módulo es si existe una salida. ¿Se puede tener
+las doce tonalidades usables —ninguna quinta insoportable, ningún lobo,
+todo el círculo transitable de punta a punta— sin por eso volver el
+paisaje completamente plano, sin que las doce tonalidades suenen todas
+exactamente igual (que es, adelantamos, la solución del temperamento
+igual, tema del Módulo 7)? La respuesta que un grupo de teóricos y
+organistas alemanes fue dando entre fines del siglo XVII y mediados del
+XVIII —Andreas Werckmeister, Johann Georg Neidhardt, y más tarde también
+el italiano Francesco Antonio Vallotti y el alemán Johann Philipp
+Kirnberger— fue que sí, y le pusieron un nombre que se volvería célebre:
+<em>wohltemperiert</em>, “bien temperado”. No “igualmente temperado”
+(eso en alemán es <em>gleichschwebend</em>, un término distinto que Bach
+nunca usó en su título más famoso): <em>bien</em> temperado, con las
+comillas puestas exactamente ahí, porque “bien” no significa “igual”.
+Significa, como vamos a ver con números concretos en este módulo,
+“reciclado con inteligencia, donde menos duele”.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>De M1 necesitas el cent (<code>c = 1200·log₂(r)</code>, sección 6) y
+el cálculo de la coma pitagórica: doce quintas puras (12 × 701.955 =
+8423.460 c) exceden siete octavas puras (7 × 1200 = 8400 c) en 23.460
+cents — la coma pitagórica, “el villano del curso”. De M2 necesitas la
+idea de <em>presupuesto de error</em>: toda afinación de 12 notas por
+quintas debe repartir exactamente esa coma entre las 12 quintas de la
+cadena, y toda afinación es una <em>política de reparto</em> que decide
+dónde esconderla. De M5 necesitas el resultado central del mesotónico:
+repartir la coma <strong>sintónica</strong> (81/80 ≈ 21.506 c, no la
+pitagórica) entre cuatro quintas para conseguir terceras mayores puras,
+a cambio de una quinta del lobo tan grande que el círculo queda cortado
+— el mesotónico nunca <em>cierra</em> el círculo, lo abandona a
+propósito.</p>
+<h2 id="desarrollo-teórico">3. Desarrollo teórico</h2>
+<h3 id="el-problema-exacto-qué-significa-cerrar-el-círculo">3.1 El
+problema exacto: ¿qué significa “cerrar el círculo”?</h3>
+<p>En M5 vimos que el mesotónico resuelve un problema (terceras puras)
+sacrificando otro (transitabilidad). Formalicemos qué significaría no
+sacrificarlo. Una afinación de 12 notas “cierra el círculo” cuando, si
+sumas las 12 quintas de la cadena completa
+(Do–Sol–Re–La–Mi–Si–Fa#–Do#–Sol#–Mib–Sib–Fa–Do, siete octavas puras en
+total), el resultado da exactamente 8400 cents — ni un cent de más, ni
+de menos, en cualquier punto de la cadena. Si eso se cumple, no hay
+quinta “sobrante”: las doce quintas pueden repartirse cualquier
+temperamento que sumado dé cero de más, y ninguna queda con una
+desviación catastrófica.</p>
+<p>¿Cuál es el “cualquier temperamento que sumado dé cero de más”? Aquí
+está el punto que reorganiza todo lo que aprendiste en M5: <strong>la
+cantidad total de temperamento que hay que repartir entre las 12 quintas
+para cerrar el círculo es, exactamente, la coma pitagórica: 23.460
+cents.</strong> No la sintónica. Esto merece que nos detengamos, porque
+es fácil confundirlas después de haber pasado todo M5 con la sintónica
+como protagonista.</p>
+<p>La razón es puramente estructural, y no tiene nada que ver (todavía)
+con qué tan puras queden las terceras. El círculo de quintas es, por
+definición, una cadena de doce quintas que —enarmónicamente— vuelve a su
+punto de partida. Lo que hay que cerrar es <em>ese</em> círculo: la
+discrepancia entre 12 quintas apiladas y 7 octavas. Esa discrepancia, la
+definimos en M1, es la coma pitagórica, y es un hecho aritmético sobre
+las quintas y las octavas exclusivamente — no interviene la tercera
+mayor 5/4 en su definición. El mesotónico, en cambio, no está tratando
+de cerrar el círculo: está tratando de hacer que <em>cuatro quintas
+apiladas</em> den una tercera mayor pura, y el desajuste relevante para
+<em>ese</em> objetivo es la diferencia entre la tercera pitagórica
+(81/64, cuatro quintas puras) y la tercera pura (5/4) — que es,
+precisamente, la coma sintónica. Son dos preguntas distintas, con dos
+monedas de cambio distintas:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Moneda</th>
+<th>Magnitud</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>¿Cierra el círculo de 12 quintas?</td>
+<td>Coma pitagórica</td>
+<td>23.460 c</td>
+</tr>
+<tr>
+<td>¿Da la cadena de 4 quintas una tercera pura?</td>
+<td>Coma sintónica</td>
+<td>21.506 c</td>
+</tr>
+</tbody>
+</table></div>
+<p>Un “buen temperamento” (<em>wohltemperiert</em>) es, entonces,
+cualquier reparto de la coma <strong>pitagórica</strong> entre las 12
+quintas de la cadena que evite que cualquiera de ellas quede
+intolerablemente ancha o angosta. La idea genial —y es genuinamente una
+idea, no un accidente— es que no hace falta repartir por igual. Se puede
+concentrar el temperamento cerca de Do, donde vivían la mayoría de las
+tonalidades realmente usadas en el repertorio de la época (Do, Sol, Re,
+Fa, Sib mayor y sus relativas), y dejar puras las quintas de las
+tonalidades lejanas (Fa#, Do#, Sol#), que se usaban poco y que, total,
+ya iban a sonar “raras” de todos modos. La consecuencia estructural, y
+esto es la idea central de todo el módulo, es que <strong>cada tonalidad
+termina con un color distinto</strong>: no hay dos tonalidades mayores
+que suenen igual de “puras”. El círculo es transitable de punta a punta
+—no hay lobo— pero está lejos de ser homogéneo. Homogeneizarlo del todo
+es, precisamente, lo que hace el temperamento igual, y es la historia
+del Módulo 7.</p>
+<h3 id="werckmeister-iii-1691">3.2 Werckmeister III (1691)</h3>
+<p>Andreas Werckmeister, organista y teórico en Turingia, publicó en
+1691 su tratado <em>Musicalische Temperatur</em>, donde describe varios
+repartos posibles de la coma pitagórica. El más célebre —y el primero
+que se volvió estándar en la práctica organística alemana— se conoce hoy
+como <strong>Werckmeister III</strong>.</p>
+<p><strong>Construcción.</strong> De las 12 quintas de la cadena, se
+estrechan exactamente <strong>cuatro</strong>, cada una en <strong>1/4
+de coma pitagórica</strong>, y las otras ocho quedan puras. Las cuatro
+elegidas son Do–Sol, Sol–Re, Re–La y Si–Fa#: es decir, las tres quintas
+que sostienen el núcleo Do–Re–Mi–Fa–Sol–La–Si (las tonalidades más
+usadas), más una cuarta, Si–Fa#, que ayuda a suavizar el lado de los
+sostenidos.</p>
+<p>Calculemos el temperamento de cada quinta afectada:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>×</mo><mn>23.460</mn><mo>=</mo><mn>5.865</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">\frac{1}{4} \times 23.460 = 5.865 \text{ cents}</annotation></semantics></math></p>
+<p>Cada una de esas cuatro quintas mide entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>5.865</mn><mo>=</mo><mn>696.090</mn></mrow><annotation encoding="application/x-tex">701.955 - 5.865 = 696.090</annotation></semantics></math>
+cents en vez de los 701.955 de una quinta pura. Verifiquemos el
+presupuesto antes de seguir —el hábito que instalamos desde M2 y que no
+vamos a abandonar nunca en este curso:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5.865</mn><mo>=</mo><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">4 \times 5.865 = 23.460 \text{ cents}</annotation></semantics></math></p>
+<p>Exacto: el presupuesto completo de la coma pitagórica queda cubierto
+por esas cuatro quintas, y las otras ocho —incluida la quinta “de
+cierre” enarmónica Sol#–Mib, que en un sistema con lobo sería la más
+sospechosa— pueden quedar exactamente puras (701.955 c) sin que sobre ni
+falte nada. Esa es, en una frase, la diferencia entre un buen
+temperamento y el mesotónico: aquí <em>sí</em> alcanza para cerrar sin
+dejar cabos sueltos.</p>
+<p>La tabla completa de las 12 quintas, recorriendo el círculo desde
+Do:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Quinta</th>
+<th>Cents</th>
+<th>Temperada</th>
+<th>Fracción de coma pitagórica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do–Sol</td>
+<td>696.090</td>
+<td>−5.865</td>
+<td>1/4</td>
+</tr>
+<tr>
+<td>Sol–Re</td>
+<td>696.090</td>
+<td>−5.865</td>
+<td>1/4</td>
+</tr>
+<tr>
+<td>Re–La</td>
+<td>696.090</td>
+<td>−5.865</td>
+<td>1/4</td>
+</tr>
+<tr>
+<td>La–Mi</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Mi–Si</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Si–Fa#</td>
+<td>696.090</td>
+<td>−5.865</td>
+<td>1/4</td>
+</tr>
+<tr>
+<td>Fa#–Do#</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Do#–Sol#</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Sol#–Mib</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Mib–Sib</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Sib–Fa</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Fa–Do</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Derivación de la tabla de 12 notas.</strong> Fijamos Do en 0
+cents y vamos sumando quintas (subiendo una quinta = sumar cents;
+bajando una octava cuando nos pasamos de 1200, para mantenernos dentro
+de una sola octava). Los primeros pasos, con la aritmética completa:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Sol</mtext><mo>=</mo><mn>0</mn><mo>+</mo><mn>696.090</mn><mo>=</mo><mn>696.090</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Sol} = 0 + 696.090 = 696.090 \text{ c}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Re</mtext><mo>=</mo><mn>696.090</mn><mo>+</mo><mn>696.090</mn><mo>=</mo><mn>1392.180</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="0.278em"></mspace><mo>→</mo><mspace width="0.278em"></mspace><mn>1392.180</mn><mo>−</mo><mn>1200</mn><mo>=</mo><mn>192.180</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c (bajando una octava)</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Re} = 696.090 + 696.090 = 1392.180 \text{ c} \;\to\; 1392.180 - 1200 = 192.180 \text{ c (bajando una octava)}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">La</mtext><mo>=</mo><mn>192.180</mn><mo>+</mo><mn>696.090</mn><mo>=</mo><mn>888.270</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{La} = 192.180 + 696.090 = 888.270 \text{ c}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Mi</mtext><mo>=</mo><mn>888.270</mn><mo>+</mo><mn>701.955</mn><mo>=</mo><mn>1590.225</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="0.278em"></mspace><mo>→</mo><mspace width="0.278em"></mspace><mn>1590.225</mn><mo>−</mo><mn>1200</mn><mo>=</mo><mn>390.225</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Mi} = 888.270 + 701.955 = 1590.225 \text{ c} \;\to\; 1590.225 - 1200 = 390.225 \text{ c}</annotation></semantics></math></p>
+<p>Fíjate que aquí usamos la quinta La–Mi, que es <strong>pura</strong>
+(701.955), no una de las temperadas. Sigamos con el lado de los bemoles,
+bajando quintas puras desde Do: Fa =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>701.955</mn><mo>→</mo><mi>+</mi><mn>1200</mn><mo>=</mo><mn>498.045</mn></mrow><annotation encoding="application/x-tex">0 - 701.955 = -701.955 \to +1200 = 498.045</annotation></semantics></math>
+c; Sib
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>498.045</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>203.910</mn><mo>→</mo><mn>996.090</mn></mrow><annotation encoding="application/x-tex">= 498.045 - 701.955 = -203.910 \to 996.090</annotation></semantics></math>
+c; Mib
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>996.090</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mn>294.135</mn></mrow><annotation encoding="application/x-tex">= 996.090 - 701.955 = 294.135</annotation></semantics></math>
+c. Completando el resto de la cadena de la misma manera se obtiene la
+tabla íntegra (verificada numéricamente con Python contra la
+implementación de <code>Tools/afinacion.html</code>):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Do#</td>
+<td>90.225</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>192.180</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>294.135</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>390.225</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>498.045</td>
+</tr>
+<tr>
+<td>Fa#</td>
+<td>588.270</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>696.090</td>
+</tr>
+<tr>
+<td>Sol#</td>
+<td>792.180</td>
+</tr>
+<tr>
+<td>La</td>
+<td>888.270</td>
+</tr>
+<tr>
+<td>Sib</td>
+<td>996.090</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>1092.180</td>
+</tr>
+</tbody>
+</table></div>
+<p>Un chequeo rápido y revelador: la tercera Do–Mi mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>390.225</mn><annotation encoding="application/x-tex">390.225</annotation></semantics></math>
+c, apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>390.225</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>3.911</mn></mrow><annotation encoding="application/x-tex">390.225 - 386.314 = 3.911</annotation></semantics></math>
+cents por encima de la tercera pura (5/4). Comparado con los 14 cents de
+exceso del temperamento igual (M1, sección 6.4), es una tercera casi
+pura — la recompensa de haber concentrado el temperamento justo en las
+quintas que sostienen a Do mayor.</p>
+<h3 id="vallotti-ca.-1754">3.3 Vallotti (ca. 1754)</h3>
+<p>Francesco Antonio Vallotti, organista de la basílica de San Antonio
+en Padua, propuso un reparto más suave y más simétrico. En vez de
+concentrar el temperamento en cuatro quintas con 1/4 de coma cada una,
+lo reparte en <strong>seis</strong> quintas con <strong>1/6 de coma
+pitagórica</strong> cada una.</p>
+<p>Las seis quintas elegidas son las que forman la cadena diatónica
+completa, Fa–Do–Sol–Re–La–Mi–Si (seis quintas consecutivas que enlazan
+siete notas naturales); las otras seis —del lado de los sostenidos,
+Si–Fa#, Fa#–Do#, Do#–Sol#, y su continuación enarmónica hasta Fa– quedan
+puras.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>6</mn></mfrac><mo>×</mo><mn>23.460</mn><mo>=</mo><mn>3.910</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">\frac{1}{6} \times 23.460 = 3.910 \text{ cents}</annotation></semantics></math></p>
+<p>Presupuesto:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mn>3.910</mn><mo>=</mo><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">6 \times 3.910 = 23.460 \text{ cents}</annotation></semantics></math></p>
+<p>De nuevo, exacto. La tabla de las 12 quintas:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Quinta</th>
+<th>Cents</th>
+<th>Temperada</th>
+<th>Fracción de coma pitagórica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fa–Do</td>
+<td>698.045</td>
+<td>−3.910</td>
+<td>1/6</td>
+</tr>
+<tr>
+<td>Do–Sol</td>
+<td>698.045</td>
+<td>−3.910</td>
+<td>1/6</td>
+</tr>
+<tr>
+<td>Sol–Re</td>
+<td>698.045</td>
+<td>−3.910</td>
+<td>1/6</td>
+</tr>
+<tr>
+<td>Re–La</td>
+<td>698.045</td>
+<td>−3.910</td>
+<td>1/6</td>
+</tr>
+<tr>
+<td>La–Mi</td>
+<td>698.045</td>
+<td>−3.910</td>
+<td>1/6</td>
+</tr>
+<tr>
+<td>Mi–Si</td>
+<td>698.045</td>
+<td>−3.910</td>
+<td>1/6</td>
+</tr>
+<tr>
+<td>Si–Fa#</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Fa#–Do#</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Do#–Sol#</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Sol#–Mib</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Mib–Sib</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Sib–Fa</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+</tbody>
+</table></div>
+<p>Derivemos un par de notas para fijar el método. Do sigue en 0. Sol
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>0</mn><mo>+</mo><mn>698.045</mn><mo>=</mo><mn>698.045</mn></mrow><annotation encoding="application/x-tex">= 0 + 698.045 = 698.045</annotation></semantics></math>
+c. Re
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>698.045</mn><mo>+</mo><mn>698.045</mn><mo>=</mo><mn>1396.090</mn><mo>→</mo><mn>196.090</mn></mrow><annotation encoding="application/x-tex">= 698.045 + 698.045 = 1396.090 \to 196.090</annotation></semantics></math>
+c. Fa (bajando una quinta temperada desde Do):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>−</mo><mn>698.045</mn><mo>=</mo><mi>−</mi><mn>698.045</mn><mo>→</mo><mn>501.955</mn></mrow><annotation encoding="application/x-tex">0 - 698.045 = -698.045 \to 501.955</annotation></semantics></math>
+c. La tabla íntegra:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Do#</td>
+<td>94.135</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>196.090</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>298.045</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>392.180</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>501.955</td>
+</tr>
+<tr>
+<td>Fa#</td>
+<td>592.180</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>698.045</td>
+</tr>
+<tr>
+<td>Sol#</td>
+<td>796.090</td>
+</tr>
+<tr>
+<td>La</td>
+<td>894.135</td>
+</tr>
+<tr>
+<td>Sib</td>
+<td>1000.000</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>1090.225</td>
+</tr>
+</tbody>
+</table></div>
+<p>La tercera Do–Mi mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>392.180</mn><mo>−</mo><mn>0</mn><mo>=</mo><mn>392.180</mn></mrow><annotation encoding="application/x-tex">392.180 - 0 = 392.180</annotation></semantics></math>
+cents: verificado, coincide exactamente con lo anticipado en el
+enunciado. Está
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>392.180</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>5.866</mn></mrow><annotation encoding="application/x-tex">392.180 - 386.314 = 5.866</annotation></semantics></math>
+cents por encima de la pura — un poco más ancha que en Werckmeister,
+porque Vallotti reparte el temperamento con más generosidad hacia las
+tonalidades vecinas en vez de concentrarlo únicamente en el núcleo de
+Do.</p>
+<h3 id="kirnberger-iii-1779">3.4 Kirnberger III (1779)</h3>
+<p>Johann Philipp Kirnberger fue alumno de Bach y, décadas después de la
+muerte de su maestro, publicó varias propuestas de temperamento tratando
+—según él mismo explica— de capturar lo que Bach hacía en la práctica.
+La tercera de sus propuestas, hoy llamada <strong>Kirnberger
+III</strong>, tiene una particularidad hermosa: es el único de los tres
+sistemas de este módulo que hereda directamente un ingrediente del
+mesotónico.</p>
+<p><strong>Construcción.</strong> Se estrechan <strong>cuatro</strong>
+quintas —Do–Sol, Sol–Re, Re–La y La–Mi— pero no en fracción de coma
+<em>pitagórica</em>, sino en <strong>1/4 de coma sintónica</strong> cada
+una:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>×</mo><mn>21.506</mn><mo>=</mo><mn>5.377</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">\frac{1}{4} \times 21.506 = 5.377 \text{ cents}</annotation></semantics></math></p>
+<p>Esto es exactamente la misma operación que hace el mesotónico de 1/4
+de coma en M5, aplicada a solo cuatro quintas consecutivas en vez de a
+las once o doce completas. La consecuencia es la misma que en el
+mesotónico: cuatro quintas de 1/4 de coma sintónica apiladas producen
+una tercera mayor <strong>pura</strong>. Verifiquemos con las cuatro
+quintas Do–Sol–Re–La–Mi: cada una mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>5.377</mn><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">701.955 - 5.377 = 696.578</annotation></semantics></math>
+c, y apiladas dan
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>696.578</mn><mo>=</mo><mn>2786.312</mn></mrow><annotation encoding="application/x-tex">4 \times 696.578 = 2786.312</annotation></semantics></math>
+c; bajando dos octavas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>2400</mn></mrow><annotation encoding="application/x-tex">2 \times 1200 = 2400</annotation></semantics></math>)
+queda
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2786.312</mn><mo>−</mo><mn>2400</mn><mo>=</mo><mn>386.312</mn></mrow><annotation encoding="application/x-tex">2786.312 - 2400 = 386.312</annotation></semantics></math>
+c, que coincide (salvo el redondeo de la última cifra) con la tercera
+pura
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+c. Este es el hecho que ancla todo el sistema: <strong>Do–Mi resulta
+exactamente pura</strong> en Kirnberger III, herencia directa del
+mesotónico.</p>
+<p>Pero ahí termina el parecido con el mesotónico, porque a Kirnberger
+todavía le queda pendiente cerrar el círculo. Cuatro quintas de 1/4 de
+coma sintónica solo cubren:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5.377</mn><mo>=</mo><mn>21.506</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow><mspace width="1.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">la coma sintónica completa, no la pitagórica</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">4 \times 5.377 = 21.506 \text{ cents} \quad (\text{la coma sintónica completa, no la pitagórica})</annotation></semantics></math></p>
+<p>Y el presupuesto que hay que cerrar, como vimos en 3.1, es la coma
+<strong>pitagórica</strong>, 23.460 c. Falta:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>1.954</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">23.460 - 21.506 = 1.954 \text{ cents}</annotation></semantics></math></p>
+<p>Este número no es cualquier número. Es exactamente el
+<strong>schisma</strong> de M2: la diferencia entre la coma pitagórica y
+la coma sintónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>1.954</mn></mrow><annotation encoding="application/x-tex">23.460 - 21.506 = 1.954</annotation></semantics></math>).
+Kirnberger cierra el presupuesto estrechando una quinta más, Fa#–Do#, en
+exactamente un schisma:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Fa#–Do#</mtext><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>1.954</mn><mo>=</mo><mn>700.001</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Fa#–Do#} = 701.955 - 1.954 = 700.001 \text{ c}</annotation></semantics></math></p>
+<p>Verifiquemos el presupuesto total, con todos los decimales:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5.377</mn><mo>+</mo><mn>1.954</mn><mo>=</mo><mn>21.508</mn><mo>+</mo><mn>1.954</mn><mo>=</mo><mn>23.462</mn><mo>≈</mo><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">4 \times 5.377 + 1.954 = 21.508 + 1.954 = 23.462 \approx 23.460 \text{ cents}</annotation></semantics></math></p>
+<p>(La pequeña diferencia de dos milésimas frente a la coma pitagórica
+es un artefacto de redondear cada cifra a 3 decimales antes de sumar;
+con precisión completa,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5.376572</mn><mo>+</mo><mn>1.953721</mn><mo>=</mo><mn>21.506290</mn><mo>+</mo><mn>1.953721</mn><mo>=</mo><mn>23.460011</mn></mrow><annotation encoding="application/x-tex">4 \times 5.376572 + 1.953721 = 21.506290 + 1.953721 = 23.460011</annotation></semantics></math>,
+que sí es la coma pitagórica exacta, hasta el error de redondeo de la
+sexta cifra decimal.) Este es el momento pedagógico más importante del
+módulo: <strong>el schisma es, por definición algebraica, exactamente lo
+que le falta a la coma sintónica para llegar a la coma
+pitagórica</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>c</mi><mi>h</mi><mi>i</mi><mi>s</mi><mi>m</mi><mi>a</mi><mo>=</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>p</mi><mi>i</mi><mi>t</mi><mi>a</mi><mi>g</mi><mi>ó</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>a</mi><mo>−</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">schisma = coma\ pitagórica - coma\ sintónica</annotation></semantics></math>,
+tal como se definió en M2). Kirnberger III no “descubre” un ajuste
+conveniente por casualidad: usa la identidad algebraica que conecta las
+dos comas del curso, la sintónica (protagonista de M4 y M5) y la
+pitagórica (protagonista de M2, M3 y de este módulo), para resolver en
+un solo trazo el problema de cerrar el círculo sin renunciar del todo a
+la herencia mesotónica de una tercera pura.</p>
+<p>La tabla de las 12 quintas:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Quinta</th>
+<th>Cents</th>
+<th>Temperada</th>
+<th>Fracción de coma</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do–Sol</td>
+<td>696.578</td>
+<td>−5.377</td>
+<td>1/4 coma sintónica</td>
+</tr>
+<tr>
+<td>Sol–Re</td>
+<td>696.578</td>
+<td>−5.377</td>
+<td>1/4 coma sintónica</td>
+</tr>
+<tr>
+<td>Re–La</td>
+<td>696.578</td>
+<td>−5.377</td>
+<td>1/4 coma sintónica</td>
+</tr>
+<tr>
+<td>La–Mi</td>
+<td>696.578</td>
+<td>−5.377</td>
+<td>1/4 coma sintónica</td>
+</tr>
+<tr>
+<td>Mi–Si</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Si–Fa#</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Fa#–Do#</td>
+<td>700.001</td>
+<td>−1.954</td>
+<td>1 schisma</td>
+</tr>
+<tr>
+<td>Do#–Sol#</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Sol#–Mib</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Mib–Sib</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Sib–Fa</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+<tr>
+<td>Fa–Do</td>
+<td>701.955</td>
+<td>0</td>
+<td>pura</td>
+</tr>
+</tbody>
+</table></div>
+<p>Y la tabla íntegra de 12 notas (Do en 0, derivada quinta por quinta
+con el mismo método de las secciones anteriores):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Do#</td>
+<td>90.225</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>193.157</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>294.135</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>386.314</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>498.045</td>
+</tr>
+<tr>
+<td>Fa#</td>
+<td>590.224</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>696.578</td>
+</tr>
+<tr>
+<td>Sol#</td>
+<td>792.180</td>
+</tr>
+<tr>
+<td>La</td>
+<td>889.735</td>
+</tr>
+<tr>
+<td>Sib</td>
+<td>996.090</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>1088.269</td>
+</tr>
+</tbody>
+</table></div>
+<p>Confirma tú mismo la fila de Mi: 386.314 cents, coincidiendo dígito
+por dígito con la tercera mayor pura de la tabla canónica de M1. Ningún
+otro de los tres sistemas de este módulo tiene una tercera perfectamente
+pura — ese es el precio (y el privilegio) que paga Kirnberger III por
+tomar prestado el truco del mesotónico para una sola tríada.</p>
+<p>Un detalle adicional, casi un regalo: el ajuste de Fa#–Do# no solo
+cierra el presupuesto — también <em>suaviza</em> la tonalidad más lejana
+del sistema. Como veremos en 3.5, la tercera de Fa# mayor en
+Werckmeister y en Vallotti es una tercera pitagórica pura y sin diluir
+(407.820 c, la más tensa posible). En Kirnberger, en cambio, esa misma
+tercera queda en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>407.820</mn><mo>−</mo><mn>1.954</mn><mo>=</mo><mn>405.866</mn></mrow><annotation encoding="application/x-tex">407.820 - 1.954 = 405.866</annotation></semantics></math>
+c: un poquito más cerca de lo tolerable, porque el schisma que cierra el
+círculo pasa, casualmente, justo por la quinta que sostiene esa
+tonalidad extrema.</p>
+<h3 id="el-color-de-las-tonalidades">3.5 El color de las
+tonalidades</h3>
+<p>Ya tenemos las tres tablas completas. Extraigamos de cada una la
+tercera mayor de las 12 tonalidades posibles (tónica + cuatro quintas de
+distancia, reducida a una octava) y comparemos, agregando el
+temperamento igual (400 c fijo en las doce) como referencia “plana”.
+Ordenamos las tonalidades por su distancia en la cadena de quintas desde
+Do —el eje que realmente organiza el color en estos sistemas—, no
+alfabéticamente:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tonalidad (por distancia a Do)</th>
+<th>Werckmeister III</th>
+<th>Vallotti</th>
+<th>Kirnberger III</th>
+<th>ET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>390.225</td>
+<td>392.180</td>
+<td><strong>386.314</strong> (pura)</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>396.090</td>
+<td>392.180</td>
+<td>391.690</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>396.090</td>
+<td>396.090</td>
+<td>397.067</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>La</td>
+<td>401.955</td>
+<td>400.000</td>
+<td>400.490</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>401.955</td>
+<td>403.910</td>
+<td>405.866</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>401.955</td>
+<td>407.820</td>
+<td>405.866</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Fa#</td>
+<td>407.820</td>
+<td>407.820</td>
+<td>405.866</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Do#</td>
+<td>407.820</td>
+<td>407.820</td>
+<td>407.820</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Sol#</td>
+<td>407.820</td>
+<td>403.910</td>
+<td>407.820</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>401.955</td>
+<td>400.000</td>
+<td>402.443</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Sib</td>
+<td>396.090</td>
+<td>396.090</td>
+<td>397.067</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>390.225</td>
+<td>392.180</td>
+<td>391.690</td>
+<td>400.000</td>
+</tr>
+</tbody>
+</table></div>
+<p>(Tercera mayor pura de referencia: 386.314 c; tercera pitagórica
+—ditono— de referencia: 407.820 c.)</p>
+<p>El patrón salta a la vista apenas la lees de arriba hacia abajo:
+<strong>la tercera crece monótonamente</strong>, de casi pura cerca de
+Do a plenamente pitagórica en la región de Fa#/Do#/Sol#, en los tres
+sistemas. Esto no es una curiosidad estadística: es la consecuencia
+mecánica de la política de reparto que elegimos en 3.2–3.4. Cuantas más
+quintas temperadas hay entre Do y una tonalidad dada, más se acerca su
+tercera a la pureza; cuantas más quintas <em>puras</em> (es decir,
+pitagóricas por default) hay en el camino, más se acerca al ditono duro
+de 407.820 c. Do mayor —con cero o pocas quintas temperadas de por
+medio— es, en los tres sistemas, la tonalidad más “consonante”
+disponible. Fa#, Do# y Sol# mayor —al otro lado del círculo, alcanzables
+solo atravesando puras quintas pitagóricas sin temperar— son, en los
+tres sistemas, las más “ásperas”.</p>
+<p>Esto es precisamente la base física real detrás de la doctrina
+barroca y clásica de la <strong>Charakteristik</strong>
+(“clave-característica”): la idea, defendida por teóricos como Johann
+Mattheson (<em>Das neu-eröffnete Orchestre</em>, 1713) y sistematizada
+más tarde por Christian Schubart (<em>Ideen zu einer Aesthetik der
+Tonkunst</em>, publicado póstumamente en 1806), de que cada tonalidad
+mayor y menor tiene un “carácter” afectivo propio: Do mayor descrito una
+y otra vez como “puro”, “inocente”, “sencillo”; Fa# mayor como
+“triunfante pero áspero”, tonalidad de “dificultades vencidas”. Durante
+mucho tiempo esta doctrina se leyó como pura convención cultural, casi
+superstición estética. La musicóloga Rita Steblin, en su estudio de
+referencia <em>A History of Key Characteristics in the Eighteenth and
+Early Nineteenth Centuries</em> (1983), reconstruyó el vínculo que hoy
+podemos verificar nosotros mismos con la tabla de arriba: mientras el
+teclado europeo se afinó con buenos temperamentos (y no con temperamento
+igual), <strong>Do mayor sonaba objetivamente más puro que Fa#
+mayor</strong>, con una diferencia de hasta 20 cents en la tercera según
+el sistema. No era solo una etiqueta ni una asociación arbitraria de
+compositores románticos con sinestesia: era una diferencia acústica
+medible, la misma que acabas de calcular. La Charakteristik nació como
+descripción honesta de un fenómeno físico real, y sobrevivió
+culturalmente (Beethoven siguió eligiendo tonalidades “difíciles” para
+momentos de tensión mucho después de que el temperamento igual empezara
+a volver el fenómeno inaudible) como una especie de fósil de una época
+en la que el timbre de una tonalidad era, literalmente, distinto del de
+otra.</p>
+<h3 id="la-polémica-del-temperamento-de-bach">3.6 La polémica del
+“temperamento de Bach”</h3>
+<p>El título completo que Johann Sebastian Bach dio a su colección de
+1722 es <em>Das Wohltemperirte Clavier</em> — “El clave bien temperado”.
+La palabra elegida no es casual, y ya la reconoces: es la misma que usó
+Werckmeister en 1691 para describir sus sistemas circulantes.
+<strong>“Bien temperado” no es sinónimo de “igualmente
+temperado”</strong>; en el alemán técnico de la época había una palabra
+distinta y bien establecida para el temperamento igual,
+<em>gleichschwebend</em> (“de batido igual” o “igualmente flotante”), y
+Bach no la usó. Lo que el título promete —y lo que las 48 piezas
+efectivamente demuestran, un preludio y una fuga en cada una de las 24
+tonalidades mayores y menores— es que su sistema, sea cual fuere,
+permitía tocar en <em>todas</em> las tonalidades sin toparse con un
+lobo. Eso es compatible con Werckmeister III, con Vallotti (anacrónico
+para Bach, que murió en 1750 y Vallotti publicó su tratado recién en
+1754, aunque hay indicios de que la idea circulaba antes), con
+Kirnberger III, o con alguna otra variante de la misma familia — y
+también, dicho sea de paso, es compatible con el temperamento igual, que
+por supuesto también evita todo lobo. El título por sí solo no decide la
+pregunta.</p>
+<p>¿Qué temperamento usaba realmente Bach? Aquí conviene ser
+completamente honesto: <strong>no se sabe</strong>, y cualquier apunte
+que te dé una respuesta segura te está simplificando la historia. Hay,
+eso sí, dos hipótesis influyentes que vale la pena conocer, siempre como
+hipótesis en discusión, no como hechos establecidos:</p>
+<ul>
+<li><strong>La hipótesis de Herbert Kellner (1975).</strong> Kellner
+propuso reconstruir un temperamento a partir del diseño ornamental del
+sello personal de Bach (un monograma entrelazado con sus iniciales JSB),
+argumentando que la geometría del sello codifica una secuencia de
+fracciones de coma para las quintas. El resultado —hoy conocido como
+“temperamento Bach-Kellner”— es una variante cercana a la familia de
+Werckmeister, con quintas de 1/5 de coma pitagórica en un subconjunto de
+la cadena. La conexión entre el diseño de un sello y una receta de
+afinación es, para decirlo con cuidado, altamente especulativa, y ha
+sido objetada por buena parte de la musicología posterior.</li>
+<li><strong>La hipótesis de Bradley Lehman (2005).</strong> Lehman
+propuso leer los adornos caligráficos —una serie de espirales y lazos—
+dibujados a mano en la parte superior de la portada del manuscrito
+autógrafo de 1722 del primer libro del <em>Wohltemperirte Clavier</em>
+como un diagrama que codifica, mediante el número de vueltas de cada
+espiral, la fracción de coma de cada una de las once quintas de la
+cadena. El temperamento que resulta de esa lectura es, a grandes rasgos,
+cercano a un sistema del tipo Vallotti/Kirnberger modificado. La
+propuesta tuvo repercusión mediática considerable —incluyó, entre otras
+cosas, la reafinación de instrumentos históricos siguiendo su receta—
+pero también críticas serias de historiadores como John Charles Francis
+y Mark Lindley, que cuestionan tanto la premisa de que esos garabatos
+sean un diagrama deliberado como los detalles de la decodificación
+propuesta.</li>
+</ul>
+<p>Ninguna de las dos hipótesis cuenta hoy con consenso académico, y es
+perfectamente posible (algunos dirían que probable) que Bach no usara
+siempre el mismo sistema en toda su carrera, o que ajustara el
+temperamento de oído, instrumento por instrumento, sin seguir una receta
+fija y transmisible. Lo que <strong>sí</strong> podemos afirmar con
+total seguridad, sin necesidad de resolver el misterio, es lo que
+verificamos en la sección 3.5 con números propios: en cualquier buen
+temperamento —sea Werckmeister III, Vallotti, Kirnberger III,
+Bach-Kellner o la reconstrucción de Lehman— <strong>los 24 preludios y
+fugas del Clave bien temperado recorren 24 colores armónicos
+distintos</strong>, no 24 transposiciones idénticas de una misma
+plantilla. Esa es la afirmación robusta, la que no depende de ninguna
+hipótesis discutida sobre garabatos o sellos, y es la que vamos a poder
+escuchar en la sección de repertorio.</p>
+<h3 id="cómo-suena-el-viaje-armónico-como-recurso-real">3.7 Cómo suena:
+el viaje armónico como recurso real</h3>
+<p>Toquemos la misma progresión —una simple cadencia I–IV–V–I— primero
+en Do mayor y después en Fa# mayor, dentro, digamos, de Werckmeister
+III. En Do mayor, la tercera de la tónica mide 390.225 c: apenas 3.9
+cents por encima de la pura, prácticamente sin batido perceptible en los
+armónicos superiores del acorde (recuerda M1 §5: batidos lentos e
+inaudibles para desviaciones de pocos cents). En Fa# mayor, la tercera
+de la tónica mide 407.820 c: 21.5 cents por encima de la pura, un ditono
+pitagórico completo, con un batido rápido y áspero en la tercera del
+acorde, del mismo tipo (aunque bastante más intenso) que el que
+calculamos para la quinta del temperamento igual en M1 §5.3.</p>
+<p>En temperamento igual, esta diferencia simplemente no existe: modular
+de Do mayor a Fa# mayor es, acústicamente, tocar la misma tríada
+trasladada, nota por nota, sin ningún cambio de textura. En un buen
+temperamento, en cambio, modular de Do a Fa# es genuinamente <em>cambiar
+de paisaje sonoro</em>: la misma progresión armónica que sonaba
+“asentada” y en reposo en Do suena “tensa”, “brillante”, casi metálica
+en Fa#. Esto es lo que los compositores del período bien temperado
+explotaban como recurso expresivo real, no metafórico: elegir la
+tonalidad de una pieza, o el punto de una modulación lejana dentro de
+una pieza, era literalmente elegir un timbre armónico distinto para el
+mismo material. Un “viaje armónico” —una modulación de Do a Fa# y de
+vuelta— no era solo un cambio de etiqueta o de tesitura: era, en el
+sentido más físico posible, un viaje de un paisaje a otro y de vuelta a
+casa.</p>
+<h3 id="herramienta-del-proyecto">3.8 Herramienta del proyecto</h3>
+<p>Este módulo se apoya en dos laboratorios ya construidos en el
+proyecto, complementarios al que acompaña este apunte:</p>
+<ul>
+<li><strong><code>Tools/afinacion.html</code></strong> (en este mismo
+repositorio) es la aplicación que generó, verificó y contrastó todas las
+tablas de este apunte: contiene la función <code>getTuning()</code> con
+las definiciones exactas de Werckmeister III, Vallotti y Kirnberger III
+que acabamos de derivar a mano. Puedes cargarla, elegir cada sistema en
+el selector, y comparar visualmente el círculo de quintas (con el desvío
+de cada nota marcado como distancia radial) y la tabla numérica nota por
+nota.</li>
+<li><strong>La app “Suena Afinaciones Antiguas”</strong> (publicada como
+GitHub Pages del proyecto) permite reproducir corales completos de Bach
+conmutando en vivo entre Werckmeister, Vallotti, Kirnberger y otras
+afinaciones históricas, incluyendo temperamento igual como contraste. Es
+el laboratorio recomendado para <em>escuchar</em> el fenómeno del color
+de tonalidades en música real, no solo en acordes aislados.</li>
+</ul>
+<h2 id="ejercicios-de-cálculo">4. Ejercicios de cálculo</h2>
+<p>Resuelve por escrito, mostrando el desarrollo completo. Las
+soluciones están al final.</p>
+<ol type="1">
+<li>Verifica el presupuesto de error de Werckmeister III: calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>23.460</mn><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">4 \times (23.460/4)</annotation></semantics></math>
+y confirma que da exactamente la coma pitagórica.</li>
+<li>Verifica el presupuesto de error de Vallotti: calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>23.460</mn><mi>/</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">6 \times (23.460/6)</annotation></semantics></math>
+y confirma que da exactamente la coma pitagórica.</li>
+<li>Verifica el presupuesto de error de Kirnberger III: calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5.377</mn><mo>+</mo><mn>1.954</mn></mrow><annotation encoding="application/x-tex">4 \times 5.377 + 1.954</annotation></semantics></math>
+y compáralo con la coma pitagórica (23.460 c). Explica en una frase por
+qué no da un resultado idéntico hasta el último decimal.</li>
+<li>Deriva, mostrando cada suma y cada eventual reducción de octava, las
+notas Sol, Re y La de la tabla de Werckmeister III a partir de Do = 0,
+usando las quintas de la tabla de la sección 3.2.</li>
+<li>Deriva, con el mismo método, las notas Fa, Sib y Mib de la tabla de
+Vallotti a partir de Do = 0, bajando quintas.</li>
+<li>Deriva la nota Fa# de la tabla de Kirnberger III a partir de Do = 0
+(quinta ascendente por Do–Sol–Re–La–Mi–Si–Fa#, seis quintas; identifica
+cuáles de esas seis están temperadas y cuáles puras según la tabla de
+3.4).</li>
+<li>Calcula la tercera mayor Do–Mi en Werckmeister III (usa la tabla de
+3.2) y compárala con la tercera pura (386.314 c). ¿Cuántos cents de
+exceso tiene?</li>
+<li>Calcula la tercera mayor Do–Mi en Vallotti (usa la tabla de 3.3) y
+compárala con la tercera pura. ¿Cuántos cents de exceso tiene, y cómo se
+compara con el resultado del ejercicio 7?</li>
+<li>Calcula la tercera mayor Do–Mi en Kirnberger III (usa la tabla de
+3.4). ¿Qué tan exacta es la coincidencia con la tercera pura, y por qué
+el resultado es distinto de los ejercicios 7 y 8?</li>
+<li>Calcula la tercera mayor de Fa# (Fa#–La#/Sib) en Vallotti, usando la
+tabla de 3.3, y compárala con la tercera pitagórica (ditono, 407.820 c).
+¿Coincide?</li>
+<li>Demuestra la identidad del schisma en Kirnberger III: parte de las
+definiciones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>c</mi><mi>h</mi><mi>i</mi><mi>s</mi><mi>m</mi><mi>a</mi><mo>=</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>p</mi><mi>i</mi><mi>t</mi><mi>a</mi><mi>g</mi><mi>ó</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>a</mi><mo>−</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">schisma = coma\ pitagórica - coma\ sintónica</annotation></semantics></math>
+(M2) y de que Kirnberger cubre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">4 \times (coma\ sintónica/4)</annotation></semantics></math>
+con las cuatro quintas de 1/4 de coma sintónica, y muestra
+algebraicamente que sumar un schisma más completa exactamente la coma
+pitagórica.</li>
+<li>Calcula el “gradiente de color” de cada uno de los tres sistemas —la
+diferencia en cents entre la tercera mayor más pura y la más pitagórica
+de las 12 tonalidades (usa la tabla de la sección 3.5)— y ordénalos de
+menor a mayor gradiente. ¿Qué sistema ofrece la transición más “suave”
+entre tonalidades, y cuál la más “dramática”?</li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mstyle displaystyle="true"><mfrac><mn>23.460</mn><mn>4</mn></mfrac></mstyle><mo>=</mo><mn>4</mn><mo>×</mo><mn>5.865</mn><mo>=</mo><mn>23.460</mn></mrow><annotation encoding="application/x-tex">4 \times \dfrac{23.460}{4} = 4 \times 5.865 = 23.460</annotation></semantics></math>
+cents. Coincide exactamente con la coma pitagórica: las cuatro quintas
+temperadas de Werckmeister III cubren el presupuesto completo, sin
+sobrante ni déficit.</p>
+<p><strong>2.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mstyle displaystyle="true"><mfrac><mn>23.460</mn><mn>6</mn></mfrac></mstyle><mo>=</mo><mn>6</mn><mo>×</mo><mn>3.910</mn><mo>=</mo><mn>23.460</mn></mrow><annotation encoding="application/x-tex">6 \times \dfrac{23.460}{6} = 6 \times 3.910 = 23.460</annotation></semantics></math>
+cents. Igual que en el ejercicio 1: el presupuesto cierra exacto, solo
+que repartido en más quintas y con menos temperamento cada una.</p>
+<p><strong>3.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5.377</mn><mo>+</mo><mn>1.954</mn><mo>=</mo><mn>21.508</mn><mo>+</mo><mn>1.954</mn><mo>=</mo><mn>23.462</mn></mrow><annotation encoding="application/x-tex">4 \times 5.377 + 1.954 = 21.508 + 1.954 = 23.462</annotation></semantics></math>
+cents, que difiere de la coma pitagórica (23.460 c) en apenas 0.002
+cents. La diferencia es un artefacto de redondeo: 5.377 es en realidad
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>21.506</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>5.376572</mn><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">21.506/4 = 5.376572...</annotation></semantics></math>
+redondeado a tres decimales, y 1.954 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.953721</mn><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">1.953721...</annotation></semantics></math>
+redondeado. Si se conservan más decimales,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5.376572</mn><mo>+</mo><mn>1.953721</mn><mo>=</mo><mn>21.506290</mn><mo>+</mo><mn>1.953721</mn><mo>=</mo><mn>23.460011</mn></mrow><annotation encoding="application/x-tex">4 \times 5.376572 + 1.953721 = 21.506290 + 1.953721 = 23.460011</annotation></semantics></math>
+cents, que sí coincide (hasta el redondeo de la sexta cifra) con la coma
+pitagórica exacta.</p>
+<p><strong>4.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Sol</mtext><mo>=</mo><mn>0</mn><mo>+</mo><mn>696.090</mn><mo>=</mo><mn>696.090</mn></mrow><annotation encoding="application/x-tex">\text{Sol} = 0 + 696.090 = 696.090</annotation></semantics></math>
+c. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Re</mtext><mo>=</mo><mn>696.090</mn><mo>+</mo><mn>696.090</mn><mo>=</mo><mn>1392.180</mn><mo>→</mo><mn>1392.180</mn><mo>−</mo><mn>1200</mn><mo>=</mo><mn>192.180</mn></mrow><annotation encoding="application/x-tex">\text{Re} = 696.090 + 696.090 = 1392.180 \to 1392.180 - 1200 = 192.180</annotation></semantics></math>
+c (se resta una octava porque el resultado superó los 1200 c).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">La</mtext><mo>=</mo><mn>192.180</mn><mo>+</mo><mn>696.090</mn><mo>=</mo><mn>888.270</mn></mrow><annotation encoding="application/x-tex">\text{La} = 192.180 + 696.090 = 888.270</annotation></semantics></math>
+c (no hace falta reducir: está por debajo de 1200).</p>
+<p><strong>5.</strong> Antes de sumar hay que revisar, quinta por
+quinta, cuál está temperada: en Vallotti la quinta Fa–Do
+<strong>sí</strong> es una de las seis diatónicas temperadas (698.045
+c), mientras que Sib–Fa y Mib–Sib son puras (701.955 c cada una).
+Bajando quintas desde Do:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Fa</mtext><mo>=</mo><mn>0</mn><mo>−</mo><mn>698.045</mn><mo>=</mo><mi>−</mi><mn>698.045</mn><mo>→</mo><mi>−</mi><mn>698.045</mn><mo>+</mo><mn>1200</mn><mo>=</mo><mn>501.955</mn></mrow><annotation encoding="application/x-tex">\text{Fa} = 0 - 698.045 = -698.045 \to -698.045 + 1200 = 501.955</annotation></semantics></math>
+c. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Sib</mtext><mo>=</mo><mn>501.955</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>200.000</mn><mo>→</mo><mi>−</mi><mn>200.000</mn><mo>+</mo><mn>1200</mn><mo>=</mo><mn>1000.000</mn></mrow><annotation encoding="application/x-tex">\text{Sib} = 501.955 - 701.955 = -200.000 \to -200.000 + 1200 = 1000.000</annotation></semantics></math>
+c. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Mib</mtext><mo>=</mo><mn>1000.000</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mn>298.045</mn></mrow><annotation encoding="application/x-tex">\text{Mib} = 1000.000 - 701.955 = 298.045</annotation></semantics></math>
+c. Los tres valores coinciden con la tabla de 3.3.</p>
+<p><strong>6.</strong> La cadena Do–Sol–Re–La–Mi–Si–Fa# usa las quintas
+Do–Sol, Sol–Re, Re–La (temperadas, 1/4 de coma sintónica cada una,
+696.578 c) y Mi–Si, Si–Fa# (puras, 701.955 c cada una) — la cuarta
+quinta de la cadena, La–Mi, también está temperada (696.578 c) según la
+tabla de 3.4. Sumando:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Sol</mtext><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">\text{Sol}=696.578</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Re</mtext><mo>=</mo><mn>696.578</mn><mo>+</mo><mn>696.578</mn><mo>=</mo><mn>1393.156</mn><mo>→</mo><mn>193.156</mn></mrow><annotation encoding="application/x-tex">\text{Re}=696.578+696.578=1393.156\to193.156</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">La</mtext><mo>=</mo><mn>193.156</mn><mo>+</mo><mn>696.578</mn><mo>=</mo><mn>889.734</mn></mrow><annotation encoding="application/x-tex">\text{La}=193.156+696.578=889.734</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Mi</mtext><mo>=</mo><mn>889.734</mn><mo>+</mo><mn>696.578</mn><mo>=</mo><mn>1586.312</mn><mo>→</mo><mn>386.312</mn></mrow><annotation encoding="application/x-tex">\text{Mi}=889.734+696.578=1586.312\to386.312</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Si</mtext><mo>=</mo><mn>386.312</mn><mo>+</mo><mn>701.955</mn><mo>=</mo><mn>1088.267</mn></mrow><annotation encoding="application/x-tex">\text{Si}=386.312+701.955=1088.267</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Fa#</mtext><mo>=</mo><mn>1088.267</mn><mo>+</mo><mn>701.955</mn><mo>=</mo><mn>1790.222</mn><mo>→</mo><mn>590.222</mn></mrow><annotation encoding="application/x-tex">\text{Fa#}=1088.267+701.955=1790.222\to590.222</annotation></semantics></math>.
+El resultado (590.222, redondeado a 590.224 con precisión completa)
+coincide con la tabla de 3.4.</p>
+<p><strong>7.</strong> Tercera Do–Mi en Werckmeister III:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>390.225</mn><mo>−</mo><mn>0</mn><mo>=</mo><mn>390.225</mn></mrow><annotation encoding="application/x-tex">390.225 - 0 = 390.225</annotation></semantics></math>
+c. Exceso sobre la pura:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>390.225</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>3.911</mn></mrow><annotation encoding="application/x-tex">390.225 - 386.314 = 3.911</annotation></semantics></math>
+cents — una tercera casi pura, gracias a que las tres quintas
+Do–Sol–Re–La están temperadas mientras que La–Mi es pura.</p>
+<p><strong>8.</strong> Tercera Do–Mi en Vallotti:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>392.180</mn><annotation encoding="application/x-tex">392.180</annotation></semantics></math>
+c. Exceso:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>392.180</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>5.866</mn></mrow><annotation encoding="application/x-tex">392.180 - 386.314 = 5.866</annotation></semantics></math>
+cents — un poco más ancha que en Werckmeister (3.911 c), porque en
+Vallotti la temperación por quinta es menor (1/6 vs 1/4 de coma) pero se
+aplica a una quinta más en el camino hacia Mi (todas las cuatro: Fa–Do,
+Do–Sol, Sol–Re, Re–La, y también La–Mi, están temperadas en Vallotti,
+mientras que en Werckmeister La–Mi queda pura).</p>
+<p><strong>9.</strong> Tercera Do–Mi en Kirnberger III:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+c, exactamente igual a la tercera pura (5/4), con una discrepancia nula
+hasta la tercera cifra decimal. La diferencia con los ejercicios 7 y 8
+es que Kirnberger tempera sus cuatro quintas Do–Sol–Re–La–Mi con
+fracción de coma <strong>sintónica</strong> (no pitagórica), replicando
+exactamente el mecanismo del mesotónico de 1/4 de coma (M5): cuatro
+quintas de 1/4 de coma sintónica apiladas cancelan exactamente la coma
+sintónica que separa el ditono pitagórico de la tercera pura.</p>
+<p><strong>10.</strong> La tercera Fa#–La#(Sib) en Vallotti mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1000.000</mn><mo>−</mo><mn>592.180</mn><mo>=</mo><mn>407.820</mn></mrow><annotation encoding="application/x-tex">1000.000 - 592.180 = 407.820</annotation></semantics></math>
+c, que coincide, dígito por dígito, con la tercera pitagórica (ditono,
+407.820 c). Sí coincide exactamente: el camino de cuatro quintas entre
+Fa# y Sib (Fa#–Do#–Sol#–Mib–Sib) no atraviesa ninguna de las seis
+quintas temperadas de Vallotti (todas puras), así que el resultado es un
+ditono pitagórico sin ninguna corrección — la tonalidad más alejada de
+Do, y la más tensa de las doce.</p>
+<p><strong>11.</strong> Por definición (M2),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>c</mi><mi>h</mi><mi>i</mi><mi>s</mi><mi>m</mi><mi>a</mi><mo>=</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>p</mi><mi>i</mi><mi>t</mi><mi>a</mi><mi>g</mi><mi>ó</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>a</mi><mo>−</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">schisma = coma\ pitagórica - coma\ sintónica</annotation></semantics></math>.
+Las cuatro quintas de Kirnberger III templadas en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">1/4</annotation></semantics></math>
+de coma sintónica cubren, en conjunto,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mfrac><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi></mrow><mn>4</mn></mfrac><mo>=</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">4 \times \frac{coma\ sintónica}{4} = coma\ sintónica</annotation></semantics></math>.
+Sumando el schisma de la quinta Fa#–Do#:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi><mo>+</mo><mi>s</mi><mi>c</mi><mi>h</mi><mi>i</mi><mi>s</mi><mi>m</mi><mi>a</mi><mo>=</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>p</mi><mi>i</mi><mi>t</mi><mi>a</mi><mi>g</mi><mi>ó</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>a</mi><mo>−</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>p</mi><mi>i</mi><mi>t</mi><mi>a</mi><mi>g</mi><mi>ó</mi><mi>r</mi><mi>i</mi><mi>c</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">coma\ sintónica + schisma = coma\ sintónica + (coma\ pitagórica - coma\ sintónica) = coma\ pitagórica</annotation></semantics></math>.
+La cancelación de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>a</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mi>t</mi><mi>ó</mi><mi>n</mi><mi>i</mi><mi>c</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">coma\ sintónica</annotation></semantics></math>
+es puramente algebraica: por eso el presupuesto cierra exacto (salvo el
+redondeo visto en el ejercicio 3), sin necesidad de ningún ajuste
+adicional ad hoc.</p>
+<p><strong>12.</strong> Usando la tabla de 3.5: en <strong>Werckmeister
+III</strong>, el mínimo es 390.225 c (Do y Fa) y el máximo 407.820 c
+(Fa#, Do#, Sol#); gradiente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>407.820</mn><mo>−</mo><mn>390.225</mn><mo>=</mo><mn>17.595</mn></mrow><annotation encoding="application/x-tex">= 407.820 - 390.225 = 17.595</annotation></semantics></math>
+cents. En <strong>Vallotti</strong>, mínimo 392.180 c (Do, Fa) y máximo
+407.820 c (Si, Fa#, Do#); gradiente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>407.820</mn><mo>−</mo><mn>392.180</mn><mo>=</mo><mn>15.640</mn></mrow><annotation encoding="application/x-tex">= 407.820 - 392.180 = 15.640</annotation></semantics></math>
+cents. En <strong>Kirnberger III</strong>, mínimo 386.314 c (Do, pura) y
+máximo 407.820 c (Do#, Sol#); gradiente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>407.820</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">= 407.820 - 386.314 = 21.506</annotation></semantics></math>
+cents (el gradiente completo es, no por casualidad, exactamente la coma
+sintónica). Orden de menor a mayor gradiente: <strong>Vallotti (15.640)
+&lt; Werckmeister (17.595) &lt; Kirnberger (21.506)</strong>. Vallotti
+ofrece la transición más suave y pareja entre tonalidades —ningún
+extremo demasiado puro ni demasiado tenso—; Kirnberger ofrece el
+contraste más dramático, porque paga el precio de una tercera
+perfectamente pura en Do con una tercera plenamente pitagórica en el
+extremo opuesto del círculo.</p>
+<h2 id="guía-de-escucha">5. Guía de escucha</h2>
+<p>Dedica 20–30 minutos al laboratorio interactivo de este módulo antes
+de seguir. El laboratorio incluye un constructor visual de los tres
+sistemas (círculo de quintas con la fracción de coma marcada en cada
+arco), una “ruleta del color” (la misma cadencia repetida en las 12
+tonalidades con un gráfico de la desviación de la tercera), un
+comparador nota a nota, y un coral breve conmutable en vivo entre los
+tres sistemas. Seis consignas concretas:</p>
+<ol type="1">
+<li><strong>El presupuesto en el círculo.</strong> En el constructor
+visual, activa Werckmeister III y localiza las cuatro quintas marcadas
+como temperadas. Confirma de oído que ninguna suena tan mal como la
+quinta del lobo mesotónica que escuchaste en M5 — deberían sonar apenas
+“ligeramente estrechas”, no rotas.</li>
+<li><strong>La ruleta del color.</strong> Toca la misma cadencia
+I–IV–V–I en las 12 tonalidades, en Vallotti, siguiendo el gráfico de
+desviación de terceras. Identifica de oído en qué tonalidad la tercera
+de la tónica suena más “asentada” (debería ser Do o cercanas) y en cuál
+suena más “brillante/tensa” (debería ser Fa#/Do#/Sol#).</li>
+<li><strong>Comparador nota a nota: Do–Mi en los tres sistemas.</strong>
+Usa el comparador para sostener la tercera Do–Mi sucesivamente en
+Werckmeister, Vallotti y Kirnberger. Ordénalas de oído de más pura a
+menos pura, y verifica que tu orden coincide con los cents calculados en
+los ejercicios 7–9 (Kirnberger &lt; Werckmeister &lt; Vallotti).</li>
+<li><strong>La tercera de Fa# en dos sistemas.</strong> Compara la
+tercera de Fa# mayor en Vallotti y en Kirnberger. Deberías notar que la
+de Kirnberger es <em>ligeramente</em> menos áspera (405.866 c contra
+407.820 c) — el efecto colateral del schisma que vimos en 3.4.</li>
+<li><strong>El coral conmutable.</strong> Elige un coral breve de Bach
+en el laboratorio y reprodúcelo completo primero en Werckmeister III,
+después en Vallotti, y después en Kirnberger III. Presta atención
+especial a los acordes que tocan las tonalidades más alejadas de la
+tónica principal del coral: ¿cambia el carácter del pasaje entre un
+sistema y otro?</li>
+<li><strong>Puro vs. bien temperado vs. plano.</strong> Si tu
+laboratorio lo permite, agrega temperamento igual a la comparación de la
+consigna 2. Verifica auditivamente la afirmación central del módulo: en
+ET todas las tonalidades suenan “iguales” (mismo color), mientras que en
+cualquiera de los tres buenos temperamentos, cada tonalidad tiene una
+identidad propia.</li>
+</ol>
+<h2 id="repertorio">6. Repertorio</h2>
+<ul>
+<li><strong>J. S. Bach, <em>Das Wohltemperirte Clavier</em>, Libro I
+(1722).</strong> Compara directamente el <strong>Preludio y Fuga en Do
+mayor, BWV 846</strong> (la primera pieza de la colección, en la
+tonalidad más “pura” disponible en cualquier buen temperamento) con el
+<strong>Preludio y Fuga en Do# mayor, BWV 848</strong> (la tercera
+pieza, apenas un semitono más arriba en el teclado pero en el extremo
+más tenso del círculo armónico). Escúchalos con la app “Suena
+Afinaciones Antiguas” en Werckmeister o Vallotti y compara la sensación
+de reposo de BWV 846 contra la aspereza brillante de BWV 848 — una
+diferencia que el temperamento igual, tocando las mismas notas, borra
+por completo.</li>
+<li><strong>Corales de Bach</strong> (BWV 250–438, y los corales
+armonizados dentro de las Pasiones y cantatas): la app del proyecto
+permite reproducir varios de ellos conmutando en vivo entre afinaciones.
+Son piezas cortas, ideales para escuchar el color de una sola tonalidad
+sostenida sin la complejidad de una fuga completa.</li>
+<li><strong>Dietrich Buxtehude, praeludia y toccatas para
+órgano.</strong> Buxtehude escribió una generación antes que Bach, para
+órganos del norte de Alemania que en muchos casos todavía usaban
+variantes de mesotónico extendido o primeros buenos temperamentos; sus
+modulaciones más audaces son un buen terreno para escuchar hasta qué
+punto un “buen temperamento” temprano todavía conserva ecos del mundo
+mesotónico de M5.</li>
+<li><strong>Grabaciones históricamente informadas de clave y órgano del
+barroco tardío.</strong> Hoy, afinar el clavecín en
+<strong>Vallotti</strong> es, de hecho, el estándar de facto en gran
+parte de las grabaciones historicistas de repertorio de J. S. Bach,
+Rameau y sus contemporáneos —precisamente por el “gradiente suave” que
+calculaste en el ejercicio 12—, aunque intérpretes específicos eligen a
+veces Kellner, Lehman o Kirnberger según el repertorio y sus propias
+convicciones históricas.</li>
+</ul>
+<h2 id="mini-composición">7. Mini-composición</h2>
+<p>Escribe un preludio breve (12–20 compases) para teclado, en un buen
+temperamento a tu elección (Werckmeister III, Vallotti o Kirnberger
+III), que module deliberadamente <strong>desde una tonalidad cercana a
+Do (por ejemplo Do o Sol mayor) hacia una tonalidad lejana (Fa# o Do#
+mayor)</strong>, se detenga un compás o dos en la tonalidad lejana
+dejando sonar claramente su tríada de tónica, y regrese a la tonalidad
+de partida. Usa el gradiente de color —no solo la lógica armónica
+funcional— como arco dramático explícito: la llegada a la tonalidad
+lejana debe sentirse como una llegada a un paisaje más tenso y
+brillante, no solo como un acorde distinto con las mismas notas
+relativas. Este recurso es, en sentido literal, imposible de concebir (o
+de notar en la partitura) si tu única referencia auditiva es el
+temperamento igual: ahí todas las tonalidades son intercambiables y el
+“viaje” de este ejercicio no tiene ningún correlato físico. Verifica al
+final, con la tabla de la sección 3.5, cuántos cents de diferencia hay
+entre la tercera de tu tonalidad de partida y la de tu tonalidad lejana,
+y anótalo junto a la partitura.</p>
+<h2 id="autoevaluación">8. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar por qué, para cerrar
+el círculo de 12 quintas, la moneda que hay que repartir es la coma
+pitagórica y no la sintónica, aunque en M5 la protagonista fuera la
+sintónica.</label></li>
+<li><label><input type="checkbox" />Puedo construir, de memoria, la
+tabla de las 12 quintas de Werckmeister III (cuáles cuatro están
+temperadas, en qué fracción) y verificar que su presupuesto cierra en
+23.460 cents.</label></li>
+<li><label><input type="checkbox" />Puedo construir, de memoria, la
+tabla de las 12 quintas de Vallotti (cuáles seis están temperadas, en
+qué fracción) y verificar su presupuesto.</label></li>
+<li><label><input type="checkbox" />Puedo construir la tabla de
+Kirnberger III y explicar, con la identidad algebraica del schisma, por
+qué el sistema necesita un quinto ajuste además de las cuatro quintas de
+1/4 de coma sintónica.</label></li>
+<li><label><input type="checkbox" />Puedo derivar, a mano, al menos
+cuatro notas de cualquiera de las tres tablas de 12 notas a partir de Do
+= 0, sumando o restando las quintas correspondientes.</label></li>
+<li><label><input type="checkbox" />Puedo explicar, con números
+concretos de cents, por qué Do mayor y Fa# mayor “suenan” objetivamente
+distinto en un buen temperamento, y relacionar esto con la doctrina
+histórica de la Charakteristik.</label></li>
+<li><label><input type="checkbox" />Puedo describir el estado real de la
+controversia sobre el temperamento de Bach (Kellner, Lehman) sin
+presentar ninguna de las dos hipótesis como un hecho
+establecido.</label></li>
+<li><label><input type="checkbox" />Puedo explicar, en una frase, la
+diferencia entre “bien temperado” (<em>wohltemperiert</em>) y
+“temperamento igual” (<em>gleichschwebend</em>), y por qué esa
+distinción importa para leer el título de Bach.</label></li>
+</ul>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Werckmeister, A. <em>Musicalische Temperatur</em>. Quedlinburg,
+1691.</li>
+<li>Kirnberger, J. P. <em>Die Kunst des reinen Satzes in der Musik</em>.
+Berlín, 1771–1779.</li>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications, 1951/2004.</li>
+<li>Lindley, M. <em>Lutes, Viols and Temperaments</em>. Cambridge
+University Press, 1984.</li>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony (and Why You
+Should Care)</em>. W. W. Norton, 2007.</li>
+<li>Steblin, R. <em>A History of Key Characteristics in the Eighteenth
+and Early Nineteenth Centuries</em>. UMI Research Press, 1983.</li>
+<li>Kellner, H. A. “Was Bach a Mathematician?” <em>English Harpsichord
+Magazine</em>, 1980.</li>
+<li>Lehman, B. “Bach’s extraordinary temperament: our Rosetta Stone”.
+<em>Early Music</em>, 33(1–2), 2005.</li>
+<li>Francis, J. C. y otros — críticas publicadas a la hipótesis de
+Lehman en <em>Early Music</em> (correspondencia posterior a 2005).</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>) — marco conceptual
+complementario, especialmente para la conexión entre M2, M5 y M6.</li>
+</ul>
+<h2 id="anticipo">Anticipo</h2>
+<p>El siglo XIX, cada vez más apurado por transponer libremente, tocar
+en cualquier tonalidad sin pensarlo dos veces y fabricar pianos en
+serie, terminó por elegir una salida distinta a la de este módulo: en
+vez de repartir la coma con criterio, aplanar el paisaje entero,
+repartiéndola en partes exactamente iguales entre las 12 quintas. Ese es
+el temperamento igual, <code>2^(1/12)</code>, el tema del Módulo 7 — y
+con él viene una pregunta que ya puedes anticipar, después de haber
+calculado con tus propias manos los gradientes de color de este módulo:
+¿qué se gana exactamente con esa decisión, y qué, con total precisión
+numérica, se pierde para siempre?</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 6</p><button id="progress-btn" class="progress-btn" data-modulo="06-buenos-temperamentos">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

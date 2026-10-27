@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Phase Locking · Chorreo espectral y coherencia entre bins</title>
+<style>
+  :root{
+    --bg:#0f1220; --panel:#181b2e; --ink:#e8ecf7; --dim:#9aa3bf;
+    --accent:#5ad1ff; --accent2:#ffb86b; --good:#7bd88f; --bad:#ff7a90;
+    --line:#2a2f4a; --grid:#262a44;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  header{padding:18px 22px;border-bottom:1px solid var(--line);background:#14172a;}
+  header h1{margin:0;font-size:19px;font-weight:600}
+  header p{margin:4px 0 0;color:var(--dim);font-size:13px;max-width:900px;line-height:1.45}
+  main{padding:18px;display:grid;grid-template-columns:1fr;gap:18px;max-width:1280px;margin:0 auto}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .panel h2{margin:0 0 6px;font-size:16px;color:var(--accent)}
+  .panel h2 .num{color:var(--accent2);margin-right:6px;font-weight:700}
+  .panel .lead{margin:0 0 12px;color:var(--dim);font-size:13px;line-height:1.5}
+  .row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+  .controls label{font-size:12px;color:var(--dim);display:flex;flex-direction:column;gap:4px}
+  select,button,input[type=range]{background:#222740;color:var(--ink);border:1px solid var(--line);
+    border-radius:6px;padding:6px 10px;font-size:13px}
+  button{cursor:pointer;transition:background .15s}
+  button:hover{background:#2a2f54}
+  button.primary{background:var(--accent);color:#06121b;font-weight:600;border:none}
+  button.primary:hover{background:#7ddcff}
+  button.warn{background:var(--accent2);color:#2a1800;font-weight:600;border:none}
+  canvas{background:#0b0d19;border:1px solid var(--line);border-radius:8px;display:block}
+  .plot-title{font-size:12px;color:var(--dim);margin:0 0 4px}
+  .note{background:#13162a;border-left:3px solid var(--accent2);padding:8px 12px;
+        border-radius:4px;font-size:13px;color:#d6dcf0;margin-top:10px;line-height:1.45}
+  .note b{color:var(--accent2)}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:900px){.two-col{grid-template-columns:1fr}}
+  .chip{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;
+        background:#222847;color:var(--dim);margin-right:4px}
+  .legend{display:flex;gap:14px;font-size:12px;color:var(--dim);flex-wrap:wrap;margin:6px 0}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .status{font-size:12px;color:var(--dim);margin-left:8px}
+  details.gloss{margin-top:10px;background:#12152a;border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+  details.gloss summary{cursor:pointer;color:var(--accent);font-size:13px}
+  details.gloss ul{margin:8px 0 0 14px;padding:0;font-size:12px;color:#c7cee3;line-height:1.55}
+  details.gloss code{background:#222847;padding:1px 5px;border-radius:3px;color:#ffd9a6}
+</style>
+</head>
+<body>
+<header>
+  <h1>Phase Vocoder: chorreo espectral, coherencia entre bins y phase locking</h1>
+  <p>Demo pedagógica autocontenida. Recorre los paneles de arriba a abajo: primero entendemos <b>por qué un parcial ocupa varios bins</b>, luego vemos <b>cómo el vocoder básico rompe la coherencia local</b>, después <b>escuchamos la diferencia</b>, y finalmente visualizamos el mecanismo de <b>phase locking</b>.</p>
+</header>
+
+<main>
+
+<!-- =============================================================== -->
+<section class="panel" id="p1">
+  <h2><span class="num">1.</span> Chorreo espectral (spectral leakage)</h2>
+  <p class="lead">Una sinusoide de frecuencia <i>f</i> observada en una ventana finita de N muestras tiene espectro teórico concentrado en un único bin <b>sólo si</b> <i>f</i> = k·f<sub>s</sub>/N para algún entero k. En cualquier otro caso la energía se <b>derrama</b> hacia bins vecinos.</p>
+
+  <div class="controls">
+    <label>NFFT
+      <select id="p1_nfft">
+        <option value="256">256</option>
+        <option value="512">512</option>
+        <option value="1024" selected>1024</option>
+      </select>
+    </label>
+    <label>Frecuencia relativa al bin k=60
+      <select id="p1_offset">
+        <option value="0">exactamente en el bin k</option>
+        <option value="0.25" selected>k + 0.25 bins</option>
+        <option value="0.5">k + 0.5 bins (peor caso)</option>
+      </select>
+    </label>
+    <label>Ventana
+      <select id="p1_win">
+        <option value="rect">rectangular</option>
+        <option value="hann" selected>Hann</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p class="plot-title">Señal ventaneada (tiempo)</p>
+      <canvas id="p1_time" width="580" height="140"></canvas>
+    </div>
+    <div>
+      <p class="plot-title">|DFT| alrededor del pico — los bins rojos son los vecinos que reciben chorreo</p>
+      <canvas id="p1_mag" width="580" height="140"></canvas>
+    </div>
+  </div>
+
+  <p class="plot-title" style="margin-top:10px">Fase de los bins alrededor del pico (en radianes)</p>
+  <canvas id="p1_phase" width="1180" height="120"></canvas>
+
+  <div class="legend">
+    <span><i class="sw" style="background:var(--accent)"></i> bin pico</span>
+    <span><i class="sw" style="background:var(--bad)"></i> bins vecinos (con chorreo)</span>
+    <span><i class="sw" style="background:#556"></i> resto</span>
+  </div>
+
+  <div class="note"><b>Lee con cuidado:</b> cuando el desplazamiento es 0, sólo un bin tiene magnitud apreciable. Al pasar a <code>+0.5 bin</code> ves cómo al menos 4–6 bins comparten energía. Con ventana Hann el lóbulo principal es más ancho pero los lados se atenúan: <i>peor resolución, menor fuga lejana</i>.</div>
+</section>
+
+<!-- =============================================================== -->
+<section class="panel" id="p2">
+  <h2><span class="num">2.</span> El error del phase vocoder bin-a-bin</h2>
+  <p class="lead">Entre dos frames consecutivos, el vocoder estima la frecuencia instantánea de cada bin y propaga su fase. El problema: los bins vecinos de un mismo parcial tienen <b>fases relacionadas</b> (provienen del mismo chorreo). Si cada bin se actualiza <b>de forma independiente</b>, esa relación se pierde.</p>
+
+  <div class="controls">
+    <label>Modo
+      <select id="p2_mode">
+        <option value="orig">A) fase original coherente</option>
+        <option value="vocoder" selected>B) fase actualizada bin-a-bin</option>
+        <option value="locked">C) phase locking (adelanto)</option>
+      </select>
+    </label>
+    <label>Factor de estiramiento α
+      <input type="range" id="p2_alpha" min="1" max="4" step="0.1" value="2.5">
+      <span id="p2_alpha_val" class="status">2.5</span>
+    </label>
+    <label>Frames sintéticos (m)
+      <input type="range" id="p2_m" min="0" max="20" step="1" value="6">
+      <span id="p2_m_val" class="status">6</span>
+    </label>
+  </div>
+
+  <p class="plot-title">Fasores de los bins k−2 … k+2 (el pico es k)</p>
+  <canvas id="p2_phasors" width="1180" height="220"></canvas>
+
+  <div class="legend">
+    <span><i class="sw" style="background:var(--accent)"></i> bin pico k</span>
+    <span><i class="sw" style="background:var(--accent2)"></i> vecinos</span>
+    <span><i class="sw" style="background:var(--good)"></i> fase relativa esperada</span>
+  </div>
+
+  <div class="note"><b>Interpretación:</b> en modo <b>A</b> los cinco fasores mantienen su relación de fase (forman un patrón consistente con el chorreo de Hann). En modo <b>B</b> cada bin avanza con su propia ω<sub>k</sub>, y la relación se destruye al cabo de pocos frames. En <b>C</b> el bin pico se propaga y los vecinos heredan su fase relativa congelada. <br><i>El vocoder básico repara la coherencia horizontal de cada bin, pero rompe la coherencia vertical local entre bins vecinos.</i></div>
+</section>
+
+<!-- =============================================================== -->
+<section class="panel" id="p3">
+  <h2><span class="num">3.</span> Escucha comparativa</h2>
+  <p class="lead">Time stretch de α = 2.5 sobre una señal corta (sinusoide fuera de bin + segundo parcial). Compara las tres versiones. En la versión sin phase locking suele aparecer un <b>timbre metálico / afelpado</b> característico. Con phase locking simplificado el timbre es más limpio.</p>
+
+  <div class="controls">
+    <label>Señal
+      <select id="p3_sig">
+        <option value="sine" selected>sinusoide fuera de bin (440.7 Hz)</option>
+        <option value="two">dos parciales armónicos (440.7 + 881.4 Hz)</option>
+      </select>
+    </label>
+    <label>α (fijo)
+      <input type="text" value="2.5" disabled style="width:60px;text-align:center">
+    </label>
+    <button class="primary" id="p3_build">Preparar audio</button>
+    <span class="status" id="p3_status">presiona "Preparar audio" primero</span>
+  </div>
+
+  <div class="row">
+    <button id="p3_play_orig">▶ Original</button>
+    <button id="p3_play_basic">▶ Vocoder básico (sin locking)</button>
+    <button id="p3_play_lock" class="warn">▶ Vocoder con phase locking</button>
+  </div>
+
+  <p class="plot-title" style="margin-top:12px">Formas de onda (normalizadas)</p>
+  <canvas id="p3_wv" width="1180" height="160"></canvas>
+
+  <div class="note"><b>¿Qué escuchar?</b> ponle atención a la <b>estabilidad del timbre</b> y a un rumor difuso que aparece entre armónicos. La versión con locking suena más "tono puro", la versión sin locking suena más "ruidosa" o metálica aunque la frecuencia sea la misma.</div>
+</section>
+
+<!-- =============================================================== -->
+<section class="panel" id="p4">
+  <h2><span class="num">4.</span> Phase locking (mecanismo)</h2>
+  <p class="lead">Phase locking identifica los <b>picos espectrales</b> y trata a sus vecinos no como osciladores independientes, sino como <b>satélites</b> que heredan la fase del pico preservando la <i>diferencia relativa</i> observada en el análisis.</p>
+
+  <div class="controls">
+    <label>Frame STFT
+      <input type="range" id="p4_frame" min="0" max="30" step="1" value="10">
+      <span id="p4_frame_val" class="status">10</span>
+    </label>
+    <label>Radio de locking
+      <select id="p4_radius">
+        <option value="1">±1 bin</option>
+        <option value="2" selected>±2 bins</option>
+        <option value="3">±3 bins</option>
+      </select>
+    </label>
+    <button id="p4_rebuild">Recalcular</button>
+  </div>
+
+  <p class="plot-title">|DFT| del frame — la región sombreada naranja es la zona de locking del pico detectado</p>
+  <canvas id="p4_mag" width="1180" height="150"></canvas>
+
+  <div class="two-col" style="margin-top:10px">
+    <div>
+      <p class="plot-title">Fasores vecinos — <b>sin locking</b> (cada bin su propia fase sintetizada)</p>
+      <canvas id="p4_no" width="580" height="200"></canvas>
+    </div>
+    <div>
+      <p class="plot-title">Fasores vecinos — <b>con locking</b> (heredan del pico)</p>
+      <canvas id="p4_yes" width="580" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="note"><b>Regla:</b> <code>φ<sub>synth</sub>[k<sub>vec</sub>] = φ<sub>synth</sub>[k<sub>pico</sub>] + (φ<sub>ana</sub>[k<sub>vec</sub>] − φ<sub>ana</sub>[k<sub>pico</sub>])</code>. <br>
+  No todos los bins vecinos son osciladores independientes: algunos son la <b>huella</b> de un mismo parcial por culpa del chorreo espectral. Phase locking es una solución <i>local</i> alrededor de picos, no una magia global: entre picos el vocoder sigue siendo bin-a-bin.</div>
+
+  <details class="gloss">
+    <summary>Glosario mínimo</summary>
+    <ul>
+      <li><code>NFFT</code>: tamaño de la ventana STFT.</li>
+      <li><code>bin k</code>: la frecuencia discreta f<sub>k</sub> = k·f<sub>s</sub>/NFFT.</li>
+      <li><code>chorreo / leakage</code>: distribución de la energía de un parcial en varios bins cuando la frecuencia no cae exacto en un bin.</li>
+      <li><code>hop analisis Ra</code>: avance entre frames en el análisis. <code>hop sintesis Rs = α·Ra</code>.</li>
+      <li><code>princArg(x)</code>: envuelve x a (−π, π].</li>
+      <li><code>phase locking</code>: propagar sólo la fase de los picos y reconstruir vecinos como pico + desfase relativo de análisis.</li>
+    </ul>
+  </details>
+</section>
+
+</main>
+
+<script>
+/* ========================================================================
+   UTIL: FFT radix-2 iterativa, in-place, complejo como dos Float64Array.
+   Tamaño debe ser potencia de 2. Inversa = conjugar, FFT, conjugar, /N.
+   ======================================================================== */
+function fft(re, im){
+  const n = re.length;
+  // bit reversal
+  for(let i=1,j=0;i<n;i++){
+    let bit=n>>1;
+    for(;j&bit;bit>>=1){ j^=bit; }
+    j^=bit;
+    if(i<j){ [re[i],re[j]]=[re[j],re[i]]; [im[i],im[j]]=[im[j],im[i]]; }
+  }
+  for(let len=2; len<=n; len<<=1){
+    const ang = -2*Math.PI/len;
+    const wRe = Math.cos(ang), wIm = Math.sin(ang);
+    const half = len>>1;
+    for(let i=0;i<n;i+=len){
+      let curRe=1,curIm=0;
+      for(let k=0;k<half;k++){
+        const a = i+k, b = i+k+half;
+        const tRe = curRe*re[b] - curIm*im[b];
+        const tIm = curRe*im[b] + curIm*re[b];
+        re[b]=re[a]-tRe; im[b]=im[a]-tIm;
+        re[a]=re[a]+tRe; im[a]=im[a]+tIm;
+        const nRe = curRe*wRe - curIm*wIm;
+        curIm = curRe*wIm + curIm*wRe; curRe=nRe;
+      }
+    }
+  }
+}
+function ifft(re, im){
+  const n = re.length;
+  for(let i=0;i<n;i++) im[i]=-im[i];
+  fft(re, im);
+  for(let i=0;i<n;i++){ re[i]/=n; im[i]=-im[i]/n; }
+}
+/* Ventanas */
+function hann(N){ const w=new Float64Array(N); for(let i=0;i<N;i++) w[i]=0.5*(1-Math.cos(2*Math.PI*i/(N-1))); return w; }
+function rect(N){ const w=new Float64Array(N); for(let i=0;i<N;i++) w[i]=1; return w; }
+function princArg(x){ return x - 2*Math.PI*Math.round(x/(2*Math.PI)); }
+
+/* ========================================================================
+   PANEL 1: chorreo espectral
+   ======================================================================== */
+const p1 = {
+  nfft: document.getElementById('p1_nfft'),
+  offset: document.getElementById('p1_offset'),
+  win: document.getElementById('p1_win'),
+  cT: document.getElementById('p1_time'),
+  cM: document.getElementById('p1_mag'),
+  cP: document.getElementById('p1_phase'),
+};
+
+function drawPanel1(){
+  const N = parseInt(p1.nfft.value);
+  const off = parseFloat(p1.offset.value);
+  const useHann = p1.win.value==='hann';
+  const kBin = 60;                   // bin objetivo
+  const binFrac = kBin + off;        // frecuencia en "bins"
+  const w = useHann ? hann(N) : rect(N);
+  const re = new Float64Array(N), im = new Float64Array(N);
+  for(let n=0;n<N;n++){
+    const x = Math.cos(2*Math.PI*binFrac*n/N);
+    re[n] = x * w[n];
+  }
+  // dibujo tiempo
+  drawTime(p1.cT, re, N);
+  // FFT
+  fft(re, im);
+  const half = N/2;
+  const mag = new Float64Array(half), ph = new Float64Array(half);
+  for(let k=0;k<half;k++){ mag[k]=Math.hypot(re[k],im[k]); ph[k]=Math.atan2(im[k],re[k]); }
+  drawMagZoom(p1.cM, mag, kBin, 10);
+  drawPhaseZoom(p1.cP, ph, kBin, 10);
+}
+function drawTime(cv, x, N){
+  const ctx=cv.getContext('2d'); ctx.fillStyle='#0b0d19'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.strokeStyle='#2a2f4a'; ctx.beginPath(); ctx.moveTo(0,cv.height/2); ctx.lineTo(cv.width,cv.height/2); ctx.stroke();
+  let maxA=0; for(let i=0;i<N;i++){ const a=Math.abs(x[i]); if(a>maxA) maxA=a; }
+  if(maxA<1e-9) maxA=1;
+  ctx.strokeStyle='#5ad1ff'; ctx.lineWidth=1.2; ctx.beginPath();
+  for(let i=0;i<cv.width;i++){
+    const idx = Math.floor(i/cv.width * N);
+    const y = cv.height/2 - x[idx]/maxA * (cv.height*0.42);
+    if(i===0) ctx.moveTo(i,y); else ctx.lineTo(i,y);
+  }
+  ctx.stroke();
+}
+function drawMagZoom(cv, mag, center, radius){
+  const ctx=cv.getContext('2d'); ctx.fillStyle='#0b0d19'; ctx.fillRect(0,0,cv.width,cv.height);
+  const lo=center-radius, hi=center+radius;
+  let maxM=0; for(let k=lo;k<=hi;k++) if(mag[k]>maxM) maxM=mag[k];
+  if(maxM<1e-9) maxM=1;
+  const nBins=hi-lo+1;
+  const barW = cv.width/nBins;
+  // baseline
+  ctx.strokeStyle='#2a2f4a'; ctx.beginPath(); ctx.moveTo(0,cv.height-18); ctx.lineTo(cv.width,cv.height-18); ctx.stroke();
+  // pico real (bin de máximo)
+  let peak=lo; for(let k=lo;k<=hi;k++) if(mag[k]>mag[peak]) peak=k;
+  ctx.font='10px sans-serif'; ctx.fillStyle='#9aa3bf';
+  for(let k=lo;k<=hi;k++){
+    const i=k-lo;
+    const h = (mag[k]/maxM)*(cv.height-30);
+    const x = i*barW + 2;
+    const isPeak = (k===peak);
+    // vecino si magnitud > 5% del pico y no es el pico
+    const isNeigh = !isPeak && (mag[k]/mag[peak] > 0.05);
+    ctx.fillStyle = isPeak ? '#5ad1ff' : (isNeigh ? '#ff7a90' : '#445')
+    ctx.fillRect(x, cv.height-18-h, barW-4, h);
+    if(k===lo||k===hi||isPeak){
+      ctx.fillStyle='#9aa3bf';
+      ctx.fillText('k='+k, x, cv.height-4);
+    }
+  }
+}
+function drawPhaseZoom(cv, ph, center, radius){
+  const ctx=cv.getContext('2d'); ctx.fillStyle='#0b0d19'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.strokeStyle='#2a2f4a'; ctx.beginPath();
+  ctx.moveTo(0,cv.height/2); ctx.lineTo(cv.width,cv.height/2); ctx.stroke();
+  const lo=center-radius, hi=center+radius;
+  const n=hi-lo+1;
+  const barW=cv.width/n;
+  ctx.font='10px sans-serif';
+  for(let k=lo;k<=hi;k++){
+    const i=k-lo; const x = i*barW + barW/2;
+    const y = cv.height/2 - (ph[k]/Math.PI)*(cv.height*0.4);
+    ctx.strokeStyle='#2a2f4a'; ctx.beginPath(); ctx.moveTo(x,cv.height/2); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle = k===center ? '#5ad1ff' : '#ff7a90';
+    ctx.beginPath(); ctx.arc(x,y,3.5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#9aa3bf'; ctx.fillText('k='+k, x-10, cv.height-4);
+  }
+  ctx.fillStyle='#6c7390'; ctx.fillText('+π', 4, 12); ctx.fillText('−π', 4, cv.height-20);
+}
+['p1_nfft','p1_offset','p1_win'].forEach(id=>document.getElementById(id).addEventListener('change',drawPanel1));
+
+/* ========================================================================
+   PANEL 2: fasores bin-a-bin vs locking
+   ======================================================================== */
+const p2 = {
+  mode: document.getElementById('p2_mode'),
+  alpha: document.getElementById('p2_alpha'),
+  alphaVal: document.getElementById('p2_alpha_val'),
+  m: document.getElementById('p2_m'),
+  mVal: document.getElementById('p2_m_val'),
+  c: document.getElementById('p2_phasors'),
+};
+function drawPanel2(){
+  p2.alphaVal.textContent = parseFloat(p2.alpha.value).toFixed(1);
+  p2.mVal.textContent = p2.m.value;
+  const alpha = parseFloat(p2.alpha.value);
+  const m = parseInt(p2.m.value);
+  const mode = p2.mode.value;
+  const kPeak = 60, N=1024, Ra=256, Rs=Math.round(alpha*Ra);
+  // frecuencia real: k + 0.3 bin
+  const freqBin = kPeak + 0.3;
+  // fase de análisis del bin k en frame m (instante t = m*Ra)
+  // modelo: fase_ana[k,m] = 2π*freqBin*(m*Ra)/N + fase_chorreo_hann(k-freqBin)
+  // chorreo de Hann tiene fase que depende del signo de sinc, simulamos offset lineal
+  function anaPhase(k,frame){
+    const base = 2*Math.PI*freqBin*(frame*Ra)/N;
+    // desfase relativo de chorreo (simulado): alterna signo según (k-freqBin)
+    const rel = -Math.PI*(k-freqBin); // patrón lineal que invierte lóbulos
+    return princArg(base + rel);
+  }
+  // fase sintetizada en el frame m, para cada bin vecino, según modo
+  function synthPhase(k){
+    if(m===0) return anaPhase(k,0);
+    if(mode==='orig'){
+      // coherente: como si fuéramos a t = m*Rs con la fórmula continua
+      const base = 2*Math.PI*freqBin*(m*Rs)/N;
+      const rel = -Math.PI*(k-freqBin);
+      return princArg(base+rel);
+    }
+    if(mode==='vocoder'){
+      // actualización bin-a-bin con freq instantánea estimada a partir de dos frames
+      // equivalente: propagar fase con ω_k real estimada
+      let ph = anaPhase(k,0);
+      for(let f=1; f<=m; f++){
+        const phPrev = anaPhase(k,f-1), phNow = anaPhase(k,f);
+        const expected = 2*Math.PI*k*Ra/N;
+        const dPhi = princArg(phNow - phPrev - expected);
+        const trueFreq = (expected + dPhi)/Ra;  // rad/muestra
+        ph = princArg(ph + trueFreq*Rs);
+      }
+      return ph;
+    }
+    if(mode==='locked'){
+      // sólo el pico se propaga como en 'vocoder'; los vecinos heredan
+      let phPeak = anaPhase(kPeak,0);
+      for(let f=1; f<=m; f++){
+        const phPrev = anaPhase(kPeak,f-1), phNow = anaPhase(kPeak,f);
+        const expected = 2*Math.PI*kPeak*Ra/N;
+        const dPhi = princArg(phNow - phPrev - expected);
+        const trueFreq = (expected + dPhi)/Ra;
+        phPeak = princArg(phPeak + trueFreq*Rs);
+      }
+      const rel = anaPhase(k,m) - anaPhase(kPeak,m);
+      return princArg(phPeak + rel);
+    }
+  }
+
+  const ctx = p2.c.getContext('2d');
+  ctx.fillStyle='#0b0d19'; ctx.fillRect(0,0,p2.c.width,p2.c.height);
+  const bins=[-2,-1,0,1,2];
+  const W=p2.c.width, H=p2.c.height;
+  const slotW = W/bins.length;
+  const R = Math.min(H*0.4, slotW*0.4);
+  ctx.font='12px sans-serif';
+  bins.forEach((db,i)=>{
+    const cx = i*slotW + slotW/2, cy = H/2;
+    ctx.strokeStyle='#2a2f4a'; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-R,cy); ctx.lineTo(cx+R,cy); ctx.moveTo(cx,cy-R); ctx.lineTo(cx,cy+R); ctx.stroke();
+    // fase original coherente de referencia (fantasma)
+    const refPh = (function(){
+      const base = 2*Math.PI*freqBin*(m*Rs)/N;
+      const rel = -Math.PI*(kPeak+db-freqBin);
+      return princArg(base+rel);
+    })();
+    ctx.strokeStyle='#7bd88f55'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(refPh), cy-R*Math.sin(refPh)); ctx.stroke();
+    // fase actual según modo
+    const ph = synthPhase(kPeak+db);
+    const isPeak = db===0;
+    ctx.strokeStyle = isPeak ? '#5ad1ff' : '#ffb86b';
+    ctx.lineWidth = isPeak ? 3 : 2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(ph), cy-R*Math.sin(ph)); ctx.stroke();
+    ctx.fillStyle=isPeak?'#5ad1ff':'#ffb86b';
+    ctx.beginPath(); ctx.arc(cx+R*Math.cos(ph), cy-R*Math.sin(ph),4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#9aa3bf';
+    ctx.fillText('bin k'+(db===0?'':(db>0?'+'+db:db)), cx-26, H-8);
+  });
+  ctx.fillStyle='#9aa3bf';
+  ctx.fillText('frame sintético m = '+m+'   ·   α = '+alpha.toFixed(1), 10, 18);
+}
+['p2_mode','p2_alpha','p2_m'].forEach(id=>document.getElementById(id).addEventListener('input',drawPanel2));
+
+/* ========================================================================
+   STFT / ISTFT + Phase Vocoder (básico y con locking)
+   ======================================================================== */
+const FS = 22050;
+const P3_NFFT = 1024;
+const P3_RA = 256;
+
+function buildSignal(kind, dur=0.8){
+  const L = Math.floor(FS*dur);
+  const x = new Float64Array(L);
+  const f1 = 440.7;           // fuera de bin (440.7/22050*1024 ≈ 20.46)
+  const f2 = 881.4;
+  for(let n=0;n<L;n++){
+    let s = Math.cos(2*Math.PI*f1*n/FS);
+    if(kind==='two') s += 0.6*Math.cos(2*Math.PI*f2*n/FS + 0.7);
+    x[n] = s * 0.6;
+  }
+  // fade in/out suave para evitar clicks
+  const fade = Math.floor(0.01*FS);
+  for(let i=0;i<fade;i++){ const g=i/fade; x[i]*=g; x[L-1-i]*=g; }
+  return x;
+}
+
+function stft(x, N, Ra){
+  const win = hann(N);
+  const nFrames = Math.floor((x.length - N)/Ra) + 1;
+  const frames = [];
+  for(let m=0;m<nFrames;m++){
+    const start=m*Ra;
+    const re=new Float64Array(N), im=new Float64Array(N);
+    for(let n=0;n<N;n++) re[n] = x[start+n]*win[n];
+    fft(re,im);
+    frames.push({re,im});
+  }
+  return frames;
+}
+
+/* ISTFT con overlap-add y normalización por suma de ventanas^2.
+   Tomamos synthesis window = Hann (para ventana de análisis Hann → Hann²/Σ Hann²). */
+function istft(frames, N, Rs){
+  const win = hann(N);
+  const L = (frames.length-1)*Rs + N;
+  const out = new Float64Array(L);
+  const norm = new Float64Array(L);
+  for(let m=0;m<frames.length;m++){
+    const {re,im} = frames[m];
+    // IFFT destructivo; copiamos
+    const R=new Float64Array(N), I=new Float64Array(N);
+    R.set(re); I.set(im);
+    ifft(R,I);
+    const start = m*Rs;
+    for(let n=0;n<N;n++){
+      out[start+n]  += R[n]*win[n];
+      norm[start+n] += win[n]*win[n];
+    }
+  }
+  for(let i=0;i<L;i++){
+    if(norm[i] > 1e-6) out[i] /= norm[i];
+  }
+  return out;
+}
+
+/* Phase vocoder básico: actualiza fase bin a bin con la frecuencia instantánea estimada. */
+function phaseVocoder(frames, N, Ra, Rs, useLocking){
+  const nF = frames.length;
+  const K = N/2 + 1;
+  const mag = [], phAna = [];
+  for(let m=0;m<nF;m++){
+    const M=new Float64Array(K), P=new Float64Array(K);
+    for(let k=0;k<K;k++){
+      M[k]=Math.hypot(frames[m].re[k],frames[m].im[k]);
+      P[k]=Math.atan2(frames[m].im[k],frames[m].re[k]);
+    }
+    mag.push(M); phAna.push(P);
+  }
+  const phSynth = [];
+  phSynth.push(phAna[0].slice()); // primer frame igual
+  const expected = new Float64Array(K);
+  for(let k=0;k<K;k++) expected[k] = 2*Math.PI*k*Ra/N;
+
+  for(let m=1;m<nF;m++){
+    const prevSy = phSynth[m-1];
+    const S = new Float64Array(K);
+    // 1) Estimar frecuencia instantánea por bin (siempre)
+    const trueFreq = new Float64Array(K); // rad por muestra
+    for(let k=0;k<K;k++){
+      const dPhi = princArg(phAna[m][k] - phAna[m-1][k] - expected[k]);
+      trueFreq[k] = (expected[k] + dPhi)/Ra;
+    }
+    if(!useLocking){
+      // bin-a-bin
+      for(let k=0;k<K;k++) S[k] = princArg(prevSy[k] + trueFreq[k]*Rs);
+    } else {
+      // locking: detectar picos locales (±2 bins), propagar sólo los picos, heredar vecinos
+      const radius = 2;
+      const isPeak = new Array(K).fill(false);
+      for(let k=2;k<K-2;k++){
+        if(mag[m][k] > mag[m][k-1] && mag[m][k] > mag[m][k-2] &&
+           mag[m][k] > mag[m][k+1] && mag[m][k] > mag[m][k+2] &&
+           mag[m][k] > 1e-4){
+          isPeak[k]=true;
+        }
+      }
+      // región de influencia: cada bin se asigna al pico más cercano dentro del radio
+      const owner = new Int32Array(K); owner.fill(-1);
+      for(let k=0;k<K;k++){
+        let best=-1, bestDist=radius+1;
+        for(let d=-radius; d<=radius; d++){
+          const kk=k+d; if(kk<0||kk>=K) continue;
+          if(isPeak[kk] && Math.abs(d)<bestDist){ best=kk; bestDist=Math.abs(d);}
+        }
+        owner[k]=best;
+      }
+      for(let k=0;k<K;k++){
+        if(owner[k]===-1){
+          // fuera de región de pico → vocoder normal
+          S[k] = princArg(prevSy[k] + trueFreq[k]*Rs);
+        } else if(owner[k]===k){
+          // es un pico → propagación normal
+          S[k] = princArg(prevSy[k] + trueFreq[k]*Rs);
+        }
+      }
+      // segunda pasada: vecinos heredan del pico (phase locking de Laroche & Dolson simplificado)
+      for(let k=0;k<K;k++){
+        if(owner[k]!==-1 && owner[k]!==k){
+          const kp = owner[k];
+          S[k] = princArg(S[kp] + (phAna[m][k] - phAna[m][kp]));
+        }
+      }
+    }
+    phSynth.push(S);
+  }
+  // reconstruir frames con nueva fase y magnitud original; imponer simetría conjugada
+  const outFrames = [];
+  for(let m=0;m<nF;m++){
+    const re=new Float64Array(N), im=new Float64Array(N);
+    for(let k=0;k<K;k++){
+      re[k]=mag[m][k]*Math.cos(phSynth[m][k]);
+      im[k]=mag[m][k]*Math.sin(phSynth[m][k]);
+    }
+    // simetría conjugada para IFFT real
+    for(let k=1;k<K-1;k++){
+      re[N-k] =  re[k];
+      im[N-k] = -im[k];
+    }
+    // DC e Nyquist reales puros
+    im[0]=0; im[N/2]=0;
+    outFrames.push({re,im});
+  }
+  return outFrames;
+}
+
+function normalize(x){
+  let mx=0; for(let i=0;i<x.length;i++){ const a=Math.abs(x[i]); if(a>mx) mx=a; }
+  if(mx<1e-9) return x;
+  const g=0.95/mx;
+  for(let i=0;i<x.length;i++) x[i]*=g;
+  // asegurar no NaN
+  for(let i=0;i<x.length;i++) if(!isFinite(x[i])) x[i]=0;
+  return x;
+}
+
+/* ========================================================================
+   PANEL 3
+   ======================================================================== */
+const p3 = {
+  sig:document.getElementById('p3_sig'),
+  build:document.getElementById('p3_build'),
+  status:document.getElementById('p3_status'),
+  playO:document.getElementById('p3_play_orig'),
+  playB:document.getElementById('p3_play_basic'),
+  playL:document.getElementById('p3_play_lock'),
+  cv:document.getElementById('p3_wv'),
+  audio:null,
+  buffers:{orig:null,basic:null,locked:null},
+};
+let audioCtx=null;
+function ensureCtx(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)({sampleRate:FS}); return audioCtx; }
+function toAudioBuffer(ctx,x){
+  const b=ctx.createBuffer(1,x.length,FS);
+  const d=b.getChannelData(0);
+  for(let i=0;i<x.length;i++) d[i]=Math.max(-1,Math.min(1,x[i]));
+  return b;
+}
+function playBuf(buf){
+  const ctx=ensureCtx();
+  const src=ctx.createBufferSource(); src.buffer=buf; src.connect(ctx.destination); src.start();
+}
+function drawThreeWaves(){
+  const ctx=p3.cv.getContext('2d'); const W=p3.cv.width,H=p3.cv.height;
+  ctx.fillStyle='#0b0d19'; ctx.fillRect(0,0,W,H);
+  const lanes=[
+    {y:H*0.18,label:'Original',color:'#5ad1ff',data:p3.buffers.orig},
+    {y:H*0.5, label:'Vocoder básico',color:'#ff7a90',data:p3.buffers.basic},
+    {y:H*0.82,label:'Con locking',color:'#7bd88f',data:p3.buffers.locked},
+  ];
+  ctx.font='11px sans-serif';
+  lanes.forEach(ln=>{
+    ctx.strokeStyle='#2a2f4a'; ctx.beginPath(); ctx.moveTo(0,ln.y); ctx.lineTo(W,ln.y); ctx.stroke();
+    ctx.fillStyle=ln.color; ctx.fillText(ln.label, 8, ln.y-16);
+    if(!ln.data) return;
+    const x=ln.data.getChannelData(0);
+    ctx.strokeStyle=ln.color; ctx.lineWidth=1; ctx.beginPath();
+    for(let i=0;i<W;i++){
+      const idx=Math.floor(i/W * x.length);
+      const y = ln.y - x[idx]*(H*0.14);
+      if(i===0) ctx.moveTo(i,y); else ctx.lineTo(i,y);
+    }
+    ctx.stroke();
+  });
+}
+
+p3.build.addEventListener('click', async ()=>{
+  p3.status.textContent='Procesando…';
+  await new Promise(r=>setTimeout(r,20));
+  const kind = p3.sig.value;
+  const alpha = 2.5;
+  const x = buildSignal(kind);
+  const Rs = Math.round(P3_RA*alpha);
+  const frames = stft(x, P3_NFFT, P3_RA);
+  const framesBasic  = phaseVocoder(frames, P3_NFFT, P3_RA, Rs, false);
+  const framesLocked = phaseVocoder(frames, P3_NFFT, P3_RA, Rs, true);
+  const yOrig   = normalize(x.slice());
+  const yBasic  = normalize(istft(framesBasic,  P3_NFFT, Rs));
+  const yLocked = normalize(istft(framesLocked, P3_NFFT, Rs));
+  const ctx=ensureCtx();
+  p3.buffers.orig   = toAudioBuffer(ctx,yOrig);
+  p3.buffers.basic  = toAudioBuffer(ctx,yBasic);
+  p3.buffers.locked = toAudioBuffer(ctx,yLocked);
+  drawThreeWaves();
+  p3.status.textContent='Listo. Dura '+(yBasic.length/FS).toFixed(2)+' s (original '+(yOrig.length/FS).toFixed(2)+' s).';
+  // guardamos frames/mag para panel 4
+  p4State.frames = frames;
+  p4State.kind = kind;
+  p4.frame.max = frames.length-1;
+  p4.frame.value = Math.min(parseInt(p4.frame.value), frames.length-1);
+  drawPanel4();
+});
+p3.playO.addEventListener('click',()=>{ if(p3.buffers.orig) playBuf(p3.buffers.orig); });
+p3.playB.addEventListener('click',()=>{ if(p3.buffers.basic) playBuf(p3.buffers.basic); });
+p3.playL.addEventListener('click',()=>{ if(p3.buffers.locked) playBuf(p3.buffers.locked); });
+
+/* ========================================================================
+   PANEL 4: visualizar locking sobre un frame
+   ======================================================================== */
+const p4 = {
+  frame:document.getElementById('p4_frame'),
+  frameVal:document.getElementById('p4_frame_val'),
+  radius:document.getElementById('p4_radius'),
+  rebuild:document.getElementById('p4_rebuild'),
+  cM:document.getElementById('p4_mag'),
+  cNo:document.getElementById('p4_no'),
+  cYes:document.getElementById('p4_yes'),
+};
+const p4State = { frames:null, kind:'sine' };
+
+function drawPanel4(){
+  if(!p4State.frames){
+    // generar uno por defecto para que no quede vacío
+    const x = buildSignal('sine');
+    p4State.frames = stft(x, P3_NFFT, P3_RA);
+    p4.frame.max = p4State.frames.length-1;
+  }
+  const m = Math.min(parseInt(p4.frame.value), p4State.frames.length-1);
+  p4.frameVal.textContent = m;
+  const radius = parseInt(p4.radius.value);
+  const N = P3_NFFT, K = N/2+1;
+  const fr = p4State.frames[m];
+  const mag=new Float64Array(K), ph=new Float64Array(K);
+  for(let k=0;k<K;k++){ mag[k]=Math.hypot(fr.re[k],fr.im[k]); ph[k]=Math.atan2(fr.im[k],fr.re[k]); }
+  // detectar pico dominante en los primeros 80 bins
+  let kP=1; for(let k=2;k<80;k++) if(mag[k]>mag[kP]) kP=k;
+
+  // DRAW mag
+  const ctx=p4.cM.getContext('2d'); const W=p4.cM.width,H=p4.cM.height;
+  ctx.fillStyle='#0b0d19'; ctx.fillRect(0,0,W,H);
+  const KV = 80;
+  const bw = W/KV;
+  let mx=0; for(let k=0;k<KV;k++) if(mag[k]>mx) mx=mag[k];
+  if(mx<1e-9) mx=1;
+  // región sombreada
+  ctx.fillStyle='#ffb86b33';
+  ctx.fillRect((kP-radius)*bw, 0, (2*radius+1)*bw, H-20);
+  for(let k=0;k<KV;k++){
+    const h=(mag[k]/mx)*(H-30);
+    const x=k*bw;
+    ctx.fillStyle = (k===kP)?'#5ad1ff':((Math.abs(k-kP)<=radius)?'#ffb86b':'#445');
+    ctx.fillRect(x+1, H-18-h, bw-2, h);
+  }
+  ctx.fillStyle='#9aa3bf'; ctx.font='10px sans-serif';
+  ctx.fillText('bin 0', 2, H-4);
+  ctx.fillText('bin '+KV, W-40, H-4);
+  ctx.fillText('pico k='+kP, kP*bw-18, 12);
+
+  // fasores
+  drawPhasors(p4.cNo, ph, kP, radius, false);
+  drawPhasors(p4.cYes, ph, kP, radius, true);
+}
+function drawPhasors(cv, ph, kP, radius, locked){
+  const ctx=cv.getContext('2d'); const W=cv.width,H=cv.height;
+  ctx.fillStyle='#0b0d19'; ctx.fillRect(0,0,W,H);
+  const bins=[]; for(let d=-radius; d<=radius; d++) bins.push(d);
+  const slotW = W/bins.length;
+  const R = Math.min(H*0.35, slotW*0.42);
+  // simulamos "sintetizado": sin locking, cada bin lleva fase + un ruidito (simulando deriva bin-a-bin)
+  const noise = [0.0, 1.8, -2.1, 0.9, -1.4, 2.5, -0.7];
+  bins.forEach((d,i)=>{
+    const cx=i*slotW+slotW/2, cy=H/2;
+    ctx.strokeStyle='#2a2f4a'; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-R,cy); ctx.lineTo(cx+R,cy); ctx.moveTo(cx,cy-R); ctx.lineTo(cx,cy+R); ctx.stroke();
+    const kk = kP+d;
+    let phEff;
+    if(locked){
+      // fase del pico + fase relativa de análisis
+      phEff = princArg(ph[kP] + (ph[kk]-ph[kP]));
+    } else {
+      // simulamos deriva aleatoria como si cada bin hubiese evolucionado por cuenta propia
+      phEff = princArg(ph[kk] + (noise[(d+radius)%noise.length]||0));
+    }
+    ctx.strokeStyle = (d===0)?'#5ad1ff':'#ffb86b';
+    ctx.lineWidth = (d===0)?3:2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(phEff), cy-R*Math.sin(phEff)); ctx.stroke();
+    ctx.fillStyle=(d===0)?'#5ad1ff':'#ffb86b';
+    ctx.beginPath(); ctx.arc(cx+R*Math.cos(phEff), cy-R*Math.sin(phEff),4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#9aa3bf'; ctx.font='11px sans-serif';
+    ctx.fillText('k'+(d===0?'':(d>0?'+'+d:d)), cx-10, H-8);
+  });
+}
+p4.frame.addEventListener('input',drawPanel4);
+p4.radius.addEventListener('change',drawPanel4);
+p4.rebuild.addEventListener('click',drawPanel4);
+
+/* ========================================================================
+   INIT
+   ======================================================================== */
+drawPanel1();
+drawPanel2();
+drawPanel4();
+</script>
+</body>
+</html>

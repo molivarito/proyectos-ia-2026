@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M11 · Apunte — Ben Johnston, La Monte Young y el espectralismo</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../10-justa-extendida/apunte.html">◀ Justa entonación extendida</a><a class="nav-link" href="../12-herramientas/apunte.html">Herramientas del oficio microtonal ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1
+id="m11.-los-compositores-del-mapa-estéticas-y-notaciones-microtonales">M11.
+Los compositores del mapa: estéticas y notaciones microtonales</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Llevas diez módulos construyendo un mapa cada vez más fino de las
+alturas. Sabes esconder la coma pitagórica en un lobo, repartirla en
+cuatro o seis quintas, borrarla del todo en el temperamento igual. Sabes
+que más allá del 5-limit hay todo un territorio —el 7, el 11, el 13— con
+su propio catálogo de comas y su propia aritmética, y que Harry Partch
+construyó, sobre ese territorio, un sistema completo de 43 tonos por
+octava. Tienes, en otras palabras, una cartografía de alturas más
+completa que la de casi cualquier compositor antes del siglo XX.</p>
+<p>Pero una altura no es música. Que el intervalo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+exista, que se pueda calcular su valor en cents con seis decimales de
+precisión, no le dice a nadie por qué escribirlo, ni qué efecto estético
+persigue al hacerlo, ni —el problema más terco de todos— cómo lograr que
+un violonchelista, una soprano o una orquesta completa lo toquen sin que
+el ensayo se convierta en una clase de teoría de números. Este módulo es
+distinto de los diez anteriores en un sentido preciso: no te presenta un
+sistema de afinación nuevo para derivar paso a paso, sino un problema
+doble —uno estético, uno gremial— que cualquier compositor que quiera
+usar microtonalidad tiene que resolver antes de escribir un compás.</p>
+<p>El problema estético es: ¿qué se puede <em>hacer</em> con estas
+alturas, más allá de coleccionarlas? A lo largo del siglo XX y lo que va
+del XXI, cuatro respuestas radicalmente distintas —cuatro estéticas,
+cada una con obras concretas, cada una defendible por sí misma— se
+cristalizaron en torno a la afinación como material compositivo, no como
+telón de fondo. El problema gremial es más humilde pero igual de
+urgente: si tu partitura le pide a un oboísta que toque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+sobre un Do, ¿qué diablos escribes en el papel para que ese oboísta
+sepa, sin ambigüedad, qué altura estás pidiendo? La respuesta —y este
+módulo va a mostrarte que hay varias respuestas en competencia, cada una
+con su propia lógica y sus propios costos— determina si tu obra es
+ejecutable la primera vez que un músico la abre, o si necesita media
+hora de explicación oral antes del primer ensayo.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener fresco: el cent como unidad aditiva y la idea de que
+los batidos necesitan tiempo para revelarse —cuanto más lento el batido,
+más hay que sostener la nota para escucharlo (M1 §5, §6). El hecho de
+que ninguna afinación puede evitar del todo la coma, solo reubicarla
+(M2). Los EDOs alternativos como aproximaciones sistemáticas a razones
+justas usando fracciones continuas (M9) —vas a necesitar esa misma
+lógica aquí, aplicada a un caso particular: el temperamento de 24 partes
+iguales, el “cuarto de tono”. Y sobre todo, la justa entonación
+extendida a los límites primos 7, 11 y 13 y el proyecto de Harry Partch
+—sus 43 tonos, su <em>tonality diamond</em>— como el territorio armónico
+que este módulo va a poblar de nombres propios y de partituras reales
+(M10). Si esos números —la coma sintónica de 21.506 c, el cent como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">1200\cdot\log_2(r)</annotation></semantics></math>,
+la idea de “presupuesto de error”— no te salen de memoria, vale la pena
+revisarlos antes de seguir: aquí no se vuelven a derivar, se usan.</p>
+<h2 id="cuatro-estéticas-de-la-afinación-como-material-compositivo">3.
+Cuatro estéticas de la afinación como material compositivo</h2>
+<p>Antes de entrar en notaciones, vale la pena decir con claridad la
+tesis de esta sección: para los cuatro compositores (o corrientes) que
+siguen, la afinación no es una restricción técnica que hay que resolver
+para poder escribir la música que uno ya tenía en la cabeza. Es, en cada
+caso, la razón misma por la que la música suena como suena — el material
+primero, no el último ajuste.</p>
+<h3 id="la-pureza-como-éxtasis-la-monte-young">3.1 La pureza como
+éxtasis — La Monte Young</h3>
+<p>La Monte Young (n. 1935) parte de una intuición que ya conoces de
+memoria desde el Módulo 1: una razón de frecuencias simple no bate, se
+funde, “desaparece” como dos notas separadas y se convierte en un único
+objeto sonoro estable. La apuesta de Young es llevar esa fusión al
+extremo de la duración: si el fenómeno necesita tiempo para revelarse
+—recuerda el cálculo del Módulo 1, donde una quinta temperada batía a
+apenas 0.372 Hz, un pulso completo cada 2.7 segundos—, entonces la
+manera de que un oyente realmente <em>habite</em> la pureza de un acorde
+justo es sostenerlo, sin desarrollo, durante mucho más tiempo del que la
+forma musical tradicional tolera.</p>
+<p><strong>The Well-Tuned Piano</strong> es la obra ancla. Es una
+improvisación de piano solo construida sobre una afinación de justa
+entonación extendida (según los materiales de programa habituales sobre
+la obra, incluye relaciones del límite 7, no solo 5-limit) construida a
+partir de Mib como centro; en sus ejecuciones documentadas dura entre
+cinco y seis horas. El piano entero está retemplado antes de tocar: no
+hay manera de “arreglar” la afinación nota por nota durante la
+ejecución, como haría un violinista, así que toda la arquitectura
+armónica de la pieza —qué acordes son posibles, cuáles se funden y
+cuáles chocan— está decidida de antemano por el retemplado.
+<strong>Dream House</strong>, la instalación sonora y lumínica de largo
+plazo que Young mantiene junto a Marian Zazeela, lleva la misma idea un
+paso más allá: senos sostenidos electrónicamente, en una habitación,
+durante años (la instalación de Nueva York, en la Fundación Dia,
+funciona de manera continua desde 1993). Ahí no hay siquiera el gesto de
+“tocar” una nota: la nota ya está sonando cuando entras, y seguirá
+sonando después de que te vayas.</p>
+<p><strong>Qué escuchar:</strong> no busques melodía ni progresión
+armónica en el sentido tradicional. Busca la sensación —que ya
+calculaste tú mismo en el Módulo 1— de estar “dentro” de un acorde: la
+fusión total de frecuencias en razón simple sostenidas el tiempo
+suficiente para que el oído deje de procesarlas como “notas” y empiece a
+procesarlas como un único campo tímbrico en lenta transformación. La
+conexión con M1 es literal, no metafórica: si un batido de 0.372 Hz
+(quinta temperada) tarda 2.7 segundos en completar un ciclo, un acorde
+extendido de varios intervalos justos superpuestos, con desviaciones
+residuales de fracciones de cent, puede tener batidos de período de
+varios segundos o más — la duración no es una elección estilística
+caprichosa de Young, es una condición física para que esos batidos
+lleguen siquiera a completarse una vez delante del oyente.</p>
+<h3 id="la-herencia-extendida-ben-johnston">3.2 La herencia extendida —
+Ben Johnston</h3>
+<p>Ben Johnston (1926–2019), alumno de Partch y de Darius Milhaud, toma
+una decisión que lo separa radicalmente de su maestro: en vez de
+inventar instrumentos nuevos para tocar afinación justa extendida (la
+respuesta de Partch, que vas a repasar en la sección 3.3), Johnston
+apuesta por <strong>extender la notación</strong> y confiar en que
+intérpretes de instrumentos tradicionales —sobre todo cuerdas, que no
+tienen trastes ni llaves fijas— puedan leerla y ejecutarla con la misma
+precisión con la que leen una partitura tonal.</p>
+<p>Su obra ancla, y la puerta de entrada más razonable a su catálogo, es
+el <strong>Cuarteto de cuerdas n.º 4</strong> (1973), un conjunto de
+variaciones sobre la melodía tradicional “Amazing Grace”. La elección
+del material —una melodía diatónica, reconocible, casi ingenua— no es
+casual: Johnston empieza con una armonización relativamente convencional
+y, variación tras variación, va introduciendo relaciones justas cada vez
+más alejadas del 5-limit (séptimas y oncenas incluidas), de modo que el
+oyente puede recorrer, de oído, la distancia entre la tonalidad familiar
+y el territorio microtonal, sin el salto abrupto que tendría empezar
+directamente en 11-limit. En el resto de sus diez cuartetos de cuerda,
+Johnston lleva la justa entonación extendida a los límites primos más
+altos que exploraste en el Módulo 10, aplicándola a instrumentos
+completamente convencionales —el cuarteto de cuerdas clásico— sin
+modificar su construcción física en absoluto.</p>
+<p><strong>Qué escuchar:</strong> en el Cuarteto n.º 4, presta atención
+a cómo cada variación “tensiona” un poco más la relación entre lo
+familiar (la melodía, que se mantiene reconocible) y lo extraño (la
+afinación, que se aleja progresivamente del 5-limit). Es un caso de
+estudio poco común: un compositor que usa la familiaridad melódica como
+ancla perceptiva mientras desplaza, bajo esa ancla, el terreno armónico
+completo.</p>
+<h3 id="el-instrumento-como-cosmos-harry-partch-retomando-m10">3.3 El
+instrumento como cosmos — Harry Partch (retomando M10)</h3>
+<p>Ya conoces de M10 los números de Partch: los 43 tonos por octava, el
+<em>tonality diamond</em> como mapa de razones organizadas por límite
+primo. Lo que este módulo agrega es la dimensión que la aritmética por
+sí sola no puede transmitir: para Partch, la afinación justa extendida
+nunca fue un fin en sí mismo, sino una pieza de un proyecto mucho más
+grande y explícitamente anti-abstracto, que él mismo describió como una
+búsqueda de <strong>corporealidad</strong> — una música hecha,
+literalmente, con el cuerpo entero, no solo con el oído.</p>
+<p>Partch construyó sus propios instrumentos —el Chromelodeon, la
+Marimba Eroica, los Cloud-Chamber Bowls, el Diamond Marimba, entre
+muchos otros— no como una solución técnica de emergencia ante la falta
+de instrumentos “afinables”, sino porque cada instrumento era, para él,
+también un objeto escultórico y una pieza de escenografía: en sus obras
+de teatro musical, los intérpretes tocan sus instrumentos <em>sobre</em>
+el escenario, como parte visible de la acción dramática, no escondidos
+en un foso. <strong>Delusion of the Fury</strong> (1969) es la obra
+ancla de este aspecto: un teatro musical de casi una hora, con danza,
+mimo e instrumentos-escultura que son a la vez fuente sonora y
+escenografía. La afinación justa de 43 tonos, en esta obra, no es un
+sistema abstracto que se “aplica” a la música: es indistinguible de los
+instrumentos físicos, hechos a medida, que la producen.</p>
+<p><strong>Qué escuchar (retomando M10):</strong> vuelve sobre la idea
+de que cada instrumento de Partch está diseñado en función de un
+subconjunto particular del <em>tonality diamond</em> — no hay un
+“instrumento genérico” que toque cualquier nota de las 43, sino
+instrumentos especializados, cada uno con su propio territorio armónico.
+Escuchar Partch es, en ese sentido, escuchar una orquesta de
+especialistas construidos a medida, en las antípodas de la flexibilidad
+universal de un piano de temperamento igual.</p>
+<h3 id="el-espectro-como-armonía-el-espectralismo">3.4 El espectro como
+armonía — el espectralismo</h3>
+<p>El espectralismo —Gérard Grisey y Tristan Murail a la cabeza, ambos
+ligados al Ensemble L’Itinéraire en el París de mediados de los años
+setenta— parte de una pregunta distinta a las tres anteriores: en vez de
+preguntar “¿qué razones justas quiero usar?”, pregunta “¿qué pasaría si
+la orquesta <em>fuera</em> un instrumento armónico, capaz de sintetizar
+un timbre completo repartiendo sus componentes entre los atriles?”. La
+respuesta parte, otra vez, de la serie armónica del Módulo 1 — pero
+ahora tomada no como origen teórico de unos pocos intervalos
+consonantes, sino como una <strong>partitura de orquestación</strong>
+completa, parcial por parcial.</p>
+<p><strong>Partiels</strong> (1975), de Grisey, es la obra ancla y uno
+de los ejemplos más citados de la técnica. Según el análisis
+habitualmente publicado sobre la obra, Grisey parte del espectro de un
+Mi grave de trombón (un registro cercano al Mi1, unos 41 Hz) y orquesta
+sus primeros parciales —hasta aproximadamente el vigésimo segundo—
+repartidos entre los instrumentos de un ensamble amplio, aproximando en
+la notación cada parcial al cuarto de tono más cercano. La razón técnica
+de esa elección —por qué el cuarto de tono, y no una desviación en cents
+más precisa— es aritmética, y la vas a verificar tú mismo en la sección
+4 y en los ejercicios: el parcial 11 de cualquier fundamental cae, por
+una coincidencia de la aritmética de razones (no un diseño deliberado de
+la naturaleza), casi exactamente sobre la grilla de cuartos de tono,
+mientras que otros parciales (el 7, por ejemplo) quedan mucho más lejos
+de esa misma grilla. El cuarto de tono resulta ser, para buena parte del
+espectro armónico, una resolución práctica sorprendentemente buena — no
+perfecta, pero suficientemente buena como para que una orquesta completa
+pueda leerla a primera vista sin necesitar una notación de precisión
+arbitraria.</p>
+<p><strong>Tristan Murail</strong> desarrolla un lenguaje paralelo, con
+un catálogo más amplio de técnicas (síntesis por modulación en anillo
+trasladada a la orquestación, espectros inarmónicos además de armónicos)
+— su obra para piano solo <em>Territoires de l’oubli</em> (1977) y la
+pieza con cinta <em>Désintégrations</em> (1982, para ensamble y cinta
+electrónica) son puntos de entrada razonables a su catálogo, aunque no
+las desarrollamos aquí con el mismo detalle técnico que
+<em>Partiels</em>. <strong>Georg Friedrich Haas</strong>, una generación
+después, radicaliza el contraste que el espectralismo pone en juego: en
+<strong>in vain</strong> (2000), para ensamble grande, alterna de manera
+explícita pasajes en temperamento igual con pasajes en justa entonación
+pura construida sobre la serie de sobretonos, y —según se describe
+habitualmente sobre la obra— sincroniza ese contraste armónico con un
+contraste de iluminación: la sala se apaga por completo durante los
+pasajes de afinación pura, de modo que el público literalmente no puede
+“ver” la música mientras la escucha en su versión más consonante. El
+gesto conecta, de manera casi didáctica, la idea central de este módulo
+—afinación como material, no como infraestructura— con una puesta en
+escena que la hace ineludible.</p>
+<p>Antes de Grisey y Murail, <strong>Ivan Wyschnegradsky</strong>
+(1893–1979) ya había explorado el cuarto de tono como sistema propio, no
+como aproximación de otra cosa: escribió para dos pianos afinados un
+cuarto de tono uno respecto del otro, y trató la división en 24 partes
+de la octava como una escala completa con su propia lógica interna, no
+simplemente como una “aproximación gruesa” al espectro armónico. Es, en
+ese sentido, el precursor técnico de la herramienta —el cuarto de tono—
+que el espectralismo terminaría adoptando por razones distintas, más
+orquestales que estéticas: como vas a ver en la sección 4, el 24-EDO
+aproxima razonablemente bien ciertas razones del límite 11
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">11/8 = 551.318</annotation></semantics></math>
+cents, contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>550</mn><annotation encoding="application/x-tex">550</annotation></semantics></math>
+cents del cuarto de tono más cercano — una diferencia de apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.3</mn><annotation encoding="application/x-tex">1.3</annotation></semantics></math>
+cents), lo que lo convierte en una grilla notacional práctica para una
+orquesta completa, aunque el objetivo final —sintetizar un espectro
+armónico real— sea distinto del de Wyschnegradsky.</p>
+<p><strong>Qué escuchar en Partiels:</strong> ubica el ataque inicial
+(un acorde denso, tocado por casi todo el ensamble) y trata de
+escucharlo no como un “acorde” en el sentido armónico tradicional, sino
+como un único timbre complejo repartido entre instrumentos — la orquesta
+funcionando, por un momento, como los armónicos superpuestos de una sola
+cuerda del Módulo 1, pero audibles uno por uno en vez de fundidos en un
+solo cuerpo sonoro.</p>
+<h2 id="el-problema-gremial-cómo-se-escribe-esto">4. El problema
+gremial: cómo se escribe esto</h2>
+<p>Las cuatro estéticas de la sección anterior comparten un problema
+práctico que ninguna resuelve de la misma manera: en algún momento, la
+altura que el compositor imaginó tiene que llegar, sin ambigüedad, al
+papel que un intérprete va a leer. Esta sección compara las cuatro
+soluciones notacionales que dominan la práctica actual, aplicándolas
+todas a los mismos tres intervalos
+—<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>,
+medidos sobre un Do común— para que la comparación sea directa.</p>
+<h3 id="desviación-en-cents-sobre-la-nota">4.1 Desviación en cents sobre
+la nota</h3>
+<p>La solución más simple: se escribe la nota del temperamento igual más
+cercana, y se le agrega un número (en cents, con signo) indicando cuánto
+hay que desviarse de esa nota. Es, hoy, la <em>lingua franca</em> de la
+notación orquestal contemporánea — casi cualquier compositor que trabaje
+con una orquesta profesional puede escribir “+14” o “−31” sobre una nota
+y esperar que se entienda sin explicación adicional, porque los
+afinadores electrónicos (y, cada vez más, el oído entrenado de los
+propios músicos) miden en cents de forma nativa.</p>
+<p>Calculemos los tres casos de referencia.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">5/4 = 386.314</annotation></semantics></math>
+cents; la nota del temperamento igual más cercana es Mi (400 cents), así
+que la desviación es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>−</mo><mn>400</mn><mo>=</mo><mi>−</mi><mn>13.686</mn></mrow><annotation encoding="application/x-tex">386.314 - 400 = -13.686</annotation></semantics></math>
+cents: se escribe “Mi, −14 c” (redondeando al entero, como es práctica
+común).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>968.826</mn></mrow><annotation encoding="application/x-tex">7/4 = 968.826</annotation></semantics></math>
+cents; la nota más cercana del temperamento igual es Sib (1000 cents),
+con desviación
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mo>−</mo><mn>1000</mn><mo>=</mo><mi>−</mi><mn>31.174</mn></mrow><annotation encoding="application/x-tex">968.826-1000=-31.174</annotation></semantics></math>
+cents: “Sib, −31 c”.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">11/8 = 551.318</annotation></semantics></math>
+cents; aquí la elección de nota de referencia es más discutible, porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>551.318</mn><annotation encoding="application/x-tex">551.318</annotation></semantics></math>
+cents cae casi exactamente entre Fa (500 c) y Fa♯ (600 c) — la distancia
+a Fa♯ es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>600</mn><mo>−</mo><mn>551.318</mn><mo>=</mo><mn>48.682</mn></mrow><annotation encoding="application/x-tex">600-551.318=48.682</annotation></semantics></math>
+cents y la distancia a Fa es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>500</mn><mo>=</mo><mn>51.318</mn></mrow><annotation encoding="application/x-tex">551.318-500=51.318</annotation></semantics></math>
+cents, así que Fa♯ es la referencia ligeramente más cercana: “Fa♯, −49
+c” (el mismo valor, dicho sea de paso, que ya calculaste para el
+undécimo armónico en la tabla del Módulo 1).</p>
+<h3 id="flechas-de-cuarto-y-sexto-de-tono">4.2 Flechas de cuarto y sexto
+de tono</h3>
+<p>Una solución distinta, popularizada por Krzysztof Penderecki y
+adoptada extensamente por los espectralistas: en vez de un número, se
+usa una flecha (o una combinación de flecha y alteración) que indica una
+fracción fija de tono —típicamente un cuarto (50 cents) o un sexto (33.3
+cents)— por encima o por debajo de la nota escrita. Es, en esencia,
+notar directamente sobre una grilla de 24-EDO (o 36-EDO para sextos de
+tono), no una desviación continua arbitraria.</p>
+<p>Aplicado a nuestros tres casos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+(386.314 c) no tiene una flecha de cuarto de tono que la represente con
+precisión — la grilla de 24-EDO más cercana es 400 c (la misma nota
+natural, sin flecha) o 350 c (Mi bemolizado un cuarto de tono), y
+ninguna de las dos está más cerca que 13.7 cents de la razón justa; en
+la práctica, muchos compositores simplemente no usan flecha aquí y
+aceptan el residuo, o recurren a una flecha de sexto de tono más fina.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+(968.826 c) tampoco encaja bien: el escalón de 24-EDO más cercano es 950
+c (La con flecha de cuarto de tono ascendente, o equivalentemente Sib
+con flecha descendente), a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mo>−</mo><mn>950</mn><mo>=</mo><mn>18.826</mn></mrow><annotation encoding="application/x-tex">968.826-950=18.826</annotation></semantics></math>
+cents de distancia — mejor que dejarlo sin flecha, pero lejos de exacto.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+(551.318 c), en cambio, cae casi exactamente sobre el escalón de 550 c
+de la grilla de 24-EDO (Fa con flecha de cuarto de tono ascendente): la
+diferencia es de apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>550</mn><mo>=</mo><mn>1.318</mn></mrow><annotation encoding="application/x-tex">551.318-550=1.318</annotation></semantics></math>
+cents, prácticamente inaudible. Esta asimetría —cuartos de tono casi
+perfectos para el límite 11, mediocres para el límite 7— no es
+casualidad estilística: es la misma identidad algebraica que vas a usar
+en los ejercicios,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>4</mn><mi>/</mi><mn>3</mn><mo>×</mo><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">11/8 = 4/3 \times 33/32</annotation></semantics></math>,
+donde
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>
+(la cuarta justa) ya es exacta en cualquier sistema que contenga quintas
+razonables, y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">33/32</annotation></semantics></math>
+(53.273 c) resulta estar a solo 3.3 cents de un cuarto de tono exacto
+(50 c).</p>
+<h3 id="la-notación-de-ben-johnston">4.3 La notación de Ben
+Johnston</h3>
+<p>El sistema de Johnston parte de una base pitagórica: la nota
+“natural” (sin ningún símbolo adicional) es la que resultaría de
+construir la escala por cadena de quintas puras, exactamente como en el
+Módulo 3. Sobre esa base, cada símbolo adicional representa una coma
+específica, ligada a un límite primo específico:</p>
+<ul>
+<li><strong>“+” y “−”</strong> suben o bajan la nota en una coma
+sintónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">81/80 = 21.506</annotation></semantics></math>
+c) — la misma coma del Módulo 2, la que separa el ditono pitagórico de
+la tercera justa.</li>
+<li><strong>El “7”</strong> (impreso normal para bajar, o invertido para
+subir, según la fuente) sube o baja en una coma septimal, de razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64</mn><mi>/</mi><mn>63</mn><mo>=</mo><mn>27.264</mn></mrow><annotation encoding="application/x-tex">64/63 = 27.264</annotation></semantics></math>
+cents.</li>
+<li><strong>Las flechas ↑ y ↓</strong> suben o bajan en una coma
+undecimal, de razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mi>/</mi><mn>32</mn><mo>=</mo><mn>53.273</mn></mrow><annotation encoding="application/x-tex">33/32 = 53.273</annotation></semantics></math>
+cents.</li>
+</ul>
+<p>Verifiquemos los tres casos, mostrando la lógica completa —partir de
+la nota pitagórica y restar o sumar exactamente la coma correspondiente—
+en vez de solo citar el resultado. Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>:
+la tercera pitagórica (el ditono, M3) es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn><mo>=</mo><mn>407.820</mn></mrow><annotation encoding="application/x-tex">81/64 = 407.820</annotation></semantics></math>
+cents. Restarle una coma sintónica:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>407.820</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">407.820 - 21.506 = 386.314</annotation></semantics></math>
+cents, exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>.
+Johnston escribe esta nota como <strong>Mi⁻</strong> (Mi con el signo
+menos): la lógica es “parte de la tercera pitagórica de siempre, y
+bájala en una coma sintónica”. Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>:
+la séptima menor pitagórica es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn><mo>=</mo><mn>996.090</mn></mrow><annotation encoding="application/x-tex">16/9 = 996.090</annotation></semantics></math>
+cents (una cadena de dos quintas hacia abajo desde la octava, o de
+manera equivalente el complemento pitagórico habitual). Restarle una
+coma septimal:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>996.090</mn><mo>−</mo><mn>27.264</mn><mo>=</mo><mn>968.826</mn></mrow><annotation encoding="application/x-tex">996.090 - 27.264 = 968.826</annotation></semantics></math>
+cents, exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>.
+Johnston escribe <strong>Sib⁷↓</strong> (Sib con el símbolo septimal de
+bajada): “parte del Sib pitagórico de siempre, y bájalo en una coma
+septimal”. Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>:
+la cuarta justa —que en este sistema coincide con la cuarta pitagórica,
+porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>
+no necesita ningún ajuste de coma— es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>498.045</mn><annotation encoding="application/x-tex">498.045</annotation></semantics></math>
+cents. Sumarle una coma undecimal:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>498.045</mn><mo>+</mo><mn>53.273</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">498.045+53.273=551.318</annotation></semantics></math>
+cents, exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>.
+Johnston escribe <strong>Fa↑</strong> (Fa con flecha ascendente): “parte
+del Fa de siempre, y súbelo en una coma undecimal”. Este último caso —Fa
+con flecha hacia arriba para el undécimo armónico— es, dicho sea de
+paso, uno de los símbolos más citados de todo el sistema de Johnston,
+precisamente porque aparece con frecuencia en sus cuartetos de
+cuerda.</p>
+<p>La lógica de fondo, entonces, es siempre la misma: cada símbolo de
+Johnston <em>no</em> es una desviación arbitraria en cents, es la
+cantidad exacta de una coma reconocible, aplicada a una nota de partida
+pitagórica. Eso tiene una ventaja pedagógica real para un intérprete que
+ya entiende de dónde vienen las comas (como tú, después de diez
+módulos): el símbolo le dice inmediatamente <em>qué relación
+armónica</em> está en juego, no solo <em>cuánto</em> desviarse.</p>
+<h3 id="helmholtz-ellis-ji-pitch-notation-heji">4.4 Helmholtz-Ellis JI
+Pitch Notation (HEJI)</h3>
+<p>Desarrollada por Marc Sabat y Wolfgang von Schweinitz a partir de
+trabajo previo de Hermann von Helmholtz y Alexander Ellis en el siglo
+XIX, la notación HEJI comparte con Johnston la idea central —notas
+pitagóricas de base, más un catálogo de comas específicas por límite
+primo— pero cambia el vocabulario gráfico y, sobre todo, la filosofía de
+diseño. En vez de reutilizar signos aritméticos (+, −) para la coma
+sintónica y un numeral (7) para la septimal, HEJI adosa a la alteración
+convencional (el sostenido o el bemol) una <strong>flecha</strong> cuya
+forma —no solo su dirección— codifica el límite primo: una flecha para
+la coma sintónica (5-limit), una flecha de forma distinta para la coma
+septimal (7-limit), otra distinta para la undecimal (11-limit), y así
+sucesivamente para primos más altos (13, 17, 19…), cada uno con su
+propio glifo inconfundible. Aplicada a nuestros tres casos, el resultado
+en cents es idéntico al de Johnston —HEJI no inventa una aritmética
+nueva, solo un dibujo nuevo—: Mi con flecha de coma sintónica hacia
+abajo para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>;
+Sib con flecha de coma septimal hacia abajo para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>;
+Fa con flecha de coma undecimal hacia arriba para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>.</p>
+<p>La diferencia práctica está en la <strong>escalabilidad</strong>. El
+catálogo de Johnston, pensado en los años sesenta y setenta
+principalmente para su propio uso, cubre con comodidad los límites 5, 7
+y 11 (y con símbolos adicionales, el 13), pero no fue diseñado desde el
+principio como un sistema abierto a cualquier primo. HEJI sí: cada primo
+nuevo recibe su propio glifo sistemático, diseñado para no confundirse
+visualmente con los anteriores, lo que permite apilar varias
+correcciones de comas distintas sobre una misma nota sin ambigüedad (una
+nota puede llevar, simultáneamente, la flecha de la coma sintónica y la
+de la undecimal, si la razón lo requiere). Esa extensibilidad explica
+por qué HEJI se ha convertido, en la práctica de conciertos de justa
+entonación de las últimas dos décadas, en el estándar de facto más
+citado, adoptado por compositores y ensambles especializados en música
+microtonal de concierto más allá del círculo original de Johnston.</p>
+<h3 id="tabla-comparativa-aplicada">4.5 Tabla comparativa aplicada</h3>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sistema</th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+(386.314 c)</th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+(968.826 c)</th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+(551.318 c)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desviación en cents</td>
+<td>Mi, −14 c</td>
+<td>Sib, −31 c</td>
+<td>Fa♯, −49 c</td>
+</tr>
+<tr>
+<td>Flecha de cuarto de tono</td>
+<td>sin equivalencia buena (residuo ≈14 c)</td>
+<td>equivalencia pobre (residuo ≈19 c)</td>
+<td>equivalencia casi exacta (residuo ≈1 c)</td>
+</tr>
+<tr>
+<td>Johnston</td>
+<td>Mi⁻</td>
+<td>Sib⁷↓</td>
+<td>Fa↑</td>
+</tr>
+<tr>
+<td>HEJI</td>
+<td>Mi, flecha de coma sintónica ↓</td>
+<td>Sib, flecha de coma septimal ↓</td>
+<td>Fa, flecha de coma undecimal ↑</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="pros-y-contras-según-el-contexto-de-ejecución">4.6 Pros y
+contras según el contexto de ejecución</h3>
+<p>Ninguna de las cuatro soluciones es universalmente mejor: cada una
+está optimizada para un contexto de ejecución distinto.</p>
+<p><strong>Intérpretes de cuerdas (y voces).</strong> No tienen trastes
+ni llaves: cualquier altura es, en principio, alcanzable con el dedo o
+la voz, así que el límite no es físico sino perceptivo y notacional.
+Aquí Johnston y HEJI rinden mejor de lo que su complejidad visual
+sugiere, porque un intérprete que entiende la lógica de comas (no solo
+memoriza símbolos) puede <em>predecir</em> auditivamente hacia dónde
+tiene que mover el dedo antes de escuchar el resultado — el símbolo le
+dice qué relación armónica busca, no solo un número abstracto. La
+desviación en cents funciona también, pero exige que el intérprete
+traduzca mentalmente el número a un gesto físico sin la ayuda de esa
+lógica armónica. Las flechas de cuarto de tono son las más rápidas de
+leer a primera vista, pero —como viste en la sección 4.2— solo son
+precisas quirúrgicamente para un subconjunto de razones (las que caen
+cerca de la grilla de 24-EDO).</p>
+<p><strong>Teclados retemplados (o construidos a medida, como los de
+Partch).</strong> Aquí manda la practicidad de la traducción a
+frecuencia. La desviación en cents es, casi literalmente, el formato
+nativo: convertir “−14 cents sobre Mi” en una frecuencia exacta de
+retemplado es una operación de una línea. Johnston y HEJI, en cambio,
+requieren un paso de traducción adicional (de símbolo a coma a cents)
+antes de poder retemplar nada — factible, pero una capa extra de trabajo
+que la notación en cents se ahorra por diseño.</p>
+<p><strong>Orquesta completa.</strong> Aquí es donde más pesa la
+velocidad de lectura a primera vista frente a la precisión. Con decenas
+de músicos leyendo simultáneamente, sin tiempo de ensayo dedicado a
+explicar un sistema de comas, la desviación en cents y las flechas de
+cuarto de tono dominan la práctica real —son las que un espectralista
+como Grisey usó para hacer tocable, en un primer ensayo, una
+orquestación de veintidós parciales—. Johnston y HEJI, pensados
+originalmente para cuartetos y ensambles de cámara especializados en
+justa entonación, exigen una familiarización previa que rara vez es
+viable a escala orquestal completa; su territorio natural sigue siendo
+el ensamble pequeño, dedicado, que puede permitirse el tiempo de
+aprendizaje.</p>
+<h2 id="estrategias-de-realización-práctica">5. Estrategias de
+realización práctica</h2>
+<h3 id="cuerdas-y-voces-anclas-y-drones">5.1 Cuerdas y voces: anclas y
+drones</h3>
+<p>La ventaja de la afinación continua (sin trastes, sin llaves) es
+también su mayor riesgo: sin una referencia externa, un intérprete de
+cuerdas o un cantante no tiene manera de saber si su
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+es realmente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+o una aproximación al temperamento igual disfrazada de justa. La
+solución práctica más extendida —y la que vas a encontrar formalizada
+como técnica propia cuando llegues a la música indostaní en M15— es el
+<strong>drone</strong>: una nota (o un acorde de pocas notas) sostenida,
+generalmente en un registro grave, que actúa como referencia armónica
+constante contra la cual el resto del ensamble puede calibrar sus
+intervalos por batidos, exactamente con la misma lógica del Módulo 1. En
+la música indostaní ese rol lo cumple el tanpura; en un ensamble de
+justa entonación occidental (Johnston, HEJI) cumple una función
+equivalente un sintetizador, un teclado retemplado, o incluso otro
+instrumento del propio ensamble sosteniendo la fundamental.</p>
+<h3 id="vientos-digitaciones-alternativas-y-la-afinación-negociada">5.2
+Vientos: digitaciones alternativas y la afinación negociada</h3>
+<p>Los instrumentos de viento sin llaves —o con llaves que solo abstraen
+parcialmente la relación entre el intérprete y la columna de aire—
+ofrecen un caso particular, documentado de primera mano por el propio
+proyecto DAC en su marco conceptual (“La geografía del sonido”): el
+traverso barroco produce, para muchas notas, <strong>digitaciones
+alternativas</strong> (los llamados <em>forqueados</em> o
+<em>cross-fingerings</em>) que dan la misma altura nominal con matices
+de timbre y de tendencia de afinación distintos. Crucialmente, esas
+tendencias no son fijas: el intérprete competente las corrige
+activamente con la embocadura, en tiempo real, según el contexto
+armónico que está escuchando a su alrededor. Esto significa que, a
+diferencia de un teclado (que inscribe una afinación en su estructura
+física antes de que suene la primera nota), un instrumento de este tipo
+<strong>no puede tener una afinación impuesta desde fuera</strong>: la
+afinación es siempre negociada entre la geometría del instrumento y el
+oído armónico del músico, acordada en el ensayo, no fijada en la
+fábrica. Un compositor que trabaja con este tipo de instrumento no está,
+entonces, especificando frecuencias exactas de la misma manera en que
+especificaría cents sobre un pentagrama para un sintetizador: está
+diseñando un campo de tensión armónica y confiando en que el instrumento
+y el intérprete completen, en la negociación en vivo, lo que ninguna
+notación fija por completo.</p>
+<h3 id="teclados-retunables-y-electrónica-anticipo-m12">5.3 Teclados
+retunables y electrónica (anticipo M12)</h3>
+<p>Para todo lo demás —cuando se necesita una afinación fija, repetible,
+idéntica en cada ejecución— el camino pasa por herramientas digitales:
+archivos de escala estandarizados, protocolos de retemplado en tiempo
+real, controladores capaces de tocar más de una altura por tecla física.
+Ese es, exactamente, el contenido del próximo módulo: el Módulo 12 te va
+a mostrar cómo los formatos Scala (.scl), el estándar MTS (<em>MIDI
+Tuning Standard</em>) y MPE (<em>MIDI Polyphonic Expression</em>), y las
+implementaciones de afinación microtonal en los DAW y sintetizadores
+actuales, convierten todo lo que acabas de leer —cents, comas de
+Johnston, flechas de HEJI— en algo que una máquina puede reproducir con
+precisión exacta, sin depender de la negociación en vivo de un
+intérprete.</p>
+<h2 id="ejercicios-de-cálculo">6. Ejercicios de cálculo</h2>
+<p>Resuelve primero, revisa las soluciones después. Todas las cifras se
+pueden verificar con una calculadora común (log o ln) siguiendo el
+procedimiento del Módulo 1 §6.</p>
+<p><strong>1.</strong> Traduce la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+a notación de Johnston y a desviación en cents sobre la nota del
+temperamento igual más cercana. Muestra la resta de comas completa.</p>
+<p><strong>2.</strong> Traduce la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+a notación de Johnston y a desviación en cents sobre la nota del
+temperamento igual más cercana. Muestra la resta de comas completa.</p>
+<p><strong>3.</strong> Traduce la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+a notación de Johnston y a desviación en cents sobre la nota del
+temperamento igual más cercana. Muestra la suma de comas completa.</p>
+<p><strong>4.</strong> Calcula los primeros 11 parciales de Mi1 (41.2
+Hz): frecuencia en Hz, nota aproximada, desviación en cents respecto del
+temperamento igual, y desviación en cents respecto de la grilla de
+cuartos de tono (24-EDO, escalones cada 50 cents).</p>
+<p><strong>5.</strong> Usando la tabla del ejercicio 4, explica
+numéricamente por qué el parcial 11 se beneficia enormemente de la
+notación de cuartos de tono mientras que el parcial 7 casi no mejora.
+Verifica tu explicación con la identidad
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>4</mn><mi>/</mi><mn>3</mn><mo>×</mo><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">11/8 = 4/3 \times 33/32</annotation></semantics></math>
+y calculando a cuántos cents de un cuarto de tono exacto (50 c) queda la
+coma undecimal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">33/32</annotation></semantics></math>.</p>
+<p><strong>6.</strong> Calcula la frecuencia de batido que produciría un
+error de afinación de 1, 2 y 5 cents sobre un parcial ubicado en 800 Hz.
+Con esos tres resultados, explica en una frase por qué La Monte Young
+necesita sostener sus acordes durante minutos (o hasta horas) en vez de
+segundos.</p>
+<p><strong>7.</strong> Un drone sostiene el 16.º parcial de Do1 (32.70
+Hz), que es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mo>×</mo><mn>32.70</mn><mo>=</mo><mn>523.2</mn></mrow><annotation encoding="application/x-tex">16 \times 32.70 = 523.2</annotation></semantics></math>
+Hz. ¿Qué frecuencia fundamental exacta necesitaría una segunda nota para
+que su 5.º parcial coincida exactamente con esos 523.2 Hz (acorde 4:5:6
+sin batido, M1 §5.2)? Si en cambio esa segunda fundamental se afina al
+temperamento igual más cercano, ¿qué frecuencia de batido resulta entre
+ambos parciales?</p>
+<p><strong>8.</strong> Diseña la “receta espectral” de un acorde sobre
+el fundamental Re1 (36.71 Hz): calcula sus primeros 8 parciales
+(frecuencia y nota aproximada), y para cada uno decide si lo escribirías
+con desviación exacta en cents, con aproximación a cuarto de tono, o
+simplemente redondeado al temperamento igual. Justifica cada decisión
+con un número.</p>
+<p><strong>9.</strong> Un traversista toca una digitación alternativa
+cuya tendencia natural (supongamos, a modo de ejercicio, según la
+geometría del instrumento) es sonar unos 18 cents más aguda que el
+temperamento igual. El pasaje exige que esa nota funcione como una
+tercera mayor justa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+que está
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>13.686</mn><annotation encoding="application/x-tex">13.686</annotation></semantics></math>
+cents por debajo del temperamento igual). Calcula cuántos cents debe
+corregir el intérprete con la embocadura, y expresa esa corrección en Hz
+si la nota nominal es Mi4 (329.63 Hz en temperamento igual).</p>
+<p><strong>10.</strong> Construye tu propia tabla con los cuatro
+símbolos de Johnston (+, −, 7, ↑/↓) y los cents que representa cada uno.
+Verifica, para los tres casos de los ejercicios 1 a 3, que sumar (o
+restar) el símbolo correcto a la nota pitagórica de partida reproduce
+exactamente la razón justa deseada.</p>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong> El ditono pitagórico (tercera mayor por dos
+quintas puras, M3) mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn><mo>=</mo><mn>407.820</mn></mrow><annotation encoding="application/x-tex">81/64 = 407.820</annotation></semantics></math>
+cents. Restando una coma sintónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">81/80=21.506</annotation></semantics></math>
+c):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>407.820</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">407.820-21.506=386.314</annotation></semantics></math>
+cents, exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>.
+Notación de Johnston: <strong>Mi⁻</strong>. Desviación en cents: la nota
+del temperamento igual más cercana es Mi (400 c);
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>−</mo><mn>400</mn><mo>=</mo><mi>−</mi><mn>13.686</mn></mrow><annotation encoding="application/x-tex">386.314-400=-13.686</annotation></semantics></math>,
+se redondea a <strong>“Mi, −14 c”</strong>.</p>
+<p><strong>2.</strong> La séptima menor pitagórica mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn><mo>=</mo><mn>996.090</mn></mrow><annotation encoding="application/x-tex">16/9=996.090</annotation></semantics></math>
+cents. Restando una coma septimal
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64</mn><mi>/</mi><mn>63</mn><mo>=</mo><mn>27.264</mn></mrow><annotation encoding="application/x-tex">64/63=27.264</annotation></semantics></math>
+c):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>996.090</mn><mo>−</mo><mn>27.264</mn><mo>=</mo><mn>968.826</mn></mrow><annotation encoding="application/x-tex">996.090-27.264=968.826</annotation></semantics></math>
+cents, exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>.
+Notación de Johnston: <strong>Sib⁷↓</strong>. Desviación en cents: la
+nota más cercana del temperamento igual es Sib (1000 c);
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mo>−</mo><mn>1000</mn><mo>=</mo><mi>−</mi><mn>31.174</mn></mrow><annotation encoding="application/x-tex">968.826-1000=-31.174</annotation></semantics></math>,
+se redondea a <strong>“Sib, −31 c”</strong>.</p>
+<p><strong>3.</strong> La cuarta justa (que coincide con la cuarta
+pitagórica, sin ajuste de coma) mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn><mo>=</mo><mn>498.045</mn></mrow><annotation encoding="application/x-tex">4/3=498.045</annotation></semantics></math>
+cents. Sumando una coma undecimal
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mi>/</mi><mn>32</mn><mo>=</mo><mn>53.273</mn></mrow><annotation encoding="application/x-tex">33/32=53.273</annotation></semantics></math>
+c):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>498.045</mn><mo>+</mo><mn>53.273</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">498.045+53.273=551.318</annotation></semantics></math>
+cents, exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>.
+Notación de Johnston: <strong>Fa↑</strong>. Desviación en cents: Fa♯
+(600 c) está a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>600</mn><mo>−</mo><mn>551.318</mn><mo>=</mo><mn>48.682</mn></mrow><annotation encoding="application/x-tex">600-551.318=48.682</annotation></semantics></math>
+c, y Fa (500 c) está a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>500</mn><mo>=</mo><mn>51.318</mn></mrow><annotation encoding="application/x-tex">551.318-500=51.318</annotation></semantics></math>
+c; Fa♯ es la referencia más cercana, así que se redondea a <strong>“Fa♯,
+−49 c”</strong>.</p>
+<p><strong>4.</strong> Tabla completa (frecuencias exactas, notas
+aproximadas al semitono más cercano de temperamento igual, desviaciones
+en cents respecto del temperamento igual y respecto de la grilla de
+cuartos de tono):</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>n</mi></msub><annotation encoding="application/x-tex">f_n</annotation></semantics></math>
+(Hz)</th>
+<th>Nota aprox.</th>
+<th>Dev. 12-ET (c)</th>
+<th>Dev. cuarto de tono (c)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>41.20</td>
+<td>Mi1</td>
+<td>−0.1</td>
+<td>−0.1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>82.40</td>
+<td>Mi2</td>
+<td>−0.1</td>
+<td>−0.1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>123.60</td>
+<td>Si2</td>
+<td>+1.8</td>
+<td>+1.8</td>
+</tr>
+<tr>
+<td>4</td>
+<td>164.80</td>
+<td>Mi3</td>
+<td>−0.1</td>
+<td>−0.1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>206.00</td>
+<td>Sol♯3</td>
+<td>−13.8</td>
+<td>−13.8</td>
+</tr>
+<tr>
+<td>6</td>
+<td>247.20</td>
+<td>Si3</td>
+<td>+1.8</td>
+<td>+1.8</td>
+</tr>
+<tr>
+<td>7</td>
+<td>288.40</td>
+<td>Re4</td>
+<td>−31.3</td>
+<td>+18.7</td>
+</tr>
+<tr>
+<td>8</td>
+<td>329.60</td>
+<td>Mi4</td>
+<td>−0.1</td>
+<td>−0.1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>370.80</td>
+<td>Fa♯4</td>
+<td>+3.8</td>
+<td>+3.8</td>
+</tr>
+<tr>
+<td>10</td>
+<td>412.00</td>
+<td>Sol♯4</td>
+<td>−13.8</td>
+<td>−13.8</td>
+</tr>
+<tr>
+<td>11</td>
+<td>453.20</td>
+<td>La♯4</td>
+<td>−48.8</td>
+<td>+1.2</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>5.</strong> El parcial 7 forma, sobre la fundamental
+(reducido a la octava correspondiente), el intervalo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>968.826</mn></mrow><annotation encoding="application/x-tex">7/4 = 968.826</annotation></semantics></math>
+c, que no tiene ninguna relación algebraica simple con la grilla de
+24-EDO — por eso su desviación de la grilla de cuartos de tono (+18.7 c
+en la tabla) sigue siendo grande. El parcial 11, en cambio, forma el
+intervalo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">11/8=551.318</annotation></semantics></math>
+c, que se descompone exactamente como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn><mo>×</mo><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">4/3\times33/32</annotation></semantics></math>:
+la cuarta justa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn><mo>=</mo><mn>498.045</mn></mrow><annotation encoding="application/x-tex">4/3=498.045</annotation></semantics></math>
+c) más la coma undecimal
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mi>/</mi><mn>32</mn><mo>=</mo><mn>53.273</mn></mrow><annotation encoding="application/x-tex">33/32=53.273</annotation></semantics></math>
+c). Como un cuarto de tono exacto mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>
+cents, la coma undecimal está a solo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>53.273</mn><mo>−</mo><mn>50</mn><mo>=</mo><mn>3.273</mn></mrow><annotation encoding="application/x-tex">53.273-50=3.273</annotation></semantics></math>
+cents de un cuarto de tono — casi una coincidencia aritmética perfecta.
+Por eso el parcial 11, sumado a la cuarta justa (que ya es prácticamente
+exacta en cualquier temperamento razonable), queda a apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.2</mn><annotation encoding="application/x-tex">1.2</annotation></semantics></math>
+cents de la grilla de 24-EDO, mientras que el parcial 7 no tiene ningún
+atajo algebraico comparable.</p>
+<p><strong>6.</strong> Con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">batido</mtext></msub><mo>=</mo><mi>f</mi><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mrow><mi>c</mi><mi>/</mi><mn>1200</mn></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f_{\text{batido}} = f\cdot(2^{c/1200}-1)</annotation></semantics></math>
+para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>800</mn></mrow><annotation encoding="application/x-tex">f=800</annotation></semantics></math>
+Hz: con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+cent de error,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>800</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>1200</mn></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.462</mn></mrow><annotation encoding="application/x-tex">800\cdot(2^{1/1200}-1)=0.462</annotation></semantics></math>
+Hz (un ciclo completo cada
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2.16</mn><annotation encoding="application/x-tex">2.16</annotation></semantics></math>
+segundos); con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+cents,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.925</mn><annotation encoding="application/x-tex">0.925</annotation></semantics></math>
+Hz
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.08</mn><annotation encoding="application/x-tex">1.08</annotation></semantics></math>
+s por ciclo); con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5</mn><annotation encoding="application/x-tex">5</annotation></semantics></math>
+cents,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2.314</mn><annotation encoding="application/x-tex">2.314</annotation></semantics></math>
+Hz
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.43</mn><annotation encoding="application/x-tex">0.43</annotation></semantics></math>
+s por ciclo). Incluso un error minúsculo de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>
+cent —muy por debajo del umbral de detección de una sola nota aislada—
+produce un batido que tarda más de dos segundos en completar un solo
+ciclo. Para que ese batido (y, por extensión, la textura completa de un
+acorde extendido con múltiples desviaciones residuales de este tamaño)
+llegue a percibirse como fenómeno estable, hace falta sostener el acorde
+durante bastante más que unos pocos segundos — de ahí que Young trabaje
+en la escala de minutos y horas, no de compases.</p>
+<p><strong>7.</strong> El 5.º parcial de la segunda fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+debe ser
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>F</mi><mo>=</mo><mn>523.2</mn></mrow><annotation encoding="application/x-tex">5F = 523.2</annotation></semantics></math>
+Hz, así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mn>523.2</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>104.64</mn></mrow><annotation encoding="application/x-tex">F = 523.2/5 = 104.64</annotation></semantics></math>
+Hz. (Nota adicional:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>104.64</mn><mi>/</mi><mn>32.70</mn><mo>=</mo><mn>3.2</mn><mo>=</mo><mn>16</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">104.64/32.70 = 3.2 = 16/5</annotation></semantics></math>,
+es decir,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+está dos octavas sobre Do1 más una sexta menor pura
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">8/5</annotation></semantics></math>
+— otra razón justa reconocible, como suele ocurrir con los
+“subproductos” del acorde 4:5:6.) Si en cambio
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+se afina al temperamento igual más cercano (Sol♯2, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>103.826</mn><annotation encoding="application/x-tex">103.826</annotation></semantics></math>
+Hz), su 5.º parcial es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>103.826</mn><mo>=</mo><mn>519.131</mn></mrow><annotation encoding="application/x-tex">5\times103.826=519.131</annotation></semantics></math>
+Hz, y el batido contra los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>523.2</mn><annotation encoding="application/x-tex">523.2</annotation></semantics></math>
+Hz fijos del 16.º parcial de Do1 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>523.2</mn><mo>−</mo><mn>519.131</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>4.069</mn></mrow><annotation encoding="application/x-tex">|523.2-519.131|=4.069</annotation></semantics></math>
+Hz — un batido rápido y claramente audible como rugosidad, no como pulso
+lento.</p>
+<p><strong>8.</strong> Parciales de Re1 (36.71 Hz):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>n</mi></msub><annotation encoding="application/x-tex">f_n</annotation></semantics></math>
+(Hz)</th>
+<th>Nota aprox.</th>
+<th>Dev. 12-ET (c)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>36.71</td>
+<td>Re1</td>
+<td>+0.1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>73.42</td>
+<td>Re2</td>
+<td>+0.1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>110.13</td>
+<td>La2</td>
+<td>+2.0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>146.84</td>
+<td>Re3</td>
+<td>+0.1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>183.55</td>
+<td>Fa♯3</td>
+<td>−13.6</td>
+</tr>
+<tr>
+<td>6</td>
+<td>220.26</td>
+<td>La3</td>
+<td>+2.0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>256.97</td>
+<td>Do4</td>
+<td>−31.1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>293.68</td>
+<td>Re4</td>
+<td>+0.1</td>
+</tr>
+</tbody>
+</table></div>
+<p>Los parciales 1, 2, 4, 6 y 8 (octavas y la quinta 3) se escriben
+simplemente redondeados al temperamento igual: sus desviaciones (0 a 2
+c) son inaudibles y no justifican ninguna notación especial. El parcial
+5 (−13.6 c, la tercera mayor justa) es un caso típico de desviación en
+cents explícita: “Fa♯3, −14 c”, exactamente como en la sección 4.1. El
+parcial 7 (−31.1 c, la séptima natural) es el candidato más claro para
+una notación más precisa que el simple redondeo: dado que la grilla de
+cuartos de tono no lo acerca demasiado (como viste en el ejercicio 5, el
+7 no tiene ese atajo algebraico), la mejor opción aquí es la desviación
+en cents explícita, “Do4, −31 c”, más que una flecha de cuarto de tono
+que dejaría un residuo de casi 19 cents.</p>
+<p><strong>9.</strong> La corrección necesaria es la diferencia entre la
+tendencia natural del instrumento y el objetivo armónico:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>13.686</mn><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mi>+</mi><mn>18</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>31.686</mn></mrow><annotation encoding="application/x-tex">-13.686-(+18) = -31.686</annotation></semantics></math>
+cents (el intérprete debe bajar la nota casi 32 cents con la
+embocadura). Convertido a Hz sobre una nota nominal de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>329.63</mn><annotation encoding="application/x-tex">329.63</annotation></semantics></math>
+Hz:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>f</mi><mo>=</mo><mn>329.63</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mrow><mi>−</mi><mn>31.686</mn><mi>/</mi><mn>1200</mn></mrow></msup><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>5.978</mn></mrow><annotation encoding="application/x-tex">\Delta f = 329.63\cdot(2^{-31.686/1200}-1)=-5.978</annotation></semantics></math>
+Hz, es decir, la frecuencia real que debe alcanzar el intérprete es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>329.63</mn><mo>−</mo><mn>5.978</mn><mo>=</mo><mn>323.65</mn></mrow><annotation encoding="application/x-tex">329.63-5.978=323.65</annotation></semantics></math>
+Hz.</p>
+<p><strong>10.</strong> Tabla de símbolos de Johnston:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Símbolo</th>
+<th>Coma</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+ / −</td>
+<td>sintónica (81/80)</td>
+<td>21.506</td>
+</tr>
+<tr>
+<td>7 (normal/invertido)</td>
+<td>septimal (64/63)</td>
+<td>27.264</td>
+</tr>
+<tr>
+<td>↑ / ↓</td>
+<td>undecimal (33/32)</td>
+<td>53.273</td>
+</tr>
+</tbody>
+</table></div>
+<p>Verificación: Mi⁻ =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn><mo>−</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">81/64 - 21.506</annotation></semantics></math>
+c
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>407.820</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">= 407.820-21.506=386.314</annotation></semantics></math>
+c
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">=5/4</annotation></semantics></math>
+✓. Sib⁷↓ =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn><mo>−</mo><mn>27.264</mn></mrow><annotation encoding="application/x-tex">16/9-27.264</annotation></semantics></math>
+c
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>996.090</mn><mo>−</mo><mn>27.264</mn><mo>=</mo><mn>968.826</mn></mrow><annotation encoding="application/x-tex">=996.090-27.264=968.826</annotation></semantics></math>
+c
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">=7/4</annotation></semantics></math>
+✓. Fa↑ =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn><mo>+</mo><mn>53.273</mn></mrow><annotation encoding="application/x-tex">4/3+53.273</annotation></semantics></math>
+c
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>498.045</mn><mo>+</mo><mn>53.273</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">=498.045+53.273=551.318</annotation></semantics></math>
+c
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">=11/8</annotation></semantics></math>
+✓.</p>
+<h2 id="guía-de-escucha">7. Guía de escucha</h2>
+<p>El laboratorio de este módulo (<code>laboratorio.html</code>, en esta
+misma carpeta) reúne un orquestador espectral con cuantización
+conmutable (exacta / cuarto de tono / temperamento igual), un teclado de
+cuartos de tono, un teclado de justa entonación 7-limit al estilo de
+Young (pensado para sostener nubes de sonido, no para tocar melodías) y
+un traductor de razón a las cuatro notaciones de la sección 4. Seis
+consignas:</p>
+<ol type="1">
+<li><p><strong>El espectro que se arma solo.</strong> En el orquestador
+espectral, activa los primeros 11 parciales de un fundamental grave con
+cuantización “exacta” y luego cambia a “cuarto de tono”. Identifica de
+oído en qué parciales el cambio es casi imperceptible (los que ya
+calculaste cerca de la grilla, como el 11) y en cuáles sí se nota un
+salto (el 7).</p></li>
+<li><p><strong>Cuarto de tono contra temperamento igual, el mismo
+espectro.</strong> Repite la consigna anterior cambiando ahora entre
+“cuarto de tono” y “temperamento igual” (sin cuartos de tono). Confirma
+de oído que el residuo de 31 cents del parcial 7 en temperamento igual
+se reduce notoriamente al pasar a cuarto de tono, aunque no desaparezca
+del todo.</p></li>
+<li><p><strong>Vivir dentro de un acorde.</strong> En el teclado de
+justa 7-limit, arma un acorde de al menos 4 notas y sostenlo sin volver
+a tocarlo durante al menos 60 segundos, mirando el reloj. Anota en qué
+segundo empiezas a notar batidos lentos entre parciales superiores, y
+compáralo con los tiempos de ciclo que calculaste en el ejercicio
+6.</p></li>
+<li><p><strong>El traductor, ida y vuelta.</strong> Escribe una razón
+cualquiera del límite 11 (por ejemplo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn><mo>×</mo><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8\times11/8</annotation></semantics></math>
+reducida) en el traductor, y compara las cuatro notaciones resultantes
+(cents, cuarto de tono, Johnston, HEJI). Elige cuál usarías si tuvieras
+que entregar la parte a (a) un cuarteto de cuerdas especializado en
+justa entonación y (b) una orquesta sinfónica en un solo
+ensayo.</p></li>
+<li><p><strong>El cuarto de tono como aproximación, no como
+sistema.</strong> En el teclado de cuartos de tono, toca la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+(usando la aproximación más cercana disponible) y luego compárala, en el
+teclado de justa, con el
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+exacto. Describe la diferencia de 14 cents que queda sin resolver — es
+la misma que calculaste en la sección 4.2.</p></li>
+<li><p><strong>Digitación negociada, versión sintetizada.</strong> Si el
+laboratorio incluye un simulador de la afinación negociada del traverso
+(una nota cuya altura “de reposo” se puede desplazar como si fuera una
+embocadura), reproduce el ejercicio 9: parte de una tendencia de +18
+cents y ajústala en tiempo real hasta alcanzar la tercera justa. Anota
+cuántos cents tuviste que corregir y compáralo con tu cálculo.</p></li>
+</ol>
+<h2 id="repertorio">8. Repertorio</h2>
+<ul>
+<li><p><strong>La Monte Young, <em>The Well-Tuned Piano</em>.</strong>
+Escucha (idealmente un fragmento largo, de al menos 15-20 minutos
+seguidos, dado que la obra completa dura horas) un pasaje donde el piano
+sostiene un acorde extendido sin desarrollo melódico aparente. Qué
+escuchar: la ausencia casi total de progresión armónica tradicional, y
+en cambio una lenta transformación tímbrica del acorde sostenido — el
+mismo fenómeno que calculaste en los ejercicios de batidos, ahora
+extendido a una escala temporal de minutos.</p></li>
+<li><p><strong>Ben Johnston, Cuarteto de cuerdas n.º 4 (“Amazing
+Grace”).</strong> Escucha el tema inicial (la melodía tradicional,
+relativamente reconocible) y compáralo con una de las variaciones
+centrales, donde la armonización se aleja notoriamente del 5-limit. Qué
+escuchar: cómo la familiaridad melódica actúa de ancla mientras el
+terreno armónico bajo ella se desplaza.</p></li>
+<li><p><strong>Harry Partch, <em>Delusion of the Fury</em>.</strong> Si
+tienes acceso a una grabación en video (recomendable, dado el componente
+escénico), presta atención a cómo los intérpretes tocan sus instrumentos
+como parte visible de la acción teatral. Qué escuchar: la relación entre
+el timbre de cada instrumento construido a medida y el subconjunto del
+<em>tonality diamond</em> que ese instrumento en particular hace
+sonar.</p></li>
+<li><p><strong>Gérard Grisey, <em>Partiels</em>.</strong> Escucha el
+ataque inicial (los primeros compases, con la mayor parte del ensamble
+sonando en bloque) y trata de escuchar la orquesta como una
+superposición de parciales de un único espectro, no como una serie de
+instrumentos independientes. Qué escuchar: los golpes rítmicos
+posteriores donde el material se “descompone” progresivamente,
+alejándose del espectro armónico puro del comienzo.</p></li>
+<li><p><strong>Georg Friedrich Haas, <em>in vain</em>.</strong> Si
+tienes acceso a una grabación con indicación de tiempos, ubica una
+transición entre un pasaje en temperamento igual y uno en justa
+entonación (según la partitura publicada, estos pasajes están
+explícitamente señalados). Qué escuchar: el cambio de “temperatura”
+armónica en el momento exacto de la transición, sin necesidad de ver la
+sala oscurecerse para percibirlo.</p></li>
+</ul>
+<h2 id="mini-composición-receta-espectral">9. Mini-composición: receta
+espectral</h2>
+<p>La consigna: elige un fundamental (cualquier nota grave, real o
+imaginaria) y diseña la “receta espectral” de un acorde para un ensamble
+imaginario de 6 instrumentos, siguiendo estos pasos.</p>
+<ol type="1">
+<li>Calcula los primeros 16 parciales de tu fundamental (frecuencia en
+Hz y nota aproximada, como en la sección 3.2 del ejercicio 8).</li>
+<li>Decide, parcial por parcial, tu <strong>cuantización</strong>: ¿lo
+dejas en su valor exacto (y con qué notación de la sección 4 lo
+escribirías)?, ¿lo aproximas a cuarto de tono?, ¿lo redondeas sin más al
+temperamento igual? Justifica cada decisión con la desviación en cents
+que estás aceptando o rechazando — no hay una respuesta “correcta”
+única, pero sí hay que poder defender cada elección con un número.</li>
+<li>Reparte los 16 parciales entre tus 6 instrumentos imaginarios
+(puedes repetir parciales en distintas octavas entre instrumentos, o
+dejar algunos fuera si tu ensamble es demasiado pequeño para todos). Ten
+en cuenta el registro: un instrumento agudo no puede sostener con
+comodidad un parcial grave, y viceversa.</li>
+<li>Escribe una frase explicando qué efecto estético persigues con tu
+elección de cuantización — ¿buscas la pureza sostenida de Young, la
+orquestación exacta de Grisey, un compromiso práctico pensado para un
+ensamble que solo tiene una tarde de ensayo?</li>
+</ol>
+<p>Este ejercicio es, deliberadamente, el puente hacia las obras que
+puedas escribir dentro del marco del proyecto DAC: la misma lógica
+—fundamental, serie de parciales, decisión de cuantización, reparto
+entre instrumentos reales con sus propias limitaciones— es la que vas a
+necesitar si alguna vez orquestas para un ensamble que incluya
+instrumentos de afinación negociada como el traverso de la sección
+5.2.</p>
+<h2 id="autoevaluación">10. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar, con el cálculo de
+batidos del Módulo 1, por qué La Monte Young necesita sostener sus
+acordes durante minutos u horas.</label></li>
+<li><label><input type="checkbox" />Puedo explicar la diferencia central
+entre la apuesta de Johnston (extender la notación, instrumentos
+tradicionales) y la de Partch (construir instrumentos
+nuevos).</label></li>
+<li><label><input type="checkbox" />Puedo describir en qué consiste,
+técnicamente, orquestar un espectro armónico al estilo de
+<em>Partiels</em>, incluyendo la idea de aproximar parciales a cuartos
+de tono.</label></li>
+<li><label><input type="checkbox" />Puedo traducir una razón justa
+simple (como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+u
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>)
+a notación de Johnston, mostrando la resta o suma de la coma
+correspondiente.</label></li>
+<li><label><input type="checkbox" />Puedo explicar por qué el cuarto de
+tono aproxima bien ciertas razones del límite 11 y mal las del límite 7,
+usando la identidad
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>4</mn><mi>/</mi><mn>3</mn><mo>×</mo><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">11/8=4/3\times33/32</annotation></semantics></math>.</label></li>
+<li><label><input type="checkbox" />Puedo comparar cents, flechas de
+cuarto de tono, Johnston y HEJI según el contexto de ejecución (cuerdas,
+teclados retemplables, orquesta).</label></li>
+<li><label><input type="checkbox" />Puedo explicar por qué un
+instrumento como el traverso barroco no puede tener una afinación
+impuesta desde fuera, y qué significa que su afinación sea
+“negociada”.</label></li>
+<li><label><input type="checkbox" />Puedo diseñar la receta espectral de
+un acorde simple sobre un fundamental dado, incluyendo una decisión
+justificada de cuantización.</label></li>
+</ul>
+<h2 id="referencias">11. Referencias</h2>
+<ul>
+<li>Gann, K. <em>American Music in the Twentieth Century</em>.
+Schirmer.</li>
+<li>Gilmore, B. “Ben Johnston’s Extended Just Intonation: A Guide for
+Interpreters”. <em>Perspectives of New Music</em>, 41/1 (2003).</li>
+<li>Johnston, B. <em>Maximum Clarity and Other Writings on Music</em>,
+ed. Bob Gilmore. University of Illinois Press, 2006.</li>
+<li>Partch, H. <em>Genesis of a Music</em> (2.ª ed., 1974). Da Capo
+Press.</li>
+<li>Sabat, M. y von Schweinitz, W. <em>Extended Helmholtz-Ellis JI Pitch
+Notation</em> (guía de notación). Plainsound Music Edition.</li>
+<li>Fineberg, J. (ed.). “Spectral Music: History and Techniques”.
+<em>Contemporary Music Review</em>, 19 (2000).</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>) — en particular la
+sección “El traverso barroco: un instrumento de afinación
+negociada”.</li>
+</ul>
+<h2 id="anticipo">12. Anticipo</h2>
+<p>Todo lo que acabas de leer —cents, flechas, comas de Johnston, glifos
+de HEJI— es notación para seres humanos, pensada para que un intérprete
+convierta un símbolo en un gesto físico. Pero buena parte de la música
+microtonal de hoy no pasa por un intérprete de carne y hueso en
+absoluto, o lo hace apoyada en herramientas digitales que necesitan su
+propio formato exacto, sin ambigüedad ni margen de negociación. El
+Módulo 12 te va a mostrar cómo se construye ese puente: archivos Scala,
+el estándar MTS, MPE, y la afinación microtonal dentro de los DAW y
+sintetizadores que probablemente ya tienes instalados.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 11</p><button id="progress-btn" class="progress-btn" data-modulo="11-compositores">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

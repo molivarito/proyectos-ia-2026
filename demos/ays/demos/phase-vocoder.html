@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase Vocoder — Demo Curso AyS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S06 · SPECTRA</div>
+    <h1>Phase Vocoder: estirar el tiempo sin tocar el pitch</h1>
+    <p class="lead">
+      Hacer que una pista dure el doble sin que la voz suene "rara". Cambiar el pitch sin acelerar
+      ni retrasar la canción. El Phase Vocoder es la técnica clásica para todo esto, y vive
+      en cualquier DAW desde hace décadas. El truco está en cómo se trata la fase entre frames.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-spectra">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>Cómo separar <strong>magnitud y fase</strong> en cada frame de la STFT y por qué hay que tratarlas distinto.</li>
+      <li>Por qué cambiar el hop de síntesis $R_s$ respecto al de análisis $R_a$ produce time-stretching <em>sin</em> cambio de pitch.</li>
+      <li>Qué es el <strong>phase-locking</strong> y por qué evita los artefactos de "coro de robots" que aparecen sin él.</li>
+      <li>Cómo el mismo algoritmo se usa para robotización (fase $= 0$) y whisperización (fase aleatoria).</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Phase Vocoder interactivo</span>
+      <a href="../embeds/s06_phase_vocoder.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s06_phase_vocoder.html" title="Demo de Phase Vocoder" loading="lazy"></iframe>
+  </div>
+
+  <p style="margin-top:30px;">
+    Hay una segunda mini-demo enfocada específicamente en el problema del phase-locking entre frames:
+  </p>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Bonus · Phase locking explicado paso a paso</span>
+      <a href="../embeds/s06_phase_locking.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s06_phase_locking.html" title="Demo de phase locking" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así</h3>
+    <ol>
+      <li>Carga una voz y estira el tiempo a 1.5×. Compara con y sin phase-locking: oirás los artefactos clásicos.</li>
+      <li>Cambia el pitch un semitono arriba sin cambiar la duración. La voz sigue siendo "la misma persona" hablando más agudo.</li>
+      <li>Pon la fase a cero. Vas a oír robotización: el sonido se vuelve metálico y monótono.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-spectra">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar el algoritmo Phase Vocoder completo en NumPy.</li>
+      <li>Hacer el <strong>Fun Task 06 "Slow-Motion Speech"</strong>: estirar una voz a 4× preservando la inteligibilidad, y producir una textura ambiental usable musicalmente.</li>
+      <li>Conectar con la S07 (modelo sinusoidal SMS), donde se pasa de bins a parciales y la calidad de las transformaciones aumenta notablemente para sonidos armónicos.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M14 · Laboratorio — Gamelán: timbre y escala</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --accent2:#5fb3d9;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 14px;font-size:0.95rem;max-width:660px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+h4{font-size:0.85rem;color:var(--accent2);margin:12px 0 6px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.warn-box{padding:12px 14px;margin:0 0 20px;background:#2a1c10;border-left:3px solid var(--accent);border-radius:7px;color:#e9d2ad;font-size:0.83rem;line-height:1.55;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+input[type=number],input[type=text],select{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1.05rem;padding:16px 22px;min-width:150px;}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;width:100%;display:block;margin:10px 0;}
+
+table.ref-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:8px;}
+table.ref-table th,table.ref-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+table.ref-table th:first-child,table.ref-table td:first-child{text-align:left;}
+table.ref-table th{color:var(--muted);font-weight:600;}
+table.ref-table .accent-col{color:var(--accent);}
+table.ref-table .accent2-col{color:var(--accent2);}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+.note-box.b2{border-left-color:var(--accent2);}
+.calc-box{padding:10px 12px;margin-top:8px;background:#0d0f14;border:1px solid var(--line);border-radius:7px;color:#c7cbd4;font-size:0.78rem;line-height:1.6;font-variant-numeric:tabular-nums;}
+
+.keyboard{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+.key{background:#262b38;border:1px solid var(--line);border-radius:9px;padding:12px 8px;min-width:78px;text-align:center;cursor:pointer;color:var(--text);user-select:none;}
+.key:hover{background:#313848;border-color:var(--accent);}
+.key:active{background:var(--accent);color:var(--accent-ink);}
+.key .deg-name{font-weight:700;color:var(--accent);display:block;font-size:0.82rem;}
+.key .deg-cents{color:var(--muted);font-size:0.7rem;display:block;margin-top:4px;}
+.key .deg-freq{color:var(--muted);font-size:0.66rem;display:block;}
+
+.beat-display{font-size:2rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;text-align:center;margin:8px 0;}
+.beat-display span{font-size:0.95rem;color:var(--muted);font-weight:500;}
+
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:0.8rem;color:var(--muted);margin:6px 0;}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+
+.compare-panel{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.compare-col{flex:1;min-width:220px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:0.85rem;}
+.compare-col h4{margin:0 0 8px;font-size:0.9rem;}
+.compare-col .kv{display:flex;justify-content:space-between;margin:4px 0;color:var(--muted);}
+.compare-col .kv b{color:var(--text);}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .compare-panel{flex-direction:column;}
+  .big-btn{min-width:120px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M14 · Laboratorio: Gamelán — timbre y escala</h1>
+    <p class="subtitle">El gamelán no separa timbre y afinación: las escalas slendro y pelog se entienden a partir del espectro inarmónico de sus barras metálicas. Todo el audio se sintetiza en el navegador.</p>
+  </header>
+
+  <div class="warn-box">
+    ⚠ Los valores de afinación de este laboratorio (slendro, pelog y los parciales de la barra) son <b>ejemplos didácticos</b> basados en mediciones publicadas de gamelanes concretos (p. ej. el estudio clásico de Surjodiningrat, Sudarjana &amp; Susanto, 1972, sobre gamelanes javaneses). <b>Cada gamelán real es único</b>: se afina a mano, gamelán por gamelán, y no existe una "escala slendro" o "pelog" universal.
+  </div>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Armónico vs. inarmónico</h2>
+    <p class="purpose">La misma fundamental, dos espectros: la "cuerda" (armónicos 1·f, 2·f, 3·f…) y la "barra" de metalófono (parciales inarmónicos). Escucha primero la diferencia de color; luego, lo que pasa cuando cada timbre forma un intervalo.</p>
+
+    <div class="btn-row" style="display:flex;gap:14px;flex-wrap:wrap;">
+      <button class="btn primary big-btn" id="l1PlayCuerda">▶ Cuerda (300 Hz)</button>
+      <button class="btn primary big-btn" id="l1PlayBarra">▶ Barra (300 Hz)</button>
+    </div>
+
+    <h3>Los 4 primeros parciales de cada timbre (fundamental 300 Hz)</h3>
+    <table class="ref-table">
+      <thead><tr><th>Parcial</th><th class="accent2-col">Cuerda — razón</th><th class="accent2-col">Cuerda — Hz</th><th class="accent-col">Barra — razón</th><th class="accent-col">Barra — Hz</th></tr></thead>
+      <tbody id="l1PartialTable"></tbody>
+    </table>
+
+    <h3>Experimento: la octava (300 + 600 Hz)</h3>
+    <p class="purpose">Con timbre de cuerda los armónicos de ambas notas se entrelazan perfectamente (todo armónico de 600 Hz es también armónico de 300 Hz) y el par se funde en un solo color. Con timbre de barra, no: los parciales inarmónicos de una nota caen cerca —pero no exactamente— de los de la otra, y eso se oye como roce.</p>
+    <div class="btn-row">
+      <button class="btn big-btn" id="l1OctCuerda">▶ Octava con cuerda</button>
+      <button class="btn big-btn" id="l1OctBarra">▶ Octava con barra</button>
+    </div>
+    <div class="calc-box" id="l1OctCalc"></div>
+
+    <h3>Experimento: la quinta (300 + 450 Hz)</h3>
+    <div class="btn-row">
+      <button class="btn big-btn" id="l1FifthCuerda">▶ Quinta con cuerda</button>
+      <button class="btn big-btn" id="l1FifthBarra">▶ Quinta con barra</button>
+    </div>
+    <div class="calc-box" id="l1FifthCalc"></div>
+
+    <div class="note-box">El cálculo de arriba se hace con la <b>misma fórmula de rugosidad de Sethares</b> que usarás en el Lab 4: para cada par de parciales (uno de cada nota) se calcula cuánto "chocan" según su cercanía en Hz y el producto de sus amplitudes. El par ganador es el que más aporta a la rugosidad total del intervalo — casi siempre uno solo domina el resultado.</div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Teclados slendro y pelog</h2>
+    <p class="purpose">Dos escalas de ejemplo, ambas con timbre de barra. Toca las notas, escucha las melodías demo y compara la escala real contra su "traducción" a sistemas occidentales.</p>
+
+    <h3>Slendro (5 notas + "octava" estirada)</h3>
+    <div class="keyboard" id="l2SlendroKeys"></div>
+    <div class="calc-box" id="l2SlendroSteps"></div>
+
+    <h3>Pelog (7 notas + "octava" estirada)</h3>
+    <div class="keyboard" id="l2PelogKeys"></div>
+    <div class="calc-box" id="l2PelogSteps"></div>
+
+    <h3>Melodías demo</h3>
+    <div class="btn-row">
+      <button class="btn primary" id="l2PlayBalungan">▶ Balungan slendro</button>
+      <button class="btn primary" id="l2PlayPathet">▶ Pathet pelog</button>
+    </div>
+    <p class="purpose">Ambas melodías son <b>inventadas</b> para este laboratorio (no citan una pieza real), pero siguen el gesto típico del balungan: movimiento por grado conjunto, contorno ondulante, ciclo que vuelve al punto de partida.</p>
+
+    <h3>Comparador: la misma frase, tres afinaciones</h3>
+    <p class="purpose">La secuencia del "balungan slendro" (grados 0-1-2-3-2-1-4-0) se repite ahora afinada de tres maneras distintas, siempre con timbre de barra, para que el único cambio sea la afinación.</p>
+    <div class="btn-row">
+      <button class="btn" id="l2PlaySlendroReal">▶ Slendro real (medido)</button>
+      <button class="btn" id="l2Play5edo">▶ 5-EDO exacto (240 c)</button>
+      <button class="btn" id="l2Play12et">▶ 12-ET (Do-Re-Mi-Sol-La)</button>
+    </div>
+    <div class="note-box b2">La versión en 5-EDO "corrige" el estiramiento de la octava (todo pasa a múltiplos exactos de 240 c) y ya suena distinto del slendro medido. La versión en 12-ET fuerza los 5 grados sobre Do-Re-Mi-Sol-La: es la "occidentalización" completa — se pierde tanto el estiramiento como los pasos desiguales que hacen reconocible al slendro.</div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · Ombak</h2>
+    <p class="purpose">Dos "instrumentos" golpean la misma nota (300 Hz) pero uno está desafinado por Δ Hz respecto del otro a propósito. El batido resultante —el <i>ombak</i>— es el shimmer característico del gamelán, no un defecto a corregir.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l3Delta">Δ entre instrumentos</label>
+        <input type="range" id="l3Delta" min="0" max="12" step="0.1" value="0">
+        <span class="value-tag" id="l3DeltaDisplay">0.0 Hz</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="l3P0">Unísono muerto (0)</button>
+      <button class="btn" id="l3P4">Ombak lento javanés (~4 Hz)</button>
+      <button class="btn" id="l3P7">Ombak balinés (~6-8 Hz)</button>
+      <button class="btn" id="l3P12">Demasiado (12 Hz)</button>
+    </div>
+
+    <div class="beat-display"><span>Batido esperado:</span> <span id="l3BeatDisplay">0.0 Hz</span></div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3Toggle">▶ Golpes sincronizados (cada 3 s)</button>
+    </div>
+
+    <h3>Osciloscopio (suma de ambos instrumentos)</h3>
+    <canvas id="l3Canvas" width="840" height="150"></canvas>
+
+    <div class="note-box">En M1 aprendiste a <b>eliminar</b> el batido (afinar al unísono exacto). Aquí, ese mismo batido —controlado, entre ~3 y ~8 Hz— es el alma tímbrica del gamelán: sin él, un gamelán "afinado perfecto" suena muerto, sin el shimmer que lo identifica.</div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · La curva de rugosidad, dos mundos</h2>
+    <p class="purpose">Rugosidad de Sethares (Plomp-Levelt) barriendo 0-1200 c sobre una fundamental de 300 Hz, calculada para dos espectros: armónico (8 parciales 1/n, timbre de cuerda) e inarmónico (los 4 parciales de la barra). Cada curva está normalizada a su propio máximo para comparar la <b>ubicación</b> de los valles, no su magnitud absoluta.</p>
+
+    <div class="legend">
+      <span><span class="dot" style="background:var(--accent2);"></span>Espectro armónico (cuerda)</span>
+      <span><span class="dot" style="background:var(--accent);"></span>Espectro de barra</span>
+    </div>
+
+    <canvas id="l4Canvas" width="860" height="300"></canvas>
+
+    <div class="row">
+      <div class="field">
+        <label for="l4Explore">Explorar el intervalo (cents)</label>
+        <input type="range" id="l4Explore" min="0" max="1220" step="1" value="0">
+        <span class="value-tag" id="l4ExploreDisplay">0 c</span>
+      </div>
+      <div class="field">
+        <label for="l4Spectrum">Espectro a escuchar</label>
+        <select id="l4Spectrum">
+          <option value="auto">Automático (según la curva más cercana al clic)</option>
+          <option value="harm">Armónico (cuerda)</option>
+          <option value="bar">Barra</option>
+        </select>
+      </div>
+    </div>
+    <p class="purpose">Haz clic sobre cualquier punto de una curva para escuchar ese intervalo con el timbre correspondiente. Mueve el slider para explorar en vivo (con throttling para no saturar el audio).</p>
+
+    <div class="calc-box" id="l4Minima"></div>
+
+    <div class="note-box">Los valles del espectro <b style="color:var(--accent2);">armónico</b> caen donde siempre: cerca de 702 c (3/2), 498 c (4/3), 386 c (5/4)… la consonancia "de manual". Los valles del espectro de <b style="color:var(--accent);">barra</b> caen en <i>otro lado</i> — y varios quedan cerca de los grados de la escala slendro de ejemplo (líneas verticales). Esa coincidencia no es casualidad: el sistema de afinación de un metalófono tiende a acomodarse a los valles de rugosidad de <i>su propio</i> timbre, no a los de una cuerda o una voz.</div>
+  </section>
+
+  <footer>
+    Módulo 14 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+// Bloquea cualquier intento de sonar antes de activar el audio; da pista visual.
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* ==================== TIMBRES DEL MÓDULO ==================== */
+// Parciales de la barra de metalófono (inarmónicos): razones sobre la fundamental
+// y sus amplitudes relativas. Valores didácticos, del enunciado del laboratorio.
+const BAR_RATIOS = [1, 2.76, 5.40, 8.93];
+const BAR_AMPS   = [1, 0.55, 0.28, 0.12];
+// Decaimiento largo en la fundamental (~2.5 s) y progresivamente más corto en los
+// parciales altos (así suena una barra real: el brillo se apaga antes que el fondo).
+const BAR_DECAYS = BAR_RATIOS.map(function(r){ return 2.5 / Math.sqrt(r); });
+
+// strikeBar: timbre de barra para TODO el laboratorio. createPeriodicWave no sirve
+// aquí porque sólo puede describir series ARMÓNICAS (múltiplos enteros de f0); una
+// barra de metalófono es inarmónica, así que cada parcial es un oscilador seno
+// independiente con su propia envolvente de ataque percusivo + decaimiento exponencial.
+//   freq       — frecuencia fundamental de la barra (Hz)
+//   when       — instante de audioCtx en que golpea
+//   gain       — amplitud de pico de la fundamental (los demás parciales se escalan por BAR_AMPS)
+//   decayScale — factor opcional sobre BAR_DECAYS (1 = decaimiento natural ~2.5 s)
+//   dest       — nodo de destino opcional (por defecto masterGain)
+function strikeBar(freq, when, gain, decayScale, dest){
+  gain = (gain === undefined) ? 0.22 : gain;
+  decayScale = decayScale || 1;
+  dest = dest || masterGain;
+  const voices = [];
+  for(let k = 0; k < BAR_RATIOS.length; k++){
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq * BAR_RATIOS[k], when);
+    const g = audioCtx.createGain();
+    const peak = Math.max(gain * BAR_AMPS[k], 0.0001);
+    const decay = Math.max(BAR_DECAYS[k] * decayScale, 0.05);
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(peak, when + 0.002); // ataque percusivo ~2 ms
+    g.gain.setValueAtTime(peak, when + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + 0.002 + decay);
+    osc.connect(g); g.connect(dest);
+    const stopAt = when + 0.002 + decay + 0.05;
+    osc.start(when);
+    osc.stop(stopAt);
+    osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+    voices.push({ osc:osc, gain:g });
+  }
+  return voices;
+}
+
+// strikeString: timbre de "cuerda" (armónico, 8 armónicos de amplitud 1/n vía
+// createPeriodicWave — aquí SÍ corresponde usarlo porque la serie es armónica),
+// con envolvente de ataque breve y decaimiento exponencial de duración configurable,
+// para poder comparar de igual a igual con strikeBar (mismo tipo de golpe/decay).
+function strikeString(freq, when, gain, decaySeconds, dest){
+  gain = (gain === undefined) ? 0.2 : gain;
+  decaySeconds = decaySeconds || 2.5;
+  dest = dest || masterGain;
+  const numHarm = 8;
+  const real = new Float32Array(numHarm + 1);
+  const imag = new Float32Array(numHarm + 1);
+  for(let k = 1; k <= numHarm; k++) imag[k] = 1/k;
+  const wave = audioCtx.createPeriodicWave(real, imag, { disableNormalization:false });
+  const osc = audioCtx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.setValueAtTime(freq, when);
+  const g = audioCtx.createGain();
+  g.gain.setValueAtTime(0.0001, when);
+  g.gain.exponentialRampToValueAtTime(Math.max(gain,0.0001), when + 0.02);
+  g.gain.setValueAtTime(Math.max(gain,0.0001), when + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, when + 0.02 + decaySeconds);
+  osc.connect(g); g.connect(dest);
+  const stopAt = when + 0.02 + decaySeconds + 0.05;
+  osc.start(when);
+  osc.stop(stopAt);
+  osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  return { osc:osc, gain:g };
+}
+
+/* ==================== RUGOSIDAD DE SETHARES (compartida Lab 1 y Lab 4) ==================== */
+// Rugosidad sensorial de un par de parciales (Plomp-Levelt), misma reimplementación
+// que M8 Lab 4: l = a1*a2; s = 0.24/(0.0207*fmin+18.96); d = l*(e^(-3.5·s·Δf) - e^(-5.75·s·Δf)).
+function roughnessPair(f1, a1, f2, a2){
+  const fmin = Math.min(f1, f2);
+  const s = 0.24 / (0.0207*fmin + 18.96);
+  const fs = s * Math.abs(f2 - f1);
+  return a1*a2*(Math.exp(-3.5*fs) - Math.exp(-5.75*fs));
+}
+
+// Rugosidad total entre dos espectros completos (todos los pares, incluidos los
+// internos a cada nota) — así se puede reutilizar directamente para Lab 4.
+function spectrumRoughness(f1, f2, ratios, amps){
+  const partials = [];
+  for(let i = 0; i < ratios.length; i++) partials.push({ f:f1*ratios[i], a:amps[i] });
+  for(let i = 0; i < ratios.length; i++) partials.push({ f:f2*ratios[i], a:amps[i] });
+  let sum = 0;
+  for(let i = 0; i < partials.length; i++){
+    for(let j = i+1; j < partials.length; j++){
+      sum += roughnessPair(partials[i].f, partials[i].a, partials[j].f, partials[j].a);
+    }
+  }
+  return sum;
+}
+
+// Encuentra, entre los parciales de dos notas con espectro de barra, el par que MÁS
+// aporta a la rugosidad total (el "choque más fuerte"), y de paso la suma total.
+function worstBarClash(freqLow, freqHigh){
+  let best = null, total = 0;
+  for(let i = 0; i < BAR_RATIOS.length; i++){
+    for(let j = 0; j < BAR_RATIOS.length; j++){
+      const fA = freqLow*BAR_RATIOS[i], fB = freqHigh*BAR_RATIOS[j];
+      const val = roughnessPair(fA, BAR_AMPS[i], fB, BAR_AMPS[j]);
+      total += val;
+      if(!best || val > best.val) best = { val:val, fA:fA, fB:fB, ratioA:BAR_RATIOS[i], ratioB:BAR_RATIOS[j], diff:Math.abs(fA-fB) };
+    }
+  }
+  return { best:best, total:total };
+}
+
+/* ==================== Lab 1: Armónico vs. inarmónico ==================== */
+(function(){
+  const table = document.getElementById('l1PartialTable');
+  const CUERDA_RATIOS = [1,2,3,4];
+  for(let i = 0; i < 4; i++){
+    const tr = document.createElement('tr');
+    const cFreq = 300*CUERDA_RATIOS[i];
+    const bFreq = 300*BAR_RATIOS[i];
+    tr.innerHTML = '<td>' + (i+1) + '</td>' +
+      '<td class="accent2-col">' + CUERDA_RATIOS[i].toFixed(2) + '</td>' +
+      '<td>' + cFreq.toFixed(1) + ' Hz</td>' +
+      '<td class="accent-col">' + BAR_RATIOS[i].toFixed(2) + '</td>' +
+      '<td>' + bFreq.toFixed(1) + ' Hz</td>';
+    table.appendChild(tr);
+  }
+
+  document.getElementById('l1PlayCuerda').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    strikeString(300, audioCtx.currentTime + 0.03, 0.22, 2.5);
+  });
+  document.getElementById('l1PlayBarra').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    strikeBar(300, audioCtx.currentTime + 0.03, 0.24);
+  });
+
+  function renderClash(boxId, freqLow, freqHigh, label){
+    const r = worstBarClash(freqLow, freqHigh);
+    const b = r.best;
+    const pct = r.total > 0 ? (100*b.val/r.total) : 0;
+    document.getElementById(boxId).innerHTML =
+      'Choque más fuerte (' + label + ', timbre de barra): parcial ' + b.ratioA.toFixed(2) + '×' + freqLow + ' = ' + b.fA.toFixed(1) + ' Hz ' +
+      'contra parcial ' + b.ratioB.toFixed(2) + '×' + freqHigh + ' = ' + b.fB.toFixed(1) + ' Hz ' +
+      '→ separados sólo ' + b.diff.toFixed(1) + ' Hz.<br>' +
+      'Ese único par aporta ' + b.val.toFixed(5) + ' de rugosidad, el ' + pct.toFixed(0) + ' % de la rugosidad cruzada total (' + r.total.toFixed(5) + ') entre ambas notas.';
+  }
+  renderClash('l1OctCalc', 300, 600, 'octava');
+  renderClash('l1FifthCalc', 300, 450, 'quinta');
+
+  document.getElementById('l1OctCuerda').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const t = audioCtx.currentTime + 0.03;
+    strikeString(300, t, 0.16, 2.5);
+    strikeString(600, t, 0.16, 2.5);
+  });
+  document.getElementById('l1OctBarra').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const t = audioCtx.currentTime + 0.03;
+    strikeBar(300, t, 0.2);
+    strikeBar(600, t, 0.2);
+  });
+  document.getElementById('l1FifthCuerda').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const t = audioCtx.currentTime + 0.03;
+    strikeString(300, t, 0.16, 2.5);
+    strikeString(450, t, 0.16, 2.5);
+  });
+  document.getElementById('l1FifthBarra').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const t = audioCtx.currentTime + 0.03;
+    strikeBar(300, t, 0.2);
+    strikeBar(450, t, 0.2);
+  });
+})();
+
+/* ==================== Lab 2: Teclados slendro y pelog ==================== */
+// Cents ilustrativos "según mediciones clásicas de gamelanes javaneses" (p. ej.
+// Surjodiningrat, Sudarjana & Susanto, 1972, "Tone Measurements of Outstanding
+// Javanese Gamelans"): valores promediados/simplificados con fines didácticos.
+// Nombres de grados del slendro tomados del enunciado del laboratorio.
+const SLENDRO = [
+  { name:'barang',      cents:0 },
+  { name:'gulu',        cents:231 },
+  { name:'dhadha',      cents:474 },
+  { name:'lima',        cents:717 },
+  { name:'nem',         cents:955 },
+  { name:'barang (8ª)', cents:1208 } // la "octava" del slendro viene estirada: ¡ese es el punto!
+];
+// Nombres tradicionales de los 7 grados del pelog (kepatihan): bem, gulu, dhadha,
+// pelog, lima, nem, barang.
+const PELOG = [
+  { name:'bem',      cents:0 },
+  { name:'gulu',     cents:120 },
+  { name:'dhadha',   cents:258 },
+  { name:'pelog',    cents:539 },
+  { name:'lima',     cents:675 },
+  { name:'nem',      cents:785 },
+  { name:'barang',   cents:943 },
+  { name:'bem (8ª)', cents:1206 }
+];
+const GAMELAN_BASE = 300; // tónica ilustrativa, Hz
+
+function degFreq(cents){ return GAMELAN_BASE * Math.pow(2, cents/1200); }
+
+function buildKeyboard(containerId, scale){
+  const cont = document.getElementById(containerId);
+  scale.forEach(function(deg){
+    const key = document.createElement('div');
+    key.className = 'key';
+    const f = degFreq(deg.cents);
+    key.innerHTML = '<span class="deg-name">' + deg.name + '</span>' +
+      '<span class="deg-cents">' + deg.cents + ' c</span>' +
+      '<span class="deg-freq">' + f.toFixed(1) + ' Hz</span>';
+    key.addEventListener('click', function(){
+      if(!ensureAudioReady()) return;
+      strikeBar(f, audioCtx.currentTime + 0.02, 0.24);
+    });
+    cont.appendChild(key);
+  });
+}
+buildKeyboard('l2SlendroKeys', SLENDRO);
+buildKeyboard('l2PelogKeys', PELOG);
+
+function stepsText(scale){
+  const steps = [];
+  for(let i = 1; i < scale.length; i++) steps.push((scale[i].cents - scale[i-1].cents));
+  return 'Pasos sucesivos: ' + steps.join(' + ') + ' = ' + steps.reduce(function(a,b){return a+b;},0) + ' c (la "octava" mide eso, no 1200 c exactos).';
+}
+document.getElementById('l2SlendroSteps').textContent = stepsText(SLENDRO);
+document.getElementById('l2PelogSteps').textContent = stepsText(PELOG) + ' Nota lo irregular de los pasos del pelog (110 a 281 c) frente a los del slendro (231 a 253 c, casi iguales).';
+
+// Reproduce una secuencia de índices de grado sobre un arreglo de cents dado,
+// siempre con timbre de barra, a intervalos regulares.
+function playScaleSequence(indices, centsForIndex, baseFreq, noteDur){
+  if(!ensureAudioReady()) return;
+  noteDur = noteDur || 0.55;
+  let t = audioCtx.currentTime + 0.05;
+  indices.forEach(function(idx){
+    const f = baseFreq * Math.pow(2, centsForIndex(idx)/1200);
+    strikeBar(f, t, 0.22);
+    t += noteDur;
+  });
+}
+
+// Balungan slendro: melodía INVENTADA para este laboratorio (idiomática, no cita
+// una pieza real), grados 0..4 de SLENDRO, se repite dos veces.
+const BALUNGAN_SLENDRO = [0,1,2,3,2,1,4,0, 0,1,2,3,2,1,4,0];
+document.getElementById('l2PlayBalungan').addEventListener('click', function(){
+  playScaleSequence(BALUNGAN_SLENDRO, function(idx){ return SLENDRO[idx].cents; }, GAMELAN_BASE, 0.6);
+});
+
+// Pathet pelog: subconjunto pentatónico del pelog de 7 notas (bem-gulu-dhadha-lima-nem,
+// se omiten pelog y barang), también inventada pero idiomática.
+const PATHET_SUBSET = [0,1,2,4,5]; // índices dentro de PELOG
+const PATHET_SEQ = [0,1,2,3,2,4,3,0, 0,1,2,3,2,4,3,0]; // posiciones dentro del subconjunto
+document.getElementById('l2PlayPathet').addEventListener('click', function(){
+  playScaleSequence(PATHET_SEQ, function(pos){ return PELOG[PATHET_SUBSET[pos]].cents; }, GAMELAN_BASE, 0.6);
+});
+
+// Comparador: la misma frase del balungan slendro (grados 0..4), en tres afinaciones.
+const FIVE_EDO_CENTS = [0, 240, 480, 720, 960];
+const TWELVE_ET_CENTS = [0, 200, 400, 700, 900]; // Do-Re-Mi-Sol-La
+document.getElementById('l2PlaySlendroReal').addEventListener('click', function(){
+  playScaleSequence(BALUNGAN_SLENDRO, function(idx){ return SLENDRO[idx].cents; }, GAMELAN_BASE, 0.6);
+});
+document.getElementById('l2Play5edo').addEventListener('click', function(){
+  playScaleSequence(BALUNGAN_SLENDRO, function(idx){ return FIVE_EDO_CENTS[idx]; }, GAMELAN_BASE, 0.6);
+});
+document.getElementById('l2Play12et').addEventListener('click', function(){
+  playScaleSequence(BALUNGAN_SLENDRO, function(idx){ return TWELVE_ET_CENTS[idx]; }, GAMELAN_BASE, 0.6);
+});
+
+/* ==================== Lab 3: Ombak ==================== */
+(function(){
+  const deltaSlider = document.getElementById('l3Delta');
+  const deltaDisplay = document.getElementById('l3DeltaDisplay');
+  const beatDisplay = document.getElementById('l3BeatDisplay');
+  const toggleBtn = document.getElementById('l3Toggle');
+  const canvas = document.getElementById('l3Canvas');
+
+  let delta = 0;
+  let running = false;
+  let nextStrikeTime = 0;
+  let lookaheadId = null;
+  let rafId = null;
+  let mixBus = null, analyser = null;
+  const PERIOD = 3.0;
+
+  function refresh(){
+    deltaDisplay.textContent = delta.toFixed(1) + ' Hz';
+    beatDisplay.textContent = delta.toFixed(1) + ' Hz';
+  }
+  function setDelta(d){
+    delta = d;
+    deltaSlider.value = d;
+    refresh();
+  }
+  deltaSlider.addEventListener('input', function(){
+    delta = parseFloat(deltaSlider.value);
+    refresh();
+  });
+  document.getElementById('l3P0').addEventListener('click', function(){ setDelta(0); });
+  document.getElementById('l3P4').addEventListener('click', function(){ setDelta(4); });
+  document.getElementById('l3P7').addEventListener('click', function(){ setDelta(7); });
+  document.getElementById('l3P12').addEventListener('click', function(){ setDelta(12); });
+
+  function ensureGraph(){
+    if(!mixBus){
+      mixBus = audioCtx.createGain(); mixBus.gain.value = 1;
+      analyser = audioCtx.createAnalyser(); analyser.fftSize = 2048;
+      mixBus.connect(analyser); analyser.connect(masterGain);
+    }
+  }
+
+  function scheduler(){
+    if(!running) return;
+    while(nextStrikeTime < audioCtx.currentTime + 0.2){
+      strikeBar(300, nextStrikeTime, 0.2, 1, mixBus);
+      strikeBar(300 + delta, nextStrikeTime, 0.2, 1, mixBus);
+      nextStrikeTime += PERIOD;
+    }
+  }
+
+  function drawScope(){
+    const c2d = canvas.getContext('2d');
+    const bufferLen = analyser.fftSize;
+    const data = new Uint8Array(bufferLen);
+    function draw(){
+      rafId = requestAnimationFrame(draw);
+      analyser.getByteTimeDomainData(data);
+      c2d.clearRect(0,0,canvas.width, canvas.height);
+      c2d.strokeStyle = '#e8a33d'; c2d.lineWidth = 1.5;
+      c2d.beginPath();
+      const slice = canvas.width / bufferLen;
+      let x = 0;
+      for(let i = 0; i < bufferLen; i++){
+        const v = data[i]/128.0;
+        const y = v * canvas.height/2;
+        if(i===0) c2d.moveTo(x,y); else c2d.lineTo(x,y);
+        x += slice;
+      }
+      c2d.stroke();
+    }
+    draw();
+  }
+  function stopScope(){
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    const c2d = canvas.getContext('2d');
+    c2d.clearRect(0,0,canvas.width, canvas.height);
+  }
+
+  toggleBtn.addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    if(!running){
+      ensureGraph();
+      running = true;
+      nextStrikeTime = audioCtx.currentTime + 0.1;
+      scheduler();
+      lookaheadId = setInterval(scheduler, 100);
+      drawScope();
+      toggleBtn.textContent = '■ Detener golpes';
+    } else {
+      running = false;
+      if(lookaheadId){ clearInterval(lookaheadId); lookaheadId = null; }
+      stopScope();
+      toggleBtn.textContent = '▶ Golpes sincronizados (cada 3 s)';
+    }
+  });
+
+  refresh();
+})();
+
+/* ==================== Lab 4: Curva de rugosidad, dos mundos ==================== */
+(function(){
+  const canvas = document.getElementById('l4Canvas');
+  const ctx2d = canvas.getContext('2d');
+  const exploreSlider = document.getElementById('l4Explore');
+  const exploreDisplay = document.getElementById('l4ExploreDisplay');
+  const spectrumSelect = document.getElementById('l4Spectrum');
+  const minimaBox = document.getElementById('l4Minima');
+
+  const BASE = 300;
+  const MAX_CENTS = 1220; // un poco más de una octava, para poder marcar la "octava" estirada del slendro (1208 c)
+  const STEP = 2;
+  const HARM_RATIOS = [1,2,3,4,5,6,7,8];
+  const HARM_AMPS = HARM_RATIOS.map(function(n){ return 1/n; });
+
+  // ---- Precálculo de ambas curvas (resolución 2 c), UNA sola vez al cargar ----
+  const N = Math.floor(MAX_CENTS/STEP) + 1;
+  const centsArr = new Array(N);
+  const harmRaw = new Array(N);
+  const barRaw = new Array(N);
+  for(let i = 0; i < N; i++){
+    const c = i*STEP;
+    centsArr[i] = c;
+    const f2 = BASE*Math.pow(2, c/1200);
+    harmRaw[i] = spectrumRoughness(BASE, f2, HARM_RATIOS, HARM_AMPS);
+    barRaw[i]  = spectrumRoughness(BASE, f2, BAR_RATIOS, BAR_AMPS);
+  }
+  const harmMax = Math.max.apply(null, harmRaw);
+  const barMax = Math.max.apply(null, barRaw);
+  const harmNorm = harmRaw.map(function(v){ return v/harmMax; });
+  const barNorm = barRaw.map(function(v){ return v/barMax; });
+
+  // Mínimos locales con separación mínima de 20 c entre ellos (evita marcar
+  // ondulaciones minúsculas vecinas como mínimos independientes).
+  function findLocalMinima(arr, minSepPoints){
+    const candidates = [];
+    for(let i = 1; i < arr.length-1; i++){
+      if(arr[i] < arr[i-1] && arr[i] < arr[i+1]) candidates.push(i);
+    }
+    const kept = [];
+    candidates.forEach(function(idx){
+      const last = kept[kept.length-1];
+      if(last !== undefined && (idx - last) < minSepPoints){
+        if(arr[idx] < arr[last]) kept[kept.length-1] = idx;
+      } else {
+        kept.push(idx);
+      }
+    });
+    return kept;
+  }
+  const harmMinima = findLocalMinima(harmNorm, 10); // 10 puntos = 20 c
+  const barMinima = findLocalMinima(barNorm, 10);
+
+  function fmtMinimaList(idxs){
+    return idxs.map(function(i){ return centsArr[i].toFixed(0) + ' c'; }).join(', ');
+  }
+  minimaBox.innerHTML =
+    '<b style="color:var(--accent2);">Mínimos armónicos:</b> ' + fmtMinimaList(harmMinima) + '<br>' +
+    '<b style="color:var(--accent);">Mínimos de barra:</b> ' + fmtMinimaList(barMinima);
+
+  // ---- Dibujo ----
+  const PAD_L = 34, PAD_R = 12, PAD_T = 14, PAD_B = 26;
+  function xFor(c){ return PAD_L + (c/MAX_CENTS)*(canvas.width - PAD_L - PAD_R); }
+  function yFor(norm){ return PAD_T + (1-norm)*(canvas.height - PAD_T - PAD_B); }
+
+  const REF_LINES = [
+    { cents:386, label:'5/4' },
+    { cents:702, label:'3/2' },
+    { cents:231, label:'gulu' },
+    { cents:474, label:'dhadha' },
+    { cents:717, label:'lima' },
+    { cents:955, label:'nem' },
+    { cents:1208, label:'8ª slendro' }
+  ];
+
+  let exploreCents = 0;
+
+  function drawCurve(arr, color){
+    ctx2d.strokeStyle = color; ctx2d.lineWidth = 2;
+    ctx2d.beginPath();
+    for(let i = 0; i < N; i++){
+      const x = xFor(centsArr[i]), y = yFor(arr[i]);
+      if(i===0) ctx2d.moveTo(x,y); else ctx2d.lineTo(x,y);
+    }
+    ctx2d.stroke();
+  }
+  function drawMinima(idxs, arr, color){
+    idxs.forEach(function(i){
+      ctx2d.fillStyle = color;
+      ctx2d.beginPath();
+      ctx2d.arc(xFor(centsArr[i]), yFor(arr[i]), 4, 0, 2*Math.PI);
+      ctx2d.fill();
+    });
+  }
+
+  function draw(){
+    ctx2d.clearRect(0,0,canvas.width, canvas.height);
+
+    // líneas de referencia
+    REF_LINES.forEach(function(ref){
+      const x = xFor(ref.cents);
+      ctx2d.strokeStyle = '#3a4150'; ctx2d.lineWidth = 1;
+      ctx2d.beginPath(); ctx2d.moveTo(x, PAD_T); ctx2d.lineTo(x, canvas.height-PAD_B); ctx2d.stroke();
+      ctx2d.fillStyle = '#9aa0ac'; ctx2d.font = '9px system-ui'; ctx2d.textAlign = 'center';
+      ctx2d.fillText(ref.label, x, PAD_T - 3 < 8 ? 10 : PAD_T - 3);
+    });
+
+    // eje x (cents) marcas cada 200 c
+    ctx2d.strokeStyle = '#2a2e3a';
+    ctx2d.beginPath(); ctx2d.moveTo(PAD_L, canvas.height-PAD_B); ctx2d.lineTo(canvas.width-PAD_R, canvas.height-PAD_B); ctx2d.stroke();
+    ctx2d.fillStyle = '#9aa0ac'; ctx2d.font = '9px system-ui'; ctx2d.textAlign = 'center';
+    for(let c = 0; c <= MAX_CENTS; c += 200){
+      const x = xFor(c);
+      ctx2d.fillText(String(c), x, canvas.height-PAD_B+12);
+    }
+
+    drawCurve(harmNorm, '#5fb3d9');
+    drawCurve(barNorm, '#e8a33d');
+    drawMinima(harmMinima, harmNorm, '#bfe4f5');
+    drawMinima(barMinima, barNorm, '#ffcf85');
+
+    // línea vertical del explorador
+    const xe = xFor(exploreCents);
+    ctx2d.strokeStyle = '#ff6b6b'; ctx2d.lineWidth = 1.5;
+    ctx2d.beginPath(); ctx2d.moveTo(xe, PAD_T); ctx2d.lineTo(xe, canvas.height-PAD_B); ctx2d.stroke();
+  }
+  draw();
+
+  function nearestIndex(c){
+    return Math.max(0, Math.min(N-1, Math.round(c/STEP)));
+  }
+
+  let lastPlay = 0;
+  function playInterval(cents, spectrum){
+    if(!ensureAudioReady()) return;
+    const now = Date.now();
+    if(now - lastPlay < 150) return;
+    lastPlay = now;
+    const t = audioCtx.currentTime + 0.02;
+    const f2 = BASE*Math.pow(2, cents/1200);
+    if(spectrum === 'harm'){
+      strikeString(BASE, t, 0.18, 0.8);
+      strikeString(f2, t, 0.18, 0.8);
+    } else {
+      strikeBar(BASE, t, 0.22, 0.32); // decayScale ~0.32 → ~0.8 s de resonancia
+      strikeBar(f2, t, 0.22, 0.32);
+    }
+  }
+
+  canvas.addEventListener('click', function(ev){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
+    const clickX = (ev.clientX - rect.left)*scaleX;
+    const clickY = (ev.clientY - rect.top)*scaleY;
+    const c = Math.max(0, Math.min(MAX_CENTS, ((clickX - PAD_L)/(canvas.width-PAD_L-PAD_R))*MAX_CENTS));
+    const idx = nearestIndex(c);
+
+    let spectrum = spectrumSelect.value;
+    if(spectrum === 'auto'){
+      const yHarm = yFor(harmNorm[idx]);
+      const yBar = yFor(barNorm[idx]);
+      spectrum = Math.abs(clickY - yHarm) <= Math.abs(clickY - yBar) ? 'harm' : 'bar';
+    }
+    exploreCents = centsArr[idx];
+    exploreSlider.value = exploreCents;
+    exploreDisplay.textContent = exploreCents.toFixed(0) + ' c';
+    draw();
+    playInterval(centsArr[idx], spectrum);
+  });
+
+  exploreSlider.addEventListener('input', function(){
+    exploreCents = parseFloat(exploreSlider.value);
+    exploreDisplay.textContent = exploreCents.toFixed(0) + ' c';
+    draw();
+    let spectrum = spectrumSelect.value;
+    if(spectrum === 'auto'){
+      const idx = nearestIndex(exploreCents);
+      spectrum = harmNorm[idx] <= barNorm[idx] ? 'harm' : 'bar';
+    }
+    playInterval(exploreCents, spectrum);
+  });
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M2 · Apunte — El problema imposible: la aritmética de las comas</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../01-fundamentos/apunte.html">◀ El material sonoro: de la cuerda al cent</a><a class="nav-link" href="../03-pitagorica/apunte.html">Pitagórica: el imperio de la quinta ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m2.-el-problema-imposible-la-aritmética-de-las-comas">M2. El
+problema imposible: la aritmética de las comas</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Un clavecinista afina su instrumento a la manera antigua: por
+quintas, oído contra oído, sin ayuda electrónica. Empieza en Do, sube
+una quinta pura a Sol, otra a Re, otra a La, y sigue subiendo (bajando
+de octava cada tanto para no quedarse sin cuerdas) por Mi, Si, Fa#, Do#,
+Sol#, Re#, La#, Mi#. Cada quinta, afinada con paciencia hasta que el
+batido desaparece por completo (M1 §5), suena “en calma”, exactamente
+pura. Después de doce quintas así —cuidadosamente puras, una por una,
+sin ceder ni un solo cent— el clavecinista espera llegar de vuelta a Do,
+siete octavas más arriba de donde partió: el círculo de quintas de toda
+la vida, cerrado y prolijo.</p>
+<p>No llega. La última nota, que en el pentagrama se escribe Si# y que
+por lógica del círculo <em>debería</em> sonar idéntica a Do, suena
+claramente más aguda. No un poco: casi un cuarto de semitono más aguda.
+Si el clavecinista intenta usar esa quinta final —Mi#–Si#— en una pieza,
+el instrumento aúlla: los libros de historia de la afinación la
+bautizaron, con humor negro, la <strong>quinta del lobo</strong>.</p>
+<p>¿Qué pasó? El clavecinista no cometió ningún error de oído: cada una
+de las doce quintas era, hasta donde el oído humano puede verificar,
+perfectamente pura. Y sin embargo doce quintas puras y siete octavas
+puras —que deberían ser el mismo viaje contado de dos maneras distintas—
+no llegan al mismo lugar. Este módulo responde la pregunta que esa
+discrepancia deja abierta, y que ya adelantamos al cerrar el Módulo 1:
+<strong>¿por qué no puede existir una afinación perfecta, una que deje
+puras todas las quintas y, al mismo tiempo, cierre el círculo
+exactamente en la octava?</strong> La respuesta no es un defecto de
+fabricación de ningún instrumento ni una limitación del oído humano: es
+un hecho aritmético, demostrable con una línea de álgebra escolar, tan
+inevitable como que 2 + 2 no es 5. Ese hecho —y sus consecuencias, que
+vamos a perseguir durante el resto del curso— es el tema de hoy.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>De M1 necesitas fresco: el <strong>cent</strong> como unidad aditiva,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c = 1200 \cdot \log_2(r)</annotation></semantics></math>
+(M1 §6), con la quinta pura midiendo 701.955 c y la tercera mayor pura
+386.314 c; el hecho de que <strong>apilar intervalos es multiplicar
+razones, y en cents es sumar</strong> (M1 §2 y §6.3); el “tropiezo” de
+M1 §4.1, donde dos tonos apilados
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn><mo>×</mo><mn>9</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">9/8 \times 9/8 = 81/64</annotation></semantics></math>)
+no coincidían con la tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>80</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">5/4 = 80/64</annotation></semantics></math>);
+y el cierre-anzuelo de M1 §7, donde encontramos que doce quintas puras
+(8423.460 c) superan a siete octavas puras (8400 c) por 23.460 cents
+exactos. Hoy le ponemos nombre, demostración y consecuencias a ese
+sobrante.</p>
+<h2 id="el-teorema-que-lo-explica-todo-32m-neq-2n">3. El teorema que lo
+explica todo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math></h2>
+<h3 id="calentamiento-numérico-potencias-de-3-contra-potencias-de-2">3.1
+Calentamiento numérico: potencias de 3 contra potencias de 2</h3>
+<p>Antes del álgebra, miremos los números. La pregunta de fondo es si,
+apilando suficientes quintas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+multiplicado por sí mismo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+veces) y reduciendo por suficientes octavas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+multiplicado por sí mismo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+veces), se puede llegar exactamente al mismo lugar. Como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>3</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mi>m</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m = 3^m/2^m</annotation></semantics></math>,
+preguntar si
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m = 2^n</annotation></semantics></math>
+es exactamente preguntar si
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">3^m = 2^{n+m}</annotation></semantics></math>
+para algún par de enteros positivos. Así que miremos, sin ningún truco
+todavía, cómo se comportan las potencias de 3 frente a las potencias de
+2 más cercanas:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math></th>
+<th>Potencia de 2 más cercana</th>
+<th>Diferencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>2</mn></msup><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">2^2=4</annotation></semantics></math></td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">2^3=8</annotation></semantics></math></td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>27</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>5</mn></msup><mo>=</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">2^5=32</annotation></semantics></math></td>
+<td>5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>243</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>8</mn></msup><mo>=</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">2^8=256</annotation></semantics></math></td>
+<td>13</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2187</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>11</mn></msup><mo>=</mo><mn>2048</mn></mrow><annotation encoding="application/x-tex">2^{11}=2048</annotation></semantics></math></td>
+<td>139</td>
+</tr>
+<tr>
+<td>12</td>
+<td>531441</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>19</mn></msup><mo>=</mo><mn>524288</mn></mrow><annotation encoding="application/x-tex">2^{19}=524288</annotation></semantics></math></td>
+<td>7153</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fíjate en la fila
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">m=2</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>2</mn></msup><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">3^2=9</annotation></semantics></math>
+está a solo 1 unidad de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">2^3=8</annotation></semantics></math>.
+Tentador pensar que con un pequeño ajuste calzarían, pero 9 no es 8, y
+ningún redondeo cambia eso. La fila
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">m=5</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>243</mn><annotation encoding="application/x-tex">243</annotation></semantics></math>
+contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>256</mn><annotation encoding="application/x-tex">256</annotation></semantics></math>)
+es, de hecho, la razón entre esas dos cantidades
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256</mn><mi>/</mi><mn>243</mn></mrow><annotation encoding="application/x-tex">256/243</annotation></semantics></math>)
+a la que la teoría pitagórica bautizó <strong>limma</strong>; la fila
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">m=7</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2187</mn><annotation encoding="application/x-tex">2187</annotation></semantics></math>
+contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2048</mn><annotation encoding="application/x-tex">2048</annotation></semantics></math>,
+razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2187</mn><mi>/</mi><mn>2048</mn></mrow><annotation encoding="application/x-tex">2187/2048</annotation></semantics></math>)
+es el <strong>apotome</strong>. Y la fila
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">m=12</annotation></semantics></math>
+es justamente nuestro problema del clavecinista:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>12</mn></msup><mo>=</mo><mn>531441</mn></mrow><annotation encoding="application/x-tex">3^{12}=531441</annotation></semantics></math>
+contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>19</mn></msup><mo>=</mo><mn>524288</mn></mrow><annotation encoding="application/x-tex">2^{19}=524288</annotation></semantics></math>,
+una diferencia de apenas 7153 en números que rondan el medio millón
+—proporcionalmente, un acercamiento notable— y sin embargo, otra vez, no
+es una igualdad. No importa cuánto se acerquen: en aritmética no hay
+premio por “casi”. O son iguales, o no lo son.</p>
+<h3 id="la-demostración">3.2 La demostración</h3>
+<p>Vamos a demostrar, de una vez y para siempre, que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>
+jamás pueden ser el mismo número, para ningún par de enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>.
+Supongamos, por contradicción, que existieran tales enteros con</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">\left(\frac{3}{2}\right)^m = 2^n</annotation></semantics></math></p>
+<p>Reescribamos el lado izquierdo separando numerador y denominador:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msup><mn>3</mn><mi>m</mi></msup><msup><mn>2</mn><mi>m</mi></msup></mfrac><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">\frac{3^m}{2^m} = 2^n</annotation></semantics></math></p>
+<p>y multipliquemos ambos lados por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>m</mi></msup><annotation encoding="application/x-tex">2^m</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">3^m = 2^{n+m}</annotation></semantics></math></p>
+<p>Ahora viene el único paso de “álgebra” que necesitamos, y es en
+realidad una observación sobre <strong>paridad</strong> (si un número es
+par o impar). El lado izquierdo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>,
+es una potencia de un número impar. El producto de números impares es
+siempre impar (impar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+impar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+impar, sin excepción:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">3\times3=9</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>×</mo><mn>3</mn><mo>=</mo><mn>27</mn></mrow><annotation encoding="application/x-tex">9\times3=27</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mo>×</mo><mn>3</mn><mo>=</mo><mn>81</mn></mrow><annotation encoding="application/x-tex">27\times3=81</annotation></semantics></math>,
+y así sucesivamente — nunca aparece un factor 2 que pudiera volverlo
+par). Entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>
+es impar para cualquier
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">m \geq 1</annotation></semantics></math>.
+El lado derecho,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>,
+es una potencia de 2 con exponente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mi>m</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n+m \geq 2</annotation></semantics></math>
+(porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">m\geq 1</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n \geq 1</annotation></semantics></math>),
+y toda potencia de 2 con exponente positivo es par —es literalmente 2
+multiplicado por sí mismo, por lo tanto divisible por 2—. Tenemos
+entonces un número que, según la ecuación, debería ser simultáneamente
+impar (mirado como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>)
+y par (mirado como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>).
+Ningún número entero es impar y par a la vez: contradicción.</p>
+<p>Por lo tanto, no existen enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>
+tales que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m = 2^n</annotation></semantics></math>.
+<strong>Ninguna cantidad de quintas puras, jamás, coincide exactamente
+con ninguna cantidad de octavas puras.</strong></p>
+<blockquote>
+<p><strong>¿Por qué funciona este argumento y no es solo un
+truco?</strong> La razón profunda es el <strong>teorema fundamental de
+la aritmética</strong>: todo entero mayor que 1 se descompone de una
+única manera en producto de números primos.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>
+se descompone exclusivamente en factores 3 (ninguno 2);
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>
+se descompone exclusivamente en factores 2 (ninguno 3). Como la
+factorización en primos de un número es única, dos números con “listas
+de primos” distintas —uno lleno de treses, el otro lleno de doses— no
+pueden ser el mismo número, salvo el caso trivial en que ambos sean 1
+(es decir,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mi>n</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">m=n=0</annotation></semantics></math>,
+que excluimos por pedir enteros <em>positivos</em>). Este mismo
+argumento, cambiando el 3 por cualquier primo distinto de 2, sirve para
+demostrar que ninguna potencia de 5 coincide con ninguna potencia de 2
+—lo que vas a demostrar tú mismo en el ejercicio 1 para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(5/4)^m \neq 2^n</annotation></semantics></math>—
+ni con ninguna potencia de 3, ni de 7. Es, en el fondo, la razón última
+por la que la justa entonación del Módulo 4 va a tener sus propias
+comas, distintas de las de la afinación pitagórica: cada primo que uses
+para construir intervalos (2 para la octava, 3 para la quinta, 5 para la
+tercera mayor…) genera su propia familia de “casi-coincidencias” que
+nunca son coincidencias exactas.</p>
+</blockquote>
+<h3 id="corolario-la-espiral-de-quintas-nunca-cierra">3.3 Corolario: la
+espiral de quintas nunca cierra</h3>
+<p>Lo que llamamos coloquialmente “el círculo de quintas” no es,
+matemáticamente, un círculo: es una <strong>espiral</strong>. Cada
+vuelta completa (doce quintas) te devuelve <em>cerca</em> del punto de
+partida, pero 23.460 cents más arriba (lo calculamos en M1 §7 y lo vamos
+a diseccionar en la sección 4). Si siguieras apilando quintas puras más
+allá de la duodécima, seguirías subiendo en espiral para siempre,
+pasando cada vez un poco más lejos de las notas del piano que conocemos,
+sin jamás volver a tocar exactamente ninguna de ellas. El “círculo” de
+quintas —Do, Sol, Re, La… hasta volver a Do— es una <strong>ficción
+útil</strong>: una manera de organizar doce nombres de nota que solo
+funciona porque, en algún punto del sistema, alguien decide
+<em>fingir</em> que la espiral cerró, y esconde la diferencia real en
+algún rincón (la quinta del lobo, o repartida entre todas, según el
+sistema — sección 7). Todo el resto de este curso trata, de una forma u
+otra, sobre qué se hace con esa ficción.</p>
+<h2 id="la-coma-pitagórica-en-detalle">4. La coma pitagórica en
+detalle</h2>
+<p>Démosle nombre completo y cifras exactas al sobrante que encontramos
+en M1 §7 y que acabamos de demostrar que es inevitable. La <strong>coma
+pitagórica</strong> es la razón entre doce quintas puras (reducidas a
+una sola octava de rango, dividiendo por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>m</mi></msup><annotation encoding="application/x-tex">2^m</annotation></semantics></math>
+las veces que haga falta) y siete octavas puras:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">coma pitagórica</mtext><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup></mrow><msup><mn>2</mn><mn>7</mn></msup></mfrac><mo>=</mo><mfrac><msup><mn>3</mn><mn>12</mn></msup><msup><mn>2</mn><mn>12</mn></msup></mfrac><mo>⋅</mo><mfrac><mn>1</mn><msup><mn>2</mn><mn>7</mn></msup></mfrac><mo>=</mo><mfrac><msup><mn>3</mn><mn>12</mn></msup><msup><mn>2</mn><mn>19</mn></msup></mfrac><mo>=</mo><mfrac><mn>531441</mn><mn>524288</mn></mfrac></mrow><annotation encoding="application/x-tex">\text{coma pitagórica} = \frac{(3/2)^{12}}{2^7} = \frac{3^{12}}{2^{12}} \cdot \frac{1}{2^7} = \frac{3^{12}}{2^{19}} = \frac{531441}{524288}</annotation></semantics></math></p>
+<p>Calculemos sus cents con el mismo procedimiento de M1 §6.3.
+Necesitamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>531441</mn><mi>/</mi><mn>524288</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(531441/524288)</annotation></semantics></math>.
+La razón decimal es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>531441</mn><mi>/</mi><mn>524288</mn><mo>=</mo><mn>1.0136432648</mn></mrow><annotation encoding="application/x-tex">531441/524288 = 1.0136432648</annotation></semantics></math>.
+Usando logaritmo natural:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.0136432648</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.013551</mn></mrow><annotation encoding="application/x-tex">\ln(1.0136432648) = 0.013551</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>,
+así que</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>531441</mn><mn>524288</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>0.013551</mn><mn>0.693147</mn></mfrac><mo>=</mo><mn>0.019550</mn></mrow><annotation encoding="application/x-tex">\log_2\left(\frac{531441}{524288}\right) = \frac{0.013551}{0.693147} = 0.019550</annotation></semantics></math></p>
+<p>y por lo tanto</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">coma pitagórica</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.019550</mn><mo>=</mo><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{\text{coma pitagórica}} = 1200 \times 0.019550 = 23.460 \text{ cents}</annotation></semantics></math></p>
+<p>Exactamente el número que ya habíamos encontrado por el camino más
+largo (sumar 12 quintas en cents y restar 7 octavas en cents) al cerrar
+el Módulo 1. Ambos caminos —sumar cents o tomar el logaritmo de la razón
+acumulada— tienen que dar lo mismo, porque son la misma operación mirada
+de dos maneras: eso es, precisamente, lo que hace que el cent sea una
+unidad aditiva (M1 §6.2).</p>
+<p><strong>Qué significa musicalmente.</strong> Volvamos a la cadena del
+clavecinista: Do–Sol–Re–La–Mi–Si–Fa#–Do#–Sol#–Re#–La#–Mi#–Si#, doce
+quintas puras a partir de Do. Por la lógica de los nombres de nota,
+“Si#” debería ser un sinónimo enarmónico de “Do” — la misma tecla, el
+mismo sonido, solo escrito distinto según el contexto armónico.
+Aritméticamente no lo es: el Si# que resulta de apilar doce quintas
+puras está <strong>23.460 cents por encima</strong> del Do que resulta
+de apilar siete octavas puras desde la misma nota de partida. Como
+referencia de oído (recuerda la regla práctica de M1 §6.5, donde 5 cents
+ya se escuchan con claridad): 23.46 cents es casi la cuarta parte de un
+semitono completo (que serían 25 cents). No es un matiz: es una nota
+claramente diferente, tan distinta como para sonar francamente
+desafinada si la tocas donde el oído espera un Do. <strong>Do y Si# no
+son la misma nota</strong> — son dos notas distintas que la notación
+musical, por conveniencia práctica de siglos, trata como si lo fueran.
+Toda la “enarmonía” tradicional (Do#=Reb, Sol#=Lab) descansa sobre esta
+misma ficción, y en la sección 8 vamos a ver bajo qué condiciones un
+sistema de afinación puede — o no — sostenerla sin que se note.</p>
+<h2
+id="la-coma-sintónica-la-tercera-de-las-quintas-no-es-la-tercera-del-acorde">5.
+La coma sintónica: la tercera de las quintas no es la tercera del
+acorde</h2>
+<p>En M1 §4.1 encontramos, casi de pasada, una segunda discrepancia.
+Subir dos tonos mayores
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>
+cada uno, Do–Re–Mi) no da lo mismo que subir directamente una tercera
+mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+la que aparece entre el cuarto y el quinto armónico de una misma
+fundamental, M1 §3.3):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>9</mn><mn>8</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>=</mo><mfrac><mn>81</mn><mn>64</mn></mfrac><mspace width="2.0em"></mspace><mtext mathvariant="normal">versus</mtext><mspace width="2.0em"></mspace><mfrac><mn>5</mn><mn>4</mn></mfrac><mo>=</mo><mfrac><mn>80</mn><mn>64</mn></mfrac></mrow><annotation encoding="application/x-tex">\left(\frac{9}{8}\right)^2 = \frac{81}{64} \qquad \text{versus} \qquad \frac{5}{4} = \frac{80}{64}</annotation></semantics></math></p>
+<p>Pero hay una manera todavía más directa de llegar a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">81/64</annotation></semantics></math>,
+y es la que le da su verdadero significado a esta discrepancia: es
+exactamente el resultado de apilar <strong>cuatro quintas puras</strong>
+y reducir por dos octavas. Comprobémoslo. Cuatro quintas puras, en
+razón, son
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>4</mn></msup><mo>=</mo><mn>81</mn><mi>/</mi><mn>16</mn></mrow><annotation encoding="application/x-tex">(3/2)^4 = 81/16</annotation></semantics></math>;
+dos octavas son
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>2</mn></msup><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">2^2=4</annotation></semantics></math>;
+dividiendo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>81</mn><mi>/</mi><mn>16</mn></mrow><mn>4</mn></mfrac><mo>=</mo><mfrac><mn>81</mn><mn>64</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{81/16}{4} = \frac{81}{64}</annotation></semantics></math>.
+Y en notas: Do–Sol–Re–La–Mi son, efectivamente, cuatro quintas (Do a
+Sol, Sol a Re, Re a La, La a Mi), y Mi es la tercera mayor de Do. Es
+decir: <strong>si afinas tu escala apilando quintas puras una tras otra
+(como hace la afinación pitagórica del Módulo 3), la tercera mayor que
+obtienes entre Do y Mi no es la tercera mayor pura del acorde 4:5:6 — es
+81/64, el llamado <em>ditono</em> pitagórico</strong>, que en cents mide
+(siguiendo el mismo procedimiento de siempre, con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn><mo>=</mo><mn>1.265625</mn></mrow><annotation encoding="application/x-tex">81/64 = 1.265625</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.265625</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.235566</mn></mrow><annotation encoding="application/x-tex">\ln(1.265625)=0.235566</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mfrac><mn>0.235566</mn><mn>0.693147</mn></mfrac><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.339850</mn><mo>=</mo><mn>407.820</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{81/64} = 1200 \times \frac{0.235566}{0.693147} = 1200 \times 0.339850 = 407.820 \text{ cents}</annotation></semantics></math></p>
+<p>frente a los 386.314 cents de la tercera mayor pura del acorde. La
+diferencia es la razón entre ambas:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>81</mn><mn>64</mn></mfrac></mstyle><mo>×</mo><mstyle displaystyle="true"><mfrac><mn>4</mn><mn>5</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>324</mn><mn>320</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>81</mn><mn>80</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{81/64}{5/4} = \dfrac{81}{64}\times\dfrac{4}{5} = \dfrac{324}{320} = \dfrac{81}{80}</annotation></semantics></math>,
+cuyos cents —ya los calculaste en M1, ejercicio 7— son 21.506. Esta
+razón,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow><annotation encoding="application/x-tex">81/80</annotation></semantics></math>,
+es la <strong>coma sintónica</strong>, la segunda gran grieta del
+sistema.</p>
+<p><strong>Qué significa musicalmente.</strong> Esta es, quizás, la
+frase que más vas a repetir en los próximos módulos: <em>la tercera de
+la cadena de quintas no es la tercera del acorde</em>. Son dos maneras
+legítimas, cada una con su propia lógica interna, de llegar a “algo que
+se llama Mi” a partir de Do —una siguiendo la lógica melódica de las
+quintas (que privilegian la consonancia entre notas adyacentes en el
+círculo), la otra siguiendo la lógica armónica del acorde mayor (que
+privilegia la consonancia vertical del trío Do-Mi-Sol como conjunto)— y
+no coinciden. Toda afinación de doce notas tiene que decidir, para cada
+tercera mayor de su repertorio, a cuál de las dos lógicas le es fiel: si
+prioriza que las quintas encadenadas sean puras (y entonces las terceras
+salen anchas, como en la pitagórica del Módulo 3), o si prioriza que las
+terceras del acorde sean puras (y entonces alguna quinta tiene que
+ceder, como en la justa entonación del Módulo 4 y, de manera más
+sistemática, en los temperamentos mesotónicos del Módulo 5).</p>
+<h2 id="primos-hermanos-el-schisma-y-la-gran-diesis">6. Primos hermanos:
+el schisma y la gran diesis</h2>
+<p>Con la coma pitagórica (23.460 c) y la coma sintónica (21.506 c) ya
+identificadas, dos preguntas naturales completan el cuadro: ¿qué tan
+parecidas son entre sí estas dos comas?, y ¿hay alguna otra discrepancia
+del mismo tipo, generada por un camino distinto?</p>
+<h3 id="el-schisma-la-diferencia-entre-las-dos-comas">6.1 El schisma: la
+diferencia entre las dos comas</h3>
+<p>Las dos comas que ya conocemos son sorprendentemente parecidas en
+tamaño (23.460 c contra 21.506 c): su diferencia es una cantidad
+diminuta, llamada <strong>schisma</strong>. Se calcula dividiendo una
+razón por la otra:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">schisma</mtext><mo>=</mo><mfrac><mtext mathvariant="normal">coma pitagórica</mtext><mtext mathvariant="normal">coma sintónica</mtext></mfrac><mo>=</mo><mfrac><mrow><mn>531441</mn><mi>/</mi><mn>524288</mn></mrow><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow></mfrac><mo>=</mo><mfrac><mn>531441</mn><mn>524288</mn></mfrac><mo>×</mo><mfrac><mn>80</mn><mn>81</mn></mfrac><mo>=</mo><mfrac><mrow><mn>531441</mn><mo>×</mo><mn>80</mn></mrow><mrow><mn>524288</mn><mo>×</mo><mn>81</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{schisma} = \frac{\text{coma pitagórica}}{\text{coma sintónica}} = \frac{531441/524288}{81/80} = \frac{531441}{524288}\times\frac{80}{81} = \frac{531441 \times 80}{524288 \times 81}</annotation></semantics></math></p>
+<p>Simplificando el numerador y denominador (531441 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mn>12</mn></msup><annotation encoding="application/x-tex">3^{12}</annotation></semantics></math>
+y 81 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mn>4</mn></msup><annotation encoding="application/x-tex">3^4</annotation></semantics></math>,
+así que se cancelan tres factores de 3; 524288 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>19</mn></msup><annotation encoding="application/x-tex">2^{19}</annotation></semantics></math>
+y 80 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mo>×</mo><mn>5</mn><mo>=</mo><msup><mn>2</mn><mn>4</mn></msup><mo>×</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">16\times5=2^4\times5</annotation></semantics></math>)
+se llega a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32805</mn><mi>/</mi><mn>32768</mn></mrow><annotation encoding="application/x-tex">32805/32768</annotation></semantics></math>.
+Verifiquemos sus cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32805</mn><mi>/</mi><mn>32768</mn><mo>=</mo><mn>1.0011291504</mn></mrow><annotation encoding="application/x-tex">32805/32768 = 1.0011291504</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.0011291504</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.001129</mn></mrow><annotation encoding="application/x-tex">\ln(1.0011291504) = 0.001129</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>,
+entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.001129</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.001628</mn></mrow><annotation encoding="application/x-tex">\log_2 = 0.001129/0.693147 = 0.001628</annotation></semantics></math>,
+y</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">schisma</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.001628</mn><mo>=</mo><mn>1.954</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{\text{schisma}} = 1200 \times 0.001628 = 1.954 \text{ cents}</annotation></semantics></math></p>
+<p>Como debía ser, esto coincide (salvo el redondeo de la resta) con
+hacer la operación directamente en cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>1.954</mn></mrow><annotation encoding="application/x-tex">23.460 - 21.506 = 1.954</annotation></semantics></math>.
+El schisma es tan pequeño —recuerda la regla de M1 §6.5: 1 cent es
+prácticamente imperceptible para casi cualquier oyente— que durante
+siglos se lo trató como “gratis”: ciertos ajustes históricos de
+afinación (los llamados temperamentos <em>schismáticos</em>, una
+curiosidad que no vamos a desarrollar en este curso) explotan
+precisamente el hecho de que se puede mover una nota por un schisma sin
+que casi nadie lo note, para hacer “trampa” y resolver otro problema en
+algún rincón del sistema.</p>
+<h3 id="la-gran-diesis-quiebre-por-el-lado-de-las-terceras">6.2 La gran
+diesis: quiebre por el lado de las terceras</h3>
+<p>Así como doce quintas puras casi cierran siete octavas, hay una
+coincidencia parecida por el lado de las terceras mayores: tres terceras
+mayores puras apiladas casi completan una octava. Verifiquemos apilando
+razones:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>3</mn></msup><mo>=</mo><mn>125</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">(5/4)^3 = 125/64</annotation></semantics></math>,
+y una octava es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn><mo>=</mo><mn>128</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">2/1 = 128/64</annotation></semantics></math>.
+En cents, tres terceras mayores puras son
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>386.314</mn><mo>=</mo><mn>1158.942</mn></mrow><annotation encoding="application/x-tex">3 \times 386.314 = 1158.942</annotation></semantics></math>
+cents, contra los 1200 cents exactos de la octava — <strong>faltan
+41.058 cents</strong> para completarla, casi el doble que la coma
+pitagórica. La razón entre ambas cantidades,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>128</mn><mi>/</mi><mn>64</mn></mrow><mrow><mn>125</mn><mi>/</mi><mn>64</mn></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>128</mn><mn>125</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{128/64}{125/64} = \dfrac{128}{125}</annotation></semantics></math>,
+es la <strong>gran diesis</strong>, y sus cents (con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mi>/</mi><mn>125</mn><mo>=</mo><mn>1.024</mn></mrow><annotation encoding="application/x-tex">128/125=1.024</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.024</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.023717</mn></mrow><annotation encoding="application/x-tex">\ln(1.024)=0.023717</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.023717</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.034216</mn></mrow><annotation encoding="application/x-tex">\log_2 = 0.023717/0.693147=0.034216</annotation></semantics></math>):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>128</mn><mi>/</mi><mn>125</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.034216</mn><mo>=</mo><mn>41.059</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{128/125} = 1200 \times 0.034216 = 41.059 \text{ cents}</annotation></semantics></math></p>
+<p>confirman, salvo redondeo, el mismo número que obtuvimos restando en
+cents. <strong>Qué significa musicalmente:</strong> si alguna vez
+escribes (o analizas) una progresión que divide la octava en tres
+terceras mayores iguales —el clásico ciclo de acordes por terceras
+mayores, Do–Mi–Sol#(Lab)–Do, el territorio de los acordes aumentados y
+de cierto repertorio tardorromántico— y quisieras que las tres terceras
+fueran puras, descubrirías que el ciclo <em>no cierra</em>: llegarías a
+un “Do” que en realidad está 41 cents por debajo del Do original. Es una
+discrepancia casi el doble de audible que la coma pitagórica, y es la
+razón profunda por la que ese tipo de ciclos por terceras solo
+“funciona” limpiamente en temperamento igual (Módulo 7), donde cada
+tercera se ha ensanchado deliberadamente para que tres de ellas sumen
+exactamente una octava.</p>
+<h3 id="tabla-resumen-los-cuatro-defectos-estructurales">6.3
+Tabla-resumen: los cuatro defectos estructurales</h3>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Razón</th>
+<th>Cents</th>
+<th>Surge de comparar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coma pitagórica</td>
+<td>531441/524288</td>
+<td>23.460</td>
+<td>12 quintas puras vs. 7 octavas puras</td>
+</tr>
+<tr>
+<td>Coma sintónica</td>
+<td>81/80</td>
+<td>21.506</td>
+<td>Ditono pitagórico (81/64, 4 quintas) vs. tercera mayor pura
+(5/4)</td>
+</tr>
+<tr>
+<td>Schisma</td>
+<td>32805/32768</td>
+<td>1.954</td>
+<td>Coma pitagórica vs. coma sintónica</td>
+</tr>
+<tr>
+<td>Diesis (gran)</td>
+<td>128/125</td>
+<td>41.059</td>
+<td>3 terceras mayores puras vs. octava</td>
+</tr>
+</tbody>
+</table></div>
+<p>Estas cuatro cantidades —memorízalas, o al menos memoriza sus órdenes
+de magnitud relativos: la diesis es casi el doble de la coma pitagórica,
+que a su vez es apenas más grande que la sintónica, que a su vez es diez
+veces más grande que el schisma— son el vocabulario con el que vas a
+describir el “costo” de cada sistema de afinación de aquí en adelante.
+Cada capítulo de la historia de la afinación occidental es, en el fondo,
+una manera distinta de decidir en cuál de estas cuatro grietas cae el
+peso del error, y cuánto.</p>
+<h2 id="el-presupuesto-de-error-dónde-escondes-la-coma">7. El
+presupuesto de error: dónde escondes la coma</h2>
+<p>Esta sección introduce la idea organizadora de todo lo que viene
+después del Módulo 2, así que vale la pena demostrarla con cuidado en
+vez de solo enunciarla.</p>
+<h3 id="el-argumento-general">7.1 El argumento general</h3>
+<p>Piensa en cualquier sistema de afinación de doce notas por octava,
+construido —como es tradicional— a partir de una cadena de doce
+“quintas” (no necesariamente puras: cada una puede estar ligeramente
+ensanchada o angostada respecto de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+según decida el sistema). Para que ese sistema tenga sentido como las
+“doce teclas de un piano que se repiten cada octava” —es decir, para que
+sea un sistema <strong>circulante</strong> de doce notas, en el sentido
+que vamos a precisar en la sección 8—, las doce quintas apiladas y
+reducidas por octavas tienen que devolvernos, al cabo de la duodécima, a
+la nota de partida, siete octavas más arriba. Dicho en cents: la suma de
+las doce quintas reales del sistema tiene que ser, exactamente,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><mo stretchy="false" form="prefix">(</mo><msub><mtext mathvariant="normal">quinta</mtext><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> en cents</mtext></mrow><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>7</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>8400</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">\sum_{i=1}^{12} (\text{quinta}_i \text{ en cents}) = 7 \times 1200 = 8400 \text{ cents}</annotation></semantics></math></p>
+<p>Definamos la <strong>desviación</strong> de cada quinta como la
+diferencia entre su valor real (en el sistema que sea) y el valor de la
+quinta pura:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mtext mathvariant="normal">quinta</mtext><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>701.955</mn></mrow><annotation encoding="application/x-tex">d_i = (\text{quinta}_i) - 701.955</annotation></semantics></math>.
+(Nota de convención: es el orden opuesto al que usa la tabla de M1 §6.4,
+que restaba “puro menos temperado”; aquí usamos “real menos puro” porque
+es el que hace que la cuenta que sigue dé un número negativo prolijo.
+Fíjate siempre en qué se le resta a qué.) Sumando las doce
+desviaciones:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><mo stretchy="false" form="prefix">(</mo><msub><mtext mathvariant="normal">quinta</mtext><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>12</mn><mo>×</mo><mn>701.955</mn><mo>=</mo><mn>8400</mn><mo>−</mo><mn>8423.460</mn><mo>=</mo><mi>−</mi><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">\sum_{i=1}^{12} d_i = \sum_{i=1}^{12} (\text{quinta}_i) - 12\times701.955 = 8400 - 8423.460 = -23.460 \text{ cents}</annotation></semantics></math></p>
+<p>Este resultado no depende de <strong>cómo</strong> el sistema reparte
+el error entre sus doce quintas —solo depende de que el sistema cierre
+el círculo, es decir, de que sea circulante—. Puedes hacer que once
+quintas sean perfectamente puras y que toda la coma caiga sobre la
+duodécima; puedes repartirla en partes iguales entre las doce; puedes
+repartirla en fracciones desiguales, un poco más aquí, un poco menos
+allá. Ninguna elección cambia el total: <strong>la suma de las doce
+desviaciones respecto de la quinta pura, en cualquier sistema circulante
+de doce notas, es siempre exactamente −23.460 cents.</strong> Es,
+literalmente, un presupuesto: tienes −23.460 cents que repartir, y la
+única decisión real es <em>dónde</em> los escondes.</p>
+<h3 id="dos-ejemplos-ya-verificables">7.2 Dos ejemplos ya
+verificables</h3>
+<p><strong>Temperamento igual (M7):</strong> cada una de las doce
+quintas mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>700</mn><annotation encoding="application/x-tex">700</annotation></semantics></math>
+cents exactos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{7/12}</annotation></semantics></math>
+en razón), así que cada desviación es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><mn>700</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>1.955</mn></mrow><annotation encoding="application/x-tex">d_i = 700 - 701.955 = -1.955</annotation></semantics></math>
+cents, y la suma de las doce:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>1.955</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow><mi>✓</mi></mrow><annotation encoding="application/x-tex">12 \times (-1.955) = -23.460 \text{ cents} \checkmark</annotation></semantics></math></p>
+<p>El temperamento igual reparte el presupuesto en partes exactamente
+iguales: cada quinta cede
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">1/12</annotation></semantics></math>
+de la coma pitagórica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>1.955</mn></mrow><annotation encoding="application/x-tex">23.460/12 = 1.955</annotation></semantics></math>,
+la misma cifra). Es, en este sentido preciso, el sistema más
+“democrático” posible.</p>
+<p><strong>Afinación pitagórica (M3):</strong> once quintas se dejan
+puras
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d_i = 0</annotation></semantics></math>
+para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>11</mn></mrow><annotation encoding="application/x-tex">i=1,\dots,11</annotation></semantics></math>)
+y toda la coma se concentra en la duodécima, la quinta del lobo, que
+mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>23.460</mn><mo>=</mo><mn>678.495</mn></mrow><annotation encoding="application/x-tex">701.955 - 23.460 = 678.495</annotation></semantics></math>
+cents (la cifra canónica que vas a usar todo el Módulo 3), con
+desviación
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>12</mn></msub><mo>=</mo><mn>678.495</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">d_{12} = 678.495 - 701.955 = -23.460</annotation></semantics></math>.
+La suma:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mn>0</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>23.460</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow><mi>✓</mi></mrow><annotation encoding="application/x-tex">11\times 0 + (-23.460) = -23.460 \text{ cents} \checkmark</annotation></semantics></math></p>
+<p>El mismo presupuesto total, repartido de la manera más desigual
+imaginable: once quintas intactas, una que carga con todo. (En el Módulo
+5 vas a verificar el mismo presupuesto para el temperamento mesotónico,
+que reparte la <em>coma sintónica</em> — no la pitagórica — entre once
+quintas, dejando una quinta del lobo todavía peor, de 737.637 cents; y
+en el Módulo 6 lo vas a verificar para los temperamentos “buenos” que
+reparten la coma en fracciones desiguales entre las doce, sin que
+ninguna llegue a ser un lobo insoportable.)</p>
+<p>Este “presupuesto de error” es la idea que va a organizar cada módulo
+siguiente. Cada sistema histórico de afinación es, ni más ni menos, una
+respuesta distinta a la misma pregunta: <strong>¿dónde escondes la
+coma?</strong></p>
+<h2 id="afinación-vs.-temperamento-el-mapa-de-lo-que-viene">8. Afinación
+vs. temperamento: el mapa de lo que viene</h2>
+<p>Con el vocabulario de las secciones anteriores podemos, por fin,
+definir con precisión cuatro términos que vas a encontrar constantemente
+de aquí en adelante.</p>
+<p><strong>Afinación</strong> (en el sentido estricto que usa este
+curso): un sistema en el que los intervalos se construyen a partir de
+razones de números enteros pequeños —intervalos <em>justos</em> o
+<em>puros</em>, como los de la tabla de M1 §4— sin alterarlos
+deliberadamente. La afinación pitagórica (M3, construida solo con
+quintas puras
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>)
+y la justa entonación (M4, construida con quintas <em>y</em> terceras
+puras simultáneamente, en la medida en que la aritmética lo permite) son
+afinaciones en este sentido.</p>
+<p><strong>Temperamento</strong>: un sistema en el que uno o más
+intervalos se alteran deliberadamente —se “templan”— respecto de su
+valor puro, en una cantidad elegida a propósito, precisamente para
+redistribuir el presupuesto de error de la sección 7 de una manera más
+conveniente que “todo el peso en una sola quinta”. Los temperamentos
+mesotónicos (M5), los “buenos temperamentos” como Werckmeister III o
+Vallotti (M6), y el temperamento igual (M7) son, todos, temperamentos en
+este sentido: cada uno decide, con distinto criterio, cuánto y dónde
+ceder.</p>
+<p>Dentro de los temperamentos hay dos ejes de clasificación adicionales
+que te van a servir de mapa para los próximos cinco módulos:</p>
+<p><strong>Regular vs. irregular.</strong> Un temperamento es
+<strong>regular</strong> si todas sus quintas (salvo, a veces, una única
+quinta del lobo señalada) se tiemplan en exactamente la misma cantidad.
+El temperamento igual es el caso extremo de regularidad: las doce
+quintas ceden lo mismo, y no queda ninguna quinta del lobo. Los
+temperamentos mesotónicos (M5) también son regulares: once quintas ceden
+idéntica fracción de la coma sintónica, y toda la irregularidad se
+concentra, otra vez, en una única quinta del lobo. Un temperamento es
+<strong>irregular</strong> si distintas quintas se tiemplan en
+cantidades distintas, elegidas nota por nota — es lo que hacen los
+“buenos temperamentos” del Módulo 6 (Werckmeister III, Kirnberger III,
+Vallotti), y es precisamente lo que les permite dar a cada tonalidad un
+“color” propio, distinto del resto.</p>
+<p><strong>Circulante vs. no circulante.</strong> Un temperamento es
+<strong>circulante</strong> si se puede modular por las doce tonalidades
+mayores y menores sin toparse jamás con un intervalo inutilizable: todas
+las enarmonías (Do#=Reb, Sol#=Lab) son, al menos aproximadamente,
+verdaderas, y el compositor puede escribir libremente en cualquier
+tonalidad. Es <strong>no circulante</strong> si existe al menos una
+quinta del lobo tan severa que ciertas tonalidades quedan, en la
+práctica, vetadas, y las enarmonías dejan de sostenerse (Sol# suena
+claramente distinto de Lab). La afinación pitagórica y el temperamento
+mesotónico estricto son no circulantes —ambos concentran toda la coma en
+una única quinta imposible de usar—; los buenos temperamentos y el
+temperamento igual son circulantes por diseño: esa es, de hecho, la
+hazaña técnica que titula el Módulo 6 (“cerrar el círculo sin
+igualarlo”).</p>
+<p>Con estos tres ejes, el mapa de la Fase 1 del curso queda así:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Sistema</th>
+<th>¿Afinación o temperamento?</th>
+<th>¿Regular o irregular?</th>
+<th>¿Circulante?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M3</td>
+<td>Pitagórico</td>
+<td>Afinación (solo quintas puras)</td>
+<td>— (no aplica: sin temperar)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>Justa entonación</td>
+<td>Afinación (quintas y terceras puras)</td>
+<td>—</td>
+<td>No (ni siquiera fijo: es contextual)</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>Mesotónico</td>
+<td>Temperamento</td>
+<td>Regular</td>
+<td>No</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>Buenos temperamentos</td>
+<td>Temperamento</td>
+<td>Irregular</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>M7</td>
+<td>Igual (ET)</td>
+<td>Temperamento</td>
+<td>Regular (el caso extremo)</td>
+<td>Sí</td>
+</tr>
+</tbody>
+</table></div>
+<p>Guarda esta tabla: vas a volver a ella al empezar cada uno de los
+próximos cinco módulos, para ubicar de inmediato qué tipo de respuesta
+está dando cada sistema a la pregunta “¿dónde escondes la coma?”.</p>
+<hr />
+<h2 id="ejercicios-de-cálculo">9. Ejercicios de cálculo</h2>
+<p>Resuelve cada ejercicio por escrito, mostrando el desarrollo
+completo. Las soluciones están al final — resuelve primero, revisa
+después.</p>
+<p><strong>a) La demostración central</strong></p>
+<ol type="1">
+<li>Demuestra, usando solo paridad de números enteros (sin logaritmos),
+que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(5/4)^m \neq 2^n</annotation></semantics></math>
+para cualesquiera enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>.
+(Pista: escribe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>5</mn><mi>m</mi></msup><mi>/</mi><msup><mn>4</mn><mi>m</mi></msup><mo>=</mo><msup><mn>5</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mrow><mn>2</mn><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">(5/4)^m = 5^m/4^m = 5^m/2^{2m}</annotation></semantics></math>,
+iguala a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>n</mi></msup><annotation encoding="application/x-tex">2^n</annotation></semantics></math>,
+y analiza qué le pasaría a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>5</mn><mi>m</mi></msup><annotation encoding="application/x-tex">5^m</annotation></semantics></math>.)</li>
+<li>Calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mn>5</mn></msup><annotation encoding="application/x-tex">3^5</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mn>7</mn></msup><annotation encoding="application/x-tex">3^7</annotation></semantics></math>.
+Compáralos con la potencia de 2 más cercana en cada caso, y verifica que
+las razones correspondientes son el limma (256/243) y el apotome
+(2187/2048) de la tabla de cifras canónicas.</li>
+</ol>
+<p><strong>b) Las cuatro comas</strong></p>
+<ol start="3" type="1">
+<li>Calcula en cents el schisma (razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32805</mn><mi>/</mi><mn>32768</mn></mrow><annotation encoding="application/x-tex">32805/32768</annotation></semantics></math>),
+mostrando el cálculo del logaritmo paso a paso. Verifica que tu
+resultado coincide, salvo redondeo, con la resta (coma pitagórica) −
+(coma sintónica) hecha directamente en cents.</li>
+<li>Calcula en cents la gran diesis (razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mi>/</mi><mn>125</mn></mrow><annotation encoding="application/x-tex">128/125</annotation></semantics></math>),
+mostrando el cálculo del logaritmo paso a paso. Verifica que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3 \times</annotation></semantics></math>
+(tercera mayor pura, en cents) + (diesis, en cents)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">= 1200</annotation></semantics></math>.</li>
+<li>La cadena de cuatro quintas puras Do–Sol–Re–La–Mi produce el ditono
+pitagórico
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">81/64</annotation></semantics></math>.
+Calcula sus cents y su desviación respecto de la tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+386.314 c). Verifica que esa desviación coincide exactamente con la coma
+sintónica.</li>
+</ol>
+<p><strong>c) El presupuesto de error</strong></p>
+<ol start="6" type="1">
+<li>Verifica, sumando las doce desviaciones una por una, que en el
+temperamento igual (cada quinta de 700 cents) el presupuesto de error se
+cumple: la suma debe dar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">-23.460</annotation></semantics></math>
+cents.</li>
+<li>En la afinación pitagórica, once quintas son puras (701.955 c cada
+una) y la duodécima —la quinta del lobo— mide 678.495 c. Verifica el
+presupuesto de error sumando las doce desviaciones.</li>
+<li>En el temperamento mesotónico de 1/4 de coma (que vas a estudiar en
+detalle en el M5), once quintas miden 696.578 c y la quinta del lobo
+mide 737.637 c. Verifica que el presupuesto de error se cumple igual que
+en los dos casos anteriores.</li>
+<li>¿Cuántas quintas puras hay que apilar, como mínimo, para acercarse a
+un número entero de octavas con un error menor que los 23.460 cents de
+la coma pitagórica? Calcula el resultado de apilar 53 quintas puras y
+compáralo con 31 octavas puras. (El error resultante tiene nombre propio
+—la <em>coma de Mercator</em>— y vuelve a aparecer en el Módulo 9, como
+base de una afinación de 53 tonos por octava.)</li>
+</ol>
+<p><strong>d) Síntesis y clasificación</strong></p>
+<ol start="10" type="1">
+<li>Calcula el error del temperamento igual en la quinta y en la tercera
+mayor (respecto de sus versiones puras). Expresa el error de la quinta
+como fracción de la coma pitagórica (¿qué fracción exacta es?).</li>
+<li>Clasifica los siguientes sistemas según los tres ejes de la sección
+8 (afinación/temperamento; regular/irregular; circulante/no circulante),
+justificando en una frase cada respuesta: (i) pitagórico, (ii)
+mesotónico de 1/4 de coma, (iii) Werckmeister III, (iv) temperamento
+igual.</li>
+<li>En dos o tres líneas, explica con tus propias palabras por qué la
+coma pitagórica (23.460 c) y la coma sintónica (21.506 c) son “grietas”
+distintas —de qué comparación surge cada una— aunque sean numéricamente
+tan parecidas.</li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong> Supongamos que existen enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>
+con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(5/4)^m = 2^n</annotation></semantics></math>.
+Entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>5</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mrow><mn>2</mn><mi>m</mi></mrow></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">5^m/2^{2m} = 2^n</annotation></semantics></math>,
+y multiplicando por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>2</mn><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{2m}</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>5</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mn>2</mn><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">5^m = 2^{n+2m}</annotation></semantics></math>.
+El lado izquierdo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>5</mn><mi>m</mi></msup><annotation encoding="application/x-tex">5^m</annotation></semantics></math>,
+es una potencia de un número impar (5), y por lo tanto es impar (el
+producto de impares es impar). El lado derecho,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mn>2</mn><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+2m}</annotation></semantics></math>,
+es una potencia de 2 con exponente positivo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mn>2</mn><mi>m</mi><mo>≥</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n+2m \geq 3</annotation></semantics></math>),
+y por lo tanto es par. Un mismo número no puede ser impar y par:
+contradicción. No existen tales
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>.</p>
+<p><strong>2.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>5</mn></msup><mo>=</mo><mn>243</mn></mrow><annotation encoding="application/x-tex">3^5 = 243</annotation></semantics></math>;
+la potencia de 2 más cercana es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>8</mn></msup><mo>=</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">2^8=256</annotation></semantics></math>.
+La razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256</mn><mi>/</mi><mn>243</mn><mo>=</mo><mn>1.053498</mn></mrow><annotation encoding="application/x-tex">256/243 = 1.053498</annotation></semantics></math>
+es exactamente el limma de la tabla de cifras canónicas (90.225 cents).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>7</mn></msup><mo>=</mo><mn>2187</mn></mrow><annotation encoding="application/x-tex">3^7=2187</annotation></semantics></math>;
+la potencia de 2 más cercana es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>11</mn></msup><mo>=</mo><mn>2048</mn></mrow><annotation encoding="application/x-tex">2^{11}=2048</annotation></semantics></math>.
+La razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2187</mn><mi>/</mi><mn>2048</mn><mo>=</mo><mn>1.067871</mn></mrow><annotation encoding="application/x-tex">2187/2048=1.067871</annotation></semantics></math>
+es exactamente el apotome (113.685 cents).</p>
+<p><strong>3.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32805</mn><mi>/</mi><mn>32768</mn><mo>=</mo><mn>1.00112915</mn></mrow><annotation encoding="application/x-tex">32805/32768 = 1.00112915</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.00112915</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.001129</mn></mrow><annotation encoding="application/x-tex">\ln(1.00112915)=0.001129</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.001129</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.001628</mn></mrow><annotation encoding="application/x-tex">\log_2 = 0.001129/0.693147=0.001628</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.001628</mn><mo>=</mo><mn>1.954</mn></mrow><annotation encoding="application/x-tex">c=1200\times0.001628=1.954</annotation></semantics></math>
+cents. Comparando:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>1.954</mn></mrow><annotation encoding="application/x-tex">23.460-21.506=1.954</annotation></semantics></math>
+cents. Coinciden.</p>
+<p><strong>4.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mi>/</mi><mn>125</mn><mo>=</mo><mn>1.024</mn></mrow><annotation encoding="application/x-tex">128/125=1.024</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.024</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.023717</mn></mrow><annotation encoding="application/x-tex">\ln(1.024)=0.023717</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.023717</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.034216</mn></mrow><annotation encoding="application/x-tex">\log_2=0.023717/0.693147=0.034216</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.034216</mn><mo>=</mo><mn>41.059</mn></mrow><annotation encoding="application/x-tex">c=1200\times0.034216=41.059</annotation></semantics></math>
+cents. Verificación:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>386.314</mn><mo>+</mo><mn>41.059</mn><mo>=</mo><mn>1158.942</mn><mo>+</mo><mn>41.058</mn><mo>=</mo><mn>1200.000</mn></mrow><annotation encoding="application/x-tex">3\times386.314 + 41.059 = 1158.942+41.058=1200.000</annotation></semantics></math>
+cents. ✓.</p>
+<p><strong>5.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn><mo>=</mo><mn>1.265625</mn></mrow><annotation encoding="application/x-tex">81/64=1.265625</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.265625</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.235566</mn></mrow><annotation encoding="application/x-tex">\ln(1.265625)=0.235566</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.235566</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.339850</mn></mrow><annotation encoding="application/x-tex">\log_2=0.235566/0.693147=0.339850</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.339850</mn><mo>=</mo><mn>407.820</mn></mrow><annotation encoding="application/x-tex">c=1200\times0.339850=407.820</annotation></semantics></math>
+cents. Desviación respecto de la tercera pura:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>407.820</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">407.820-386.314=21.506</annotation></semantics></math>
+cents, exactamente la coma sintónica.</p>
+<p><strong>6.</strong> Cada desviación es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>700</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>1.955</mn></mrow><annotation encoding="application/x-tex">700-701.955=-1.955</annotation></semantics></math>
+cents. Suma de las doce:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>1.955</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">12\times(-1.955)=-23.460</annotation></semantics></math>
+cents. ✓</p>
+<p><strong>7.</strong> Once desviaciones de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">701.955-701.955=0</annotation></semantics></math>,
+más una de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>678.495</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">678.495-701.955=-23.460</annotation></semantics></math>.
+Suma:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mn>0</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>23.460</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">11\times0+(-23.460)=-23.460</annotation></semantics></math>
+cents. ✓</p>
+<p><strong>8.</strong> Once desviaciones de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>696.578</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>5.377</mn></mrow><annotation encoding="application/x-tex">696.578-701.955=-5.377</annotation></semantics></math>
+cents, más una de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>737.637</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>+</mi><mn>35.682</mn></mrow><annotation encoding="application/x-tex">737.637-701.955=+35.682</annotation></semantics></math>
+cents. Suma:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>5.377</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>35.682</mn><mo>=</mo><mi>−</mi><mn>59.147</mn><mo>+</mo><mn>35.682</mn><mo>=</mo><mi>−</mi><mn>23.465</mn></mrow><annotation encoding="application/x-tex">11\times(-5.377)+35.682=-59.147+35.682=-23.465</annotation></semantics></math>
+cents (el pequeño desfase de 0.005 c respecto de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">-23.460</annotation></semantics></math>
+se debe al redondeo de las cifras canónicas del lobo mesotónico a tres
+decimales; con más decimales de precisión el resultado es exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">-23.460</annotation></semantics></math>).
+El presupuesto se cumple, dentro del margen de redondeo.</p>
+<p><strong>9.</strong> 53 quintas puras miden
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>53</mn><mo>×</mo><mn>701.955</mn><mo>=</mo><mn>37203.615</mn></mrow><annotation encoding="application/x-tex">53\times701.955=37203.615</annotation></semantics></math>
+cents. 31 octavas puras miden
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>31</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>37200</mn></mrow><annotation encoding="application/x-tex">31\times1200=37200</annotation></semantics></math>
+cents. La diferencia es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>37203.615</mn><mo>−</mo><mn>37200</mn><mo>=</mo><mn>3.615</mn></mrow><annotation encoding="application/x-tex">37203.615-37200=3.615</annotation></semantics></math>
+cents — la coma de Mercator —, casi siete veces más pequeña que los
+23.460 cents que sobran después de solo 12 quintas. Apilar 53 quintas en
+vez de 12 acerca la espiral de quintas muchísimo más a un número entero
+de octavas (aunque, por el teorema de la sección 3, jamás la hace
+coincidir exactamente).</p>
+<p><strong>10.</strong> Error de la quinta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>700</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>1.955</mn></mrow><annotation encoding="application/x-tex">700-701.955=-1.955</annotation></semantics></math>
+cents. Como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>1.955</mn></mrow><annotation encoding="application/x-tex">23.460/12=1.955</annotation></semantics></math>,
+el error de cada quinta del temperamento igual es exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">1/12</annotation></semantics></math>
+de la coma pitagórica. Error de la tercera mayor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>400</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mi>+</mi><mn>13.686</mn></mrow><annotation encoding="application/x-tex">400-386.314=+13.686</annotation></semantics></math>
+cents (la tercera del temperamento igual es más ancha, no más angosta,
+que la pura).</p>
+<p><strong>11.</strong> (i) Pitagórico: afinación (solo quintas puras,
+sin templar nada), no aplica regular/irregular, no circulante (una
+quinta del lobo de 678.495 c es inutilizable). (ii) Mesotónico 1/4 de
+coma: temperamento (las quintas se templan a propósito para lograr
+terceras puras), regular (once quintas templadas por igual), no
+circulante (queda una quinta del lobo de 737.637 c). (iii) Werckmeister
+III: temperamento, irregular (distintas quintas se templan en distintas
+cantidades), circulante (se puede modular por las doce tonalidades,
+aunque con distinto “color” cada una). (iv) Temperamento igual:
+temperamento, regular (las doce quintas ceden lo mismo), circulante
+(ninguna tonalidad es peor que otra).</p>
+<p><strong>12.</strong> La coma pitagórica surge de comparar dos maneras
+de recorrer la <strong>misma cadena de quintas</strong> (12 quintas)
+contra la octava (7 octavas): es un problema puramente entre el 3 y el
+2. La coma sintónica surge de comparar dos maneras de llegar a
+<strong>la misma tercera mayor</strong>: una por una cadena corta de
+quintas (el ditono, 4 quintas reducidas), otra directamente como
+intervalo del quinto armónico (5/4): es un problema entre el 3 y el 5.
+Que sean numéricamente parecidas es, hasta donde sabemos, una
+coincidencia aritmética (ninguna de las dos “genera” a la otra); el
+schisma, de hecho, mide exactamente esa coincidencia.</p>
+<hr />
+<h2 id="guía-de-escucha">10. Guía de escucha</h2>
+<p>Antes de seguir al Módulo 3, dedica 20-25 minutos al
+<code>laboratorio.html</code> de este módulo. Vas a encontrar una
+espiral de quintas interactiva con audio, un “apilador” de quintas
+contra octavas, las cuatro comas de la sección 6 hechas audibles
+(melódica y armónicamente), y un juego de presupuesto de error con doce
+sliders que deben sumar exactamente −23.46 cents. Seis consignas
+concretas:</p>
+<ol type="1">
+<li><strong>La espiral que no cierra.</strong> En la espiral de quintas
+del laboratorio, apila las doce quintas puras una por una y observa (y
+escucha) cómo la duodécima nota queda visiblemente —y audiblemente—
+desplazada de la nota de partida. Confirma que el desplazamiento que ves
+coincide con los 23.460 cents calculados en la sección 4.</li>
+<li><strong>La quinta del lobo, sin anestesia.</strong> Activa la quinta
+del lobo pitagórica (Mi#–Si#, 678.495 c) y compárala inmediatamente con
+una quinta pura cualquiera de la cadena. Describe en una frase la
+diferencia de calidad sonora —no es solo “más desafinada”, es un tipo de
+desafinación distinto al de la quinta del temperamento igual que
+escuchaste en M1.</li>
+<li><strong>El ditono contra la tercera del acorde.</strong> En el
+módulo de las cuatro comas, activa simultáneamente el ditono pitagórico
+(81/64, obtenido apilando cuatro quintas) y la tercera mayor pura (5/4).
+Ubica el batido que aparece entre ambas y relaciónalo con el tamaño de
+la coma sintónica (21.506 c) que separa a las dos versiones de
+“Mi”.</li>
+<li><strong>La diesis en cámara lenta.</strong> Apila tres terceras
+mayores puras (Do–Mi–Sol#–Si#, usando notación enarmónica libre) y
+escucha cuánto le falta al resultado para completar la octava. Contrasta
+con la misma progresión hecha con terceras del temperamento igual, donde
+el ciclo cierra exactamente.</li>
+<li><strong>El schisma: la coma que casi no se oye.</strong> Activa el
+schisma (1.954 c) de forma aislada, como diferencia de afinación entre
+dos tonos sostenidos. Compáralo con la coma sintónica (21.506 c)
+activada de la misma manera, y confirma qué tan cerca está el schisma
+del límite de lo imperceptible que discutimos en M1 §6.5.</li>
+<li><strong>El juego del presupuesto.</strong> En el simulador de doce
+sliders, intenta repartir el presupuesto de −23.46 cents de formas
+distintas: todo en un solo slider (recreando la afinación pitagórica),
+repartido en partes iguales entre los doce (recreando el temperamento
+igual), y alguna repartición intermedia de tu invención. Escucha, en
+cada reparto, cuántas de las doce quintas resultantes siguen sonando
+“razonablemente puras” y cuántas empiezan a sonar como lobos.</li>
+</ol>
+<h2 id="repertorio-y-contexto-un-problema-de-2500-años">11. Repertorio y
+contexto: un problema de 2500 años</h2>
+<p>El conflicto matemático de este módulo no es un curiosidad moderna:
+recorre, documentado, casi toda la historia de la teoría musical
+occidental. Los pitagóricos (siglo VI a. C.) ya conocían la construcción
+de escalas por cadenas de quintas usando el monocordio, y con ella, casi
+con certeza, la existencia práctica de una quinta que “no cerraba” el
+círculo — aunque la demostración algebraica formal que dimos en la
+sección 3 es, por supuesto, un lenguaje muchísimo más tardío. Claudio
+Ptolomeo, en su <em>Harmónica</em> (siglo II d. C.), ya proponía
+divisiones de la escala que se acercan a lo que hoy llamamos justa
+entonación, sensible al problema de que las quintas pitagóricas dejaban
+terceras demasiado anchas para el gusto vocal. Gioseffo Zarlino, en
+<em>Le istitutioni harmoniche</em> (1558), sistematizó la justa
+entonación alrededor del <em>senario</em> (los números 1 a 6, que
+estudiarás en detalle en el M4) precisamente para resolver, del lado de
+las terceras, el problema que hoy llamamos coma sintónica. Andreas
+Werckmeister, hacia 1691, publicó sus temperamentos “correctos”
+(<em>Musicalische Temperatur</em>) proponiendo repartos desiguales de la
+coma pitagórica entre las doce quintas —el germen de lo que en el M6
+llamamos temperamentos irregulares circulantes—, en pleno debate europeo
+sobre cómo permitir tocar música en más tonalidades sin sacrificar del
+todo la afinación. El propio Johann Sebastian Bach compuso <em>El clave
+bien temperado</em> pocas décadas después, un título que sigue generando
+debate hoy sobre en qué temperamento específico pensaba. Y todavía en el
+siglo XXI, cualquier afinador de pianos profesional —trabajando con oído
+y batidos, o con un afinador electrónico— sigue tomando, nota por nota,
+exactamente la misma decisión que el clavecinista de la sección 1: dónde
+esconder la coma. No conocemos con certeza suficiente una cita textual
+de Zarlino o Werckmeister como para transcribirla aquí sin riesgo de
+tergiversarla; lo que sí es seguro, y verificable, es que ambos —junto
+con casi cualquier teórico de afinación entre el siglo XVI y el XIX—
+dedicaron páginas enteras a repartir, con total consciencia del
+problema, el mismo presupuesto de 23.460 cents que acabas de calcular tú
+mismo.</p>
+<h2 id="mini-composición-tu-banco-de-pruebas-personal">12.
+Mini-composición: tu banco de pruebas personal</h2>
+<p>Escribe un pasaje de 16 a 24 compases, a dos o tres voces, que
+<strong>module efectivamente por el círculo completo de quintas</strong>
+— es decir, que en algún momento de la pieza hayas tocado, aunque sea
+brevemente, en las doce tonalidades (o en la mayor cantidad posible de
+ellas), regresando enarmónicamente cerca de la tonalidad de partida. No
+necesitas microtonalidad ni notación especial: usa armonía tonal
+convencional, con acordes puente (pivote) que te permitan encadenar
+modulaciones por quintas ascendentes o descendentes, tal como lo harías
+en un ejercicio de armonía tradicional. Piensa en esta partitura como tu
+<strong>banco de pruebas personal</strong> para el resto del curso: en
+los módulos siguientes vas a poder — literalmente — hacer sonar este
+mismo pasaje en afinación pitagórica, en justa entonación, en distintos
+mesotónicos, en los buenos temperamentos y en el temperamento igual, y
+vas a poder escuchar y explicar, con números, exactamente dónde “se
+esconde” el problema en cada versión: en qué compás aparece la quinta
+del lobo si tu pasaje pasa por ese punto de la espiral, y qué tan
+disimulada (o evidente) queda esa costura según el sistema.</p>
+<h2 id="autoevaluación">13. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo demostrar, con el argumento de
+paridad, que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math>
+para cualesquiera enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m,n</annotation></semantics></math>,
+y explicar por qué el mismo argumento funciona para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(5/4)^m \neq 2^n</annotation></semantics></math>.</label></li>
+<li><label><input type="checkbox" />Puedo explicar la diferencia entre
+“espiral de quintas” y “círculo de quintas”, y decir en qué sentido el
+círculo es una ficción útil.</label></li>
+<li><label><input type="checkbox" />Puedo calcular la coma pitagórica
+desde su razón
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>531441</mn><mi>/</mi><mn>524288</mn></mrow><annotation encoding="application/x-tex">531441/524288</annotation></semantics></math>)
+y explicar qué significa que “Do y Si# no son la misma
+nota”.</label></li>
+<li><label><input type="checkbox" />Puedo explicar, con el ejemplo del
+ditono (81/64) contra la tercera pura (5/4), qué quiere decir que “la
+tercera de la cadena de quintas no es la tercera del acorde”, y de ahí
+derivar la coma sintónica.</label></li>
+<li><label><input type="checkbox" />Puedo calcular el schisma y la gran
+diesis desde sus razones, y ubicar las cuatro comas del módulo en una
+tabla comparativa de tamaño.</label></li>
+<li><label><input type="checkbox" />Puedo demostrar (no solo enunciar)
+que la suma de las desviaciones de las doce quintas de cualquier sistema
+circulante de doce notas es siempre −23.460 cents, y verificarlo en al
+menos dos sistemas distintos.</label></li>
+<li><label><input type="checkbox" />Puedo distinguir afinación de
+temperamento, temperamento regular de irregular, y sistema circulante de
+no circulante, y clasificar correctamente los sistemas de los Módulos 3
+a 7 según estos tres ejes.</label></li>
+<li><label><input type="checkbox" />Puedo explicar, con mis propias
+palabras y sin mirar el apunte, por qué este problema es matemáticamente
+inevitable y no un defecto de construcción de ningún instrumento o
+técnica de afinación.</label></li>
+</ul>
+<hr />
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications.</li>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony (and Why You
+Should Care)</em>. W. W. Norton.</li>
+<li>Isacoff, S. <em>Temperament: How Music Became a Battleground for the
+Great Minds of Western Civilization</em>. Knopf.</li>
+<li>Benade, A. H. <em>Fundamentals of Musical Acoustics</em>. Dover
+Publications.</li>
+<li>Zarlino, G. <em>Le istitutioni harmoniche</em> (1558) — fuente
+histórica primaria del senario y la justa entonación, ver M4.</li>
+<li>Werckmeister, A. <em>Musicalische Temperatur</em> (1691) — fuente
+histórica primaria de los temperamentos irregulares circulantes, ver
+M6.</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>).</li>
+</ul>
+<h2 id="anticipo">Anticipo</h2>
+<p>Ya sabemos que la coma pitagórica es inevitable y que alguien tiene
+que absorberla. El Módulo 3 muestra qué pasa cuando la decisión es “que
+la absorba una sola quinta, y que todas las demás queden absolutamente
+puras”: la afinación pitagórica, el imperio de la quinta, con su lobo
+aullando en un rincón del círculo y sus terceras —ya lo viste en la
+sección 5— sonando bastante más anchas de lo que la armonía tonal
+posterior iba a tolerar.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 2</p><button id="progress-btn" class="progress-btn" data-modulo="02-comas">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

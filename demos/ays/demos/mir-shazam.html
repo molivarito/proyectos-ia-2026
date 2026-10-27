@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIR + Shazam — Demo Curso AyS</title>
+<meta name="description" content="Cómo Shazam reconoce una canción entre millones en segundos. Constelaciones de picos, hashes geométricos y el truco del histograma de offsets.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S11 · CREATION</div>
+    <h1>MIR + Shazam: cómo reconocer 1 canción entre millones</h1>
+    <p class="lead">
+      En 2003 Avery Wang publicó un paper de siete páginas que se volvió la base de Shazam.
+      La idea es absurdamente simple: cada canción es una <strong>constelación de picos</strong> en el espectrograma.
+      Identificar una canción ruidosa es comparar constelaciones contra una base de datos enorme,
+      en menos de cinco segundos.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-creation">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>Por qué los <strong>picos espectrales</strong> sobreviven al ruido: siguen siendo máximos locales aun con SNR moderado.</li>
+      <li>Por qué se usan <strong>pares de picos</strong> $(f_1, f_2, \Delta t)$ como hash y no picos individuales: la relación geométrica es estable, el pico aislado no.</li>
+      <li>Cómo el <strong>histograma de offsets temporales</strong> distingue la canción correcta de cualquier otra por márgenes 3–10× más amplios que el conteo simple.</li>
+      <li>Qué <em>no</em> puede hacer Shazam: transposición, time-stretching, covers en vivo (porque identifica grabaciones, no canciones).</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · MIR + Audio Fingerprinting (5 pestañas)</span>
+      <a href="../embeds/s11_mir.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s11_mir.html" title="Demo de MIR y Shazam" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así (tres experimentos guiados)</h3>
+    <ol>
+      <li>En <strong>Constelación</strong>, mira un espectrograma y los picos detectados. Sube el umbral: ¿cuántos picos sobreviven? Esos son los que importan.</li>
+      <li>En <strong>Mini-Shazam en vivo</strong>, identifica una query limpia (SNR alto). Luego baja el SNR a $-5$ dB y mira la curva de precisión derrumbarse. ¿A qué SNR rompe?</li>
+      <li>En <strong>Robustez al ruido</strong>, compara matching naïve vs matching con histograma de offsets. El segundo gana por márgenes mucho más amplios incluso cuando el conteo total de matches es similar.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-creation">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar el pipeline completo: STFT → detección de picos → hash table → matching con histograma.</li>
+      <li>Hacer el <strong>Fun Task 11 "Mini-Shazam"</strong>: construir tu propia base de datos con 5 canciones, evaluarla en una curva precisión-vs-SNR, y ---el reto creativo--- <em>romperla a propósito</em> con transposición, time-stretching y filtros. La pregunta no es "¿funciona?" sino "¿dónde y por qué deja de funcionar?".</li>
+      <li>Entender la diferencia entre fingerprinting (Shazam, AcoustID) y music similarity (Spotify Radio, Pandora).</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

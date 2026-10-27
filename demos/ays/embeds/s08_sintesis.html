@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo · Síntesis Substractiva — Sesión 08</title>
+<style>
+:root {
+  --bg: #0f1720;
+  --panel: #1a2330;
+  --panel-soft: #243042;
+  --accent: #b86dff;
+  --accent-2: #ffb042;
+  --accent-3: #6ddb7a;
+  --accent-4: #ff5577;
+  --accent-5: #3aa9ff;
+  --text: #e8edf2;
+  --text-dim: #8ea1b5;
+  --border: #2b3747;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: "SF Mono", "Consolas", "Monaco", monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.5; font-size: 15px; }
+header {
+  background: linear-gradient(135deg, #3a1a5c 0%, #7d2d8f 100%);
+  padding: 24px 32px; border-bottom: 1px solid var(--border);
+}
+header h1 { font-size: 1.7em; font-weight: 600; }
+header .subtitle { color: rgba(255,255,255,.85); font-size: 1.05em; margin-top: 4px; font-weight: 300; }
+nav.tabs {
+  display: flex; gap: 2px; background: var(--panel); padding: 0 32px;
+  border-bottom: 1px solid var(--border); overflow-x: auto;
+}
+nav.tabs button {
+  background: transparent; color: var(--text-dim); border: none; border-bottom: 3px solid transparent;
+  padding: 14px 22px; font: inherit; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .15s;
+}
+nav.tabs button:hover { color: var(--text); }
+nav.tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
+main { padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+section.module { display: none; }
+section.module.active { display: block; }
+section.module h2 { font-size: 1.4em; margin-bottom: 8px; color: var(--accent-2); }
+section.module .prose { color: var(--text-dim); margin-bottom: 18px; max-width: 860px; }
+section.module .prose strong { color: var(--text); }
+section.module .prose code { font-family: var(--mono); background: var(--panel); padding: 1px 6px; border-radius: 3px; color: var(--accent-3); font-size: .9em; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; }
+.layout-wide { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; min-width: 0; }
+.panel h3 { font-size: 1em; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
+.controls { display: flex; flex-direction: column; gap: 14px; }
+.control { display: flex; flex-direction: column; gap: 5px; }
+.control label { font-size: .82em; color: var(--text-dim); display: flex; justify-content: space-between; }
+.control label b { color: var(--accent-2); font-family: var(--mono); font-weight: 500; }
+.control input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  height: 6px; background: var(--panel-soft); border-radius: 3px; outline: none; width: 100%;
+}
+.control input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer;
+}
+.control input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; border: none;
+}
+.control select, .control input[type=number] {
+  background: var(--panel-soft); color: var(--text); border: 1px solid var(--border);
+  padding: 6px 10px; border-radius: 4px; font: inherit; font-size: .92em;
+}
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+button.action {
+  background: var(--accent); color: #06121e; border: none; padding: 10px 16px;
+  border-radius: 5px; font: inherit; font-weight: 600; cursor: pointer; transition: all .12s;
+}
+button.action:hover { background: #c990ff; transform: translateY(-1px); }
+button.action.secondary { background: var(--panel-soft); color: var(--text); }
+button.action.secondary:hover { background: #344258; }
+button.action[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+canvas { display: block; width: 100%; background: #0a1218; border-radius: 4px; }
+.canvas-wrap { position: relative; }
+.canvas-wrap .overlay-text {
+  position: absolute; top: 10px; left: 14px; color: var(--text-dim);
+  font-family: var(--mono); font-size: .82em; pointer-events: none;
+}
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; font-size: .84em; color: var(--text-dim); }
+.legend .item { display: flex; align-items: center; gap: 5px; }
+.legend .swatch { width: 10px; height: 10px; border-radius: 2px; }
+.kbd { font-family: var(--mono); background: var(--panel-soft); padding: 1px 6px; border-radius: 3px; font-size: .85em; border-bottom: 2px solid var(--border); }
+.preset-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.preset-row button {
+  background: var(--panel-soft); color: var(--text-dim); border: 1px solid var(--border);
+  padding: 5px 11px; border-radius: 4px; font: inherit; font-size: .82em; cursor: pointer;
+}
+.preset-row button:hover { color: var(--text); border-color: var(--accent); }
+.preset-row button.active { color: var(--accent); border-color: var(--accent); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: .92em; margin-top: 4px; }
+.stat { background: var(--panel-soft); padding: 8px 12px; border-radius: 4px; }
+.stat .label { color: var(--text-dim); font-size: .76em; text-transform: uppercase; letter-spacing: .05em; }
+.stat .value { font-family: var(--mono); font-weight: 600; font-size: 1.05em; }
+footer { padding: 24px 32px; color: var(--text-dim); font-size: .85em; border-top: 1px solid var(--border); margin-top: 32px; }
+footer code { font-family: var(--mono); color: var(--accent-3); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Síntesis Substractiva — Sesión 08</h1>
+  <div class="subtitle">VCO → VCF → VCA + ADSR · LFO · Pitch bend · Demo en vivo con Web Audio API</div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="active" data-tab="vco">① VCO</button>
+  <button data-tab="vcf">② VCF</button>
+  <button data-tab="adsr">③ ADSR</button>
+  <button data-tab="full">④ Cadena completa</button>
+  <button data-tab="lfo">⑤ LFO</button>
+  <button data-tab="pitch">⑥ Pitch bend</button>
+  <button data-tab="chiptune">⑦ Chiptune SFX</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="module active" id="mod-vco">
+  <h2>① VCO — la materia prima</h2>
+  <div class="prose">
+    El <strong>oscilador</strong> genera la forma de onda. Sus armónicos <em>existen o no existen</em> desde acá.
+    Compará las 4 ondas canónicas (<code>sine, square, saw, triangle</code>) y el ruido. Mirá a la vez la <strong>forma temporal</strong> y el <strong>espectro</strong>:
+    sine es solo la fundamental, square son impares, saw son todos, triangle son impares con caída <code>1/n²</code>.
+  </div>
+  <div class="layout">
+    <div class="panel canvas-wrap">
+      <canvas id="vco-time" width="800" height="180"></canvas>
+      <canvas id="vco-spec" width="800" height="180" style="margin-top:10px"></canvas>
+      <div class="legend"><span class="item"><span class="swatch" style="background:#b86dff"></span>forma temporal</span><span class="item"><span class="swatch" style="background:#ffb042"></span>espectro (FFT)</span></div>
+    </div>
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="control">
+          <label>Forma de onda</label>
+          <select id="vco-wave">
+            <option value="sine">sine</option>
+            <option value="square" selected>square</option>
+            <option value="saw">saw</option>
+            <option value="triangle">triangle</option>
+            <option value="noise">noise</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>Frecuencia <b id="vco-freq-val">220 Hz</b></label>
+          <input type="range" id="vco-freq" min="55" max="880" step="1" value="220">
+        </div>
+        <div class="control">
+          <label>Volumen <b id="vco-gain-val">0.30</b></label>
+          <input type="range" id="vco-gain" min="0" max="0.6" step="0.01" value="0.30">
+        </div>
+        <div class="btn-row">
+          <button class="action" id="vco-play">▶ Tocar</button>
+          <button class="action secondary" id="vco-stop">■ Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="mod-vcf">
+  <h2>② VCF — esculpir con filtro pasa-bajo</h2>
+  <div class="prose">
+    El filtro <strong>pasa-bajo</strong> deja pasar las frecuencias bajas y atenúa las altas. Mové la frecuencia de corte <code>fc</code> con el slider y mirá el espectro:
+    los armónicos a la derecha de <code>fc</code> se hunden. La resonancia <code>Q</code> agrega un pico en <code>fc</code> — para sonidos más "mordidos".
+    <br><br>
+    <strong>Regla de oro:</strong> el filtro <em>solo puede quitar</em>. Si la onda no tiene armónicos altos, subir <code>fc</code> no agrega brillo.
+  </div>
+  <div class="layout">
+    <div class="panel canvas-wrap">
+      <canvas id="vcf-spec" width="800" height="220"></canvas>
+      <div class="overlay-text">espectro post-filtro · línea naranja = fc</div>
+      <div class="legend"><span class="item"><span class="swatch" style="background:#3aa9ff"></span>antes</span><span class="item"><span class="swatch" style="background:#6ddb7a"></span>después del VCF</span><span class="item"><span class="swatch" style="background:#ffb042"></span>fc</span></div>
+    </div>
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="control">
+          <label>VCO</label>
+          <select id="vcf-wave">
+            <option value="sine">sine</option>
+            <option value="square">square</option>
+            <option value="saw" selected>saw</option>
+            <option value="triangle">triangle</option>
+            <option value="noise">noise</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>Frecuencia VCO <b id="vcf-freq-val">110 Hz</b></label>
+          <input type="range" id="vcf-freq" min="55" max="440" step="1" value="110">
+        </div>
+        <div class="control">
+          <label>fc del VCF <b id="vcf-fc-val">600 Hz</b></label>
+          <input type="range" id="vcf-fc" min="80" max="8000" step="1" value="600">
+        </div>
+        <div class="control">
+          <label>Resonancia Q <b id="vcf-q-val">1.0</b></label>
+          <input type="range" id="vcf-q" min="0.1" max="20" step="0.1" value="1.0">
+        </div>
+        <div class="btn-row">
+          <button class="action" id="vcf-play">▶ Tocar</button>
+          <button class="action secondary" id="vcf-stop">■ Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="mod-adsr">
+  <h2>③ ADSR — esculpir el contorno temporal</h2>
+  <div class="prose">
+    La envolvente <strong>ADSR</strong> multiplica el volumen muestra a muestra. Los 4 segmentos son:
+    <strong>Attack</strong> (0→1), <strong>Decay</strong> (1→S), <strong>Sustain</strong> (mantiene S), <strong>Release</strong> (S→0).
+    Probá los presets: <code>Percusivo</code> (A=1ms, S=0), <code>Pluck</code> (A corto, S bajo, R medio), <code>Pad</code> (A largo, S alto, R largo), <code>Staccato</code>.
+  </div>
+  <div class="layout">
+    <div class="panel canvas-wrap">
+      <canvas id="adsr-curve" width="800" height="200"></canvas>
+      <canvas id="adsr-time"  width="800" height="120" style="margin-top:10px"></canvas>
+      <div class="legend"><span class="item"><span class="swatch" style="background:#b86dff"></span>envolvente</span><span class="item"><span class="swatch" style="background:#3aa9ff"></span>señal con ADSR</span></div>
+    </div>
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="preset-row" id="adsr-presets">
+          <button data-preset="percusivo">Percusivo</button>
+          <button data-preset="pluck" class="active">Pluck</button>
+          <button data-preset="pad">Pad</button>
+          <button data-preset="staccato">Staccato</button>
+        </div>
+        <div class="control">
+          <label>Attack <b id="adsr-a-val">5 ms</b></label>
+          <input type="range" id="adsr-a" min="1" max="1000" step="1" value="5">
+        </div>
+        <div class="control">
+          <label>Decay <b id="adsr-d-val">200 ms</b></label>
+          <input type="range" id="adsr-d" min="1" max="1500" step="1" value="200">
+        </div>
+        <div class="control">
+          <label>Sustain <b id="adsr-s-val">0.20</b></label>
+          <input type="range" id="adsr-s" min="0" max="1" step="0.01" value="0.20">
+        </div>
+        <div class="control">
+          <label>Release <b id="adsr-r-val">400 ms</b></label>
+          <input type="range" id="adsr-r" min="1" max="2000" step="1" value="400">
+        </div>
+        <div class="btn-row">
+          <button class="action" id="adsr-play">▶ Disparar nota</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="mod-full">
+  <h2>④ Cadena completa — VCO → VCF → VCA</h2>
+  <div class="prose">
+    Acá juntamos todo. Tocá el teclado de la pantalla (o usá las teclas <span class="kbd">A S D F G H J K</span> en tu PC) para disparar notas con la cadena entera.
+    Probá los presets para sentir cómo cambia el carácter:
+  </div>
+  <div class="layout">
+    <div class="panel">
+      <div class="canvas-wrap">
+        <canvas id="full-time" width="800" height="160"></canvas>
+        <div class="overlay-text">señal · clic en una tecla para disparar</div>
+      </div>
+      <div id="keyboard" style="display:flex; gap:2px; margin-top:14px; user-select:none;"></div>
+    </div>
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="preset-row" id="full-presets">
+          <button data-preset="bass" class="active">Bajo oscuro</button>
+          <button data-preset="lead">Synth lead</button>
+          <button data-preset="ding">Ding</button>
+          <button data-preset="pad">Pad</button>
+        </div>
+        <div class="control">
+          <label>VCO</label>
+          <select id="full-wave">
+            <option value="sine">sine</option>
+            <option value="square">square</option>
+            <option value="saw" selected>saw</option>
+            <option value="triangle">triangle</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>fc del VCF <b id="full-fc-val">300 Hz</b></label>
+          <input type="range" id="full-fc" min="80" max="8000" step="1" value="300">
+        </div>
+        <div class="control">
+          <label>Resonancia Q <b id="full-q-val">2.0</b></label>
+          <input type="range" id="full-q" min="0.1" max="20" step="0.1" value="2.0">
+        </div>
+        <div class="control">
+          <label>Attack <b id="full-a-val">200 ms</b></label>
+          <input type="range" id="full-a" min="1" max="1000" step="1" value="200">
+        </div>
+        <div class="control">
+          <label>Decay <b id="full-d-val">200 ms</b></label>
+          <input type="range" id="full-d" min="1" max="1500" step="1" value="200">
+        </div>
+        <div class="control">
+          <label>Sustain <b id="full-s-val">0.80</b></label>
+          <input type="range" id="full-s" min="0" max="1" step="0.01" value="0.80">
+        </div>
+        <div class="control">
+          <label>Release <b id="full-r-val">500 ms</b></label>
+          <input type="range" id="full-r" min="1" max="2000" step="1" value="500">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="mod-lfo">
+  <h2>⑤ LFO — modular el filtro (auto-wah / wobble)</h2>
+  <div class="prose">
+    Un <strong>LFO</strong> (oscilador a baja frecuencia) modula <code>fc</code> del VCF en el tiempo. A 3 Hz es <em>auto-wah</em> de funk; a 8 Hz, <em>wobble bass</em> de dubstep.
+    El LFO no se escucha — se escucha su <em>efecto</em> sobre el filtro.
+  </div>
+  <div class="layout">
+    <div class="panel canvas-wrap">
+      <canvas id="lfo-fc" width="800" height="120"></canvas>
+      <canvas id="lfo-time" width="800" height="180" style="margin-top:10px"></canvas>
+      <div class="legend"><span class="item"><span class="swatch" style="background:#ffb042"></span>fc(t) del VCF modulado por LFO</span><span class="item"><span class="swatch" style="background:#6ddb7a"></span>señal de salida</span></div>
+    </div>
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="control">
+          <label>VCO (saw recomendado)</label>
+          <select id="lfo-wave"><option value="saw" selected>saw</option><option value="square">square</option><option value="triangle">triangle</option></select>
+        </div>
+        <div class="control">
+          <label>Frecuencia VCO <b id="lfo-vco-val">110 Hz</b></label>
+          <input type="range" id="lfo-vco" min="55" max="220" step="1" value="110">
+        </div>
+        <div class="control">
+          <label>Frecuencia LFO <b id="lfo-rate-val">3.0 Hz</b></label>
+          <input type="range" id="lfo-rate" min="0.5" max="16" step="0.1" value="3.0">
+        </div>
+        <div class="control">
+          <label>fc base <b id="lfo-fc-val">200 Hz</b></label>
+          <input type="range" id="lfo-fc" min="80" max="2000" step="10" value="200">
+        </div>
+        <div class="control">
+          <label>Profundidad LFO <b id="lfo-depth-val">2000 Hz</b></label>
+          <input type="range" id="lfo-depth" min="100" max="4000" step="50" value="2000">
+        </div>
+        <div class="control">
+          <label>Resonancia Q <b id="lfo-q-val">5.0</b></label>
+          <input type="range" id="lfo-q" min="0.5" max="20" step="0.1" value="5.0">
+        </div>
+        <div class="btn-row">
+          <button class="action" id="lfo-play">▶ Tocar</button>
+          <button class="action secondary" id="lfo-stop">■ Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="mod-pitch">
+  <h2>⑥ Pitch bend con fase continua (el "Jump" de Mario)</h2>
+  <div class="prose">
+    Un pitch bend cambia <code>f(t)</code> en el tiempo. La <strong>clave</strong> es acumular fase
+    <code>φ[n] = φ[n-1] + 2π·f[n]/fs</code>; si simplemente cambiamos <code>f</code> en cada muestra sin acumular, escuchamos clicks.
+    Acá comparás las dos versiones: la <strong>correcta</strong> (suave) y la <strong>rota</strong> (clicks audibles).
+  </div>
+  <div class="layout">
+    <div class="panel canvas-wrap">
+      <canvas id="pitch-f" width="800" height="120"></canvas>
+      <canvas id="pitch-time" width="800" height="180" style="margin-top:10px"></canvas>
+      <div class="legend"><span class="item"><span class="swatch" style="background:#ffb042"></span>f(t) instantánea</span><span class="item"><span class="swatch" style="background:#6ddb7a"></span>fase continua (correcta)</span><span class="item"><span class="swatch" style="background:#ff5577"></span>sin acumular fase (rota)</span></div>
+    </div>
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="control">
+          <label>f inicial <b id="pitch-f0-val">180 Hz</b></label>
+          <input type="range" id="pitch-f0" min="80" max="600" step="1" value="180">
+        </div>
+        <div class="control">
+          <label>f final <b id="pitch-f1-val">720 Hz</b></label>
+          <input type="range" id="pitch-f1" min="200" max="2000" step="1" value="720">
+        </div>
+        <div class="control">
+          <label>Duración <b id="pitch-dur-val">300 ms</b></label>
+          <input type="range" id="pitch-dur" min="50" max="2000" step="10" value="300">
+        </div>
+        <div class="control">
+          <label>Curva</label>
+          <select id="pitch-curve">
+            <option value="linear">lineal</option>
+            <option value="exp" selected>exponencial (suena más "Mario")</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <button class="action" id="pitch-play-ok">▶ Versión correcta</button>
+          <button class="action secondary" id="pitch-play-bad">▶ Versión rota</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="mod-chiptune">
+  <h2>⑦ Chiptune SFX — los 3 de Mario</h2>
+  <div class="prose">
+    Los 3 SFX clásicos del Fun Task 08, sintetizados en vivo con la cadena VCO/VCF/VCA + ADSR + (en el Jump) pitch bend.
+    Tocalos en secuencia y mirá cómo cada uno usa una combinación distinta de los bloques que ya vimos.
+  </div>
+  <div class="layout-wide">
+    <div class="panel">
+      <div class="btn-row">
+        <button class="action" id="chip-coin">▶ Coin</button>
+        <button class="action" id="chip-jump">▶ Jump</button>
+        <button class="action" id="chip-explosion">▶ Explosion</button>
+        <button class="action secondary" id="chip-mix">▶ Mix completo</button>
+        <button class="action secondary" id="chip-arpeggio">▶ Bonus: arpegio C-E-G (acorde NES)</button>
+      </div>
+      <div class="canvas-wrap" style="margin-top:14px">
+        <canvas id="chip-time" width="1200" height="180"></canvas>
+        <div class="overlay-text" id="chip-label">señal en vivo</div>
+      </div>
+      <div class="stats" style="margin-top:14px; grid-template-columns: 1fr 1fr 1fr;">
+        <div class="stat"><div class="label">Coin</div><div class="value">2 × square (Si5→Mi6) · ADSR percusivo</div></div>
+        <div class="stat"><div class="label">Jump</div><div class="value">square + pitch bend 180→720 Hz</div></div>
+        <div class="stat"><div class="label">Explosion</div><div class="value">noise + filter sweep 4kHz→200Hz</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <strong>Cómo usar en clase:</strong> abrí cada pestaña en orden. La pestaña ④ es la "estrella" — un synth completo que se toca con el teclado.
+  Para el slide más impactante de la mini-clase, pediles a los alumnos que adivinen los presets de ④ y de ⑦ antes de mirar los parámetros.
+  <br><br>
+  Todo el audio se genera en tiempo real con <code>Web Audio API</code> (sin samples).
+  Código abierto: ver fuente del archivo · funciona offline · sin dependencias.
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// AudioContext — uno solo para toda la app
+// ═══════════════════════════════════════════════════════════════
+let ctx = null;
+function getCtx() {
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === 'suspended') ctx.resume();
+  return ctx;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Tabs
+// ═══════════════════════════════════════════════════════════════
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('section.module').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('mod-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Helper para conectar UI sliders
+function bind(id, valId, fmt) {
+  const el = document.getElementById(id);
+  const lab = document.getElementById(valId);
+  const update = () => { if (lab) lab.textContent = fmt(el.value); };
+  el.addEventListener('input', update);
+  update();
+  return el;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ① VCO
+// ═══════════════════════════════════════════════════════════════
+(function vcoModule() {
+  const wave = document.getElementById('vco-wave');
+  const freq = bind('vco-freq', 'vco-freq-val', v => v + ' Hz');
+  const gain = bind('vco-gain', 'vco-gain-val', v => parseFloat(v).toFixed(2));
+  const playBtn = document.getElementById('vco-play');
+  const stopBtn = document.getElementById('vco-stop');
+
+  let osc=null, ng=null, gainNode=null, analyser=null;
+
+  function start() {
+    stop();
+    const c = getCtx();
+    gainNode = c.createGain();
+    gainNode.gain.value = parseFloat(gain.value);
+    analyser = c.createAnalyser();
+    analyser.fftSize = 2048;
+    if (wave.value === 'noise') {
+      const buf = c.createBuffer(1, c.sampleRate * 1, c.sampleRate);
+      const ch = buf.getChannelData(0);
+      for (let i=0;i<ch.length;i++) ch[i] = Math.random()*2-1;
+      ng = c.createBufferSource(); ng.buffer = buf; ng.loop = true;
+      ng.connect(gainNode);
+    } else {
+      osc = c.createOscillator();
+      osc.type = wave.value === 'saw' ? 'sawtooth' : wave.value;
+      osc.frequency.value = parseFloat(freq.value);
+      osc.connect(gainNode);
+    }
+    gainNode.connect(analyser).connect(c.destination);
+    if (osc) osc.start();
+    if (ng) ng.start();
+    draw();
+  }
+  function stop() {
+    if (osc) try{osc.stop();}catch(e){} osc=null;
+    if (ng) try{ng.stop();}catch(e){} ng=null;
+  }
+  freq.addEventListener('input', () => { if (osc) osc.frequency.value = parseFloat(freq.value); });
+  gain.addEventListener('input', () => { if (gainNode) gainNode.gain.value = parseFloat(gain.value); });
+  playBtn.addEventListener('click', start);
+  stopBtn.addEventListener('click', stop);
+
+  const cT = document.getElementById('vco-time').getContext('2d');
+  const cS = document.getElementById('vco-spec').getContext('2d');
+  function draw() {
+    if (!analyser) return;
+    const t = new Uint8Array(analyser.fftSize);
+    const f = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteTimeDomainData(t);
+    analyser.getByteFrequencyData(f);
+    const W=cT.canvas.width, H=cT.canvas.height;
+    cT.fillStyle='#0a1218'; cT.fillRect(0,0,W,H);
+    cT.strokeStyle='#b86dff'; cT.lineWidth=1.5; cT.beginPath();
+    // show ~2 cycles
+    const showN = Math.min(t.length, Math.floor(getCtx().sampleRate / parseFloat(freq.value || 220) * 3));
+    for (let i=0;i<showN;i++) {
+      const x = i/(showN-1)*W, y = (1 - t[i]/255) * H;
+      i===0 ? cT.moveTo(x,y) : cT.lineTo(x,y);
+    }
+    cT.stroke();
+
+    const W2=cS.canvas.width, H2=cS.canvas.height;
+    cS.fillStyle='#0a1218'; cS.fillRect(0,0,W2,H2);
+    cS.fillStyle='#ffb042';
+    const N = 256;
+    for (let i=0;i<N;i++) {
+      const v = f[i]/255;
+      const x = i/N*W2;
+      const h = v*H2;
+      cS.fillRect(x, H2-h, W2/N-1, h);
+    }
+    requestAnimationFrame(draw);
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// ② VCF
+// ═══════════════════════════════════════════════════════════════
+(function vcfModule() {
+  const wave = document.getElementById('vcf-wave');
+  const freq = bind('vcf-freq', 'vcf-freq-val', v => v + ' Hz');
+  const fc   = bind('vcf-fc', 'vcf-fc-val', v => v + ' Hz');
+  const q    = bind('vcf-q', 'vcf-q-val', v => parseFloat(v).toFixed(1));
+  const playBtn = document.getElementById('vcf-play');
+  const stopBtn = document.getElementById('vcf-stop');
+
+  let osc=null, ng=null, gainNode=null, filter=null, analyserPre=null, analyserPost=null;
+
+  function start() {
+    stop();
+    const c = getCtx();
+    gainNode = c.createGain(); gainNode.gain.value = 0.4;
+    analyserPre = c.createAnalyser(); analyserPre.fftSize = 2048;
+    analyserPost = c.createAnalyser(); analyserPost.fftSize = 2048;
+    filter = c.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = parseFloat(fc.value);
+    filter.Q.value = parseFloat(q.value);
+
+    if (wave.value === 'noise') {
+      const buf = c.createBuffer(1, c.sampleRate * 1, c.sampleRate);
+      const ch = buf.getChannelData(0);
+      for (let i=0;i<ch.length;i++) ch[i] = Math.random()*2-1;
+      ng = c.createBufferSource(); ng.buffer = buf; ng.loop = true;
+      ng.connect(analyserPre).connect(filter);
+    } else {
+      osc = c.createOscillator();
+      osc.type = wave.value === 'saw' ? 'sawtooth' : wave.value;
+      osc.frequency.value = parseFloat(freq.value);
+      osc.connect(analyserPre).connect(filter);
+    }
+    filter.connect(analyserPost).connect(gainNode).connect(c.destination);
+    if (osc) osc.start();
+    if (ng) ng.start();
+    draw();
+  }
+  function stop() {
+    if (osc) try{osc.stop();}catch(e){} osc=null;
+    if (ng) try{ng.stop();}catch(e){} ng=null;
+  }
+  freq.addEventListener('input', ()=>{ if(osc) osc.frequency.value = parseFloat(freq.value); });
+  fc.addEventListener('input',   ()=>{ if(filter) filter.frequency.value = parseFloat(fc.value); });
+  q.addEventListener('input',    ()=>{ if(filter) filter.Q.value = parseFloat(q.value); });
+  playBtn.addEventListener('click', start);
+  stopBtn.addEventListener('click', stop);
+
+  const cv = document.getElementById('vcf-spec').getContext('2d');
+  function draw() {
+    if (!analyserPre) return;
+    const W=cv.canvas.width, H=cv.canvas.height;
+    cv.fillStyle='#0a1218'; cv.fillRect(0,0,W,H);
+
+    // dibuja fc
+    const fcVal = parseFloat(fc.value);
+    const xFc = Math.log10(fcVal/20) / Math.log10(20000/20) * W;
+    cv.strokeStyle='#ffb042'; cv.lineWidth=1.5;
+    cv.beginPath(); cv.moveTo(xFc, 0); cv.lineTo(xFc, H); cv.stroke();
+    cv.fillStyle='#ffb042'; cv.font='11px monospace';
+    cv.fillText('fc='+fcVal.toFixed(0)+'Hz', xFc+4, 16);
+
+    drawSpectrum(cv, analyserPre, '#3aa9ff', 0.45);
+    drawSpectrum(cv, analyserPost, '#6ddb7a', 0.85);
+    requestAnimationFrame(draw);
+  }
+  function drawSpectrum(g, analyser, color, alpha) {
+    const N = analyser.frequencyBinCount;
+    const f = new Uint8Array(N);
+    analyser.getByteFrequencyData(f);
+    const sr = getCtx().sampleRate;
+    const W=g.canvas.width, H=g.canvas.height;
+    g.strokeStyle = color; g.globalAlpha = alpha; g.lineWidth = 1.5;
+    g.beginPath();
+    for (let i=1;i<N;i++) {
+      const fr = i * sr / (2*N);
+      if (fr < 20 || fr > 20000) continue;
+      const x = Math.log10(fr/20) / Math.log10(20000/20) * W;
+      const y = H - (f[i]/255)*H;
+      i===1 ? g.moveTo(x,y) : g.lineTo(x,y);
+    }
+    g.stroke();
+    g.globalAlpha = 1;
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// ③ ADSR
+// ═══════════════════════════════════════════════════════════════
+(function adsrModule() {
+  const a = bind('adsr-a', 'adsr-a-val', v=>v+' ms');
+  const d = bind('adsr-d', 'adsr-d-val', v=>v+' ms');
+  const s = bind('adsr-s', 'adsr-s-val', v=>parseFloat(v).toFixed(2));
+  const r = bind('adsr-r', 'adsr-r-val', v=>v+' ms');
+  const playBtn = document.getElementById('adsr-play');
+
+  const presets = {
+    percusivo: { a:1,   d:300, s:0.0, r:80  },
+    pluck:     { a:5,   d:200, s:0.20, r:400 },
+    pad:       { a:500, d:200, s:0.80, r:600 },
+    staccato:  { a:10,  d:80,  s:0.40, r:80  },
+  };
+  document.querySelectorAll('#adsr-presets button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#adsr-presets button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const p = presets[btn.dataset.preset];
+      a.value=p.a; d.value=p.d; s.value=p.s; r.value=p.r;
+      [a,d,s,r].forEach(el => el.dispatchEvent(new Event('input')));
+      drawCurve();
+    });
+  });
+
+  const c1 = document.getElementById('adsr-curve').getContext('2d');
+  function drawCurve() {
+    const W=c1.canvas.width, H=c1.canvas.height;
+    c1.fillStyle='#0a1218'; c1.fillRect(0,0,W,H);
+    const A=parseFloat(a.value), D=parseFloat(d.value), S=parseFloat(s.value), R=parseFloat(r.value);
+    const total = A+D+800+R; // 800 ms de sustain figurado
+    function px(t){ return t/total*W; }
+    function py(v){ return H-30 - v*(H-50); }
+    c1.strokeStyle='#b86dff'; c1.lineWidth=2.5; c1.beginPath();
+    c1.moveTo(0, py(0));
+    c1.lineTo(px(A), py(1));
+    c1.lineTo(px(A+D), py(S));
+    c1.lineTo(px(A+D+800), py(S));
+    c1.lineTo(px(A+D+800+R), py(0));
+    c1.stroke();
+    // labels
+    c1.fillStyle='#8ea1b5'; c1.font='12px monospace';
+    c1.fillText('A '+A+'ms',  px(A/2)-25, H-10);
+    c1.fillText('D '+D+'ms',  px(A+D/2)-25, H-10);
+    c1.fillText('S '+S.toFixed(2), px(A+D+400)-25, py(S)-8);
+    c1.fillText('R '+R+'ms',  px(A+D+800+R/2)-25, H-10);
+    // note on/off markers
+    c1.fillStyle='#ff5577';
+    c1.fillText('▼ note on',  4, 14);
+    c1.fillText('▼ note off', px(A+D+800)-4, 14);
+  }
+  [a,d,s,r].forEach(el=>el.addEventListener('input', drawCurve));
+  drawCurve();
+
+  const c2 = document.getElementById('adsr-time').getContext('2d');
+  let analyser=null, drawing=false;
+  function play() {
+    const c = getCtx();
+    const A=parseFloat(a.value)/1000, D=parseFloat(d.value)/1000, S=parseFloat(s.value), R=parseFloat(r.value)/1000;
+    const sustainDur = 0.8;
+    const osc = c.createOscillator();
+    osc.type='sawtooth';
+    osc.frequency.value = 220;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, c.currentTime);
+    g.gain.linearRampToValueAtTime(1, c.currentTime + A);
+    g.gain.linearRampToValueAtTime(S, c.currentTime + A + D);
+    g.gain.setValueAtTime(S, c.currentTime + A + D + sustainDur);
+    g.gain.linearRampToValueAtTime(0, c.currentTime + A + D + sustainDur + R);
+    analyser = c.createAnalyser(); analyser.fftSize = 2048;
+    osc.connect(g).connect(analyser).connect(c.destination);
+    osc.start();
+    osc.stop(c.currentTime + A + D + sustainDur + R + 0.1);
+    drawing = true;
+    drawTime();
+  }
+  function drawTime() {
+    if (!drawing || !analyser) return;
+    const t = new Uint8Array(analyser.fftSize);
+    analyser.getByteTimeDomainData(t);
+    const W=c2.canvas.width, H=c2.canvas.height;
+    c2.fillStyle='#0a1218'; c2.fillRect(0,0,W,H);
+    c2.strokeStyle='#3aa9ff'; c2.lineWidth=1.2; c2.beginPath();
+    for (let i=0;i<t.length;i++) {
+      const x = i/(t.length-1)*W, y = (1 - t[i]/255) * H;
+      i===0 ? c2.moveTo(x,y) : c2.lineTo(x,y);
+    }
+    c2.stroke();
+    requestAnimationFrame(drawTime);
+  }
+  playBtn.addEventListener('click', play);
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// ④ Cadena completa con teclado
+// ═══════════════════════════════════════════════════════════════
+(function fullModule() {
+  const wave = document.getElementById('full-wave');
+  const fc = bind('full-fc', 'full-fc-val', v=>v+' Hz');
+  const q  = bind('full-q', 'full-q-val', v=>parseFloat(v).toFixed(1));
+  const a = bind('full-a', 'full-a-val', v=>v+' ms');
+  const d = bind('full-d', 'full-d-val', v=>v+' ms');
+  const s = bind('full-s', 'full-s-val', v=>parseFloat(v).toFixed(2));
+  const r = bind('full-r', 'full-r-val', v=>v+' ms');
+
+  const presets = {
+    bass: { wave:'sawtooth', fc:300,  q:2.0,  a:200, d:200, s:0.80, r:500 },
+    lead: { wave:'square',   fc:2000, q:5.0,  a:5,   d:150, s:0.60, r:200 },
+    ding: { wave:'sine',     fc:8000, q:0.5,  a:2,   d:800, s:0.10, r:400 },
+    pad:  { wave:'sawtooth', fc:1500, q:1.0,  a:600, d:200, s:0.85, r:1200 },
+  };
+  document.querySelectorAll('#full-presets button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#full-presets button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const p = presets[btn.dataset.preset];
+      wave.value = p.wave==='sawtooth' ? 'saw' : p.wave;
+      fc.value=p.fc; q.value=p.q; a.value=p.a; d.value=p.d; s.value=p.s; r.value=p.r;
+      [fc,q,a,d,s,r].forEach(el => el.dispatchEvent(new Event('input')));
+    });
+  });
+
+  // Teclado
+  const notes = [
+    {k:'A', n:'C4', f:261.63}, {k:'S', n:'D4', f:293.66}, {k:'D', n:'E4', f:329.63},
+    {k:'F', n:'F4', f:349.23}, {k:'G', n:'G4', f:392.00}, {k:'H', n:'A4', f:440.00},
+    {k:'J', n:'B4', f:493.88}, {k:'K', n:'C5', f:523.25},
+  ];
+  const kbd = document.getElementById('keyboard');
+  notes.forEach(note=>{
+    const b = document.createElement('button');
+    b.style.cssText='flex:1; padding:38px 6px 14px; background:#fff; color:#222; border:1px solid #888; border-radius:0 0 6px 6px; cursor:pointer; font-weight:600; font-size:.85em; position:relative;';
+    b.innerHTML = '<span style="position:absolute;top:8px;left:0;right:0;font-size:.7em;color:#888">'+note.k+'</span>'+note.n;
+    b.addEventListener('mousedown', ()=>playNote(note.f));
+    b.addEventListener('mouseenter', e=>{ if(e.buttons) playNote(note.f); });
+    kbd.appendChild(b);
+  });
+  document.addEventListener('keydown', e=>{
+    if (e.repeat) return;
+    const n = notes.find(x=>x.k.toLowerCase()===e.key.toLowerCase());
+    if (n) playNote(n.f);
+  });
+
+  let analyser=null, drawing=false;
+  function playNote(freq) {
+    const c = getCtx();
+    const A=parseFloat(a.value)/1000, D=parseFloat(d.value)/1000, S=parseFloat(s.value), R=parseFloat(r.value)/1000;
+    const sustainDur = 0.5;
+    const osc = c.createOscillator();
+    osc.type = wave.value==='saw' ? 'sawtooth' : wave.value;
+    osc.frequency.value = freq;
+    const filter = c.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = parseFloat(fc.value);
+    filter.Q.value = parseFloat(q.value);
+    const g = c.createGain();
+    g.gain.setValueAtTime(0, c.currentTime);
+    g.gain.linearRampToValueAtTime(0.4, c.currentTime + A);
+    g.gain.linearRampToValueAtTime(0.4*S, c.currentTime + A + D);
+    g.gain.setValueAtTime(0.4*S, c.currentTime + A + D + sustainDur);
+    g.gain.linearRampToValueAtTime(0, c.currentTime + A + D + sustainDur + R);
+    if (!analyser) { analyser = c.createAnalyser(); analyser.fftSize = 2048; analyser.connect(c.destination); }
+    osc.connect(filter).connect(g).connect(analyser);
+    osc.start();
+    osc.stop(c.currentTime + A + D + sustainDur + R + 0.1);
+    if (!drawing) { drawing = true; drawTime(); }
+  }
+
+  const cv = document.getElementById('full-time').getContext('2d');
+  function drawTime() {
+    if (!analyser) return;
+    const t = new Uint8Array(analyser.fftSize);
+    analyser.getByteTimeDomainData(t);
+    const W=cv.canvas.width, H=cv.canvas.height;
+    cv.fillStyle='#0a1218'; cv.fillRect(0,0,W,H);
+    cv.strokeStyle='#3aa9ff'; cv.lineWidth=1.2; cv.beginPath();
+    for (let i=0;i<t.length;i++) {
+      const x = i/(t.length-1)*W, y = (1 - t[i]/255) * H;
+      i===0 ? cv.moveTo(x,y) : cv.lineTo(x,y);
+    }
+    cv.stroke();
+    requestAnimationFrame(drawTime);
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// ⑤ LFO
+// ═══════════════════════════════════════════════════════════════
+(function lfoModule() {
+  const wave = document.getElementById('lfo-wave');
+  const vco = bind('lfo-vco', 'lfo-vco-val', v=>v+' Hz');
+  const rate = bind('lfo-rate', 'lfo-rate-val', v=>parseFloat(v).toFixed(1)+' Hz');
+  const fc = bind('lfo-fc', 'lfo-fc-val', v=>v+' Hz');
+  const depth = bind('lfo-depth', 'lfo-depth-val', v=>v+' Hz');
+  const q = bind('lfo-q', 'lfo-q-val', v=>parseFloat(v).toFixed(1));
+  const playBtn = document.getElementById('lfo-play');
+  const stopBtn = document.getElementById('lfo-stop');
+
+  let osc=null, lfo=null, lfoGain=null, filter=null, gainNode=null, analyser=null;
+  function start() {
+    stop();
+    const c = getCtx();
+    osc = c.createOscillator();
+    osc.type = wave.value === 'saw' ? 'sawtooth' : wave.value;
+    osc.frequency.value = parseFloat(vco.value);
+    filter = c.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = parseFloat(fc.value);
+    filter.Q.value = parseFloat(q.value);
+    lfo = c.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = parseFloat(rate.value);
+    lfoGain = c.createGain();
+    lfoGain.gain.value = parseFloat(depth.value);
+    lfo.connect(lfoGain).connect(filter.frequency);
+    gainNode = c.createGain(); gainNode.gain.value = 0.4;
+    analyser = c.createAnalyser(); analyser.fftSize = 2048;
+    osc.connect(filter).connect(gainNode).connect(analyser).connect(c.destination);
+    osc.start(); lfo.start();
+    draw();
+  }
+  function stop() {
+    [osc,lfo].forEach(n=>{ if(n) try{n.stop();}catch(e){} });
+    osc=null; lfo=null;
+  }
+  vco.addEventListener('input', ()=>{ if(osc) osc.frequency.value=parseFloat(vco.value); });
+  rate.addEventListener('input', ()=>{ if(lfo) lfo.frequency.value=parseFloat(rate.value); });
+  fc.addEventListener('input', ()=>{ if(filter) filter.frequency.value=parseFloat(fc.value); });
+  depth.addEventListener('input', ()=>{ if(lfoGain) lfoGain.gain.value=parseFloat(depth.value); });
+  q.addEventListener('input', ()=>{ if(filter) filter.Q.value=parseFloat(q.value); });
+  playBtn.addEventListener('click', start);
+  stopBtn.addEventListener('click', stop);
+
+  const cFc = document.getElementById('lfo-fc').getContext('2d');
+  const cT = document.getElementById('lfo-time').getContext('2d');
+  let history = [];
+  function draw() {
+    if (!filter) return;
+    history.push(filter.frequency.value);
+    if (history.length > 600) history.shift();
+    const W=cFc.canvas.width, H=cFc.canvas.height;
+    cFc.fillStyle='#0a1218'; cFc.fillRect(0,0,W,H);
+    cFc.strokeStyle='#ffb042'; cFc.lineWidth=2; cFc.beginPath();
+    const maxV = parseFloat(fc.value) + parseFloat(depth.value);
+    history.forEach((v,i)=>{
+      const x = i/600*W, y = H - (v/maxV)*H;
+      i===0?cFc.moveTo(x,y):cFc.lineTo(x,y);
+    });
+    cFc.stroke();
+    cFc.fillStyle='#8ea1b5'; cFc.font='11px monospace';
+    cFc.fillText('fc(t) actual: '+filter.frequency.value.toFixed(0)+' Hz', 8, 14);
+
+    if (analyser) {
+      const t = new Uint8Array(analyser.fftSize);
+      analyser.getByteTimeDomainData(t);
+      const W2=cT.canvas.width, H2=cT.canvas.height;
+      cT.fillStyle='#0a1218'; cT.fillRect(0,0,W2,H2);
+      cT.strokeStyle='#6ddb7a'; cT.lineWidth=1.2; cT.beginPath();
+      for (let i=0;i<t.length;i++) {
+        const x = i/(t.length-1)*W2, y = (1 - t[i]/255) * H2;
+        i===0?cT.moveTo(x,y):cT.lineTo(x,y);
+      }
+      cT.stroke();
+    }
+    requestAnimationFrame(draw);
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// ⑥ Pitch bend
+// ═══════════════════════════════════════════════════════════════
+(function pitchModule() {
+  const f0 = bind('pitch-f0', 'pitch-f0-val', v=>v+' Hz');
+  const f1 = bind('pitch-f1', 'pitch-f1-val', v=>v+' Hz');
+  const dur = bind('pitch-dur', 'pitch-dur-val', v=>v+' ms');
+  const curve = document.getElementById('pitch-curve');
+  const playOk = document.getElementById('pitch-play-ok');
+  const playBad = document.getElementById('pitch-play-bad');
+
+  const cF = document.getElementById('pitch-f').getContext('2d');
+  const cT = document.getElementById('pitch-time').getContext('2d');
+
+  function freqAt(t, T, F0, F1, mode) {
+    const u = t/T;
+    if (mode === 'exp') return F0 * Math.pow(F1/F0, u);
+    return F0 + (F1-F0)*u;
+  }
+
+  function drawF() {
+    const W=cF.canvas.width, H=cF.canvas.height;
+    cF.fillStyle='#0a1218'; cF.fillRect(0,0,W,H);
+    const T = parseFloat(dur.value)/1000;
+    const F0 = parseFloat(f0.value), F1 = parseFloat(f1.value);
+    cF.strokeStyle='#ffb042'; cF.lineWidth=2; cF.beginPath();
+    for (let i=0;i<W;i++) {
+      const t = i/W*T;
+      const f = freqAt(t, T, F0, F1, curve.value);
+      const fmax = Math.max(F0,F1)*1.05;
+      const y = H - (f/fmax)*H;
+      i===0?cF.moveTo(i,y):cF.lineTo(i,y);
+    }
+    cF.stroke();
+    cF.fillStyle='#8ea1b5'; cF.font='11px monospace';
+    cF.fillText('f(t): '+F0+' → '+F1+' Hz · '+curve.value, 8, 14);
+  }
+  [f0,f1,dur,curve].forEach(el=>el.addEventListener('input', drawF));
+  drawF();
+
+  function play(broken) {
+    const c = getCtx();
+    const sr = c.sampleRate;
+    const T = parseFloat(dur.value)/1000;
+    const F0 = parseFloat(f0.value), F1 = parseFloat(f1.value);
+    const N = Math.floor(T*sr);
+    const buf = c.createBuffer(1, N+sr*0.05, sr);
+    const ch = buf.getChannelData(0);
+    let phase=0;
+    for (let i=0;i<N;i++) {
+      const t = i/sr;
+      const fInst = freqAt(t, T, F0, F1, curve.value);
+      let s;
+      if (broken) {
+        // versión rota: cambia el período cada muestra sin acumular fase
+        s = Math.sign(Math.sin(2*Math.PI*fInst*t));
+      } else {
+        phase += 2*Math.PI*fInst/sr;
+        s = Math.sign(Math.sin(phase));
+      }
+      // fade in/out 5 ms
+      const fadeN = Math.floor(0.005*sr);
+      let env = 1;
+      if (i < fadeN) env = i/fadeN;
+      else if (i > N-fadeN) env = (N-i)/fadeN;
+      ch[i] = s * 0.3 * env;
+    }
+    const src = c.createBufferSource(); src.buffer = buf;
+    const analyser = c.createAnalyser(); analyser.fftSize=2048;
+    src.connect(analyser).connect(c.destination);
+    src.start();
+    // dibujar la waveform completa
+    const W=cT.canvas.width, H=cT.canvas.height;
+    cT.fillStyle='#0a1218'; cT.fillRect(0,0,W,H);
+    cT.strokeStyle = broken ? '#ff5577' : '#6ddb7a'; cT.lineWidth=0.8; cT.beginPath();
+    const step = Math.max(1, Math.floor(N/W));
+    for (let x=0;x<W;x++) {
+      const i = Math.floor(x/W*N);
+      const v = ch[i];
+      const y = H/2 - v*H/2;
+      x===0?cT.moveTo(x,y):cT.lineTo(x,y);
+    }
+    cT.stroke();
+    cT.fillStyle = broken?'#ff5577':'#6ddb7a'; cT.font='11px monospace';
+    cT.fillText(broken?'rota: clicks audibles cada vez que f cambia':'correcta: fase continua', 8, 14);
+  }
+  playOk.addEventListener('click', ()=>play(false));
+  playBad.addEventListener('click', ()=>play(true));
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// ⑦ Chiptune SFX
+// ═══════════════════════════════════════════════════════════════
+(function chipModule() {
+  const c = () => getCtx();
+  const FS = () => c().sampleRate;
+
+  function adsrEnv(N, Ams, Dms, S, Rms, sustainN) {
+    const env = new Float32Array(N);
+    const sr = FS();
+    const A = Math.floor(Ams*sr/1000);
+    const D = Math.floor(Dms*sr/1000);
+    const R = Math.floor(Rms*sr/1000);
+    const SUS = sustainN ?? Math.max(0, N - A - D - R);
+    let i=0;
+    for (let k=0;k<A && i<N;k++,i++) env[i] = k/A;
+    for (let k=0;k<D && i<N;k++,i++) env[i] = 1 - (1-S)*k/D;
+    for (let k=0;k<SUS && i<N;k++,i++) env[i] = S;
+    for (let k=0;k<R && i<N;k++,i++) env[i] = S*(1 - k/R);
+    return env;
+  }
+
+  function makeBuffer(durSec) { return c().createBuffer(1, Math.floor(durSec*FS()), FS()); }
+
+  function makeCoin() {
+    const ctx = c(), sr = FS();
+    const dur = 0.16;
+    const buf = makeBuffer(dur);
+    const ch = buf.getChannelData(0);
+    const t1 = 0.07, t2 = dur-t1;
+    const n1 = Math.floor(t1*sr), n2 = Math.floor(t2*sr);
+    let phase=0;
+    // Si5 = 987.77 Hz primer tono, Mi6 = 1318.51 Hz
+    for (let i=0;i<n1;i++) { phase += 2*Math.PI*987.77/sr; ch[i] = Math.sign(Math.sin(phase)); }
+    for (let i=0;i<n2;i++) { phase += 2*Math.PI*1318.51/sr; ch[n1+i] = Math.sign(Math.sin(phase)); }
+    // ADSR percusivo
+    const env = adsrEnv(ch.length, 1, 100, 0.4, 50);
+    for (let i=0;i<ch.length;i++) ch[i] *= env[i] * 0.4;
+    return buf;
+  }
+
+  function makeJump() {
+    const ctx = c(), sr = FS();
+    const dur = 0.3;
+    const buf = makeBuffer(dur);
+    const ch = buf.getChannelData(0);
+    const N = ch.length;
+    const F0=180, F1=720;
+    let phase=0;
+    for (let i=0;i<N;i++) {
+      const u = i/N;
+      const f = F0 * Math.pow(F1/F0, u);
+      phase += 2*Math.PI*f/sr;
+      ch[i] = Math.sign(Math.sin(phase));
+    }
+    const env = adsrEnv(N, 2, 80, 0.6, 80);
+    for (let i=0;i<N;i++) ch[i] *= env[i] * 0.4;
+    return buf;
+  }
+
+  function makeExplosion() {
+    const ctx = c(), sr = FS();
+    const dur = 0.5;
+    const buf = makeBuffer(dur);
+    const ch = buf.getChannelData(0);
+    const N = ch.length;
+    // ruido + LP de 1 polo cuyo fc cae 4000→200
+    let prev = 0;
+    for (let i=0;i<N;i++) {
+      const u = i/N;
+      const fc = 4000 * Math.exp(-5*u) + 200;
+      const alpha = 1 - Math.exp(-2*Math.PI*fc/sr);
+      const noise = Math.random()*2-1;
+      prev += alpha*(noise - prev);
+      ch[i] = prev;
+    }
+    const env = adsrEnv(N, 1, 350, 0, 80);
+    for (let i=0;i<N;i++) ch[i] *= env[i] * 0.6;
+    return buf;
+  }
+
+  function makeMix() {
+    const ctx = c(), sr = FS();
+    const gap = Math.floor(0.3*sr);
+    const coin = makeCoin().getChannelData(0);
+    const jump = makeJump().getChannelData(0);
+    const expl = makeExplosion().getChannelData(0);
+    const totalN = coin.length + gap + jump.length + gap + expl.length;
+    const buf = ctx.createBuffer(1, totalN, sr);
+    const ch = buf.getChannelData(0);
+    let p = 0;
+    coin.forEach((v,i)=>ch[p+i]=v); p += coin.length + gap;
+    jump.forEach((v,i)=>ch[p+i]=v); p += jump.length + gap;
+    expl.forEach((v,i)=>ch[p+i]=v);
+    return buf;
+  }
+
+  function makeArpeggio() {
+    const ctx = c(), sr = FS();
+    const dur = 2.0;
+    const buf = makeBuffer(dur);
+    const ch = buf.getChannelData(0);
+    const N = ch.length;
+    const notes = [261.63, 329.63, 392.00]; // C-E-G
+    const stepMs = 30;
+    const stepN = Math.floor(stepMs*sr/1000);
+    let phase=0;
+    for (let i=0;i<N;i++) {
+      const idx = Math.floor(i/stepN) % notes.length;
+      phase += 2*Math.PI*notes[idx]/sr;
+      ch[i] = Math.sign(Math.sin(phase)) * 0.3;
+    }
+    const env = adsrEnv(N, 5, 100, 0.7, 200);
+    for (let i=0;i<N;i++) ch[i] *= env[i];
+    return buf;
+  }
+
+  function play(buf, label) {
+    const src = c().createBufferSource();
+    src.buffer = buf;
+    src.connect(c().destination);
+    src.start();
+    drawBuffer(buf, label);
+  }
+
+  const cv = document.getElementById('chip-time').getContext('2d');
+  const labelEl = document.getElementById('chip-label');
+  function drawBuffer(buf, label) {
+    labelEl.textContent = label;
+    const ch = buf.getChannelData(0);
+    const W=cv.canvas.width, H=cv.canvas.height;
+    cv.fillStyle='#0a1218'; cv.fillRect(0,0,W,H);
+    cv.strokeStyle='#b86dff'; cv.lineWidth=0.8; cv.beginPath();
+    for (let x=0;x<W;x++) {
+      const i = Math.floor(x/W*ch.length);
+      const v = ch[i];
+      const y = H/2 - v*H/2*0.95;
+      x===0?cv.moveTo(x,y):cv.lineTo(x,y);
+    }
+    cv.stroke();
+  }
+
+  document.getElementById('chip-coin').addEventListener('click', ()=>play(makeCoin(),'Coin · 2 × square (Si5→Mi6)'));
+  document.getElementById('chip-jump').addEventListener('click', ()=>play(makeJump(),'Jump · square con pitch bend exp 180→720 Hz, fase continua'));
+  document.getElementById('chip-explosion').addEventListener('click', ()=>play(makeExplosion(),'Explosion · noise + LP sweep 4kHz→200Hz'));
+  document.getElementById('chip-mix').addEventListener('click', ()=>play(makeMix(),'Mix · Coin → Jump → Explosion'));
+  document.getElementById('chip-arpeggio').addEventListener('click', ()=>play(makeArpeggio(),'Arpegio C-E-G a 30 ms · simula acorde NES'));
+})();
+</script>
+</body>
+</html>

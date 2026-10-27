@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M6 · Laboratorio — Buenos temperamentos</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --mid:#f0c766;
+  --wolf:#ff3b6b;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:660px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;position:sticky;top:0;z-index:5;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;align-items:flex-end;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+select{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn.stop{background:#3a1420;border-color:#7a2c40;color:#f5c2ce;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+label.toggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.85rem;color:var(--text);margin:6px 0;}
+label.toggle input{accent-color:var(--accent);width:16px;height:16px;}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;width:100%;display:block;margin:10px 0;}
+svg.fifths{width:100%;max-width:480px;height:auto;display:block;margin:12px auto;}
+
+.note-circle{cursor:pointer;}
+.note-circle circle{fill:#262b38;stroke:#4a5064;stroke-width:2;transition:fill .15s,stroke .15s;}
+.note-circle.known circle{fill:#1b3a52;stroke:#3f7fa8;}
+.note-circle.sounding circle{fill:var(--accent);stroke:#ffd28a;}
+.note-circle text{fill:#dfe4ea;font-weight:700;text-anchor:middle;dominant-baseline:middle;font-size:13px;pointer-events:none;}
+.note-circle.known text{fill:#eaf5ff;}
+.note-circle.sounding text{fill:var(--accent-ink);}
+.arc-line{stroke-width:3;fill:none;transition:stroke .15s;}
+.arc-good{stroke:var(--good);}
+.arc-narrow{stroke:var(--warn);}
+.arc-schisma{stroke:var(--accent);}
+.arc-wolf{stroke:var(--wolf);}
+.arc-hidden{stroke:#2a2e3a;}
+.arc-label{font-size:10.5px;text-anchor:middle;dominant-baseline:middle;font-weight:700;}
+.arc-label.arc-good{fill:var(--good);}
+.arc-label.arc-narrow{fill:var(--warn);}
+.arc-label.arc-schisma{fill:var(--accent);}
+.arc-label.arc-wolf{fill:var(--wolf);}
+.arc-label.arc-hidden{fill:#3a4150;}
+
+table.data-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:10px;}
+.data-table th{text-align:right;color:var(--muted);font-weight:600;padding:6px 5px;border-bottom:1px solid var(--line);}
+.data-table th:first-child,.data-table td:first-child{text-align:left;}
+.data-table td{padding:5px 5px;border-bottom:1px solid #ffffff08;text-align:right;font-variant-numeric:tabular-nums;}
+.sem-good{color:var(--good);font-weight:700;}
+.sem-mid{color:var(--mid);font-weight:700;}
+.sem-bad{color:var(--warn);font-weight:700;}
+.pos-cents{color:var(--good);}
+.neg-cents{color:var(--warn);}
+.dim-row td{color:#565c6b;}
+
+.budget-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+.budget-box b.ok{color:var(--good);}
+
+.wheel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0;}
+@media(min-width:640px){.wheel-grid{grid-template-columns:repeat(6,1fr);}}
+.wheel-btn{background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:9px;padding:10px 4px;cursor:pointer;font-size:0.83rem;font-weight:600;text-align:center;}
+.wheel-btn:hover{background:#1c2536;}
+.wheel-btn.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
+.wheel-btn.rotating{outline:2px solid var(--accent);}
+
+.tonic-info{padding:12px 14px;margin:10px 0;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;font-size:0.9rem;}
+.tonic-info b{color:var(--accent);}
+
+.keyboard-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
+.key-btn{flex:1;min-width:52px;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:12px 4px;cursor:pointer;font-size:0.8rem;font-weight:700;text-align:center;}
+.key-btn:hover{background:#1c2536;}
+.key-btn:disabled{opacity:0.5;}
+
+.compare-panel{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.compare-col{flex:1;min-width:200px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:0.85rem;}
+.compare-col h4{margin:0 0 8px;color:var(--accent);font-size:0.9rem;}
+
+.chorale-row{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;}
+.chorale-chord{flex:1;min-width:88px;background:#12151d;border:1px solid var(--line);border-radius:8px;padding:8px 6px;font-size:0.72rem;text-align:center;color:var(--muted);transition:border-color .15s,background .15s;}
+.chorale-chord b{display:block;color:var(--text);font-size:0.86rem;margin-bottom:3px;}
+.chorale-chord .dev{display:block;margin-top:4px;font-variant-numeric:tabular-nums;font-weight:700;}
+.chorale-chord.active{border-color:var(--accent);background:#241d10;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;margin:3px 5px 3px 0;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .compare-panel{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M6 · Laboratorio: Buenos temperamentos</h1>
+    <p class="subtitle">Werckmeister III, Vallotti y Kirnberger III reparten la coma pitagórica de forma desigual para que ninguna tonalidad quede arruinada. Cuatro experimentos para ver, tabular y —sobre todo— <b>oír</b> ese reparto.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Anatomía del temperamento</h2>
+    <p class="purpose">Cada sistema es una manera distinta de repartir la coma pitagórica (23.460 c) entre las 12 quintas del círculo. El diagrama muestra, quinta por quinta, cuánto se le quitó a cada una.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l1System">Sistema</label>
+        <select id="l1System">
+          <option value="w3">Werckmeister III</option>
+          <option value="vallotti">Vallotti</option>
+          <option value="k3">Kirnberger III</option>
+          <option value="et">Temperamento igual (referencia)</option>
+          <option value="meso">Mesotónico 1/4 de coma (referencia)</option>
+        </select>
+      </div>
+    </div>
+
+    <label class="toggle"><input type="checkbox" id="l1StepMode"> Modo «construir paso a paso»</label>
+
+    <div class="btn-row" id="l1StepControls" style="display:none;">
+      <button class="btn primary" id="l1NextFifth">▶ Aplicar siguiente quinta</button>
+      <button class="btn" id="l1ResetStep">↺ Reiniciar construcción</button>
+      <span class="value-tag" id="l1StepStatus"></span>
+    </div>
+
+    <svg class="fifths" id="l1Svg" viewBox="0 0 460 460" aria-label="Círculo de quintas del temperamento"></svg>
+
+    <div class="budget-box" id="l1Budget"></div>
+
+    <h3>Las 12 notas: cents, desviación y la tercera que nace en cada una</h3>
+    <table class="data-table" id="l1Table">
+      <thead><tr><th>Nota</th><th>Cents (desde Do)</th><th>Desv. vs ET</th><th>3.ª mayor aquí</th><th>Desv. vs pura (386.3)</th></tr></thead>
+      <tbody id="l1TableBody"></tbody>
+    </table>
+    <div class="note-box">La columna final es un semáforo: <span class="sem-good">verde</span> = tercera casi pura, <span class="sem-mid">ámbar</span> = intermedia, <span class="sem-bad">rojo</span> = claramente pitagórica (bien afilada, +21 c o más). En un buen temperamento este semáforo va del verde al rojo <i>gradualmente</i>; en mesotónico salta de golpe.</div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · La ruleta del color</h2>
+    <p class="purpose">Una cadencia I–IV–V7–I, en las 12 tonalidades mayores. El acorde es siempre «igual» sobre el papel; lo que cambia de color es la tercera de la tónica, según dónde caiga en el reparto de la coma.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l2System">Sistema</label>
+        <select id="l2System">
+          <option value="w3">Werckmeister III</option>
+          <option value="vallotti">Vallotti</option>
+          <option value="k3">Kirnberger III</option>
+          <option value="meso">Mesotónico 1/4 de coma</option>
+          <option value="et">Temperamento igual</option>
+        </select>
+      </div>
+    </div>
+
+    <h3>Rueda de tonalidades (orden del círculo de quintas)</h3>
+    <div class="wheel-grid" id="l2Wheel"></div>
+
+    <div class="tonic-info" id="l2TonicInfo">Elige una tonalidad para escuchar la cadencia I–IV–V7–I.</div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l2Spin">🎡 Gira la ruleta (12 tonalidades, ~75 s)</button>
+      <button class="btn stop big-btn" id="l2Stop" disabled>■ Detener</button>
+    </div>
+
+    <h3>Desviación de la tercera mayor de cada tonalidad (sistema seleccionado)</h3>
+    <canvas id="l2BarCanvas" width="840" height="230"></canvas>
+    <div class="note-box">Compara la forma del gráfico al cambiar de sistema: en <b>ET</b> es una línea plana en +13.7 c; en <b>mesotónico</b> hay ocho barras casi en cero y cuatro que se disparan (el «precipicio»); en los <b>buenos temperamentos</b> es una rampa suave de casi puro a casi pitagórico.</div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · Duelo de sistemas nota a nota</h2>
+    <p class="purpose">Compara dos sistemas afinando la misma nota o el mismo acorde, uno después del otro o al mismo tiempo (el batido delata la diferencia en cents).</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l3SystemA">Sistema A</label>
+        <select id="l3SystemA">
+          <option value="w3">Werckmeister III</option>
+          <option value="vallotti">Vallotti</option>
+          <option value="k3">Kirnberger III</option>
+          <option value="meso">Mesotónico 1/4 de coma</option>
+          <option value="et" selected>Temperamento igual</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="l3SystemB">Sistema B</label>
+        <select id="l3SystemB">
+          <option value="w3" selected>Werckmeister III</option>
+          <option value="vallotti">Vallotti</option>
+          <option value="k3">Kirnberger III</option>
+          <option value="meso">Mesotónico 1/4 de coma</option>
+          <option value="et">Temperamento igual</option>
+        </select>
+      </div>
+    </div>
+
+    <table class="data-table" id="l3Table">
+      <thead><tr><th>Nota</th><th>Cents A</th><th>Cents B</th><th>Diferencia (B−A)</th></tr></thead>
+      <tbody id="l3TableBody"></tbody>
+    </table>
+
+    <label class="toggle"><input type="checkbox" id="l3Unison"> Unísono batiente (suena A y B a la vez sobre la misma nota)</label>
+
+    <h3>Teclado (una octava)</h3>
+    <div class="keyboard-row" id="l3Keyboard"></div>
+
+    <h3>Tríadas mayores</h3>
+    <div class="row">
+      <div class="field">
+        <label for="l3TriadRoot">Fundamental de la tríada</label>
+        <select id="l3TriadRoot"></select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn primary" id="l3PlayTriad">▶ Tríada: A, luego B</button>
+    </div>
+    <div class="value-tag" id="l3Status"></div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · Coral conmutable</h2>
+    <p class="purpose">Una frase corta a 4 voces, inspirada en el coral «O Haupt voll Blut und Wunden» (melodía de H. L. Hassler, tratamiento armónico de estilo bachiano en La menor, simplificado con fines didácticos). Ocho acordes: i–iv–V–i–VI–ii°–V7–i.</p>
+
+    <div class="chorale-row" id="l4ChordBoxes"></div>
+
+    <div class="row">
+      <div class="field">
+        <label for="l4Transpose">Transposición</label>
+        <select id="l4Transpose">
+          <option value="0">0 semitonos (La menor)</option>
+          <option value="2">+2 semitonos (Si menor)</option>
+          <option value="6">+6 semitonos (Mib menor)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l4PlayW3">▶ Werckmeister III</button>
+      <button class="btn primary" id="l4PlayVallotti">▶ Vallotti</button>
+      <button class="btn primary" id="l4PlayK3">▶ Kirnberger III</button>
+      <button class="btn" id="l4PlayMeso">▶ Mesotónico 1/4</button>
+      <button class="btn" id="l4PlayET">▶ Temperamento igual</button>
+      <button class="btn stop" id="l4Stop" disabled>■ Detener</button>
+    </div>
+
+    <div class="note-box">En temperamento igual, transportar es neutro: el coral suena idéntico en cualquier tonalidad. En los buenos temperamentos —y sobre todo en mesotónico— transportar <b>cambia el carácter armónico</b>: a +6 semitonos, el mesotónico puede hacer caer alguno de estos acordes justo al precipicio de la quinta del lobo.</div>
+
+    <p style="margin-top:14px;font-size:0.82rem;color:var(--muted);">Para corales completos y otras obras reales en estos sistemas, usa la app «Suena Afinaciones Antiguas» del proyecto.</p>
+  </section>
+
+  <footer>
+    Módulo 6 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== CONSTANTES DE AFINACIÓN ==================== */
+const PYTH_COMMA     = 1200*Math.log2(531441/524288); // ≈23.460
+const SYNTONIC_COMMA = 1200*Math.log2(81/80);          // ≈21.506
+const SCHISMA        = PYTH_COMMA - SYNTONIC_COMMA;     // ≈1.954
+const PURE_FIFTH     = 1200*Math.log2(3/2);             // ≈701.955
+const PURE_THIRD     = 1200*Math.log2(5/4);             // ≈386.314
+const PURE_MIN_THIRD = 1200*Math.log2(6/5);             // ≈315.641
+const C4             = 261.63;
+
+const NOTE_NAMES = ["Do","Do♯","Re","Mib","Mi","Fa","Fa♯","Sol","Sol♯","La","Sib","Si"];
+
+/* Orden estándar del círculo de quintas, empezando en Do (sentido horario). */
+const CIRCLE_ORDER = [0,7,2,9,4,11,6,1,8,3,10,5];
+
+/* Cadena de quintas anclada en Do, igual que en Tools/afinacion.html:
+   Mib Sib Fa Do Sol Re La Mi Si Fa# Do# Sol#  (posiciones -3 ... +8)   */
+const CHAIN_PC = [3,10,5,0,7,2,9,4,11,6,1,8];
+const C_INDEX  = 3;
+
+function mod(n,m){ return ((n%m)+m)%m; }
+
+/* Construye las 12 alturas (cents desde Do) a partir de las 11 anchuras
+   de quinta de la cadena Mib→...→Sol#. Idéntico a fromChain() de
+   Tools/afinacion.html: se camina hacia arriba y hacia abajo desde Do. */
+function fromChain(widths){
+  const cents = new Array(12);
+  cents[CHAIN_PC[C_INDEX]] = 0;
+  let acc = 0;
+  for(let j=C_INDEX+1;j<12;j++){ acc += widths[j-1]; cents[CHAIN_PC[j]] = mod(acc,1200); }
+  acc = 0;
+  for(let j=C_INDEX-1;j>=0;j--){ acc -= widths[j]; cents[CHAIN_PC[j]] = mod(acc,1200); }
+  return cents;
+}
+
+/* Índices de widths (quintas ascendentes de la cadena):
+   0:Mib→Sib 1:Sib→Fa 2:Fa→Do 3:Do→Sol 4:Sol→Re 5:Re→La 6:La→Mi
+   7:Mi→Si 8:Si→Fa# 9:Fa#→Do# 10:Do#→Sol#
+   Reparto de la coma idéntico a Tools/afinacion.html. */
+function getTuning(type){
+  if(type==="et") return Array.from({length:12},(_,i)=>i*100);
+
+  const w = new Array(11).fill(PURE_FIFTH);
+
+  if(type==="meso"){ w.fill(PURE_FIFTH - SYNTONIC_COMMA/4); return fromChain(w); }
+
+  if(type==="w3"){                              // Do-Sol,Sol-Re,Re-La,Si-Fa#
+    [3,4,5,8].forEach(i=>w[i]-=PYTH_COMMA/4);
+    return fromChain(w);
+  }
+  if(type==="vallotti"){                        // Fa-Do,Do-Sol,Sol-Re,Re-La,La-Mi,Mi-Si
+    [2,3,4,5,6,7].forEach(i=>w[i]-=PYTH_COMMA/6);
+    return fromChain(w);
+  }
+  if(type==="k3"){                              // Do-Sol,Sol-Re,Re-La,La-Mi + Fa#-Do#
+    [3,4,5,6].forEach(i=>w[i]-=SYNTONIC_COMMA/4);
+    w[9]-=SCHISMA;
+    return fromChain(w);
+  }
+  return Array.from({length:12},(_,i)=>i*100);
+}
+
+const SYSTEM_LABELS = {
+  w3:'Werckmeister III', vallotti:'Vallotti', k3:'Kirnberger III',
+  meso:'Mesotónico 1/4 de coma', et:'Temperamento igual'
+};
+
+/* Frecuencia a partir de un número MIDI y un arreglo de cents (indexado
+   por clase de altura 0..11, Do=0), usando Do4=261.63 Hz como referencia
+   (MIDI 60). */
+function midiToFreq(m, centsArr){
+  const rel = m - 60;
+  const pc = mod(rel,12);
+  const octave = Math.floor(rel/12);
+  return C4 * Math.pow(2,octave) * Math.pow(2, centsArr[pc]/1200);
+}
+function freqForPc(pc, octave, centsArr){
+  return C4 * Math.pow(2,octave) * Math.pow(2, centsArr[pc]/1200);
+}
+
+function fmtCents(c){ return (c >= 0 ? '+' : '') + c.toFixed(1); }
+function fmtCents3(c){ return (c >= 0 ? '+' : '') + c.toFixed(3); }
+
+/* Clasifica la anchura de una quinta (delta = anchura - quinta pura)
+   en una etiqueta de fracción de coma legible. */
+function fractionLabel(delta){
+  if(Math.abs(delta) < 0.05) return {text:'pura', cls:'arc-good'};
+  if(delta > 0) return {text:'lobo +'+delta.toFixed(1), cls:'arc-wolf'};
+  if(Math.abs(delta - (-SCHISMA)) < 0.05) return {text:'−1 schisma', cls:'arc-schisma'};
+  const asPyth = -delta/PYTH_COMMA;
+  const fracsP = [[1,2],[1,3],[1,4],[1,6],[1,8],[1,12]];
+  for(let k=0;k<fracsP.length;k++){
+    const n=fracsP[k][0], d=fracsP[k][1];
+    if(Math.abs(asPyth - n/d) < 0.01) return {text:'−'+n+'/'+d+' cp', cls:'arc-narrow'};
+  }
+  const asSyn = -delta/SYNTONIC_COMMA;
+  const fracsS = [[1,2],[1,3],[1,4],[1,6]];
+  for(let k=0;k<fracsS.length;k++){
+    const n=fracsS[k][0], d=fracsS[k][1];
+    if(Math.abs(asSyn - n/d) < 0.01) return {text:'−'+n+'/'+d+' cs', cls:'arc-narrow'};
+  }
+  return {text:delta.toFixed(1)+'c', cls:'arc-narrow'};
+}
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+let activeNodes = [];
+let activeTimers = [];
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* Timbre rico en armónicos (8 armónicos, amplitud 1/n) vía createPeriodicWave,
+   igual enfoque que M1 y que Tools/afinacion.html: necesario para que las
+   diferencias de afinación (batidos, terceras más o menos puras) se
+   perciban con claridad. */
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+/* Envolvente ADSR mínima sobre un AudioParam de gain. Devuelve el instante
+   en que termina el release. */
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+/* Agrega y programa una sola voz armónica; se registra en activeNodes
+   para poder detenerla de golpe con hardStopAll(). */
+function scheduleVoice(freq, start, duration, peak, attack, release){
+  if(!audioCtx) return;
+  const osc = createHarmonicOsc(audioCtx, freq, 8);
+  const g = audioCtx.createGain();
+  osc.connect(g); g.connect(masterGain);
+  const end = scheduleTone(g.gain, start, duration, peak, attack, release);
+  osc.start(start);
+  osc.stop(end + 0.05);
+  const entry = {osc:osc, gain:g};
+  activeNodes.push(entry);
+  osc.addEventListener('ended', function(){
+    try{osc.disconnect(); g.disconnect();}catch(e){}
+    activeNodes = activeNodes.filter(function(v){ return v!==entry; });
+  });
+  return end;
+}
+
+function playSingleNote(freq, duration, peak){
+  if(!ensureAudioReady()) return;
+  const now = audioCtx.currentTime + 0.03;
+  scheduleVoice(freq, now, duration||1.6, peak||0.18, 0.02, 0.15);
+}
+
+function playChordFreqs(freqs, start, duration, peak){
+  freqs.forEach(function(f){ scheduleVoice(f, start, duration, peak, 0.02, 0.18); });
+}
+
+function hardStopAll(){
+  activeTimers.forEach(function(id){ clearTimeout(id); });
+  activeTimers = [];
+  if(audioCtx){
+    const now = audioCtx.currentTime;
+    activeNodes.forEach(function(v){
+      try{
+        v.gain.gain.cancelScheduledValues(now);
+        v.gain.gain.setValueAtTime(Math.max(v.gain.gain.value,0.0001), now);
+        v.gain.gain.exponentialRampToValueAtTime(0.0001, now+0.05);
+        v.osc.stop(now+0.06);
+      }catch(e){}
+    });
+  }
+  activeNodes = [];
+}
+
+/* ==================== GEOMETRÍA COMÚN DEL CÍRCULO (Lab 1) ==================== */
+const CX = 230, CY = 230, NODE_R = 165, LABEL_R = 202, CIRCLE_R = 26;
+function angleFor(i){ return (-90 + i*30) * Math.PI/180; }
+function posFor(i, r){ return {x: CX + r*Math.cos(angleFor(i)), y: CY + r*Math.sin(angleFor(i))}; }
+const SVGNS = "http://www.w3.org/2000/svg";
+
+/* ==================== Lab 1: Anatomía del temperamento ==================== */
+(function(){
+  const systemSelect = document.getElementById('l1System');
+  const stepModeChk = document.getElementById('l1StepMode');
+  const stepControls = document.getElementById('l1StepControls');
+  const nextFifthBtn = document.getElementById('l1NextFifth');
+  const resetStepBtn = document.getElementById('l1ResetStep');
+  const stepStatus = document.getElementById('l1StepStatus');
+  const svg = document.getElementById('l1Svg');
+  const budgetBox = document.getElementById('l1Budget');
+  const tableBody = document.getElementById('l1TableBody');
+
+  let cents = getTuning('w3');
+  let stepMode = false;
+  let revealedNode = new Array(12).fill(true);   // índice = posición en CIRCLE_ORDER
+  let revealedArc  = new Array(12).fill(true);   // arco i conecta posición i con i+1
+  let stepIndex = 0; // próximo arco a revelar en modo construcción
+  let soundingPos = -1;
+
+  function currentSystem(){ return systemSelect.value; }
+
+  function arcWidths(){
+    // anchura real de cada una de las 12 quintas, en el orden del círculo visual
+    const widths = [];
+    for(let i=0;i<12;i++){
+      const a = CIRCLE_ORDER[i], b = CIRCLE_ORDER[(i+1)%12];
+      widths.push(mod(cents[b]-cents[a],1200));
+    }
+    return widths;
+  }
+
+  function buildSvg(){
+    svg.innerHTML = '';
+    const widths = arcWidths();
+
+    // arcos (líneas entre nodos consecutivos)
+    for(let i=0;i<12;i++){
+      const a = posFor(i, NODE_R), b = posFor((i+1)%12, NODE_R);
+      const delta = widths[i] - PURE_FIFTH;
+      const info = fractionLabel(delta);
+      const line = document.createElementNS(SVGNS,'line');
+      line.setAttribute('x1',a.x); line.setAttribute('y1',a.y);
+      line.setAttribute('x2',b.x); line.setAttribute('y2',b.y);
+      const shown = revealedArc[i];
+      line.setAttribute('class', 'arc-line ' + (shown ? info.cls : 'arc-hidden'));
+      svg.appendChild(line);
+
+      const midAngle = angleFor(i) + (Math.PI/12);
+      const lp = {x: CX + LABEL_R*Math.cos(midAngle), y: CY + LABEL_R*Math.sin(midAngle)};
+      const text = document.createElementNS(SVGNS,'text');
+      text.setAttribute('x', lp.x); text.setAttribute('y', lp.y);
+      text.setAttribute('class', 'arc-label ' + (shown ? info.cls : 'arc-hidden'));
+      text.textContent = shown ? info.text : '?';
+      svg.appendChild(text);
+    }
+
+    // nodos
+    for(let i=0;i<12;i++){
+      const pc = CIRCLE_ORDER[i];
+      const p = posFor(i, NODE_R);
+      const g = document.createElementNS(SVGNS,'g');
+      let cls = 'note-circle';
+      if(revealedNode[i]) cls += ' known';
+      if(soundingPos===i) cls += ' sounding';
+      g.setAttribute('class', cls);
+      g.setAttribute('transform','translate('+p.x+','+p.y+')');
+      const c = document.createElementNS(SVGNS,'circle');
+      c.setAttribute('r', CIRCLE_R);
+      const t = document.createElementNS(SVGNS,'text');
+      t.textContent = revealedNode[i] ? NOTE_NAMES[pc] : '·';
+      g.appendChild(c); g.appendChild(t);
+      g.addEventListener('click', function(){
+        if(!revealedNode[i]) return;
+        soundingPos = i;
+        buildSvg();
+        playSingleNote(freqForPc(pc,0,cents), 1.4, 0.18);
+        setTimeout(function(){ if(soundingPos===i){ soundingPos=-1; buildSvg(); } }, 700);
+      });
+      svg.appendChild(g);
+    }
+  }
+
+  function buildTable(){
+    tableBody.innerHTML = '';
+    for(let i=0;i<12;i++){
+      const pc = CIRCLE_ORDER[i];
+      const known = revealedNode[i];
+      const tr = document.createElement('tr');
+      if(!known) tr.className = 'dim-row';
+      if(!known){
+        tr.innerHTML = '<td>'+NOTE_NAMES[pc]+'</td><td>—</td><td>—</td><td>—</td><td>—</td>';
+        tableBody.appendChild(tr);
+        continue;
+      }
+      const devET = cents[pc] - pc*100;
+      const thirdPc = (pc+4)%12;
+      const thirdKnown = revealedNode[CIRCLE_ORDER.indexOf(thirdPc)];
+      let thirdCell, devCell;
+      if(thirdKnown){
+        const thirdCents = mod(cents[thirdPc]-cents[pc],1200);
+        const devThird = thirdCents - PURE_THIRD;
+        const semClass = Math.abs(devThird)<=4 ? 'sem-good' : (Math.abs(devThird)<=12 ? 'sem-mid' : 'sem-bad');
+        thirdCell = thirdCents.toFixed(1);
+        devCell = '<span class="'+semClass+'">'+fmtCents(devThird)+'</span>';
+      } else {
+        thirdCell = '—'; devCell = '—';
+      }
+      tr.innerHTML = '<td>'+NOTE_NAMES[pc]+'</td>'+
+        '<td>'+cents[pc].toFixed(1)+'</td>'+
+        '<td class="'+(devET>=0?'pos-cents':'neg-cents')+'">'+fmtCents(devET)+'</td>'+
+        '<td>'+thirdCell+'</td>'+
+        '<td>'+devCell+'</td>';
+      tableBody.appendChild(tr);
+    }
+  }
+
+  function buildBudget(){
+    const widths = arcWidths();
+    let sum = 0;
+    let revealedCount = 0;
+    for(let i=0;i<12;i++){ if(revealedArc[i]){ sum += (widths[i]-PURE_FIFTH); revealedCount++; } }
+    const complete = revealedCount===12;
+    const ok = complete && Math.abs(sum-(-PYTH_COMMA))<0.02;
+    budgetBox.innerHTML = 'Presupuesto de error acumulado' + (complete?'':' (parcial, '+revealedCount+'/12 quintas)') +
+      ': suma de desviaciones = <b class="'+(ok?'ok':'')+'">'+fmtCents3(sum)+' c</b>' +
+      (complete ? (ok ? ' ✓ — se reparte exactamente la coma pitagórica (−23.460 c) y el círculo cierra.' : ' — no cierra exactamente (revisa el sistema).') : '.');
+  }
+
+  function renderAll(){
+    buildSvg();
+    buildTable();
+    buildBudget();
+  }
+
+  function resetConstruction(){
+    stepIndex = 0;
+    revealedNode = new Array(12).fill(false);
+    revealedNode[0] = true; // Do, punto de partida
+    revealedArc = new Array(12).fill(false);
+    soundingPos = -1;
+    stepStatus.textContent = 'Quinta 0 de 12 · nota de partida: Do';
+    nextFifthBtn.disabled = false;
+    renderAll();
+  }
+
+  function applyNextFifth(){
+    if(stepIndex>=12) return;
+    if(!ensureAudioReady()) return;
+    const arcI = stepIndex;
+    revealedArc[arcI] = true;
+    const newPos = (arcI+1)%12;
+    revealedNode[newPos] = true;
+    soundingPos = newPos;
+    stepIndex++;
+    const pc = CIRCLE_ORDER[newPos];
+    playSingleNote(freqForPc(pc,0,cents), 1.4, 0.18);
+    setTimeout(function(){ if(soundingPos===newPos){ soundingPos=-1; buildSvg(); } }, 700);
+    stepStatus.textContent = stepIndex<12
+      ? ('Quinta '+stepIndex+' de 12 · última nota: '+NOTE_NAMES[pc])
+      : 'Círculo completo: 12 de 12 quintas aplicadas.';
+    if(stepIndex>=12) nextFifthBtn.disabled = true;
+    renderAll();
+  }
+
+  function setStepMode(on){
+    stepMode = on;
+    stepControls.style.display = on ? 'flex' : 'none';
+    if(on){ resetConstruction(); }
+    else { revealedNode = new Array(12).fill(true); revealedArc = new Array(12).fill(true); renderAll(); }
+  }
+
+  systemSelect.addEventListener('change', function(){
+    cents = getTuning(currentSystem());
+    if(stepMode) resetConstruction(); else renderAll();
+  });
+  stepModeChk.addEventListener('change', function(){ setStepMode(stepModeChk.checked); });
+  nextFifthBtn.addEventListener('click', applyNextFifth);
+  resetStepBtn.addEventListener('click', resetConstruction);
+
+  renderAll();
+})();
+
+/* ==================== Lab 2: La ruleta del color ==================== */
+(function(){
+  const systemSelect = document.getElementById('l2System');
+  const wheel = document.getElementById('l2Wheel');
+  const tonicInfo = document.getElementById('l2TonicInfo');
+  const spinBtn = document.getElementById('l2Spin');
+  const stopBtn = document.getElementById('l2Stop');
+  const barCanvas = document.getElementById('l2BarCanvas');
+
+  let cents = getTuning('w3');
+  let rotating = false;
+  let currentActivePc = -1;
+
+  // Cadencia I-IV-V7-I en Do mayor (MIDI). Se transpone sumando la tónica (pc).
+  const CADENCE_TEMPLATE = [
+    { name:'I',  dur:1.5, notes:[48,60,64,67] },
+    { name:'IV', dur:1.5, notes:[53,60,65,69] },
+    { name:'V7', dur:1.5, notes:[55,59,62,65] },
+    { name:'I',  dur:1.5, notes:[48,60,67,64] }
+  ];
+
+  function buildWheel(){
+    wheel.innerHTML = '';
+    CIRCLE_ORDER.forEach(function(pc){
+      const btn = document.createElement('button');
+      btn.className = 'wheel-btn';
+      btn.textContent = NOTE_NAMES[pc];
+      btn.dataset.pc = pc;
+      btn.addEventListener('click', function(){ playCadenceIn(pc); });
+      wheel.appendChild(btn);
+    });
+  }
+
+  function highlightWheel(pc, rotatingHighlight){
+    Array.prototype.forEach.call(wheel.children, function(btn){
+      const p = parseInt(btn.dataset.pc,10);
+      btn.classList.toggle('active', p===pc);
+      btn.classList.toggle('rotating', !!rotatingHighlight && p===pc);
+    });
+  }
+
+  function thirdDeviation(tonicPc){
+    const thirdCents = mod(cents[(tonicPc+4)%12]-cents[tonicPc],1200);
+    return thirdCents - PURE_THIRD;
+  }
+
+  function updateTonicInfo(pc){
+    const dev = thirdDeviation(pc);
+    const semClass = Math.abs(dev)<=4 ? 'sem-good' : (Math.abs(dev)<=12 ? 'sem-mid' : 'sem-bad');
+    tonicInfo.innerHTML = 'Tónica <b>'+NOTE_NAMES[pc]+'</b> mayor · tercera a '+
+      mod(cents[(pc+4)%12]-cents[pc],1200).toFixed(1)+' c · desviación vs. pura (386.3): '+
+      '<span class="'+semClass+'">'+fmtCents(dev)+' c</span>';
+  }
+
+  function playCadenceIn(tonicPc){
+    if(!ensureAudioReady()) return;
+    currentActivePc = tonicPc;
+    highlightWheel(tonicPc, rotating);
+    updateTonicInfo(tonicPc);
+    let t = audioCtx.currentTime + 0.05;
+    CADENCE_TEMPLATE.forEach(function(chord){
+      const freqs = chord.notes.map(function(m){ return midiToFreq(m+tonicPc, cents); });
+      playChordFreqs(freqs, t, chord.dur, 0.11);
+      t += chord.dur;
+    });
+    return t - (audioCtx.currentTime+0.05);
+  }
+
+  function drawBarChart(){
+    const c = barCanvas.getContext('2d');
+    const W = barCanvas.width, H = barCanvas.height;
+    c.clearRect(0,0,W,H);
+    const values = CIRCLE_ORDER.map(function(pc){ return thirdDeviation(pc); });
+    const padL = 46, padR = 14, padT = 14, padB = 30;
+    const plotW = W-padL-padR, plotH = H-padT-padB;
+    let vMin = Math.min(0, Math.min.apply(null, values)) - 5;
+    let vMax = Math.max(SYNTONIC_COMMA, Math.max.apply(null, values)) + 5;
+    function yFor(v){ return padT + (1-(v-vMin)/(vMax-vMin))*plotH; }
+
+    // rejilla + líneas de referencia
+    c.strokeStyle = '#262b38'; c.lineWidth = 1;
+    c.font = '10px system-ui'; c.fillStyle = '#9aa0ac'; c.textAlign='right';
+    for(let g=Math.ceil(vMin/10)*10; g<=vMax; g+=10){
+      const y = yFor(g);
+      c.beginPath(); c.moveTo(padL,y); c.lineTo(W-padR,y); c.stroke();
+      c.fillText(g.toFixed(0), padL-6, y+3);
+    }
+    // línea 0 (pura)
+    c.strokeStyle = '#6fcf97'; c.lineWidth = 1.5; c.setLineDash([5,4]);
+    c.beginPath(); c.moveTo(padL,yFor(0)); c.lineTo(W-padR,yFor(0)); c.stroke();
+    c.fillStyle = '#6fcf97'; c.textAlign='left'; c.fillText('pura (0)', W-padR-70, yFor(0)-4);
+    // línea +21.5 (pitagórica)
+    c.strokeStyle = '#ff6b6b'; c.beginPath(); c.moveTo(padL,yFor(SYNTONIC_COMMA)); c.lineTo(W-padR,yFor(SYNTONIC_COMMA)); c.stroke();
+    c.fillStyle = '#ff6b6b'; c.fillText('pitagórica (+21.5)', W-padR-110, yFor(SYNTONIC_COMMA)-4);
+    c.setLineDash([]);
+
+    const barW = plotW/12*0.6;
+    for(let i=0;i<12;i++){
+      const pc = CIRCLE_ORDER[i];
+      const v = values[i];
+      const x = padL + (i+0.5)*(plotW/12);
+      const y0 = yFor(0), y1 = yFor(v);
+      const top = Math.min(y0,y1), h = Math.max(2,Math.abs(y1-y0));
+      c.fillStyle = pc===currentActivePc ? '#ffd28a' : '#e8a33d';
+      c.fillRect(x-barW/2, top, barW, h);
+      c.fillStyle = '#c7cbd4'; c.textAlign='center'; c.font='11px system-ui';
+      c.fillText(NOTE_NAMES[pc], x, H-padB+16);
+      c.fillStyle = '#9aa0ac'; c.font='9px system-ui';
+      c.fillText(fmtCents(v), x, top-4);
+    }
+  }
+
+  function stopSpin(){
+    rotating = false;
+    spinBtn.disabled = false;
+    stopBtn.disabled = true;
+    hardStopAll();
+    highlightWheel(currentActivePc, false);
+  }
+
+  function startSpin(){
+    if(!ensureAudioReady()) return;
+    if(rotating) return;
+    rotating = true;
+    spinBtn.disabled = true;
+    stopBtn.disabled = false;
+    let idx = 0;
+    const stepDur = 6.3; // 4 acordes de 1.5s + margen ≈ 6s; 12 pasos ≈ 75s
+    function step(){
+      if(!rotating) return;
+      if(idx>=12){ stopSpin(); return; }
+      const pc = CIRCLE_ORDER[idx];
+      playCadenceIn(pc);
+      idx++;
+      const id = setTimeout(step, stepDur*1000);
+      activeTimers.push(id);
+    }
+    step();
+  }
+
+  systemSelect.addEventListener('change', function(){
+    cents = getTuning(systemSelect.value);
+    drawBarChart();
+    if(currentActivePc>=0) updateTonicInfo(currentActivePc);
+  });
+  spinBtn.addEventListener('click', startSpin);
+  stopBtn.addEventListener('click', stopSpin);
+
+  buildWheel();
+  drawBarChart();
+})();
+
+/* ==================== Lab 3: Duelo de sistemas nota a nota ==================== */
+(function(){
+  const systemASelect = document.getElementById('l3SystemA');
+  const systemBSelect = document.getElementById('l3SystemB');
+  const tableBody = document.getElementById('l3TableBody');
+  const unisonChk = document.getElementById('l3Unison');
+  const keyboard = document.getElementById('l3Keyboard');
+  const triadRootSelect = document.getElementById('l3TriadRoot');
+  const playTriadBtn = document.getElementById('l3PlayTriad');
+  const statusTag = document.getElementById('l3Status');
+
+  let centsA = getTuning('et');
+  let centsB = getTuning('w3');
+
+  NOTE_NAMES.forEach(function(name,pc){
+    const o = document.createElement('option');
+    o.value = pc; o.textContent = name;
+    triadRootSelect.appendChild(o);
+  });
+
+  function refreshTuning(){
+    centsA = getTuning(systemASelect.value);
+    centsB = getTuning(systemBSelect.value);
+    buildTable();
+  }
+
+  function buildTable(){
+    tableBody.innerHTML = '';
+    for(let pc=0;pc<12;pc++){
+      const diff = centsB[pc]-centsA[pc];
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+NOTE_NAMES[pc]+'</td>'+
+        '<td>'+centsA[pc].toFixed(1)+'</td>'+
+        '<td>'+centsB[pc].toFixed(1)+'</td>'+
+        '<td class="'+(diff>=0?'pos-cents':'neg-cents')+'">'+fmtCents(diff)+'</td>';
+      tableBody.appendChild(tr);
+    }
+  }
+
+  function buildKeyboard(){
+    keyboard.innerHTML = '';
+    for(let pc=0;pc<12;pc++){
+      const btn = document.createElement('button');
+      btn.className = 'key-btn';
+      btn.textContent = NOTE_NAMES[pc];
+      btn.addEventListener('click', function(){ playKey(pc); });
+      keyboard.appendChild(btn);
+    }
+  }
+
+  function setKeyboardEnabled(v){
+    Array.prototype.forEach.call(keyboard.children, function(b){ b.disabled = !v; });
+  }
+
+  function playKey(pc){
+    if(!ensureAudioReady()) return;
+    const fA = freqForPc(pc,0,centsA), fB = freqForPc(pc,0,centsB);
+    if(unisonChk.checked){
+      statusTag.textContent = NOTE_NAMES[pc]+': A y B a la vez (batido = |cents B−A| = '+Math.abs(centsB[pc]-centsA[pc]).toFixed(1)+' c)';
+      const now = audioCtx.currentTime+0.03;
+      scheduleVoice(fA, now, 3.2, 0.15, 0.02, 0.4);
+      scheduleVoice(fB, now, 3.2, 0.15, 0.02, 0.4);
+    } else {
+      statusTag.textContent = NOTE_NAMES[pc]+': sonando primero en A, luego en B…';
+      setKeyboardEnabled(false);
+      const now = audioCtx.currentTime+0.03;
+      scheduleVoice(fA, now, 1.1, 0.18, 0.02, 0.15);
+      scheduleVoice(fB, now+1.2, 1.1, 0.18, 0.02, 0.15);
+      const id = setTimeout(function(){ setKeyboardEnabled(true); statusTag.textContent=''; }, 2500);
+      activeTimers.push(id);
+    }
+  }
+
+  function playTriad(){
+    if(!ensureAudioReady()) return;
+    const root = parseInt(triadRootSelect.value,10);
+    const ivs = [0,4,7];
+    const freqsA = ivs.map(function(iv){ return freqForPc((root+iv)%12, Math.floor((root+iv)/12), centsA); });
+    const freqsB = ivs.map(function(iv){ return freqForPc((root+iv)%12, Math.floor((root+iv)/12), centsB); });
+    statusTag.textContent = 'Tríada de '+NOTE_NAMES[root]+': A, luego B…';
+    const now = audioCtx.currentTime+0.05;
+    playChordFreqs(freqsA, now, 1.8, 0.12);
+    playChordFreqs(freqsB, now+2.0, 1.8, 0.12);
+    const id = setTimeout(function(){ statusTag.textContent=''; }, 4200);
+    activeTimers.push(id);
+  }
+
+  systemASelect.addEventListener('change', refreshTuning);
+  systemBSelect.addEventListener('change', refreshTuning);
+  playTriadBtn.addEventListener('click', playTriad);
+
+  buildKeyboard();
+  buildTable();
+})();
+
+/* ==================== Lab 4: Coral conmutable ==================== */
+(function(){
+  /* "O Haupt voll Blut und Wunden" (melodía: Hans Leo Hassler, 1601;
+     tratamiento armónico de estilo bachiano en La menor). Se codifica
+     como una progresión homofónica simplificada de 8 acordes
+     (i-iv-V-i-VI-ii°-V7-i) con fines didácticos: NO es una transcripción
+     literal de una armonización concreta de Bach, sino una reducción a
+     4 voces que conserva el esqueleto armónico típico de la frase, apta
+     para comparar temperamentos. Arreglos completos y fieles: ver la app
+     "Suena Afinaciones Antiguas" del proyecto.
+     Voces en números MIDI (Do4=60). Orden: Soprano, Alto, Tenor, Bajo. */
+  const CHORALE = [
+    { roman:'i',   quality:'m',  root:9,  S:69, A:64, T:60, B:45 },
+    { roman:'iv',  quality:'m',  root:2,  S:69, A:65, T:62, B:50 },
+    { roman:'V',   quality:'M',  root:4,  S:71, A:68, T:64, B:52 },
+    { roman:'i',   quality:'m',  root:9,  S:69, A:64, T:60, B:45 },
+    { roman:'VI',  quality:'M',  root:5,  S:69, A:65, T:60, B:41 },
+    { roman:'ii°', quality:'d',  root:11, S:71, A:65, T:62, B:47 },
+    { roman:'V7',  quality:'M',  root:4,  S:71, A:68, T:62, B:52 },
+    { roman:'i',   quality:'m',  root:9,  S:64, A:69, T:60, B:45 }
+  ];
+  const CHORD_DUR = 1.5;
+
+  const boxesWrap = document.getElementById('l4ChordBoxes');
+  const transposeSelect = document.getElementById('l4Transpose');
+  const stopBtn = document.getElementById('l4Stop');
+
+  const boxes = CHORALE.map(function(ch,i){
+    const div = document.createElement('div');
+    div.className = 'chorale-chord';
+    div.innerHTML = '<b>'+ch.roman+'</b><span class="rootname"></span><span class="dev"></span>';
+    boxesWrap.appendChild(div);
+    return div;
+  });
+
+  function thirdIntervalFor(quality){
+    return quality==='m' ? 3 : (quality==='d' ? 3 : 4);
+  }
+  function pureTargetFor(quality){
+    return quality==='M' ? PURE_THIRD : PURE_MIN_THIRD;
+  }
+
+  function updateBoxesStatic(shift){
+    CHORALE.forEach(function(ch,i){
+      const rootPc = mod(ch.root+shift,12);
+      boxes[i].querySelector('.rootname').textContent = ' ('+NOTE_NAMES[rootPc]+')';
+      boxes[i].querySelector('.dev').textContent = '';
+      boxes[i].classList.remove('active');
+    });
+  }
+
+  function playChorale(system){
+    if(!ensureAudioReady()) return;
+    hardStopAll();
+    const cents = getTuning(system);
+    const shift = parseInt(transposeSelect.value,10);
+    stopBtn.disabled = false;
+    let t = audioCtx.currentTime + 0.1;
+    CHORALE.forEach(function(ch,i){
+      const voices = [ch.S,ch.A,ch.T,ch.B].map(function(m){ return midiToFreq(m+shift, cents); });
+      const startAt = t;
+      playChordFreqs(voices, startAt, CHORD_DUR, 0.1);
+
+      const rootPc = mod(ch.root+shift,12);
+      const thirdSemis = thirdIntervalFor(ch.quality);
+      const thirdPc = mod(rootPc+thirdSemis,12);
+      const thirdCentsActual = mod(cents[thirdPc]-cents[rootPc],1200);
+      const dev = thirdCentsActual - pureTargetFor(ch.quality);
+      const semClass = Math.abs(dev)<=4 ? 'sem-good' : (Math.abs(dev)<=12 ? 'sem-mid' : 'sem-bad');
+
+      const delayMs = (startAt - (audioCtx.currentTime)) * 1000;
+      const id = setTimeout(function(){
+        boxes.forEach(function(b){ b.classList.remove('active'); });
+        boxes[i].classList.add('active');
+        boxes[i].querySelector('.dev').innerHTML = '<span class="'+semClass+'">'+fmtCents(dev)+' c</span>';
+      }, Math.max(0,delayMs));
+      activeTimers.push(id);
+
+      t += CHORD_DUR;
+    });
+    const endId = setTimeout(function(){
+      boxes.forEach(function(b){ b.classList.remove('active'); });
+      stopBtn.disabled = true;
+    }, (t-audioCtx.currentTime)*1000 + 300);
+    activeTimers.push(endId);
+  }
+
+  function stopChorale(){
+    hardStopAll();
+    boxes.forEach(function(b){ b.classList.remove('active'); });
+    stopBtn.disabled = true;
+  }
+
+  document.getElementById('l4PlayW3').addEventListener('click', function(){ playChorale('w3'); });
+  document.getElementById('l4PlayVallotti').addEventListener('click', function(){ playChorale('vallotti'); });
+  document.getElementById('l4PlayK3').addEventListener('click', function(){ playChorale('k3'); });
+  document.getElementById('l4PlayMeso').addEventListener('click', function(){ playChorale('meso'); });
+  document.getElementById('l4PlayET').addEventListener('click', function(){ playChorale('et'); });
+  stopBtn.addEventListener('click', stopChorale);
+  transposeSelect.addEventListener('change', function(){ updateBoxesStatic(parseInt(transposeSelect.value,10)); });
+
+  updateBoxesStatic(0);
+})();
+
+</script>
+</body>
+</html>

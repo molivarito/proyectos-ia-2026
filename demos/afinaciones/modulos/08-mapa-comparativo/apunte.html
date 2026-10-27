@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M8 · Apunte — El mapa completo: comparar, elegir, componer</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../07-temperamento-igual/apunte.html">◀ Temperamento igual: la solución final y su costo</a><a class="nav-link" href="../09-edos/apunte.html">EDOs alternativos: 19, 31, 53 ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m8.-el-mapa-completo-comparar-elegir-componer">M8. El mapa
+completo: comparar, elegir, componer</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Te llega un encargo real. Un cuarteto vocal quiere estrenar una obra
+tuya de ocho minutos: dos corales homofónicos separados por un
+interludio modal. Tienes que decidir, antes de escribir una sola nota,
+en qué afinación vas a pensar el material — porque, como ya sabes desde
+el Módulo 1, “afinación” no es un detalle de producción que se resuelve
+al final, es una decisión compositiva que determina qué acordes van a
+sonar en reposo, cuáles van a temblar, y dónde vas a poder modular sin
+que el edificio se caiga.</p>
+<p>Llevas siete módulos acumulando herramientas: sabes construir la
+escala pitagórica, la justa, el mesotónico, los tres “buenos
+temperamentos” y el temperamento igual; sabes calcular cuánto se desvía
+cada uno de sus terceras y quintas puras; sabes dónde esconde cada uno
+la coma pitagórica. Lo que todavía no tienes es una manera de mirarlos
+<strong>todos a la vez</strong>, lado a lado, y elegir con criterio — no
+por costumbre, no porque “así se hace”, sino porque hiciste el cálculo y
+sabes exactamente qué vas a ganar y qué vas a sacrificar.</p>
+<p>Este módulo no introduce un sistema nuevo. Es el módulo de
+<strong>síntesis</strong>: construimos el mapa completo (una tabla
+maestra con los siete sistemas y sus números canónicos), identificamos
+el eje que ha estado organizando el curso desde el principio sin que lo
+dijéramos en voz alta (melodía contra armonía), aprendemos a medir la
+consonancia con números en vez de solo con adjetivos, y — lo más
+importante para ti como compositor — cerramos con un proyecto en el que
+tú eliges un sistema, lo explotas a propósito, y demuestras con cifras
+por qué esa elección es audible. Al final de este módulo vas a poder
+responder la pregunta del cuarteto vocal, y vas a poder defender tu
+respuesta con números, no con gustos.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener fresco: la coma pitagórica de 23.460 c y la coma
+sintónica de 21.506 c como “presupuestos de error” que toda afinación de
+12 notas debe repartir (M2 §y M1 §7); la construcción por quintas puras
+y la quinta del lobo pitagórica de 678.495 c (M3); el senario de
+Zarlino, la escala mayor justa y la quinta defectuosa Re–La de 680.449 c
+(M4); la familia de mesotónicos <code>Q = (3/2)·(80/81)^a</code> y el
+mesotónico de 1/4 de coma con su lobo de 737.637 c (M5); la construcción
+de Werckmeister III, Vallotti y Kirnberger III repartiendo fracciones
+exactas de coma entre un subconjunto de quintas (M6); y la derivación de
+<code>2^(1/12)</code> con sus terceras a 14 cents de la pura (M7). Si
+alguno de estos números no te sale de memoria, este módulo te los va a
+devolver todos juntos en la sección 3 — pero vale la pena que vuelvas un
+momento a esos apuntes antes de seguir.</p>
+<h2 id="la-tabla-maestra">3. La tabla maestra</h2>
+<p>Esta es la tabla que resume el curso completo. Cada fila es un
+sistema; cada columna, una de las preguntas que venimos haciéndole a
+cada uno desde el Módulo 2: ¿qué protege?, ¿qué sacrifica?, ¿dónde
+esconde la coma?, y con qué números concretos.</p>
+<div class="table-scroll"><table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sistema</th>
+<th>¿Qué protege?</th>
+<th>¿Qué sacrifica?</th>
+<th>¿Dónde esconde la coma?</th>
+<th>Quinta típica (c)</th>
+<th>Tercera M típica (c)</th>
+<th>¿Circula?</th>
+<th>Época núcleo</th>
+<th>Repertorio ideal</th>
+<th>Sonido en una frase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pitagórica</strong></td>
+<td>Quintas y cuartas puras (701.955 / 498.045 c) en toda la cadena</td>
+<td>Las terceras: el ditono 81/64 = 407.820 c, 21.5 c más ancho que la
+5/4 pura</td>
+<td>Toda entera en una sola quinta, el lobo (678.495 c, 23.46 c
+angosta)</td>
+<td>701.955 (11 de 12)</td>
+<td>407.820 (ditono)</td>
+<td>No</td>
+<td>Antigüedad / Edad Media (hasta ≈1400)</td>
+<td>Canto llano, Ars Antiqua, Machaut, organum</td>
+<td>Quintas que cantan, terceras que muerden</td>
+</tr>
+<tr>
+<td><strong>Justa 5-limit</strong></td>
+<td>Tríadas 4:5:6 exactas donde se construyen (terceras y quintas puras
+a la vez)</td>
+<td>La quinta Re–La (40/27 = 680.449 c, defectuosa por una coma
+sintónica) y la posibilidad de modular sin <em>drift</em></td>
+<td>No se “esconde”: aparece como <em>drift</em> acumulado al modular, o
+como esa quinta puntual defectuosa</td>
+<td>701.955 (mayoría; Re–La = 680.449)</td>
+<td>386.314 (pura)</td>
+<td>No (es contextual, no fija)</td>
+<td>Renacimiento (Zarlino, 1558)</td>
+<td>Polifonía vocal renacentista, coros a capela</td>
+<td>Acordes que se funden, pero el suelo se mueve bajo tus pies</td>
+</tr>
+<tr>
+<td><strong>Mesotónico 1/4 coma</strong></td>
+<td>Terceras mayores puras (386.314 c) en las 8 tonalidades
+“buenas”</td>
+<td>La circulación: enarmonías imposibles (Sol♯≠La♭) y un lobo
+brutal</td>
+<td>Casi toda en una quinta (el lobo, 737.637 c, 35.68 c ancha)</td>
+<td>696.578 (11 regulares)</td>
+<td>386.314 (pura, por diseño)</td>
+<td>No</td>
+<td>≈1450–1700, Barroco temprano</td>
+<td>Frescobaldi, música ibérica de tecla, Sweelinck</td>
+<td>Terceras dulces, casi sin vibrato — hasta que topas con el lobo</td>
+</tr>
+<tr>
+<td><strong>Werckmeister III</strong></td>
+<td>Que ninguna quinta sea intolerable; todas las tonalidades quedan
+tocables</td>
+<td>Terceras algo anchas en las tonalidades con más alteraciones</td>
+<td>En 4 quintas (C–G, G–D, D–A, B–F♯), 1/4 de coma pitagórica cada
+una</td>
+<td>696.090–701.955 (mixta: 4 templadas + 8 puras)</td>
+<td>390.225 (Do–Mi)</td>
+<td>Sí</td>
+<td>1691, Barroco tardío</td>
+<td>El clave bien temperado, corales de Bach</td>
+<td>Cada tonalidad con su propio acento, ninguna imposible</td>
+</tr>
+<tr>
+<td><strong>Vallotti</strong></td>
+<td>Un reparto muy suave: la mitad de las quintas puras, la otra mitad
+casi puras</td>
+<td>Un color de tonalidades más discreto que Werckmeister (más parecido
+al ET)</td>
+<td>En 6 quintas consecutivas (F–C–G–D–A–E–B), 1/6 de coma pitagórica
+cada una</td>
+<td>698.045–701.955 (mixta: 6 templadas + 6 puras)</td>
+<td>392.180 (Do–Mi)</td>
+<td>Sí</td>
+<td>≈1754, Barroco tardío / Clasicismo temprano</td>
+<td>Bach, repertorio de tecla del s. XVIII</td>
+<td>El circulante más suave: casi ET, con algo de carácter</td>
+</tr>
+<tr>
+<td><strong>Kirnberger III</strong></td>
+<td>Una tercera mayor Do–Mi exactamente pura (386.314 c)</td>
+<td>Un color de tonalidades muy marcado: Do mayor es un paraíso, las
+tonalidades lejanas se endurecen rápido</td>
+<td>En 4 quintas (C–G, G–D, D–A, A–E), 1/4 de coma sintónica cada una;
+el schisma sobrante (1.954 c) queda en la quinta Fa♯–Do♯ (convención del
+proyecto, la misma de M6 y de <code>Tools/afinacion.html</code>), casi
+imperceptible</td>
+<td>696.578–701.955 (mixta, con un cierre a 700.001)</td>
+<td>386.314 (Do–Mi, por diseño)</td>
+<td>Sí</td>
+<td>1779, Clasicismo</td>
+<td>Teclado clásico temprano, obras que contrastan Do mayor con
+tonalidades remotas</td>
+<td>Do mayor es un paraíso; los sostenidos, un compromiso incómodo</td>
+</tr>
+<tr>
+<td><strong>ET-12</strong></td>
+<td>La transposición libre: las 12 tonalidades son idénticas entre
+sí</td>
+<td>Toda tercera mayor pura (14 c de distancia siempre) y todo color de
+tonalidad</td>
+<td>Repartida en partes exactamente iguales entre las 12 quintas (1/12
+de coma ≈ 1.955 c cada una)</td>
+<td>700.000 (las 12 iguales)</td>
+<td>400.000 (las 12 iguales)</td>
+<td>Sí (perfecta)</td>
+<td>Adopción industrial ≈1850–1900 en adelante</td>
+<td>Repertorio romántico cromático, jazz, música con modulación
+libre</td>
+<td>Todas las tonalidades iguales — y ninguna especial</td>
+</tr>
+</tbody>
+</table></div>
+<p>Dos advertencias de lectura. Primero, “quinta típica” y “tercera M
+típica” son valores <em>representativos</em>, no universales: en los
+sistemas circulantes (Werckmeister, Vallotti, Kirnberger) cada tonalidad
+tiene su propio color, así que esos números son el caso de Do mayor — la
+tonalidad “de origen” de la construcción — y se van a ir deteriorando a
+medida que te alejas de ella por el círculo de quintas (más sobre esto
+en la sección 7). Segundo, fíjate en un patrón que atraviesa toda la
+tabla: <strong>todo sistema que protege terceras puras (justa,
+mesotónico) sacrifica la circulación; todo sistema que circula
+(Werckmeister, Vallotti, Kirnberger, ET) sacrifica al menos algunas
+terceras puras.</strong> Ese patrón no es casualidad — es, otra vez, el
+villano del curso, la coma, que no puede desaparecer, solo
+reubicarse.</p>
+<h2 id="supertabla-las-12-notas-en-cents-en-los-7-sistemas">4.
+Supertabla: las 12 notas en cents, en los 7 sistemas</h2>
+<p>Esta es la tabla de referencia rápida del curso completo: las 12
+notas cromáticas, en cents desde Do, en cada uno de los siete sistemas.
+Verificada numéricamente con Python (construcción por cadena de quintas
+para pitagórica, mesotónico, Werckmeister III, Vallotti y Kirnberger
+III, con las fracciones de coma exactas de cada uno; escala cromática
+estándar de 5-limit para la justa).</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Pitagórica</th>
+<th>Justa 5-limit</th>
+<th>Mesotónico 1/4</th>
+<th>Werckmeister III</th>
+<th>Vallotti</th>
+<th>Kirnberger III</th>
+<th>ET-12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Do♯/Re♭</td>
+<td>113.685</td>
+<td>70.672</td>
+<td>76.049</td>
+<td>90.225</td>
+<td>94.135</td>
+<td>90.225</td>
+<td>100.000</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>203.910</td>
+<td>203.910</td>
+<td>193.157</td>
+<td>192.180</td>
+<td>196.090</td>
+<td>193.157</td>
+<td>200.000</td>
+</tr>
+<tr>
+<td>Re♯/Mi♭</td>
+<td>294.135</td>
+<td>315.641</td>
+<td>310.265</td>
+<td>294.135</td>
+<td>298.045</td>
+<td>294.135</td>
+<td>300.000</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>407.820</td>
+<td>386.314</td>
+<td>386.314</td>
+<td>390.225</td>
+<td>392.180</td>
+<td>386.314</td>
+<td>400.000</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>498.045</td>
+<td>498.045</td>
+<td>503.422</td>
+<td>498.045</td>
+<td>501.955</td>
+<td>498.045</td>
+<td>500.000</td>
+</tr>
+<tr>
+<td>Fa♯/Sol♭</td>
+<td>611.730</td>
+<td>590.224</td>
+<td>579.471</td>
+<td>588.270</td>
+<td>592.180</td>
+<td>590.224</td>
+<td>600.000</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>701.955</td>
+<td>701.955</td>
+<td>696.578</td>
+<td>696.090</td>
+<td>698.045</td>
+<td>696.578</td>
+<td>700.000</td>
+</tr>
+<tr>
+<td>Sol♯/La♭</td>
+<td>815.640</td>
+<td>813.686</td>
+<td>772.627</td>
+<td>792.180</td>
+<td>796.090</td>
+<td>792.180</td>
+<td>800.000</td>
+</tr>
+<tr>
+<td>La</td>
+<td>905.865</td>
+<td>884.359</td>
+<td>889.735</td>
+<td>888.270</td>
+<td>894.135</td>
+<td>889.735</td>
+<td>900.000</td>
+</tr>
+<tr>
+<td>La♯/Si♭</td>
+<td>996.090</td>
+<td>1017.596</td>
+<td>1006.843</td>
+<td>996.090</td>
+<td>1000.000</td>
+<td>996.090</td>
+<td>1000.000</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>1109.775</td>
+<td>1088.269</td>
+<td>1082.892</td>
+<td>1092.180</td>
+<td>1090.225</td>
+<td>1088.269</td>
+<td>1100.000</td>
+</tr>
+</tbody>
+</table></div>
+<p>Cada columna tiene una nota (con perdón del chiste). En la
+pitagórica, la fila Do♯ es en realidad la “cadena de sostenidos” (Do♯
+pitagórico, 113.685 c) — si necesitaras Re♭ en su lugar, tendrías que
+recalcular por la cadena de bemoles, y los dos NO coinciden (esa es,
+precisamente, la razón de ser del lobo: en un sistema de 12 notas por
+octava no hay espacio para los dos). Lo mismo pasa, en menor medida, en
+el mesotónico. En los tres circulantes y en el ET esa distinción se
+disuelve — por diseño, ahí sí Sol♯ y La♭ son la misma tecla, aunque como
+vimos en la tabla maestra el <em>precio</em> de esa comodidad es
+distinto en cada uno.</p>
+<h2 id="el-eje-escondido-melodía-contra-armonía">5. El eje escondido:
+melodía contra armonía</h2>
+<p>Aquí está la idea que ha estado organizando el curso completo sin que
+la dijéramos con estas palabras. Repasa la tabla maestra: los sistemas
+que protegen la <strong>quinta pura</strong> (pitagórica) terminan con
+terceras anchas y ásperas; los sistemas que protegen la <strong>tercera
+pura</strong> (justa, mesotónico) terminan con al menos una quinta rota.
+Esto no es una coincidencia estadística — es la misma coma sintónica de
+siempre, viéndose obligada a aparecer en un lado o en el otro.</p>
+<p>Y esa elección tiene una consecuencia melódica muy concreta, que
+puedes medir con un solo número: el tamaño del <strong>semitono
+diatónico</strong> (el paso Mi–Fa o Si–Do, el que separa dos notas
+vecinas de la escala mayor). Calculemos ese semitono en los cuatro
+sistemas de referencia usando la fila Mi–Fa de la supertabla:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sistema</th>
+<th>Semitono diatónico Mi–Fa (c)</th>
+<th>Carácter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pitagórica (limma, 256/243)</td>
+<td>498.045 − 407.820 = <strong>90.225</strong></td>
+<td>Estrecho: la sensible “empuja” fuerte hacia la tónica</td>
+</tr>
+<tr>
+<td>Justa 5-limit (16/15)</td>
+<td>498.045 − 386.314 = <strong>111.731</strong></td>
+<td>Intermedio</td>
+</tr>
+<tr>
+<td>Mesotónico 1/4 coma</td>
+<td>503.422 − 386.314 = <strong>117.108</strong></td>
+<td>Ancho: la sensible es más “relajada”, casi un tono pequeño</td>
+</tr>
+<tr>
+<td>ET-12</td>
+<td>500 − 400 = <strong>100.000</strong></td>
+<td>Compromiso exacto entre los dos extremos</td>
+</tr>
+</tbody>
+</table></div>
+<p>Un semitono <strong>estrecho</strong> (90.2 c, pitagórico) se escucha
+como una sensible urgente, con tensión melódica: la nota “quiere”
+resolver, tira del oído hacia adelante. Un semitono
+<strong>ancho</strong> (117.1 c, mesotónico) se escucha, en cambio, casi
+relajado: menos urgencia horizontal, pero — y aquí está la otra cara de
+la moneda — es precisamente el sistema que, a cambio, te da la tercera
+mayor perfectamente pura (386.314 c), la que hace que un acorde suene
+“fundido”, sin batido, en reposo vertical.</p>
+<p>Esto es el eje melodía-armonía, ahora explícito: <strong>los sistemas
+de quinta pura favorecen la melodía</strong> (semitonos diatónicos
+estrechos, sensibles nerviosas, líneas que “cantan” con tensión
+direccional — el terreno natural de la pitagórica, que nació
+precisamente para música predominantemente lineal, contrapuntística, de
+quintas y cuartas como consonancias). <strong>Los sistemas de tercera
+pura favorecen la armonía</strong> (verticalidades en total reposo,
+acordes que se funden en un solo timbre — el terreno natural del
+mesotónico y de la justa, que nacieron para música ya pensada
+verticalmente, con la tríada como unidad). Los circulantes
+(Werckmeister, Vallotti, Kirnberger) y el ET son, en este eje,
+<strong>compromisos</strong>: ni la sensible más nerviosa ni la tercera
+más dulce, pero ninguna tonalidad queda excluida.</p>
+<p>Esta es también la explicación — con números, no solo con intuición —
+de una observación muy real sobre la práctica instrumental: <strong>los
+violinistas de cuerdas (y los cantantes, y en general quien no está
+atado a un teclado) tienden a “pitagorizar” las líneas
+melódicas</strong> — a tocar las sensibles un poco más altas y las notas
+de paso un poco más ajustadas de lo que dicta el temperamento igual,
+buscando ese semitono estrecho y esa tensión direccional —
+<strong>mientras que los coros a capela tienden a “zarlinizar” las
+cadencias</strong> — a afinar los acordes finales con terceras puras,
+buscando la fusión total de la tríada en el momento de reposo armónico.
+Ambos tienen razón: no están “desafinando” el uno respecto del otro,
+están respondiendo a las dos mitades de un mismo eje, cada quien
+optimizando la dimensión (horizontal o vertical) que en ese momento
+musical importa más. El temperamento igual del piano no puede hacer
+ninguna de las dos cosas del todo bien — y por eso, cuando una cuerda o
+una voz se suma a un piano, el oído entrenado a veces detecta ese
+pequeño “desacople”: no es un error de nadie, es el eje melodía-armonía
+haciéndose audible.</p>
+<h2 id="medir-la-consonancia-cuatro-métricas-ninguna-es-la-música">6.
+Medir la consonancia: cuatro métricas, ninguna es la música</h2>
+<p>Hasta ahora hemos evaluado la consonancia con una sola herramienta:
+la desviación en cents respecto de la razón justa (lo que hicimos, por
+ejemplo, con los 14 cents de la tercera del ET en el Módulo 1). Es una
+métrica útil, pero es solo una de varias maneras posibles de cuantificar
+“cuán consonante” es un intervalo o un acorde. Esta sección presenta
+cuatro, todas implementadas y usadas en el laboratorio de este módulo (y
+en la aplicación del proyecto, “Suena Afinaciones Antiguas”), y para
+cada una discutimos qué capta bien y qué se le escapa.</p>
+<h3 id="rugosidad-de-sethares-disonancia-sensorial">6.1 Rugosidad de
+Sethares (disonancia sensorial)</h3>
+<p>Ya viste en el Módulo 1 (§5) que dos tonos puros cercanos en
+frecuencia producen batidos, y que esos batidos —medidos
+experimentalmente por Plomp y Levelt en 1965— se sienten como “aspereza”
+cuando su frecuencia cae en cierto rango, y desaparecen tanto muy cerca
+como muy lejos del unísono. William Sethares (1993) formalizó esa curva
+en una fórmula que se puede aplicar no solo a un par de tonos puros,
+sino a <strong>todos los pares de parciales</strong> de dos (o más)
+notas con timbre armónico completo. Para un par de parciales de
+frecuencias
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>1</mn></msub><annotation encoding="application/x-tex">f_1</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>2</mn></msub><annotation encoding="application/x-tex">f_2</annotation></semantics></math>
+(con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>&lt;</mo><msub><mi>f</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">f_1 &lt; f_2</annotation></semantics></math>)
+y amplitudes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>l</mi><mn>1</mn></msub><annotation encoding="application/x-tex">l_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>l</mi><mn>2</mn></msub><annotation encoding="application/x-tex">l_2</annotation></semantics></math>,
+la disonancia de ese par es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><msub><mi>f</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>l</mi><mn>1</mn></msub><mo>⋅</mo><msub><mi>l</mi><mn>2</mn></msub><mo>⋅</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>e</mi><mrow><mi>−</mi><msub><mi>b</mi><mn>1</mn></msub><mo>⋅</mo><mi>s</mi><mo>⋅</mo><mi mathvariant="normal">Δ</mi><mi>f</mi></mrow></msup><mo>−</mo><msup><mi>e</mi><mrow><mi>−</mi><msub><mi>b</mi><mn>2</mn></msub><mo>⋅</mo><mi>s</mi><mo>⋅</mo><mi mathvariant="normal">Δ</mi><mi>f</mi></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">d(f_1, f_2) = l_1 \cdot l_2 \cdot \left(e^{-b_1 \cdot s \cdot \Delta f} - e^{-b_2 \cdot s \cdot \Delta f}\right)</annotation></semantics></math></p>
+<p>con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>f</mi><mo>=</mo><msub><mi>f</mi><mn>2</mn></msub><mo>−</mo><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\Delta f = f_2 - f_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>1</mn></msub><mo>=</mo><mn>3.5</mn></mrow><annotation encoding="application/x-tex">b_1 = 3.5</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>2</mn></msub><mo>=</mo><mn>5.75</mn></mrow><annotation encoding="application/x-tex">b_2 = 5.75</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>0.24</mn><mrow><mn>0.0207</mn><mo>⋅</mo><msub><mi>f</mi><mn>1</mn></msub><mo>+</mo><mn>18.96</mn></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">s = \dfrac{0.24}{0.0207 \cdot f_1 + 18.96}</annotation></semantics></math>
+(el parámetro que ajusta el ancho de banda crítica según el registro:
+más grave, banda crítica más ancha en Hz). Leamos la fórmula término a
+término. La diferencia de dos exponenciales decrecientes con distinta
+velocidad
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>2</mn></msub><mo>&gt;</mo><msub><mi>b</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">b_2 &gt; b_1</annotation></semantics></math>)
+construye una curva que vale cero en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>f</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\Delta f = 0</annotation></semantics></math>
+(sin batido, sin disonancia), sube hasta un máximo cuando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">\Delta f</annotation></semantics></math>
+cae dentro de la banda crítica (la zona de “aspereza” de Plomp-Levelt),
+y vuelve a caer hacia cero cuando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">\Delta f</annotation></semantics></math>
+es grande (los dos parciales ya se escuchan como notas separadas, no
+como una sola con batido). El producto de amplitudes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>l</mi><mn>1</mn></msub><mo>⋅</mo><msub><mi>l</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">l_1 \cdot l_2</annotation></semantics></math>
+pesa más los parciales fuertes (los graves, en un timbre tipo cuerda con
+amplitud
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">1/k</annotation></semantics></math>)
+que los débiles.</p>
+<p>Para un acorde completo, la métrica de rugosidad es la
+<strong>suma</strong> de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>f</mi><mi>i</mi></msub><mo>,</mo><msub><mi>f</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">d(f_i, f_j)</annotation></semantics></math>
+sobre todos los pares de parciales de todas las notas (modelando cada
+nota con 6 armónicos de amplitud
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">1/k</annotation></semantics></math>,
+como hace el código del proyecto). <strong>Qué captura bien:</strong> el
+carácter concreto de cada afinación histórica, porque un desplazamiento
+de pocos cents mueve parciales agudos dentro o fuera de la zona de
+batido audible — es la razón por la que la rugosidad de Sethares
+distingue nítidamente Werckmeister de Vallotti aunque sus cents difieran
+poco. <strong>Qué se le escapa:</strong> no “sabe” nada de función tonal
+— no distingue una quinta (quieta, estable) de un tritono con la misma
+cantidad de batido bruto; y depende del registro absoluto y del número
+de armónicos elegido, así que sus valores no son comparables entre
+octavas distintas.</p>
+<h3 id="altura-de-tenney-la-complejidad-de-la-razón">6.2 Altura de
+Tenney: la complejidad de la razón</h3>
+<p>James Tenney retomó la idea, tan antigua como Pitágoras, de que una
+razón de números pequeños es “más simple” —y por lo tanto más
+consonante— que una de números grandes. Para una razón reducida
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>/</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">n/d</annotation></semantics></math>
+(en su mínima expresión), la <strong>altura de Tenney</strong> es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>/</mi><mi>d</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>⋅</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">HT(n/d) = \log_2(n \cdot d)</annotation></semantics></math></p>
+<p>Verifiquemos con los intervalos que ya conoces: para la octava
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1.000</mn></mrow><annotation encoding="application/x-tex">HT = \log_2(2) = 1.000</annotation></semantics></math>;
+para la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>2.585</mn></mrow><annotation encoding="application/x-tex">HT = \log_2(6) = 2.585</annotation></semantics></math>;
+para la tercera mayor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>20</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>4.322</mn></mrow><annotation encoding="application/x-tex">HT = \log_2(20) = 4.322</annotation></semantics></math>;
+para la cuarta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>12</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>3.585</mn></mrow><annotation encoding="application/x-tex">HT = \log_2(12) = 3.585</annotation></semantics></math>;
+y para un intervalo bastante más complejo, el tritono justo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>45</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">45/32</annotation></semantics></math>
+que aparece en la escala mayor justa (M4),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1440</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>10.492</mn></mrow><annotation encoding="application/x-tex">HT = \log_2(1440) = 10.492</annotation></semantics></math>.
+El orden es exactamente el que esperarías de oído: octava &lt; quinta
+&lt; cuarta &lt; tercera mayor &lt; tritono justo, en complejidad
+creciente. <strong>Qué captura bien:</strong> la “pureza” matemática
+ideal, independiente de timbre y de registro — es puramente teoría de
+números. <strong>Qué se le escapa:</strong> los efectos psicoacústicos
+reales; dos razones con la misma altura de Tenney pueden sonar
+completamente distinto según en qué registro y con qué timbre se toquen
+(algo que la rugosidad de Sethares sí captura).</p>
+<h3 id="gradus-suavitatis-de-euler-la-aspereza-de-los-primos">6.3 Gradus
+Suavitatis de Euler: la aspereza de los primos</h3>
+<p>Leonhard Euler propuso en 1739 una medida distinta de “suavidad” que,
+a diferencia de Tenney, no solo mira el tamaño de la razón sino
+específicamente <strong>qué primos</strong> hacen falta para construirla
+— y penaliza los primos grandes más que proporcionalmente. Para un
+entero
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+con factorización
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><msubsup><mi>p</mi><mn>1</mn><msub><mi>a</mi><mn>1</mn></msub></msubsup><mo>⋅</mo><msubsup><mi>p</mi><mn>2</mn><msub><mi>a</mi><mn>2</mn></msub></msubsup><mi>⋯</mi></mrow><annotation encoding="application/x-tex">n = p_1^{a_1} \cdot p_2^{a_2} \cdots</annotation></semantics></math>,
+el gradus suavitatis es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>a</mi><mi>k</mi></msub><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>p</mi><mi>k</mi></msub><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\Gamma(n) = 1 + \sum_k a_k \cdot (p_k - 1)</annotation></semantics></math></p>
+<p>Calculemos los ejemplos canónicos, aplicando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Γ</mi><annotation encoding="application/x-tex">\Gamma</annotation></semantics></math>
+al producto
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⋅</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">n \cdot d</annotation></semantics></math>
+de la razón reducida (igual que hace el código de “Suena Afinaciones
+Antiguas”). Para la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⋅</mo><mi>d</mi><mo>=</mo><mn>6</mn><mo>=</mo><msup><mn>2</mn><mn>1</mn></msup><mo>⋅</mo><msup><mn>3</mn><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">n \cdot d = 6 = 2^1 \cdot 3^1</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\Gamma(6) = 1 + 1\cdot(2-1) + 1\cdot(3-1) = 1 + 1 + 2 = 4</annotation></semantics></math>.
+Para la tercera mayor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⋅</mo><mi>d</mi><mo>=</mo><mn>20</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>⋅</mo><msup><mn>5</mn><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">n \cdot d = 20 = 2^2 \cdot 5^1</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mn>20</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">\Gamma(20) = 1 + 2\cdot(2-1) + 1\cdot(5-1) = 1 + 2 + 4 = 7</annotation></semantics></math>.
+Dos ejemplos más, verificados: la cuarta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn><mo>→</mo><mi>n</mi><mo>⋅</mo><mi>d</mi><mo>=</mo><mn>12</mn><mo>=</mo><msup><mn>2</mn><mn>2</mn></msup><mo>⋅</mo><mn>3</mn><mo>→</mo><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mn>12</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>⋅</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>⋅</mo><mn>2</mn><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">4/3 \to n\cdot d=12=2^2\cdot3 \to \Gamma(12) = 1+2\cdot1+1\cdot2 = 5</annotation></semantics></math>;
+la tercera menor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn><mo>→</mo><mi>n</mi><mo>⋅</mo><mi>d</mi><mo>=</mo><mn>30</mn><mo>=</mo><mn>2</mn><mo>⋅</mo><mn>3</mn><mo>⋅</mo><mn>5</mn><mo>→</mo><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mn>30</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">6/5 \to n\cdot d=30=2\cdot3\cdot5 \to \Gamma(30) = 1+1+2+4 = 8</annotation></semantics></math>.</p>
+<p><strong>Qué captura bien:</strong> la sensibilidad perceptiva real a
+los primos — el 3 (quintas) suena estructuralmente distinto al 5
+(terceras), y ambos muy distintos al 7 (que vas a conocer recién en el
+Módulo 10, con Partch). Por eso Euler separa mejor que Tenney intervalos
+que “matemáticamente” parecen similares en tamaño pero usan primos
+distintos. <strong>Qué se le escapa:</strong> dentro de un mismo
+conjunto de primos, no distingue bien la diferencia de magnitud entre
+razones igualmente “descomponibles” — dos intervalos con el mismo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Γ</mi><annotation encoding="application/x-tex">\Gamma</annotation></semantics></math>
+pueden sonar muy distinto si uno es mucho más ancho que el otro.</p>
+<h3 id="desviación-de-justa-qué-tan-lejos-del-ideal">6.4 Desviación de
+justa: qué tan lejos del ideal</h3>
+<p>La cuarta métrica es la más simple de las cuatro, y es la que ya
+usamos, sin nombre propio, desde el Módulo 1: para cada intervalo del
+acorde, se identifica el intervalo justo de 5-limit más cercano (de un
+catálogo fijo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>1</mn><mo>,</mo><mn>16</mn><mi>/</mi><mn>15</mn><mo>,</mo><mn>9</mn><mi>/</mi><mn>8</mn><mo>,</mo><mn>6</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>5</mn><mi>/</mi><mn>4</mn><mo>,</mo><mn>4</mn><mi>/</mi><mn>3</mn><mo>,</mo><mn>45</mn><mi>/</mi><mn>32</mn><mo>,</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo>,</mo><mn>8</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>5</mn><mi>/</mi><mn>3</mn><mo>,</mo><mn>9</mn><mi>/</mi><mn>5</mn><mo>,</mo><mn>15</mn><mi>/</mi><mn>8</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">1/1, 16/15, 9/8, 6/5, 5/4, 4/3, 45/32, 3/2, 8/5, 5/3, 9/5, 15/8, 2/1</annotation></semantics></math>)
+y se suma la diferencia absoluta en cents. Un acorde perfectamente justo
+da 0; cuanto más se acumulan las desviaciones, más “lejos de lo ideal”
+está el acorde en esa afinación particular. <strong>Qué captura
+bien:</strong> el sesgo característico de cada temperamento hacia
+ciertas tonalidades — es la métrica que más claramente muestra, por
+ejemplo, por qué el mesotónico “destroza” las tonalidades con muchos
+sostenidos. <strong>Qué se le escapa:</strong> no es una medida de
+consonancia perceptiva en sentido estricto — suma linealmente cualquier
+desviación, así que 5 cents fuera de la quinta pura (prácticamente
+inaudible) cuentan igual, proporcionalmente, que 5 cents fuera de un
+intervalo donde esa distancia sí importaría más.</p>
+<h3 id="el-ejercicio-de-humildad">6.5 El ejercicio de humildad</h3>
+<p>Ninguna de estas cuatro métricas <em>es</em> la musicalidad, y es
+importante decirlo con todas sus letras antes de seguir. La rugosidad de
+Sethares no sabe nada de función armónica (un acorde de dominante
+“quiere” resolver aunque sea sensorialmente tan rugoso como un cúmulo
+aleatorio de notas); Tenney y Euler no saben nada de contexto tonal ni
+de expectativa estilística (un acorde disonante bien preparado en una
+fuga de Bach no sufre por su complejidad numérica); y la desviación de
+justa asume, de entrada, que “justa” es el ideal — una suposición
+razonable para el 5-limit occidental, pero que se cae por completo
+cuando lleguemos, en el Módulo 10, a música que busca deliberadamente
+los primos 7, 11 y 13. Usa estas cuatro métricas como lo que son:
+instrumentos de diagnóstico cuantitativo, útiles para comparar sistemas
+objetivamente, nunca como jueces finales del valor musical de un
+acorde.</p>
+<h2 id="árbol-de-decisión-qué-sistema-para-qué-música">7. Árbol de
+decisión: qué sistema para qué música</h2>
+<p>Con la tabla maestra y las cuatro métricas en la mano, aquí tienes un
+criterio práctico —no infalible, pero sí razonado— para elegir sistema
+frente a una pieza concreta.</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Si tu situación es…</th>
+<th>Elige…</th>
+<th>Por qué (con números)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repertorio de tecla anterior a 1650 (Frescobaldi, Cabezón, tocatas
+modales tempranas)</td>
+<td><strong>Mesotónico 1/4 coma</strong></td>
+<td>Las tonalidades centrales del repertorio (hasta 2-3 alteraciones)
+tienen terceras puras (386.314 c); el lobo (737.637 c) está lejos de las
+tonalidades usadas</td>
+</tr>
+<tr>
+<td>Bach / Barroco tardío, tecla con exploración de muchas tonalidades
+(<em>El clave bien temperado</em>)</td>
+<td><strong>Werckmeister III o Vallotti</strong></td>
+<td>Circulan (ninguna quinta ≥ 737 c); cada tonalidad conserva un color
+distinto (390–392 c en Do, más ancho en tonalidades lejanas) que era,
+muy probablemente, parte del diseño expresivo de la colección</td>
+</tr>
+<tr>
+<td>Coro a capela (Renacimiento o repertorio actual sin acompañamiento
+fijo)</td>
+<td><strong>Justa entonación adaptativa</strong></td>
+<td>Un coro puede ajustar cada acorde a 4:5:6 exacto en tiempo real; no
+necesita “fijar” 12 notas de antemano, así que puede evitar la quinta
+defectuosa Re–La ajustando la nota en el momento</td>
+</tr>
+<tr>
+<td>Música con modulación enarmónica estructural (Sol♯ = La♭ como
+recurso, no como excepción)</td>
+<td><strong>ET-12, o un circulante suave (Vallotti/Kirnberger) si aún
+hay centro tonal claro</strong></td>
+<td>Solo el ET garantiza que las 12 teclas sean intercambiables sin
+excepción; un circulante suave tolera modulaciones amplias con algo de
+color remanente</td>
+</tr>
+<tr>
+<td>Polifonía medieval o modal, contrapunto de quintas y cuartas como
+consonancias estructurales</td>
+<td><strong>Pitagórica</strong></td>
+<td>El semitono estrecho (90.225 c) da sensibles nerviosas y líneas
+direccionales; las terceras (que en esta música son disonancias de paso,
+no reposo) no necesitan ser puras</td>
+</tr>
+<tr>
+<td>Composición nueva, sin repertorio histórico que “obligue”</td>
+<td><strong>La afinación como parámetro compositivo</strong></td>
+<td>Ver sección siguiente</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="la-afinación-como-material-no-como-infraestructura">La afinación
+como material, no como infraestructura</h3>
+<p>Para el último caso —tu propia música nueva— la lección de todo este
+curso es que la afinación no tiene por qué ser un fondo neutro sobre el
+que escribes: puede ser, literalmente, un parámetro compositivo más, al
+mismo nivel que la instrumentación o la forma. Esta es exactamente la
+premisa del proyecto DAC “Afinaciones Imaginadas”: las obras por
+encargar del proyecto pueden elegir, por ejemplo, entre el color de
+Zarlino/mesotónico (terceras dulces, un centro tonal privilegiado, un
+lobo que se puede usar como efecto dramático deliberado en vez de
+evitarlo) y el color de Vallotti (más parejo, más “seguro” para modular,
+pero con menos carácter por tonalidad) — y esa elección, tomada con la
+misma seriedad con que se elige una orquestación, es ya composición. La
+sección 11 (el proyecto integrador) te va a pedir que hagas exactamente
+eso, a pequeña escala.</p>
+<h2 id="ejercicios-de-cálculo">8. Ejercicios de cálculo</h2>
+<p>Resuelve primero, revisa las soluciones después. Todas las cifras se
+pueden verificar con los datos de las secciones 3 y 4.</p>
+<p><strong>1.</strong> Sin mirar la tabla maestra, completa de memoria:
+¿qué protege y qué sacrifica el mesotónico de 1/4 de coma? Luego revisa
+tu respuesta contra la sección 3.</p>
+<p><strong>2.</strong> Un colega te describe un pasaje: “coral
+homofónico a cuatro voces, en Mi mayor, sin modulaciones”. ¿Qué sistema
+de la tabla maestra evitarías con más urgencia, y cuál elegirías en su
+lugar? Justifica con al menos un número de la supertabla.</p>
+<p><strong>3.</strong> Otro pasaje: “tocata modal en Re dórico, mucho
+contrapunto de quintas y cuartas, terceras solo como notas de paso”.
+¿Qué sistema es más idiomático? Justifica usando el semitono diatónico
+de la sección 5.</p>
+<p><strong>4.</strong> Un tercer pasaje: “nocturno para piano con
+enarmonías estructurales (un Sol♯ que se reinterpreta como La♭ a mitad
+de frase)”. ¿Qué sistemas de la tabla maestra quedan descartados de
+entrada, y por qué?</p>
+<p><strong>5.</strong> Calcula el Gradus de Euler
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>⋅</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\Gamma(n\cdot d)</annotation></semantics></math>
+para las razones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>.
+Muestra la factorización en cada caso.</p>
+<p><strong>6.</strong> Calcula la altura de Tenney
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">HT</annotation></semantics></math>
+para las razones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math>
+(sexta mayor pura) y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>15</mn></mrow><annotation encoding="application/x-tex">16/15</annotation></semantics></math>
+(semitono justo).</p>
+<p><strong>7.</strong> La misma tercera mayor sobre Do4 (261.626 Hz)
+aparece en tres afinaciones: pitagórica (407.820 c), justa/mesotónico
+(386.314 c) y ET (400.000 c). En cada caso, calcula la frecuencia de la
+nota superior, y luego calcula el batido entre el 4º armónico de esa
+nota superior y el 5º armónico de Do4 (que es fijo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>261.626</mn><mo>=</mo><mn>1308.13</mn></mrow><annotation encoding="application/x-tex">5 \times 261.626 = 1308.13</annotation></semantics></math>
+Hz). ¿En cuál de las tres el batido es exactamente cero?</p>
+<p><strong>8.</strong> Usando la supertabla, calcula cuántos cents mide
+la quinta del lobo en la pitagórica y en el mesotónico de 1/4 de coma, y
+cuánto se desvía cada una de la quinta pura (701.955 c). ¿Cuál lobo es
+“peor”?</p>
+<p><strong>9.</strong> Calcula la desviación de justa (suma de
+desviaciones absolutas en cents respecto del catálogo 5-limit de la
+sección 6.4) para la tríada mayor Do–Mi–Sol en (a) ET-12 y (b) justa
+5-limit. (Pista: en la justa, la desviación de cada intervalo de la
+tríada respecto de su propio ideal es 0.)</p>
+<p><strong>10.</strong> Tienes un presupuesto de exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">-23.460</annotation></semantics></math>
+cents (la coma pitagórica, con signo negativo porque hay que angostar)
+para repartir entre las 12 quintas de un temperamento nuevo, de tu
+propio diseño. Reparte ese presupuesto como quieras (no necesariamente
+en partes iguales) entre 2 o más quintas, deja el resto puras, y calcula
+los cents resultantes de al menos 4 notas de tu escala. Describe en una
+frase qué tonalidades favorece tu diseño.</p>
+<p><strong>11.</strong> Un músico te dice: “esta tercera mayor mide 384
+cents”. Usando la tabla de la sección 5, ¿de qué sistema es más probable
+que provenga? ¿Y si te dijera “390 cents”?</p>
+<p><strong>12.</strong> En tus propias palabras (2-3 líneas), explica
+por qué un violinista que “pitagoriza” una melodía y un coro que
+“zarliniza” una cadencia final pueden estar, ambos, tocando/cantando
+correctamente al mismo tiempo, usando el vocabulario de la sección 5
+(eje melodía-armonía).</p>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong> El mesotónico de 1/4 de coma protege las terceras
+mayores puras (386.314 c) en las ocho tonalidades centrales de su cadena
+de quintas regulares; sacrifica la circulación completa, porque
+concentra casi toda la diferencia entre 12 quintas mesotónicas y 7
+octavas en una sola quinta, el lobo (Sol♯–Mi♭ = 737.637 c, 35.68 c más
+ancha que la pura), lo que hace inservibles las tonalidades que
+requieren esa nota “cruzada”.</p>
+<p><strong>2.</strong> Mi mayor tiene cuatro sostenidos (Fa♯, Do♯, Sol♯,
+Re♯). En un mesotónico clásico afinado Mi♭–Sol♯ (la cadena estándar de
+la sección 4), la nota Re♯ que necesita Mi mayor <strong>no existe como
+tal</strong>: la tecla disponible es Mi♭ (310.265 c), que dista
+294.135−310.265 ≈ muy lejos del Re♯ que la armonía necesita, y para
+colmo la quinta Sol♯–Mi♭ es el lobo (737.637 c). Evitarías el mesotónico
+con urgencia. Elegirías Werckmeister III o Vallotti (ambos circulan, con
+Mi mayor sonando algo más “cargado” que Do mayor pero perfectamente
+utilizable: la tercera Sol♯–Do en Vallotti, por ejemplo, se calcula a
+partir de la supertabla sin encontrar ninguna quinta rota) o, si el
+coral no necesita color de tonalidad, el ET-12 sin más.</p>
+<p><strong>3.</strong> Re dórico, con quintas y cuartas como
+consonancias estructurales y terceras solo de paso, es el retrato exacto
+del contexto para el que nació la pitagórica (M3). El argumento
+numérico: el semitono diatónico pitagórico mide 90.225 c (sección 5), el
+más estrecho de los cuatro sistemas de referencia — da a las notas de
+paso y a las sensibles modales una tensión direccional fuerte, coherente
+con música pensada horizontalmente. Como las terceras no necesitan estar
+en reposo (son de paso), no importa que el ditono pitagórico (407.820 c)
+esté lejos de la tercera pura.</p>
+<p><strong>4.</strong> Quedan descartados de entrada la pitagórica, la
+justa 5-limit y el mesotónico de 1/4 de coma — los tres sistemas donde
+Sol♯ y La♭ son notas físicamente distintas (compara, en la supertabla,
+815.640 c de Sol♯ pitagórico contra el La♭ que se obtendría por la
+cadena de bemoles, o el salto de 772.627 a 813.686 c entre el Sol♯
+mesotónico y el La♭ que su cadena de bemoles daría — exactamente la gran
+diesis de 41.059 c de M5: son notas distintas, no la misma tecla). Un
+nocturno que reinterpreta Sol♯ como La♭ a mitad de frase necesita que
+ambas notas suenen idénticas: eso solo ocurre, sin ambigüedad, en el
+ET-12 (los dos son 800.000 c) y, de forma más imperfecta pero
+utilizable, en los tres circulantes.</p>
+<p><strong>5.</strong> Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⋅</mo><mi>d</mi><mo>=</mo><mn>6</mn><mo>=</mo><msup><mn>2</mn><mn>1</mn></msup><mo>⋅</mo><msup><mn>3</mn><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">n\cdot d = 6 = 2^1\cdot3^1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\Gamma(6) = 1+1\cdot(2-1)+1\cdot(3-1) = 1+1+2 = 4</annotation></semantics></math>.
+Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⋅</mo><mi>d</mi><mo>=</mo><mn>30</mn><mo>=</mo><msup><mn>2</mn><mn>1</mn></msup><mo>⋅</mo><msup><mn>3</mn><mn>1</mn></msup><mo>⋅</mo><msup><mn>5</mn><mn>1</mn></msup></mrow><annotation encoding="application/x-tex">n\cdot d = 30 = 2^1\cdot3^1\cdot5^1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mn>30</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">\Gamma(30) = 1+1+2+4 = 8</annotation></semantics></math>.
+Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⋅</mo><mi>d</mi><mo>=</mo><mn>72</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup><mo>⋅</mo><msup><mn>3</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n\cdot d = 72 = 2^3\cdot3^2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false" form="prefix">(</mo><mn>72</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>3</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>2</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>+</mo><mn>3</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">\Gamma(72) = 1+3\cdot(2-1)+2\cdot(3-1) = 1+3+4 = 8</annotation></semantics></math>.</p>
+<p><strong>6.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>×</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>15</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>3.907</mn></mrow><annotation encoding="application/x-tex">HT(5/3) = \log_2(5\times3) = \log_2(15) = 3.907</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>T</mi><mo stretchy="false" form="prefix">(</mo><mn>16</mn><mi>/</mi><mn>15</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>16</mn><mo>×</mo><mn>15</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>240</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>7.907</mn></mrow><annotation encoding="application/x-tex">HT(16/15) = \log_2(16\times15) = \log_2(240) = 7.907</annotation></semantics></math>.
+(Nota cómo el semitono justo, a pesar de sonar “pequeño”, es
+numéricamente más complejo que la sexta mayor — otro recordatorio de que
+“intervalo angosto” y “razón simple” no son lo mismo.)</p>
+<p><strong>7.</strong> Frecuencia de la nota superior en cada caso:
+pitagórica,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>261.626</mn><mo>×</mo><msup><mn>2</mn><mrow><mn>407.820</mn><mi>/</mi><mn>1200</mn></mrow></msup><mo>=</mo><mn>331.120</mn></mrow><annotation encoding="application/x-tex">261.626 \times 2^{407.820/1200} = 331.120</annotation></semantics></math>
+Hz; justa/mesotónico,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>261.626</mn><mo>×</mo><msup><mn>2</mn><mrow><mn>386.314</mn><mi>/</mi><mn>1200</mn></mrow></msup><mo>=</mo><mn>327.032</mn></mrow><annotation encoding="application/x-tex">261.626 \times 2^{386.314/1200} = 327.032</annotation></semantics></math>
+Hz; ET,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>261.626</mn><mo>×</mo><msup><mn>2</mn><mrow><mn>400</mn><mi>/</mi><mn>1200</mn></mrow></msup><mo>=</mo><mn>329.628</mn></mrow><annotation encoding="application/x-tex">261.626 \times 2^{400/1200} = 329.628</annotation></semantics></math>
+Hz. El 5º armónico de Do4 es fijo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>261.626</mn><mo>=</mo><mn>1308.13</mn></mrow><annotation encoding="application/x-tex">5\times261.626 = 1308.13</annotation></semantics></math>
+Hz. El 4º armónico de cada nota superior: pitagórica,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>331.120</mn><mo>=</mo><mn>1324.48</mn></mrow><annotation encoding="application/x-tex">4\times331.120 = 1324.48</annotation></semantics></math>
+Hz, batido
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>1324.48</mn><mo>−</mo><mn>1308.13</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>16.35</mn></mrow><annotation encoding="application/x-tex">=|1324.48-1308.13|=16.35</annotation></semantics></math>
+Hz; justa/mesotónico,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>327.032</mn><mo>=</mo><mn>1308.13</mn></mrow><annotation encoding="application/x-tex">4\times327.032=1308.13</annotation></semantics></math>
+Hz, batido
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">=0</annotation></semantics></math>
+Hz exactamente; ET,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>329.628</mn><mo>=</mo><mn>1318.51</mn></mrow><annotation encoding="application/x-tex">4\times329.628=1318.51</annotation></semantics></math>
+Hz, batido
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>1318.51</mn><mo>−</mo><mn>1308.13</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>10.38</mn></mrow><annotation encoding="application/x-tex">=|1318.51-1308.13|=10.38</annotation></semantics></math>
+Hz. El batido es exactamente cero solo en la tercera justa/mesotónica,
+porque ahí (y solo ahí) la razón es exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+y el 4º armónico de la nota superior coincide, por construcción, con el
+5º armónico de la fundamental — es la misma lógica de coincidencia de
+armónicos del Módulo 1 §5.2, aplicada ahora para comparar tres
+afinaciones de la misma tercera.</p>
+<p><strong>8.</strong> Lobo pitagórico:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>678.495</mn><mo>=</mo><mn>23.460</mn></mrow><annotation encoding="application/x-tex">701.955 - 678.495 = 23.460</annotation></semantics></math>
+c angosto (exactamente una coma pitagórica). Lobo mesotónico:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>737.637</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mn>35.682</mn></mrow><annotation encoding="application/x-tex">737.637 - 701.955 = 35.682</annotation></semantics></math>
+c ancho. El mesotónico tiene el lobo “peor” en magnitud absoluta (35.68
+c de desviación contra 23.46 c), aunque además apunta en dirección
+contraria (ancho en vez de angosto) — doblemente inutilizable como
+quinta armónica.</p>
+<p><strong>9.</strong> (a) En ET-12, la tríada Do–Mi–Sol tiene quinta de
+700 c (desviación de 701.955 c pura = 1.955 c) y tercera mayor de 400 c
+(desviación de 386.314 c = 13.686 c); la tercera menor implícita Mi–Sol
+mide 300 c (desviación de 315.641 c = 15.641 c). Suma total ≈
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.955</mn><mo>+</mo><mn>13.686</mn><mo>+</mo><mn>15.641</mn><mo>=</mo><mn>31.282</mn></mrow><annotation encoding="application/x-tex">1.955+13.686+15.641 = 31.282</annotation></semantics></math>
+c. (b) En justa 5-limit, los tres intervalos de la tríada (quinta 3/2,
+tercera mayor 5/4, tercera menor 6/5) son, por construcción, exactamente
+los ideales del catálogo: desviación total = 0. La comparación numérica
+confirma lo que ya sabías de oído: la tríada mayor justa está
+perfectamente “asentada”; la del ET carga un total de más de 31 cents de
+desviación acumulada, repartidos en sus tres intervalos.</p>
+<p><strong>10.</strong> No hay una única respuesta correcta; aquí una
+posible. Repartir
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>23.460</mn><mi>/</mi><mn>3</mn><mo>=</mo><mi>−</mi><mn>7.820</mn></mrow><annotation encoding="application/x-tex">-23.460/3 = -7.820</annotation></semantics></math>
+c en cada una de tres quintas consecutivas (Do–Sol, Sol–Re, Re–La),
+dejando las 9 restantes puras. Con esta regla, algunas notas resultantes
+(verificado con Python): Do = 0.000, Sol =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>7.820</mn><mo>=</mo><mn>694.135</mn></mrow><annotation encoding="application/x-tex">701.955-7.820=694.135</annotation></semantics></math>,
+Re =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>694.135</mn><mo>+</mo><mn>694.135</mn><mo>−</mo><mn>701.955</mn><mo>×</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">694.135+694.135-701.955\times1</annotation></semantics></math>…
+(cálculo completo: acumulando quintas templadas en las tres primeras y
+puras después) da Re = 188.270, Mi = 384.360 (a solo 1.954 c de la
+tercera pura — casi tan buena como Kirnberger), Fa = 498.045, Sol =
+694.135. Esto favorece fuertemente a Do mayor y tonalidades cercanas
+(pocas alteraciones), muy en el espíritu de Werckmeister/Vallotti pero
+concentrando el ajuste en menos quintas — un “paisaje” con un centro
+tonal muy marcado y un deterioro más brusco hacia las tonalidades
+lejanas.</p>
+<p><strong>11.</strong> 384 cents está a solo 2.3 c de la tercera pura
+(386.314 c): es casi con certeza justa, mesotónica o Kirnberger III (las
+tres construyen esa tercera exactamente pura o casi). 390 cents es la
+tercera Do–Mi de Werckmeister III (390.225 c en la tabla maestra) — un
+valor intermedio, “buen temperamento” clásico, más ancho que la pura
+pero mucho más angosto que el ditono pitagórico (407.820) o el ET
+(400).</p>
+<p><strong>12.</strong> El violinista pitagoriza porque está resolviendo
+una dimensión melódica: quiere que su sensible tenga la tensión
+direccional del semitono estrecho (90 c) y que la línea “cante” hacia
+adelante. El coro zarliniza porque está resolviendo una dimensión
+armónica distinta: quiere que el acorde final quede perfectamente
+fundido, sin batido, en la tríada pura (4:5:6). No son la misma pregunta
+—una es sobre cómo se percibe una nota en su contexto horizontal, la
+otra sobre cómo se funde un acorde en su contexto vertical— así que no
+hay contradicción real en que ambos “se desvíen” del temperamento igual
+en direcciones distintas: cada uno está optimizando el eje
+melodía-armonía que le corresponde en ese momento musical.</p>
+<h2 id="protocolo-de-sesión-de-escucha-en-grupo-6090-minutos">9.
+Protocolo de sesión de escucha en grupo (60–90 minutos)</h2>
+<p>Este protocolo está pensado para hacerlo con colegas compositores,
+usando la aplicación del proyecto “Suena Afinaciones Antiguas” (corales
+de Bach conmutables entre 7 afinaciones) y el laboratorio de este
+módulo.</p>
+<p><strong>Minuto 0–10 — Calibración.</strong> Antes de comparar nada,
+escuchen juntos el acorde 4:5:6 (armónicos 4, 5 y 6 sobre una
+fundamental común, del laboratorio del Módulo 1) para recalibrar el oído
+sobre qué es “un acorde en reposo total”. Anoten en la bitácora
+(plantilla abajo) la primera impresión, sin vocabulario técnico
+todavía.</p>
+<p><strong>Minuto 10–30 — Duelo a ciegas, mismo pasaje.</strong> Elijan
+un coral de Bach corto (8-16 compases) en la app. Escúchenlo en cuatro
+afinaciones sin saber cuál es cuál (Werckmeister III, Vallotti,
+mesotónico, ET), en orden aleatorio. Después de cada pasada, cada
+persona anota en su bitácora qué sistema cree que fue, y por qué (qué
+acorde bateó, dónde sintió más o menos tensión). Revelen el orden real
+al final y discutan los aciertos y errores — los errores son tan
+informativos como los aciertos.</p>
+<p><strong>Minuto 30–45 — La cadencia final, lupa puesta.</strong>
+Repitan solo el último acorde del coral (la cadencia) en las mismas 4
+afinaciones, esta vez sabiendo cuál es cuál. Concéntrense en la tercera
+de la tríada final (¿es picarda? ¿mayor?) y describan con precisión qué
+tan “asentada” o “temblorosa” suena en cada sistema.</p>
+<p><strong>Minuto 45–65 — Tabla maestra interactiva.</strong> Pasen al
+laboratorio de este módulo. Exploren la tabla maestra con audio por
+celda: elijan 3-4 acordes distintos (una tríada mayor, una menor, una
+dominante con séptima) y escúchenlos en los 7 sistemas. Anoten en qué
+sistema cada acorde suena “mejor” según el oído del grupo, y comparen
+esa intuición con lo que predicen las métricas de la sección 6.</p>
+<p><strong>Minuto 65–80 — Medidor de rugosidad en vivo.</strong> Usando
+el medidor del laboratorio, seleccionen un acorde y varíen la afinación
+mientras miran el número de rugosidad cambiar en tiempo real. Traten de
+predecir, antes de escuchar, si el número va a subir o bajar al pasar de
+un sistema a otro — y verifiquen.</p>
+<p><strong>Minuto 80–90 — Cierre y votación.</strong> Con toda la
+evidencia auditiva y numérica reunida, discutan: si tuvieran que elegir
+un sistema para una obra nueva del grupo, ¿cuál eligirían y por qué? No
+necesitan estar de acuerdo — el objetivo es que cada quien defienda su
+elección con al menos un número concreto de la sesión.</p>
+<p><strong>Plantilla de bitácora de escucha</strong> (una fila por cada
+pasada):</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sistema</th>
+<th>Pasaje</th>
+<th>Qué oí</th>
+<th>Dónde bateó</th>
+<th>Qué me sugiere composicionalmente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="guía-de-escucha-del-laboratorio">10. Guía de escucha del
+laboratorio</h2>
+<p>El laboratorio interactivo de este módulo
+(<code>laboratorio.html</code>, en esta misma carpeta) reúne, en un solo
+lugar, todo lo que el curso construyó por partes: la tabla maestra con
+audio por celda, un duelo de sistemas A/B configurable a ciegas, un gran
+quiz de identificación de los 7 sistemas, y un medidor de rugosidad en
+vivo. Seis consignas:</p>
+<ol type="1">
+<li><strong>La tabla que suena.</strong> Recorre la tabla maestra
+tocando la misma tríada mayor en los 7 sistemas, en el mismo registro.
+Antes de cada clic, predice de oído si va a sonar “más dulce” o “más
+áspera” que el anterior, y verifica.</li>
+<li><strong>Duelo ciego, un solo intervalo.</strong> Configura el duelo
+A/B con la quinta Do–Sol en dos sistemas al azar (por ejemplo,
+pitagórica contra mesotónico). Sin ver las etiquetas, decide cuál te
+suena “más quieta” — y comprueba si acertaste identificando cuál era la
+pura y cuál la templada.</li>
+<li><strong>El gran quiz, ronda 1.</strong> Intenta identificar a
+ciegas, solo por el color de un acorde de tónica-dominante-tónica, entre
+los 7 sistemas. No esperes el 100% la primera vez — anota cuáles
+confundes entre sí (probablemente Werckmeister con Vallotti, o justa con
+mesotónico) y por qué tiene sentido esa confusión dado lo cerca que
+están sus cifras en la supertabla.</li>
+<li><strong>Rugosidad en vivo, la misma tercera.</strong> Con el medidor
+activo, toca la tercera Do–Mi en pitagórica, justa y ET consecutivamente
+y observa cómo cambia el número. Contrasta con tu cálculo de batidos del
+ejercicio 7.</li>
+<li><strong>El lobo en dos versiones.</strong> Reproduce el lobo
+pitagórico (678.495 c) y el lobo mesotónico (737.637 c) uno después del
+otro. Describe la diferencia cualitativa entre “angosto y tenso” y
+“ancho y desafinado” — son dos tipos de fealdad distintos, no la
+misma.</li>
+<li><strong>Tu propio ranking.</strong> Usando la vista de barras del
+laboratorio, elige un acorde de dominante con novena y ordena los 7
+sistemas de más a menos consonante según la métrica de rugosidad. Luego
+repite el ranking usando la desviación de justa. ¿Coinciden los dos
+órdenes? Si no, ¿en qué se diferencian, y por qué (revisa la sección
+6.5)?</li>
+</ol>
+<h2 id="proyecto-integrador-idiomático-en-uno-fallido-en-otro">11.
+Proyecto integrador: idiomático en uno, fallido en otro</h2>
+<p>Este es el cierre de la Fase 1 completa. La consigna: <strong>compón
+o arregla un pasaje de 8 a 16 compases que sea claramente idiomático en
+un sistema de afinación de tu elección, y claramente fallido (o al menos
+muy debilitado) en otro</strong> — y defiende esa elección con números
+concretos: cents, batidos, comas escondidas.</p>
+<p>Algunas rutas posibles (elige una, o propone la tuya):</p>
+<ul>
+<li>Un coral homofónico en una tonalidad remota (muchos sostenidos o
+bemoles) que suene “en su casa” en Werckmeister III o Vallotti, y se
+rompa de forma audible en mesotónico (por el lobo o por notas
+inexistentes en la cadena).</li>
+<li>Una progresión que explote deliberadamente el lobo pitagórico o
+mesotónico como gesto expresivo — no como error a evitar, sino como
+clímax armónico buscado.</li>
+<li>Un pasaje que dependa de una tercera mayor perfectamente pura (por
+ejemplo, un acorde final sostenido muy largo) y que se sienta “correcto
+pero sin vida” en ET, y “vivo, fundido” en justa o mesotónico.</li>
+<li>Una secuencia con modulación enarmónica estructural (Sol♯
+reinterpretado como La♭) que funcione sin fisuras en ET y sea,
+literalmente, imposible de tocar sin re-templar en pitagórica o
+mesotónico clásicos.</li>
+</ul>
+<p><strong>Rúbrica de autoevaluación</strong> (los tres criterios deben
+cumplirse):</p>
+<ul>
+<li><strong>(a) Explota un rasgo específico y nombrable del sistema
+elegido</strong> — no “usé Werckmeister” en abstracto, sino “usé el
+hecho de que la tercera Do–Mi de Kirnberger III es exactamente pura
+(386.314 c), a diferencia de la de Werckmeister (390.225 c, que bate
+levemente), para sostener un acorde de reposo largo en Do”.</li>
+<li><strong>(b) El análisis numérico es correcto</strong> — cita las
+cifras exactas (cents, Hz de batido, o la coma que estás escondiendo o
+revelando) y verifícalas con la supertabla o con cálculo directo, igual
+que en los ejercicios de la sección 8.</li>
+<li><strong>(c) El contraste con el sistema “fallido” es audible y
+explicable</strong> — no basta con que el número cambie; debes poder
+describir en palabras qué se escucha distinto (un batido que aparece,
+una nota que directamente no está disponible, un color de tonalidad que
+se aplana).</li>
+</ul>
+<p><strong>Para compartir con colegas:</strong> graba (o pide grabar) el
+mismo pasaje en ambos sistemas usando la aplicación “Suena Afinaciones
+Antiguas” o el laboratorio de este módulo, y preséntalo en A/B directo —
+la diferencia debe defenderse sola, sin que tengas que explicar antes
+“escuchen con atención”. Acompaña la grabación con una ficha de una
+página: el pasaje, el sistema elegido y el “fallido”, y las 2-3 cifras
+clave de tu análisis (siguiendo el formato de la tabla maestra de la
+sección 3).</p>
+<h2 id="repertorio">12. Repertorio</h2>
+<p>La tabla maestra (sección 3) ya resume, sistema por sistema, el
+repertorio que lo explota mejor. Para esta síntesis final, dos
+sugerencias de escucha comparada específicas: (1) cualquier coral de
+<em>El clave bien temperado</em> de Bach, escuchado en Werckmeister III,
+Vallotti y ET consecutivamente (disponible en la app del proyecto) —
+presta atención a cómo cambia el color de la tonalidad, no la
+“corrección”; (2) un motete renacentista a capela (Palestrina o
+Victoria) grabado por un conjunto vocal profesional — escucha las
+cadencias finales e intenta detectar el ajuste microscópico hacia la
+justa entonación que casi con certeza está ocurriendo, aunque nadie en
+el grupo esté “pensando en cents” mientras canta.</p>
+<h2 id="autoevaluación-de-la-fase-1-completa">13. Autoevaluación de la
+Fase 1 completa</h2>
+<p>Doce ítems que recorren los ocho módulos. Marca los que puedes hacer
+sin mirar los apuntes.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar por qué los
+intervalos se componen multiplicando razones y convertir cualquier razón
+a cents (M1).</label></li>
+<li><label><input type="checkbox" />Puedo reproducir el cálculo de las
+12 quintas puras contra las 7 octavas y nombrar el resultado: la coma
+pitagórica, 23.460 c (M1–M2).</label></li>
+<li><label><input type="checkbox" />Puedo demostrar, con paridad de
+enteros, que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math>
+para todo par de enteros positivos (M2).</label></li>
+<li><label><input type="checkbox" />Puedo construir la escala pitagórica
+por cadena de quintas y ubicar el lobo (678.495 c) (M3).</label></li>
+<li><label><input type="checkbox" />Puedo construir la escala mayor
+justa desde el senario y explicar por qué la quinta Re–La (40/27) es
+defectuosa (M4).</label></li>
+<li><label><input type="checkbox" />Puedo derivar la familia de
+mesotónicos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>80</mn><mi>/</mi><mn>81</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>a</mi></msup></mrow><annotation encoding="application/x-tex">Q=(3/2)(80/81)^a</annotation></semantics></math>
+y calcular el mesotónico de 1/4 de coma (696.578 c) (M5).</label></li>
+<li><label><input type="checkbox" />Puedo explicar, con las fracciones
+de coma exactas, cómo se construyen Werckmeister III, Vallotti y
+Kirnberger III (M6).</label></li>
+<li><label><input type="checkbox" />Puedo derivar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+y explicar qué gana y qué pierde el temperamento igual respecto de los
+sistemas anteriores (M7).</label></li>
+<li><label><input type="checkbox" />Puedo completar de memoria (o
+reconstruir en minutos) la tabla maestra: qué protege, qué sacrifica y
+dónde esconde la coma cada uno de los 7 sistemas (M8).</label></li>
+<li><label><input type="checkbox" />Puedo explicar el eje
+melodía-armonía usando el tamaño del semitono diatónico como evidencia
+numérica (M8).</label></li>
+<li><label><input type="checkbox" />Puedo calcular al menos dos de las
+cuatro métricas de consonancia (rugosidad, Tenney, Euler, desviación de
+justa) para un intervalo dado, y explicar qué le falta a cada una
+(M8).</label></li>
+<li><label><input type="checkbox" />Puedo elegir un sistema de afinación
+para un pasaje musical concreto y justificar la elección con al menos un
+número (M8).</label></li>
+</ul>
+<h2 id="referencias">14. Referencias</h2>
+<ul>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications.</li>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony (and Why You
+Should Care)</em>. W. W. Norton.</li>
+<li>Sethares, W. A. (1993). “Local consonance and the relationship
+between timbre and scale”. <em>Journal of the Acoustical Society of
+America</em>, 94(3). Y su libro <em>Tuning, Timbre, Spectrum,
+Scale</em>, Springer.</li>
+<li>Tenney, J. <em>John Cage and the Theory of Harmony</em> (1983); ver
+también su <em>A History of “Consonance” and “Dissonance”</em>.</li>
+<li>Euler, L. <em>Tentamen novae theoriae musicae</em> (1739).</li>
+<li>Plomp, R. y Levelt, W. J. M. (1965). “Tonal Consonance and Critical
+Bandwidth”. <em>JASA</em>, 38(4).</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>).</li>
+<li>Código de referencia:
+<code>suena-afinaciones-antiguas/web/js/consonance.js</code>
+(implementación de las 4 métricas de esta sección).</li>
+</ul>
+<h2 id="anticipo-fase-2">15. Anticipo: Fase 2</h2>
+<p>Cierras la Fase 1 con siete sistemas y doce notas por octava — pero
+las doce notas son una elección, no una ley física, y en el Módulo 9 vas
+a conocer alternativas serias: 19, 31 y 53 divisiones iguales de la
+octava, que aproximan el mesotónico y la justa entonación con un error
+mucho menor que el ET-12, derivadas con la misma herramienta que usan
+los relojes de engranajes y los calendarios — las fracciones continuas.
+Y en el Módulo 10, vas a dejar por primera vez el 5-limit: la justa
+entonación extendida a los primos 7, 11 y 13, el mundo de Harry Partch y
+sus 43 tonos. La coma pitagórica no desaparece nunca — pero a partir de
+aquí, empiezas a tener muchas más maneras de esconderla.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 8</p><button id="progress-btn" class="progress-btn" data-modulo="08-mapa-comparativo">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

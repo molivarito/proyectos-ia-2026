@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M9 · Laboratorio — EDOs alternativos</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --mid:#e8c33d;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:660px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:190px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+select,input[type=number],input[type=text]{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;cursor:pointer;margin:3px 5px 3px 0;}
+.chip:hover{background:#313848;}
+.chip.active{border-color:var(--accent);background:#3a2f18;color:var(--text);font-weight:700;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+
+table.ref-table,table.super-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:8px;}
+.ref-table th,.ref-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+.ref-table th:first-child,.ref-table td:first-child{text-align:left;}
+.ref-table th{color:var(--muted);font-weight:600;}
+.sem-good{color:var(--good);}
+.sem-mid{color:var(--mid);}
+.sem-bad{color:var(--warn);}
+
+.result-box{background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-top:8px;font-size:0.85rem;min-height:20px;}
+
+.compare-panel{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.compare-col{flex:1;min-width:200px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:0.85rem;}
+.compare-col h4{margin:0 0 8px;color:var(--accent);font-size:0.9rem;}
+.compare-col .kv{display:flex;justify-content:space-between;margin:4px 0;color:var(--muted);}
+.compare-col .kv b{color:var(--text);}
+
+.keyboard{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.key-btn{background:#262b38;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 4px;min-width:52px;text-align:center;cursor:pointer;font-size:0.75rem;}
+.key-btn:hover{background:#313848;}
+.key-btn .kb-step{display:block;font-weight:700;color:var(--accent);font-size:0.85rem;}
+.key-btn .kb-cents{display:block;color:var(--muted);font-size:0.65rem;margin-top:2px;}
+
+.circle-info{color:var(--muted);font-size:0.9rem;text-align:center;margin:6px 0 10px;}
+.circle-info b{color:var(--accent);}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;display:block;margin:10px auto;}
+#l3Canvas{width:100%;max-width:480px;}
+#l4Canvas{width:100%;}
+
+.quiz-status{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;color:var(--muted);font-size:0.85rem;}
+.quiz-status b{color:var(--text);}
+.feedback{margin-top:12px;padding:12px 14px;border-radius:9px;font-size:0.87rem;display:none;}
+.feedback.correct{background:#123420;border:1px solid #2c6b45;color:#bdf0d1;}
+.feedback.incorrect{background:#3a1420;border:1px solid #7a2c40;color:#f5c2ce;}
+.summary{text-align:center;padding:14px;}
+.summary .score{font-size:2rem;font-weight:800;color:var(--accent);margin:8px 0;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .compare-panel{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M9 · Laboratorio: EDOs alternativos</h1>
+    <p class="subtitle">¿Qué pasa si en vez de dividir la octava en 12 partes iguales la dividimos en 19, 31 o 53? Este laboratorio explora las divisiones iguales de la octava (EDO) más allá de la convención occidental, comparando cuán bien cada una aproxima los intervalos justos — quinta, terceras y séptima natural — y qué se gana y qué se pierde al elegir un N distinto de 12.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Explorador de EDOs</h2>
+    <p class="purpose">Elige en cuántas partes iguales (N) se divide la octava y observa cómo cambian los pasos, sus valores en cents, y qué tan cerca quedan de los intervalos justos.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l1N">Número de divisiones N</label>
+        <input type="range" id="l1N" min="5" max="72" step="1" value="12">
+        <div><span class="value-tag" id="l1NValue">12</span>-EDO · paso = <span class="value-tag" id="l1StepCents">100.000</span> c</div>
+      </div>
+    </div>
+
+    <div class="btn-row" id="l1Presets"></div>
+
+    <table class="ref-table" id="l1RefTable">
+      <thead><tr><th>Intervalo</th><th>Pasos</th><th>Cents en el EDO</th><th>Cents justo</th><th>Error</th></tr></thead>
+      <tbody id="l1RefBody"></tbody>
+    </table>
+
+    <h3>Teclado de una octava (pasos 0 .. N−1)</h3>
+    <div class="keyboard" id="l1Keyboard"></div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Duelo de aproximaciones</h2>
+    <p class="purpose">Compara cómo dos sistemas distintos (un EDO u otro, o el intervalo justo) aproximan un mismo intervalo, y escucha el batido que cada aproximación predice.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l2Interval">Intervalo</label>
+        <select id="l2Interval">
+          <option value="fifth">Quinta (3/2)</option>
+          <option value="thirdM">3.ª mayor (5/4)</option>
+          <option value="thirdm">3.ª menor (6/5)</option>
+          <option value="seventh">7.ª natural (7/4)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="l2SysA">Sistema A</label>
+        <select id="l2SysA"></select>
+      </div>
+      <div class="field">
+        <label for="l2SysB">Sistema B</label>
+        <select id="l2SysB"></select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l2PlayA">▶ A</button>
+      <button class="btn primary" id="l2PlayB">▶ B</button>
+      <button class="btn" id="l2PlayJusto">▶ Justo</button>
+      <button class="btn big-btn" id="l2PlaySeq">▶ Secuencia A → Justo → B → Justo</button>
+    </div>
+    <div class="value-tag" id="l2SeqStatus" style="display:block;min-height:20px;"></div>
+
+    <div class="compare-panel">
+      <div class="compare-col">
+        <h4>Sistema A</h4>
+        <div class="kv"><span>Cents</span><b id="l2ACents">—</b></div>
+        <div class="kv"><span>Batido predicho</span><b id="l2ABeat">—</b></div>
+      </div>
+      <div class="compare-col">
+        <h4>Sistema B</h4>
+        <div class="kv"><span>Cents</span><b id="l2BCents">—</b></div>
+        <div class="kv"><span>Batido predicho</span><b id="l2BBeat">—</b></div>
+      </div>
+      <div class="compare-col">
+        <h4>Justo (referencia)</h4>
+        <div class="kv"><span>Cents</span><b id="l2JustoCentsDisp">—</b></div>
+        <div class="kv"><span>Batido predicho</span><b>0.000 Hz</b></div>
+      </div>
+    </div>
+
+    <h3>Comparaciones clave</h3>
+    <div class="btn-row">
+      <button class="btn" id="l2Key1">Tercera mayor: 12-EDO vs 31-EDO vs justa</button>
+      <button class="btn" id="l2Key2">Séptima: 12-EDO vs 31-EDO vs 7/4</button>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · El círculo que cierra distinto</h2>
+    <p class="purpose">En 12-EDO, doce quintas encadenadas cierran exactamente sobre la nota de partida. En otros EDOs la quinta es distinta y el círculo tarda más pasos en cerrar (o dibuja otra figura).</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l3N">EDO</label>
+        <select id="l3N">
+          <option value="12">12-EDO</option>
+          <option value="19">19-EDO</option>
+          <option value="31">31-EDO</option>
+          <option value="53">53-EDO</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="circle-info" id="l3Info"></div>
+
+    <canvas id="l3Canvas" width="480" height="480"></canvas>
+
+    <div class="btn-row" style="text-align:center;">
+      <button class="btn primary big-btn" id="l3PlayBtn">▶ Recorrer círculo de quintas</button>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · El paisaje de los EDOs</h2>
+    <p class="purpose">Un vistazo panorámico: para cada N entre 5 y 72, ¿qué tan bien aproxima ese EDO la quinta, la tercera mayor, o ambas a la vez? Haz clic en cualquier barra para escuchar el batido que predice.</p>
+
+    <div class="btn-row" id="l4MetricButtons">
+      <button class="btn primary" data-metric="fifth">Error de quinta</button>
+      <button class="btn" data-metric="third">Error de 3.ª mayor</button>
+      <button class="btn" data-metric="combined">Error combinado</button>
+    </div>
+
+    <canvas id="l4Canvas" width="840" height="220"></canvas>
+
+    <div class="result-box" id="l4Result">Haz clic en una barra para escuchar el batido predicho (senos puros).</div>
+  </section>
+
+  <!-- ==================== LAB 5 ==================== -->
+  <section class="card" id="lab5">
+    <h2>Lab 5 · Quiz: ¿12, 19 ó 31?</h2>
+    <p class="purpose">9 rondas. Escucha una cadencia I–IV–V–I construida con la aproximación de cada EDO a los intervalos justos, y adivina de cuál se trata.</p>
+
+    <div id="l5Intro">
+      <button class="btn primary big-btn" id="l5Start">Comenzar quiz</button>
+    </div>
+
+    <div id="l5Game" style="display:none;">
+      <div class="quiz-status">
+        <span id="l5RoundLabel"><b>Ronda 1 de 9</b></span>
+        <span>Puntaje: <b id="l5Score">0</b></span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="l5PlaySound">🔁 Repetir sonido (quedan 3)</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn big-btn" id="l5Answer12">12-EDO</button>
+        <button class="btn big-btn" id="l5Answer19">19-EDO</button>
+        <button class="btn big-btn" id="l5Answer31">31-EDO</button>
+      </div>
+
+      <div class="feedback" id="l5Feedback"></div>
+
+      <div class="btn-row" id="l5NextRow" style="display:none;">
+        <button class="btn primary" id="l5Next">Siguiente ronda ▶</button>
+      </div>
+    </div>
+
+    <div id="l5Summary" style="display:none;" class="summary">
+      <div>Quiz terminado</div>
+      <div class="score" id="l5FinalScore">0 / 9</div>
+      <div id="l5Advice"></div>
+      <div class="btn-row" style="justify-content:center;display:flex;">
+        <button class="btn primary" id="l5Restart">Reiniciar quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Módulo 9 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+// Timbre rico en armónicos (8 armónicos, amplitud 1/n) vía createPeriodicWave,
+// igual enfoque que en el resto del curso.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima (ataque/release exponenciales) para una nota de duración fija.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Reproduce dos tonos (base + superior) con timbre armónico rico y envolvente ADSR.
+function playHarmonicInterval(baseFreq, upperFreq, duration, peak){
+  if(!ensureAudioReady()) return null;
+  const now = audioCtx.currentTime + 0.03;
+  [baseFreq, upperFreq].forEach(function(f){
+    const osc = createHarmonicOsc(audioCtx, f, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, now, duration, peak, 0.02, 0.15);
+    osc.start(now);
+    osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+  });
+  return now;
+}
+
+// Reproduce una secuencia de acordes construidos por pasos de un EDO (I-IV-V-I, etc.),
+// timbre armónico rico, un acorde tras otro con duración fija cada uno.
+function playEdoChords(chordsStepsArray, N, base, chordDur, peak){
+  if(!ensureAudioReady()) return 0;
+  let t = audioCtx.currentTime + 0.05;
+  chordsStepsArray.forEach(function(chordSteps){
+    const freqs = chordSteps.map(function(s){ return edoFreq(s, N, base); });
+    const p = peak / Math.sqrt(freqs.length);
+    freqs.forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, t, chordDur, p, 0.02, 0.15);
+      osc.start(t);
+      osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+    t += chordDur;
+  });
+  return chordsStepsArray.length * chordDur;
+}
+
+/* ==================== CONSTANTES MUSICALES ==================== */
+const DO4 = 261.63;
+const REF_FIFTH   = { name:'Quinta (3/2)',        ratio: 3/2,  cents: 701.955, p:3, q:2 };
+const REF_THIRD_M = { name:'3.ª mayor (5/4)',     ratio: 5/4,  cents: 386.314, p:5, q:4 };
+const REF_THIRD_m = { name:'3.ª menor (6/5)',     ratio: 6/5,  cents: 315.641, p:6, q:5 };
+const REF_SEVENTH = { name:'7.ª natural (7/4)',   ratio: 7/4,  cents: 968.826, p:7, q:4 };
+const REF_FOURTH_RATIO = 4/3;
+const EDO_PRESETS = [5, 7, 12, 19, 22, 24, 31, 41, 53];
+
+function bestApprox(N, ratio){
+  const steps = Math.round(N * Math.log2(ratio));
+  const cents = steps * (1200 / N);
+  return { steps: steps, cents: cents };
+}
+function edoFreq(steps, N, base){ return base * Math.pow(2, steps / N); }
+function semaforoClass(absErrorCents){
+  if(absErrorCents < 3) return 'sem-good';
+  if(absErrorCents < 8) return 'sem-mid';
+  return 'sem-bad';
+}
+function gcd(a, b){
+  a = Math.abs(a); b = Math.abs(b);
+  while(b){ const t = b; b = a % b; a = t; }
+  return a;
+}
+
+/* ==================== Lab 1: Explorador de EDOs ==================== */
+(function(){
+  const nSlider = document.getElementById('l1N');
+  const nValueLabel = document.getElementById('l1NValue');
+  const stepCentsLabel = document.getElementById('l1StepCents');
+  const presetsBox = document.getElementById('l1Presets');
+  const refBody = document.getElementById('l1RefBody');
+  const keyboard = document.getElementById('l1Keyboard');
+
+  const REFS = [REF_FIFTH, REF_THIRD_M, REF_THIRD_m, REF_SEVENTH];
+
+  let N = 12;
+
+  function buildPresets(){
+    presetsBox.innerHTML = '';
+    EDO_PRESETS.forEach(function(p){
+      const btn = document.createElement('button');
+      btn.className = 'chip' + (p === N ? ' active' : '');
+      btn.textContent = p + '-EDO';
+      btn.addEventListener('click', function(){
+        N = p;
+        nSlider.value = String(p);
+        refreshAll();
+      });
+      presetsBox.appendChild(btn);
+    });
+  }
+
+  function buildTable(){
+    refBody.innerHTML = '';
+    REFS.forEach(function(ref){
+      const approx = bestApprox(N, ref.ratio);
+      const error = approx.cents - ref.cents;
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + ref.name + '</td>' +
+        '<td>' + approx.steps + '</td>' +
+        '<td>' + approx.cents.toFixed(3) + '</td>' +
+        '<td>' + ref.cents.toFixed(3) + '</td>' +
+        '<td class="' + semaforoClass(Math.abs(error)) + '">' + (error >= 0 ? '+' : '') + error.toFixed(3) + '</td>';
+      refBody.appendChild(tr);
+    });
+  }
+
+  function playEdoNote(step, Nval){
+    if(!ensureAudioReady()) return;
+    const freq = edoFreq(step, Nval, DO4);
+    const now = audioCtx.currentTime + 0.02;
+    const osc = createHarmonicOsc(audioCtx, freq, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, now, 1.1, 0.22, 0.02, 0.12);
+    osc.start(now);
+    osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+  }
+
+  function buildKeyboard(){
+    keyboard.innerHTML = '';
+    for(let step = 0; step < N; step++){
+      const btn = document.createElement('button');
+      btn.className = 'key-btn';
+      const cents = step * (1200 / N);
+      btn.innerHTML = '<span class="kb-step">' + step + '</span><span class="kb-cents">' + cents.toFixed(1) + ' c</span>';
+      btn.addEventListener('click', function(){ playEdoNote(step, N); });
+      keyboard.appendChild(btn);
+    }
+  }
+
+  function refreshAll(){
+    nValueLabel.textContent = String(N);
+    stepCentsLabel.textContent = (1200 / N).toFixed(3);
+    buildPresets();
+    buildTable();
+    buildKeyboard();
+  }
+
+  nSlider.addEventListener('input', function(){
+    N = parseInt(nSlider.value, 10);
+    refreshAll();
+  });
+
+  refreshAll();
+})();
+
+/* ==================== Lab 2: Duelo de aproximaciones ==================== */
+const L2_INTERVALS = {
+  fifth:   REF_FIFTH,
+  thirdM:  REF_THIRD_M,
+  thirdm:  REF_THIRD_m,
+  seventh: REF_SEVENTH
+};
+
+(function(){
+  const intervalSelect = document.getElementById('l2Interval');
+  const sysASelect = document.getElementById('l2SysA');
+  const sysBSelect = document.getElementById('l2SysB');
+  const playABtn = document.getElementById('l2PlayA');
+  const playBBtn = document.getElementById('l2PlayB');
+  const playJustoBtn = document.getElementById('l2PlayJusto');
+  const playSeqBtn = document.getElementById('l2PlaySeq');
+  const seqStatus = document.getElementById('l2SeqStatus');
+  const aCentsLabel = document.getElementById('l2ACents');
+  const aBeatLabel = document.getElementById('l2ABeat');
+  const bCentsLabel = document.getElementById('l2BCents');
+  const bBeatLabel = document.getElementById('l2BBeat');
+  const justoCentsLabel = document.getElementById('l2JustoCentsDisp');
+
+  const SYS_OPTIONS = EDO_PRESETS.concat(['justo']);
+  SYS_OPTIONS.forEach(function(opt){
+    [sysASelect, sysBSelect].forEach(function(sel){
+      const o = document.createElement('option');
+      o.value = String(opt);
+      o.textContent = (opt === 'justo') ? 'Justo (intervalo puro)' : (opt + '-EDO');
+      sel.appendChild(o);
+    });
+  });
+  sysASelect.value = '12';
+  sysBSelect.value = '31';
+
+  function currentRef(){ return L2_INTERVALS[intervalSelect.value]; }
+
+  function tuningCentsFor(selectionValue, ref){
+    if(selectionValue === 'justo') return ref.cents;
+    return bestApprox(parseInt(selectionValue, 10), ref.ratio).cents;
+  }
+
+  function refresh(){
+    const ref = currentRef();
+    const centsA = tuningCentsFor(sysASelect.value, ref);
+    const centsB = tuningCentsFor(sysBSelect.value, ref);
+    const upperA = DO4 * Math.pow(2, centsA / 1200);
+    const upperB = DO4 * Math.pow(2, centsB / 1200);
+    const beatA = Math.abs(ref.p * DO4 - ref.q * upperA);
+    const beatB = Math.abs(ref.p * DO4 - ref.q * upperB);
+    aCentsLabel.textContent = centsA.toFixed(3);
+    bCentsLabel.textContent = centsB.toFixed(3);
+    aBeatLabel.textContent = beatA.toFixed(3) + ' Hz';
+    bBeatLabel.textContent = beatB.toFixed(3) + ' Hz';
+    justoCentsLabel.textContent = ref.cents.toFixed(3);
+  }
+
+  function playSingleInterval(cents, label){
+    if(!ensureAudioReady()) return;
+    const upper = DO4 * Math.pow(2, cents / 1200);
+    seqStatus.textContent = label ? ('Sonando: ' + label) : '';
+    playHarmonicInterval(DO4, upper, 2.5, 0.18);
+    if(label) setTimeout(function(){ seqStatus.textContent = ''; }, 2600);
+  }
+
+  playABtn.addEventListener('click', function(){
+    const ref = currentRef();
+    playSingleInterval(tuningCentsFor(sysASelect.value, ref), 'A');
+  });
+  playBBtn.addEventListener('click', function(){
+    const ref = currentRef();
+    playSingleInterval(tuningCentsFor(sysBSelect.value, ref), 'B');
+  });
+  playJustoBtn.addEventListener('click', function(){
+    const ref = currentRef();
+    playSingleInterval(ref.cents, 'Justo');
+  });
+
+  function playSequence(){
+    if(!ensureAudioReady()) return;
+    const ref = currentRef();
+    const centsA = tuningCentsFor(sysASelect.value, ref);
+    const centsB = tuningCentsFor(sysBSelect.value, ref);
+    const segDur = 2;
+    const sequence = [
+      { label:'A', cents:centsA },
+      { label:'Justo', cents:ref.cents },
+      { label:'B', cents:centsB },
+      { label:'Justo', cents:ref.cents }
+    ];
+    let t = audioCtx.currentTime + 0.05;
+    sequence.forEach(function(seg, idx){
+      const upper = DO4 * Math.pow(2, seg.cents / 1200);
+      [DO4, upper].forEach(function(f){
+        const osc = createHarmonicOsc(audioCtx, f, 8);
+        const g = audioCtx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        const end = scheduleTone(g.gain, t, segDur, 0.16, 0.02, 0.12);
+        osc.start(t); osc.stop(end + 0.05);
+        osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+      });
+      setTimeout(function(){ seqStatus.textContent = 'Sonando: ' + seg.label; }, idx * segDur * 1000);
+      t += segDur;
+    });
+    setTimeout(function(){ seqStatus.textContent = ''; }, sequence.length * segDur * 1000);
+  }
+  playSeqBtn.addEventListener('click', playSequence);
+
+  document.getElementById('l2Key1').addEventListener('click', function(){
+    intervalSelect.value = 'thirdM';
+    sysASelect.value = '12';
+    sysBSelect.value = '31';
+    refresh();
+    playSequence();
+  });
+  document.getElementById('l2Key2').addEventListener('click', function(){
+    intervalSelect.value = 'seventh';
+    sysASelect.value = '12';
+    sysBSelect.value = '31';
+    refresh();
+    playSequence();
+  });
+
+  intervalSelect.addEventListener('change', refresh);
+  sysASelect.addEventListener('change', refresh);
+  sysBSelect.addEventListener('change', refresh);
+
+  refresh();
+})();
+
+/* ==================== Lab 3: El círculo que cierra distinto ==================== */
+(function(){
+  const select = document.getElementById('l3N');
+  const infoBox = document.getElementById('l3Info');
+  const canvas = document.getElementById('l3Canvas');
+  const ctx = canvas.getContext('2d');
+  const playBtn = document.getElementById('l3PlayBtn');
+
+  let currentN = 12;
+  let edges = [];
+  let highlightIdx = -1;
+  let animating = false;
+  let rafId = null;
+
+  function pointPos(i, N, R, cx, cy){
+    const angle = -Math.PI / 2 + 2 * Math.PI * i / N;
+    return { x: cx + R * Math.cos(angle), y: cy + R * Math.sin(angle) };
+  }
+
+  function redraw(){
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 30;
+
+    ctx.strokeStyle = '#e8a33d';
+    ctx.lineWidth = 1.4;
+    edges.forEach(function(e){
+      const p1 = pointPos(e[0], currentN, R, cx, cy);
+      const p2 = pointPos(e[1], currentN, R, cx, cy);
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+    });
+
+    for(let i = 0; i < currentN; i++){
+      const p = pointPos(i, currentN, R, cx, cy);
+      const isHi = (i === highlightIdx);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, isHi ? 7 : 4, 0, 2 * Math.PI);
+      ctx.fillStyle = isHi ? '#e8a33d' : '#6fcf97';
+      ctx.fill();
+      if(currentN <= 31){
+        ctx.fillStyle = '#9aa0ac';
+        ctx.font = '9px system-ui';
+        ctx.textAlign = 'center';
+        const lp = pointPos(i, currentN, R + 14, cx, cy);
+        ctx.fillText(String(i), lp.x, lp.y + 3);
+      }
+    }
+  }
+
+  function updateInfo(){
+    const approx = bestApprox(currentN, 3 / 2);
+    const error = approx.cents - 701.955;
+    const g = gcd(approx.steps, currentN);
+    const cycleLen = currentN / g;
+    infoBox.innerHTML = 'Quinta = <b>' + approx.cents.toFixed(3) + ' c</b> (error ' + (error >= 0 ? '+' : '') + error.toFixed(3) + ' c) — cierra tras <b>' + cycleLen + '</b> quintas';
+    return { fifthSteps: approx.steps, cycleLen: cycleLen };
+  }
+
+  function playShortNote(freq){
+    const now = audioCtx.currentTime;
+    const osc = createHarmonicOsc(audioCtx, freq, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, now, 0.18, 0.22, 0.015, 0.08);
+    osc.start(now);
+    osc.stop(end + 0.03);
+    osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+  }
+
+  function loop(){
+    redraw();
+    if(animating) rafId = requestAnimationFrame(loop);
+  }
+
+  function runAnimation(){
+    if(!ensureAudioReady()) return;
+    if(animating) return;
+    const data = updateInfo();
+    const N = currentN;
+    const fifthSteps = data.fifthSteps;
+    const cycleLen = data.cycleLen;
+    edges = [];
+    highlightIdx = -1;
+    animating = true;
+    playBtn.disabled = true;
+    rafId = requestAnimationFrame(loop);
+
+    let idx = 0, pc = 0;
+    function step(){
+      if(idx >= cycleLen){
+        animating = false;
+        playBtn.disabled = false;
+        highlightIdx = -1;
+        if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+        redraw();
+        return;
+      }
+      const nextPc = (pc + fifthSteps) % N;
+      highlightIdx = pc;
+      playShortNote(edoFreq(pc, N, DO4));
+      edges.push([pc, nextPc]);
+      idx++;
+      pc = nextPc;
+      setTimeout(step, 220);
+    }
+    step();
+  }
+
+  select.addEventListener('change', function(){
+    if(animating) return;
+    currentN = parseInt(select.value, 10);
+    edges = [];
+    highlightIdx = -1;
+    updateInfo();
+    redraw();
+  });
+
+  playBtn.addEventListener('click', runAnimation);
+
+  currentN = parseInt(select.value, 10);
+  updateInfo();
+  redraw();
+})();
+
+/* ==================== Lab 4: El paisaje de los EDOs ==================== */
+(function(){
+  const canvas = document.getElementById('l4Canvas');
+  const ctx = canvas.getContext('2d');
+  const resultBox = document.getElementById('l4Result');
+  const metricButtons = document.querySelectorAll('#l4MetricButtons .btn');
+
+  const N_MIN = 5, N_MAX = 72;
+  const HIGHLIGHT = {
+    fifth: [5, 7, 12, 41, 53],
+    combined: [19, 31, 53],
+    third: []
+  };
+
+  let metric = 'fifth';
+
+  function metricValue(N){
+    if(metric === 'fifth') return Math.abs(bestApprox(N, 3 / 2).cents - 701.955);
+    if(metric === 'third') return Math.abs(bestApprox(N, 5 / 4).cents - 386.314);
+    const ef = Math.abs(bestApprox(N, 3 / 2).cents - 701.955);
+    const et = Math.abs(bestApprox(N, 5 / 4).cents - 386.314);
+    return ef + et;
+  }
+
+  function drawChart(){
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    const count = N_MAX - N_MIN + 1;
+    const values = [];
+    let maxV = 0;
+    for(let N = N_MIN; N <= N_MAX; N++){
+      const v = metricValue(N);
+      values.push(v);
+      if(v > maxV) maxV = v;
+    }
+    const padBottom = 20, padTop = 8;
+    const barW = W / count;
+    const hlSet = HIGHLIGHT[metric] || [];
+    for(let i = 0; i < count; i++){
+      const N = N_MIN + i;
+      const v = values[i];
+      const barH = maxV > 0 ? (v / maxV) * (H - padBottom - padTop) : 0;
+      const x = i * barW;
+      const y = H - padBottom - barH;
+      ctx.fillStyle = hlSet.indexOf(N) !== -1 ? '#6fcf97' : '#e8a33d';
+      ctx.fillRect(x + 1, y, Math.max(1, barW - 2), barH);
+    }
+    ctx.strokeStyle = '#2a2e3a';
+    ctx.beginPath();
+    ctx.moveTo(0, H - padBottom);
+    ctx.lineTo(W, H - padBottom);
+    ctx.stroke();
+  }
+
+  // Excepción explícita del curso: aquí se usan osciladores seno puros (no
+  // timbre armónico) para que el batido predicho entre la quinta justa y la
+  // del EDO clicado se escuche limpio, igual que en M1 Lab 2 "Batidos".
+  function playBeatForN(N){
+    if(!ensureAudioReady()) return;
+    const freqJust = DO4 * Math.pow(2, 701.955 / 1200);
+    const freqEdo = DO4 * Math.pow(2, bestApprox(N, 3 / 2).cents / 1200);
+    const now = audioCtx.currentTime + 0.03;
+    [freqJust, freqEdo].forEach(function(f){
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = f;
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, now, 3.0, 0.14, 0.02, 0.18);
+      osc.start(now);
+      osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+    const beat = Math.abs(freqEdo - freqJust);
+    resultBox.innerHTML = 'N clicado: <b>' + N + '</b> — batido esperado entre la quinta justa y la del ' + N + '-EDO: <b>' + beat.toFixed(3) + ' Hz</b>';
+  }
+
+  canvas.addEventListener('click', function(e){
+    const rect = canvas.getBoundingClientRect();
+    const xCss = e.clientX - rect.left;
+    const x = xCss * (canvas.width / rect.width);
+    const count = N_MAX - N_MIN + 1;
+    const barW = canvas.width / count;
+    let idx = Math.floor(x / barW);
+    idx = Math.max(0, Math.min(count - 1, idx));
+    const N = N_MIN + idx;
+    playBeatForN(N);
+  });
+
+  metricButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      metric = btn.dataset.metric;
+      metricButtons.forEach(function(b){ b.classList.remove('primary'); });
+      btn.classList.add('primary');
+      drawChart();
+    });
+  });
+
+  drawChart();
+})();
+
+/* ==================== Lab 5: Quiz ¿12, 19 ó 31? ==================== */
+const L5_EDOS = [12, 19, 31];
+
+(function(){
+  const introBox = document.getElementById('l5Intro');
+  const gameBox = document.getElementById('l5Game');
+  const summaryBox = document.getElementById('l5Summary');
+  const roundLabel = document.getElementById('l5RoundLabel');
+  const scoreLabel = document.getElementById('l5Score');
+  const playSoundBtn = document.getElementById('l5PlaySound');
+  const answerBtns = {
+    12: document.getElementById('l5Answer12'),
+    19: document.getElementById('l5Answer19'),
+    31: document.getElementById('l5Answer31')
+  };
+  const feedbackBox = document.getElementById('l5Feedback');
+  const nextRow = document.getElementById('l5NextRow');
+  const nextBtn = document.getElementById('l5Next');
+  const finalScoreLabel = document.getElementById('l5FinalScore');
+  const adviceBox = document.getElementById('l5Advice');
+
+  const TOTAL_ROUNDS = 9;
+  let round = 1, score = 0, playsUsed = 0, answered = false, curN = null;
+
+  function startQuiz(){
+    round = 1; score = 0;
+    introBox.style.display = 'none';
+    summaryBox.style.display = 'none';
+    gameBox.style.display = 'block';
+    scoreLabel.textContent = '0';
+    startRound();
+  }
+
+  function startRound(){
+    curN = L5_EDOS[Math.floor(Math.random() * L5_EDOS.length)];
+    playsUsed = 0;
+    answered = false;
+    roundLabel.innerHTML = '<b>Ronda ' + round + ' de ' + TOTAL_ROUNDS + '</b>';
+    playSoundBtn.textContent = '🔁 Repetir sonido (quedan 3)';
+    playSoundBtn.disabled = false;
+    Object.keys(answerBtns).forEach(function(k){ answerBtns[k].disabled = false; });
+    feedbackBox.style.display = 'none';
+    feedbackBox.className = 'feedback';
+    nextRow.style.display = 'none';
+  }
+
+  function cadenceSteps(N){
+    const fifthSteps = bestApprox(N, 3 / 2).steps;
+    const fourthSteps = bestApprox(N, REF_FOURTH_RATIO).steps;
+    const thirdSteps = bestApprox(N, 5 / 4).steps;
+    function triad(rootSteps){ return [rootSteps, rootSteps + thirdSteps, rootSteps + fifthSteps]; }
+    return { chords: [ triad(0), triad(fourthSteps), triad(fifthSteps), triad(0) ], thirdSteps: thirdSteps };
+  }
+
+  function playCadence(N){
+    const data = cadenceSteps(N);
+    return playEdoChords(data.chords, N, DO4, 1.1, 0.2);
+  }
+
+  function playCurrent(){
+    if(playsUsed >= 3) return;
+    if(!ensureAudioReady()) return;
+    playsUsed++;
+    playCadence(curN);
+    const remaining = 3 - playsUsed;
+    if(remaining > 0){
+      playSoundBtn.textContent = '🔁 Repetir sonido (quedan ' + remaining + ')';
+    } else {
+      playSoundBtn.textContent = '🔁 Sin repeticiones restantes';
+      playSoundBtn.disabled = true;
+    }
+  }
+
+  function answer(choiceN){
+    if(answered) return;
+    answered = true;
+    playSoundBtn.disabled = true;
+    Object.keys(answerBtns).forEach(function(k){ answerBtns[k].disabled = true; });
+
+    const correct = (choiceN === curN);
+    if(correct) score++;
+    scoreLabel.textContent = String(score);
+
+    const data = cadenceSteps(curN);
+    const thirdFreq = edoFreq(data.thirdSteps, curN, DO4);
+    const thirdBeat = Math.abs(5 * DO4 - 4 * thirdFreq);
+
+    let hint;
+    if(curN === 31){
+      hint = 'En 31-EDO la tercera mayor casi no bate (~' + thirdBeat.toFixed(1) + ' Hz): por eso sonaba "quieta" y estable.';
+    } else if(curN === 12){
+      hint = 'En 12-EDO la tercera mayor bate bastante rápido (~' + thirdBeat.toFixed(1) + ' Hz de batido): por eso sonaba más "viva" o tensa.';
+    } else {
+      hint = 'En 19-EDO la tercera mayor bate a un ritmo intermedio (~' + thirdBeat.toFixed(1) + ' Hz): ni tan quieta como en 31-EDO ni tan rápida como en 12-EDO.';
+    }
+
+    feedbackBox.style.display = 'block';
+    feedbackBox.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+    feedbackBox.innerHTML = (correct ? '✓ Correcto. ' : '✗ Incorrecto. Era ' + curN + '-EDO. ') + hint;
+    nextRow.style.display = 'block';
+  }
+
+  function nextRound(){
+    round++;
+    if(round > TOTAL_ROUNDS) showSummary(); else startRound();
+  }
+
+  function showSummary(){
+    gameBox.style.display = 'none';
+    summaryBox.style.display = 'block';
+    finalScoreLabel.textContent = score + ' / ' + TOTAL_ROUNDS;
+    let advice;
+    if(score < 5) advice = 'Vuelve a escuchar el Lab 2 comparando 12, 19 y 31 en la tercera mayor: el batido de la tercera es la pista clave.';
+    else if(score < 8) advice = 'Buen oído: ya distingues la mayoría de los casos.';
+    else advice = 'Excelente: distingues con precisión cómo cada EDO trata la tercera mayor.';
+    adviceBox.textContent = advice;
+  }
+
+  document.getElementById('l5Start').addEventListener('click', startQuiz);
+  playSoundBtn.addEventListener('click', playCurrent);
+  answerBtns[12].addEventListener('click', function(){ answer(12); });
+  answerBtns[19].addEventListener('click', function(){ answer(19); });
+  answerBtns[31].addEventListener('click', function(){ answer(31); });
+  nextBtn.addEventListener('click', nextRound);
+  document.getElementById('l5Restart').addEventListener('click', startQuiz);
+})();
+
+</script>
+</body>
+</html>

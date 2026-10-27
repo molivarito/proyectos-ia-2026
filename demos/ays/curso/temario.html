@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temario del curso — AyS Señales Musicales</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="temario.html" class="active">Temario</a>
+      <a href="ejemplos.html">Ejemplos</a>
+      <a href="inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs">Curso · Temario detallado</div>
+    <h1>Las 12 sesiones del semestre</h1>
+    <p class="lead">
+      Tres módulos de cuatro a cinco semanas cada uno. Cada sesión combina mini-clase entre estudiantes,
+      desafío relámpago en Jupyter, autopsia auditiva colectiva, laboratorio abierto y contrato semanal.
+      Cada Fun Task tiene un reto creativo más allá de la base técnica.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <table class="temario">
+    <thead>
+      <tr>
+        <th class="num-col">#</th>
+        <th>Sesión</th>
+        <th>Concepto clave</th>
+        <th>Fun Task</th>
+        <th>Aplicación real</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td class="num-col">01</td>
+        <td><strong>Glitch Art / Muestreo</strong><br><small style="color:var(--texto-suave)">ATOMS</small></td>
+        <td>La estructura física del archivo WAV. Muestreo, Nyquist, profundidad de bits.</td>
+        <td><strong>The Glitch Art</strong> — manipular los bytes del payload de un WAV para crear arte digital.</td>
+        <td>Por qué un MP3 a 64 kbps "suena mal" y a 320 kbps no se distingue de un WAV.</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">02</td>
+        <td><strong>Convolución LTI</strong><br><small style="color:var(--texto-suave)">ATOMS</small></td>
+        <td>Respuesta al impulso, convolución, sistemas LTI.</td>
+        <td><strong>Espacios Imposibles</strong> — colocar una pista en una sala que no existe usando IRs.</td>
+        <td>Reverberación por convolución (cualquier plugin de reverb decente).</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">03</td>
+        <td><strong>Filtros FIR/IIR</strong><br><small style="color:var(--texto-suave)">ATOMS</small></td>
+        <td>Filtros digitales, polos y ceros, fase lineal vs no lineal.</td>
+        <td><strong>Auto-Wah Funk</strong> — seguidor de envolvente + filtro pasa-bajo resonante variable.</td>
+        <td>El sonido wah-wah automático del funk y el reggae (T-Rex, Sade, Red Hot Chili Peppers).</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">04</td>
+        <td><strong>Buffers / Delays / Comb</strong><br><small style="color:var(--texto-suave)">ATOMS</small></td>
+        <td>Línea de retardo, buffer circular, filtros peineta, saturación con tanh.</td>
+        <td><strong>Dub Echo Machine</strong> — eco con feedback saturado por tanh.</td>
+        <td>El sonido de los Mad Professor, Lee Scratch Perry, dub jamaicano clásico.</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">05</td>
+        <td><strong>STFT y espectrograma</strong><br><small style="color:var(--texto-suave)">SPECTRA</small></td>
+        <td>Transformada de Fourier de tiempo corto, ventanas, COLA, compromiso de incertidumbre.</td>
+        <td><strong>Robot Voice</strong> — robotización ($\phi = 0$) y whisperización (fase aleatoria).</td>
+        <td>La voz robot de "Mr. Blue Sky" (ELO), Daft Punk, autotune extremo (T-Pain).</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">06</td>
+        <td><strong>Phase Vocoder</strong><br><small style="color:var(--texto-suave)">SPECTRA</small></td>
+        <td>Manipulación de magnitud y fase, time-stretching, pitch-shifting, phase-locking.</td>
+        <td><strong>Slow-Motion Speech</strong> — voz a 4× sin cambio de pitch.</td>
+        <td>El "time-stretch" de cualquier DAW (Ableton, Pro Tools), Auto-Tune de Cher.</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">07</td>
+        <td><strong>Modelo sinusoidal SMS</strong><br><small style="color:var(--texto-suave)">SPECTRA</small></td>
+        <td>De bins a parciales, peak detection con interpolación parabólica, tracking MQ, SMS.</td>
+        <td><strong>The Morph</strong> — interpolación fluida entre dos timbres distintos.</td>
+        <td>El morphing de la voz humana a la voz de Aliens en Hollywood (Vocaloid, similar).</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">08</td>
+        <td><strong>Síntesis sustractiva</strong><br><small style="color:var(--texto-suave)">CREATION</small></td>
+        <td>VCO + VCF + VCA + ADSR. Anti-aliasing con polyBLEP.</td>
+        <td><strong>Chiptune Hero</strong> — tres SFX clásicos de videojuegos (coin/jump/explosion).</td>
+        <td>El sonido del Moog, ARP, MS-20, y los videojuegos NES/Game Boy.</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">09</td>
+        <td><strong>Síntesis FM (Chowning, DX7)</strong><br><small style="color:var(--texto-suave)">CREATION</small></td>
+        <td>Ratio C:M, índice $I$, funciones de Bessel, presets DX7, $I$ dinámico.</td>
+        <td><strong>DX7 Clone</strong> — recrear por oído un sonido FM emblemático de los 80.</td>
+        <td>El e-piano de "Take My Breath Away" (Berlin), Tubular Bells, "Africa" de Toto.</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">10</td>
+        <td><strong>Karplus–Strong</strong><br><small style="color:var(--texto-suave)">CREATION</small></td>
+        <td>Modelado físico, buffer circular en lazo cerrado, bug del +½, factor $\rho$.</td>
+        <td><strong>Cuerda Mágica</strong> — recrear con KS un riff famoso (Stairway, Wonderwall, Blackbird).</td>
+        <td>Cualquier guitarra virtual (Native Instruments, Logic Pro). Yamaha VL1 (1994).</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">11</td>
+        <td><strong>MIR + Fingerprinting</strong><br><small style="color:var(--texto-suave)">CREATION</small></td>
+        <td>Features espectrales (ZCR, centroide, MFCC), constelación de Wang, hash table, histograma de offsets.</td>
+        <td><strong>Mini-Shazam</strong> — construir y romper un sistema de fingerprinting propio.</td>
+        <td>Shazam, AcoustID, YouTube Content ID, Spotify Discover Weekly.</td>
+      </tr>
+
+      <tr>
+        <td class="num-col">12</td>
+        <td><strong>IA generativa + Forense</strong><br><small style="color:var(--texto-suave)">CREATION · última clase</small></td>
+        <td>Modelos de difusión (DDPM), MusicGen / AudioLDM / Stable Audio, forense espectral con 4 métricas.</td>
+        <td><strong>Diffusion Dreams + Engaña al detector</strong> — adversarial training de juguete.</td>
+        <td>El estado del arte de la generación de música por IA en 2026 y los dilemas legales (caso Suno/Universal).</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="section">
+    <h2>Estructura de cada sesión (3 horas)</h2>
+    <p>
+      Las 12 sesiones siguen la misma coreografía pedagógica, optimizada por iteración:
+    </p>
+    <ol>
+      <li><strong>Ritual de oído</strong> (10 min): dos clips de audio en silencio. Anotar hipótesis antes de explicar.</li>
+      <li><strong>Mini-docente</strong> (25 min): un estudiante enseña el concepto del día con seis slides.</li>
+      <li><strong>Desafío relámpago</strong> (30 min): predicción en papel → implementación en Jupyter → análisis → discusión.</li>
+      <li><strong>Autopsia colectiva</strong> (30 min): cada estudiante presenta su Fun Task. Comparación con "versión deliberadamente rota".</li>
+      <li><strong>Laboratorio abierto</strong> (25 min): pregunta de exploración sin respuesta única, en grupos pequeños.</li>
+      <li><strong>Contrato de la próxima semana</strong> (10 min): anuncio del Fun Task, mini-docente y promesa concreta.</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>Evaluación</h2>
+    <ul>
+      <li><strong>Fun Tasks semanales (Showcase):</strong> presentación de cinco minutos. Rúbrica: Cool Factor + Correctitud + Explicación.</li>
+      <li><strong>Talleres grupales (mini-docente):</strong> presentar el tema del día al grupo.</li>
+      <li><strong>Proyecto Final integrador:</strong> aplicación de los tres módulos a un problema real, propuesto por el estudiante.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Prerrequisitos</h2>
+    <p class="warning">
+      <strong>Necesitas:</strong> Señales y Sistemas (o equivalente) — convolución, transformada de Fourier discreta,
+      filtros FIR/IIR como concepto, álgebra lineal, complejos. Python a nivel intermedio.
+    </p>
+    <p>
+      <strong>NO necesitas:</strong> base musical formal, experiencia previa en producción de audio, conocimiento de DAWs.
+    </p>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te convenció el temario?</h2>
+  <p>Anota la información de inscripción y prepara tu próximo semestre.</p>
+  <a href="inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Probar demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

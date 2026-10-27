@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M1 · Apunte — El material sonoro: de la cuerda al cent</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../02-comas/apunte.html">El problema imposible: la aritmética de las comas ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m1.-el-material-sonoro-de-la-cuerda-al-cent">M1. El material
+sonoro: de la cuerda al cent</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Dos flautistas afinan un unísono, se convencen de que ya está listo,
+y deciden ensayar una quinta: uno sostiene un Do, el otro un Sol. Al
+principio el intervalo “ondula” — hay algo en el aire que sube y baja de
+intensidad, como un tremolo lento e involuntario. El segundo flautista
+mueve la embocadura un milímetro, apenas gira el instrumento, y de
+pronto la ondulación desaparece: el sonido se vuelve liso, “quieto”,
+casi un solo timbre en vez de dos notas. No cambió la altura de ninguna
+nota de manera perceptible — ambos seguirían diciendo “esto es un Do” y
+“esto es un Sol” — y sin embargo algo físico, medible, cambió por
+completo.</p>
+<p>Este apunte responde dos preguntas que están escondidas en esa
+escena. Primero: ¿por qué una quinta “suena bien” — por qué el oído
+prefiere ciertas relaciones entre dos frecuencias y rechaza otras?
+Segundo, y más urgente para lo que viene en el curso: ¿cómo medimos
+<em>cuán bien</em> suena, con un número, de manera que podamos comparar
+una quinta con otra, o decir con precisión cuánto se desvió el segundo
+flautista antes de corregir?</p>
+<p>Vamos a necesitar tres herramientas que no tenemos todavía: una
+manera de pensar la altura que no sea “esta nota es más aguda que esa”
+sino un número (la frecuencia); una manera de explicar por qué
+justamente 3/2 y no cualquier otra razón produce ese efecto de “quietud”
+(la serie armónica y los batidos); y una manera de medir la distancia
+entre dos afinaciones que se pueda sumar y restar con comodidad (el
+cent). Con esas tres herramientas en la mano vamos a poder, en el
+próximo módulo, plantear el problema central de todo el curso: que no
+existe una afinación que deje puras todas las quintas y todas las
+terceras al mismo tiempo. Pero eso es el Módulo 2. Hoy construimos el
+lenguaje.</p>
+<h2 id="frecuencia-altura-y-la-octava">2. Frecuencia, altura y la
+octava</h2>
+<p>La <strong>frecuencia</strong> de un sonido periódico es el número de
+ciclos completos de vibración por segundo, medido en hercios (Hz). Un La
+central de orquesta vibra a 440 Hz: la cuerda, la columna de aire o la
+membrana que lo produce completa 440 vaivenes completos cada segundo. La
+<strong>altura</strong> es la sensación perceptiva que asociamos a la
+frecuencia — “agudo” o “grave” — y en un rango razonable (digamos, entre
+20 Hz y 5000 Hz) hay una correspondencia clara: a mayor frecuencia,
+mayor altura percibida.</p>
+<p>El intervalo más elemental de la música, la <strong>octava</strong>,
+corresponde a una relación matemática muy simple: duplicar la
+frecuencia.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">octava arriba</mtext></msub><mo>=</mo><mn>2</mn><mo>⋅</mo><mi>f</mi></mrow><annotation encoding="application/x-tex">f_{\text{octava arriba}} = 2 \cdot f</annotation></semantics></math></p>
+<p>Tomemos el La de 55 Hz (el La más grave del piano, dos octavas bajo
+el La central) y dupliquemos sucesivamente:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>55</mn><mo>→</mo><mn>110</mn><mo>→</mo><mn>220</mn><mo>→</mo><mn>440</mn><mo>→</mo><mn>880</mn><mo>→</mo><mn>1760</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">55 \to 110 \to 220 \to 440 \to 880 \to 1760 \text{ Hz}</annotation></semantics></math></p>
+<p>Cada flecha es una octava. Fíjate en algo importante: la primera
+octava (55 a 110 Hz) es un salto de 55 Hz. La siguiente (110 a 220) es
+un salto de 110 Hz. La última que escribimos (880 a 1760) es un salto de
+880 Hz. ¡Dieciséis veces más grande en hercios que el primer salto! Y
+sin embargo, las cinco son “una octava”: el mismo intervalo musical, la
+misma sensación de “subir una octava”, el mismo nombre de nota (todos
+son “La”).</p>
+<p>Esto no es un capricho del oído: es la pista de que la percepción de
+la altura no funciona por <strong>diferencias</strong> de frecuencia
+sino por <strong>razones</strong> de frecuencia. Lo que hace que un
+salto sea “una octava” no es sumar una cierta cantidad fija de hercios,
+sino multiplicar por un cierto factor fijo — en este caso, por 2. Dicho
+de otro modo, la altura se percibe de forma
+<strong>logarítmica</strong>: nuestro sistema auditivo (y, dato curioso,
+buena parte de nuestra percepción sensorial en general, desde el brillo
+hasta el volumen) responde a proporciones, no a cantidades
+absolutas.</p>
+<blockquote>
+<p><strong>¿Por qué importa esto?</strong> Porque significa que “medio
+camino entre Do y Do una octava arriba” NO es el promedio aritmético de
+las frecuencias. El promedio aritmético entre 130.81 Hz (Do3) y 261.63
+Hz (Do4) es 196.22 Hz — que resulta ser, casi exactamente, un Sol (la
+quinta), no el punto medio perceptivo de la octava. El verdadero
+“centro” perceptivo de una octava es la <strong>media
+geométrica</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mrow><mn>130.81</mn><mo>×</mo><mn>261.63</mn></mrow></msqrt><mo>≈</mo><mn>185.00</mn></mrow><annotation encoding="application/x-tex">\sqrt{130.81 \times 261.63} \approx 185.00</annotation></semantics></math>
+Hz, que es un Fa# — el famoso <em>tritono</em>, el intervalo que
+efectivamente divide la octava en dos mitades auditivamente iguales (dos
+veces 600 cents, como veremos en la sección 6). Volveremos sobre esto
+varias veces en el curso: cada vez que “dividamos” un intervalo en
+partes iguales, vamos a tener que usar raíces, no divisiones.</p>
+</blockquote>
+<p>De esta observación —que la altura se percibe multiplicativamente— se
+sigue la consecuencia más importante de todo este módulo, la que va a
+organizar el resto del curso:</p>
+<blockquote>
+<p><strong>Los intervalos musicales se componen (se “suman”)
+MULTIPLICANDO sus razones de frecuencia, no sumándolas.</strong></p>
+</blockquote>
+<p>Verifiquémoslo con un ejemplo muy conocido: una quinta más una cuarta
+da una octava. En términos de razones de frecuencia, la quinta es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+y la cuarta es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>
+(de dónde salen estos números lo vemos en la próxima sección). Si la
+regla es “multiplicar”, entonces:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>×</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mo>=</mo><mfrac><mrow><mn>3</mn><mo>×</mo><mn>4</mn></mrow><mrow><mn>2</mn><mo>×</mo><mn>3</mn></mrow></mfrac><mo>=</mo><mfrac><mn>12</mn><mn>6</mn></mfrac><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\frac{3}{2} \times \frac{4}{3} = \frac{3 \times 4}{2 \times 3} = \frac{12}{6} = 2</annotation></semantics></math></p>
+<p>Y en efecto,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math>
+es exactamente la razón de la octava. El 3 del numerador de la quinta se
+cancela con el 3 del denominador de la cuarta, dejando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">4/2 = 2</annotation></semantics></math>.
+La aritmética funciona, y funciona porque así es como se combinan las
+razones: apilar dos intervalos uno sobre el otro es multiplicar sus
+fracciones.</p>
+<p>Comparemos con lo que pasaría si (equivocadamente) sumáramos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn><mo>+</mo><mn>4</mn><mi>/</mi><mn>3</mn><mo>=</mo><mn>9</mn><mi>/</mi><mn>6</mn><mo>+</mo><mn>8</mn><mi>/</mi><mn>6</mn><mo>=</mo><mn>17</mn><mi>/</mi><mn>6</mn><mo>≈</mo><mn>2.83</mn></mrow><annotation encoding="application/x-tex">3/2 + 4/3 = 9/6 + 8/6 = 17/6 \approx 2.83</annotation></semantics></math>,
+que no es 2 ni ningún intervalo reconocible. Sumar razones de frecuencia
+no tiene sentido musical. Multiplicarlas, sí. Este único hecho —que
+apilar intervalos es multiplicar razones— es la razón profunda por la
+que este curso necesita, más adelante, logaritmos: porque vamos a querer
+una regla donde apilar intervalos se pueda <strong>sumar</strong>, y
+para eso hay que pasar de razones a otra escala. Eso es exactamente lo
+que hace el cent (sección 6).</p>
+<h2 id="la-serie-armónica">3. La serie armónica</h2>
+<h3 id="de-dónde-sale-la-física-en-dos-pasos">3.1 De dónde sale: la
+física en dos pasos</h3>
+<p>Pensemos en una cuerda de largo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>,
+sujeta y fija en sus dos extremos (una cuerda de guitarra, de violín, de
+piano). Cuando la hacemos vibrar, no puede vibrar de cualquier manera:
+los dos extremos están fijos, así que solo son posibles ciertas formas
+de onda, llamadas <em>modos</em>.</p>
+<ul>
+<li><strong>Modo 1 (fundamental):</strong> la cuerda completa sube y
+baja como un solo arco, sin puntos intermedios fijos. Ese arco es media
+onda, así que la longitud de onda es el doble del largo de la cuerda:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mn>1</mn></msub><mo>=</mo><mn>2</mn><mi>L</mi></mrow><annotation encoding="application/x-tex">\lambda_1 = 2L</annotation></semantics></math>.</li>
+<li><strong>Modo 2:</strong> la cuerda vibra en dos mitades, cada una
+moviéndose en dirección opuesta a la otra, con un punto fijo justo al
+medio. Ahí cabe exactamente una onda completa en el largo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mn>2</mn></msub><mo>=</mo><mi>L</mi><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mn>2</mn><mi>L</mi></mrow><mn>2</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\lambda_2 = L = \dfrac{2L}{2}</annotation></semantics></math>.</li>
+<li><strong>Modo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+(general):</strong> la cuerda vibra en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+segmentos iguales, con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math>
+puntos fijos intermedios. La longitud de onda es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>n</mi></msub><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mn>2</mn><mi>L</mi></mrow><mi>n</mi></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\lambda_n = \dfrac{2L}{n}</annotation></semantics></math>.</li>
+</ul>
+<p>La frecuencia de una onda se relaciona con su longitud de onda y la
+velocidad de propagación
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>
+(que depende de la tensión y densidad de la cuerda, pero es la misma
+para todos los modos) mediante
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mi>v</mi><mi>/</mi><mi>λ</mi></mrow><annotation encoding="application/x-tex">f = v/\lambda</annotation></semantics></math>.
+Aplicando esto a cada modo:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mfrac><mi>v</mi><msub><mi>λ</mi><mi>n</mi></msub></mfrac><mo>=</mo><mfrac><mi>v</mi><mrow><mn>2</mn><mi>L</mi><mi>/</mi><mi>n</mi></mrow></mfrac><mo>=</mo><mi>n</mi><mo>⋅</mo><mfrac><mi>v</mi><mrow><mn>2</mn><mi>L</mi></mrow></mfrac><mo>=</mo><mi>n</mi><mo>⋅</mo><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = \frac{v}{\lambda_n} = \frac{v}{2L/n} = n \cdot \frac{v}{2L} = n \cdot f_1</annotation></semantics></math></p>
+<p>Es decir, todas las frecuencias posibles de la cuerda son múltiplos
+enteros exactos de la frecuencia fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>1</mn></msub><annotation encoding="application/x-tex">f_1</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><mo>⋅</mo><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mspace width="2.0em"></mspace><mi>n</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">f_n = n \cdot f_1, \qquad n = 1, 2, 3, 4, \dots</annotation></semantics></math></p>
+<p>Lo notable —y lo que hace que los instrumentos suenen como suenan— es
+que una cuerda pulsada, frotada o percutida no vibra en <em>un solo</em>
+modo: vibra en <strong>todos simultáneamente</strong>, cada uno con
+distinta amplitud. Lo mismo ocurre, con la física apropiada, en una
+columna de aire (un tubo, como el de una flauta o un clarinete). El
+resultado es que un único sonido musical —una sola nota de violín, de
+voz, de oboe— es en realidad una superposición de infinitos tonos puros
+simultáneos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>2</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>3</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>4</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">f_1, 2f_1, 3f_1, 4f_1, \dots</annotation></semantics></math>,
+llamados <strong>armónicos</strong>. El primero
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>1</mn></msub><annotation encoding="application/x-tex">f_1</annotation></semantics></math>)
+es la fundamental y determina la altura que percibimos; los demás
+determinan el timbre.</p>
+<h3 id="los-primeros-16-armónicos-de-do2">3.2 Los primeros 16 armónicos
+de Do2</h3>
+<p>Tomemos como fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>=</mo><mn>65.41</mn></mrow><annotation encoding="application/x-tex">f_1 = 65.41</annotation></semantics></math>
+Hz, el Do2 (una octava bajo el Do central del piano). Calculemos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><mo>×</mo><mn>65.41</mn></mrow><annotation encoding="application/x-tex">f_n = n \times 65.41</annotation></semantics></math>
+para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">n = 1, \dots, 16</annotation></semantics></math>,
+identifiquemos la nota más cercana del teclado, y calculemos cuánto se
+desvía cada armónico de esa nota, en cents (la unidad de la sección 6;
+por ahora toma los valores como dados, o vuelve a esta tabla después de
+leer esa sección).</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>n</mi></msub><annotation encoding="application/x-tex">f_n</annotation></semantics></math>
+(Hz)</th>
+<th>Nota aproximada</th>
+<th>Desviación respecto del teclado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>65.41</td>
+<td>Do2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>130.82</td>
+<td>Do3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>196.23</td>
+<td>Sol3</td>
+<td>+2 c</td>
+</tr>
+<tr>
+<td>4</td>
+<td>261.64</td>
+<td>Do4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>327.05</td>
+<td>Mi4</td>
+<td>−14 c</td>
+</tr>
+<tr>
+<td>6</td>
+<td>392.46</td>
+<td>Sol4</td>
+<td>+2 c</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>457.87</strong></td>
+<td><strong>Sib4</strong></td>
+<td><strong>−31 c</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>523.28</td>
+<td>Do5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>588.69</td>
+<td>Re5</td>
+<td>+4 c</td>
+</tr>
+<tr>
+<td>10</td>
+<td>654.10</td>
+<td>Mi5</td>
+<td>−14 c</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>719.51</strong></td>
+<td><strong>Fa#5</strong></td>
+<td><strong>−49 c</strong></td>
+</tr>
+<tr>
+<td>12</td>
+<td>784.92</td>
+<td>Sol5</td>
+<td>+2 c</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>850.33</strong></td>
+<td><strong>Lab5</strong></td>
+<td><strong>+41 c</strong></td>
+</tr>
+<tr>
+<td>14</td>
+<td>915.74</td>
+<td>Sib5</td>
+<td>−31 c</td>
+</tr>
+<tr>
+<td>15</td>
+<td>981.15</td>
+<td>Si5</td>
+<td>−12 c</td>
+</tr>
+<tr>
+<td>16</td>
+<td>1046.56</td>
+<td>Do6</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tres cosas para notar. Primero, los armónicos que son potencias de 2
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>8</mn><mo>,</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">n=1,2,4,8,16</annotation></semantics></math>)
+caen exactamente en Do, sin desviación: son puras octavas de la
+fundamental, algo que ya sabíamos de la sección 2. Segundo, los
+armónicos 3, 6 y 12 (todos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">3 \times 2^k</annotation></semantics></math>)
+caen cerca de Sol con una desviación pequeña y constante de +2 cents —
+es la quinta justa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+que como vamos a ver en la sección 6 mide 701.955 cents, apenas 2 cents
+más ancha que la quinta del piano moderno.</p>
+<p>Tercero —y esto es la idea pedagógica central de esta sección—: los
+armónicos <strong>7, 11 y 13</strong> no caen cerca de ninguna tecla del
+piano con buena precisión. El séptimo armónico está 31 cents por debajo
+de un Sib; el undécimo está prácticamente a mitad de camino entre Fa5 y
+Fa#5 (49 cents bajo el Fa#, apodado a veces “el fa de las trompas de los
+Alpes” porque los instrumentos naturales, sin válvulas, lo dejan sonar
+tal cual); el decimotercero está 41 cents por encima del Lab. Estos
+armónicos existen físicamente —cualquier cuerda o columna de aire real
+los produce, en mayor o menor amplitud— pero <strong>el teclado moderno
+no tiene tecla para ellos</strong>. Es la primera señal, muy temprano en
+el curso, de que “las doce notas del piano” es una simplificación
+conveniente, no un catálogo completo de lo que la física del sonido
+ofrece.</p>
+<h3 id="el-acorde-que-la-naturaleza-regala">3.3 El acorde que la
+naturaleza regala</h3>
+<p>Mira de nuevo los primeros seis armónicos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>2</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>3</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>4</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>5</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>6</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_1, 2f_1, 3f_1, 4f_1, 5f_1, 6f_1</annotation></semantics></math>.
+Comparando pares consecutivos obtenemos exactamente los intervalos
+consonantes clásicos de la armonía tradicional:</p>
+<ul>
+<li>Armónico 2 sobre el 1: razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math>
+→ <strong>octava</strong>.</li>
+<li>Armónico 3 sobre el 2: razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+→ <strong>quinta</strong>.</li>
+<li>Armónico 4 sobre el 3: razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>
+→ <strong>cuarta</strong>.</li>
+<li>Armónico 5 sobre el 4: razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+→ <strong>tercera mayor</strong>.</li>
+<li>Armónico 6 sobre el 5: razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>
+→ <strong>tercera menor</strong>.</li>
+</ul>
+<p>Y el acorde formado por los armónicos 4, 5 y 6 juntos —es decir, las
+frecuencias
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><msub><mi>f</mi><mn>1</mn></msub><mo>:</mo><mn>5</mn><msub><mi>f</mi><mn>1</mn></msub><mo>:</mo><mn>6</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">4f_1 : 5f_1 : 6f_1</annotation></semantics></math>—
+es, nota por nota, un <strong>acorde mayor</strong> en su forma más pura
+posible. No es casualidad que la tríada mayor sea la piedra angular de
+la armonía tonal: está literalmente presente, sonando en simultáneo y en
+proporción exacta, dentro de cualquier nota sostenida por casi cualquier
+instrumento armónico. Este hecho es tan importante que en la sección de
+laboratorio de este módulo vas a poder aislarlo con tus propios
+oídos.</p>
+<h2 id="intervalos-como-razones">4. Intervalos como razones</h2>
+<p>Formalicemos lo que hemos venido usando: un <strong>intervalo
+justo</strong> (o “puro”) es, para efectos de este curso, cualquier
+intervalo cuya razón de frecuencias se puede escribir como el cociente
+de dos números enteros razonablemente pequeños. La siguiente tabla reúne
+los que más vamos a usar, varios de los cuales ya aparecieron como
+razones entre armónicos vecinos:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Intervalo</th>
+<th>Razón</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unísono</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">1/1</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Semitono diatónico</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>15</mn></mrow><annotation encoding="application/x-tex">16/15</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Tono mayor</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Tercera menor pura</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Tercera mayor pura</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Cuarta justa</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Quinta justa</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Sexta menor pura</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">8/5</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Sexta mayor pura</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Octava</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table></div>
+<p>Con esta tabla podemos formalizar las tres operaciones que vamos a
+usar todo el curso.</p>
+<p><strong>Componer (apilar) dos intervalos = multiplicar sus
+razones.</strong> Ya lo vimos con quinta + cuarta = octava. Probemos con
+tercera mayor + tercera menor, que según la armonía tradicional debería
+dar una quinta:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>5</mn><mn>4</mn></mfrac><mo>×</mo><mfrac><mn>6</mn><mn>5</mn></mfrac><mo>=</mo><mfrac><mrow><mn>5</mn><mo>×</mo><mn>6</mn></mrow><mrow><mn>4</mn><mo>×</mo><mn>5</mn></mrow></mfrac><mo>=</mo><mfrac><mn>30</mn><mn>20</mn></mfrac><mo>=</mo><mfrac><mn>3</mn><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{5}{4} \times \frac{6}{5} = \frac{5 \times 6}{4 \times 5} = \frac{30}{20} = \frac{3}{2}</annotation></semantics></math></p>
+<p>El 5 del numerador de la primera fracción se cancela con el 5 del
+denominador de la segunda, y queda
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">6/4 = 3/2</annotation></semantics></math>:
+exactamente la quinta. La aritmética confirma lo que la armonía
+tradicional enseña de oído: una tríada mayor (Do–Mi–Sol) es una tercera
+mayor con una tercera menor encima, y juntas llenan una quinta.</p>
+<p><strong>Invertir un intervalo = restarlo de la octava, lo que en
+razones significa dividir
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math>
+por la razón original</strong> (o, equivalentemente, multiplicar por su
+recíproco). Invirtamos la quinta para comprobar que da la cuarta:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>2</mn><mn>1</mn></mfrac><mo>÷</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>=</mo><mfrac><mn>2</mn><mn>1</mn></mfrac><mo>×</mo><mfrac><mn>2</mn><mn>3</mn></mfrac><mo>=</mo><mfrac><mn>4</mn><mn>3</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{2}{1} \div \frac{3}{2} = \frac{2}{1} \times \frac{2}{3} = \frac{4}{3}</annotation></semantics></math></p>
+<p>En efecto,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>
+es la cuarta. Esto es consistente con la regla tradicional “los
+intervalos se invierten a 9” (una quinta invertida es una cuarta,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">5+4=9</annotation></semantics></math>):
+aritméticamente, invertir es dividir la octava por la razón, y eso
+siempre te deja la razón “complementaria”.</p>
+<p><strong>“Restar” un intervalo de otro = dividir sus razones.</strong>
+Si queremos saber qué queda al quitarle una tercera mayor a una quinta
+(Do–Sol menos Do–Mi, lo que debería darnos Mi–Sol, una tercera
+menor):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow></mfrac><mo>=</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>×</mo><mfrac><mn>4</mn><mn>5</mn></mfrac><mo>=</mo><mfrac><mn>12</mn><mn>10</mn></mfrac><mo>=</mo><mfrac><mn>6</mn><mn>5</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{3/2}{5/4} = \frac{3}{2} \times \frac{4}{5} = \frac{12}{10} = \frac{6}{5}</annotation></semantics></math></p>
+<p>Que es, correctamente, la tercera menor. Estas tres operaciones
+—multiplicar para apilar, invertir dividiendo la octava, dividir para
+restar— son toda el álgebra que vamos a necesitar en este curso. No hay
+nada más complicado escondido: todo el resto es aplicar estas tres
+reglas con paciencia.</p>
+<h3 id="un-primer-tropiezo-dos-tonos-no-son-una-tercera-mayor">4.1 Un
+primer tropiezo: dos tonos no son una tercera mayor</h3>
+<p>Aquí viene un cálculo que parece trivial pero que va a resultar ser
+la semilla de todo el Módulo 2. En la escala mayor, subir “dos tonos”
+(Do a Re, Re a Mi) debería llegar a la tercera mayor Do–Mi. Comprobemos
+si
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>
+compuesto consigo mismo da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>9</mn><mn>8</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>=</mo><mfrac><mn>9</mn><mn>8</mn></mfrac><mo>×</mo><mfrac><mn>9</mn><mn>8</mn></mfrac><mo>=</mo><mfrac><mn>81</mn><mn>64</mn></mfrac></mrow><annotation encoding="application/x-tex">\left(\frac{9}{8}\right)^2 = \frac{9}{8} \times \frac{9}{8} = \frac{81}{64}</annotation></semantics></math></p>
+<p>Y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+para compararlo con la misma base 64, es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>80</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">5/4 = 80/64</annotation></semantics></math>.
+Tenemos entonces dos candidatos a “tercera mayor”:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>81</mn><mn>64</mn></mfrac><mspace width="1.0em"></mspace><mtext mathvariant="normal">(dos tonos apilados)</mtext><mspace width="2.0em"></mspace><mtext mathvariant="normal">versus</mtext><mspace width="2.0em"></mspace><mfrac><mn>80</mn><mn>64</mn></mfrac><mo>=</mo><mfrac><mn>5</mn><mn>4</mn></mfrac><mspace width="1.0em"></mspace><mtext mathvariant="normal">(tercera mayor pura, del quinto armónico)</mtext></mrow><annotation encoding="application/x-tex">\frac{81}{64} \quad \text{(dos tonos apilados)} \qquad \text{versus} \qquad \frac{80}{64} = \frac{5}{4} \quad \text{(tercera mayor pura, del quinto armónico)}</annotation></semantics></math></p>
+<p>Son <em>distintos</em>. No por mucho —la razón entre ambos es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><mrow><mn>80</mn><mi>/</mi><mn>64</mn></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>81</mn><mn>80</mn></mfrac></mstyle><mo>=</mo><mn>1.0125</mn></mrow><annotation encoding="application/x-tex">\dfrac{81/64}{80/64} = \dfrac{81}{80} = 1.0125</annotation></semantics></math>—
+pero son distintos, y ninguna cantidad de buena voluntad los hace
+iguales:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mo>≠</mo><mn>80</mn></mrow><annotation encoding="application/x-tex">81 \neq 80</annotation></semantics></math>.
+Esta pequeña discrepancia, la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow><annotation encoding="application/x-tex">81/80</annotation></semantics></math>,
+tiene nombre propio (<strong>coma sintónica</strong>) y es una de las
+dos grietas fundamentales sobre las que está construido todo el edificio
+de los sistemas de afinación históricos. No la vamos a resolver todavía
+—eso es exactamente el tema del Módulo 2—, pero quería que la vieras
+aparecer de forma completamente natural, como un residuo aritmético casi
+accidental, antes de que le pongamos nombre y la tratemos con la
+seriedad que merece.</p>
+<h2
+id="por-qué-la-consonancia-se-siente-batidos-y-armónicos-coincidentes">5.
+Por qué la consonancia “se siente”: batidos y armónicos
+coincidentes</h2>
+<p>Volvamos a la anécdota de apertura. ¿Qué es, físicamente, esa
+“ondulación” que sentían los dos flautistas, y por qué desaparece cuando
+el intervalo se afina bien?</p>
+<h3 id="batidos-entre-dos-tonos-puros">5.1 Batidos entre dos tonos
+puros</h3>
+<p>Cuando dos tonos puros (sin armónicos, como los que produce un
+diapasón o un generador de señales) suenan juntos con frecuencias muy
+cercanas, no se escuchan como dos notas separadas sino como <strong>una
+sola nota cuyo volumen sube y baja periódicamente</strong>. Ese vaivén
+de volumen se llama <strong>batido</strong>, y su frecuencia es,
+sencillamente, la diferencia entre las dos frecuencias:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">batido</mtext></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>f</mi><mn>2</mn></msub><mo>−</mo><msub><mi>f</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">f_{\text{batido}} = |f_2 - f_1|</annotation></semantics></math></p>
+<p>Por ejemplo, si un afinador toca 440 Hz y otro 442 Hz, escuchamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>442</mn><mo>−</mo><mn>440</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">|442 - 440| = 2</annotation></semantics></math>
+Hz de batido: el volumen sube y baja dos veces por segundo, un pulso
+lento y perceptible. Si la diferencia fuera de 0.5 Hz, el pulso sería
+tan lento que tendrías que esperar dos segundos por cada ciclo. Si fuera
+de 15 o 20 Hz, los pulsos serían tan rápidos que el oído deja de
+escucharlos como “pulsos” separados y empieza a percibirlos como una
+rugosidad, una aspereza en el sonido — el fenómeno que los
+psicoacústicos llaman <em>roughness</em> (rugosidad).</p>
+<h3 id="pero-los-instrumentos-reales-no-son-tonos-puros">5.2 Pero los
+instrumentos reales no son tonos puros</h3>
+<p>Aquí está la clave para entender la consonancia. Un instrumento real
+no emite un tono puro: emite toda su serie armónica a la vez (sección
+3). Entonces, cuando dos instrumentos tocan un intervalo, no hay solo
+dos frecuencias en el aire compitiendo por batir — hay <em>dos series
+completas de armónicos</em>, y hay que preguntarse qué pasa cuando se
+superponen.</p>
+<p>Tomemos el ejemplo más ilustrativo: una quinta justa entre La2 (110
+Hz) y Mi3 (165 Hz). Primero comprobemos que es una quinta pura:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>165</mn><mi>/</mi><mn>110</mn><mo>=</mo><mn>1.5</mn><mo>=</mo><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">165/110 = 1.5 = 3/2</annotation></semantics></math>.
+Correcto. Ahora escribamos los primeros armónicos de cada nota:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th>Armónico de La2 (110 Hz)</th>
+<th>Armónico de Mi3 (165 Hz)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>110</td>
+<td>165</td>
+</tr>
+<tr>
+<td>2</td>
+<td>220</td>
+<td>330</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>330</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>4</td>
+<td>440</td>
+<td><strong>660</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>550</td>
+<td>825</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>660</strong></td>
+<td>990</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fíjate en las celdas marcadas: el <strong>tercer armónico de
+La2</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>110</mn><mo>=</mo><mn>330</mn></mrow><annotation encoding="application/x-tex">3 \times 110 = 330</annotation></semantics></math>
+Hz) cae exactamente sobre el <strong>segundo armónico de Mi3</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>165</mn><mo>=</mo><mn>330</mn></mrow><annotation encoding="application/x-tex">2 \times 165 = 330</annotation></semantics></math>
+Hz). Y el <strong>sexto armónico de La2</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mn>110</mn><mo>=</mo><mn>660</mn></mrow><annotation encoding="application/x-tex">6 \times 110 = 660</annotation></semantics></math>)
+coincide exactamente con el <strong>cuarto armónico de Mi3</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>165</mn><mo>=</mo><mn>660</mn></mrow><annotation encoding="application/x-tex">4 \times 165 = 660</annotation></semantics></math>).
+No hay batido en esos puntos porque no hay diferencia de frecuencia:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>330</mn><mo>−</mo><mn>330</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">330 - 330 = 0</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>660</mn><mo>−</mo><mn>660</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">660 - 660 = 0</annotation></semantics></math>.
+Cuando dos frecuencias forman una razón simple como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+sus series armónicas comparten una enorme cantidad de frecuencias
+exactamente coincidentes, y el resultado perceptivo es un sonido
+“fusionado”, estable, sin pulsaciones — lo que llamamos consonancia.</p>
+<h3 id="ahora-la-misma-quinta-pero-temperada">5.3 Ahora la misma quinta,
+pero temperada</h3>
+<p>¿Qué pasa si la quinta no es exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+sino la quinta del temperamento igual (la que produce cualquier piano
+moderno, y que vamos a derivar formalmente en el Módulo 7)? Esa quinta
+mide, en frecuencia, un factor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mn>1.498307</mn></mrow><annotation encoding="application/x-tex">2^{7/12} = 1.498307</annotation></semantics></math>
+— ligeramente menos que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.5</mn><annotation encoding="application/x-tex">1.5</annotation></semantics></math>.
+Manteniendo La2 fijo en 110 Hz, el Mi3 del temperamento igual es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>110</mn><mo>×</mo><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mn>110</mn><mo>×</mo><mn>1.498307</mn><mo>=</mo><mn>164.814</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">110 \times 2^{7/12} = 110 \times 1.498307 = 164.814 \text{ Hz}</annotation></semantics></math></p>
+<p>Es decir, apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.186</mn><annotation encoding="application/x-tex">0.186</annotation></semantics></math>
+Hz más grave que el Mi3 puro (165 Hz) — una diferencia diminuta si
+comparamos las fundamentales directamente. Pero miremos qué pasa con los
+armónicos que antes coincidían exactamente. El tercer armónico de La2
+sigue siendo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>110</mn><mo>=</mo><mn>330</mn></mrow><annotation encoding="application/x-tex">3 \times 110 = 330</annotation></semantics></math>
+Hz (La2 no cambió). El segundo armónico del nuevo Mi3 es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>164.814</mn><mo>=</mo><mn>329.628</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">2 \times 164.814 = 329.628 \text{ Hz}</annotation></semantics></math></p>
+<p>Ya no coinciden. La diferencia es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">batido</mtext></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>330</mn><mo>−</mo><mn>329.628</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>0.372</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow></mrow><annotation encoding="application/x-tex">f_{\text{batido}} = |330 - 329.628| = 0.372 \text{ Hz}</annotation></semantics></math></p>
+<p>Es decir, un pulso completo cada
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>0.372</mn><mo>≈</mo><mn>2.7</mn></mrow><annotation encoding="application/x-tex">1/0.372 \approx 2.7</annotation></semantics></math>
+segundos: un batido lento, tipo “respiración”, perfectamente audible si
+sostienes el intervalo unos segundos y prestas atención — y es
+exactamente lo que un afinador de pianos escucha y cuenta cuando templa
+un instrumento. La diferencia entre “quinta pura” y “quinta del piano”
+no es una diferencia de nota (ambas se llaman Mi, ambas “suenan” a
+quinta): es la aparición de este batido lento en los armónicos altos,
+donde antes no había ninguno. Esta es, en términos completamente
+físicos, la respuesta a la pregunta con la que abrimos el módulo: lo que
+el segundo flautista cambió, al girar la embocadura, fue acercar su
+frecuencia lo suficiente a la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+exacta como para que ese batido en los armónicos superiores se hiciera
+demasiado lento para notarse — o desapareciera del todo.</p>
+<p>Vale la pena mencionar, aunque sea sin desarrollar la matemática, que
+esta relación entre batidos y sensación de aspereza fue medida
+experimentalmente por los psicoacústicos R. Plomp y W. J. M. Levelt en
+1965: hicieron sonar pares de tonos puros a distintas distancias de
+frecuencia y pidieron a oyentes que calificaran cuán “áspero” o “suave”
+sonaba cada par. La curva resultante —conocida hoy como curva de
+rugosidad de Plomp y Levelt— muestra un máximo de aspereza cuando los
+batidos rondan unas pocas decenas de hercios (variando según el
+registro), y cae a cero tanto cuando las frecuencias son casi idénticas
+(batido muy lento) como cuando están bien separadas (batido demasiado
+rápido para escucharse como pulso). Esa curva es, en buena medida, la
+explicación fisiológica de por qué llamamos “consonantes” a unos
+intervalos y “disonantes” a otros — y por qué esa etiqueta depende del
+timbre y del registro, no es una propiedad abstracta y fija del
+intervalo.</p>
+<h2 id="el-cent-medir-intervalos-con-una-regla-aditiva">6. El cent:
+medir intervalos con una regla aditiva</h2>
+<h3 id="el-problema">6.1 El problema</h3>
+<p>Ya tenemos con qué explicar <em>por qué</em> un intervalo suena
+consonante. Pero todavía no tenemos una buena manera de comparar
+<em>cuán grande</em> es un intervalo comparado con otro, ni de medir
+<em>cuánto</em> se desvía uno de su versión pura. Mirando puras razones,
+esto es incómodo. Por ejemplo: ¿es más grande el intervalo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+(quinta) que el intervalo formado por dos terceras mayores apiladas,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>=</mo><mn>25</mn><mi>/</mi><mn>16</mn></mrow><annotation encoding="application/x-tex">(5/4)^2 = 25/16</annotation></semantics></math>?
+Convirtamos a denominador común:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>24</mn><mi>/</mi><mn>16</mn></mrow><annotation encoding="application/x-tex">3/2 = 24/16</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>24</mn><mi>/</mi><mn>16</mn><mo>&lt;</mo><mn>25</mn><mi>/</mi><mn>16</mn></mrow><annotation encoding="application/x-tex">24/16 &lt; 25/16</annotation></semantics></math>:
+dos terceras mayores apiladas son <em>más</em> que una quinta. Se puede
+hacer, pero hay que buscar denominador común cada vez, y con fracciones
+de números más grandes (piensa en comparar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow><annotation encoding="application/x-tex">81/80</annotation></semantics></math>
+con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mi>/</mi><mn>125</mn></mrow><annotation encoding="application/x-tex">128/125</annotation></semantics></math>)
+el cálculo se vuelve tedioso rápidamente. Peor aún: como vimos en la
+sección 2, sabemos que estas razones se combinan multiplicando, no
+sumando, así que ni siquiera tenemos una “recta numérica” natural sobre
+la cual ubicarlas y comparar distancias a simple vista.</p>
+<h3 id="la-solución-logaritmos">6.2 La solución: logaritmos</h3>
+<p>La solución es pasar de la escala de razones (donde combinar es
+multiplicar) a una escala donde combinar sea <strong>sumar</strong>. La
+herramienta matemática que hace exactamente esa conversión es el
+logaritmo.</p>
+<blockquote>
+<p><strong>Recuadro: ¿qué es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><annotation encoding="application/x-tex">\log_2</annotation></semantics></math>?</strong>
+El logaritmo en base 2 de un número
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>,
+escrito
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(r)</annotation></semantics></math>,
+es la pregunta “¿a qué exponente hay que elevar el 2 para obtener
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>?”.
+Por ejemplo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>8</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\log_2(8) = 3</annotation></semantics></math>
+porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">2^3 = 8</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\log_2(2) = 1</annotation></semantics></math>
+porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>1</mn></msup><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^1 = 2</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\log_2(1) = 0</annotation></semantics></math>
+porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>0</mn></msup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^0 = 1</annotation></semantics></math>.
+La propiedad que nos interesa (la razón de toda esta sección) es que el
+logaritmo convierte multiplicaciones en sumas:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>×</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(a \times b) = \log_2(a) + \log_2(b)</annotation></semantics></math>.
+Cualquier calculadora científica tiene una tecla de logaritmo
+(habitualmente en base 10, “log”, o natural, “ln”, pero no siempre en
+base 2). No es un problema: por la fórmula de cambio de base,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\log_2(r) = \frac{\log(r)}{\log(2)} = \frac{\ln(r)}{\ln(2)}</annotation></semantics></math>
+funciona con cualquiera de las dos, mientras uses la misma base arriba y
+abajo. Por ejemplo, para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>1.5</mn></mrow><annotation encoding="application/x-tex">r = 3/2 = 1.5</annotation></semantics></math>:
+con logaritmo en base 10,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.5</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.176091</mn></mrow><annotation encoding="application/x-tex">\log(1.5) = 0.176091</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.301030</mn></mrow><annotation encoding="application/x-tex">\log(2) = 0.301030</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.5</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.176091</mn><mi>/</mi><mn>0.301030</mn><mo>=</mo><mn>0.584963</mn></mrow><annotation encoding="application/x-tex">\log_2(1.5) = 0.176091/0.301030 = 0.584963</annotation></semantics></math>.
+Puedes verificarlo con logaritmo natural:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.5</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.405465</mn></mrow><annotation encoding="application/x-tex">\ln(1.5) = 0.405465</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.405465</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.584963</mn></mrow><annotation encoding="application/x-tex">0.405465/0.693147 = 0.584963</annotation></semantics></math>
+— el mismo resultado, como debía ser.</p>
+</blockquote>
+<h3 id="definición-del-cent">6.3 Definición del cent</h3>
+<p>Definimos el <strong>cent</strong> como la unidad que resulta de
+tomar el logaritmo en base 2 de una razón de frecuencias y multiplicarlo
+por 1200:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c = 1200 \cdot \log_2(r)</annotation></semantics></math></p>
+<p>¿Por qué 1200 y no otro número? Porque queremos que la octava, que es
+el intervalo de referencia de toda la música, valga un número redondo y
+cómodo de dividir. Verifiquemos: para la octava,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">r = 2</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\log_2(2) = 1</annotation></semantics></math>
+(por definición de logaritmo en base 2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>1</mn></msup><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2^1=2</annotation></semantics></math>).
+Entonces:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">octava</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>1</mn><mo>=</mo><mn>1200</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents (exactos)</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{\text{octava}} = 1200 \times 1 = 1200 \text{ cents (exactos)}</annotation></semantics></math></p>
+<p>Y como el temperamento igual divide la octava en 12 semitonos
+idénticos (lo vamos a derivar formalmente en el Módulo 7, pero
+adelantemos el resultado: cada semitono es la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>),
+cada semitono del temperamento igual mide:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">semitono ET</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mfrac><mn>1</mn><mn>12</mn></mfrac><mo>=</mo><mn>100</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents (exactos)</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{\text{semitono ET}} = 1200 \times \log_2\left(2^{1/12}\right) = 1200 \times \frac{1}{12} = 100 \text{ cents (exactos)}</annotation></semantics></math></p>
+<p>Esto no es una casualidad ni una aproximación: es la razón por la
+cual elegimos precisamente el factor 1200. El cent está diseñado, por
+construcción, para que el semitono igual temperado mida exactamente 100
+y la octava exactamente 1200. Y ahora sí tenemos lo que buscábamos: como
+el logaritmo convierte multiplicación en suma, <strong>apilar dos
+intervalos en cents es sumar sus valores en cents</strong>, sin
+excepción y sin necesidad de buscar denominadores comunes.</p>
+<h3 id="tabla-de-referencia-la-más-importante-del-curso">6.4 Tabla de
+referencia (la más importante del curso)</h3>
+<p>Calculemos, paso a paso, los cents de los intervalos justos de la
+sección 4, y comparémoslos con sus equivalentes del temperamento igual
+(múltiplos de 100). Como ejemplo completo, la quinta:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.5</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.584963</mn><mo>=</mo><mn>701.955</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{3/2} = 1200 \times \log_2(1.5) = 1200 \times 0.584963 = 701.955 \text{ cents}</annotation></semantics></math></p>
+<p>Y la tercera mayor pura:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.25</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{5/4} = 1200 \times \log_2(1.25) = 1200 \times \log_2(5/4)</annotation></semantics></math></p>
+<p>Calculamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.25</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(1.25)</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.25</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.223144</mn></mrow><annotation encoding="application/x-tex">\ln(1.25) = 0.223144</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.25</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.223144</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.321928</mn></mrow><annotation encoding="application/x-tex">\log_2(1.25) = 0.223144/0.693147 = 0.321928</annotation></semantics></math>.
+Entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.321928</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">c_{5/4} = 1200 \times 0.321928 = 386.314</annotation></semantics></math>
+cents.</p>
+<p>Repitiendo el mismo procedimiento para cada razón de la tabla de la
+sección 4:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Intervalo</th>
+<th>Razón</th>
+<th>Cents (puro)</th>
+<th>Cents (temperamento igual)</th>
+<th>Diferencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Semitono diatónico</td>
+<td>16/15</td>
+<td>111.731</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Tono mayor</td>
+<td>9/8</td>
+<td>203.910</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Tercera menor pura</td>
+<td>6/5</td>
+<td>315.641</td>
+<td>300</td>
+<td><strong>+16 c</strong></td>
+</tr>
+<tr>
+<td>Tercera mayor pura</td>
+<td>5/4</td>
+<td>386.314</td>
+<td>400</td>
+<td><strong>−14 c</strong></td>
+</tr>
+<tr>
+<td>Cuarta justa</td>
+<td>4/3</td>
+<td>498.045</td>
+<td>500</td>
+<td>−2 c</td>
+</tr>
+<tr>
+<td>Quinta justa</td>
+<td>3/2</td>
+<td>701.955</td>
+<td>700</td>
+<td>+2 c</td>
+</tr>
+<tr>
+<td>Sexta menor pura</td>
+<td>8/5</td>
+<td>813.686</td>
+<td>800</td>
+<td>+14 c</td>
+</tr>
+<tr>
+<td>Sexta mayor pura</td>
+<td>5/3</td>
+<td>884.359</td>
+<td>900</td>
+<td>−16 c</td>
+</tr>
+<tr>
+<td>Octava</td>
+<td>2/1</td>
+<td>1200.000</td>
+<td>1200</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>Memoriza especialmente la fila de la quinta (702 c) y la de la
+tercera mayor (386 c): son los dos números que vas a usar constantemente
+el resto del curso para diagnosticar cualquier sistema de afinación de
+un vistazo. Nota algo importante: la quinta pura y la del temperamento
+igual difieren en apenas <strong>2 cents</strong> — una diferencia casi
+inaudible, que es justamente lo que hace posible que el piano moderno
+“se salga con la suya” con las quintas. Pero la tercera mayor pura y la
+del temperamento igual difieren en <strong>14 cents</strong> — siete
+veces más — y esa diferencia sí es claramente audible como un ligero
+“vibrato” o aspereza en cualquier acorde mayor tocado en un piano.</p>
+<h3 id="regla-práctica-de-percepción">6.5 Regla práctica de
+percepción</h3>
+<p>Como referencia de oído, útil para todo el curso:</p>
+<ul>
+<li><strong>1 cent</strong> es, para la enorme mayoría de los oyentes,
+imperceptible como diferencia de afinación.</li>
+<li><strong>Alrededor de 5 cents</strong>, sostenidos en un intervalo
+armónico (dos notas largas juntas), ya produce un batido lento pero
+claramente perceptible si prestas atención — como vimos con los 0.37 Hz
+de batido de la quinta temperada en la sección 5.3, que corresponden a
+una desviación de apenas 2 cents.</li>
+<li><strong>14 cents</strong> —la desviación de la tercera mayor del
+piano respecto de la pura— es una cantidad de desafinación que cualquier
+oyente entrenado detecta como aspereza si la escucha en aislamiento,
+pero que casi todos hemos aprendido a “no escuchar” como error después
+de siglos de exposición al temperamento igual: la procesamos como el
+timbre normal de un acorde de piano, casi como un vibrato integrado al
+instrumento.</li>
+</ul>
+<h2 id="cierre-anzuelo-el-villano-del-curso">7. Cierre-anzuelo: el
+villano del curso</h2>
+<p>Terminemos con un cálculo que vas a volver a ver, con toda su
+artillería matemática, en el Módulo 2 — pero que ya podemos hacer con
+las herramientas de hoy. Apilemos doce quintas puras, una sobre otra
+(Do–Sol–Re–La–Mi–Si–Fa#–Do#–Sol#–Re#–La#–Mi#, si le seguimos la pista
+por el círculo de quintas). En cents, apilar es sumar, así que doce
+quintas puras miden:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>701.955</mn><mo>=</mo><mn>8423.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">12 \times 701.955 = 8423.460 \text{ cents}</annotation></semantics></math></p>
+<p>Doce quintas puras “deberían”, intuitivamente, llevarnos de vuelta a
+la nota de partida, solo que siete octavas más arriba (contando: cada
+vez que una cadena de quintas te devuelve al mismo nombre de nota, has
+subido siete octavas — es la lógica del círculo de quintas de toda la
+vida). Siete octavas puras, en cents, miden:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>8400</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">7 \times 1200 = 8400 \text{ cents}</annotation></semantics></math></p>
+<p>Comparemos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8423.460</mn><mo>−</mo><mn>8400</mn><mo>=</mo><mn>23.460</mn></mrow><annotation encoding="application/x-tex">8423.460 - 8400 = 23.460</annotation></semantics></math>
+cents. Sobran casi 23 cents y medio. Doce quintas puras
+<strong>no</strong> llegan exactamente a siete octavas: se pasan por
+23.460 cents. Esta pequeña discrepancia, demasiado grande para ignorarla
+(recuerda la regla práctica: 5 cents ya se escuchan) pero demasiado
+pequeña para acomodarla sin más, tiene nombre: la <strong>coma
+pitagórica</strong>.</p>
+<p>Toda afinación de la historia de la música occidental —pitagórica,
+justa, mesotónica, los “buenos temperamentos” de Bach, el temperamento
+igual del piano moderno— es, en el fondo, una manera distinta de
+<strong>esconder</strong> estos 23.460 cents en algún rincón del sistema
+donde molesten lo menos posible. El resto de este curso es,
+literalmente, la crónica de ese escondite: quién decidió esconder la
+coma dónde, qué tuvo que sacrificar para hacerlo, y qué le pasó a la
+música que se escribió bajo cada decisión. Nos vemos en el Módulo 2,
+donde vamos a demostrar —con una línea de álgebra escolar, nada del otro
+mundo— que esta coma es <em>matemáticamente inevitable</em>: ninguna
+cantidad de quintas puras, jamás, va a coincidir exactamente con ninguna
+cantidad de octavas puras.</p>
+<hr />
+<h2 id="ejercicios-de-cálculo">8. Ejercicios de cálculo</h2>
+<p>Resuelve cada ejercicio por escrito, mostrando el desarrollo completo
+(no solo el resultado). Las soluciones completas están al final de esta
+sección — resuelve primero, revisa después.</p>
+<p><strong>a) Composición e inversión de razones</strong></p>
+<ol type="1">
+<li>Calcula qué intervalo se obtiene al componer (apilar) una cuarta
+justa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>)
+con una tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>).</li>
+<li>Invierte la sexta mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math>):
+¿qué intervalo resulta al restarla de la octava?</li>
+<li>Calcula qué intervalo queda al “restarle” una cuarta justa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>)
+a una sexta mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math>).</li>
+</ol>
+<p><strong>b) Serie armónica</strong></p>
+<ol start="4" type="1">
+<li>¿Qué intervalo (como razón de frecuencias, y su nombre musical
+aproximado) forman el quinto y el tercer armónico de una misma
+fundamental?</li>
+<li>Una cuerda vibra con fundamental de 48 Hz. Calcula la frecuencia de
+su noveno armónico. Exprésala también como “tantas octavas más un
+resto”, usando que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>=</mo><mn>8</mn><mo>×</mo><mfrac><mn>9</mn><mn>8</mn></mfrac></mrow><annotation encoding="application/x-tex">9 = 8 \times \frac{9}{8}</annotation></semantics></math>,
+e indica cuántos cents mide ese resto.</li>
+</ol>
+<p><strong>c) Conversión razón ↔︎ cents</strong></p>
+<ol start="6" type="1">
+<li>Convierte a cents la sexta menor pura, razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">8/5</annotation></semantics></math>,
+mostrando el cálculo del logaritmo paso a paso.</li>
+<li>Convierte a cents la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow><annotation encoding="application/x-tex">81/80</annotation></semantics></math>
+(la discrepancia que encontramos en la sección 4.1). Este valor tiene
+nombre propio: búscalo si no lo recuerdas, y quédate con el número — lo
+vas a necesitar en el Módulo 2.</li>
+<li>Un afinador mide, con un instrumento electrónico, que cierto
+intervalo real mide 315 cents. Calcula la diferencia en cents entre esta
+medición y (i) la tercera menor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>)
+y (ii) la tercera menor del temperamento igual (300 c). ¿De cuál de las
+dos está más cerca, y por cuánto?</li>
+</ol>
+<p><strong>d) Batidos</strong></p>
+<ol start="9" type="1">
+<li>Dos violinistas afinan un unísono. Uno toca a 293 Hz, el otro a
+296.5 Hz. Calcula la frecuencia de batido y describe cuántos pulsos por
+segundo se escucharían.</li>
+<li>Un instrumento sostiene un Do3 a 130.81 Hz. Otro instrumento toca la
+quinta del temperamento igual sobre esa fundamental (multiplica por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mn>1.498307</mn></mrow><annotation encoding="application/x-tex">2^{7/12} = 1.498307</annotation></semantics></math>).
+Calcula la frecuencia de esa quinta temperada, luego calcula el tercer
+armónico del Do3 y el segundo armónico de la quinta temperada, y
+finalmente la frecuencia de batido entre ambos armónicos.</li>
+</ol>
+<p><strong>e) Desafíos</strong></p>
+<ol start="11" type="1">
+<li>Demuestra, usando solo paridad de números enteros (sin logaritmos),
+que ninguna cantidad de quintas puras puede coincidir exactamente con
+ninguna cantidad de octavas puras. Es decir, demuestra que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math>
+para cualesquiera enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>.
+(Pista: escribe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>3</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mi>m</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m = 3^m/2^m</annotation></semantics></math>
+e iguala a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>n</mi></msup><annotation encoding="application/x-tex">2^n</annotation></semantics></math>;
+analiza qué debe cumplir
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>
+para que la igualdad tenga sentido.)</li>
+<li>La “quinta” que aparece entre el segundo y sexto grado de la escala
+mayor justa (la veremos en detalle en el Módulo 4) tiene razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mi>/</mi><mn>27</mn></mrow><annotation encoding="application/x-tex">40/27</annotation></semantics></math>,
+no
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>.
+Calcula cuántos cents mide esta quinta, calcula la diferencia en cents
+respecto de la quinta pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>701.955</mn><annotation encoding="application/x-tex">701.955</annotation></semantics></math>
+c), y compara ese número con el resultado del ejercicio 7. ¿Coinciden?
+¿Por qué crees que podría ser así?</li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mn>4</mn><mn>3</mn></mfrac></mstyle><mo>×</mo><mstyle displaystyle="true"><mfrac><mn>5</mn><mn>4</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mn>4</mn><mo>×</mo><mn>5</mn></mrow><mrow><mn>3</mn><mo>×</mo><mn>4</mn></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>20</mn><mn>12</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>5</mn><mn>3</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{4}{3} \times \dfrac{5}{4} = \dfrac{4 \times 5}{3 \times 4} = \dfrac{20}{12} = \dfrac{5}{3}</annotation></semantics></math>.
+El 4 se cancela, y el resultado es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math>:
+la sexta mayor pura. (Tiene sentido: cuarta + tercera mayor = sexta
+mayor, igual que en la armonía tradicional Do–Fa más Fa–La da
+Do–La.)</p>
+<p><strong>2.</strong> Invertir es dividir la octava por la razón:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mn>2</mn><mn>1</mn></mfrac></mstyle><mo>÷</mo><mstyle displaystyle="true"><mfrac><mn>5</mn><mn>3</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>2</mn><mn>1</mn></mfrac></mstyle><mo>×</mo><mstyle displaystyle="true"><mfrac><mn>3</mn><mn>5</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>6</mn><mn>5</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{2}{1} \div \dfrac{5}{3} = \dfrac{2}{1} \times \dfrac{3}{5} = \dfrac{6}{5}</annotation></semantics></math>.
+El resultado es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>:
+la tercera menor pura. (Consistente con la regla “los intervalos se
+invierten a 9”: sexta
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>6</mn><annotation encoding="application/x-tex">6</annotation></semantics></math>)
+invertida da tercera
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>),
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>+</mo><mn>3</mn><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">6+3=9</annotation></semantics></math>.)</p>
+<p><strong>3.</strong> “Restar” es dividir:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>5</mn><mn>3</mn></mfrac></mstyle><mo>×</mo><mstyle displaystyle="true"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>15</mn><mn>12</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>5</mn><mn>4</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{5/3}{4/3} = \dfrac{5}{3} \times \dfrac{3}{4} = \dfrac{15}{12} = \dfrac{5}{4}</annotation></semantics></math>.
+El resultado es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>:
+la tercera mayor pura. (Sexta mayor menos cuarta = tercera mayor, igual
+que Do–La menos Do–Fa da Fa–La.)</p>
+<p><strong>4.</strong> El quinto armónico sobre el tercero es la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math>:
+es la sexta mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>884.359</mn><annotation encoding="application/x-tex">884.359</annotation></semantics></math>
+cents, como vimos en la tabla de la sección 6.4).</p>
+<p><strong>5.</strong> El noveno armónico es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>×</mo><mn>48</mn><mo>=</mo><mn>432</mn></mrow><annotation encoding="application/x-tex">9 \times 48 = 432</annotation></semantics></math>
+Hz. Usando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>=</mo><mn>8</mn><mo>×</mo><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9 = 8 \times 9/8</annotation></semantics></math>:
+el octavo armónico
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>×</mo><mn>48</mn><mo>=</mo><mn>384</mn></mrow><annotation encoding="application/x-tex">8 \times 48 = 384</annotation></semantics></math>
+Hz) está exactamente tres octavas sobre la fundamental
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">2^3 = 8</annotation></semantics></math>),
+y el noveno armónico está un tono mayor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>)
+más arriba que el octavo. En cents: tres octavas son
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>3600</mn></mrow><annotation encoding="application/x-tex">3 \times 1200 = 3600</annotation></semantics></math>
+c, más el tono mayor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>203.910</mn></mrow><annotation encoding="application/x-tex">9/8 = 203.910</annotation></semantics></math>
+c, total
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3803.910</mn><annotation encoding="application/x-tex">3803.910</annotation></semantics></math>
+c sobre la fundamental. El “resto” sobre la octava más cercana hacia
+abajo mide entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>203.910</mn><annotation encoding="application/x-tex">203.910</annotation></semantics></math>
+cents — el tono mayor puro, unos 4 cents más ancho que el tono del
+temperamento igual (200 c).</p>
+<p><strong>6.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{8/5} = 1200 \times \log_2(1.6)</annotation></semantics></math>.
+Calculamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.470004</mn></mrow><annotation encoding="application/x-tex">\ln(1.6) = 0.470004</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.470004</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.678072</mn></mrow><annotation encoding="application/x-tex">\log_2(1.6) = 0.470004/0.693147 = 0.678072</annotation></semantics></math>.
+Entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.678072</mn><mo>=</mo><mn>813.686</mn></mrow><annotation encoding="application/x-tex">c_{8/5} = 1200 \times 0.678072 = 813.686</annotation></semantics></math>
+cents.</p>
+<p><strong>7.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.0125</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{81/80} = 1200 \times \log_2(1.0125)</annotation></semantics></math>.
+Calculamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.0125</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.012422</mn></mrow><annotation encoding="application/x-tex">\ln(1.0125) = 0.012422</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.0125</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.012422</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.017922</mn></mrow><annotation encoding="application/x-tex">\log_2(1.0125) = 0.012422/0.693147 = 0.017922</annotation></semantics></math>.
+Entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.017922</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">c_{81/80} = 1200 \times 0.017922 = 21.506</annotation></semantics></math>
+cents. Esta razón se llama <strong>coma sintónica</strong>.</p>
+<p><strong>8.</strong> (i) Diferencia respecto de la tercera menor pura:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>315</mn><mo>−</mo><mn>315.641</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>0.641</mn></mrow><annotation encoding="application/x-tex">|315 - 315.641| = 0.641</annotation></semantics></math>
+cents — prácticamente indistinguible. (ii) Diferencia respecto de la
+tercera menor del temperamento igual:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>315</mn><mo>−</mo><mn>300</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">|315 - 300| = 15</annotation></semantics></math>
+cents. La medición está mucho más cerca de la tercera menor pura (a
+menos de 1 cent) que de la del temperamento igual (a 15 cents): es casi
+con certeza una tercera menor justa, quizás ligeramente ajustada.</p>
+<p><strong>9.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">batido</mtext></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>296.5</mn><mo>−</mo><mn>293</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>3.5</mn></mrow><annotation encoding="application/x-tex">f_{\text{batido}} = |296.5 - 293| = 3.5</annotation></semantics></math>
+Hz: se escucharían 3.5 pulsaciones de volumen por segundo — un batido
+rápido pero todavía contable, señal de que el unísono está bastante
+desafinado.</p>
+<p><strong>10.</strong> La quinta temperada sobre Do3 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>130.81</mn><mo>×</mo><mn>1.498307</mn><mo>=</mo><mn>195.994</mn></mrow><annotation encoding="application/x-tex">130.81 \times 1.498307 = 195.994</annotation></semantics></math>
+Hz. El tercer armónico de Do3 es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>130.81</mn><mo>=</mo><mn>392.43</mn></mrow><annotation encoding="application/x-tex">3 \times 130.81 = 392.43</annotation></semantics></math>
+Hz. El segundo armónico de la quinta temperada es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>195.994</mn><mo>=</mo><mn>391.987</mn></mrow><annotation encoding="application/x-tex">2 \times 195.994 = 391.987</annotation></semantics></math>
+Hz. La frecuencia de batido entre ambos es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>392.43</mn><mo>−</mo><mn>391.987</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>0.443</mn></mrow><annotation encoding="application/x-tex">|392.43 - 391.987| = 0.443</annotation></semantics></math>
+Hz — un batido lento, de un pulso cada poco más de dos segundos, del
+mismo tipo (y origen) que el que calculamos en la sección 5.3 para
+La2–Mi3.</p>
+<p><strong>11.</strong> Supongamos que existieran enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>
+tales que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m = 2^n</annotation></semantics></math>.
+Reescribimos el lado izquierdo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>3</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mi>m</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m = 3^m / 2^m</annotation></semantics></math>.
+Igualando:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">3^m/2^m = 2^n</annotation></semantics></math>,
+y multiplicando ambos lados por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>m</mi></msup><annotation encoding="application/x-tex">2^m</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">3^m = 2^{n+m}</annotation></semantics></math>.
+Ahora bien,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>
+es una potencia de un número impar (3), y toda potencia de un número
+impar es impar (el producto de números impares siempre es impar). Por
+otro lado,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>
+es una potencia de 2 con exponente positivo (ya que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>,</mo><mi>m</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n, m \geq 1</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mi>m</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n+m \geq 2</annotation></semantics></math>),
+y toda potencia de 2 con exponente positivo es par. Un número no puede
+ser impar y par a la vez: contradicción. Por lo tanto, no existen tales
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>
+enteros positivos, y ninguna cantidad de quintas puras coincide jamás
+con ninguna cantidad exacta de octavas.</p>
+<p><strong>12.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>40</mn><mi>/</mi><mn>27</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mi>/</mi><mn>27</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{40/27} = 1200 \times \log_2(40/27)</annotation></semantics></math>.
+Primero,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mi>/</mi><mn>27</mn><mo>=</mo><mn>1.481481</mn><mover><mn>481</mn><mo accent="true">¯</mo></mover></mrow><annotation encoding="application/x-tex">40/27 = 1.481481\overline{481}</annotation></semantics></math>.
+Calculamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.481481</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.393043</mn></mrow><annotation encoding="application/x-tex">\ln(1.481481) = 0.393043</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.481481</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.393043</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.567041</mn></mrow><annotation encoding="application/x-tex">\log_2(1.481481) = 0.393043/0.693147 = 0.567041</annotation></semantics></math>.
+Entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>40</mn><mi>/</mi><mn>27</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.567041</mn><mo>=</mo><mn>680.449</mn></mrow><annotation encoding="application/x-tex">c_{40/27} = 1200 \times 0.567041 = 680.449</annotation></semantics></math>
+cents. La diferencia respecto de la quinta pura es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>680.449</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">701.955 - 680.449 = 21.506</annotation></semantics></math>
+cents. Este número <strong>coincide exactamente</strong> con la coma
+sintónica calculada en el ejercicio 7. La razón es algebraica, no
+casual:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mn>3</mn><mn>2</mn></mfrac></mstyle><mo>×</mo><mstyle displaystyle="true"><mfrac><mn>80</mn><mn>81</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>240</mn><mn>162</mn></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>40</mn><mn>27</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{3}{2} \times \dfrac{80}{81} = \dfrac{240}{162} = \dfrac{40}{27}</annotation></semantics></math>,
+es decir, la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mi>/</mi><mn>27</mn></mrow><annotation encoding="application/x-tex">40/27</annotation></semantics></math>
+es, por construcción, una quinta pura <em>reducida exactamente en una
+coma sintónica</em>. Este es precisamente el defecto que hace que la
+escala mayor justa (Módulo 4) no pueda tener quintas puras en todos sus
+grados a la vez.</p>
+<hr />
+<h2 id="guía-de-escucha">9. Guía de escucha</h2>
+<p>Antes de seguir al Módulo 2, dedica 15-20 minutos al laboratorio
+interactivo de este módulo (<code>laboratorio.html</code>, en esta misma
+carpeta). No es un simulador que “explica”; es un instrumento para
+comprobar con tus propios oídos lo que acabamos de desarrollar con
+números. Cinco consignas concretas:</p>
+<ol type="1">
+<li><strong>El acorde regalado.</strong> Activa simultáneamente los
+armónicos 4, 5 y 6 sobre una misma fundamental y reconoce el acorde
+mayor que forman — es el mismo acorde 4:5:6 de la sección 3.3, sonando
+ahora, no solo en una tabla.</li>
+<li><strong>Contar batidos.</strong> Desafina un unísono en 3 Hz (dos
+osciladores separados por esa distancia) y, con un cronómetro, cuenta
+cuántos pulsos de volumen escuchas en 10 segundos. Deberías contar
+alrededor de 30 — verifica que coincide con la fórmula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">batido</mtext></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>f</mi><mn>2</mn></msub><mo>−</mo><msub><mi>f</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">f_{\text{batido}} = |f_2-f_1|</annotation></semantics></math>.</li>
+<li><strong>Pura contra temperada.</strong> Activa la quinta La2–Mi3 en
+su versión pura (razón exacta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>)
+y luego en su versión de temperamento igual, sobre la misma fundamental.
+Ubica el batido lento (~0.37 Hz, un pulso cada 2-3 segundos) que
+calculamos en la sección 5.3, y compáralo con la ausencia total de
+batido en la versión pura.</li>
+<li><strong>Los armónicos que el teclado no tiene.</strong> Ubica
+auditivamente los armónicos 7 y 11 dentro de la serie armónica completa,
+y compáralos, tocados uno junto al otro, con las notas más cercanas del
+teclado (Sib y Fa#/Solb respectivamente). Presta atención a cuánto
+“desafinan” respecto de lo que tu oído, entrenado en temperamento igual,
+espera escuchar.</li>
+<li><strong>Los 14 cents que dejamos de escuchar.</strong> Escucha la
+tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>)
+inmediatamente seguida de la tercera mayor del temperamento igual (400
+cents), sobre la misma fundamental. Evalúa si la diferencia de 14 cents
+te suena a “otra nota” o más bien a una variación de timbre/vibrato de
+la misma nota — y contrástalo con lo que sentiste en la consigna 3,
+donde la diferencia era de solo 2 cents.</li>
+</ol>
+<h2 id="mini-experimento-compositivo">10. Mini-experimento
+compositivo</h2>
+<p>Escribe entre 4 y 8 compases para dos voces, usando
+<strong>exclusivamente</strong> intervalos verticales que aparezcan
+entre los primeros 8 armónicos de una fundamental común (es decir,
+limita tu paleta armónica a combinaciones de octava 2/1, quinta 3/2,
+cuarta 4/3, tercera mayor 5/4, tercera menor 6/5, y el intervalo del
+séptimo armónico, 7/4, si te animas a usarlo). Piensa el resultado en el
+estilo de un <em>fauxbourdon</em> u <em>organum</em> libre: notas
+largas, movimiento lento, ambas voces sostenidas el tiempo suficiente
+para que un oyente atento pueda escuchar cómo se “asientan” los
+intervalos. No hace falta notación microtonal todavía — escribe en
+notación tradicional, pensando en qué intervalos estás usando. Guarda
+esta partitura: en los módulos siguientes vas a poder escucharla primero
+en afinación pura y después en temperamento igual, y vas a poder
+describir con números (no solo con adjetivos) qué cambió.</p>
+<h2 id="autoevaluación">11. Autoevaluación</h2>
+<p>Marca los que ya puedes hacer sin mirar el apunte. Si te queda alguno
+sin marcar, vale la pena releer la sección correspondiente antes de
+avanzar al Módulo 2.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar por qué los
+intervalos musicales se componen multiplicando razones de frecuencia, y
+no sumándolas, con un ejemplo numérico propio.</label></li>
+<li><label><input type="checkbox" />Puedo derivar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><mo>⋅</mo><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = n \cdot f_1</annotation></semantics></math>
+a partir de la física de una cuerda con extremos fijos, sin memorizar la
+fórmula.</label></li>
+<li><label><input type="checkbox" />Puedo ubicar, de memoria aproximada,
+dónde caen los armónicos 7, 11 y 13 respecto de las teclas del piano, y
+explicar por qué “desafinan”.</label></li>
+<li><label><input type="checkbox" />Puedo explicar qué es un batido,
+predecir su frecuencia a partir de dos frecuencias dadas, y distinguir
+cuándo un batido se escucha como pulso y cuándo como
+rugosidad.</label></li>
+<li><label><input type="checkbox" />Puedo explicar, usando series de
+armónicos, por qué una quinta pura no bate y una quinta temperada sí, y
+calcular esa frecuencia de batido.</label></li>
+<li><label><input type="checkbox" />Puedo convertir cualquier razón de
+frecuencias a cents con una calculadora común (usando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">log</mi><annotation encoding="application/x-tex">\log</annotation></semantics></math>
+o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">ln</mi><annotation encoding="application/x-tex">\ln</annotation></semantics></math>,
+no necesariamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><annotation encoding="application/x-tex">\log_2</annotation></semantics></math>
+directo), y explicar por qué se usa la constante 1200.</label></li>
+<li><label><input type="checkbox" />Puedo recitar de memoria los cents
+aproximados de la quinta (702), la cuarta (498), la tercera mayor pura
+(386) y la tercera menor pura (316), y sé cuánto se desvía cada una de
+su equivalente en temperamento igual.</label></li>
+<li><label><input type="checkbox" />Puedo reproducir, sin ayuda, el
+cálculo de las 12 quintas puras contra las 7 octavas y explicar en una
+frase qué es la coma pitagórica.</label></li>
+</ul>
+<hr />
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Benade, A. H. <em>Fundamentals of Musical Acoustics</em>. Dover
+Publications.</li>
+<li>Roederer, J. G. <em>The Physics and Psychophysics of Music: An
+Introduction</em>. Springer.</li>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony (and Why You
+Should Care)</em>. W. W. Norton.</li>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications.</li>
+<li>Plomp, R. y Levelt, W. J. M. (1965). “Tonal Consonance and Critical
+Bandwidth”. <em>Journal of the Acoustical Society of America</em>,
+38(4).</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>) — marco conceptual
+complementario para este módulo y para los módulos 7 y 8.</li>
+</ul>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 1</p><button id="progress-btn" class="progress-btn" data-modulo="01-fundamentos">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

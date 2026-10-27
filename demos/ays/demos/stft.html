@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STFT y espectrograma — Demo Curso AyS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S05 · SPECTRA</div>
+    <h1>STFT: el microscopio tiempo-frecuencia</h1>
+    <p class="lead">
+      La Transformada de Fourier de Tiempo Corto es la herramienta más usada del DSP de audio.
+      Permite ver simultáneamente el tiempo (cuándo pasó algo) y la frecuencia (qué pasó).
+      Su compromiso de incertidumbre es el corazón de muchas decisiones de diseño:
+      ventana larga = buena resolución espectral, mala temporal.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-spectra">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>Cómo cambia el espectrograma cuando mueves el tamaño de ventana $N$ y el hop $R$.</li>
+      <li>Por qué la ventana Hann es la elección por defecto: cumple la condición COLA con hop $N/2$.</li>
+      <li>El compromiso de incertidumbre: $\Delta f \cdot \Delta t \geq $ constante. No puedes tener buena resolución en ambas a la vez.</li>
+      <li>Cómo se "ven" los armónicos, los formantes, el vibrato y los onsets percusivos en el espectrograma.</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · STFT interactiva</span>
+      <a href="../embeds/s05_stft.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s05_stft.html" title="Demo de STFT" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así</h3>
+    <ol>
+      <li>Carga el audio "armónicos a 110 Hz" con ventana corta ($N = 256$). Vas a ver los armónicos borrosos pero los onsets nítidos.</li>
+      <li>Aumenta $N$ a 4096. Los armónicos se vuelven líneas precisas, pero los transientes se "untan" en el tiempo.</li>
+      <li>Carga un sweep de frecuencia y prueba ventanas distintas. Observa cómo cambia el "ancho" de la línea diagonal.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-spectra">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar STFT desde cero en NumPy y verificar la condición COLA para reconstrucción perfecta.</li>
+      <li>Hacer el <strong>Fun Task 05 "Robot Voice"</strong>: manipular la fase del espectrograma para crear robotización ($\phi = 0$) y whisperización (fase aleatoria) sobre una voz.</li>
+      <li>Conectar con la S06 (Phase Vocoder): cambiar pitch y tiempo independientemente requiere manipular cuidadosamente la fase de la STFT.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

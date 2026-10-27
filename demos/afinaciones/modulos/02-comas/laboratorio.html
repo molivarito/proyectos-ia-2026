@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M2 · Laboratorio — El problema imposible</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:640px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+input[type=number],input[type=text]{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;width:100%;display:block;margin:10px 0;}
+
+table.ref-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:8px;}
+.ref-table th,.ref-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+.ref-table th:first-child,.ref-table td:first-child{text-align:left;}
+.ref-table th{color:var(--muted);font-weight:600;}
+.pos-cents{color:var(--good);}
+.neg-cents{color:var(--warn);}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;cursor:pointer;margin:3px 5px 3px 0;}
+.chip:hover{background:#313848;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+/* ---- Lab 1 ---- */
+.counter-box{display:flex;gap:22px;flex-wrap:wrap;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 16px;margin:10px 0;font-size:0.85rem;}
+.counter-box .cbi{display:flex;flex-direction:column;gap:2px;}
+.counter-box .cbi span.lbl{color:var(--muted);font-size:0.74rem;}
+.counter-box .cbi span.val{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;font-size:1.02rem;}
+
+/* ---- Lab 2 ---- */
+.tower-legend{display:flex;gap:22px;flex-wrap:wrap;font-size:0.8rem;color:var(--muted);margin:6px 0;}
+.tower-legend .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:middle;}
+.residual-box{background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 16px;margin:10px 0;font-size:0.88rem;}
+.residual-box b{color:var(--accent);}
+.residual-box.flag{border-color:var(--accent);}
+
+/* ---- Lab 3 ---- */
+.comma-row{background:#12151d;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+.comma-row-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+.comma-row-head h3{margin:0;color:var(--text);}
+.comma-row .beat-note{color:var(--muted);font-size:0.78rem;margin-top:6px;}
+.comma-row .beat-note b{color:var(--accent);}
+
+/* ---- Lab 4 ---- */
+.fifths-sliders{display:flex;gap:4px;justify-content:space-between;flex-wrap:wrap;margin:16px 0 6px;}
+.fifth-col{width:58px;display:flex;flex-direction:column;align-items:center;font-size:0.68rem;color:var(--muted);text-align:center;}
+.fifth-col .fs-name{margin-bottom:4px;min-height:26px;}
+.fifth-col .fs-value{color:var(--accent);font-weight:700;font-size:0.76rem;margin-top:6px;font-variant-numeric:tabular-nums;}
+.fifth-col .slider-wrap{height:140px;width:34px;position:relative;}
+.fifth-col input[type=range]{
+  position:absolute;top:50%;left:50%;
+  width:140px;height:22px;
+  transform:translate(-50%,-50%) rotate(-90deg);
+  accent-color:var(--accent);
+}
+.sum-indicator{border-radius:11px;padding:16px 18px;text-align:center;margin:16px 0;border:2px solid var(--line);background:#12151d;}
+.sum-indicator .big{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums;}
+.sum-indicator .msg{font-size:0.85rem;margin-top:4px;color:var(--muted);}
+.sum-indicator.good{border-color:var(--good);}
+.sum-indicator.good .big{color:var(--good);}
+.sum-indicator.bad{border-color:var(--warn);}
+.sum-indicator.bad .big{color:var(--warn);}
+table.note-table{width:100%;border-collapse:collapse;font-size:0.76rem;margin-top:10px;}
+.note-table th,.note-table td{padding:5px 6px;text-align:right;border-bottom:1px solid #ffffff08;}
+.note-table th:first-child,.note-table td:first-child{text-align:left;}
+.note-table th{color:var(--muted);font-weight:600;border-bottom:1px solid var(--line);}
+.note-table .play-btn{padding:3px 9px;font-size:0.72rem;margin:0;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .fifths-sliders{gap:2px;}
+  .fifth-col{width:15%;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M2 · Laboratorio: El problema imposible</h1>
+    <p class="subtitle">Cuatro experimentos sobre la coma pitagórica y sus parientes: la espiral de quintas que nunca cierra, el reparto forzoso del error entre 12 notas, y las cuatro comas que se esconden detrás de cualquier sistema de afinación. Todo el audio se sintetiza en el navegador.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · La espiral de quintas</h2>
+    <p class="purpose">Apila quintas puras desde Do y observa —y escucha— por qué la espiral nunca vuelve a cerrar exactamente sobre el punto de partida.</p>
+
+    <canvas id="l1Canvas" width="560" height="560"></canvas>
+
+    <div class="counter-box">
+      <div class="cbi"><span class="lbl">Quintas apiladas (n)</span><span class="val" id="l1N">0</span></div>
+      <div class="cbi"><span class="lbl">Cents acumulados (n × 701.955)</span><span class="val" id="l1Cents">0.000 c</span></div>
+      <div class="cbi"><span class="lbl">ET esperaría (n × 700)</span><span class="val" id="l1CentsET">0.000 c</span></div>
+      <div class="cbi"><span class="lbl">Exceso sobre ET</span><span class="val" id="l1Excess">0.000 c</span></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l1AddBtn">+ quinta pura</button>
+      <button class="btn" id="l1CompleteBtn">Completar las 12</button>
+      <button class="btn" id="l1GapBtn">🔊 Oír la brecha</button>
+      <button class="btn" id="l1ResetBtn">Reiniciar</button>
+    </div>
+
+    <div class="note-box" id="l1Note">Cada clic agrega una quinta pura (701.955 c) y la reduce a la octava central para que puedas oírla. Los 12 puntos grises del anillo exterior marcan dónde caerían las notas si las quintas fueran de exactamente 700 c (temperamento igual). Sigue haciendo clic más allá de la nº 12: la espiral vuelve a pasar cerca de Do en la nº 24, pero cada vez un poco más lejos — nunca cierra.</div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Apilador: quintas vs. octavas</h2>
+    <p class="purpose">Compara, para cualquier número de quintas puras, la torre resultante contra la torre de octavas puras más cercana por debajo — y descubre por qué 12 y 53 son números especiales.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l2N">Número de quintas apiladas</label>
+        <input type="range" id="l2N" min="0" max="53" step="1" value="12">
+        <div><span class="value-tag" id="l2NLabel">12</span> quintas</div>
+      </div>
+    </div>
+
+    <canvas id="l2Canvas" width="640" height="380"></canvas>
+    <div class="tower-legend">
+      <span><span class="sw" style="background:var(--accent);"></span>Torre de quintas puras (701.955 c c/u)</span>
+      <span><span class="sw" style="background:#4d6fa8;"></span>Torre de octavas puras (1200 c c/u), la mayor que cabe debajo</span>
+    </div>
+
+    <div class="residual-box" id="l2ResidualBox">
+      <div>n = <b id="l2ResN">12</b> quintas = <b id="l2ResFifths">8423.460</b> c · <b id="l2ResOct">7</b> octavas puras debajo = <b id="l2ResOctCents">8400.000</b> c</div>
+      <div>Residuo (lo que sobra de la torre de quintas por encima de la última octava completa): <b id="l2ResResidual">23.460</b> c</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l2ListenBtn">🔊 Oír residuo (nota final de la torre vs. Do)</button>
+    </div>
+
+    <h3>Números especiales: por qué existen escalas de 5, 7, 12, 41 y 53 notas</h3>
+    <p class="purpose" style="margin-bottom:6px;">Aquí el residuo se mide contra la octava <em>más cercana</em> (arriba o abajo), con signo: positivo si la torre de quintas queda más aguda que esa octava, negativo si queda más grave. Un residuo pequeño (en valor absoluto) significa que n quintas puras aproximan muy bien un número entero de octavas — la razón última por la que esos tamaños de escala son musicalmente útiles.</p>
+    <table class="ref-table">
+      <thead><tr><th>n quintas</th><th>Octava más cercana</th><th>Residuo (c)</th><th>Nombre</th></tr></thead>
+      <tbody id="l2SpecialTable"></tbody>
+    </table>
+    <div class="note-box">n = 53 da un residuo de solo <b>+3.615 c</b> (la <b>coma de Mercator</b>): unas 6.5 veces más pequeño que los <b>+23.460 c</b> de n = 12 (la coma pitagórica). Ambas torres quedan del lado agudo de la octava más cercana, pero la de 53 casi no se nota — por eso el temperamento de 53 tonos iguales es una aproximación excelente a las quintas puras, mucho mejor que la de 12.</div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · Las cuatro comas audibles</h2>
+    <p class="purpose">Do♯ no es Reb, y 81/64 no es 5/4: escucha las cuatro pequeñas discrepancias que la aritmética de fracciones impone a cualquier sistema de afinación justa. Todo sobre La3 = 220 Hz.</p>
+
+    <div class="comma-row" data-comma="pyth">
+      <div class="comma-row-head">
+        <h3>Coma pitagórica</h3>
+        <span class="value-tag">531441/524288 · 23.460 c</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn" data-act="melodic">🎵 Melódico</button>
+        <button class="btn" data-act="harmonic">🎧 Armónico (batido)</button>
+        <button class="btn" data-act="context">🎼 Contexto: Do vs. Si♯</button>
+      </div>
+      <div class="beat-note">Batido predicho en armónico: <b class="beatval">—</b> Hz · Contexto: Si♯ se alcanza subiendo 12 quintas puras desde Do y debería sonar igual a Do — pero está 23.46 c más arriba.</div>
+    </div>
+
+    <div class="comma-row" data-comma="synt">
+      <div class="comma-row-head">
+        <h3>Coma sintónica</h3>
+        <span class="value-tag">81/80 · 21.506 c</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn" data-act="melodic">🎵 Melódico</button>
+        <button class="btn" data-act="harmonic">🎧 Armónico (batido)</button>
+        <button class="btn" data-act="context">🎼 Contexto: 81/64 vs. 5/4</button>
+      </div>
+      <div class="beat-note">Batido predicho en armónico: <b class="beatval">—</b> Hz · Contexto: dos terceras mayores "sobre Do" — la pitagórica (81/64, 4 quintas apiladas) contra la justa (5/4) — difieren en exactamente esta coma.</div>
+    </div>
+
+    <div class="comma-row" data-comma="schisma">
+      <div class="comma-row-head">
+        <h3>Schisma</h3>
+        <span class="value-tag">32805/32768 · 1.954 c</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn" data-act="melodic">🎵 Melódico</button>
+        <button class="btn" data-act="harmonic">🎧 Armónico (batido)</button>
+      </div>
+      <div class="beat-note">Batido predicho en armónico: <b class="beatval">—</b> Hz · La diferencia entre la coma pitagórica y la sintónica (23.460 − 21.506 = 1.954 c): la más pequeña de las cuatro, casi inaudible por sí sola.</div>
+    </div>
+
+    <div class="comma-row" data-comma="diesis">
+      <div class="comma-row-head">
+        <h3>Diesis (gran diesis)</h3>
+        <span class="value-tag">128/125 · 41.059 c</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn" data-act="melodic">🎵 Melódico</button>
+        <button class="btn" data-act="harmonic">🎧 Armónico (batido)</button>
+        <button class="btn" data-act="context">🎼 Contexto: 3 terceras vs. octava</button>
+      </div>
+      <div class="beat-note">Batido predicho en armónico: <b class="beatval">—</b> Hz · Contexto: apila 3 terceras mayores puras (5/4) desde Do — llegas a 1158.942 c, 41.059 c corto de la octava (1200 c).</div>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · El juego del presupuesto de error</h2>
+    <p class="purpose">Reparte los 23.460 c de la coma pitagórica entre las 12 quintas del círculo como quieras: la única regla es que la suma de tus 12 decisiones tiene que dar exactamente −23.460 c para que el círculo vuelva a cerrar en Do.</p>
+
+    <div class="sum-indicator" id="l4SumBox">
+      <div class="big" id="l4SumBig">0.000 c</div>
+      <div class="msg" id="l4SumMsg">objetivo: −23.460 c</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="l4PresetET">Temperamento igual</button>
+      <button class="btn" id="l4PresetPyth">Pitagórica (todo en Sol♯–Mib)</button>
+      <button class="btn" id="l4PresetWerck">Werckmeister III</button>
+      <button class="btn" id="l4PresetReset">Repartir a mi manera (reset)</button>
+    </div>
+
+    <div class="fifths-sliders" id="l4Sliders"></div>
+
+    <h3>La afinación resultante de las 12 notas</h3>
+    <p class="purpose" style="margin-bottom:6px;">Cadena de quintas desde Do (Mib–Sib–Fa–Do–Sol–Re–La–Mi–Si–Fa♯–Do♯–Sol♯), reducida a una octava. La columna "3ª mayor" marca la tercera de la tríada de cada fundamental y cuánto se aparta de la tercera justa (386.314 c).</p>
+    <table class="note-table">
+      <thead><tr><th>Nota</th><th>Cents</th><th>Desv. vs ET</th><th>3ª mayor</th><th>Tamaño 3ª (c)</th><th>Desv. vs 3ª justa</th><th>Tríada</th></tr></thead>
+      <tbody id="l4NoteTable"></tbody>
+    </table>
+  </section>
+
+  <footer>
+    Módulo 2 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* ==================== CONSTANTES MUSICALES ==================== */
+const FIFTH = 701.955;          // quinta pura, 3/2
+const PYTH_COMMA = 23.460;      // 531441/524288
+const SYNTONIC_COMMA = 21.506;  // 81/80
+const SCHISMA = 1.954;          // 32805/32768
+const DIESIS = 41.059;          // 128/125
+const PURE_M3 = 386.314;        // 5/4
+const A3 = 220;                 // La3
+const DO4_HZ = 440 * Math.pow(2, -9/12); // Do4 (referencia), a partir de La4=440
+
+function centsToRatio(c){ return Math.pow(2, c/1200); }
+function freqAt(baseHz, cents){ return baseHz * centsToRatio(cents); }
+function centsMod(c){ return ((c % 1200) + 1200) % 1200; }
+
+/* ==================== SÍNTESIS COMPARTIDA ==================== */
+// Timbre rico en armónicos (8 armónicos, amplitud 1/n) vía createPeriodicWave,
+// necesario para que los batidos entre comas se escuchen con claridad.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima sobre un AudioParam de gain; devuelve el instante en que termina el release.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Programa una sola voz armónica en un instante dado.
+function scheduleHarmonicVoice(freq, startTime, duration, peak){
+  const osc = createHarmonicOsc(audioCtx, freq, 8);
+  const g = audioCtx.createGain();
+  osc.connect(g); g.connect(masterGain);
+  const release = Math.min(0.15, Math.max(duration * 0.25, 0.08));
+  const end = scheduleTone(g.gain, startTime, duration, peak, 0.02, release);
+  osc.start(startTime);
+  osc.stop(end + 0.05);
+  osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  return end;
+}
+
+// Toca un acorde (lista de frecuencias) simultáneo en un instante dado.
+function playChordAt(freqs, startTime, duration, peak){
+  freqs.forEach(function(f){ scheduleHarmonicVoice(f, startTime, duration, peak); });
+}
+
+// Toca una secuencia de pasos [{freqs:[...], duration, gap}] uno tras otro.
+function playSequence(steps, peak){
+  if(!ensureAudioReady()) return;
+  let t = audioCtx.currentTime + 0.05;
+  steps.forEach(function(step){
+    playChordAt(step.freqs, t, step.duration, peak != null ? peak : 0.16);
+    t += step.duration + (step.gap != null ? step.gap : 0.15);
+  });
+}
+
+/* ==================== Lab 1: La espiral de quintas ==================== */
+(function(){
+  const canvas = document.getElementById('l1Canvas');
+  const ctx2d = canvas.getContext('2d');
+  const nLabel = document.getElementById('l1N');
+  const centsLabel = document.getElementById('l1Cents');
+  const centsETLabel = document.getElementById('l1CentsET');
+  const excessLabel = document.getElementById('l1Excess');
+  const addBtn = document.getElementById('l1AddBtn');
+  const completeBtn = document.getElementById('l1CompleteBtn');
+  const gapBtn = document.getElementById('l1GapBtn');
+  const resetBtn = document.getElementById('l1ResetBtn');
+  const noteBox = document.getElementById('l1Note');
+
+  const MAX_FIFTHS = 24;
+  const W = canvas.width, H = canvas.height;
+  const CX = W/2, CY = H/2;
+  const BASE_R = 55;
+  const RING_GAP = 13;     // px por vuelta completa (1200 c)
+  const REF_RING_R = 250;  // radio del anillo de referencia ET (fijo)
+
+  let n = 0;
+
+  function radiusAt(t){ return BASE_R + (t/1200) * RING_GAP; }
+  function angleAt(t){ return (centsMod(t)/1200) * 2*Math.PI - Math.PI/2; }
+  function pointAt(t){
+    const r = radiusAt(t), a = angleAt(t);
+    return { x: CX + r*Math.cos(a), y: CY + r*Math.sin(a) };
+  }
+
+  function updateCounters(){
+    const cents = n * FIFTH;
+    const centsET = n * 700;
+    nLabel.textContent = String(n);
+    centsLabel.textContent = cents.toFixed(3) + ' c';
+    centsETLabel.textContent = centsET.toFixed(3) + ' c';
+    excessLabel.textContent = '+' + (cents - centsET).toFixed(3) + ' c';
+    addBtn.disabled = (n >= MAX_FIFTHS);
+    completeBtn.disabled = (n >= 12);
+    gapBtn.disabled = (n < 1);
+  }
+
+  function draw(){
+    ctx2d.clearRect(0,0,W,H);
+
+    // Anillo de referencia ET: 12 marcas grises fijas
+    ctx2d.strokeStyle = '#333a48';
+    ctx2d.beginPath(); ctx2d.arc(CX,CY,REF_RING_R,0,2*Math.PI); ctx2d.stroke();
+    for(let k=0;k<12;k++){
+      const a = (k/12)*2*Math.PI - Math.PI/2;
+      const x1 = CX + (REF_RING_R-6)*Math.cos(a), y1 = CY + (REF_RING_R-6)*Math.sin(a);
+      const x2 = CX + (REF_RING_R+6)*Math.cos(a), y2 = CY + (REF_RING_R+6)*Math.sin(a);
+      ctx2d.strokeStyle = '#4a5064';
+      ctx2d.beginPath(); ctx2d.moveTo(x1,y1); ctx2d.lineTo(x2,y2); ctx2d.stroke();
+    }
+
+    // Curva continua de la espiral (parametrizada por cents continuos, 0..n*FIFTH)
+    const totalT = n * FIFTH;
+    if(totalT > 0){
+      ctx2d.strokeStyle = '#5a6478';
+      ctx2d.lineWidth = 1.4;
+      ctx2d.beginPath();
+      const steps = Math.max(20, Math.ceil(totalT/4));
+      for(let i=0;i<=steps;i++){
+        const t = (i/steps) * totalT;
+        const p = pointAt(t);
+        if(i===0) ctx2d.moveTo(p.x,p.y); else ctx2d.lineTo(p.x,p.y);
+      }
+      ctx2d.stroke();
+    }
+
+    // Punto Do (inicio)
+    const doP = pointAt(0);
+    ctx2d.fillStyle = '#e9e9ec';
+    ctx2d.beginPath(); ctx2d.arc(doP.x,doP.y,5,0,2*Math.PI); ctx2d.fill();
+    ctx2d.fillStyle = '#c7cbd4'; ctx2d.font = '11px system-ui'; ctx2d.textAlign='center';
+    ctx2d.fillText('Do', doP.x, doP.y-10);
+
+    // Puntos de cada quinta
+    for(let k=1;k<=n;k++){
+      const p = pointAt(k*FIFTH);
+      const isLast = (k===n);
+      ctx2d.fillStyle = isLast ? '#ff6b6b' : '#e8a33d';
+      ctx2d.beginPath(); ctx2d.arc(p.x,p.y, isLast?6:3.5, 0, 2*Math.PI); ctx2d.fill();
+    }
+
+    // Resalte de la brecha en n=12
+    if(n >= 12){
+      const p12 = pointAt(12*FIFTH);
+      const rGap = radiusAt(12*FIFTH);
+      const aStart = angleAt(0), aEnd = angleAt(12*FIFTH);
+      ctx2d.strokeStyle = '#ff6b6b'; ctx2d.setLineDash([4,4]); ctx2d.lineWidth = 1.5;
+      ctx2d.beginPath(); ctx2d.arc(CX,CY,rGap, aStart, aEnd); ctx2d.stroke();
+      ctx2d.setLineDash([]);
+      ctx2d.fillStyle = '#ff6b6b'; ctx2d.font = 'bold 11px system-ui'; ctx2d.textAlign='left';
+      ctx2d.fillText('23.46 c — la coma pitagórica', p12.x+10, p12.y+4);
+    }
+  }
+
+  function playNote(t, dur){
+    if(!ensureAudioReady()) return;
+    const freq = freqAt(DO4_HZ, centsMod(t));
+    playSequence([{ freqs:[freq], duration: dur||0.9, gap:0 }], 0.2);
+  }
+
+  function addFifth(){
+    if(n >= MAX_FIFTHS) return;
+    n++;
+    updateCounters();
+    draw();
+    playNote(n*FIFTH, 0.9);
+    if(n===12){
+      noteBox.innerHTML = '<b>¡Llegaste a la quinta nº 12!</b> Si las quintas fueran perfectas y el círculo cerrara, este punto debería caer exactamente sobre Do. En cambio quedó 23.46 c más agudo: esa distancia es la <b>coma pitagórica</b>, el villano de este módulo. Haz clic en "Oír la brecha" para escuchar el batido entre ambas notas.';
+    }
+  }
+
+  function resetAll(){
+    n = 0;
+    updateCounters();
+    draw();
+    noteBox.innerHTML = 'Cada clic agrega una quinta pura (701.955 c) y la reduce a la octava central para que puedas oírla. Los 12 puntos grises del anillo exterior marcan dónde caerían las notas si las quintas fueran de exactamente 700 c (temperamento igual). Sigue haciendo clic más allá de la nº 12: la espiral vuelve a pasar cerca de Do en la nº 24, pero cada vez un poco más lejos — nunca cierra.';
+  }
+
+  function completeTwelve(){
+    if(!ensureAudioReady()) return;
+    let i = n;
+    function step(){
+      if(i >= 12) return;
+      i++;
+      n = i;
+      updateCounters();
+      draw();
+      playNote(n*FIFTH, 0.35);
+      if(n < 12) setTimeout(step, 180);
+      else {
+        noteBox.innerHTML = '<b>¡Llegaste a la quinta nº 12!</b> Si las quintas fueran perfectas y el círculo cerrara, este punto debería caer exactamente sobre Do. En cambio quedó 23.46 c más agudo: esa distancia es la <b>coma pitagórica</b>, el villano de este módulo. Haz clic en "Oír la brecha" para escuchar el batido entre ambas notas.';
+      }
+    }
+    step();
+  }
+
+  function playGap(){
+    if(n < 1) return;
+    if(!ensureAudioReady()) return;
+    const gapCents = centsMod(n*FIFTH);
+    const f1 = DO4_HZ;
+    const f2 = freqAt(DO4_HZ, gapCents);
+    playSequence([{ freqs:[f1,f2], duration:3, gap:0 }], 0.16);
+  }
+
+  addBtn.addEventListener('click', addFifth);
+  completeBtn.addEventListener('click', completeTwelve);
+  gapBtn.addEventListener('click', playGap);
+  resetBtn.addEventListener('click', resetAll);
+
+  updateCounters();
+  draw();
+})();
+
+/* ==================== Lab 2: Apilador quintas vs. octavas ==================== */
+(function(){
+  const slider = document.getElementById('l2N');
+  const nLabel = document.getElementById('l2NLabel');
+  const canvas = document.getElementById('l2Canvas');
+  const ctx2d = canvas.getContext('2d');
+  const resN = document.getElementById('l2ResN');
+  const resFifths = document.getElementById('l2ResFifths');
+  const resOct = document.getElementById('l2ResOct');
+  const resOctCents = document.getElementById('l2ResOctCents');
+  const resResidual = document.getElementById('l2ResResidual');
+  const residualBox = document.getElementById('l2ResidualBox');
+  const listenBtn = document.getElementById('l2ListenBtn');
+  const specialTableBody = document.getElementById('l2SpecialTable');
+
+  const W = canvas.width, H = canvas.height;
+  const MAX_N = 53;
+  const PLOT_H = 320, PLOT_BOTTOM = 350;
+  const SCALE = PLOT_H / (MAX_N * FIFTH); // px por cent, fijo para que las torres crezcan de forma comparable
+
+  function computeFor(n){
+    const fifthsCents = n * FIFTH;
+    const octaves = Math.floor(fifthsCents / 1200); // "las necesarias para quedar justo debajo"
+    const octCents = octaves * 1200;
+    const residual = fifthsCents - octCents; // siempre en [0,1200)
+    return { n:n, fifthsCents:fifthsCents, octaves:octaves, octCents:octCents, residual:residual };
+  }
+
+  function draw(n){
+    const d = computeFor(n);
+    ctx2d.clearRect(0,0,W,H);
+
+    const leftX = W*0.28, rightX = W*0.68, barW = 70;
+
+    // Torre de quintas (izquierda), segmentada
+    for(let k=0;k<n;k++){
+      const y0 = PLOT_BOTTOM - k*FIFTH*SCALE;
+      const y1 = PLOT_BOTTOM - (k+1)*FIFTH*SCALE;
+      ctx2d.fillStyle = (k%2===0) ? '#e8a33d' : '#c9862c';
+      ctx2d.fillRect(leftX-barW/2, y1, barW, y0-y1);
+    }
+    // Torre de octavas (derecha), segmentada
+    for(let k=0;k<d.octaves;k++){
+      const y0 = PLOT_BOTTOM - k*1200*SCALE;
+      const y1 = PLOT_BOTTOM - (k+1)*1200*SCALE;
+      ctx2d.fillStyle = (k%2===0) ? '#4d6fa8' : '#3c5686';
+      ctx2d.fillRect(rightX-barW/2, y1, barW, y0-y1);
+    }
+
+    // Línea de la cima de cada torre
+    const topFifths = PLOT_BOTTOM - d.fifthsCents*SCALE;
+    const topOct = PLOT_BOTTOM - d.octCents*SCALE;
+    ctx2d.strokeStyle = '#ff6b6b'; ctx2d.setLineDash([5,4]); ctx2d.lineWidth = 1.4;
+    ctx2d.beginPath(); ctx2d.moveTo(leftX-barW/2-6, topFifths); ctx2d.lineTo(rightX+barW/2+6, topFifths); ctx2d.stroke();
+    ctx2d.beginPath(); ctx2d.moveTo(leftX-barW/2-6, topOct); ctx2d.lineTo(rightX+barW/2+6, topOct); ctx2d.stroke();
+    ctx2d.setLineDash([]);
+
+    // Etiquetas
+    ctx2d.fillStyle = '#c7cbd4'; ctx2d.font = '12px system-ui'; ctx2d.textAlign = 'center';
+    ctx2d.fillText('quintas', leftX, PLOT_BOTTOM+18);
+    ctx2d.fillText('octavas', rightX, PLOT_BOTTOM+18);
+    ctx2d.fillStyle = '#ff6b6b'; ctx2d.textAlign = 'left'; ctx2d.font = 'bold 11px system-ui';
+    ctx2d.fillText('residuo = ' + d.residual.toFixed(3) + ' c', rightX+barW/2+14, (topFifths+topOct)/2 + 4);
+
+    // Base
+    ctx2d.strokeStyle = '#2a2e3a';
+    ctx2d.beginPath(); ctx2d.moveTo(20, PLOT_BOTTOM); ctx2d.lineTo(W-20, PLOT_BOTTOM); ctx2d.stroke();
+
+    resN.textContent = String(d.n);
+    resFifths.textContent = d.fifthsCents.toFixed(3);
+    resOct.textContent = String(d.octaves);
+    resOctCents.textContent = d.octCents.toFixed(3);
+    resResidual.textContent = d.residual.toFixed(3);
+    residualBox.className = 'residual-box' + ((n===12||n===53) ? ' flag' : '');
+  }
+
+  function listenResidual(){
+    const n = parseInt(slider.value, 10);
+    if(!ensureAudioReady()) return;
+    const d = computeFor(n);
+    const f1 = DO4_HZ;
+    const f2 = freqAt(DO4_HZ, d.residual);
+    playSequence([{ freqs:[f1,f2], duration:3, gap:0 }], 0.16);
+  }
+
+  function nearestOctaveResidual(n){
+    // Convención distinta a la torre principal: octava MÁS CERCANA (arriba o abajo), con signo.
+    // Positivo = la torre de quintas queda más aguda que esa octava; negativo = más grave.
+    const total = n * FIFTH;
+    const nearestOct = Math.round(total/1200);
+    return total - nearestOct*1200;
+  }
+
+  function buildSpecialTable(){
+    const special = [
+      { n:5,  name:'pentatónica' },
+      { n:7,  name:'diatónica' },
+      { n:12, name:'cromática (coma pitagórica)' },
+      { n:41, name:'—' },
+      { n:53, name:'coma de Mercator' }
+    ];
+    specialTableBody.innerHTML = '';
+    special.forEach(function(s){
+      const total = s.n * FIFTH;
+      const nearestOct = Math.round(total/1200);
+      const residual = nearestOctaveResidual(s.n);
+      const tr = document.createElement('tr');
+      const cls = residual >= 0 ? 'pos-cents' : 'neg-cents';
+      const sign = residual >= 0 ? '+' : '';
+      tr.innerHTML = '<td>' + s.n + '</td><td>' + nearestOct + ' (' + (nearestOct*1200).toFixed(0) + ' c)</td>' +
+                     '<td class="' + cls + '">' + sign + residual.toFixed(3) + '</td><td>' + s.name + '</td>';
+      specialTableBody.appendChild(tr);
+    });
+  }
+
+  slider.addEventListener('input', function(){
+    const n = parseInt(slider.value, 10);
+    nLabel.textContent = String(n);
+    draw(n);
+  });
+  listenBtn.addEventListener('click', listenResidual);
+
+  buildSpecialTable();
+  draw(parseInt(slider.value,10));
+})();
+
+/* ==================== Lab 3: Las cuatro comas audibles ==================== */
+(function(){
+  const COMMAS = {
+    pyth:    { cents: PYTH_COMMA },
+    synt:    { cents: SYNTONIC_COMMA },
+    schisma: { cents: SCHISMA },
+    diesis:  { cents: DIESIS }
+  };
+
+  function beatHz(cents){ return A3 * (centsToRatio(cents) - 1); }
+
+  document.querySelectorAll('.comma-row').forEach(function(row){
+    const key = row.dataset.comma;
+    const c = COMMAS[key].cents;
+    const beatEl = row.querySelector('.beatval');
+    if(beatEl) beatEl.textContent = beatHz(c).toFixed(3);
+
+    row.querySelectorAll('button[data-act]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(!ensureAudioReady()) return;
+        const act = btn.dataset.act;
+        if(act === 'melodic'){
+          playSequence([
+            { freqs:[A3], duration:0.9, gap:0.3 },
+            { freqs:[freqAt(A3,c)], duration:0.9, gap:0 }
+          ], 0.2);
+        } else if(act === 'harmonic'){
+          playSequence([{ freqs:[A3, freqAt(A3,c)], duration:3, gap:0 }], 0.16);
+        } else if(act === 'context'){
+          if(key === 'pyth'){
+            // Do vs. "Si#" (Do + 23.46 c): dos notas que "deberían" ser la misma.
+            playSequence([{ freqs:[DO4_HZ, freqAt(DO4_HZ, PYTH_COMMA)], duration:3, gap:0 }], 0.16);
+          } else if(key === 'synt'){
+            const mi81 = freqAt(DO4_HZ, 4*FIFTH - 2*1200); // 81/64: 4 quintas apiladas, reducidas
+            const mi54 = freqAt(DO4_HZ, PURE_M3);
+            playSequence([
+              { freqs:[DO4_HZ, mi81], duration:2, gap:0.3 },
+              { freqs:[DO4_HZ, mi54], duration:2, gap:0 }
+            ], 0.16);
+          } else if(key === 'diesis'){
+            const step1 = freqAt(DO4_HZ, PURE_M3);
+            const step2 = freqAt(DO4_HZ, 2*PURE_M3);
+            const step3 = freqAt(DO4_HZ, 3*PURE_M3);
+            const octava = freqAt(DO4_HZ, 1200);
+            playSequence([
+              { freqs:[DO4_HZ], duration:0.55, gap:0.05 },
+              { freqs:[step1], duration:0.55, gap:0.05 },
+              { freqs:[step2], duration:0.55, gap:0.05 },
+              { freqs:[step3], duration:0.7, gap:0.3 },
+              { freqs:[step3, octava], duration:2.5, gap:0 }
+            ], 0.18);
+          }
+        }
+      });
+    });
+  });
+})();
+
+/* ==================== Lab 4: El juego del presupuesto de error ==================== */
+(function(){
+  // Cadena de quintas: fifths[i] conecta CHAIN[i] -> CHAIN[(i+1)%12]
+  const CHAIN = ['Do','Sol','Re','La','Mi','Si','Fa♯','Do♯','Sol♯','Mib','Sib','Fa'];
+  const SLIDER_LABELS = ['Do–Sol','Sol–Re','Re–La','La–Mi','Mi–Si','Si–Fa♯','Fa♯–Do♯','Do♯–Sol♯','Sol♯–Mib','Mib–Sib','Sib–Fa','Fa–Do'];
+  // Orden cromático para la tabla final, con su índice de semitono ET
+  const CHROMATIC = [
+    {name:'Do', semitone:0}, {name:'Do♯', semitone:1}, {name:'Re', semitone:2}, {name:'Mib', semitone:3},
+    {name:'Mi', semitone:4}, {name:'Fa', semitone:5}, {name:'Fa♯', semitone:6}, {name:'Sol', semitone:7},
+    {name:'Sol♯', semitone:8}, {name:'La', semitone:9}, {name:'Sib', semitone:10}, {name:'Si', semitone:11}
+  ];
+
+  const slidersWrap = document.getElementById('l4Sliders');
+  const sumBig = document.getElementById('l4SumBig');
+  const sumMsg = document.getElementById('l4SumMsg');
+  const sumBox = document.getElementById('l4SumBox');
+  const tableBody = document.getElementById('l4NoteTable');
+
+  let devs = new Array(12).fill(0);
+  const sliderEls = [], valueEls = [];
+
+  function buildSliders(){
+    slidersWrap.innerHTML = '';
+    for(let i=0;i<12;i++){
+      const col = document.createElement('div');
+      col.className = 'fifth-col';
+      const nameEl = document.createElement('div');
+      nameEl.className = 'fs-name'; nameEl.textContent = SLIDER_LABELS[i];
+      const wrap = document.createElement('div');
+      wrap.className = 'slider-wrap';
+      const input = document.createElement('input');
+      input.type = 'range'; input.min = '-25'; input.max = '5'; input.step = '0.5'; input.value = '0';
+      input.addEventListener('input', function(){
+        devs[i] = parseFloat(input.value);
+        valueEls[i].textContent = devs[i].toFixed(1);
+        refresh();
+      });
+      wrap.appendChild(input);
+      const valEl = document.createElement('div');
+      valEl.className = 'fs-value'; valEl.textContent = '0.0';
+      col.appendChild(nameEl); col.appendChild(wrap); col.appendChild(valEl);
+      slidersWrap.appendChild(col);
+      sliderEls.push(input); valueEls.push(valEl);
+    }
+  }
+
+  function setDevs(newDevs){
+    devs = newDevs.slice();
+    for(let i=0;i<12;i++){
+      sliderEls[i].value = String(devs[i]);
+      valueEls[i].textContent = devs[i].toFixed(1);
+    }
+    refresh();
+  }
+
+  function computeChain(){
+    // cum[0] = Do = 0; cum[i+1] = cum[i] + FIFTH + devs[i]
+    const cum = [0];
+    for(let i=0;i<12;i++) cum.push(cum[i] + FIFTH + devs[i]);
+    const pc = {}; // pitch class cents por nombre de nota, en [0,1200)
+    for(let i=0;i<12;i++) pc[CHAIN[i]] = centsMod(cum[i]);
+    return { cum:cum, pc:pc };
+  }
+
+  function refresh(){
+    const sum = devs.reduce(function(a,b){ return a+b; }, 0);
+    sumBig.textContent = (sum>=0?'+':'') + sum.toFixed(3) + ' c';
+    const diff = sum + PYTH_COMMA; // 0 cuando sum = -23.460
+    if(Math.abs(diff) < 0.25){
+      sumBox.className = 'sum-indicator good';
+      sumMsg.textContent = '¡presupuesto equilibrado! El círculo cierra exactamente en Do (objetivo: −23.460 c).';
+    } else if(diff > 0){
+      sumBox.className = 'sum-indicator bad';
+      sumMsg.textContent = 'te faltan ' + diff.toFixed(3) + ' c por esconder (objetivo: −23.460 c).';
+    } else {
+      sumBox.className = 'sum-indicator bad';
+      sumMsg.textContent = 'te sobran ' + (-diff).toFixed(3) + ' c ya escondidos de más (objetivo: −23.460 c).';
+    }
+    buildTable();
+  }
+
+  function buildTable(){
+    const chain = computeChain();
+    const pc = chain.pc;
+    tableBody.innerHTML = '';
+    CHROMATIC.forEach(function(note, idx){
+      const rootCents = pc[note.name];
+      const devET = rootCents - note.semitone*100;
+      const thirdInfo = CHROMATIC[(idx+4)%12];
+      const thirdCents = pc[thirdInfo.name];
+      const thirdInterval = centsMod(thirdCents - rootCents);
+      const thirdDev = thirdInterval - PURE_M3;
+      const fifthInfo = CHROMATIC[(idx+7)%12];
+      const fifthCents = pc[fifthInfo.name];
+      const fifthInterval = centsMod(fifthCents - rootCents);
+
+      const tr = document.createElement('tr');
+      const devClass = devET >= 0 ? 'pos-cents' : 'neg-cents';
+      const thirdDevClass = thirdDev >= 0 ? 'pos-cents' : 'neg-cents';
+      tr.innerHTML =
+        '<td>' + note.name + '</td>' +
+        '<td>' + rootCents.toFixed(3) + '</td>' +
+        '<td class="' + devClass + '">' + (devET>=0?'+':'') + devET.toFixed(3) + '</td>' +
+        '<td>' + thirdInfo.name + '</td>' +
+        '<td>' + thirdInterval.toFixed(3) + '</td>' +
+        '<td class="' + thirdDevClass + '">' + (thirdDev>=0?'+':'') + thirdDev.toFixed(3) + '</td>' +
+        '<td></td>';
+      const playCell = tr.lastElementChild;
+      const playBtn = document.createElement('button');
+      playBtn.className = 'btn play-btn'; playBtn.textContent = '▶ ' + note.name;
+      playBtn.addEventListener('click', function(){
+        if(!ensureAudioReady()) return;
+        const rootFreq = freqAt(DO4_HZ, rootCents);
+        const thirdFreq = rootFreq * centsToRatio(thirdInterval);
+        const fifthFreq = rootFreq * centsToRatio(fifthInterval);
+        playSequence([{ freqs:[rootFreq, thirdFreq, fifthFreq], duration:2.5, gap:0 }], 0.14);
+      });
+      playCell.appendChild(playBtn);
+      tableBody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('l4PresetET').addEventListener('click', function(){
+    setDevs(new Array(12).fill(-1.955));
+  });
+  document.getElementById('l4PresetPyth').addEventListener('click', function(){
+    const d = new Array(12).fill(0);
+    d[8] = -23.460; // Sol#-Mib es el índice 8 en SLIDER_LABELS
+    setDevs(d);
+  });
+  document.getElementById('l4PresetWerck').addEventListener('click', function(){
+    const d = new Array(12).fill(0);
+    [0,1,2,5].forEach(function(i){ d[i] = -5.865; }); // Do-Sol, Sol-Re, Re-La, Si-Fa#
+    setDevs(d);
+  });
+  document.getElementById('l4PresetReset').addEventListener('click', function(){
+    setDevs(new Array(12).fill(0));
+  });
+
+  buildSliders();
+  refresh();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M12 · Laboratorio — Herramientas: Scala y MIDI</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --mid:#e8c33d;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:960px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:700px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:16px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:190px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+select,input[type=number],input[type=text],input[type=file],textarea{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+textarea{resize:vertical;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;cursor:default;margin:3px 5px 3px 0;}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px;}
+.chip-btn{cursor:pointer;}
+.chip-btn:hover{background:#313848;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+.note-box.small{font-size:0.8rem;padding:9px 12px;}
+
+.table-scroll{overflow-x:auto;margin-top:10px;}
+table.super-table{width:100%;border-collapse:collapse;font-size:0.78rem;}
+table.super-table th{text-align:center;color:var(--muted);font-weight:600;padding:7px 4px;border-bottom:1px solid var(--line);white-space:nowrap;}
+table.super-table td{padding:6px 4px;border-bottom:1px solid #ffffff08;text-align:center;}
+table.super-table td.note-label{text-align:left;color:var(--text);font-weight:600;padding-left:6px;}
+.pos-cents{color:var(--good);}
+.neg-cents{color:var(--warn);}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+/* ---- específico M12 ---- */
+.keyboard{display:flex;gap:3px;margin:12px 0 16px;overflow-x:auto;padding:2px 2px 8px;}
+.key{flex:0 0 auto;min-width:34px;height:64px;background:#262b38;border:1px solid var(--line);border-radius:0 0 6px 6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:0.66rem;color:var(--muted);cursor:pointer;user-select:none;}
+.key:hover{background:#313848;}
+.key:active{background:var(--accent);color:var(--accent-ink);}
+.key.black{background:#0d0f14;height:40px;margin:0 -12px;z-index:2;color:#7d8291;border-color:#000;}
+.key.black:hover{background:#181c26;}
+.key.narrow{min-width:16px;font-size:0.56rem;}
+
+.scl-preview{background:#0d0f14;border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.78rem;white-space:pre;overflow:auto;color:#c7cbd4;max-height:340px;margin:0 0 12px;}
+
+.error-box{background:#3a1420;border:1px solid #7a2c40;color:#f5c2ce;padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-top:10px;}
+.diag-box{background:#12151d;border-left:3px solid var(--good);padding:10px 14px;border-radius:7px;font-size:0.87rem;color:#c7cbd4;}
+
+.bend-math{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.8rem;background:#0d0f14;border:1px solid var(--line);border-radius:8px;padding:12px 14px;line-height:1.75;color:#c7cbd4;overflow-x:auto;margin-bottom:12px;}
+.bend-math b{color:var(--accent);}
+
+.custom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-bottom:6px;}
+.custom-grid .field{min-width:0;}
+.custom-grid label{font-size:0.68rem;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M12 · Laboratorio: Herramientas — Scala y MIDI</h1>
+    <p class="subtitle">El módulo más práctico del curso: aquí exportas de verdad un archivo <code>.scl</code> (el formato estándar de la comunidad microtonal), lo vuelves a leer con un parser propio, traduces cents a mensajes de Pitch Bend MIDI de 14 bits, y pones a prueba el resultado con tus oídos en una cadencia real.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Generador de archivos .scl</h2>
+    <p class="purpose">Convierte cualquiera de los sistemas del curso — o uno que definas tú — en un archivo Scala (.scl) real: el formato estándar que leen sintetizadores, afinadores digitales y software microtonal (Scala, MTS-ESP, AnaMark TUN, Sevish's Scale Workshop, etc.).</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l1System">Sistema fuente</label>
+        <select id="l1System">
+          <optgroup label="Los 7 de M8" id="l1GroupBase7"></optgroup>
+          <optgroup label="Escalas equilibradas">
+            <option value="edo19">19-EDO</option>
+            <option value="edo31">31-EDO</option>
+          </optgroup>
+          <optgroup label="Justa extendida">
+            <option value="just7">Justa 7-límite</option>
+          </optgroup>
+          <optgroup label="A tu gusto">
+            <option value="custom">Personalizado</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+
+    <div class="note-box small" id="l1Desc"></div>
+
+    <div id="l1CustomBox" style="display:none;">
+      <div class="row">
+        <div class="field">
+          <label for="l1CustomName">Nombre del sistema personalizado</label>
+          <input type="text" id="l1CustomName" value="Personalizado">
+        </div>
+      </div>
+      <div class="custom-grid" id="l1CustomGrid"></div>
+      <p class="purpose">El grado 12 (la octava) siempre se exporta como razón exacta <b>2/1</b>, nunca como <code>1200.00000</code> — así el archivo cierra la octava sin error de redondeo.</p>
+    </div>
+
+    <h3>Teclado — sonar el sistema antes de exportar</h3>
+    <div class="keyboard" id="l1Keyboard"></div>
+
+    <h3>Vista previa del archivo .scl</h3>
+    <pre class="scl-preview" id="l1Preview"></pre>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l1DownloadScl">⬇ Descargar .scl</button>
+      <button class="btn" id="l1DownloadKbm">⬇ Descargar .kbm básico</button>
+    </div>
+    <div class="note-box small">El <code>.kbm</code> básico mapea las teclas MIDI 0–127 en ciclos de <b id="l1KbmN">12</b> grado(s), 1 tecla = 1 grado, con <b>La4 = nota MIDI 69 = 440 Hz</b> como referencia. Es el mapeo "identidad" que usan la mayoría de los sintetizadores compatibles con MTS al cargar un .scl a secas.</div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Lector de archivos .scl</h2>
+    <p class="purpose">Pega o carga un archivo .scl real. El parser lo valida línea por línea, calcula los cents de cada grado y — si tiene 12 notas — diagnostica a qué sistema conocido se parece más.</p>
+
+    <div class="chip-row">
+      <span class="chip chip-btn" id="l2ChipVallotti">vallotti.scl</span>
+      <span class="chip chip-btn" id="l2ChipEdo31">31edo.scl</span>
+      <span class="chip chip-btn" id="l2ChipMisterio">misterio.scl</span>
+    </div>
+
+    <div class="row">
+      <div class="field" style="flex:2;min-width:280px;">
+        <label for="l2Textarea">Pega aquí tu .scl</label>
+        <textarea id="l2Textarea" rows="10" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.8rem;"></textarea>
+      </div>
+      <div class="field">
+        <label for="l2File">…o cargar un archivo</label>
+        <input type="file" id="l2File" accept=".scl,.txt">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l2Parse">Analizar</button>
+    </div>
+
+    <div id="l2Error" class="error-box" style="display:none;"></div>
+
+    <div id="l2Results" style="display:none;">
+      <h3>Grados de la escala</h3>
+      <div class="table-scroll">
+        <table class="super-table" id="l2Table"><thead><tr id="l2TableHead"></tr></thead><tbody id="l2TableBody"></tbody></table>
+      </div>
+
+      <h3>Teclado</h3>
+      <div class="keyboard" id="l2Keyboard"></div>
+      <div class="btn-row">
+        <button class="btn" id="l2PlayScale">▶ Escala completa</button>
+      </div>
+
+      <h3>Diagnóstico</h3>
+      <div class="diag-box" id="l2Diag"></div>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · Calculadora de pitch bend MIDI</h2>
+    <p class="purpose">El MIDI clásico (1983) no tiene cents: los 128 valores de <em>Note On</em> son de semitono fijo. Para afinar microtonalmente en tiempo real hay que traducir una desviación en cents a un mensaje de Pitch Bend de 14 bits sumado a la nota más cercana. Aquí ves la aritmética completa, en ambas direcciones.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l3Cents">Desviación (cents)</label>
+        <input type="number" id="l3Cents" min="-200" max="200" step="0.001" value="-5.865">
+      </div>
+      <div class="field">
+        <label for="l3Range">Rango de bend (RPN 0 configurado en el sintetizador)</label>
+        <select id="l3Range">
+          <option value="2">±2 semitonos (fino)</option>
+          <option value="12">±12 semitonos (una octava)</option>
+          <option value="48">±48 semitonos (cuatro octavas)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="chip-row">
+      <span class="chip chip-btn l3-chip" data-cents="21.506">+21.506 c (coma sintónica)</span>
+      <span class="chip chip-btn l3-chip" data-cents="-13.686">−13.686 c (3.ª ET vs pura)</span>
+      <span class="chip chip-btn l3-chip" data-cents="-5.865">−5.865 c (quinta Werckmeister)</span>
+      <span class="chip chip-btn l3-chip" data-cents="41.059">+41.059 c (diesis)</span>
+    </div>
+
+    <div class="bend-math" id="l3Math"></div>
+    <p class="purpose" id="l3Resolution"></p>
+
+    <h3>Camino inverso: valor de bend → cents</h3>
+    <div class="row">
+      <div class="field">
+        <label for="l3BendIn">Valor de bend (0–16383, centro 8192)</label>
+        <input type="number" id="l3BendIn" min="0" max="16383" step="1" value="7952">
+      </div>
+    </div>
+    <div class="bend-math" id="l3MathInverse"></div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · Probador A/B contra ET</h2>
+    <p class="purpose">La cadencia I–IV–V7–I en Do (Do-Mi-Sol / Fa-La-Do / Sol-Si-Re-Fa / Do-Mi-Sol una octava arriba, timbre armónico) suena en el sistema que elijas — el armado en el Lab 1 o el analizado en el Lab 2 — contra el temperamento igual como referencia B.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l4Source">Fuente del sistema A</label>
+        <select id="l4Source">
+          <option value="lab1">Sistema actual del Lab 1</option>
+          <option value="lab2">Sistema importado en el Lab 2</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="note-box small" id="l4Info"></div>
+
+    <div class="btn-row" style="justify-content:center;display:flex;flex-wrap:wrap;">
+      <button class="btn primary big-btn" id="l4PlayA">▶ A (sistema elegido)</button>
+      <button class="btn primary big-btn" id="l4PlayB">▶ B (ET, referencia)</button>
+      <button class="btn big-btn" id="l4Toggle">🔁 Alternar (próximo: A)</button>
+    </div>
+
+    <div id="l4MappingBox" style="display:none;">
+      <h3>Mapeo de grados (el sistema A no tiene 12 notas)</h3>
+      <p class="purpose">Cada nota de la cadencia (dada en semitonos 12-TET desde Do) se aproxima al grado más cercano de un sistema de N notas mediante <code>grado = round(semitono · N / 12)</code>.</p>
+      <div class="table-scroll">
+        <table class="super-table" id="l4MapTable">
+          <thead><tr><th>Semitono 12-TET</th><th>Grado usado</th><th>Octava</th><th>Cents usados</th><th>Cents ideales (12-TET)</th><th>Desviación</th></tr></thead>
+          <tbody id="l4MapBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Módulo 12 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+// Timbre rico en armónicos (8 armónicos, amplitud 1/n) — igual que en el resto del curso.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima (ataque/release exponenciales) para una nota de duración fija.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+function playChord(freqs, dur, peak){
+  if(!ensureAudioReady()) return;
+  const t = audioCtx.currentTime + 0.03;
+  const p = peak / Math.sqrt(Math.max(1, freqs.length));
+  freqs.forEach(function(f){
+    const osc = createHarmonicOsc(audioCtx, f, 8);
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(masterGain);
+    const rel = Math.min(0.15, Math.max(0.08, dur*0.3));
+    const end = scheduleTone(gain.gain, t, dur, p, 0.02, rel);
+    osc.start(t); osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{ osc.disconnect(); gain.disconnect(); }catch(e){} });
+  });
+}
+
+function playSingleFreq(freq, dur, peak){ playChord([freq], dur || 1.1, peak || 0.28); }
+
+/* ==================== UTILIDADES MUSICALES ==================== */
+const NOTE_NAMES = ["Do","Do♯","Re","Mib","Mi","Fa","Fa♯","Sol","Lab","La","Sib","Si"];
+const DO4 = 261.63;
+
+/* ==================== PURE-LOGIC START ====================
+   Todo lo que va entre estas dos marcas no toca el DOM: construcción
+   de los sistemas de afinación, formato .scl/.kbm y el parser de
+   lectura. Se puede extraer tal cual y ejecutar en Node para pruebas
+   de ida y vuelta (generar → parsear → comparar cents). */
+
+// ---- Construcción de sistemas por cadena de quintas (idéntico a M8) ----
+const PURE_FIFTH = 1200 * Math.log2(3/2);              // 701.955 c
+const PYTH_COMMA = 1200 * Math.log2(531441/524288);    // 23.460 c
+const SYN_COMMA  = 1200 * Math.log2(81/80);            // 21.506 c
+
+const POS_TO_PC = {'-3':3,'-2':10,'-1':5,'0':0,'1':7,'2':2,'3':9,'4':4,'5':11,'6':6,'7':1,'8':8};
+
+function buildFromFifthChain(fifthSizes){
+  const cumulative = {0:0};
+  for(let k = 1; k <= 8; k++) cumulative[k] = cumulative[k-1] + fifthSizes[k+2];
+  for(let k = -1; k >= -3; k--) cumulative[k] = cumulative[k+1] - fifthSizes[k+3];
+  const cents = new Array(12).fill(0);
+  for(let k = -3; k <= 8; k++){
+    let c = cumulative[k] % 1200;
+    if(c < 0) c += 1200;
+    cents[POS_TO_PC[String(k)]] = c;
+  }
+  return cents;
+}
+
+function tempered(fifthSize, temperedIndices){
+  const arr = new Array(11).fill(PURE_FIFTH);
+  temperedIndices.forEach(function(i){ arr[i] = fifthSize; });
+  return arr;
+}
+
+// Ratios justos 5-límite (senario de Zarlino) — incluye 1/1 en el índice 0.
+const JUST_RATIOS = [[1,1],[16,15],[9,8],[6,5],[5,4],[4,3],[45,32],[3,2],[8,5],[5,3],[9,5],[15,8]];
+const JUST_CENTS = JUST_RATIOS.map(function(r){ return 1200*Math.log2(r[0]/r[1]); });
+
+// Ratios justos 7-límite (séptimo armónico incluido) — incluye 1/1 en el índice 0.
+const JUST7_RATIOS = [[1,1],[16,15],[9,8],[7,6],[5,4],[4,3],[7,5],[3,2],[8,5],[5,3],[7,4],[15,8]];
+const JUST7_CENTS = JUST7_RATIOS.map(function(r){ return 1200*Math.log2(r[0]/r[1]); });
+
+// Los 7 sistemas de M8 — misma convención de Kirnberger III (schisma en Fa♯-Do♯, índice 9 de la cadena).
+const BASE7_SYSTEMS = [
+  {
+    id: 'pit', nombre: 'Pitagórica', N: 12,
+    descripcionCorta: 'Cadena de quintas puras (3/2). Protege la quinta; sacrifica la tercera (ditono 407.820 c, muy ancha).',
+    cents: buildFromFifthChain(new Array(11).fill(PURE_FIFTH))
+  },
+  {
+    id: 'just5', nombre: 'Justa 5-límite', N: 12,
+    descripcionCorta: 'Razones 5-límite exactas (senario de Zarlino). Protege terceras y quintas puras a la vez; sacrifica la circulación.',
+    cents: JUST_CENTS.slice(), ratios: JUST_RATIOS
+  },
+  {
+    id: 'meso', nombre: 'Mesotónico 1/4 coma', N: 12,
+    descripcionCorta: 'Las 11 quintas de la cadena encogidas 1/4 de coma sintónica. Protege la tercera pura; sacrifica la circulación.',
+    cents: buildFromFifthChain(new Array(11).fill(PURE_FIFTH - SYN_COMMA/4))
+  },
+  {
+    id: 'werck', nombre: 'Werckmeister III', N: 12,
+    descripcionCorta: 'Do-Sol-Re-La y Si-Fa♯ encogidas 1/4 de coma pitagórica; el resto puras. Circula con color de tonalidad marcado.',
+    cents: buildFromFifthChain(tempered(PURE_FIFTH - PYTH_COMMA/4, [3,4,5,8]))
+  },
+  {
+    id: 'vallotti', nombre: 'Vallotti', N: 12,
+    descripcionCorta: 'Fa-Do-Sol-Re-La-Mi-Si (6 quintas consecutivas) encogidas 1/6 de coma pitagórica; el resto puras. Reparto muy suave, casi ET.',
+    cents: buildFromFifthChain(tempered(PURE_FIFTH - PYTH_COMMA/6, [2,3,4,5,6,7]))
+  },
+  {
+    id: 'kirn', nombre: 'Kirnberger III', N: 12,
+    descripcionCorta: 'Do-Sol-Re-La-Mi (4 quintas) encogidas 1/4 de coma sintónica; Fa♯-Do♯ encogida un schisma; el resto puras. Tercera Do-Mi exactamente pura.',
+    cents: buildFromFifthChain((function(){
+      const w = tempered(PURE_FIFTH - SYN_COMMA/4, [3,4,5,6]);
+      w[9] -= (PYTH_COMMA - SYN_COMMA); // schisma = 1.954 c, convención del proyecto (Fa♯-Do♯)
+      return w;
+    })())
+  },
+  {
+    id: 'et', nombre: 'Temperamento igual', N: 12,
+    descripcionCorta: '12 semitonos idénticos de 100 c. Ninguna tonalidad es mejor que otra; ningún intervalo salvo la octava es puro.',
+    cents: buildFromFifthChain(new Array(11).fill(700))
+  }
+];
+
+function findBase7(id){ for(const s of BASE7_SYSTEMS) if(s.id === id) return s; return null; }
+
+function buildEdoSystem(id, nombre, N){
+  const cents = new Array(N);
+  for(let i = 0; i < N; i++) cents[i] = i*1200/N;
+  return {
+    id: id, nombre: nombre, N: N, cents: cents,
+    descripcionCorta: N + ' partes exactamente iguales de la octava (' + (1200/N).toFixed(3) + ' c cada semitono).'
+  };
+}
+const EDO19_SYSTEM = buildEdoSystem('edo19', '19-EDO', 19);
+const EDO31_SYSTEM = buildEdoSystem('edo31', '31-EDO', 31);
+
+const JUST7_SYSTEM = {
+  id: 'just7', nombre: 'Justa 7-límite', N: 12,
+  descripcionCorta: 'Doce grados con razones de 7-límite (séptimo armónico incluido): 7/6, 7/5, 7/4 no existen en el senario 5-límite.',
+  cents: JUST7_CENTS.slice(), ratios: JUST7_RATIOS
+};
+
+// Objeto mutable: sus campos se reescriben cuando el usuario edita los campos del Lab 1.
+const CUSTOM_SYSTEM = {
+  id: 'custom', nombre: 'Personalizado', N: 12,
+  descripcionCorta: 'Doce cents editables, prellenados con el temperamento igual.',
+  cents: (function(){ const c = new Array(12); for(let i = 0; i < 12; i++) c[i] = i*100; return c; })()
+};
+
+const SOURCE_SYSTEMS = BASE7_SYSTEMS.concat([EDO19_SYSTEM, EDO31_SYSTEM, JUST7_SYSTEM, CUSTOM_SYSTEM]);
+function findSourceSystem(id){ for(const s of SOURCE_SYSTEMS) if(s.id === id) return s; return null; }
+
+// ---- Formato Scala (.scl) ----
+function slugify(s){
+  return s.toLowerCase()
+    .normalize('NFD').replace(new RegExp('[̀-ͯ]', 'g'), '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/(^-+|-+$)/g, '') || 'sistema';
+}
+
+// Línea de un grado (1-indexado, 1..sys.N). El grado N (la octava) siempre
+// se exporta como razón exacta "2/1", nunca como cents redondeados.
+function formatDegreeLine(sys, i){
+  if(i === sys.N) return '2/1';
+  if(sys.ratios) return sys.ratios[i][0] + '/' + sys.ratios[i][1];
+  return sys.cents[i].toFixed(5);
+}
+
+function buildSclText(sys, opts){
+  opts = opts || {};
+  const filename = (opts.filename || slugify(sys.nombre)) + '.scl';
+  const description = opts.description || (sys.nombre + ', ' + sys.N + ' notas por octava');
+  const lines = [];
+  lines.push('! ' + filename);
+  lines.push(description);
+  lines.push(String(sys.N));
+  for(let i = 1; i <= sys.N; i++) lines.push(formatDegreeLine(sys, i));
+  return lines.join('\n') + '\n';
+}
+
+function buildKbmText(sys, filenameOverride){
+  const filename = (filenameOverride || slugify(sys.nombre)) + '.kbm';
+  const lines = [];
+  lines.push('! ' + filename);
+  lines.push('! Tamaño del mapa (grados por periodo)');
+  lines.push(String(sys.N));
+  lines.push('! Nota MIDI más baja que se retemplará');
+  lines.push('0');
+  lines.push('! Nota MIDI más alta que se retemplará');
+  lines.push('127');
+  lines.push('! Nota central: mapea al grado 0 (el 1/1)');
+  lines.push('60');
+  lines.push('! Nota MIDI de referencia');
+  lines.push('69');
+  lines.push('! Frecuencia de referencia (Hz) — La4');
+  lines.push('440.0');
+  lines.push('! Grado considerado octava formal (0 = tamaño de la escala)');
+  lines.push(String(sys.N));
+  lines.push('! Mapeo tecla -> grado de la escala, desde la nota central, 1 a 1');
+  for(let i = 0; i < sys.N; i++) lines.push(String(i));
+  return lines.join('\n') + '\n';
+}
+
+// Genera misterio.scl: mesotónico 1/4 de coma con nombre y descripción
+// deliberadamente genéricos, para que el diagnóstico del Lab 2 lo revele.
+function buildMisteriosoText(){
+  const meso = findBase7('meso');
+  const lines = ['! misterio.scl', 'Escala de prueba n.º 7 (procedencia sin especificar)', '12'];
+  for(let i = 1; i <= 12; i++) lines.push(formatDegreeLine(meso, i));
+  return lines.join('\n') + '\n';
+}
+
+// ---- Parser de .scl ----
+// Formato mínimo válido: líneas "!" son comentario y se ignoran; la primera
+// línea de contenido es la descripción; la segunda es el entero N; las
+// siguientes N líneas son los grados (cents con "." o razón "n/m"; un entero
+// solo se interpreta como razón n/1).
+function parseScl(text){
+  const rawLines = String(text).split(/\r\n|\r|\n/);
+  const content = [];
+  rawLines.forEach(function(line, idx){
+    const trimmed = line.trim();
+    if(trimmed === '') return;
+    if(trimmed.charAt(0) === '!') return;
+    content.push({ lineNo: idx + 1, text: trimmed });
+  });
+
+  if(content.length < 2){
+    return { ok: false, error: 'El archivo no tiene descripción y número de notas: revisa que no todo esté comentado con "!".' };
+  }
+
+  const description = content[0].text;
+  const countLine = content[1];
+  const N = parseInt(countLine.text, 10);
+  if(!Number.isFinite(N) || N <= 0 || String(N) !== countLine.text.trim()){
+    return { ok: false, error: 'línea ' + countLine.lineNo + ': número de notas ilegible ("' + countLine.text + '").' };
+  }
+
+  const needed = content.slice(2, 2 + N);
+  if(needed.length < N){
+    return { ok: false, error: 'Se esperaban ' + N + ' valores y solo se encontraron ' + needed.length + ' líneas de datos.' };
+  }
+
+  const raw = [];
+  for(let i = 0; i < N; i++){
+    const item = needed[i];
+    const v = item.text.replace(/\s+/g, '');
+    let cents = null, kind = null;
+    if(v.indexOf('/') !== -1){
+      const parts = v.split('/');
+      const num = parseFloat(parts[0]), den = parseFloat(parts[1]);
+      if(parts.length !== 2 || !Number.isFinite(num) || !Number.isFinite(den) || den === 0 || num <= 0){
+        return { ok: false, error: 'línea ' + item.lineNo + ': valor ilegible ("' + item.text + '").' };
+      }
+      cents = 1200 * Math.log2(num/den);
+      kind = 'ratio';
+    } else if(v.indexOf('.') !== -1){
+      const c = parseFloat(v);
+      if(!Number.isFinite(c) || !/^[+-]?\d*\.\d+$/.test(v)){
+        return { ok: false, error: 'línea ' + item.lineNo + ': valor ilegible ("' + item.text + '").' };
+      }
+      cents = c;
+      kind = 'cents';
+    } else {
+      const n = parseFloat(v);
+      if(!Number.isFinite(n) || n <= 0 || !/^\d+$/.test(v)){
+        return { ok: false, error: 'línea ' + item.lineNo + ': valor ilegible ("' + item.text + '").' };
+      }
+      cents = 1200 * Math.log2(n);
+      kind = 'int-ratio';
+    }
+    raw.push({ lineNo: item.lineNo, display: item.text, kind: kind, cents: cents });
+  }
+
+  const cents = new Array(N);
+  cents[0] = 0;
+  for(let i = 1; i < N; i++) cents[i] = raw[i-1].cents;
+  const lastCents = raw[N-1].cents;
+
+  return { ok: true, description: description, N: N, raw: raw, cents: cents, lastCents: lastCents };
+}
+
+function diagnoseAgainstBase7(parsed){
+  if(parsed.N !== 12) return null;
+  let best = null;
+  BASE7_SYSTEMS.forEach(function(s){
+    let maxDiff = 0;
+    for(let i = 0; i < 12; i++) maxDiff = Math.max(maxDiff, Math.abs(parsed.cents[i] - s.cents[i]));
+    if(!best || maxDiff < best.maxDiff) best = { sys: s, maxDiff: maxDiff };
+  });
+  return best;
+}
+
+function diagnosisMessage(parsed){
+  const best = diagnoseAgainstBase7(parsed);
+  if(!best) return 'El diagnóstico automático solo compara contra los 7 sistemas de M8, que tienen 12 notas. Esta escala tiene ' + parsed.N + '.';
+  const d = best.maxDiff;
+  if(d < 0.05) return 'Esto es <b>' + best.sys.nombre + '</b> (máx. diferencia ' + d.toFixed(1) + ' c) — coincide, nota por nota.';
+  if(d < 5) return 'Esto parece <b>' + best.sys.nombre + '</b> (máx. diferencia ' + d.toFixed(1) + ' c por nota).';
+  if(d < 15) return 'Se parece más a <b>' + best.sys.nombre + '</b>, aunque con diferencias audibles (máx. ' + d.toFixed(1) + ' c).';
+  return 'No coincide claramente con ninguno de los 7 sistemas conocidos; el más cercano es <b>' + best.sys.nombre + '</b> (máx. diferencia ' + d.toFixed(1) + ' c).';
+}
+
+/* ==================== PURE-LOGIC END ==================== */
+
+let currentLab1System = SOURCE_SYSTEMS[0];
+let lastImportedSystem = null;
+
+function downloadText(filename, text){
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+}
+
+function renderKeyboard(container, sys){
+  container.innerHTML = '';
+  const isChromatic12 = (sys.N === 12);
+  const blackPcs = [1,3,6,8,10];
+  const narrow = sys.N > 14;
+  for(let i = 0; i < sys.N; i++){
+    const key = document.createElement('div');
+    let cls = 'key';
+    if(isChromatic12 && blackPcs.indexOf(i) !== -1) cls += ' black';
+    if(narrow) cls += ' narrow';
+    key.className = cls;
+    key.textContent = isChromatic12 ? NOTE_NAMES[i] : String(i);
+    key.title = sys.cents[i].toFixed(2) + ' c';
+    key.addEventListener('click', function(){
+      playSingleFreq(DO4 * Math.pow(2, sys.cents[i]/1200), 1.1, 0.28);
+    });
+    container.appendChild(key);
+  }
+}
+
+/* ==================== Lab 1: Generador de .scl ==================== */
+(function(){
+  const systemSelect = document.getElementById('l1System');
+  const groupBase7 = document.getElementById('l1GroupBase7');
+  const descBox = document.getElementById('l1Desc');
+  const customBox = document.getElementById('l1CustomBox');
+  const customName = document.getElementById('l1CustomName');
+  const customGrid = document.getElementById('l1CustomGrid');
+  const keyboardBox = document.getElementById('l1Keyboard');
+  const preview = document.getElementById('l1Preview');
+  const downloadSclBtn = document.getElementById('l1DownloadScl');
+  const downloadKbmBtn = document.getElementById('l1DownloadKbm');
+  const kbmNLabel = document.getElementById('l1KbmN');
+
+  BASE7_SYSTEMS.forEach(function(s){
+    const opt = document.createElement('option');
+    opt.value = s.id; opt.textContent = s.nombre;
+    groupBase7.appendChild(opt);
+  });
+
+  // 12 campos editables (grados 1..12); el grado 12 queda fijo en 1200 c
+  // porque siempre se exporta como 2/1 exacto — se muestra deshabilitado.
+  const customInputs = [];
+  for(let d = 1; d <= 12; d++){
+    const field = document.createElement('div');
+    field.className = 'field';
+    const label = document.createElement('label');
+    label.textContent = 'Grado ' + d + (d === 12 ? ' (8ª)' : '');
+    const input = document.createElement('input');
+    input.type = 'number'; input.step = '0.001';
+    input.value = (d*100).toFixed(3);
+    if(d === 12){ input.value = '1200.000'; input.disabled = true; }
+    field.appendChild(label); field.appendChild(input);
+    customGrid.appendChild(field);
+    customInputs.push(input);
+  }
+
+  function readCustomSystem(){
+    CUSTOM_SYSTEM.nombre = customName.value.trim() || 'Personalizado';
+    const c = new Array(12);
+    c[0] = 0;
+    for(let i = 1; i <= 11; i++){
+      const v = parseFloat(customInputs[i-1].value);
+      c[i] = Number.isFinite(v) ? v : i*100;
+    }
+    CUSTOM_SYSTEM.cents = c;
+    return CUSTOM_SYSTEM;
+  }
+
+  function currentSystem(){
+    const id = systemSelect.value;
+    if(id === 'custom') return readCustomSystem();
+    return findSourceSystem(id);
+  }
+
+  function refresh(){
+    const sys = currentSystem();
+    currentLab1System = sys;
+    customBox.style.display = (sys.id === 'custom') ? 'block' : 'none';
+    descBox.textContent = sys.descripcionCorta || '';
+    preview.textContent = buildSclText(sys);
+    kbmNLabel.textContent = String(sys.N);
+    renderKeyboard(keyboardBox, sys);
+  }
+
+  systemSelect.addEventListener('change', refresh);
+  customName.addEventListener('input', refresh);
+  customInputs.forEach(function(inp){ inp.addEventListener('input', refresh); });
+
+  downloadSclBtn.addEventListener('click', function(){
+    const sys = currentSystem();
+    downloadText(slugify(sys.nombre) + '.scl', buildSclText(sys));
+  });
+  downloadKbmBtn.addEventListener('click', function(){
+    const sys = currentSystem();
+    downloadText(slugify(sys.nombre) + '.kbm', buildKbmText(sys));
+  });
+
+  systemSelect.value = 'pit';
+  refresh();
+})();
+
+/* ==================== Lab 2: Lector de .scl ==================== */
+(function(){
+  const textarea = document.getElementById('l2Textarea');
+  const fileInput = document.getElementById('l2File');
+  const parseBtn = document.getElementById('l2Parse');
+  const errorBox = document.getElementById('l2Error');
+  const resultsBox = document.getElementById('l2Results');
+  const tableHead = document.getElementById('l2TableHead');
+  const tableBody = document.getElementById('l2TableBody');
+  const keyboardBox = document.getElementById('l2Keyboard');
+  const playScaleBtn = document.getElementById('l2PlayScale');
+  const diagBox = document.getElementById('l2Diag');
+
+  const chipVallotti = document.getElementById('l2ChipVallotti');
+  const chipEdo31 = document.getElementById('l2ChipEdo31');
+  const chipMisterio = document.getElementById('l2ChipMisterio');
+
+  let parsedSystem = null;
+
+  function showError(msg){
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+    resultsBox.style.display = 'none';
+    parsedSystem = null;
+    lastImportedSystem = null;
+  }
+
+  function doParse(){
+    const res = parseScl(textarea.value);
+    if(!res.ok){ showError(res.error); return; }
+    errorBox.style.display = 'none';
+    resultsBox.style.display = 'block';
+    parsedSystem = { id: 'imported', nombre: 'Importado (' + res.description + ')', N: res.N, cents: res.cents };
+    lastImportedSystem = parsedSystem;
+
+    tableHead.innerHTML = '';
+    ['Grado', 'Valor original', 'Cents', res.N === 12 ? 'Desviación vs ET' : ''].forEach(function(h){
+      if(h === '') return;
+      const th = document.createElement('th'); th.textContent = h;
+      tableHead.appendChild(th);
+    });
+
+    tableBody.innerHTML = '';
+    res.raw.forEach(function(r, idx){
+      const tr = document.createElement('tr');
+      const tdDeg = document.createElement('td'); tdDeg.className = 'note-label'; tdDeg.textContent = String(idx+1);
+      const tdVal = document.createElement('td'); tdVal.textContent = r.display;
+      const tdCents = document.createElement('td'); tdCents.textContent = r.cents.toFixed(3);
+      tr.appendChild(tdDeg); tr.appendChild(tdVal); tr.appendChild(tdCents);
+      if(res.N === 12){
+        const etCents = (idx+1) * 100;
+        const dev = r.cents - etCents;
+        const tdDev = document.createElement('td');
+        tdDev.textContent = (dev >= 0 ? '+' : '') + dev.toFixed(1) + ' c';
+        tdDev.className = dev >= 0 ? 'pos-cents' : 'neg-cents';
+        tr.appendChild(tdDev);
+      }
+      tableBody.appendChild(tr);
+    });
+
+    renderKeyboard(keyboardBox, parsedSystem);
+    diagBox.innerHTML = diagnosisMessage(res);
+  }
+
+  parseBtn.addEventListener('click', doParse);
+
+  fileInput.addEventListener('change', function(e){
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){ textarea.value = String(ev.target.result); doParse(); };
+    reader.onerror = function(){ showError('No se pudo leer el archivo local.'); };
+    reader.readAsText(file);
+  });
+
+  playScaleBtn.addEventListener('click', function(){
+    if(!parsedSystem) return;
+    if(!ensureAudioReady()) return;
+    const dur = 0.32;
+    const start = audioCtx.currentTime + 0.05;
+    for(let i = 0; i < parsedSystem.N; i++){
+      const f = DO4 * Math.pow(2, parsedSystem.cents[i]/1200);
+      const t = start + i*dur;
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(masterGain);
+      const end = scheduleTone(gain.gain, t, dur, 0.24, 0.015, 0.09);
+      osc.start(t); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); gain.disconnect(); }catch(e){} });
+    }
+  });
+
+  chipVallotti.addEventListener('click', function(){
+    textarea.value = buildSclText(findBase7('vallotti'));
+    doParse();
+  });
+  chipEdo31.addEventListener('click', function(){
+    textarea.value = buildSclText(EDO31_SYSTEM);
+    doParse();
+  });
+  chipMisterio.addEventListener('click', function(){
+    textarea.value = buildMisteriosoText();
+    doParse();
+  });
+
+  // Precarga un ejemplo (Vallotti) para que el Lab no empiece vacío.
+  textarea.value = buildSclText(findBase7('vallotti'));
+})();
+
+/* ==================== Lab 3: Calculadora de pitch bend MIDI ==================== */
+(function(){
+  const centsInput = document.getElementById('l3Cents');
+  const rangeSelect = document.getElementById('l3Range');
+  const mathBox = document.getElementById('l3Math');
+  const resolutionBox = document.getElementById('l3Resolution');
+  const bendInInput = document.getElementById('l3BendIn');
+  const mathInverseBox = document.getElementById('l3MathInverse');
+
+  function toHex7(v){ return '0x' + v.toString(16).toUpperCase().padStart(2,'0'); }
+  function toHex14(v){ return '0x' + v.toString(16).toUpperCase().padStart(4,'0'); }
+
+  function recomputeForward(){
+    const cents = parseFloat(centsInput.value);
+    const range = parseFloat(rangeSelect.value);
+    if(!Number.isFinite(cents)){ mathBox.textContent = 'Ingresa un valor de cents válido.'; return; }
+
+    const rawBend = 8192 + Math.round(cents/(range*100)*8192);
+    const bend = Math.max(0, Math.min(16383, rawBend));
+    const clamped = (bend !== rawBend);
+    const lsb = bend & 0x7F;
+    const msb = (bend >> 7) & 0x7F;
+
+    mathBox.innerHTML =
+      'bend = 8192 + round(cents / (rango·100) · 8192)\n' +
+      '     = 8192 + round(' + cents + ' / (' + range + '·100) · 8192)\n' +
+      '     = 8192 + round(' + cents + ' / ' + (range*100) + ' · 8192)\n' +
+      '     = 8192 + round(' + (cents/(range*100)*8192).toFixed(3) + ')\n' +
+      '     = 8192 + (' + Math.round(cents/(range*100)*8192) + ')\n' +
+      '     = <b>' + bend + '</b>' + (clamped ? '  (recortado al rango 0–16383)' : '') + '\n\n' +
+      'LSB (7 bits menos significativos) = ' + bend + ' & 0x7F = <b>' + lsb + '</b> (' + toHex7(lsb) + ')\n' +
+      'MSB (7 bits más significativos)   = (' + bend + ' >> 7) & 0x7F = <b>' + msb + '</b> (' + toHex7(msb) + ')\n' +
+      'Mensaje MIDI Pitch Bend: <b>0xE0 ' + toHex7(lsb) + ' ' + toHex7(msb) + '</b>  (valor de 14 bits: ' + toHex14(bend) + ')';
+
+    const resolution = range*100/8192;
+    resolutionBox.textContent = 'Con rango ±' + range + ' semitonos, cada uno de los 8192 pasos hacia arriba (o hacia abajo) vale ' +
+      resolution.toFixed(4) + ' c — esa es la resolución mínima de afinación que puedes expresar con este rango de bend.';
+  }
+
+  function recomputeInverse(){
+    const bend = parseInt(bendInInput.value, 10);
+    const range = parseFloat(rangeSelect.value);
+    if(!Number.isFinite(bend) || bend < 0 || bend > 16383){
+      mathInverseBox.textContent = 'Ingresa un valor de bend entre 0 y 16383.';
+      return;
+    }
+    const cents = (bend - 8192)/8192*range*100;
+    mathInverseBox.innerHTML =
+      'cents = (bend − 8192) / 8192 · (rango·100)\n' +
+      '      = (' + bend + ' − 8192) / 8192 · (' + range + '·100)\n' +
+      '      = (' + (bend-8192) + ') / 8192 · ' + (range*100) + '\n' +
+      '      = <b>' + cents.toFixed(3) + ' c</b>';
+  }
+
+  centsInput.addEventListener('input', function(){ recomputeForward(); });
+  bendInInput.addEventListener('input', function(){ recomputeInverse(); });
+  rangeSelect.addEventListener('change', function(){ recomputeForward(); recomputeInverse(); });
+
+  document.querySelectorAll('.l3-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      centsInput.value = chip.dataset.cents;
+      recomputeForward();
+    });
+  });
+
+  recomputeForward();
+  recomputeInverse();
+})();
+
+/* ==================== Lab 4: Probador A/B contra ET ==================== */
+(function(){
+  const sourceSelect = document.getElementById('l4Source');
+  const infoBox = document.getElementById('l4Info');
+  const playABtn = document.getElementById('l4PlayA');
+  const playBBtn = document.getElementById('l4PlayB');
+  const toggleBtn = document.getElementById('l4Toggle');
+  const mappingBox = document.getElementById('l4MappingBox');
+  const mapBody = document.getElementById('l4MapBody');
+
+  const ET_SYSTEM = findBase7('et');
+
+  // I - IV - V7 - I (última tónica una octava arriba), en semitonos 12-TET desde Do.
+  const CADENCE = [
+    { t: 0.0, dur: 1.1, offs: [0,4,7] },
+    { t: 1.1, dur: 1.1, offs: [5,9,12] },
+    { t: 2.2, dur: 1.1, offs: [7,11,14,17] },
+    { t: 3.3, dur: 1.1, offs: [12,16,19] }
+  ];
+  const CADENCE_TOTAL = 4.4;
+  const CADENCE_OFFSETS = [0,4,5,7,9,11,12,14,16,17,19];
+
+  function noteFreqGeneric(semitoneOffset, sys){
+    const N = sys.N;
+    const rawDegree = Math.round(semitoneOffset * N / 12);
+    const degree = ((rawDegree % N) + N) % N;
+    const octave = Math.floor(rawDegree / N);
+    return DO4 * Math.pow(2, sys.cents[degree]/1200) * Math.pow(2, octave);
+  }
+
+  function playCadenceSystem(sys){
+    if(!ensureAudioReady()) return 0;
+    const start = audioCtx.currentTime + 0.05;
+    CADENCE.forEach(function(c){
+      const freqs = c.offs.map(function(o){ return noteFreqGeneric(o, sys); });
+      const t = start + c.t;
+      const peak = 0.22 / Math.sqrt(freqs.length);
+      freqs.forEach(function(f){
+        const osc = createHarmonicOsc(audioCtx, f, 8);
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(masterGain);
+        const rel = Math.min(0.2, Math.max(0.08, c.dur*0.3));
+        const end = scheduleTone(gain.gain, t, c.dur, peak, 0.02, rel);
+        osc.start(t); osc.stop(end + 0.05);
+        osc.addEventListener('ended', function(){ try{ osc.disconnect(); gain.disconnect(); }catch(e){} });
+      });
+    });
+    return CADENCE_TOTAL;
+  }
+
+  function currentSystemA(){
+    if(sourceSelect.value === 'lab1') return currentLab1System;
+    return lastImportedSystem;
+  }
+
+  function renderMapping(sys){
+    if(!sys || sys.N === 12){
+      mappingBox.style.display = 'none';
+      return;
+    }
+    mappingBox.style.display = 'block';
+    mapBody.innerHTML = '';
+    CADENCE_OFFSETS.forEach(function(off){
+      const N = sys.N;
+      const rawDegree = Math.round(off*N/12);
+      const degree = ((rawDegree % N) + N) % N;
+      const octave = Math.floor(rawDegree/N);
+      const usedCents = sys.cents[degree] + octave*1200;
+      const idealCents = off*100;
+      const dev = usedCents - idealCents;
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="note-label">' + off + '</td>' +
+        '<td>' + degree + '</td>' +
+        '<td>' + octave + '</td>' +
+        '<td>' + usedCents.toFixed(1) + '</td>' +
+        '<td>' + idealCents.toFixed(1) + '</td>' +
+        '<td class="' + (dev >= 0 ? 'pos-cents' : 'neg-cents') + '">' + (dev >= 0 ? '+' : '') + dev.toFixed(1) + '</td>';
+      mapBody.appendChild(tr);
+    });
+  }
+
+  function updateInfo(){
+    const sys = currentSystemA();
+    if(!sys){
+      infoBox.textContent = 'Todavía no hay un sistema importado en el Lab 2. Analiza un archivo .scl ahí primero, o elige "Sistema actual del Lab 1".';
+      playABtn.disabled = true;
+      mappingBox.style.display = 'none';
+      return;
+    }
+    playABtn.disabled = false;
+    infoBox.textContent = 'Sistema A: ' + sys.nombre + ' (' + sys.N + ' notas). Sistema B: Temperamento igual (referencia, 12 notas).';
+    renderMapping(sys);
+  }
+
+  function lockButtons(ms){
+    [playABtn, playBBtn, toggleBtn].forEach(function(b){ b.disabled = true; });
+    setTimeout(function(){
+      playABtn.disabled = !currentSystemA();
+      playBBtn.disabled = false; toggleBtn.disabled = false;
+    }, ms);
+  }
+
+  playABtn.addEventListener('click', function(){
+    const sys = currentSystemA();
+    if(!sys) return;
+    const dur = playCadenceSystem(sys);
+    if(dur) lockButtons(dur*1000 + 150);
+  });
+  playBBtn.addEventListener('click', function(){
+    const dur = playCadenceSystem(ET_SYSTEM);
+    if(dur) lockButtons(dur*1000 + 150);
+  });
+
+  let nextIsA = true;
+  toggleBtn.addEventListener('click', function(){
+    const sys = nextIsA ? currentSystemA() : ET_SYSTEM;
+    if(nextIsA && !sys) return;
+    toggleBtn.textContent = '🔁 Alternar (próximo: ' + (nextIsA ? 'B' : 'A') + ')';
+    const dur = playCadenceSystem(sys);
+    nextIsA = !nextIsA;
+    if(dur) lockButtons(dur*1000 + 150);
+  });
+
+  sourceSelect.addEventListener('change', updateInfo);
+  updateInfo();
+})();
+
+</script>
+</body>
+</html>

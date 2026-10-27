@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M4 · Laboratorio — Justa entonación</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:640px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;position:sticky;top:0;z-index:5;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+input[type=number],input[type=text]{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn.toggled{background:var(--good);color:#0c2415;border-color:var(--good);}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;width:100%;display:block;margin:10px 0;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+
+.compare-panel{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.compare-col{flex:1;min-width:220px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:0.85rem;}
+.compare-col h4{margin:0 0 8px;color:var(--accent);font-size:0.9rem;}
+.compare-col .kv{display:flex;justify-content:space-between;margin:4px 0;color:var(--muted);}
+.compare-col .kv b{color:var(--text);}
+
+table.ref-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:8px;}
+.ref-table th,.ref-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+.ref-table th:first-child,.ref-table td:first-child{text-align:left;}
+.ref-table th{color:var(--muted);font-weight:600;}
+.ref-table td.pure{color:var(--good);font-weight:700;}
+.ref-table td.impure{color:var(--warn);font-weight:700;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+/* ---- Teclado (Lab 1) ---- */
+.keyboard-scroll{overflow-x:auto;padding-bottom:6px;margin:10px 0;}
+.keyboard-row{display:flex;gap:3px;min-width:max-content;}
+.key{flex:0 0 auto;width:52px;min-height:78px;border-radius:0 0 6px 6px;border:1px solid var(--line);background:#e9e9ec;color:#12141a;font-size:0.68rem;font-weight:700;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:6px;cursor:pointer;user-select:none;}
+.key.altered{background:#2a2e3a;color:#e9e9ec;width:40px;min-height:56px;}
+.key:hover{filter:brightness(1.08);}
+.key.active{background:var(--accent);color:var(--accent-ink);box-shadow:0 0 0 2px var(--accent) inset;}
+.key .hz{font-size:0.58rem;font-weight:400;opacity:0.75;}
+
+.radiography{background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-top:10px;font-size:0.85rem;min-height:44px;}
+.radiography .interval-line{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #ffffff08;gap:10px;flex-wrap:wrap;}
+.radiography .interval-line:last-child{border-bottom:none;}
+.radiography .interval-name{color:var(--muted);min-width:120px;}
+.radiography .interval-ratio{font-variant-numeric:tabular-nums;font-weight:700;}
+.radiography .interval-cents{font-variant-numeric:tabular-nums;min-width:150px;text-align:right;}
+.tag-pure{color:var(--good);}
+.tag-impure{color:var(--warn);}
+.placeholder{color:var(--muted);font-style:italic;}
+
+.quality-tag{display:inline-block;padding:2px 9px;border-radius:12px;font-size:0.72rem;font-weight:700;margin-left:8px;}
+.quality-tag.pure{background:#123420;color:var(--good);border:1px solid #2c6b45;}
+.quality-tag.rotten{background:#3a1420;color:var(--warn);border:1px solid #7a2c40;}
+
+/* ---- Lab 3: deriva ---- */
+.drift-big{font-size:1.5rem;font-weight:800;color:var(--accent);text-align:center;margin:10px 0;font-variant-numeric:tabular-nums;}
+.drift-big small{display:block;color:var(--muted);font-size:0.8rem;font-weight:500;margin-top:4px;}
+.chord-live{text-align:center;color:var(--muted);font-size:0.85rem;min-height:18px;margin-bottom:6px;}
+
+/* ---- Lab 4: Tonnetz ---- */
+.tonnetz-wrap{overflow-x:auto;margin:12px 0;}
+.tonnetz-grid{display:grid;grid-template-columns:repeat(7,86px);gap:4px;min-width:max-content;}
+.tonnetz-cell{background:#12151d;border:1px solid var(--line);border-radius:7px;padding:8px 6px;text-align:center;cursor:pointer;font-size:0.72rem;}
+.tonnetz-cell:hover{border-color:var(--accent);}
+.tonnetz-cell.root{border-color:var(--accent);background:#1c1f27;}
+.tonnetz-cell.selected{background:#3a2f12;border-color:var(--accent);}
+.tonnetz-cell .tn-name{font-weight:800;font-size:0.95rem;color:var(--text);}
+.tonnetz-cell .tn-ratio{color:var(--accent);font-variant-numeric:tabular-nums;}
+.tonnetz-cell .tn-cents{color:var(--muted);font-variant-numeric:tabular-nums;}
+.axis-note{color:var(--muted);font-size:0.78rem;margin:4px 0 10px;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .compare-panel{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M4 · Laboratorio: Justa entonación</h1>
+    <p class="subtitle">Cuatro experimentos sobre la escala justa 5-limit en Do: el teclado con radiografía de intervalos, el acorde perfecto 4:5:6 contra el mundo, la demostración del drift (la coma sintónica en acción) y el Tonnetz interactivo. Todo el audio se sintetiza en el navegador.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Teclado justo con radiografía</h2>
+    <p class="purpose">Escala justa 5-limit fija en Do (Do4 = 261.63 Hz). Toca notas y observa, en tiempo real, las razones exactas y los cents de cada intervalo entre las notas sonando — verde si es puro, rojo si está corrompido por la coma.</p>
+
+    <div class="btn-row">
+      <button class="btn" id="l1Sustain">Sostener: OFF (clic = nota corta)</button>
+      <button class="btn" id="l1StopAll">■ Silenciar todo</button>
+    </div>
+
+    <div class="keyboard-scroll">
+      <div class="keyboard-row" id="l1Keyboard"></div>
+    </div>
+
+    <h3>Radiografía del acorde sonando</h3>
+    <div class="radiography" id="l1Radiography"><span class="placeholder">Toca dos o más notas (con "Sostener: ON") para ver sus intervalos.</span></div>
+
+    <h3>Tríadas guiadas de Do mayor</h3>
+    <div class="btn-row" id="l1TriadButtons"></div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · El acorde perfecto: 4:5:6 contra el mundo</h2>
+    <p class="purpose">La misma tríada de Do (mayor o menor) en tres afinaciones. Escucha cómo aparecen los batidos apenas la tercera o la quinta se apartan de la razón simple.</p>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l2QualMajor">Tríada mayor (4:5:6)</button>
+      <button class="btn" id="l2QualMinor">Tríada menor (10:12:15)</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l2PlayJust">▶ Justa</button>
+      <button class="btn primary big-btn" id="l2PlayET">▶ Temperada igual</button>
+      <button class="btn primary big-btn" id="l2PlayPit">▶ Pitagórica</button>
+      <button class="btn big-btn" id="l2PlaySeq">▶ Secuencia A/B/C</button>
+    </div>
+
+    <div class="btn-row">
+      <label style="display:inline;color:var(--muted);font-size:0.8rem;">Fundir (crossfade 4 s, misma fundamental):</label><br>
+      <button class="btn" id="l2FundeJE">Justa → ET</button>
+      <button class="btn" id="l2FundeJP">Justa → Pitagórica</button>
+      <button class="btn" id="l2FundePE">Pitagórica → ET</button>
+      <span class="value-tag" id="l2FundeStatus"></span>
+    </div>
+
+    <table class="ref-table" id="l2Table">
+      <thead><tr><th>Afinación</th><th>3.ª (Hz)</th><th>5.ª (Hz)</th><th>Batido 3.ª</th><th>Batido 5.ª</th></tr></thead>
+      <tbody id="l2TableBody"></tbody>
+    </table>
+    <div class="note-box" id="l2Note"></div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · La demostración del drift</h2>
+    <p class="purpose">Progresión Do: I – vi – ii – V – I, con conducción de voces justa estricta (cada acorde se afina puro respecto del anterior por sus notas comunes). El precio: el Do vuelve a aparecer una coma sintónica más grave. Cinco vueltas seguidas bajan más de un semitono.</p>
+
+    <div class="chord-live" id="l3ChordLive">—</div>
+    <div class="drift-big" id="l3DriftBig">Do actual = 261.63 Hz <small id="l3DriftSmall">(+0.0 cents desde el inicio)</small></div>
+
+    <canvas id="l3Chart" width="820" height="180"></canvas>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3Play1">▶ Tocar 1 vuelta</button>
+      <button class="btn primary big-btn" id="l3Play5">▶ Tocar 5 vueltas seguidas</button>
+      <button class="btn big-btn" id="l3PlayET">▶ La misma progresión en ET</button>
+      <button class="btn big-btn" id="l3Reset">↺ Reiniciar Do</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3Damage">🔊 Oír el daño: Do original vs. Do tras 5 vueltas</button>
+    </div>
+
+    <div class="note-box">Cada vuelta multiplica el Do por 80/81 (−21.506 cents). Tras 5 vueltas: 5 × 21.506 = 107.53 cents — <b>más de un semitono</b> de deriva, acumulado solo por afinar cada acorde puro respecto del anterior. En temperamento igual la progresión no baja nunca (0.000 cents de deriva) porque los 12 semitonos ya "esconden" la coma de fábrica — el precio se paga en cambio en cada acorde, que late.</div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · Tonnetz interactivo</h2>
+    <p class="purpose">Retícula de Euler 5-limit: moverse una columna a la derecha multiplica por 3/2 (quinta); moverse una fila hacia arriba multiplica por 5/4 (tercera mayor). Las notas "iguales" que aparecen en filas distintas difieren por una coma sintónica.</p>
+    <p class="axis-note">Eje horizontal → quintas (×3/2) · Eje vertical ↑ terceras mayores (×5/4) · centro = Do</p>
+
+    <div class="btn-row">
+      <button class="btn" id="l4ModeToggle">Modo normal (clic = sonar nota)</button>
+      <button class="btn" id="l4ClearSel">Limpiar selección</button>
+      <button class="btn primary" id="l4PlaySel" disabled>▶ Sonar selección</button>
+    </div>
+
+    <div class="tonnetz-wrap">
+      <div class="tonnetz-grid" id="l4Grid"></div>
+    </div>
+
+    <h3>Caminos guiados</h3>
+    <div class="btn-row">
+      <button class="btn" id="l4GuideTriad">Tríada de Do (perfecta)</button>
+      <button class="btn" id="l4GuideTwoRe">Los dos Re (9/8 vs 10/9)</button>
+      <button class="btn" id="l4GuidePath">Camino de quintas Do→Mi (81/64) vs. salto directo (5/4)</button>
+    </div>
+    <div class="note-box" id="l4GuideNote">Elige un camino guiado para escuchar la coma sintónica en acción.</div>
+  </section>
+
+  <footer>
+    Módulo 4 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* ==================== UTILIDADES ARITMÉTICAS ==================== */
+function gcd(a, b){ a = Math.abs(a); b = Math.abs(b); while(b){ const t = b; b = a % b; a = t; } return a || 1; }
+
+function reduceFrac(n, d){
+  const g = gcd(n, d);
+  return [n / g, d / g];
+}
+
+// Pliega una fracción positiva n/d dentro de la octava [1,2) multiplicando/dividiendo por 2.
+function foldToOctave(n, d){
+  let nn = n, dd = d;
+  let guard = 0;
+  while(nn / dd >= 2 && guard < 40){ dd *= 2; guard++; }
+  guard = 0;
+  while(nn / dd < 1 && guard < 40){ nn *= 2; guard++; }
+  return reduceFrac(nn, dd);
+}
+
+function centsOfRatio(r){ return 1200 * Math.log2(r); }
+function fmtCents(c){ return (c >= 0 ? '+' : '') + c.toFixed(1); }
+function fmtFrac(n, d){ const r = reduceFrac(n, d); return r[0] + '/' + r[1]; }
+
+// Tabla de referencia de intervalos 5-limit "simples", usada para juzgar pureza.
+const REFERENCE_INTERVALS = [
+  [1, 1, 'unísono'], [16, 15, '2.ª menor'], [9, 8, '2.ª mayor'], [6, 5, '3.ª menor'],
+  [5, 4, '3.ª mayor'], [4, 3, '4.ª justa'], [45, 32, 'tritono (45/32)'], [64, 45, 'tritono (64/45)'],
+  [3, 2, '5.ª justa'], [8, 5, '6.ª menor'], [5, 3, '6.ª mayor'], [9, 5, '7.ª menor'],
+  [15, 8, '7.ª mayor'], [2, 1, 'octava']
+];
+
+// Clasifica el intervalo entre dos fracciones exactas (num/den) sin plegar previamente.
+// Devuelve: fracción real reducida, cents reales (sin plegar), y el juicio de pureza
+// (comparando la versión plegada a una octava contra la tabla de referencia).
+function classifyInterval(rawN, rawD){
+  const real = reduceFrac(rawN, rawD);
+  const realCents = centsOfRatio(real[0] / real[1]);
+  const folded = foldToOctave(real[0], real[1]);
+  const foldedCents = centsOfRatio(folded[0] / folded[1]);
+  let best = null, bestDiff = Infinity;
+  for(let i = 0; i < REFERENCE_INTERVALS.length; i++){
+    const ref = REFERENCE_INTERVALS[i];
+    const refCents = centsOfRatio(ref[0] / ref[1]);
+    const diff = Math.abs(foldedCents - refCents);
+    if(diff < bestDiff){ bestDiff = diff; best = { ref: ref, refCents: refCents, deviation: foldedCents - refCents }; }
+  }
+  const pure = Math.abs(best.deviation) < 0.05;
+  return {
+    fracN: real[0], fracD: real[1], realCents: realCents,
+    refName: best.ref[2], refFrac: best.ref[0] + '/' + best.ref[1], refCents: best.refCents,
+    deviation: best.deviation, pure: pure
+  };
+}
+
+/* ==================== TIMBRES Y ENVOLVENTES ==================== */
+// Timbre rico en armónicos (8 armónicos, amplitud 1/n) — mismo enfoque que M1.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1 / k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Timbre "coral" más suave para el Lab 3: menos armónicos y caída más rápida (1/n^1.4).
+function createChoirOsc(ctx, freq){
+  const numHarmonics = 5;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1 / Math.pow(k, 1.4);
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima sobre un AudioParam de gain. Devuelve el instante en que termina el release.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Reproduce un acorde (arreglo de frecuencias) con timbre armónico rico y envolvente ADSR.
+function playHarmonicChord(freqs, duration, peakEach, attack, release){
+  if(!ensureAudioReady()) return null;
+  const now = audioCtx.currentTime + 0.03;
+  freqs.forEach(function(f){
+    const osc = createHarmonicOsc(audioCtx, f, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, now, duration, peakEach, attack || 0.02, release || 0.15);
+    osc.start(now);
+    osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  });
+  return now;
+}
+
+/* ==================== ESCALA JUSTA 5-LIMIT EN DO ==================== */
+const DO4_HZ = 261.63;
+
+// [1/1, 16/15, 9/8, 6/5, 5/4, 4/3, 45/32, 3/2, 8/5, 5/3, 9/5, 15/8] — cifras canónicas GUIA-AUTORES.
+const JI_SCALE12 = [
+  { name: 'Do',   num: 1,  den: 1  },
+  { name: 'Re♭',  num: 16, den: 15 },
+  { name: 'Re',   num: 9,  den: 8  },
+  { name: 'Mi♭',  num: 6,  den: 5  },
+  { name: 'Mi',   num: 5,  den: 4  },
+  { name: 'Fa',   num: 4,  den: 3  },
+  { name: 'Fa♯',  num: 45, den: 32 },
+  { name: 'Sol',  num: 3,  den: 2  },
+  { name: 'La♭',  num: 8,  den: 5  },
+  { name: 'La',   num: 5,  den: 3  },
+  { name: 'Si♭',  num: 9,  den: 5  },
+  { name: 'Si',   num: 15, den: 8  }
+];
+const ALTERED_DEGREES = [1, 3, 6, 8, 10];
+
+/* ==================== Lab 1: Teclado justo con radiografía ==================== */
+(function(){
+  const keyboardEl = document.getElementById('l1Keyboard');
+  const radioEl = document.getElementById('l1Radiography');
+  const sustainBtn = document.getElementById('l1Sustain');
+  const stopAllBtn = document.getElementById('l1StopAll');
+  const triadRow = document.getElementById('l1TriadButtons');
+
+  let sustainOn = false;
+  const held = new Map(); // keyIndex -> {osc, gain, key}
+  const keys = []; // {index, name, octave, num, den, freq, el}
+
+  for(let i = 0; i <= 24; i++){
+    const octave = 4 + Math.floor(i / 12);
+    const degree = i % 12;
+    const base = JI_SCALE12[degree];
+    const shift = Math.pow(2, octave - 4);
+    const num = base.num * shift;
+    const den = base.den;
+    const freq = DO4_HZ * num / den;
+    keys.push({ index: i, name: base.name + octave, octave: octave, num: num, den: den, freq: freq, degree: degree });
+  }
+
+  function buildKeyboard(){
+    keyboardEl.innerHTML = '';
+    keys.forEach(function(k){
+      const div = document.createElement('div');
+      div.className = 'key' + (ALTERED_DEGREES.indexOf(k.degree) !== -1 ? ' altered' : '');
+      div.innerHTML = k.name + '<span class="hz">' + k.freq.toFixed(1) + '</span>';
+      div.addEventListener('mousedown', function(e){ e.preventDefault(); onKeyPress(k); });
+      div.addEventListener('touchstart', function(e){ e.preventDefault(); onKeyPress(k); }, { passive: false });
+      keys[k.index].el = div;
+      keyboardEl.appendChild(div);
+    });
+  }
+
+  function startKey(k){
+    if(!ensureAudioReady()) return;
+    if(held.has(k.index)) return;
+    const now = audioCtx.currentTime;
+    const osc = createHarmonicOsc(audioCtx, k.freq, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.22, now + 0.025);
+    osc.start(now);
+    held.set(k.index, { osc: osc, gain: g, key: k });
+    k.el.classList.add('active');
+    updateRadiography();
+  }
+
+  function stopKey(index){
+    const v = held.get(index); if(!v) return;
+    const now = audioCtx.currentTime;
+    v.gain.gain.cancelScheduledValues(now);
+    v.gain.gain.setValueAtTime(Math.max(v.gain.gain.value, 0.0001), now);
+    v.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+    v.osc.stop(now + 0.12);
+    v.osc.addEventListener('ended', function(){ try{ v.osc.disconnect(); v.gain.disconnect(); }catch(e){} });
+    v.key.el.classList.remove('active');
+    held.delete(index);
+    updateRadiography();
+  }
+
+  function stopAll(){
+    Array.from(held.keys()).forEach(stopKey);
+  }
+
+  function onKeyPress(k){
+    if(!ensureAudioReady()) return;
+    if(sustainOn){
+      if(held.has(k.index)) stopKey(k.index); else startKey(k);
+    } else {
+      // Nota corta: se toca y se suelta sola.
+      const now = audioCtx.currentTime + 0.02;
+      const osc = createHarmonicOsc(audioCtx, k.freq, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, now, 1.4, 0.22, 0.02, 0.35);
+      osc.start(now); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+      k.el.classList.add('active');
+      setTimeout(function(){ k.el.classList.remove('active'); }, 1400);
+    }
+  }
+
+  function updateRadiography(){
+    const active = Array.from(held.values()).map(function(v){ return v.key; }).sort(function(a, b){ return a.freq - b.freq; });
+    if(active.length < 2){
+      radioEl.innerHTML = '<span class="placeholder">Toca dos o más notas (con "Sostener: ON") para ver sus intervalos.</span>';
+      return;
+    }
+    let html = '';
+    for(let i = 0; i < active.length; i++){
+      for(let j = i + 1; j < active.length; j++){
+        const a = active[i], b = active[j];
+        const rawN = b.num * a.den, rawD = b.den * a.num;
+        const cls = classifyInterval(rawN, rawD);
+        const tagClass = cls.pure ? 'tag-pure' : 'tag-impure';
+        const label = cls.pure
+          ? 'PURO'
+          : 'IMPURO ' + fmtCents(cls.deviation) + ' c (vs. ' + cls.refFrac + ' ' + cls.refName + ')';
+        html += '<div class="interval-line">' +
+          '<span class="interval-name">' + a.name + ' – ' + b.name + '</span>' +
+          '<span class="interval-ratio">' + fmtFrac(cls.fracN, cls.fracD) + '</span>' +
+          '<span class="interval-cents">' + cls.realCents.toFixed(1) + ' c &nbsp; <b class="' + tagClass + '">' + label + '</b></span>' +
+          '</div>';
+      }
+    }
+    radioEl.innerHTML = html;
+  }
+
+  sustainBtn.addEventListener('click', function(){
+    sustainOn = !sustainOn;
+    sustainBtn.textContent = sustainOn ? 'Sostener: ON (clic = alterna nota)' : 'Sostener: OFF (clic = nota corta)';
+    sustainBtn.classList.toggle('toggled', sustainOn);
+    if(!sustainOn) stopAll();
+  });
+  stopAllBtn.addEventListener('click', stopAll);
+
+  // Tríadas guiadas: grados de la escala (índice dentro de la octava 4).
+  const TRIADS = [
+    { label: 'I (Do–Mi–Sol)',  degrees: [0, 4, 7],  quality: 'pure',   tag: 'perfecta 4:5:6' },
+    { label: 'IV (Fa–La–Do)',  degrees: [5, 9, 12], quality: 'pure',   tag: 'perfecta 4:5:6' },
+    { label: 'V (Sol–Si–Re)',  degrees: [7, 11, 14],quality: 'pure',   tag: 'perfecta 4:5:6' },
+    { label: 'ii (Re–Fa–La)',  degrees: [2, 5, 9],  quality: 'rotten', tag: 'el acorde podrido' },
+    { label: 'vi (La–Do–Mi)',  degrees: [9, 12, 16],quality: 'pure',   tag: 'perfecta 10:12:15' },
+    { label: 'iii (Mi–Sol–Si)',degrees: [4, 7, 11], quality: 'pure',   tag: 'perfecta 10:12:15' }
+  ];
+
+  TRIADS.forEach(function(t){
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.innerHTML = t.label + '<span class="quality-tag ' + (t.quality === 'pure' ? 'pure' : 'rotten') + '">' + t.tag + '</span>';
+    btn.addEventListener('click', function(){
+      if(!ensureAudioReady()) return;
+      stopAll();
+      t.degrees.forEach(function(d){
+        const k = keys[d];
+        startKey(k);
+      });
+      setTimeout(function(){ stopAll(); }, 3200);
+    });
+    triadRow.appendChild(btn);
+  });
+
+  buildKeyboard();
+})();
+
+/* ==================== Lab 2: El acorde perfecto 4:5:6 contra el mundo ==================== */
+(function(){
+  const tableBody = document.getElementById('l2TableBody');
+  const noteBox = document.getElementById('l2Note');
+  const fundeStatus = document.getElementById('l2FundeStatus');
+  const qualMajorBtn = document.getElementById('l2QualMajor');
+  const qualMinorBtn = document.getElementById('l2QualMinor');
+
+  let quality = 'major'; // 'major' | 'minor'
+  let liveOscs = null; // {do, third, fifth, gains...} para "fundir"
+
+  const TUNINGS = {
+    major: {
+      just: { thirdRatio: 5/4, fifthRatio: 3/2, label: 'Justa (4:5:6)' },
+      et:   { thirdRatio: Math.pow(2, 400/1200), fifthRatio: Math.pow(2, 700/1200), label: 'Temperada igual (0-400-700 c)' },
+      pit:  { thirdRatio: 81/64, fifthRatio: 3/2, label: 'Pitagórica (1/1, 81/64, 3/2)' },
+      thirdName: '3.ª mayor', beatThird: function(fRoot, fThird){ return Math.abs(5 * fRoot - 4 * fThird); }
+    },
+    minor: {
+      just: { thirdRatio: 6/5, fifthRatio: 3/2, label: 'Justa (10:12:15)' },
+      et:   { thirdRatio: Math.pow(2, 300/1200), fifthRatio: Math.pow(2, 700/1200), label: 'Temperada igual (0-300-700 c)' },
+      pit:  { thirdRatio: 32/27, fifthRatio: 3/2, label: 'Pitagórica (1/1, 32/27, 3/2)' },
+      thirdName: '3.ª menor', beatThird: function(fRoot, fThird){ return Math.abs(6 * fRoot - 5 * fThird); }
+    }
+  };
+
+  function beatFifth(fRoot, fFifth){ return Math.abs(3 * fRoot - 2 * fFifth); }
+
+  function currentSet(){ return TUNINGS[quality]; }
+
+  function freqsFor(tuningKey){
+    const t = currentSet()[tuningKey];
+    return { root: DO4_HZ, third: DO4_HZ * t.thirdRatio, fifth: DO4_HZ * t.fifthRatio };
+  }
+
+  function refreshTable(){
+    const set = currentSet();
+    tableBody.innerHTML = '';
+    ['just', 'et', 'pit'].forEach(function(key){
+      const t = set[key];
+      const f = freqsFor(key);
+      const bt = set.beatThird(f.root, f.third);
+      const bf = beatFifth(f.root, f.fifth);
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + t.label + '</td>' +
+        '<td>' + f.third.toFixed(3) + '</td>' +
+        '<td>' + f.fifth.toFixed(3) + '</td>' +
+        '<td class="' + (bt < 0.01 ? 'pure' : 'impure') + '">' + bt.toFixed(3) + ' Hz</td>' +
+        '<td class="' + (bf < 0.01 ? 'pure' : 'impure') + '">' + bf.toFixed(3) + ' Hz</td>';
+      tableBody.appendChild(tr);
+    });
+    noteBox.textContent = quality === 'major'
+      ? 'Batido de 3.ª = |5·f_Do − 4·f_Mi| (coinciden el 5.º armónico de Do y el 4.º de Mi cuando la razón es exactamente 5/4). Batido de 5.ª = |3·f_Do − 2·f_Sol|.'
+      : 'Batido de 3.ª menor = |6·f_Do − 5·f_Mi♭| (coinciden el 6.º armónico de Do y el 5.º de Mi♭ cuando la razón es exactamente 6/5). Batido de 5.ª = |3·f_Do − 2·f_Sol|.';
+  }
+
+  function playTuning(tuningKey){
+    if(!ensureAudioReady()) return;
+    const f = freqsFor(tuningKey);
+    playHarmonicChord([f.root, f.third, f.fifth], 3, 0.15, 0.03, 0.4);
+  }
+
+  function playSequence(){
+    if(!ensureAudioReady()) return;
+    const order = ['just', 'et', 'pit'];
+    const set = currentSet();
+    let t = audioCtx.currentTime + 0.05;
+    const segDur = 2.2;
+    order.forEach(function(key, idx){
+      const f = freqsFor(key);
+      [f.root, f.third, f.fifth].forEach(function(freq){
+        const osc = createHarmonicOsc(audioCtx, freq, 8);
+        const g = audioCtx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        const end = scheduleTone(g.gain, t, segDur, 0.15, 0.03, 0.3);
+        osc.start(t); osc.stop(end + 0.05);
+        osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+      });
+      setTimeout(function(){ fundeStatus.textContent = 'Sonando: ' + set[key].label; }, idx * segDur * 1000);
+      t += segDur;
+    });
+    setTimeout(function(){ fundeStatus.textContent = ''; }, order.length * segDur * 1000);
+  }
+
+  function fundir(fromKey, toKey){
+    if(!ensureAudioReady()) return;
+    const fFrom = freqsFor(fromKey), fTo = freqsFor(toKey);
+    const now = audioCtx.currentTime + 0.05;
+    const dur = 4;
+    const holdTail = 1.2;
+    const total = dur + holdTail;
+
+    const rootOsc = createHarmonicOsc(audioCtx, fFrom.root, 8);
+    const thirdOsc = createHarmonicOsc(audioCtx, fFrom.third, 8);
+    const fifthOsc = createHarmonicOsc(audioCtx, fFrom.fifth, 8);
+    const gRoot = audioCtx.createGain(), gThird = audioCtx.createGain(), gFifth = audioCtx.createGain();
+    rootOsc.connect(gRoot); gRoot.connect(masterGain);
+    thirdOsc.connect(gThird); gThird.connect(masterGain);
+    fifthOsc.connect(gFifth); gFifth.connect(masterGain);
+
+    [gRoot, gThird, gFifth].forEach(function(g){
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.15, now + 0.05);
+      g.gain.setValueAtTime(0.15, now + total - 0.4);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + total);
+    });
+
+    // El Do (fundamental) permanece fijo; la tercera y la quinta se deslizan de una afinación a otra.
+    thirdOsc.frequency.setValueAtTime(fFrom.third, now);
+    thirdOsc.frequency.linearRampToValueAtTime(fTo.third, now + dur);
+    fifthOsc.frequency.setValueAtTime(fFrom.fifth, now);
+    fifthOsc.frequency.linearRampToValueAtTime(fTo.fifth, now + dur);
+
+    [rootOsc, thirdOsc, fifthOsc].forEach(function(osc){
+      osc.start(now); osc.stop(now + total + 0.1);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); }catch(e){} });
+    });
+    fundeStatus.textContent = 'Fundiendo…';
+    setTimeout(function(){ fundeStatus.textContent = ''; }, total * 1000);
+  }
+
+  qualMajorBtn.addEventListener('click', function(){ quality = 'major'; qualMajorBtn.classList.add('primary'); qualMinorBtn.classList.remove('primary'); refreshTable(); });
+  qualMinorBtn.addEventListener('click', function(){ quality = 'minor'; qualMinorBtn.classList.add('primary'); qualMajorBtn.classList.remove('primary'); refreshTable(); });
+
+  document.getElementById('l2PlayJust').addEventListener('click', function(){ playTuning('just'); });
+  document.getElementById('l2PlayET').addEventListener('click', function(){ playTuning('et'); });
+  document.getElementById('l2PlayPit').addEventListener('click', function(){ playTuning('pit'); });
+  document.getElementById('l2PlaySeq').addEventListener('click', playSequence);
+  document.getElementById('l2FundeJE').addEventListener('click', function(){ fundir('just', 'et'); });
+  document.getElementById('l2FundeJP').addEventListener('click', function(){ fundir('just', 'pit'); });
+  document.getElementById('l2FundePE').addEventListener('click', function(){ fundir('pit', 'et'); });
+
+  refreshTable();
+})();
+
+/* ==================== Lab 3: La demostración del drift ==================== */
+(function(){
+  // Conducción de voces justa estricta para I - vi - ii - V - I (progresión Do).
+  // Cada fracción es exacta y relativa al Do del INICIO de la vuelta (=1/1).
+  // Derivación (verificada con fracciones exactas):
+  //   I  (4:5:6):   Do=1/1        Mi=5/4        Sol=3/2
+  //   vi (10:12:15, común Do,Mi): La=5/3        Do=1/1        Mi=5/4
+  //   ii (10:12:15, común La):    Re=10/9       Fa=4/3        La=5/3
+  //   V  (4:5:6, común Re):       Sol=40/27     Si=50/27      Re=10/9
+  //   I' (4:5:6, común Sol):      Do=160/81     Mi=100/81     Sol=40/27
+  // El Do final (160/81, plegado a la octava) = 80/81 del Do inicial: -21.506 cents.
+  // Esa es exactamente la coma sintónica (81/80) escondida en la conducción de voces.
+  const LOOP_CHORDS = [
+    { name: 'I',  tones: [{ note: 'Do',  n: 1,   d: 1  }, { note: 'Mi',  n: 5,   d: 4  }, { note: 'Sol', n: 3,  d: 2  }] },
+    { name: 'vi', tones: [{ note: 'La',  n: 5,   d: 3  }, { note: 'Do',  n: 1,   d: 1  }, { note: 'Mi',  n: 5,  d: 4  }] },
+    { name: 'ii', tones: [{ note: 'Re',  n: 10,  d: 9  }, { note: 'Fa',  n: 4,   d: 3  }, { note: 'La',  n: 5,  d: 3  }] },
+    { name: 'V',  tones: [{ note: 'Sol', n: 40,  d: 27 }, { note: 'Si',  n: 50,  d: 27 }, { note: 'Re',  n: 10, d: 9  }] },
+    { name: "I'", tones: [{ note: 'Do',  n: 160, d: 81 }, { note: 'Mi',  n: 100, d: 81 }, { note: 'Sol', n: 40, d: 27 }] }
+  ];
+  const DRIFT_PER_LOOP_CENTS = 1200 * Math.log2(80 / 81); // -21.50629...
+
+  // Progresión equivalente en temperamento igual (cents absolutos, cierra siempre en 0: sin deriva).
+  const ET_CHORDS = [
+    { name: 'I',  tones: [{ note: 'Do', c: 0 },  { note: 'Mi', c: 400 }, { note: 'Sol', c: 700 }] },
+    { name: 'vi', tones: [{ note: 'La', c: 900 },{ note: 'Do', c: 0 },   { note: 'Mi', c: 400 }] },
+    { name: 'ii', tones: [{ note: 'Re', c: 200 },{ note: 'Fa', c: 500 }, { note: 'La', c: 900 }] },
+    { name: 'V',  tones: [{ note: 'Sol', c: 700 },{ note: 'Si', c: 1100 },{ note: 'Re', c: 200 }] },
+    { name: "I'", tones: [{ note: 'Do', c: 0 },  { note: 'Mi', c: 400 }, { note: 'Sol', c: 700 }] }
+  ];
+
+  const chordLive = document.getElementById('l3ChordLive');
+  const driftBig = document.getElementById('l3DriftBig');
+  const driftSmall = document.getElementById('l3DriftSmall');
+  const chart = document.getElementById('l3Chart');
+  const ctx2d = chart.getContext('2d');
+
+  let loopsDone = 0; // cuántas vueltas justas completas se han tocado (para el indicador y el gráfico)
+  const history = [0]; // cents acumulados por vuelta, history[0]=0
+
+  function currentDoHz(){ return DO4_HZ * Math.pow(80 / 81, loopsDone); }
+
+  function updateIndicator(){
+    const hz = currentDoHz();
+    const cents = 1200 * Math.log2(hz / DO4_HZ);
+    driftBig.innerHTML = 'Do actual = ' + hz.toFixed(2) + ' Hz <small>(' + fmtCents(cents) + ' cents desde el inicio)</small>';
+    drawChart();
+  }
+
+  function drawChart(){
+    const W = chart.width, H = chart.height, padL = 46, padB = 24, padT = 14, padR = 14;
+    ctx2d.clearRect(0, 0, W, H);
+    const maxLoops = 5;
+    const minCents = -130, maxCents = 5;
+    function xFor(loop){ return padL + (loop / maxLoops) * (W - padL - padR); }
+    function yFor(c){ return padT + (1 - (c - minCents) / (maxCents - minCents)) * (H - padT - padB); }
+
+    // Ejes
+    ctx2d.strokeStyle = '#2a2e3a'; ctx2d.lineWidth = 1;
+    ctx2d.beginPath(); ctx2d.moveTo(padL, padT); ctx2d.lineTo(padL, H - padB); ctx2d.lineTo(W - padR, H - padB); ctx2d.stroke();
+
+    // Líneas guía cada 21.506 c
+    ctx2d.fillStyle = '#9aa0ac'; ctx2d.font = '10px system-ui'; ctx2d.textAlign = 'right';
+    for(let L = 0; L <= maxLoops; L++){
+      const c = L * DRIFT_PER_LOOP_CENTS;
+      const y = yFor(c);
+      ctx2d.strokeStyle = '#ffffff10';
+      ctx2d.beginPath(); ctx2d.moveTo(padL, y); ctx2d.lineTo(W - padR, y); ctx2d.stroke();
+      ctx2d.fillText(c.toFixed(1), padL - 6, y + 3);
+    }
+    ctx2d.textAlign = 'center';
+    for(let L = 0; L <= maxLoops; L++){ ctx2d.fillText('v' + L, xFor(L), H - padB + 14); }
+
+    // Escalón real: tramo horizontal al nivel de cada vuelta, caída vertical al pasar a la siguiente.
+    ctx2d.strokeStyle = '#e8a33d'; ctx2d.lineWidth = 2; ctx2d.beginPath();
+    for(let L = 0; L <= loopsDone; L++){
+      const c = L * DRIFT_PER_LOOP_CENTS;
+      const xStart = xFor(L), xEnd = xFor(Math.min(L + 1, maxLoops)), y = yFor(c);
+      if(L === 0) ctx2d.moveTo(xStart, y);
+      ctx2d.lineTo(xEnd, y);
+      if(L < loopsDone){
+        const yNext = yFor((L + 1) * DRIFT_PER_LOOP_CENTS);
+        ctx2d.lineTo(xEnd, yNext);
+      }
+    }
+    ctx2d.stroke();
+    for(let L = 0; L <= loopsDone; L++){
+      const c = L * DRIFT_PER_LOOP_CENTS;
+      ctx2d.fillStyle = '#e8a33d';
+      ctx2d.beginPath(); ctx2d.arc(xFor(L), yFor(c), 3.5, 0, Math.PI * 2); ctx2d.fill();
+    }
+    ctx2d.strokeStyle = '#6fcf97'; ctx2d.setLineDash([4, 3]); ctx2d.lineWidth = 1.5;
+    ctx2d.beginPath(); ctx2d.moveTo(xFor(0), yFor(0)); ctx2d.lineTo(xFor(maxLoops), yFor(0)); ctx2d.stroke();
+    ctx2d.setLineDash([]);
+    ctx2d.fillStyle = '#6fcf97'; ctx2d.textAlign = 'left'; ctx2d.font = '10px system-ui';
+    ctx2d.fillText('ET: 0 cents siempre', padL + 4, yFor(0) - 4);
+  }
+
+  function playLoopJust(loopIndex, onDone){
+    if(!ensureAudioReady()){ if(onDone) onDone(); return; }
+    const loopStartHz = DO4_HZ * Math.pow(80 / 81, loopIndex);
+    const chordDur = 1.9, gap = 0.15;
+    let t = audioCtx.currentTime + 0.1;
+    LOOP_CHORDS.forEach(function(chord, idx){
+      const freqs = chord.tones.map(function(tn){ return loopStartHz * tn.n / tn.d; });
+      freqs.forEach(function(f){
+        const osc = createChoirOsc(audioCtx, f);
+        const g = audioCtx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        const end = scheduleTone(g.gain, t, chordDur, 0.16, 0.08, 0.4);
+        osc.start(t); osc.stop(end + 0.05);
+        osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+      });
+      setTimeout(function(){ chordLive.textContent = 'Vuelta ' + (loopIndex + 1) + ' — acorde ' + chord.name; }, idx * chordDur * 1000);
+      t += chordDur + gap;
+    });
+    setTimeout(function(){
+      loopsDone = loopIndex + 1;
+      updateIndicator();
+      chordLive.textContent = 'Vuelta ' + (loopIndex + 1) + ' completa.';
+      if(onDone) onDone();
+    }, LOOP_CHORDS.length * (chordDur + gap) * 1000);
+  }
+
+  function playLoopsSequential(count){
+    let i = 0;
+    function next(){
+      if(i >= count) return;
+      playLoopJust(loopsDone, function(){ i++; next(); });
+    }
+    next();
+  }
+
+  function playET(){
+    if(!ensureAudioReady()) return;
+    const chordDur = 1.9, gap = 0.15;
+    let t = audioCtx.currentTime + 0.1;
+    ET_CHORDS.forEach(function(chord, idx){
+      const freqs = chord.tones.map(function(tn){ return DO4_HZ * Math.pow(2, tn.c / 1200); });
+      freqs.forEach(function(f){
+        const osc = createChoirOsc(audioCtx, f);
+        const g = audioCtx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        const end = scheduleTone(g.gain, t, chordDur, 0.16, 0.08, 0.4);
+        osc.start(t); osc.stop(end + 0.05);
+        osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+      });
+      setTimeout(function(){ chordLive.textContent = 'ET — acorde ' + chord.name + ' (bate contra sus armónicos, pero el Do no se mueve)'; }, idx * chordDur * 1000);
+      t += chordDur + gap;
+    });
+  }
+
+  function hearDamage(){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.1;
+    const original = DO4_HZ;
+    const damaged = DO4_HZ * Math.pow(80 / 81, 5);
+    [{ f: original, t: now, label: 'Do original' }, { f: damaged, t: now + 2.2, label: 'Do tras 5 vueltas' }].forEach(function(item){
+      const osc = createChoirOsc(audioCtx, item.f);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, item.t, 1.8, 0.22, 0.08, 0.5);
+      osc.start(item.t); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+      setTimeout(function(){ chordLive.textContent = item.label + ' (' + item.f.toFixed(2) + ' Hz)'; }, (item.t - now) * 1000);
+    });
+    setTimeout(function(){
+      chordLive.textContent = 'Diferencia: ' + (5 * -DRIFT_PER_LOOP_CENTS).toFixed(2) + ' cents ≈ ' + Math.abs(5 * DRIFT_PER_LOOP_CENTS / 100).toFixed(2) + ' semitonos.';
+    }, 4200);
+  }
+
+  document.getElementById('l3Play1').addEventListener('click', function(){ playLoopJust(loopsDone, null); });
+  document.getElementById('l3Play5').addEventListener('click', function(){ playLoopsSequential(5); });
+  document.getElementById('l3PlayET').addEventListener('click', playET);
+  document.getElementById('l3Reset').addEventListener('click', function(){ loopsDone = 0; chordLive.textContent = 'Do reiniciado.'; updateIndicator(); });
+  document.getElementById('l3Damage').addEventListener('click', hearDamage);
+
+  updateIndicator();
+})();
+
+/* ==================== Lab 4: Tonnetz interactivo ==================== */
+(function(){
+  const gridEl = document.getElementById('l4Grid');
+  const modeBtn = document.getElementById('l4ModeToggle');
+  const clearBtn = document.getElementById('l4ClearSel');
+  const playSelBtn = document.getElementById('l4PlaySel');
+  const guideNote = document.getElementById('l4GuideNote');
+
+  const COLS = [-3, -2, -1, 0, 1, 2, 3];   // quintas (×3/2)
+  const ROWS = [2, 1, 0, -1, -2];          // terceras mayores (×5/4), fila superior primero en el grid visual
+
+  const NOTE12 = ['Do', 'Do♯', 'Re', 'Re♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯', 'La', 'La♯', 'Si'];
+
+  function latticeFrac(c, r){
+    let n = 1, d = 1;
+    if(c >= 0) n *= Math.pow(3, c); else d *= Math.pow(3, -c);
+    if(r >= 0) n *= Math.pow(5, r); else d *= Math.pow(5, -r);
+    return foldToOctave(n, d);
+  }
+
+  let selectMode = false;
+  let selection = []; // array of {c,r}
+  const cellMap = {}; // "c,r" -> element
+
+  function cellKey(c, r){ return c + ',' + r; }
+
+  function buildGrid(){
+    gridEl.innerHTML = '';
+    ROWS.forEach(function(r){
+      COLS.forEach(function(c){
+        const frac = latticeFrac(c, r);
+        const cents = centsOfRatio(frac[0] / frac[1]);
+        const nearest = Math.round(cents / 100) % 12;
+        const name = NOTE12[(nearest + 12) % 12];
+        const div = document.createElement('div');
+        div.className = 'tonnetz-cell' + (c === 0 && r === 0 ? ' root' : '');
+        div.innerHTML = '<div class="tn-name">' + name + '</div>' +
+          '<div class="tn-ratio">' + frac[0] + '/' + frac[1] + '</div>' +
+          '<div class="tn-cents">' + cents.toFixed(1) + ' c</div>';
+        div.addEventListener('click', function(){ onCellClick(c, r, frac); });
+        gridEl.appendChild(div);
+        cellMap[cellKey(c, r)] = div;
+      });
+    });
+  }
+
+  function freqForCell(frac){ return DO4_HZ * frac[0] / frac[1]; }
+
+  function playCell(frac){
+    if(!ensureAudioReady()) return;
+    playHarmonicChord([freqForCell(frac)], 1.3, 0.22, 0.02, 0.3);
+  }
+
+  function onCellClick(c, r, frac){
+    if(!selectMode){
+      playCell(frac);
+      return;
+    }
+    const key = cellKey(c, r);
+    const idx = selection.findIndex(function(s){ return s.c === c && s.r === r; });
+    if(idx !== -1){
+      selection.splice(idx, 1);
+      cellMap[key].classList.remove('selected');
+    } else {
+      if(selection.length >= 3){
+        const removed = selection.shift();
+        cellMap[cellKey(removed.c, removed.r)].classList.remove('selected');
+      }
+      selection.push({ c: c, r: r });
+      cellMap[key].classList.add('selected');
+    }
+    playSelBtn.disabled = selection.length === 0;
+  }
+
+  function playSelection(){
+    if(!ensureAudioReady() || selection.length === 0) return;
+    const freqs = selection.map(function(s){ return freqForCell(latticeFrac(s.c, s.r)); });
+    playHarmonicChord(freqs, 2.5, 0.16, 0.03, 0.4);
+  }
+
+  modeBtn.addEventListener('click', function(){
+    selectMode = !selectMode;
+    modeBtn.textContent = selectMode ? 'Modo tríada (clic = seleccionar, máx. 3)' : 'Modo normal (clic = sonar nota)';
+    modeBtn.classList.toggle('toggled', selectMode);
+  });
+
+  clearBtn.addEventListener('click', function(){
+    selection.forEach(function(s){ cellMap[cellKey(s.c, s.r)].classList.remove('selected'); });
+    selection = [];
+    playSelBtn.disabled = true;
+  });
+
+  playSelBtn.addEventListener('click', playSelection);
+
+  document.getElementById('l4GuideTriad').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    guideNote.textContent = 'Tríada de Do: root (0,0), tercera un piso arriba (0,1) = Mi 5/4, quinta una columna a la derecha (1,0) = Sol 3/2. 4:5:6 perfecto.';
+    const freqs = [latticeFrac(0, 0), latticeFrac(0, 1), latticeFrac(1, 0)].map(freqForCell);
+    playHarmonicChord(freqs, 2.8, 0.17, 0.03, 0.4);
+  });
+
+  document.getElementById('l4GuideTwoRe').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const re98 = latticeFrac(2, 0);   // 9/8
+    const re109 = latticeFrac(-2, 1); // 10/9
+    const c98 = centsOfRatio(re98[0] / re98[1]);
+    const c109 = centsOfRatio(re109[0] / re109[1]);
+    guideNote.innerHTML = 'Re (2 quintas arriba) = ' + re98[0] + '/' + re98[1] + ' = ' + c98.toFixed(3) + ' c &nbsp;|&nbsp; ' +
+      'Re (1 quinta abajo + 1 tercera arriba) = ' + re109[0] + '/' + re109[1] + ' = ' + c109.toFixed(3) + ' c &nbsp;|&nbsp; ' +
+      'diferencia = ' + (c98 - c109).toFixed(3) + ' c (coma sintónica). Sonarán primero uno tras otro, luego juntos (batido de coma).';
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.1;
+    const f98 = freqForCell(re98), f109 = freqForCell(re109);
+    [f98, f109].forEach(function(f, idx){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const t0 = now + idx * 1.6;
+      const end = scheduleTone(g.gain, t0, 1.4, 0.2, 0.03, 0.3);
+      osc.start(t0); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+    });
+    const together = now + 3.4;
+    [f98, f109].forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, together, 3, 0.18, 0.05, 0.6);
+      osc.start(together); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+    });
+  });
+
+  document.getElementById('l4GuidePath').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    // Camino de 4 quintas (c=0,1,2,3,4) excede la grilla visible (±3) pero se calcula igual:
+    // (3/2)^4 plegado a la octava = 81/64 (tercera pitagórica), contra el salto directo 5/4.
+    const path = [0, 1, 2, 3, 4].map(function(c){ return latticeFrac(c, 0); });
+    const direct = latticeFrac(0, 1); // 5/4
+    const pyth = path[4];
+    const cPyth = centsOfRatio(pyth[0] / pyth[1]);
+    const cDirect = centsOfRatio(direct[0] / direct[1]);
+    guideNote.innerHTML = 'Camino Do→Sol→Re→La→Mi (4 quintas, sale de la grilla visible): Mi = ' + pyth[0] + '/' + pyth[1] + ' = ' + cPyth.toFixed(3) +
+      ' c (tercera pitagórica). Salto directo Do→Mi = 5/4 = ' + cDirect.toFixed(3) + ' c. Diferencia = ' + (cPyth - cDirect).toFixed(3) + ' c (coma sintónica).';
+    const now = audioCtx.currentTime + 0.1;
+    let t = now;
+    path.forEach(function(frac){
+      const f = freqForCell(frac);
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, t, 0.75, 0.18, 0.02, 0.2);
+      osc.start(t); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+      t += 0.75;
+    });
+    // salto directo
+    const tDirect = t + 0.3;
+    const fDirect = freqForCell(direct);
+    (function(){
+      const osc = createHarmonicOsc(audioCtx, fDirect, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, tDirect, 1.2, 0.2, 0.03, 0.3);
+      osc.start(tDirect); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+    })();
+    // ambos Mi juntos al final (batido de coma)
+    const tTogether = tDirect + 1.6;
+    const fPyth = freqForCell(pyth);
+    [fDirect, fPyth].forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, tTogether, 3, 0.16, 0.05, 0.6);
+      osc.start(tTogether); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+    });
+  });
+
+  buildGrid();
+})();
+
+</script>
+</body>
+</html>

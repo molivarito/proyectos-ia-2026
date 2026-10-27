@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Síntesis FM — Demo Curso AyS</title>
+<meta name="description" content="Cómo el DX7 sonó como sonó. Demo interactivo de síntesis FM (Chowning, 1973): ratio C:M, índice I, funciones de Bessel, presets DX7.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S09 · CREATION</div>
+    <h1>Síntesis FM: ¿cómo el DX7 sonó como sonó?</h1>
+    <p class="lead">
+      En 1973, John Chowning descubrió que con <strong>dos sinusoides</strong> y un solo parámetro
+      podías generar timbres que la síntesis sustractiva sólo lograba a costa de filtros muy resonantes.
+      Diez años después, Yamaha lanzó el DX7 y definió el sonido de los 80.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-creation">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>Por qué un <strong>ratio racional</strong> ($1{:}1$, $1{:}2$, $1{:}3$) suena "musical" y un ratio irracional ($1{:}\sqrt{2}$, $1{:}\pi$) suena a campana o gong.</li>
+      <li>Cómo el <strong>índice de modulación $I$</strong> controla el brillo del timbre, sin tocar el tono que percibes.</li>
+      <li>Por qué con <strong>$I \approx 2.4$</strong> la frecuencia fundamental literalmente desaparece (curiosidad de Bessel).</li>
+      <li>Qué hace que el <strong>E-piano DX7</strong> sea reconocible: ratio 1:1 más una envolvente ADSR sobre $I$.</li>
+    </ul>
+  </div>
+
+  <p>
+    La ecuación es elegantemente simple:
+    $y(t) = \sin(2\pi f_c\, t + I\sin(2\pi f_m\, t))$.
+    Aquí $f_c$ es la portadora (lo que percibes como tono), $f_m$ es la moduladora (define el espectro)
+    e $I$ es el índice (cuántas bandas laterales son audibles). Cambia esos tres números y tienes acceso
+    a un universo entero de timbres.
+  </p>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Síntesis FM (5 pestañas)</span>
+      <a href="../embeds/s09_fm.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s09_fm.html" title="Demo de Síntesis FM" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así (tres experimentos guiados)</h3>
+    <ol>
+      <li>En <strong>FM Lab</strong>, pon ratio = 1.000 e $I$ = 0.5. Escucha: casi un seno puro. Sube $I$ hasta 8. ¿Reconoces de qué instrumento real te recuerda?</li>
+      <li>Cambia el ratio al preset $1{:}\sqrt{2}$ (botón "1:√2") manteniendo $I = 5$. ¿Cómo cambia el carácter? Mira el espectro: ¿caen las bandas en la serie armónica de $f_c$?</li>
+      <li>Ve a la pestaña <strong>Presets DX7</strong>. Aprieta "Bell (Tubular)" y luego una nota. Esto es <em>Tubular Bells</em>. Ahora "Brass" + nota = la apertura de <em>Africa</em> de Toto.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-creation">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar la ecuación de Chowning en NumPy frame a frame, con envolventes separadas para amplitud y para $I$.</li>
+      <li>Hacer el <strong>Fun Task 09 "DX7 Clone"</strong>: programar tu propio E-piano FM, tu propia campana, y ---el reto creativo--- recrear por oído un sonido FM emblemático de los 80 (Take My Breath Away, Africa, Tubular Bells, Vienna).</li>
+      <li>Entender cómo se conecta FM con la síntesis aditiva (es una suma de Bessel implícita), con la sustractiva (FM enriquece donde sustractiva quita), y con el modelado físico que viene en la S10.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada. Es para estudiantes de Ingeniería Eléctrica con interés en audio y DSP.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

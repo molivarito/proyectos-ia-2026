@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3 · Laboratorio — Pitagórica: el imperio de la quinta</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:660px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+select{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;display:flex;flex-wrap:wrap;align-items:center;gap:2px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;display:block;margin:10px auto;}
+
+table.harm-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:10px;}
+.harm-table th{text-align:left;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--line);}
+.harm-table td{padding:6px 4px;border-bottom:1px solid #ffffff08;vertical-align:middle;}
+.harm-table tr:last-child td{border-bottom:none;}
+
+table.ref-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:8px;}
+.ref-table th,.ref-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+.ref-table th:first-child,.ref-table td:first-child{text-align:left;}
+.ref-table th{color:var(--muted);font-weight:600;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:5px 12px;border-radius:14px;font-size:0.78rem;cursor:pointer;margin:3px 5px 3px 0;font-variant-numeric:tabular-nums;}
+.chip:hover{background:#313848;}
+.chip-row{margin:10px 0;}
+
+.note-box{padding:12px 14px;margin:10px 0 12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+
+.compare-panel{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.compare-col{flex:1;min-width:220px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:0.85rem;}
+.compare-col h4{margin:0 0 8px;color:var(--accent);font-size:0.9rem;}
+.compare-col .kv{display:flex;justify-content:space-between;margin:4px 0;gap:10px;color:var(--muted);}
+.compare-col .kv b{color:var(--text);text-align:right;}
+
+.piano{display:flex;gap:4px;overflow-x:auto;padding:12px 2px;margin:8px 0 14px;}
+.key{flex:0 0 auto;width:54px;min-height:82px;border-radius:6px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:6px;cursor:pointer;border:1px solid var(--line);font-size:0.68rem;font-weight:700;background:#e9e9ec;color:#12141a;user-select:none;}
+.key.black{background:#20232c;color:#e9e9ec;}
+.key.active{background:var(--accent)!important;color:var(--accent-ink)!important;}
+.key .dev{font-size:0.6rem;font-weight:500;opacity:0.8;margin-top:2px;font-variant-numeric:tabular-nums;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .compare-panel{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M3 · Laboratorio — Pitagórica: el imperio de la quinta</h1>
+    <p class="subtitle">Cuatro experimentos sobre la afinación construida apilando quintas puras (3/2): la escala que se arma quinta a quinta, el teclado resultante, el duelo entre terceras pitagóricas y justas, y el organum medieval que revela para qué música sirve este sistema — y para cuál no.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Constructor de la escala, quinta a quinta</h2>
+    <p class="purpose">Apila quintas puras (3/2) desde Do, tal como los teóricos griegos y medievales. Cada nota nueva se reduce a la octava Do4–Do5 para que puedas compararlas todas en el mismo rango.</p>
+
+    <div class="note-box">Do4 se ancla a La4 = 440 Hz en temperamento igual: Do4 = 440 × 2<sup>−9/12</sup> ≈ <b id="do4Value">261.63</b> Hz. Todas las razones de este laboratorio son exactas (fracciones de enteros); los cents se calculan como 1200·log₂(razón).</div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l1AddFifth">+ quinta pura</button>
+      <button class="btn" id="l1Reset">Reiniciar</button>
+    </div>
+
+    <h3>Notas construidas (<span id="l1Count">1</span> de 12) — orden de construcción</h3>
+    <table class="harm-table" id="l1ChainTable">
+      <thead><tr><th>#</th><th>Nota</th><th>Razón</th><th>Cents</th><th></th></tr></thead>
+      <tbody id="l1ChainBody"></tbody>
+    </table>
+
+    <h3>Escalera (ordenada por altura, Do4→Do5)</h3>
+    <div class="chip-row" id="l1Staircase"></div>
+
+    <h3>Círculo de quintas</h3>
+    <canvas id="l1Circle" width="320" height="320"></canvas>
+
+    <div id="l1WolfBox" style="display:none;">
+      <div class="note-box" style="border-left-color:var(--warn);">
+        <b>Círculo cerrado.</b> La quinta del lobo aparece entre Sol♯ y Mi♭: <b id="l1WolfCents">678.495</b> c — 23.460 c más angosta que una quinta pura (701.955 c), exactamente una coma pitagórica. Apilar 12 quintas puras <b>no</b> vuelve limpiamente al Do de partida: ese es el problema que el resto del curso intenta resolver.
+      </div>
+      <div class="btn-row">
+        <button class="btn primary big-btn" id="l1HearWolf">🐺 Oír el lobo (A: Do–Sol pura → B: Sol♯–Mi♭ lobo)</button>
+        <span class="value-tag" id="l1WolfStatus"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Teclado pitagórico</h2>
+    <p class="purpose">Una octava y media (Do4–Sol5) afinada con la misma cadena de quintas del Lab 1, timbre armónico. Bajo cada tecla, su desviación en cents respecto al temperamento igual.</p>
+
+    <div class="btn-row">
+      <label style="display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:0.85rem;cursor:pointer;">
+        <input type="checkbox" id="l2Sustain"> Sostener (acumular notas como acorde)
+      </label>
+      <button class="btn" id="l2ClearAll">Soltar todo</button>
+    </div>
+
+    <div class="piano" id="l2Piano"></div>
+
+    <h3>Intervalos guiados</h3>
+    <div class="btn-row">
+      <button class="btn" id="l2IvFifth">Quinta pura Do–Sol</button>
+      <button class="btn" id="l2IvWolf">Quinta del lobo Sol♯–Mi♭</button>
+      <button class="btn" id="l2IvThird">Tercera pitagórica Do–Mi</button>
+      <button class="btn" id="l2IvLimma">Semitono limma Mi–Fa</button>
+      <button class="btn" id="l2IvApotome">Semitono apotome Do–Do♯</button>
+    </div>
+
+    <div class="compare-panel">
+      <div class="compare-col" style="flex:1 1 100%;">
+        <h4>Intervalo sonando</h4>
+        <div class="kv"><span>Notas</span><b id="l2CurNotes">—</b></div>
+        <div class="kv"><span>Cents</span><b id="l2CurCents">—</b></div>
+        <div class="kv"><span>Batido predicho (armónicos más graves coincidentes)</span><b id="l2CurBeat">—</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · El duelo de terceras</h2>
+    <p class="purpose">En el mundo medieval la tercera era disonancia — escucha por qué: la misma nota "Mi" sobre Do4, afinada de tres maneras, produce batidos radicalmente distintos.</p>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3PlayPyth">81/64 pitagórica (407.8 c)</button>
+      <button class="btn primary big-btn" id="l3PlayJust">5/4 pura (386.3 c)</button>
+      <button class="btn primary big-btn" id="l3PlayET">400 c ET</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn big-btn" id="l3PlaySeq">▶ Secuencia A/B/C</button>
+      <span class="value-tag" id="l3SeqStatus"></span>
+    </div>
+
+    <table class="ref-table">
+      <thead><tr><th>Afinación</th><th>Razón</th><th>Cents</th><th>Batido predicho</th></tr></thead>
+      <tbody id="l3Table"></tbody>
+    </table>
+
+    <div class="note-box">Para el oído medieval, el ditono 81/64 sonaba tenso y pedía resolver por grado conjunto hacia la quinta o la octava; recién el Renacimiento aceptó la tercera 5/4 como consonancia de pleno derecho.</div>
+
+    <h3>Extra: el schisma feliz</h3>
+    <p class="purpose">La tercera Re–Fa♯, afinada como 8192/6561 dentro de la cadena de quintas (8 quintas hacia abajo), queda a un schisma (≈1.95 c) de la tercera justa 5/4: casi indistinguibles al oído, con un batido lentísimo. Así descubrieron los teóricos del siglo XV que la cadena pitagórica escondía terceras casi puras.</p>
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3Schisma">🎼 El schisma feliz (Re + Fa♯-schisma + Fa♯-justo, simultáneos)</button>
+    </div>
+    <div class="compare-panel">
+      <div class="compare-col" style="flex:1 1 100%;">
+        <div class="kv"><span>Fa♯ schisma (8192/6561)</span><b id="l3SchismaCentsA">—</b></div>
+        <div class="kv"><span>Fa♯ justo (5/4 sobre Re)</span><b id="l3SchismaCentsB">—</b></div>
+        <div class="kv"><span>Diferencia (schisma)</span><b id="l3SchismaDiff">—</b></div>
+        <div class="kv"><span>Batido entre ambos Fa♯</span><b id="l3SchismaBeat">—</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · Organum comparado</h2>
+    <p class="purpose">Un organum paralelo dórico (voz principal + voz paralela) con la misma melodía en dos texturas — quintas y terceras — y tres afinaciones. El punto pedagógico: el organum de quintas suena glorioso en pitagórica; la versión de terceras prefiere la afinación justa. El sistema y el estilo se co-determinan.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l4Tuning">Afinación</label>
+        <select id="l4Tuning">
+          <option value="pyth">Pitagórica</option>
+          <option value="et">Temperamento igual</option>
+          <option value="just">Justa (5-limit)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l4PlayFifths">▶ Organum de quintas</button>
+      <button class="btn primary big-btn" id="l4PlayThirds">▶ Organum de terceras</button>
+      <button class="btn" id="l4Stop">■ Detener</button>
+    </div>
+    <div class="value-tag" id="l4Status"></div>
+
+    <div class="note-box">Sugerencia de escucha: deja la afinación en <b>Pitagórica</b> y compara "quintas" vs. "terceras" — las terceras deberían sonar ásperas. Luego cambia a <b>Justa</b> y repite: ahora las terceras se limpian (aunque las quintas siguen siendo 3/2 exactas en ambos casos). En <b>Temperamento igual</b> ambas texturas quedan en un punto intermedio, sin brillar ni chirriar.</div>
+  </section>
+
+  <footer>
+    Módulo 3 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+// Timbre rico en armónicos (8 armónicos, amplitud 1/n), igual enfoque que el Lab del M1.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima sobre un AudioParam de gain para una nota de duración fija.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Reproduce una nota de duración fija con timbre armónico y envolvente ADSR.
+function playHarmonicTone(freq, duration, peak, attack, release){
+  if(!ensureAudioReady()) return null;
+  const now = audioCtx.currentTime + 0.02;
+  const osc = createHarmonicOsc(audioCtx, freq, 8);
+  const g = audioCtx.createGain();
+  osc.connect(g); g.connect(masterGain);
+  const end = scheduleTone(g.gain, now, duration, peak, attack || 0.02, release || 0.12);
+  osc.start(now); osc.stop(end + 0.05);
+  osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+  return { osc: osc, gain: g, end: end };
+}
+
+// Reproduce dos tonos (base + superior) simultáneos con timbre armónico y envolvente ADSR.
+function playHarmonicInterval(baseFreq, upperFreq, duration, peak, attack, release){
+  if(!ensureAudioReady()) return null;
+  const now = audioCtx.currentTime + 0.03;
+  [baseFreq, upperFreq].forEach(function(f){
+    const osc = createHarmonicOsc(audioCtx, f, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, now, duration, peak, attack || 0.02, release || 0.15);
+    osc.start(now);
+    osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+  });
+  return now;
+}
+
+// Voz sostenida (sin duración fija): se detiene explícitamente con stopSustainedVoice.
+function startSustainedVoice(freq){
+  if(!ensureAudioReady()) return null;
+  const osc = createHarmonicOsc(audioCtx, freq, 8);
+  const g = audioCtx.createGain();
+  osc.connect(g); g.connect(masterGain);
+  const now = audioCtx.currentTime;
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(0.18, now + 0.03);
+  osc.start(now);
+  return { osc: osc, gain: g };
+}
+
+function stopSustainedVoice(voice){
+  if(!voice) return;
+  const now = audioCtx.currentTime;
+  voice.gain.gain.cancelScheduledValues(now);
+  voice.gain.gain.setValueAtTime(Math.max(voice.gain.gain.value, 0.0001), now);
+  voice.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+  voice.osc.stop(now + 0.16);
+  voice.osc.addEventListener('ended', function(){ try{voice.osc.disconnect(); voice.gain.disconnect();}catch(e){} });
+}
+
+/* ==================== UTILIDADES MUSICALES PITAGÓRICAS ==================== */
+
+// Do4 anclado a La4 = 440 Hz en temperamento igual.
+const DO4 = 440 * Math.pow(2, -9/12);
+
+// Orden cromático de clase de altura (pc 0..11) usado por las 3 tablas de razones.
+const NOTE_PC = ["Do","Do♯","Re","Mi♭","Mi","Fa","Fa♯","Sol","Sol♯","La","Si♭","Si"];
+
+// Razones exactas (numerador, denominador) por clase de altura, cadena de quintas Mi♭–Sol♯.
+const PYTH_RATIO = [
+  [1,1], [2187,2048], [9,8], [32,27], [81,64], [4,3],
+  [729,512], [3,2], [6561,4096], [27,16], [16,9], [243,128]
+];
+
+// Justa 5-limit (Lab 4), misma indexación cromática.
+const JUST_RATIO = [
+  [1,1], [16,15], [9,8], [6,5], [5,4], [4,3],
+  [45,32], [3,2], [8,5], [5,3], [9,5], [15,8]
+];
+
+function ratioPyth(pc){ return PYTH_RATIO[pc][0] / PYTH_RATIO[pc][1]; }
+function ratioJust(pc){ return JUST_RATIO[pc][0] / JUST_RATIO[pc][1]; }
+function ratioET(pc){ return Math.pow(2, pc/12); }
+
+function centsOf(ratio){ return 1200 * Math.log2(ratio); }
+
+function fmtSigned(x, dec){
+  return (x >= 0 ? '+' : '') + x.toFixed(dec);
+}
+
+// Frecuencia a partir de un desplazamiento en semitonos desde Do4 (puede exceder 0..11).
+function freqFromSemitone(system, n){
+  const pc = ((n % 12) + 12) % 12;
+  const oct = Math.floor(n / 12);
+  let r;
+  if(system === 'pyth') r = ratioPyth(pc);
+  else if(system === 'just') r = ratioJust(pc);
+  else r = ratioET(pc);
+  return DO4 * r * Math.pow(2, oct);
+}
+
+function noteLabel(n){
+  const pc = ((n % 12) + 12) % 12;
+  const oct = 4 + Math.floor(n / 12);
+  return NOTE_PC[pc] + oct;
+}
+
+// Desviación en cents de la nota pitagórica pc respecto al temperamento igual.
+function devVsET(pc){
+  return centsOf(ratioPyth(pc)) - 100 * pc;
+}
+
+// Busca, entre armónicos n,m <= maxN, el par con la menor diferencia |n·f1 - m·f2|:
+// una aproximación al "batido entre los armónicos coincidentes más graves".
+function predictBeat(f1, f2, maxN){
+  maxN = maxN || 8;
+  let best = null;
+  for(let n = 1; n <= maxN; n++){
+    for(let m = 1; m <= maxN; m++){
+      const diff = Math.abs(n*f1 - m*f2);
+      if(!best || diff < best.diff - 1e-6 ||
+         (Math.abs(diff - best.diff) <= 1e-6 && (n+m) < (best.n+best.m))){
+        best = { n:n, m:m, diff:diff };
+      }
+    }
+  }
+  return best;
+}
+
+(function(){ document.getElementById('do4Value').textContent = DO4.toFixed(2); })();
+
+/* ==================== Lab 1: Constructor de la escala ==================== */
+(function(){
+  // Orden de construcción tal como lo especifica el módulo:
+  // Do -> Sol -> Re -> La -> Mi -> Si -> Fa# -> Do# -> Sol# (ascendiendo por quintas),
+  // luego hacia atrás: Fa -> Sib -> Mib (descendiendo por quintas desde Do).
+  const CHAIN_STEPS = [
+    { name:'Sol',  pc:7  },
+    { name:'Re',   pc:2  },
+    { name:'La',   pc:9  },
+    { name:'Mi',   pc:4  },
+    { name:'Si',   pc:11 },
+    { name:'Fa♯',  pc:6  },
+    { name:'Do♯',  pc:1  },
+    { name:'Sol♯', pc:8  },
+    { name:'Fa',   pc:5  },
+    { name:'Si♭',  pc:10 },
+    { name:'Mi♭',  pc:3  }
+  ];
+
+  // Posiciones angulares fijas del círculo de quintas (índice 0..11, en sentido horario desde arriba).
+  const CIRCLE_PC = [0,7,2,9,4,11,6,1,8,3,10,5];
+
+  let addedOrder = [0]; // pcs en orden de adición; Do (pc 0) ya está presente.
+
+  const addBtn = document.getElementById('l1AddFifth');
+  const resetBtn = document.getElementById('l1Reset');
+  const countLabel = document.getElementById('l1Count');
+  const chainBody = document.getElementById('l1ChainBody');
+  const staircase = document.getElementById('l1Staircase');
+  const circleCanvas = document.getElementById('l1Circle');
+  const wolfBox = document.getElementById('l1WolfBox');
+  const wolfStatus = document.getElementById('l1WolfStatus');
+  const hearWolfBtn = document.getElementById('l1HearWolf');
+
+  function pcName(pc){ return NOTE_PC[pc]; }
+
+  function buildChainTable(){
+    chainBody.innerHTML = '';
+    addedOrder.forEach(function(pc, i){
+      const ratio = PYTH_RATIO[pc];
+      const cents = centsOf(ratio[0]/ratio[1]);
+      const tr = document.createElement('tr');
+      const tdN = document.createElement('td'); tdN.textContent = String(i+1);
+      const tdName = document.createElement('td'); tdName.textContent = pcName(pc);
+      const tdRatio = document.createElement('td'); tdRatio.textContent = ratio[0] + '/' + ratio[1];
+      const tdCents = document.createElement('td'); tdCents.textContent = cents.toFixed(3);
+      const tdPlay = document.createElement('td');
+      const playBtn = document.createElement('button');
+      playBtn.className = 'btn'; playBtn.textContent = '▶';
+      playBtn.addEventListener('click', function(){
+        playHarmonicTone(DO4 * (ratio[0]/ratio[1]), 1.6, 0.2, 0.02, 0.25);
+      });
+      tdPlay.appendChild(playBtn);
+      tr.appendChild(tdN); tr.appendChild(tdName); tr.appendChild(tdRatio); tr.appendChild(tdCents); tr.appendChild(tdPlay);
+      chainBody.appendChild(tr);
+    });
+    countLabel.textContent = String(addedOrder.length);
+  }
+
+  function buildStaircase(){
+    staircase.innerHTML = '';
+    const sorted = addedOrder.slice().sort(function(a,b){
+      return centsOf(ratioPyth(a)) - centsOf(ratioPyth(b));
+    });
+    sorted.forEach(function(pc){
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      const cents = centsOf(ratioPyth(pc));
+      chip.textContent = pcName(pc) + ' · ' + cents.toFixed(1) + ' c';
+      chip.addEventListener('click', function(){
+        playHarmonicTone(DO4 * ratioPyth(pc), 1.6, 0.2, 0.02, 0.25);
+      });
+      staircase.appendChild(chip);
+    });
+  }
+
+  function drawCircle(){
+    const c = circleCanvas.getContext('2d');
+    const W = circleCanvas.width, H = circleCanvas.height;
+    c.clearRect(0,0,W,H);
+    const cx = W/2, cy = H/2, R = W/2 - 46;
+    const pts = [];
+    for(let i = 0; i < 12; i++){
+      const angle = -Math.PI/2 + i * (Math.PI*2/12);
+      pts.push({ x: cx + R*Math.cos(angle), y: cy + R*Math.sin(angle), pc: CIRCLE_PC[i], idx: i });
+    }
+    function ptFor(pc){ return pts.filter(function(p){ return p.pc === pc; })[0]; }
+
+    // líneas de quintas ya construidas
+    for(let i = 1; i < addedOrder.length; i++){
+      const p0 = ptFor(addedOrder[i-1]);
+      const p1 = ptFor(addedOrder[i]);
+      const isWolf = (addedOrder.length === 12 && i === addedOrder.length - 1);
+      c.strokeStyle = isWolf ? '#ff6b6b' : '#e8a33d';
+      c.lineWidth = isWolf ? 3 : 2;
+      c.beginPath(); c.moveTo(p0.x,p0.y); c.lineTo(p1.x,p1.y); c.stroke();
+    }
+
+    // puntos + etiquetas
+    pts.forEach(function(p){
+      const added = addedOrder.indexOf(p.pc) !== -1;
+      c.beginPath();
+      c.arc(p.x, p.y, 16, 0, Math.PI*2);
+      c.fillStyle = added ? '#e8a33d' : '#262b38';
+      c.fill();
+      c.strokeStyle = '#0d0f14'; c.lineWidth = 1.5; c.stroke();
+      c.fillStyle = added ? '#241a08' : '#9aa0ac';
+      c.font = 'bold 12px system-ui';
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText(NOTE_PC[p.pc], p.x, p.y);
+    });
+  }
+
+  function refreshAddButton(){
+    const nextIdx = addedOrder.length - 1;
+    if(nextIdx < CHAIN_STEPS.length){
+      addBtn.disabled = false;
+      addBtn.textContent = '+ quinta pura (agregar ' + CHAIN_STEPS[nextIdx].name + ')';
+    } else {
+      addBtn.disabled = true;
+      addBtn.textContent = 'Círculo completo (12/12)';
+    }
+  }
+
+  function refreshAll(){
+    buildChainTable();
+    buildStaircase();
+    drawCircle();
+    refreshAddButton();
+    if(addedOrder.length === 12){
+      wolfBox.style.display = 'block';
+    } else {
+      wolfBox.style.display = 'none';
+      wolfStatus.textContent = '';
+    }
+  }
+
+  addBtn.addEventListener('click', function(){
+    const nextIdx = addedOrder.length - 1;
+    if(nextIdx >= CHAIN_STEPS.length) return;
+    const step = CHAIN_STEPS[nextIdx];
+    addedOrder.push(step.pc);
+    refreshAll();
+    playHarmonicTone(DO4 * ratioPyth(step.pc), 1.6, 0.2, 0.02, 0.25);
+  });
+
+  resetBtn.addEventListener('click', function(){
+    addedOrder = [0];
+    refreshAll();
+  });
+
+  hearWolfBtn.addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const segDur = 2.5, gap = 0.4;
+    const pureUpper = DO4 * ratioPyth(7); // Sol
+    const wolfLow = DO4 * ratioPyth(8);        // Sol#
+    const wolfHigh = DO4 * ratioPyth(3) * 2;   // Mi♭ una octava arriba, cierra el círculo
+    let t = audioCtx.currentTime + 0.05;
+    // A: Do-Sol pura
+    [DO4, pureUpper].forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, t, segDur, 0.18, 0.02, 0.2);
+      osc.start(t); osc.stop(end+0.05);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+    setTimeout(function(){ wolfStatus.textContent = 'Sonando: Do–Sol (quinta pura, 701.955 c)'; }, 0);
+    t += segDur + gap;
+    // B: Sol#-Mib lobo
+    [wolfLow, wolfHigh].forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, t, segDur, 0.18, 0.02, 0.2);
+      osc.start(t); osc.stop(end+0.05);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+    const wolfCents = centsOf(wolfHigh/wolfLow);
+    setTimeout(function(){ wolfStatus.textContent = 'Sonando: Sol♯–Mi♭ (quinta del lobo, ' + wolfCents.toFixed(3) + ' c)'; }, (segDur+gap)*1000);
+    setTimeout(function(){ wolfStatus.textContent = ''; }, (segDur*2+gap)*1000);
+  });
+
+  refreshAll();
+})();
+
+/* ==================== Lab 2: Teclado pitagórico ==================== */
+(function(){
+  const piano = document.getElementById('l2Piano');
+  const sustainCheckbox = document.getElementById('l2Sustain');
+  const clearAllBtn = document.getElementById('l2ClearAll');
+  const curNotes = document.getElementById('l2CurNotes');
+  const curCents = document.getElementById('l2CurCents');
+  const curBeat = document.getElementById('l2CurBeat');
+
+  const BLACK_PCS = [1,3,6,8,10];
+  const N_MIN = 0, N_MAX = 19; // Do4 .. Sol5
+
+  const keys = {};
+  const activeVoices = {}; // n -> voice, sólo en modo sostener
+  let activeOrder = [];    // orden de pulsación en modo sostener
+
+  let lastPlayed = null; // { n, freq, time } en modo no-sostener, para detectar pares
+
+  function buildPiano(){
+    piano.innerHTML = '';
+    for(let n = N_MIN; n <= N_MAX; n++){
+      const pc = ((n % 12) + 12) % 12;
+      const key = document.createElement('div');
+      key.className = 'key' + (BLACK_PCS.indexOf(pc) !== -1 ? ' black' : '');
+      const nameDiv = document.createElement('div');
+      nameDiv.textContent = noteLabel(n);
+      const devDiv = document.createElement('div');
+      devDiv.className = 'dev';
+      devDiv.textContent = fmtSigned(devVsET(pc), 1) + 'c';
+      key.appendChild(nameDiv);
+      key.appendChild(devDiv);
+      key.addEventListener('click', function(){ onKeyClick(n, key); });
+      piano.appendChild(key);
+      keys[n] = key;
+    }
+  }
+
+  function updateDisplay(n1, f1, n2, f2){
+    const cents = centsOf(f2 > f1 ? f2/f1 : f1/f2);
+    const beat = predictBeat(f1, f2);
+    curNotes.textContent = noteLabel(n1) + ' – ' + noteLabel(n2);
+    curCents.textContent = cents.toFixed(2) + ' c';
+    curBeat.textContent = beat.diff.toFixed(3) + ' Hz (armónicos ' + beat.n + ':' + beat.m + ')';
+  }
+
+  function updateFromActiveChord(){
+    if(activeOrder.length >= 2){
+      const n1 = activeOrder[activeOrder.length-2];
+      const n2 = activeOrder[activeOrder.length-1];
+      updateDisplay(n1, freqFromSemitone('pyth', n1), n2, freqFromSemitone('pyth', n2));
+    } else if(activeOrder.length === 1){
+      curNotes.textContent = noteLabel(activeOrder[0]);
+      curCents.textContent = '—';
+      curBeat.textContent = '—';
+    } else {
+      curNotes.textContent = '—'; curCents.textContent = '—'; curBeat.textContent = '—';
+    }
+  }
+
+  function onKeyClick(n, keyEl){
+    const freq = freqFromSemitone('pyth', n);
+    if(sustainCheckbox.checked){
+      if(!ensureAudioReady()) return;
+      if(activeVoices[n]){
+        stopSustainedVoice(activeVoices[n]);
+        delete activeVoices[n];
+        activeOrder = activeOrder.filter(function(x){ return x !== n; });
+        keyEl.classList.remove('active');
+      } else {
+        const v = startSustainedVoice(freq);
+        if(!v) return;
+        activeVoices[n] = v;
+        activeOrder.push(n);
+        keyEl.classList.add('active');
+      }
+      updateFromActiveChord();
+    } else {
+      if(!ensureAudioReady()) return;
+      playHarmonicTone(freq, 1.5, 0.2, 0.02, 0.25);
+      keyEl.classList.add('active');
+      setTimeout(function(){ keyEl.classList.remove('active'); }, 1400);
+      const now = performance.now();
+      if(lastPlayed && (now - lastPlayed.time) < 2200 && lastPlayed.n !== n){
+        updateDisplay(lastPlayed.n, lastPlayed.freq, n, freq);
+      } else {
+        curNotes.textContent = noteLabel(n);
+        curCents.textContent = '—';
+        curBeat.textContent = '—';
+      }
+      lastPlayed = { n:n, freq:freq, time:now };
+    }
+  }
+
+  sustainCheckbox.addEventListener('change', function(){
+    if(!sustainCheckbox.checked){
+      activeOrder.forEach(function(n){ stopSustainedVoice(activeVoices[n]); keys[n].classList.remove('active'); });
+      activeOrder = [];
+      for(const k in activeVoices) delete activeVoices[k];
+      updateFromActiveChord();
+    }
+  });
+
+  clearAllBtn.addEventListener('click', function(){
+    activeOrder.forEach(function(n){ stopSustainedVoice(activeVoices[n]); if(keys[n]) keys[n].classList.remove('active'); });
+    activeOrder = [];
+    for(const k in activeVoices) delete activeVoices[k];
+    updateFromActiveChord();
+  });
+
+  function playGuided(n1, n2){
+    if(!ensureAudioReady()) return;
+    const f1 = freqFromSemitone('pyth', n1), f2 = freqFromSemitone('pyth', n2);
+    playHarmonicInterval(f1, f2, 3, 0.16, 0.02, 0.3);
+    [n1, n2].forEach(function(n){
+      if(keys[n]){
+        keys[n].classList.add('active');
+        setTimeout(function(){ keys[n].classList.remove('active'); }, 2900);
+      }
+    });
+    updateDisplay(n1, f1, n2, f2);
+  }
+
+  document.getElementById('l2IvFifth').addEventListener('click', function(){ playGuided(0, 7); });
+  document.getElementById('l2IvWolf').addEventListener('click', function(){ playGuided(8, 3+12); });
+  document.getElementById('l2IvThird').addEventListener('click', function(){ playGuided(0, 4); });
+  document.getElementById('l2IvLimma').addEventListener('click', function(){ playGuided(4, 5); });
+  document.getElementById('l2IvApotome').addEventListener('click', function(){ playGuided(0, 1); });
+
+  buildPiano();
+})();
+
+/* ==================== Lab 3: El duelo de terceras ==================== */
+(function(){
+  const seqStatus = document.getElementById('l3SeqStatus');
+  const tableBody = document.getElementById('l3Table');
+
+  const THIRDS = [
+    { label:'81/64 pitagórica', ratioNum:81, ratioDen:64 },
+    { label:'5/4 pura',         ratioNum:5,  ratioDen:4  },
+    { label:'400 c ET',         ratioNum:null, ratioDen:null, ratio: Math.pow(2, 400/1200) }
+  ];
+
+  function ratioOf(t){ return t.ratio !== undefined ? t.ratio : t.ratioNum/t.ratioDen; }
+
+  function buildTable(){
+    tableBody.innerHTML = '';
+    THIRDS.forEach(function(t){
+      const r = ratioOf(t);
+      const cents = centsOf(r);
+      const beat = predictBeat(DO4, DO4*r);
+      const tr = document.createElement('tr');
+      const ratioStr = t.ratioNum ? (t.ratioNum+'/'+t.ratioDen) : '2^(400/1200)';
+      tr.innerHTML = '<td>'+t.label+'</td><td>'+ratioStr+'</td><td>'+cents.toFixed(3)+'</td><td>'+beat.diff.toFixed(3)+' Hz ('+beat.n+':'+beat.m+')</td>';
+      tableBody.appendChild(tr);
+    });
+  }
+
+  function playThird(t){
+    if(!ensureAudioReady()) return;
+    const r = ratioOf(t);
+    playHarmonicInterval(DO4, DO4*r, 3, 0.16, 0.02, 0.3);
+  }
+
+  document.getElementById('l3PlayPyth').addEventListener('click', function(){ playThird(THIRDS[0]); });
+  document.getElementById('l3PlayJust').addEventListener('click', function(){ playThird(THIRDS[1]); });
+  document.getElementById('l3PlayET').addEventListener('click', function(){ playThird(THIRDS[2]); });
+
+  document.getElementById('l3PlaySeq').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const segDur = 2.2, gap = 0.35;
+    let t = audioCtx.currentTime + 0.05;
+    const labels = ['A: 81/64 pitagórica', 'B: 5/4 pura', 'C: 400 c ET'];
+    THIRDS.forEach(function(third, idx){
+      const r = ratioOf(third);
+      [DO4, DO4*r].forEach(function(f){
+        const osc = createHarmonicOsc(audioCtx, f, 8);
+        const g = audioCtx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        const end = scheduleTone(g.gain, t, segDur, 0.16, 0.02, 0.25);
+        osc.start(t); osc.stop(end+0.05);
+        osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+      });
+      const delayMs = Math.max(0, (t - audioCtx.currentTime)) * 1000;
+      setTimeout((function(lbl){ return function(){ seqStatus.textContent = 'Sonando: ' + lbl; }; })(labels[idx]), delayMs);
+      t += segDur + gap;
+    });
+    const totalMs = (t - audioCtx.currentTime) * 1000;
+    setTimeout(function(){ seqStatus.textContent = ''; }, totalMs);
+  });
+
+  buildTable();
+
+  /* ---- El schisma feliz ---- */
+  const reFreq = DO4 * ratioPyth(2); // Re, 9/8
+  const faSharpSchisma = reFreq * (8192/6561);
+  const faSharpJust = reFreq * (5/4);
+  const centsA = centsOf(faSharpSchisma/DO4);
+  const centsB = centsOf(faSharpJust/DO4);
+  const diffCents = centsOf(faSharpJust/faSharpSchisma);
+  const beatSchisma = Math.abs(faSharpJust - faSharpSchisma);
+
+  document.getElementById('l3SchismaCentsA').textContent = centsA.toFixed(3) + ' c';
+  document.getElementById('l3SchismaCentsB').textContent = centsB.toFixed(3) + ' c';
+  document.getElementById('l3SchismaDiff').textContent = diffCents.toFixed(3) + ' c';
+  document.getElementById('l3SchismaBeat').textContent = beatSchisma.toFixed(3) + ' Hz';
+
+  document.getElementById('l3Schisma').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.05;
+    const dur = 5.5;
+    [ [reFreq, 0.1], [faSharpSchisma, 0.15], [faSharpJust, 0.15] ].forEach(function(pair){
+      const osc = createHarmonicOsc(audioCtx, pair[0], 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, now, dur, pair[1], 0.05, 0.6);
+      osc.start(now); osc.stop(end+0.05);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+  });
+})();
+
+/* ==================== Lab 4: Organum comparado ==================== */
+(function(){
+  // Voz principal (canto), en semitonos desde Do4: Re,Do,Sib3,Do,Re,Fa,Mi,Re.
+  const CHANT = [2, 0, -2, 0, 2, 5, 4, 2];
+  // Voz paralela a la quinta (canto + 7 semitonos): Re-La, Do-Sol, Sib-Fa, Do-Sol, Re-La, Fa-Do, Mi-Si, Re-La.
+  const FIFTHS_UPPER = CHANT.map(function(x){ return x + 7; });
+  // Misma melodía armonizada a terceras diatónicas: Re-Fa, Do-Mi, Sib-Re, Do-Mi, Re-Fa, Fa-La, Mi-Sol, Re-Fa.
+  const THIRDS_UPPER = [5, 4, 2, 4, 5, 9, 7, 5];
+
+  const tuningSelect = document.getElementById('l4Tuning');
+  const statusEl = document.getElementById('l4Status');
+
+  let scheduled = []; // { osc, gain }
+  let timeouts = [];
+
+  function clearSchedule(){
+    timeouts.forEach(function(id){ clearTimeout(id); });
+    timeouts = [];
+  }
+
+  function stopAll(){
+    clearSchedule();
+    scheduled.forEach(function(v){ stopSustainedVoice(v); });
+    scheduled = [];
+    statusEl.textContent = '';
+  }
+
+  function playOrganum(upperArray){
+    if(!ensureAudioReady()) return;
+    stopAll();
+    const system = tuningSelect.value;
+    const dur = 1.7, gap = 0.3;
+    let t = audioCtx.currentTime + 0.1;
+    const startRef = audioCtx.currentTime;
+    for(let i = 0; i < CHANT.length; i++){
+      const fLow = freqFromSemitone(system, CHANT[i]);
+      const fHigh = freqFromSemitone(system, upperArray[i]);
+      [fLow, fHigh].forEach(function(f){
+        const osc = createHarmonicOsc(audioCtx, f, 8);
+        const g = audioCtx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        const end = scheduleTone(g.gain, t, dur, 0.15, 0.12, 0.35);
+        osc.start(t); osc.stop(end + 0.1);
+        const rec = { osc:osc, gain:g };
+        scheduled.push(rec);
+        osc.addEventListener('ended', function(){
+          try{ osc.disconnect(); g.disconnect(); }catch(e){}
+          scheduled = scheduled.filter(function(x){ return x !== rec; });
+        });
+      });
+      (function(idx, chordTime){
+        const delayMs = Math.max(0, chordTime - startRef) * 1000;
+        const id = setTimeout(function(){
+          statusEl.textContent = 'Acorde ' + (idx+1) + '/8: ' + noteLabel(CHANT[idx]) + ' – ' + noteLabel(upperArray[idx]);
+        }, delayMs);
+        timeouts.push(id);
+      })(i, t);
+      t += dur + gap;
+    }
+    const endId = setTimeout(function(){ statusEl.textContent = ''; }, Math.max(0, t - startRef) * 1000);
+    timeouts.push(endId);
+  }
+
+  document.getElementById('l4PlayFifths').addEventListener('click', function(){ playOrganum(FIFTHS_UPPER); });
+  document.getElementById('l4PlayThirds').addEventListener('click', function(){ playOrganum(THIRDS_UPPER); });
+  document.getElementById('l4Stop').addEventListener('click', stopAll);
+})();
+
+</script>
+</body>
+</html>

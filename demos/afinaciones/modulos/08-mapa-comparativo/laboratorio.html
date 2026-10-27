@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M8 · Laboratorio — El mapa completo</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --mid:#e8c33d;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:960px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:680px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:190px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+select,input[type=number],input[type=text]{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;cursor:default;margin:3px 5px 3px 0;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+.note-box.small{font-size:0.8rem;padding:9px 12px;}
+
+.table-scroll{overflow-x:auto;margin-top:10px;}
+table.super-table{width:100%;border-collapse:collapse;font-size:0.78rem;min-width:760px;}
+table.super-table th{text-align:center;color:var(--muted);font-weight:600;padding:7px 4px;border-bottom:1px solid var(--line);white-space:nowrap;}
+table.super-table td{padding:6px 4px;border-bottom:1px solid #ffffff08;text-align:center;cursor:pointer;user-select:none;}
+table.super-table td:hover{background:#262b38;}
+table.super-table td.note-label{text-align:left;color:var(--text);font-weight:600;cursor:default;padding-left:6px;}
+table.super-table td.note-label:hover{background:transparent;}
+table.super-table th.ref-col,table.super-table td.ref-col{background:#26200f;}
+table.super-table tr.extra-row td{font-weight:600;}
+table.super-table tr.extra-row td.note-label{color:var(--accent);}
+.pos-cents{color:var(--good);}
+.neg-cents{color:var(--warn);}
+.sem-good{color:var(--good);}
+.sem-mid{color:var(--mid);}
+.sem-bad{color:var(--warn);}
+.dev-sub{display:block;font-size:0.68rem;color:var(--muted);font-weight:400;}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;}
+
+.duel-score{font-size:1.1rem;font-weight:700;color:var(--accent);text-align:center;margin:10px 0;}
+.duel-status{text-align:center;color:var(--muted);font-size:0.85rem;min-height:20px;margin:6px 0;}
+
+.quiz-status{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px;color:var(--muted);font-size:0.85rem;}
+.quiz-status b{color:var(--text);}
+.level-banner{font-size:0.78rem;color:var(--muted);margin-bottom:10px;}
+.answer-grid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.answer-grid .btn{flex:1;min-width:120px;}
+.feedback{margin-top:12px;padding:12px 14px;border-radius:9px;font-size:0.87rem;display:none;}
+.feedback.correct{background:#123420;border:1px solid #2c6b45;color:#bdf0d1;}
+.feedback.incorrect{background:#3a1420;border:1px solid #7a2c40;color:#f5c2ce;}
+.summary{text-align:center;padding:14px;}
+.summary .score{font-size:2rem;font-weight:800;color:var(--accent);margin:8px 0;}
+.summary .diag{max-width:560px;margin:0 auto 12px;color:var(--muted);font-size:0.88rem;}
+
+.rough-meter{margin:14px 0;}
+.rough-bar-track{background:#0d0f14;border:1px solid var(--line);border-radius:10px;height:34px;overflow:hidden;position:relative;}
+.rough-bar-fill{height:100%;border-radius:10px 0 0 10px;transition:width 0.25s ease;}
+.rough-number{text-align:center;font-size:1.6rem;font-weight:800;color:var(--accent);margin:10px 0 2px;font-variant-numeric:tabular-nums;}
+.rough-number span{font-size:0.85rem;color:var(--muted);font-weight:500;}
+
+.cmp-bars{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.cmp-row{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.cmp-row:hover .cmp-label{color:var(--accent);}
+.cmp-label{width:150px;flex-shrink:0;font-size:0.8rem;color:var(--text);}
+.cmp-track{flex:1;background:#0d0f14;border:1px solid var(--line);border-radius:6px;height:20px;overflow:hidden;}
+.cmp-fill{height:100%;border-radius:6px 0 0 6px;}
+.cmp-value{width:64px;text-align:right;font-size:0.76rem;color:var(--muted);font-variant-numeric:tabular-nums;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .cmp-label{width:110px;font-size:0.72rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M8 · Laboratorio: El mapa completo</h1>
+    <p class="subtitle">Los siete sistemas de la Fase 1 — Pitagórica, Justa 5-límite, Mesotónico 1/4 de coma, Werckmeister III, Vallotti, Kirnberger III y Temperamento igual — lado a lado: la misma nota, la misma tríada, el mismo acorde, siete afinaciones distintas. Todo el audio se sintetiza en el navegador.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · La supertabla sonora</h2>
+    <p class="purpose">Las 12 notas cromáticas, en cents desde Do4 (261.63 Hz), en cada uno de los 7 sistemas. Clic en cualquier celda para escucharla.</p>
+
+    <div class="legend" id="l1Legend"></div>
+
+    <div class="row">
+      <div class="field">
+        <label for="l1RefSelect">Columna de referencia (modo diferencial)</label>
+        <select id="l1RefSelect">
+          <option value="-1">Ninguna — valores absolutos</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row" id="l1ScaleButtons"></div>
+
+    <div class="table-scroll">
+      <table class="super-table" id="l1Table">
+        <thead><tr id="l1TableHead"></tr></thead>
+        <tbody id="l1TableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="note-box small">Fila <b>3.ª M/Do</b>: la tercera mayor sobre Do de cada sistema, y su desviación respecto de la tercera justa (386.314 c). Fila <b>5.ª/Do</b>: la quinta sobre Do y su desviación respecto de la quinta justa (701.955 c). Verde = a menos de 8 c de lo puro; amarillo = entre 8 y 20 c; rojo = más de 20 c. Clic para escuchar el intervalo completo (Do + la nota).</div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Duelo a ciegas configurable</h2>
+    <p class="purpose">Elige dos sistemas y un material musical. En modo entrenamiento los escuchas etiquetados; en modo duelo, a ciegas.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l2SysA">Sistema A</label>
+        <select id="l2SysA"></select>
+      </div>
+      <div class="field">
+        <label for="l2SysB">Sistema B</label>
+        <select id="l2SysB"></select>
+      </div>
+      <div class="field">
+        <label for="l2Material">Material</label>
+        <select id="l2Material"></select>
+      </div>
+    </div>
+
+    <div class="note-box small" id="l2Advice"></div>
+
+    <h3>Entrenamiento libre (etiquetado)</h3>
+    <div class="btn-row">
+      <button class="btn primary" id="l2PlayA">▶ Escuchar A</button>
+      <button class="btn primary" id="l2PlayB">▶ Escuchar B</button>
+    </div>
+
+    <h3>Duelo a ciegas</h3>
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l2Duel">🎲 Iniciar duelo (X → Y)</button>
+      <button class="btn" id="l2Repeat" disabled>🔁 Repetir X → Y</button>
+    </div>
+    <div class="duel-status" id="l2Status">Elige A, B y un material, luego pulsa "Iniciar duelo".</div>
+    <div class="btn-row" id="l2GuessRow" style="display:none;justify-content:center;display:flex;">
+      <button class="btn big-btn" id="l2GuessFirst">El primero (X) era A</button>
+      <button class="btn big-btn" id="l2GuessSecond">El segundo (Y) era A</button>
+    </div>
+    <div class="duel-score" id="l2Score">Aciertos: 0 / 0</div>
+    <div class="btn-row" style="justify-content:center;display:flex;">
+      <button class="btn" id="l2ResetScore">Reiniciar marcador</button>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · El gran quiz de la Fase 1</h2>
+    <p class="purpose">12 rondas, dificultad creciente: identifica de oído en qué sistema suena el material.</p>
+
+    <div id="l3Intro">
+      <p>Rondas 1–4: eliges entre <b>Pitagórica, Mesotónico, ET</b> (muy distinguibles). Rondas 5–8: se agregan <b>Justa</b> y <b>Werckmeister III</b>. Rondas 9–12: los 7 sistemas — Vallotti vs. ET y Werckmeister vs. Kirnberger son nivel de afinador profesional.</p>
+      <button class="btn primary big-btn" id="l3Start">Comenzar quiz</button>
+    </div>
+
+    <div id="l3Game" style="display:none;">
+      <div class="level-banner" id="l3LevelBanner"></div>
+      <div class="quiz-status">
+        <span id="l3RoundLabel"><b>Ronda 1 de 12</b></span>
+        <span>Puntaje: <b id="l3Score">0</b></span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="l3PlaySound">🔁 Escuchar material (quedan 3)</button>
+      </div>
+
+      <div class="answer-grid" id="l3AnswerGrid"></div>
+
+      <div class="feedback" id="l3Feedback"></div>
+
+      <div class="btn-row" id="l3NextRow" style="display:none;">
+        <button class="btn primary" id="l3Next">Siguiente ronda ▶</button>
+      </div>
+    </div>
+
+    <div id="l3Summary" style="display:none;" class="summary">
+      <div>Quiz terminado</div>
+      <div class="score" id="l3FinalScore">0 / 12</div>
+      <div class="diag" id="l3Diag"></div>
+      <div class="btn-row" style="justify-content:center;display:flex;">
+        <button class="btn primary" id="l3Restart">Reiniciar quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · Medidor de rugosidad en vivo</h2>
+    <p class="purpose">Rugosidad sensorial de Sethares (Plomp-Levelt): cuantifica el batido áspero entre parciales de un acorde.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l4Chord">Acorde</label>
+        <select id="l4Chord">
+          <option value="mayor">Tríada mayor</option>
+          <option value="menor">Tríada menor</option>
+          <option value="dom7">Séptima dominante</option>
+          <option value="cluster">Cluster (Do-Do♯-Re)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="l4Sys">Sistema</label>
+        <select id="l4Sys"></select>
+      </div>
+      <div class="field">
+        <label for="l4Root">Fundamental</label>
+        <select id="l4Root">
+          <option value="0">Do</option>
+          <option value="4">Mi</option>
+          <option value="8">Lab</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="rough-meter">
+      <div class="rough-bar-track"><div class="rough-bar-fill" id="l4BarFill" style="width:0%;background:hsl(120,70%,42%);"></div></div>
+      <div class="rough-number" id="l4Number">0.0000 <span>rugosidad (u. arbitrarias, 8 parciales)</span></div>
+    </div>
+
+    <div class="btn-row" style="justify-content:center;display:flex;">
+      <button class="btn primary big-btn" id="l4Play">▶ Sonar acorde</button>
+    </div>
+
+    <h3>Comparativa: el mismo acorde en los 7 sistemas</h3>
+    <p class="purpose">Ordenado de más consonante (arriba) a más disonante (abajo). Clic en cualquier barra para escucharla en ese sistema.</p>
+    <div class="cmp-bars" id="l4Cmp"></div>
+
+    <div class="note-box small">Métrica orientativa — tu oído es el árbitro. El ranking cambia según el acorde y la fundamental elegidos: no hay un sistema que gane siempre. Modelo: cada nota se representa con 8 armónicos de amplitud 1/n (timbre tipo cuerda); se suma la disonancia de Plomp-Levelt sobre todos los pares de parciales — la misma métrica que usa la app "Suena Afinaciones Antiguas" en su página de consonancia (<code>consonance.js</code>).</div>
+  </section>
+
+  <footer>
+    Módulo 8 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+// Timbre rico en armónicos (8 armónicos, amplitud 1/n), igual que en el resto del curso:
+// necesario para que los batidos entre afinaciones se perciban con claridad.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima (ataque/release exponenciales) para una nota de duración fija.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+/* ==================== UTILIDADES MUSICALES ==================== */
+const NOTE_NAMES = ["Do","Do♯","Re","Mib","Mi","Fa","Fa♯","Sol","Lab","La","Sib","Si"];
+const DO4 = 261.63;
+
+function fmtCents(c){ return (c >= 0 ? '+' : '') + c.toFixed(1); }
+
+/**
+ * Frecuencia de una nota a partir de su desplazamiento en semitonos desde Do4
+ * y del arreglo de cents[0..11] (por clase de altura, relativo a Do) de un sistema.
+ * Ej.: semitoneOffset=16 (Mi de la octava 5) con cents Pitagórica -> Do4 * 2^(cents[4]/1200) * 2^1.
+ */
+function noteFreq(semitoneOffset, cents){
+  const pc = ((semitoneOffset % 12) + 12) % 12;
+  const octave = Math.floor(semitoneOffset / 12);
+  return DO4 * Math.pow(2, cents[pc]/1200) * Math.pow(2, octave);
+}
+
+/* ==================== MÓDULO-SÍNTESIS: LOS 7 SISTEMAS ==================== */
+// Construcción por cadena de quintas: 11 quintas cubren las posiciones -3..+8
+// del círculo (Mib Sib Fa Do Sol Re La Mi Si Fa# Do# Sol#), cada una pura o
+// encogida por una fracción exacta de coma. Cada nota se reduce a cents dentro
+// de la octava de Do. Constantes canónicas de la guía de autores.
+const PURE_FIFTH = 1200 * Math.log2(3/2);              // 701.955 c
+const PYTH_COMMA = 1200 * Math.log2(531441/524288);    // 23.460 c
+const SYN_COMMA  = 1200 * Math.log2(81/80);            // 21.506 c
+
+// fifthSizes[i] = tamaño (c) de la quinta que va de la posición (i-3) a (i-2).
+const POS_TO_PC = {'-3':3,'-2':10,'-1':5,'0':0,'1':7,'2':2,'3':9,'4':4,'5':11,'6':6,'7':1,'8':8};
+
+function buildFromFifthChain(fifthSizes){
+  const cumulative = {0:0};
+  for(let k = 1; k <= 8; k++) cumulative[k] = cumulative[k-1] + fifthSizes[k+2];
+  for(let k = -1; k >= -3; k--) cumulative[k] = cumulative[k+1] - fifthSizes[k+3];
+  const cents = new Array(12).fill(0);
+  for(let k = -3; k <= 8; k++){
+    let c = cumulative[k] % 1200;
+    if(c < 0) c += 1200;
+    cents[POS_TO_PC[String(k)]] = c;
+  }
+  return cents;
+}
+
+function tempered(fifthSize, temperedIndices){
+  const arr = new Array(11).fill(PURE_FIFTH);
+  temperedIndices.forEach(function(i){ arr[i] = fifthSize; });
+  return arr;
+}
+
+// Ratios justos 5-limite de la escala cromática (mismo catálogo que consonance.js / JI_RATIOS).
+const JUST_RATIOS = [[1,1],[16,15],[9,8],[6,5],[5,4],[4,3],[45,32],[3,2],[8,5],[5,3],[9,5],[15,8]];
+const JUST_CENTS = JUST_RATIOS.map(function(r){ return 1200*Math.log2(r[0]/r[1]); });
+
+const TUNING_SYSTEMS = [
+  {
+    id: 'pit', nombre: 'Pitagórica',
+    descripcionCorta: 'Cadena de quintas puras (3/2). Protege la quinta; sacrifica la tercera (ditono 407.820 c, muy ancha).',
+    cents: buildFromFifthChain(new Array(11).fill(PURE_FIFTH))
+  },
+  {
+    id: 'just', nombre: 'Justa 5-límite',
+    descripcionCorta: 'Razones 5-límite exactas (senario de Zarlino). Protege terceras y quintas puras a la vez; sacrifica la circulación (quinta Re-La defectuosa).',
+    cents: JUST_CENTS.slice()
+  },
+  {
+    id: 'meso', nombre: 'Mesotónico 1/4 coma',
+    descripcionCorta: 'Las 11 quintas de la cadena encogidas 1/4 de coma sintónica. Protege la tercera pura; sacrifica la circulación (lobo Sol♯-Mib de 737.637 c).',
+    cents: buildFromFifthChain(new Array(11).fill(PURE_FIFTH - SYN_COMMA/4))
+  },
+  {
+    id: 'werck', nombre: 'Werckmeister III',
+    descripcionCorta: 'Do-Sol-Re-La y Si-Fa♯ encogidas 1/4 de coma pitagórica; el resto puras. Circula con color de tonalidad marcado.',
+    cents: buildFromFifthChain(tempered(PURE_FIFTH - PYTH_COMMA/4, [3,4,5,8]))
+  },
+  {
+    id: 'vallotti', nombre: 'Vallotti',
+    descripcionCorta: 'Fa-Do-Sol-Re-La-Mi-Si (6 quintas consecutivas) encogidas 1/6 de coma pitagórica; el resto puras. Reparto muy suave, casi ET.',
+    cents: buildFromFifthChain(tempered(PURE_FIFTH - PYTH_COMMA/6, [2,3,4,5,6,7]))
+  },
+  {
+    id: 'kirn', nombre: 'Kirnberger III',
+    descripcionCorta: 'Do-Sol-Re-La-Mi (4 quintas) encogidas 1/4 de coma sintónica; Fa♯-Do♯ encogida un schisma; el resto puras. Tercera Do-Mi exactamente pura.',
+    // Convención del proyecto (Tools/afinacion.html y apunte M6): el schisma va en Fa#-Do# (índice 9 de la cadena)
+    cents: buildFromFifthChain((function(){
+      const w = tempered(PURE_FIFTH - SYN_COMMA/4, [3,4,5,6]);
+      w[9] -= (PYTH_COMMA - SYN_COMMA); // schisma = 1.954 c
+      return w;
+    })())
+  },
+  {
+    id: 'et', nombre: 'Temperamento igual',
+    descripcionCorta: '12 semitonos idénticos de 100 c. Ninguna tonalidad es mejor que otra; ningún intervalo salvo la octava es puro.',
+    cents: buildFromFifthChain(new Array(11).fill(700))
+  }
+];
+
+function sysById(id){ for(const s of TUNING_SYSTEMS) if(s.id === id) return s; return null; }
+
+/* ==================== MOTOR DE MATERIALES MUSICALES ==================== */
+// Cada "material" se describe como una lista de eventos {t, dur, freqs} en
+// segundos relativos al inicio; construye la lista según el sistema (cents) y
+// una fundamental (rootPc, en semitonos desde Do).
+function chordFreqs(offsets, rootPc, cents){
+  return offsets.map(function(off){ return noteFreq(rootPc + off, cents); });
+}
+
+function materialEvents(tipo, rootPc, cents){
+  if(tipo === 'triadaMayor'){
+    return { total: 3.2, groups: [{ t:0, dur:3.2, freqs: chordFreqs([0,4,7], rootPc, cents) }] };
+  }
+  if(tipo === 'triadaMenor'){
+    return { total: 3.2, groups: [{ t:0, dur:3.2, freqs: chordFreqs([0,3,7], rootPc, cents) }] };
+  }
+  if(tipo === 'dom7'){
+    return { total: 3.2, groups: [{ t:0, dur:3.2, freqs: chordFreqs([0,4,7,10], rootPc, cents) }] };
+  }
+  if(tipo === 'cluster'){
+    return { total: 3.2, groups: [{ t:0, dur:3.2, freqs: chordFreqs([0,1,2], rootPc, cents) }] };
+  }
+  if(tipo === 'cadencia'){
+    const seq = [[0,4,7],[5,9,12],[7,11,14],[0,4,7]];
+    const dur = 1.1;
+    return { total: seq.length*dur, groups: seq.map(function(off,i){ return { t:i*dur, dur:dur, freqs: chordFreqs(off, rootPc, cents) }; }) };
+  }
+  if(tipo === 'escala'){
+    const degs = [0,2,4,5,7,9,11,12];
+    const dur = 0.35;
+    return { total: degs.length*dur, groups: degs.map(function(d,i){ return { t:i*dur, dur:dur, freqs:[ noteFreq(rootPc+d, cents) ] }; }) };
+  }
+  if(tipo === 'escalaCromatica'){
+    const n = 12, dur = 0.35;
+    const groups = [];
+    for(let i = 0; i < n; i++) groups.push({ t:i*dur, dur:dur, freqs:[ noteFreq(rootPc+i, cents) ] });
+    return { total: n*dur, groups: groups };
+  }
+  if(tipo === 'quintaLobo'){
+    return { total: 3.2, groups: [{ t:0, dur:3.2, freqs: [ noteFreq(8, cents), noteFreq(15, cents) ] }] };
+  }
+  return { total: 0, groups: [] };
+}
+
+function scheduleEvents(ev, startTime, peak){
+  ev.groups.forEach(function(g){
+    const t = startTime + g.t;
+    const p = peak / Math.sqrt(g.freqs.length);
+    g.freqs.forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(masterGain);
+      const rel = Math.min(0.15, Math.max(0.05, g.dur*0.3));
+      const end = scheduleTone(gain.gain, t, g.dur, p, 0.02, rel);
+      osc.start(t); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); gain.disconnect(); }catch(e){} });
+    });
+  });
+}
+
+function playMaterialNow(tipo, rootPc, cents, peak){
+  if(!ensureAudioReady()) return 0;
+  const ev = materialEvents(tipo, rootPc, cents);
+  scheduleEvents(ev, audioCtx.currentTime + 0.05, peak || 0.24);
+  return ev.total;
+}
+
+function playDuel(tipo, rootPc, centsX, centsY, gap){
+  if(!ensureAudioReady()) return 0;
+  const evX = materialEvents(tipo, rootPc, centsX);
+  const evY = materialEvents(tipo, rootPc, centsY);
+  const start = audioCtx.currentTime + 0.05;
+  scheduleEvents(evX, start, 0.24);
+  const startY = start + evX.total + gap;
+  scheduleEvents(evY, startY, 0.24);
+  return (startY + evY.total) - start;
+}
+
+function playSingle(freqs, dur, peak){
+  if(!ensureAudioReady()) return;
+  scheduleEvents({ groups:[{ t:0, dur:dur, freqs:freqs }] }, audioCtx.currentTime + 0.03, peak);
+}
+
+/* ==================== Lab 1: La supertabla sonora ==================== */
+(function(){
+  const legendBox = document.getElementById('l1Legend');
+  const refSelect = document.getElementById('l1RefSelect');
+  const scaleButtonsBox = document.getElementById('l1ScaleButtons');
+  const theadRow = document.getElementById('l1TableHead');
+  const tbody = document.getElementById('l1TableBody');
+
+  let refIdx = -1;
+
+  TUNING_SYSTEMS.forEach(function(s){
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.title = s.descripcionCorta;
+    chip.textContent = s.nombre;
+    legendBox.appendChild(chip);
+
+    const opt = document.createElement('option');
+    opt.value = s.id; opt.textContent = s.nombre;
+    refSelect.appendChild(opt);
+
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = '🔊 Escala: ' + s.nombre;
+    btn.addEventListener('click', function(){
+      if(!ensureAudioReady()) return;
+      const groups = [];
+      for(let i = 0; i < 12; i++) groups.push({ t:i*0.35, dur:0.35, freqs:[ noteFreq(i, s.cents) ] });
+      scheduleEvents({ groups: groups }, audioCtx.currentTime + 0.05, 0.24);
+    });
+    scaleButtonsBox.appendChild(btn);
+  });
+
+  function buildHead(){
+    theadRow.innerHTML = '';
+    const thNote = document.createElement('th'); thNote.textContent = 'Nota';
+    theadRow.appendChild(thNote);
+    TUNING_SYSTEMS.forEach(function(s, i){
+      const th = document.createElement('th');
+      th.textContent = s.nombre;
+      th.className = (i === refIdx) ? 'ref-col' : '';
+      theadRow.appendChild(th);
+    });
+  }
+
+  function semaforo(devAbs){
+    if(devAbs <= 8) return 'sem-good';
+    if(devAbs <= 20) return 'sem-mid';
+    return 'sem-bad';
+  }
+
+  function buildBody(){
+    tbody.innerHTML = '';
+    for(let pc = 0; pc < 12; pc++){
+      const tr = document.createElement('tr');
+      const tdNote = document.createElement('td');
+      tdNote.className = 'note-label';
+      tdNote.textContent = NOTE_NAMES[pc];
+      tr.appendChild(tdNote);
+      TUNING_SYSTEMS.forEach(function(s, i){
+        const td = document.createElement('td');
+        td.dataset.pc = pc; td.dataset.sys = i;
+        if(i === refIdx) td.className = 'ref-col';
+        renderCell(td, pc, i);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    }
+
+    // Fila: tercera mayor sobre Do
+    const trThird = document.createElement('tr'); trThird.className = 'extra-row';
+    const tdThirdLabel = document.createElement('td'); tdThirdLabel.className = 'note-label'; tdThirdLabel.textContent = '3.ª M/Do';
+    trThird.appendChild(tdThirdLabel);
+    TUNING_SYSTEMS.forEach(function(s, i){
+      const td = document.createElement('td');
+      const val = s.cents[4];
+      const dev = val - 386.314;
+      td.innerHTML = fmtCents(val) + '<span class="dev-sub ' + semaforo(Math.abs(dev)) + '">' + fmtCents(dev) + ' c</span>';
+      td.addEventListener('click', function(){
+        playSingle([ noteFreq(0, s.cents), noteFreq(4, s.cents) ], 2.5, 0.24);
+      });
+      trThird.appendChild(td);
+    });
+    tbody.appendChild(trThird);
+
+    // Fila: quinta sobre Do
+    const trFifth = document.createElement('tr'); trFifth.className = 'extra-row';
+    const tdFifthLabel = document.createElement('td'); tdFifthLabel.className = 'note-label'; tdFifthLabel.textContent = '5.ª/Do';
+    trFifth.appendChild(tdFifthLabel);
+    TUNING_SYSTEMS.forEach(function(s, i){
+      const td = document.createElement('td');
+      const val = s.cents[7];
+      const dev = val - 701.955;
+      td.innerHTML = fmtCents(val) + '<span class="dev-sub ' + semaforo(Math.abs(dev)) + '">' + fmtCents(dev) + ' c</span>';
+      td.addEventListener('click', function(){
+        playSingle([ noteFreq(0, s.cents), noteFreq(7, s.cents) ], 2.5, 0.24);
+      });
+      trFifth.appendChild(td);
+    });
+    tbody.appendChild(trFifth);
+  }
+
+  function renderCell(td, pc, sysIdx){
+    const s = TUNING_SYSTEMS[sysIdx];
+    if(refIdx === -1){
+      td.textContent = s.cents[pc].toFixed(1);
+      td.className = (td.className || '');
+    } else {
+      const diff = s.cents[pc] - TUNING_SYSTEMS[refIdx].cents[pc];
+      td.textContent = fmtCents(diff);
+      td.className = (diff >= 0 ? 'pos-cents' : 'neg-cents') + (sysIdx === refIdx ? ' ref-col' : '');
+    }
+  }
+
+  function refreshAllCells(){
+    tbody.querySelectorAll('tr').forEach(function(tr, rowIdx){
+      if(rowIdx >= 12) return; // filas extra ya fijas
+      const tds = tr.querySelectorAll('td[data-sys]');
+      tds.forEach(function(td){
+        const pc = parseInt(td.dataset.pc, 10);
+        const sysIdx = parseInt(td.dataset.sys, 10);
+        td.className = (sysIdx === refIdx) ? 'ref-col' : '';
+        renderCell(td, pc, sysIdx);
+      });
+    });
+  }
+
+  // Delegación de clics en el cuerpo de la tabla: solo celdas con data-sys tocan audio.
+  tbody.addEventListener('click', function(e){
+    const td = e.target.closest('td[data-sys]');
+    if(!td) return;
+    const pc = parseInt(td.dataset.pc, 10);
+    const sysIdx = parseInt(td.dataset.sys, 10);
+    playSingle([ noteFreq(pc, TUNING_SYSTEMS[sysIdx].cents) ], 1.1, 0.28);
+  });
+
+  refSelect.addEventListener('change', function(){
+    const v = refSelect.value;
+    refIdx = (v === '-1') ? -1 : TUNING_SYSTEMS.findIndex(function(s){ return s.id === v; });
+    buildHead();
+    refreshAllCells();
+  });
+
+  buildHead();
+  buildBody();
+})();
+
+/* ==================== Lab 2: Duelo a ciegas configurable ==================== */
+(function(){
+  const sysASelect = document.getElementById('l2SysA');
+  const sysBSelect = document.getElementById('l2SysB');
+  const materialSelect = document.getElementById('l2Material');
+  const adviceBox = document.getElementById('l2Advice');
+  const playABtn = document.getElementById('l2PlayA');
+  const playBBtn = document.getElementById('l2PlayB');
+  const duelBtn = document.getElementById('l2Duel');
+  const repeatBtn = document.getElementById('l2Repeat');
+  const statusBox = document.getElementById('l2Status');
+  const guessRow = document.getElementById('l2GuessRow');
+  const guessFirstBtn = document.getElementById('l2GuessFirst');
+  const guessSecondBtn = document.getElementById('l2GuessSecond');
+  const scoreBox = document.getElementById('l2Score');
+  const resetScoreBtn = document.getElementById('l2ResetScore');
+
+  const MATERIALS = [
+    { id:'triadaDo', nombre:'Tríada mayor Do', tipo:'triadaMayor', root:0,
+      consejo:'En la tríada de Do, fíjate en la velocidad del batido de la tercera: cuanto más rápido late, más lejos está de la 5/4 pura.' },
+    { id:'triadaMi', nombre:'Tríada mayor Mi', tipo:'triadaMayor', root:4,
+      consejo:'La tríada de Mi usa Sol♯: en los circulantes (Werckmeister, Vallotti, Kirnberger) esta tercera ya se aleja más de lo puro que la de Do.' },
+    { id:'cadenciaDo', nombre:'Cadencia I–IV–V–I en Do', tipo:'cadencia', root:0,
+      consejo:'Escucha sobre todo el acorde de V (Sol-Si-Re): en la pitagórica su tercera es muy ancha y "empuja" con fuerza hacia la resolución.' },
+    { id:'cadenciaMi', nombre:'Cadencia I–IV–V–I en Mi', tipo:'cadencia', root:4,
+      consejo:'En Mi mayor los circulantes ya muestran un color menos "puro" que en Do: es la tonalidad la que revela el reparto de la coma.' },
+    { id:'escalaCromatica', nombre:'Escala cromática', tipo:'escalaCromatica', root:0,
+      consejo:'Compara el tamaño de cada semitono: en el mesotónico son muy desiguales (limma vs. apótome); en el ET son todos idénticos.' },
+    { id:'quintaLobo', nombre:'Quinta del lobo local (Sol♯–Mib)', tipo:'quintaLobo', root:0,
+      consejo:'Esta es la quinta que "paga" el error acumulado: en el mesotónico suena francamente mal; en el ET nunca existe (siempre 700 c).' }
+  ];
+
+  TUNING_SYSTEMS.forEach(function(s, i){
+    [sysASelect, sysBSelect].forEach(function(sel){
+      const opt = document.createElement('option');
+      opt.value = i; opt.textContent = s.nombre;
+      sel.appendChild(opt);
+    });
+  });
+  sysASelect.value = 0;      // Pitagórica
+  sysBSelect.value = TUNING_SYSTEMS.length - 1; // ET
+
+  MATERIALS.forEach(function(m){
+    const opt = document.createElement('option');
+    opt.value = m.id; opt.textContent = m.nombre;
+    materialSelect.appendChild(opt);
+  });
+
+  let score = 0, attempts = 0;
+  let pendingOrder = null; // {firstIsA: bool}
+  let lastPlayDuration = 0;
+
+  function currentMaterial(){
+    return MATERIALS.find(function(m){ return m.id === materialSelect.value; });
+  }
+
+  function updateAdvice(){
+    adviceBox.textContent = currentMaterial().consejo;
+  }
+
+  function lockButtons(ms, btns){
+    btns.forEach(function(b){ b.disabled = true; });
+    setTimeout(function(){ btns.forEach(function(b){ b.disabled = false; }); }, ms);
+  }
+
+  playABtn.addEventListener('click', function(){
+    const m = currentMaterial();
+    const dur = playMaterialNow(m.tipo, m.root, TUNING_SYSTEMS[parseInt(sysASelect.value,10)].cents, 0.26);
+    if(dur) lockButtons(dur*1000 + 150, [playABtn, playBBtn]);
+  });
+  playBBtn.addEventListener('click', function(){
+    const m = currentMaterial();
+    const dur = playMaterialNow(m.tipo, m.root, TUNING_SYSTEMS[parseInt(sysBSelect.value,10)].cents, 0.26);
+    if(dur) lockButtons(dur*1000 + 150, [playABtn, playBBtn]);
+  });
+
+  function runDuel(){
+    if(sysASelect.value === sysBSelect.value){
+      statusBox.textContent = 'Elige dos sistemas distintos para A y B.';
+      return;
+    }
+    const m = currentMaterial();
+    const centsA = TUNING_SYSTEMS[parseInt(sysASelect.value,10)].cents;
+    const centsB = TUNING_SYSTEMS[parseInt(sysBSelect.value,10)].cents;
+    const firstIsA = Math.random() < 0.5;
+    const centsX = firstIsA ? centsA : centsB;
+    const centsY = firstIsA ? centsB : centsA;
+    pendingOrder = { firstIsA: firstIsA };
+    duelBtn.disabled = true; repeatBtn.disabled = true; guessRow.style.display = 'none';
+    statusBox.textContent = 'Sonando X…';
+    const total = playDuel(m.tipo, m.root, centsX, centsY, 0.5);
+    lastPlayDuration = total;
+    repeatBtn.disabled = false;
+    setTimeout(function(){
+      statusBox.textContent = '¿Cuál sonó primero: A o B?';
+      guessRow.style.display = 'flex';
+      duelBtn.disabled = false;
+    }, total*1000 + 200);
+  }
+
+  duelBtn.addEventListener('click', runDuel);
+
+  repeatBtn.addEventListener('click', function(){
+    if(!pendingOrder) return;
+    const m = currentMaterial();
+    const centsA = TUNING_SYSTEMS[parseInt(sysASelect.value,10)].cents;
+    const centsB = TUNING_SYSTEMS[parseInt(sysBSelect.value,10)].cents;
+    const centsX = pendingOrder.firstIsA ? centsA : centsB;
+    const centsY = pendingOrder.firstIsA ? centsB : centsA;
+    statusBox.textContent = 'Repitiendo X → Y…';
+    playDuel(m.tipo, m.root, centsX, centsY, 0.5);
+  });
+
+  function answerDuel(guessedFirstIsA){
+    if(!pendingOrder) return;
+    attempts++;
+    if(guessedFirstIsA === pendingOrder.firstIsA) score++;
+    scoreBox.textContent = 'Aciertos: ' + score + ' / ' + attempts;
+    statusBox.textContent = (guessedFirstIsA === pendingOrder.firstIsA ? '✓ Correcto. ' : '✗ Incorrecto. ') +
+      'El orden real fue: ' + (pendingOrder.firstIsA ? 'A luego B.' : 'B luego A.');
+    guessRow.style.display = 'none';
+    pendingOrder = null;
+  }
+  guessFirstBtn.addEventListener('click', function(){ answerDuel(true); });
+  guessSecondBtn.addEventListener('click', function(){ answerDuel(false); });
+
+  resetScoreBtn.addEventListener('click', function(){
+    score = 0; attempts = 0;
+    scoreBox.textContent = 'Aciertos: 0 / 0';
+    statusBox.textContent = 'Marcador reiniciado.';
+    guessRow.style.display = 'none';
+    pendingOrder = null;
+  });
+
+  materialSelect.addEventListener('change', updateAdvice);
+  updateAdvice();
+})();
+
+/* ==================== Lab 3: El gran quiz de la Fase 1 ==================== */
+(function(){
+  const introBox = document.getElementById('l3Intro');
+  const gameBox = document.getElementById('l3Game');
+  const summaryBox = document.getElementById('l3Summary');
+  const levelBanner = document.getElementById('l3LevelBanner');
+  const roundLabel = document.getElementById('l3RoundLabel');
+  const scoreLabel = document.getElementById('l3Score');
+  const playSoundBtn = document.getElementById('l3PlaySound');
+  const answerGrid = document.getElementById('l3AnswerGrid');
+  const feedbackBox = document.getElementById('l3Feedback');
+  const nextRow = document.getElementById('l3NextRow');
+  const nextBtn = document.getElementById('l3Next');
+  const finalScoreLabel = document.getElementById('l3FinalScore');
+  const diagBox = document.getElementById('l3Diag');
+
+  const LEVEL_POOLS = [
+    ['pit','meso','et'],
+    ['pit','meso','et','just','werck'],
+    ['pit','meso','et','just','werck','vallotti','kirn']
+  ];
+  const MATERIAL_TIPOS = ['cadencia','triadaMayor','escala'];
+  const MATERIAL_LABELS = { cadencia:'cadencia I–IV–V–I', triadaMayor:'tríada sostenida', escala:'fragmento de escala' };
+  const KEY_ROOTS = [0, 7, 4, 8]; // Do, Sol, Mi, Lab
+  const KEY_NAMES = { 0:'Do', 7:'Sol', 4:'Mi', 8:'Lab' };
+
+  const EXPLAIN = {
+    pit: 'el ditono pitagórico (81/64) agranda las terceras por acumular cuatro quintas puras',
+    just: 'la tercera justa (5/4) no bate: es la referencia pura de la tabla',
+    meso: 'el mesotónico de 1/4 de coma iguala la tercera a la justa, a costa de encoger todas las quintas',
+    werck: 'Werckmeister reparte la coma en solo 4 quintas: las tonalidades con bemoles quedan más cerca de lo justo',
+    vallotti: 'Vallotti reparte la coma en 6 quintas por igual: el resultado ya casi no distingue tonalidades, muy cerca del ET',
+    kirn: 'Kirnberger deja la tercera Do-Mi pura y concentra el ajuste en las otras quintas',
+    et: 'el temperamento igual reparte la coma pitagórica en 12 partes idénticas: ninguna tonalidad suena mejor que otra'
+  };
+
+  const FAMILY_JM = ['just','meso'];
+  const FAMILY_CIRC = ['werck','vallotti','kirn'];
+
+  let round = 1, score = 0, playsUsed = 0, answered = false;
+  let curSysId = null, curTipo = null, curRoot = null;
+  let history = [];
+
+  function levelForRound(r){ return r <= 4 ? 0 : (r <= 8 ? 1 : 2); }
+
+  function startQuiz(){
+    round = 1; score = 0; history = [];
+    introBox.style.display = 'none';
+    summaryBox.style.display = 'none';
+    gameBox.style.display = 'block';
+    scoreLabel.textContent = '0';
+    startRound();
+  }
+
+  function startRound(){
+    const level = levelForRound(round);
+    const pool = LEVEL_POOLS[level];
+    curSysId = pool[Math.floor(Math.random()*pool.length)];
+    curTipo = MATERIAL_TIPOS[Math.floor(Math.random()*MATERIAL_TIPOS.length)];
+    curRoot = KEY_ROOTS[Math.floor(Math.random()*KEY_ROOTS.length)];
+    playsUsed = 0; answered = false;
+
+    levelBanner.textContent = 'Nivel ' + (level+1) + ' de 3 — sistemas disponibles: ' +
+      pool.map(function(id){ return sysById(id).nombre; }).join(', ');
+    roundLabel.innerHTML = '<b>Ronda ' + round + ' de 12</b> — material: ' + MATERIAL_LABELS[curTipo] + ' en ' + KEY_NAMES[curRoot];
+
+    playSoundBtn.textContent = '🔁 Escuchar material (quedan 3)';
+    playSoundBtn.disabled = false;
+    feedbackBox.style.display = 'none';
+    feedbackBox.className = 'feedback';
+    nextRow.style.display = 'none';
+
+    answerGrid.innerHTML = '';
+    pool.forEach(function(id){
+      const s = sysById(id);
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = s.nombre;
+      btn.addEventListener('click', function(){ answer(id); });
+      answerGrid.appendChild(btn);
+    });
+  }
+
+  function playCurrent(){
+    if(playsUsed >= 3) return;
+    if(!ensureAudioReady()) return;
+    playsUsed++;
+    playMaterialNow(curTipo, curRoot, sysById(curSysId).cents, 0.26);
+    const remaining = 3 - playsUsed;
+    if(remaining > 0){
+      playSoundBtn.textContent = '🔁 Escuchar material (quedan ' + remaining + ')';
+    } else {
+      playSoundBtn.textContent = '🔁 Sin escuchas restantes';
+      playSoundBtn.disabled = true;
+    }
+  }
+
+  function answer(guessId){
+    if(answered) return;
+    answered = true;
+    playSoundBtn.disabled = true;
+    answerGrid.querySelectorAll('button').forEach(function(b){ b.disabled = true; });
+
+    const correct = (guessId === curSysId);
+    if(correct) score++;
+    scoreLabel.textContent = String(score);
+    history.push({ trueId: curSysId, guessId: guessId });
+
+    const cents = sysById(curSysId).cents;
+    const thirdInterval = ((cents[(curRoot+4)%12] - cents[curRoot%12]) % 1200 + 1200) % 1200;
+    const dev = thirdInterval - 386.314;
+    const explanation = 'La tercera mayor de la tónica (' + KEY_NAMES[curRoot] + ') medía ' + thirdInterval.toFixed(1) +
+      ' c (' + fmtCents(dev) + ' c respecto a la justa): ' + EXPLAIN[curSysId] + '. Era <b>' + sysById(curSysId).nombre + '</b>.';
+
+    feedbackBox.style.display = 'block';
+    feedbackBox.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+    feedbackBox.innerHTML = (correct ? '✓ Correcto. ' : '✗ Incorrecto. ') + explanation;
+    nextRow.style.display = 'block';
+  }
+
+  function nextRound(){
+    round++;
+    if(round > 12) showSummary(); else startRound();
+  }
+
+  function diagnose(){
+    const mistakes = history.filter(function(h){ return h.trueId !== h.guessId; });
+    if(mistakes.length === 0) return 'Puntaje perfecto: oído de afinador profesional. No hay módulo que repasar — ¡adelante con el Módulo 9!';
+    let jm = 0, circ = 0, other = 0;
+    mistakes.forEach(function(m){
+      const inJM = FAMILY_JM.indexOf(m.trueId) !== -1 && FAMILY_JM.indexOf(m.guessId) !== -1;
+      const inCirc = FAMILY_CIRC.indexOf(m.trueId) !== -1 && FAMILY_CIRC.indexOf(m.guessId) !== -1;
+      if(inJM) jm++; else if(inCirc) circ++; else other++;
+    });
+    if(jm >= circ && jm >= other && jm > 0){
+      return 'Confundes justa con mesotónico (' + jm + ' de ' + mistakes.length + ' errores): ambos construyen la tercera pura y solo se diferencian en cómo tratan la circulación. Repasa M4–M5.';
+    }
+    if(circ >= other && circ > 0){
+      return 'Confundes los temperamentos circulantes entre sí (' + circ + ' de ' + mistakes.length + ' errores): Werckmeister, Vallotti y Kirnberger reparten la misma coma en distintas cantidades de quintas. Repasa M6 y la supertabla del Lab 1.';
+    }
+    return 'Errores repartidos sin un patrón único (' + mistakes.length + ' de 12): repasa la tabla comparativa del Lab 1 con calma, tonalidad por tonalidad.';
+  }
+
+  function showSummary(){
+    gameBox.style.display = 'none';
+    summaryBox.style.display = 'block';
+    finalScoreLabel.textContent = score + ' / 12';
+    diagBox.textContent = diagnose();
+  }
+
+  document.getElementById('l3Start').addEventListener('click', startQuiz);
+  playSoundBtn.addEventListener('click', playCurrent);
+  nextBtn.addEventListener('click', nextRound);
+  document.getElementById('l3Restart').addEventListener('click', startQuiz);
+})();
+
+/* ==================== Lab 4: Medidor de rugosidad en vivo ==================== */
+// Rugosidad sensorial (Plomp-Levelt / Sethares), reimplementación simplificada y
+// consistente con consonance.js del proyecto "Suena Afinaciones Antiguas":
+// cada nota se modela con 8 armónicos de amplitud 1/k (timbre tipo cuerda);
+// para cada par de parciales (f1,f2) de amplitudes (a1,a2):
+//   l = a1 * a2
+//   s = 0.24 / (0.0207 * min(f1,f2) + 18.96)
+//   d(f1,f2) = l * ( e^(-3.5 * s * |f2-f1|) - e^(-5.75 * s * |f2-f1|) )
+// La rugosidad del acorde es la SUMA de d(f1,f2) sobre todos los pares de parciales.
+function roughnessSethares(freqs, nHarmonics){
+  nHarmonics = nHarmonics || 8;
+  const partials = [];
+  for(const f of freqs){
+    for(let k = 1; k <= nHarmonics; k++) partials.push({ f: f*k, a: 1/k });
+  }
+  let sum = 0;
+  for(let i = 0; i < partials.length; i++){
+    for(let j = i+1; j < partials.length; j++){
+      const f1 = partials[i].f, f2 = partials[j].f;
+      const l = partials[i].a * partials[j].a;
+      const fmin = Math.min(f1, f2);
+      const s = 0.24 / (0.0207*fmin + 18.96);
+      const fs = s * Math.abs(f2 - f1);
+      sum += l * (Math.exp(-3.5*fs) - Math.exp(-5.75*fs));
+    }
+  }
+  return sum;
+}
+
+(function(){
+  const chordSelect = document.getElementById('l4Chord');
+  const sysSelect = document.getElementById('l4Sys');
+  const rootSelect = document.getElementById('l4Root');
+  const barFill = document.getElementById('l4BarFill');
+  const numberBox = document.getElementById('l4Number');
+  const playBtn = document.getElementById('l4Play');
+  const cmpBox = document.getElementById('l4Cmp');
+
+  const CHORDS = {
+    mayor:   { offsets:[0,4,7],    label:'Tríada mayor' },
+    menor:   { offsets:[0,3,7],    label:'Tríada menor' },
+    dom7:    { offsets:[0,4,7,10], label:'Séptima dominante' },
+    cluster: { offsets:[0,1,2],    label:'Cluster Do-Do♯-Re' }
+  };
+
+  TUNING_SYSTEMS.forEach(function(s, i){
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = s.nombre;
+    sysSelect.appendChild(opt);
+  });
+  sysSelect.value = 0;
+
+  function colorFor(v, vmin, vmax){
+    if(vmax === vmin) return 'hsl(120,70%,42%)';
+    const t = Math.max(0, Math.min(1, (v - vmin)/(vmax - vmin)));
+    const hue = 120 * (1 - t);
+    return 'hsl(' + hue.toFixed(0) + ',70%,42%)';
+  }
+
+  function chordFreqsFor(sysIdx, rootPc){
+    const offsets = CHORDS[chordSelect.value].offsets;
+    return chordFreqs(offsets, rootPc, TUNING_SYSTEMS[sysIdx].cents);
+  }
+
+  function recompute(){
+    const rootPc = parseInt(rootSelect.value, 10);
+    const values = TUNING_SYSTEMS.map(function(s, i){
+      return { i:i, v: roughnessSethares(chordFreqsFor(i, rootPc)) };
+    });
+    const vmin = Math.min.apply(null, values.map(function(x){ return x.v; }));
+    const vmax = Math.max.apply(null, values.map(function(x){ return x.v; }));
+
+    const curIdx = parseInt(sysSelect.value, 10);
+    const curVal = values[curIdx].v;
+    const pct = vmax === vmin ? 50 : 4 + 96*(curVal - vmin)/(vmax - vmin);
+    barFill.style.width = pct + '%';
+    barFill.style.background = colorFor(curVal, vmin, vmax);
+    numberBox.innerHTML = curVal.toFixed(4) + ' <span>rugosidad (u. arbitrarias, 8 parciales)</span>';
+
+    const sorted = values.slice().sort(function(a,b){ return a.v - b.v; });
+    cmpBox.innerHTML = '';
+    sorted.forEach(function(item){
+      const s = TUNING_SYSTEMS[item.i];
+      const row = document.createElement('div');
+      row.className = 'cmp-row';
+      const cpct = vmax === vmin ? 50 : 4 + 96*(item.v - vmin)/(vmax - vmin);
+      const color = colorFor(item.v, vmin, vmax);
+      row.innerHTML =
+        '<div class="cmp-label">' + s.nombre + '</div>' +
+        '<div class="cmp-track"><div class="cmp-fill" style="width:' + cpct + '%;background:' + color + ';"></div></div>' +
+        '<div class="cmp-value">' + item.v.toFixed(3) + '</div>';
+      row.addEventListener('click', function(){
+        playSingle(chordFreqsFor(item.i, rootPc), 3.0, 0.28);
+      });
+      cmpBox.appendChild(row);
+    });
+  }
+
+  playBtn.addEventListener('click', function(){
+    const rootPc = parseInt(rootSelect.value, 10);
+    const sysIdx = parseInt(sysSelect.value, 10);
+    playSingle(chordFreqsFor(sysIdx, rootPc), 3.0, 0.28);
+  });
+
+  [chordSelect, sysSelect, rootSelect].forEach(function(sel){
+    sel.addEventListener('change', recompute);
+  });
+
+  recompute();
+})();
+
+</script>
+</body>
+</html>

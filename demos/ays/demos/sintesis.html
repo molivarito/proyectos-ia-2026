@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Síntesis sustractiva — Demo Curso AyS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S08 · CREATION</div>
+    <h1>Síntesis sustractiva: VCO + VCF + VCA + ADSR</h1>
+    <p class="lead">
+      El esquema clásico de cualquier sintetizador analógico desde los años 60. Generar una onda rica
+      en armónicos (VCO), filtrarla para esculpir su timbre (VCF), modular su volumen con una
+      envolvente ADSR (VCA). Con eso construyes desde bajos profundos hasta SFX de chiptune
+      ---el sonido completo de los videojuegos de 8 bits.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-creation">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>La diferencia entre <strong>onda sawtooth, cuadrada, triangular y senoidal</strong>: cuántos armónicos tienen y cómo se distribuyen.</li>
+      <li>Cómo un <strong>filtro paso-bajo resonante</strong> con corte modulado define el timbre del sintetizador clásico (Moog, ARP).</li>
+      <li>Qué hace cada parámetro del <strong>ADSR</strong> (attack, decay, sustain, release) y por qué define totalmente el carácter de la nota.</li>
+      <li>Por qué un <strong>filtro paso-bajo con corte muy bajo y release corto</strong> produce SFX percusivos de chiptune.</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Síntesis sustractiva + chiptune</span>
+      <a href="../embeds/s08_sintesis.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s08_sintesis.html" title="Demo de síntesis sustractiva" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así</h3>
+    <ol>
+      <li>Genera una onda sawtooth a 110 Hz con filtro abierto. Vas a oír un sonido brillante y agresivo.</li>
+      <li>Baja el corte del filtro a 200 Hz manteniendo $Q$ alto. El sonido se vuelve oscuro y resonante: bajo de techno.</li>
+      <li>Carga el preset "Coin" del Chiptune Hero: onda cuadrada + envolvente percusiva + pitch sweep. Cualquier persona que jugó Mario lo reconoce.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-creation">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar VCO, VCF y VCA desde cero en NumPy, con anti-aliasing apropiado (polyBLEP).</li>
+      <li>Hacer el <strong>Fun Task 08 "Chiptune Hero"</strong>: crear tres SFX clásicos (coin, jump, explosion) con síntesis pura, en menos de 50 líneas de Python.</li>
+      <li>Conectar con la S09 (síntesis FM): donde sustractiva parte rica y filtra, FM parte pobre y enriquece.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

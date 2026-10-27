@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M13 · Laboratorio — Maqam</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 12px;font-size:0.95rem;max-width:660px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h2 .star{color:var(--good);font-size:0.9rem;font-weight:600;margin-left:8px;}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.warning-box{background:#241a08;border:1px solid #5a4020;color:#f0c98a;border-radius:9px;padding:10px 14px;font-size:0.82rem;margin:0 0 22px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+select{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn.on{background:var(--good);color:#0a1f14;border-color:var(--good);}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:5px 12px;border-radius:14px;font-size:0.76rem;cursor:pointer;margin:3px 5px 3px 0;}
+.chip:hover{background:#313848;}
+.chip.small{font-size:0.7rem;padding:4px 9px;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;width:100%;display:block;margin:10px 0;}
+
+table.ref-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:8px;}
+table.ref-table th,table.ref-table td{padding:5px 7px;text-align:right;border-bottom:1px solid var(--line);}
+table.ref-table th:first-child,table.ref-table td:first-child{text-align:left;}
+table.ref-table th{color:var(--muted);font-weight:600;}
+
+/* Teclado 24-EDO */
+.keyboard{display:flex;flex-wrap:wrap;gap:4px;margin:14px 0;}
+.mkey{flex:0 0 62px;background:#262b38;border:1px solid var(--line);border-radius:8px;padding:8px 3px 7px;text-align:center;cursor:pointer;user-select:none;transition:transform 0.06s;}
+.mkey:hover{background:#313848;}
+.mkey.accent{background:#2c2013;border-color:#5a4020;}
+.mkey.accent:hover{background:#3a2a18;}
+.mkey.neutral{outline:2px solid var(--good);outline-offset:-1px;}
+.mkey.playing{transform:scale(0.92);}
+.mkey .mname{font-weight:700;font-size:0.74rem;color:var(--text);margin-bottom:2px;}
+.mkey.accent .mname{color:var(--accent);}
+.mkey.neutral .mname{color:var(--good);}
+.mkey .mcents{color:var(--muted);font-size:0.66rem;font-variant-numeric:tabular-nums;}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:0.76rem;color:var(--muted);margin:6px 0 4px;}
+.legend span.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+.dot.white{background:#262b38;border:1px solid var(--line);}
+.dot.accentdot{background:#2c2013;border:1px solid #5a4020;}
+.dot.neutraldot{background:#262b38;outline:2px solid var(--good);outline-offset:-1px;}
+
+.jins-ref{font-size:0.76rem;color:var(--muted);}
+
+.big-display{font-size:2.3rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;text-align:center;margin:10px 0 4px;}
+.big-display span{font-size:1rem;color:var(--muted);font-weight:500;}
+
+.dist-grid{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 14px;}
+.dist-item{flex:1;min-width:130px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:9px 10px;text-align:center;}
+.dist-item .dlabel{color:var(--muted);font-size:0.72rem;}
+.dist-item .dval{font-size:1.05rem;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;margin-top:2px;}
+
+.status-line{color:var(--muted);font-size:0.85rem;min-height:1.3em;margin-top:6px;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .mkey{flex:0 0 44px;padding:6px 2px 5px;}
+  .mkey .mname{font-size:0.62rem;}
+  .mkey .mcents{font-size:0.58rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M13 · Laboratorio: Maqam</h1>
+    <p class="subtitle">Cuatro experimentos sobre ajnas, maqamat y la tercera neutra. Música <b>melódica sobre drone</b>: nunca acordes, siempre una voz cantando encima de una nota sostenida. Todo el audio se sintetiza en el navegador.</p>
+    <div class="warning-box">⚠ Los valores en cents usados aquí son <b>aproximaciones didácticas</b>. La entonación real del maqam es flexible, varía por región, escuela y hasta por intérprete — no existe una "afinación oficial" en cents.</div>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Teclado de 24-EDO</h2>
+    <p class="purpose">Una octava (Do4–Do5) dividida en 24 pasos iguales de 50 cents. Las 12 teclas "occidentales" (múltiplos de 100 c) suenan como el temperamento igual de siempre; las 12 intermedias (color acento) son los cuartos de tono que el piano no tiene. Las tres teclas con borde verde son los grados <b>neutros</b> clave del maqam.</p>
+
+    <div class="legend">
+      <span><span class="dot white"></span>Occidental (100 c)</span>
+      <span><span class="dot accentdot"></span>Cuarto de tono (50 c)</span>
+      <span><span class="dot neutraldot"></span>Neutra clave (150 / 350 / 850 c)</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="l1DroneBtn">🎵 Activar drone (Do3)</button>
+    </div>
+
+    <div class="keyboard" id="l1Keyboard"></div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Constructor de ajnas y maqamat</h2>
+    <p class="purpose">Un <i>jins</i> (plural <i>ajnas</i>) es un tetracordo característico. Un maqam completo se arma uniendo un jins inferior (desde la tónica) con un jins superior (normalmente desde la quinta, 700 c). Elige, combina y escucha la escala resultante.</p>
+
+    <table class="ref-table jins-ref">
+      <thead><tr><th>Jins</th><th>Cents desde la tónica</th></tr></thead>
+      <tbody id="l2JinsRefTable"></tbody>
+    </table>
+    <div class="note-box">Estas cifras son promedios didácticos de fuentes de referencia (p. ej. Maqam World); en la práctica cada intérprete las curva ligeramente según el contexto melódico.</div>
+
+    <div class="row" style="margin-top:14px;">
+      <div class="field">
+        <label for="l2Lower">Jins inferior (desde la tónica, 0 c)</label>
+        <select id="l2Lower"></select>
+      </div>
+      <div class="field">
+        <label for="l2Upper">Jins superior (desde <span id="l2UpperRootLabel">700</span> c)</label>
+        <select id="l2Upper"></select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <span style="color:var(--muted);font-size:0.8rem;margin-right:6px;">Maqamat preset:</span>
+      <button class="btn" id="l2PresetRast">Maqam Rast</button>
+      <button class="btn" id="l2PresetBayati">Maqam Bayati</button>
+      <button class="btn" id="l2PresetHijaz">Maqam Hijaz</button>
+      <button class="btn" id="l2PresetSaba">Maqam Saba</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l2PlayAsc">▶ Ascendente</button>
+      <button class="btn primary" id="l2PlayDesc">▶ Descendente</button>
+      <button class="btn primary" id="l2PlayFull">▶ Completo (sube y baja)</button>
+    </div>
+
+    <h3>Escalera de la escala resultante</h3>
+    <canvas id="l2Stairs" width="840" height="190"></canvas>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · La tercera flexible <span class="star">★ la estrella del laboratorio</span></h2>
+    <p class="purpose">Un drone en Do3 suena de forma continua; encima, una tercera sostenida cuya altura mueves tú con el slider, entre 300 y 400 cents. Escúchala deslizarse sin saltos: de la tercera menor pura a la mayor pura, pasando por todos los "colores" intermedios que usa el maqam.</p>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3Toggle">▶ Activar tercera flexible</button>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="l3Slider">Tercera sobre la tónica (cents)</label>
+        <input type="range" id="l3Slider" min="300" max="400" step="0.5" value="350">
+      </div>
+    </div>
+
+    <div class="big-display"><span id="l3CentsVal">350.0</span><span> c</span></div>
+
+    <div class="dist-grid">
+      <div class="dist-item"><div class="dlabel">Distancia a 6/5 (315.6 c)</div><div class="dval" id="l3Dist65">+34.4</div></div>
+      <div class="dist-item"><div class="dlabel">Distancia a 24-EDO (350 c)</div><div class="dval" id="l3Dist350">0.0</div></div>
+      <div class="dist-item"><div class="dlabel">Distancia a 5/4 (386.3 c)</div><div class="dval" id="l3Dist54">-36.3</div></div>
+    </div>
+
+    <div class="btn-row">
+      <span class="chip" data-cents="315.6">6/5 (315.6)</span>
+      <span class="chip" data-cents="300">ET 300</span>
+      <span class="chip" data-cents="350">24-EDO (350)</span>
+      <span class="chip" data-cents="354.5">27/22 (354.5)</span>
+      <span class="chip" data-cents="350">≈El Cairo (350)</span>
+      <span class="chip" data-cents="360">≈Alepo (360)</span>
+      <span class="chip" data-cents="386.3">5/4 (386.3)</span>
+      <span class="chip" data-cents="400">ET 400</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="l3Phrase">🎼 Frase: Do–Re–3.ª–Fa–3.ª–Re–Do</button>
+    </div>
+
+    <div class="note-box">El punto pedagógico: esta tercera "a medio camino" no se oye como una tercera desafinada cuando aparece <b>en la frase melódica</b> — se percibe como <b>color modal</b> propio, del mismo modo que nadie oye el modo dórico como "menor con un error".</div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · La misma frase, tres mundos</h2>
+    <p class="purpose">Una frase fija de 12 notas en jins Rast (sube hacia la quinta rozando la sexta, y vuelve a la tónica) tocada con drone en Do3, en tres afinaciones distintas de la 3.ª y la 6.ª grados.</p>
+
+    <table class="ref-table">
+      <thead><tr><th>Versión</th><th>3.ª grado</th><th>6.ª grado</th></tr></thead>
+      <tbody>
+        <tr><td>(a) Entonada</td><td>355 c</td><td>855 c</td></tr>
+        <tr><td>(b) 24-EDO exacto</td><td>350 c</td><td>850 c</td></tr>
+        <tr><td>(c) 12-ET (piano)</td><td>400 c</td><td>900 c</td></tr>
+      </tbody>
+    </table>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l4PlayA">▶ A · Entonada</button>
+      <button class="btn primary big-btn" id="l4PlayB">▶ B · 24-EDO</button>
+      <button class="btn primary big-btn" id="l4PlayC">▶ C · 12-ET</button>
+      <button class="btn big-btn" id="l4PlaySeq">▶ Secuencia A→B→C</button>
+    </div>
+
+    <div class="status-line" id="l4Status"></div>
+
+    <div class="note-box">En 12-ET el piano "mayoriza" el Rast: fuerza la 3.ª y la 6.ª a sus versiones mayores más cercanas.<br>El resultado no es "un Rast un poco desafinado": es simplemente una escala mayor común — <b>el maqam desaparece</b>.</div>
+  </section>
+
+  <footer>
+    Módulo 13 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+// Bloquea cualquier intento de sonar antes de activar el audio; da pista visual.
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* ==================== REFERENCIAS DE ALTURA ==================== */
+// Do4 se deriva de La4=440 Hz (referencia canónica del curso), no de un valor fijo aparte.
+const A4 = 440;
+const DO4 = A4 * Math.pow(2, -9/12);   // ≈261.626 Hz
+const DO3 = DO4 / 2;                    // ≈130.813 Hz — registro del drone en los 4 labs
+const DO5 = DO4 * 2;
+
+function freqFromCents(baseFreq, cents){
+  return baseFreq * Math.pow(2, cents/1200);
+}
+
+function fmtSigned(c, dec){
+  dec = dec === undefined ? 1 : dec;
+  return (c >= 0 ? '+' : '') + c.toFixed(dec);
+}
+
+/* ==================== MOTOR DE SÍNTESIS ====================
+   Timbre melódico: rico en armónicos (8 armónicos, amplitud 1/n vía
+   createPeriodicWave), igual exigencia que el resto del curso para que
+   los batidos/afinación se perciban con claridad. La ENVOLVENTE es de
+   "cuerda pulsada": ataque rápido, caída rápida a un nivel de sostén bajo,
+   y release largo — así el timbre se siente melódico/percutido y no un
+   pad de sintetizador.
+   El drone usa el mismo generador armónico (nunca senos, salvo que un lab
+   lo pida explícitamente) pero con ataque lento, nivel bajo y un filtro
+   pasa-bajos suave para que se sienta como fondo y no compita con la melodía.
+*/
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente "pulsada": ataque (>=20ms) -> caída rápida a ~35% del pico -> sostén -> release largo.
+function schedulePluckEnvelope(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.3, 0.08);
+  const p = Math.max(peak, 0.0001);
+  const sustainLevel = Math.max(p * 0.35, 0.0001);
+  const decayTime = 0.12;
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const decayEnd = start + attack + decayTime;
+  param.exponentialRampToValueAtTime(sustainLevel, decayEnd);
+  const relStart = Math.max(decayEnd, start + duration - release);
+  param.setValueAtTime(sustainLevel, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Nota melódica (pluck) programada en un instante absoluto de audioCtx.currentTime.
+function playPluck(freq, startTime, duration, peak){
+  const osc = createHarmonicOsc(audioCtx, freq, 8);
+  const g = audioCtx.createGain();
+  osc.connect(g); g.connect(masterGain);
+  const end = schedulePluckEnvelope(g.gain, startTime, duration, peak, 0.02, 0.3);
+  osc.start(startTime);
+  osc.stop(end + 0.05);
+  osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  return end;
+}
+
+// Drone: ataque lento, nivel discreto, filtro suave. Devuelve un handle para poder
+// retonarlo en vivo (setTargetAtTime) o detenerlo con release largo.
+function startDrone(freq, peakLevel){
+  if(!ensureAudioReady()) return null;
+  const now = audioCtx.currentTime;
+  const osc = createHarmonicOsc(audioCtx, freq, 8);
+  const filt = audioCtx.createBiquadFilter();
+  filt.type = 'lowpass'; filt.frequency.value = 2200; filt.Q.value = 0.3;
+  const g = audioCtx.createGain();
+  osc.connect(filt); filt.connect(g); g.connect(masterGain);
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(Math.max(peakLevel || 0.13, 0.0001), now + 0.4);
+  osc.start(now);
+  return { osc: osc, gain: g, filt: filt };
+}
+
+function stopDrone(handle){
+  if(!handle) return;
+  const now = audioCtx.currentTime;
+  handle.gain.gain.cancelScheduledValues(now);
+  handle.gain.gain.setValueAtTime(Math.max(handle.gain.gain.value, 0.0001), now);
+  handle.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+  handle.osc.stop(now + 0.42);
+  handle.osc.addEventListener('ended', function(){ try{ handle.osc.disconnect(); handle.gain.disconnect(); handle.filt.disconnect(); }catch(e){} });
+}
+
+/* ==================== Lab 1: Teclado de 24-EDO ==================== */
+(function(){
+  const NOTE_NAMES = ["Do","Do♯","Re","Re♯","Mi","Fa","Fa♯","Sol","Sol♯","La","La♯","Si"];
+  const keyboard = document.getElementById('l1Keyboard');
+  const droneBtn = document.getElementById('l1DroneBtn');
+  let droneHandle = null;
+
+  // 24 teclas = 12 "occidentales" (múltiplos de 100 c) + 12 cuartos de tono (múltiplos impares de 50 c).
+  // Las neutras clave del maqam (segunda, tercera y sexta neutras) se nombran con el bemol-medio
+  // de la nota occidental inmediatamente superior, convención estándar en teoría árabe/turca.
+  const KEYS = [];
+  for(let i = 0; i < 24; i++){
+    const cents = i * 50;
+    const isWestern = (i % 2 === 0);
+    let name;
+    if(isWestern){
+      name = NOTE_NAMES[i/2];
+    } else {
+      const aboveIdx = ((i+1)/2) % 12;
+      name = NOTE_NAMES[aboveIdx] + ' ½♭';
+    }
+    const isNeutral = (cents === 150 || cents === 350 || cents === 850);
+    KEYS.push({ cents: cents, name: name, western: isWestern, neutral: isNeutral, freq: freqFromCents(DO4, cents) });
+  }
+
+  function buildKeyboard(){
+    keyboard.innerHTML = '';
+    KEYS.forEach(function(k){
+      const div = document.createElement('div');
+      div.className = 'mkey' + (k.western ? '' : ' accent') + (k.neutral ? ' neutral' : '');
+      div.innerHTML = '<div class="mname">' + k.name + '</div><div class="mcents">' + k.cents + ' c</div>';
+      div.addEventListener('click', function(){ onKeyPress(k, div); });
+      keyboard.appendChild(div);
+    });
+  }
+
+  function onKeyPress(k, div){
+    if(!ensureAudioReady()) return;
+    const t = audioCtx.currentTime + 0.02;
+    playPluck(k.freq, t, 0.9, 0.18);
+    div.classList.add('playing');
+    setTimeout(function(){ div.classList.remove('playing'); }, 140);
+  }
+
+  droneBtn.addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    if(droneHandle){
+      stopDrone(droneHandle);
+      droneHandle = null;
+      droneBtn.textContent = '🎵 Activar drone (Do3)';
+      droneBtn.classList.remove('on');
+    } else {
+      droneHandle = startDrone(DO3, 0.13);
+      droneBtn.textContent = '■ Detener drone';
+      droneBtn.classList.add('on');
+    }
+  });
+
+  buildKeyboard();
+})();
+
+/* ==================== Lab 2: Constructor de ajnas y maqamat ==================== */
+const JINS = {
+  rast:     { name: 'Rast',     cents: [0, 200, 355, 500] },
+  bayati:   { name: 'Bayati',   cents: [0, 150, 300, 500] },
+  hijaz:    { name: 'Hijaz',    cents: [0, 110, 410, 500] },
+  nahawand: { name: 'Nahawand', cents: [0, 200, 300, 500] },
+  kurd:     { name: 'Kurd',     cents: [0, 100, 300, 500] },
+  saba:     { name: 'Saba',     cents: [0, 150, 300, 410] }
+};
+
+(function(){
+  const lowerSelect = document.getElementById('l2Lower');
+  const upperSelect = document.getElementById('l2Upper');
+  const upperRootLabel = document.getElementById('l2UpperRootLabel');
+  const stairsCanvas = document.getElementById('l2Stairs');
+  const refTableBody = document.getElementById('l2JinsRefTable');
+
+  function upperRootFor(lowerKey){
+    // Saba no tiene una quinta melódica propia (su tetracordo llega solo a 410 c);
+    // el jins superior se apoya tradicionalmente en la cuarta (500 c), no en la quinta (700 c).
+    return lowerKey === 'saba' ? 500 : 700;
+  }
+
+  function buildSelect(sel){
+    sel.innerHTML = '';
+    Object.keys(JINS).forEach(function(key){
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = JINS[key].name + ' [' + JINS[key].cents.join(', ') + ']';
+      sel.appendChild(opt);
+    });
+  }
+
+  function buildRefTable(){
+    refTableBody.innerHTML = '';
+    Object.keys(JINS).forEach(function(key){
+      const j = JINS[key];
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + j.name + '</td><td>' + j.cents.join(' · ') + '</td>';
+      refTableBody.appendChild(tr);
+    });
+  }
+
+  function composeScale(){
+    const lowerKey = lowerSelect.value;
+    const upperKey = upperSelect.value;
+    const root = upperRootFor(lowerKey);
+    upperRootLabel.textContent = root;
+    const lower = JINS[lowerKey].cents.slice();
+    const upper = JINS[upperKey].cents.map(function(c){ return c + root; });
+    const all = lower.concat(upper).map(function(c){ return Math.round(c*10)/10; });
+    const uniqueSorted = Array.from(new Set(all)).sort(function(a,b){ return a-b; });
+    return uniqueSorted;
+  }
+
+  function drawStairs(scale){
+    const c = stairsCanvas.getContext('2d');
+    const W = stairsCanvas.width, H = stairsCanvas.height;
+    c.clearRect(0,0,W,H);
+    const padL = 34, padB = 20, padT = 14, padR = 14;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxCents = 1250;
+    function yFor(cents){ return padT + plotH - (cents/maxCents)*plotH; }
+
+    // ejes guía cada 100 c
+    c.strokeStyle = '#20242e'; c.lineWidth = 1; c.font = '9px system-ui'; c.fillStyle = '#5a6070';
+    for(let g = 0; g <= 1200; g += 100){
+      const y = yFor(g);
+      c.beginPath(); c.moveTo(padL, y); c.lineTo(W-padR, y); c.stroke();
+      c.fillText(String(g), 2, y+3);
+    }
+
+    const stepW = plotW / Math.max(scale.length, 1);
+    scale.forEach(function(cents, i){
+      const x0 = padL + i*stepW;
+      const y = yFor(cents);
+      const barColor = (cents%100 !== 0) ? '#e8a33d' : '#6fcf97';
+      c.fillStyle = barColor;
+      c.fillRect(x0+3, y, stepW-6, (padT+plotH)-y);
+      c.fillStyle = '#e9e9ec'; c.font = '10px system-ui'; c.textAlign = 'center';
+      c.fillText(cents.toFixed(1), x0+stepW/2, y-4);
+    });
+    c.textAlign = 'left';
+  }
+
+  let currentScale = [];
+
+  function refresh(){
+    currentScale = composeScale();
+    drawStairs(currentScale);
+  }
+
+  function applyPreset(lowerKey, upperKey){
+    lowerSelect.value = lowerKey;
+    upperSelect.value = upperKey;
+    refresh();
+  }
+
+  function playSequence(direction){
+    if(!ensureAudioReady()) return;
+    const stepMs = 450;
+    let seq;
+    if(direction === 'asc') seq = currentScale.slice();
+    else if(direction === 'desc') seq = currentScale.slice().reverse();
+    else seq = currentScale.concat(currentScale.slice(0, -1).reverse());
+
+    const now = audioCtx.currentTime + 0.05;
+    const drone = startDrone(DO4, 0.11);
+    seq.forEach(function(cents, idx){
+      const freq = freqFromCents(DO4, cents);
+      const t = now + idx*(stepMs/1000);
+      playPluck(freq, t, 0.55, 0.17);
+    });
+    const totalMs = seq.length*stepMs + 500;
+    setTimeout(function(){ stopDrone(drone); }, totalMs);
+  }
+
+  lowerSelect.addEventListener('change', refresh);
+  upperSelect.addEventListener('change', refresh);
+  document.getElementById('l2PlayAsc').addEventListener('click', function(){ playSequence('asc'); });
+  document.getElementById('l2PlayDesc').addEventListener('click', function(){ playSequence('desc'); });
+  document.getElementById('l2PlayFull').addEventListener('click', function(){ playSequence('full'); });
+
+  document.getElementById('l2PresetRast').addEventListener('click', function(){ applyPreset('rast','rast'); });
+  document.getElementById('l2PresetBayati').addEventListener('click', function(){ applyPreset('bayati','bayati'); });
+  document.getElementById('l2PresetHijaz').addEventListener('click', function(){ applyPreset('hijaz','hijaz'); });
+  document.getElementById('l2PresetSaba').addEventListener('click', function(){ applyPreset('saba','hijaz'); });
+
+  buildSelect(lowerSelect);
+  buildSelect(upperSelect);
+  buildRefTable();
+  applyPreset('rast','rast');
+})();
+
+/* ==================== Lab 3: La tercera flexible ==================== */
+(function(){
+  const slider = document.getElementById('l3Slider');
+  const centsVal = document.getElementById('l3CentsVal');
+  const dist65 = document.getElementById('l3Dist65');
+  const dist350 = document.getElementById('l3Dist350');
+  const dist54 = document.getElementById('l3Dist54');
+  const toggleBtn = document.getElementById('l3Toggle');
+  const phraseBtn = document.getElementById('l3Phrase');
+
+  let thirdCents = 350;
+  let active = false;
+  let droneHandle = null;
+  let thirdHandle = null;
+
+  function thirdFreq(){ return freqFromCents(DO4, thirdCents); }
+
+  function refreshDisplay(){
+    centsVal.textContent = thirdCents.toFixed(1);
+    dist65.textContent = fmtSigned(thirdCents - 315.641);
+    dist350.textContent = fmtSigned(thirdCents - 350);
+    dist54.textContent = fmtSigned(thirdCents - 386.314);
+  }
+
+  function activate(){
+    if(!ensureAudioReady() || active) return;
+    droneHandle = startDrone(DO3, 0.13);
+    const now = audioCtx.currentTime;
+    const osc = createHarmonicOsc(audioCtx, thirdFreq(), 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.15, now + 0.35);
+    osc.start(now);
+    thirdHandle = { osc: osc, gain: g };
+    active = true;
+    toggleBtn.textContent = '■ Detener';
+    toggleBtn.classList.add('on');
+  }
+
+  function deactivate(){
+    if(!active) return;
+    stopDrone(droneHandle); droneHandle = null;
+    const now = audioCtx.currentTime;
+    thirdHandle.gain.gain.cancelScheduledValues(now);
+    thirdHandle.gain.gain.setValueAtTime(Math.max(thirdHandle.gain.gain.value, 0.0001), now);
+    thirdHandle.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+    thirdHandle.osc.stop(now + 0.37);
+    thirdHandle.osc.addEventListener('ended', function(){ try{ thirdHandle.osc.disconnect(); thirdHandle.gain.disconnect(); }catch(e){} });
+    thirdHandle = null;
+    active = false;
+    toggleBtn.textContent = '▶ Activar tercera flexible';
+    toggleBtn.classList.remove('on');
+  }
+
+  function setThird(cents, autoActivate){
+    thirdCents = cents;
+    slider.value = cents;
+    refreshDisplay();
+    if(active && thirdHandle){
+      thirdHandle.osc.frequency.setTargetAtTime(thirdFreq(), audioCtx.currentTime, 0.03);
+    } else if(autoActivate){
+      activate();
+    }
+  }
+
+  toggleBtn.addEventListener('click', function(){ if(active) deactivate(); else activate(); });
+
+  slider.addEventListener('input', function(){ setThird(parseFloat(slider.value), false); });
+
+  document.querySelectorAll('#lab3 .chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ setThird(parseFloat(chip.dataset.cents), true); });
+  });
+
+  phraseBtn.addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    let tempDrone = null;
+    const usingExisting = active;
+    if(!usingExisting){ tempDrone = startDrone(DO3, 0.13); }
+    const now = audioCtx.currentTime + 0.05;
+    const seqCents = [0, 200, thirdCents, 500, thirdCents, 200, 0];
+    const step = 0.42;
+    seqCents.forEach(function(cents, i){
+      playPluck(freqFromCents(DO4, cents), now + i*step, 0.5, 0.17);
+    });
+    if(!usingExisting){
+      const totalMs = seqCents.length*step*1000 + 500;
+      setTimeout(function(){ stopDrone(tempDrone); }, totalMs);
+    }
+  });
+
+  refreshDisplay();
+})();
+
+/* ==================== Lab 4: La misma frase, tres mundos ==================== */
+(function(){
+  // Frase de 12 notas en jins Rast: Do-Re-3ª-Re-3ª (giro ornamental inicial),
+  // asciende Fa-Sol-6ª-Sol-Fa (arco hacia la quinta y un poco más allá),
+  // y cierra con el salto cadencial típico 3ª->Do. 'X' = grado 3 variable, 'Y' = grado 6 variable.
+  const PHRASE = [0, 200, 'X', 200, 'X', 500, 700, 'Y', 700, 500, 'X', 0];
+
+  const VERSIONS = {
+    A: { label: 'Entonada (microtonal)', X: 355, Y: 855 },
+    B: { label: '24-EDO exacto',         X: 350, Y: 850 },
+    C: { label: '12-ET (piano)',         X: 400, Y: 900 }
+  };
+
+  const statusLabel = document.getElementById('l4Status');
+
+  function playVersion(key, startTime){
+    const v = VERSIONS[key];
+    const step = 0.45;
+    PHRASE.forEach(function(deg, i){
+      const cents = (deg === 'X') ? v.X : (deg === 'Y') ? v.Y : deg;
+      playPluck(freqFromCents(DO4, cents), startTime + i*step, 0.55, 0.17);
+    });
+    return startTime + PHRASE.length*step;
+  }
+
+  function playSingle(key){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.05;
+    const drone = startDrone(DO3, 0.12);
+    const end = playVersion(key, now);
+    statusLabel.textContent = 'Sonando: ' + VERSIONS[key].label;
+    const totalMs = (end - now)*1000 + 600;
+    setTimeout(function(){ stopDrone(drone); statusLabel.textContent = ''; }, totalMs);
+  }
+
+  function playSequenceABC(){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.05;
+    const drone = startDrone(DO3, 0.12);
+    const gap = 0.4;
+    let t = now;
+    ['A','B','C'].forEach(function(key){
+      const startAt = t;
+      const delayMs = (startAt - now)*1000;
+      setTimeout(function(){ statusLabel.textContent = 'Sonando: ' + VERSIONS[key].label; }, delayMs);
+      t = playVersion(key, startAt) + gap;
+    });
+    const totalMs = (t - now)*1000 + 300;
+    setTimeout(function(){ stopDrone(drone); statusLabel.textContent = ''; }, totalMs);
+  }
+
+  document.getElementById('l4PlayA').addEventListener('click', function(){ playSingle('A'); });
+  document.getElementById('l4PlayB').addEventListener('click', function(){ playSingle('B'); });
+  document.getElementById('l4PlayC').addEventListener('click', function(){ playSingle('C'); });
+  document.getElementById('l4PlaySeq').addEventListener('click', playSequenceABC);
+})();
+
+</script>
+</body>
+</html>

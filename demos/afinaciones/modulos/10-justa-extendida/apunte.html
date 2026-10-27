@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M10 · Apunte — Justa entonación extendida</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../09-edos/apunte.html">◀ EDOs alternativos: 19, 31, 53</a><a class="nav-link" href="../11-compositores/apunte.html">Ben Johnston, La Monte Young y el espectralismo ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m10.-justa-entonación-extendida-los-primos-7-11-y-13">M10. Justa
+entonación extendida: los primos 7, 11 y 13</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Vuelve un momento a la tabla de armónicos del M1 §3.2, la de Do2 a
+65.41 Hz. Ahí aparecían, mezclados entre octavas y quintas perfectamente
+afinadas, tres intrusos: el armónico 7 (457.87 Hz, 31 cents bajo un
+Sib), el armónico 11 (719.51 Hz, exactamente a mitad de camino entre Fa5
+y Fa#5) y el armónico 13 (850.33 Hz, 41 cents sobre un Lab). Dijimos
+entonces que “el teclado moderno no tiene tecla para ellos” y seguimos
+adelante, porque el M1 tenía otro objetivo: construir el lenguaje del
+cent. Pero la frase quedó pendiente, como una puerta entreabierta.</p>
+<p>Zarlino, en el M4, tomó una decisión editorial drástica: de toda la
+serie armónica infinita, solo los primeros <strong>seis</strong> números
+enteros —1, 2, 3, 4, 5, 6— cuentan como fuente de consonancia. El
+senario no es una ley de la física ni una necesidad matemática: es una
+elección estética, defendida con inteligencia pero elección al fin,
+hecha por un teórico veneciano del siglo XVI que estaba describiendo la
+práctica coral de su época. Fíjate en el patrón: 7 es el número que
+sigue inmediatamente después de 6, y sin embargo Zarlino ni siquiera lo
+discute como candidato — para el oído entrenado en el Renacimiento
+tardío, el séptimo armónico simplemente no sonaba a nada reconocible, no
+porque fuera “más disonante” en algún sentido absoluto, sino porque
+ninguna música de su tiempo lo necesitaba todavía.</p>
+<p>La pregunta de este módulo es la que Zarlino no se hizo: <strong>¿qué
+música existe si tomamos en serio los armónicos que el senario dejó
+afuera?</strong> No es una pregunta retórica. Existe una respuesta
+concreta, con nombre y apellido, para cada uno de los tres primos que
+vamos a estudiar: el 7 lo cantan, sin saberlo casi nunca en términos de
+fracciones, los cuartetos de barbershop cuando persiguen su “acorde que
+suena” (<em>ringing chord</em>); lo insinúa cualquier guitarrista de
+blues cuando dobla la séptima “azul” un poco más grave de lo que el
+piano permite. El 11 y el 13 los tomó en serio, de manera sistemática y
+obsesiva, un solo compositor norteamericano del siglo XX —Harry Partch—
+que construyó instrumentos nuevos porque ningún instrumento existente
+podía tocar lo que él necesitaba escribir. Vamos a conocer su sistema
+completo: 43 tonos por octava, otonalidades, utonalidades, un diamante
+de razones que organiza todo el edificio.</p>
+<p>El senario se detuvo en 6 por decisión estética, no física. Este
+módulo levanta esa frontera.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener fresco:</p>
+<ul>
+<li><strong>M1 §3.2–3.3</strong>: la serie armónica completa de Do2, y
+en particular que los armónicos 7, 11 y 13 caen “entre teclas” del piano
+(−31 c, −49 c y +41 c respecto de sus vecinos más cercanos). Ese
+hallazgo es el ancla de todo este módulo.</li>
+<li><strong>M1 §6</strong>: el cent como medida logarítmica aditiva,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c = 1200 \cdot \log_2(r)</annotation></semantics></math>;
+apilar intervalos es sumar cents.</li>
+<li><strong>M2</strong>: el marco de “afinación como política de reparto
+del error”; el concepto de coma como discrepancia aritmética entre dos
+caminos que deberían llegar al mismo lugar y no llegan.</li>
+<li><strong>M4 §3 y §8</strong>: el senario (1–6) como fuente de
+consonancia según Zarlino; el acorde 4:5:6 como la tríada mayor más pura
+posible; el retículo de Euler (Tonnetz), la grilla bidimensional donde
+un eje cuenta quintas puras (3/2) y el otro cuenta terceras mayores
+puras (5/4). Este módulo generaliza exactamente esa idea: cada primo
+nuevo que aceptamos —7, 11, 13— agrega un eje más a la grilla,
+convirtiendo el Tonnetz plano en una red de más dimensiones.</li>
+<li><strong>M9</strong>: los EDOs alternativos (19, 31, 53) como
+aproximaciones sistemáticas a distintas familias de intervalos justos.
+Vas a necesitar en particular 31-EDO y 72-EDO en la sección 8.</li>
+</ul>
+<h2 id="límites-primos-releer-el-curso-con-un-lente-nuevo">3. Límites
+primos: releer el curso con un lente nuevo</h2>
+<p>Formalicemos algo que hemos estado haciendo de manera implícita desde
+el M3. Toda razón de números enteros se puede descomponer, de manera
+única, en producto de potencias de números primos. Por ejemplo:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>=</mo><msup><mn>3</mn><mn>1</mn></msup><mo>⋅</mo><msup><mn>2</mn><mrow><mi>−</mi><mn>1</mn></mrow></msup><mspace width="2.0em"></mspace><mfrac><mn>5</mn><mn>4</mn></mfrac><mo>=</mo><msup><mn>5</mn><mn>1</mn></msup><mo>⋅</mo><msup><mn>2</mn><mrow><mi>−</mi><mn>2</mn></mrow></msup><mspace width="2.0em"></mspace><mfrac><mn>81</mn><mn>80</mn></mfrac><mo>=</mo><mfrac><msup><mn>3</mn><mn>4</mn></msup><mrow><msup><mn>2</mn><mn>4</mn></msup><mo>⋅</mo><mn>5</mn></mrow></mfrac><mo>=</mo><msup><mn>3</mn><mn>4</mn></msup><mo>⋅</mo><msup><mn>2</mn><mrow><mi>−</mi><mn>4</mn></mrow></msup><mo>⋅</mo><msup><mn>5</mn><mrow><mi>−</mi><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\frac{3}{2} = 3^1 \cdot 2^{-1} \qquad \frac{5}{4} = 5^1 \cdot 2^{-2} \qquad \frac{81}{80} = \frac{3^4}{2^4 \cdot 5} = 3^4 \cdot 2^{-4} \cdot 5^{-1}</annotation></semantics></math></p>
+<p>Definimos el <strong>límite primo</strong> (o <em>p-limit</em>) de un
+sistema de afinación como <strong>el mayor número primo que aparece, en
+cualquier ratio del sistema, una vez que esa razón está reducida a su
+mínima expresión.</strong> No importa cuán grandes sean los exponentes
+ni los números en sí —una razón como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6561</mn><mi>/</mi><mn>6400</mn></mrow><annotation encoding="application/x-tex">6561/6400</annotation></semantics></math>
+puede tener números enormes y seguir siendo 5-límite, si al factorizarla
+solo aparecen los primos 2, 3 y 5—; lo único que cuenta es el primo más
+grande presente.</p>
+<p>Con esta definición, releamos el curso entero:</p>
+<ul>
+<li><strong>M3, pitagórica</strong>: toda la escala se construye
+apilando quintas (3/2) y octavas (2/1). Solo aparecen los primos
+<strong>2 y 3</strong>. Es un sistema <strong>3-límite</strong>.</li>
+<li><strong>M4, justa entonación de Zarlino</strong>: el senario agrega
+el 5 (las razones 5/4 y 6/5). Todo el sistema —incluida la coma
+sintónica 81/80 y la gran diesis 128/125, como acabas de ver arriba— usa
+solo los primos <strong>2, 3 y 5</strong>. Es
+<strong>5-límite</strong>.</li>
+<li><strong>M5 y M6, mesotónicos y buenos temperamentos</strong>: siguen
+siendo esencialmente 5-límite en su lógica de construcción (reparten la
+coma sintónica), aunque el temperamento en sí introduce números
+irracionales.</li>
+<li><strong>M7, temperamento igual</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+no es siquiera una razón de enteros — es, en cierto sentido, el límite
+de “renunciar a todos los primos salvo el 2” para ganar simetría
+perfecta.</li>
+<li><strong>M10, este módulo</strong>: agregamos el primo
+<strong>7</strong> (7-límite), el primo <strong>11</strong> (11-límite)
+y el primo <strong>13</strong> (13-límite), en ese orden creciente de
+“exotismo” auditivo.</li>
+</ul>
+<p>La idea de límite primo no es solo una etiqueta taxonómica: es una
+predicción sobre qué tan “extraño” va a sonar un intervalo. Cuanto mayor
+el primo que necesitas para escribir su razón, más lejos está ese
+intervalo de las relaciones simples que el oído occidental reconoce de
+memoria — y, empíricamente, más disonante o “fuera de lugar” tiende a
+sonar la primera vez que se escucha, aunque (como vamos a comprobar en
+la sección 4) muchas culturas musicales lo escuchan como perfectamente
+consonante una vez que se acostumbran a él.</p>
+<h3 id="los-intervalos-nuevos-del-7-límite">3.1 Los intervalos nuevos
+del 7-límite</h3>
+<p>El primo 7 aparece por primera vez, de forma natural, en la razón
+entre el séptimo armónico y sus vecinos de la serie. Calculemos los
+cuatro intervalos 7-límite más importantes, todos ellos derivables
+directamente de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+(el séptimo armónico reducido a la octava):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.75</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.807355</mn><mo>=</mo><mn>968.826</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{7/4} = 1200 \cdot \log_2(1.75) = 1200 \times 0.807355 = 968.826 \text{ cents}</annotation></semantics></math></p>
+<p>Este es el intervalo entre el cuarto armónico (la fundamental, dos
+octavas arriba) y el séptimo: una <strong>séptima menor</strong>, pero
+notablemente más angosta que cualquier séptima que el piano pueda tocar.
+Se le llama la <strong>séptima natural</strong> o <strong>séptima
+armónica</strong>. Invirtámosla para obtener su complemento a la
+octava:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>8</mn><mi>/</mi><mn>7</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>8</mn><mn>7</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.192645</mn><mo>=</mo><mn>231.174</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{8/7} = 1200 \cdot \log_2\left(\frac{8}{7}\right) = 1200 \times 0.192645 = 231.174 \text{ cents}</annotation></semantics></math></p>
+<p>Es el <strong>tono septimal</strong>, un tono ligeramente más angosto
+que el tono mayor justo (9/8 = 203.910 c) — espera, angosto no:
+comparemos,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>231.174</mn><mo>&gt;</mo><mn>203.910</mn></mrow><annotation encoding="application/x-tex">231.174 &gt; 203.910</annotation></semantics></math>,
+así que en realidad es <strong>más ancho</strong> que el tono mayor, y
+más ancho todavía que el tono menor (10/9 = 182.404 c). Sigamos con las
+terceras y el tritono septimales. La razón entre el séptimo y el sexto
+armónico:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>7</mn><mi>/</mi><mn>6</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>7</mn><mn>6</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.222392</mn><mo>=</mo><mn>266.871</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{7/6} = 1200 \cdot \log_2\left(\frac{7}{6}\right) = 1200 \times 0.222392 = 266.871 \text{ cents}</annotation></semantics></math></p>
+<p>Una <strong>tercera septimal</strong>, más angosta que cualquier
+tercera menor reconocible (6/5 = 315.641 c) — está, de hecho, casi
+exactamente a medio camino entre un tono y una tercera menor, lo que le
+vale a veces el apodo de “subtercera”. Y la razón entre el séptimo y el
+quinto armónico:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>7</mn><mi>/</mi><mn>5</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>7</mn><mn>5</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.485427</mn><mo>=</mo><mn>582.512</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{7/5} = 1200 \cdot \log_2\left(\frac{7}{5}\right) = 1200 \times 0.485427 = 582.512 \text{ cents}</annotation></semantics></math></p>
+<p>Este es el <strong>tritono séptimo</strong> o tritono “suave”
+(<em>septimal tritone</em>): comparado con el tritono del temperamento
+igual (600 c exactos) o con los tritonos 5-límite (25/18 ≈ 568.717 c,
+45/32 ≈ 590.224 c), el 7/5 tiene una cualidad menos áspera, casi
+consonante — de hecho, junto con su complemento 10/7 (617.488 c), es uno
+de los pocos tritonos justos que se puede sostener largo rato sin fatiga
+auditiva, algo que exploraremos en el laboratorio.</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Intervalo</th>
+<th>Razón</th>
+<th>Cents</th>
+<th>Comparación con 12-ET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tono septimal</td>
+<td>8/7</td>
+<td>231.174</td>
+<td>entre 200 y 300 c, sin equivalente</td>
+</tr>
+<tr>
+<td>Tercera septimal (“subtercera”)</td>
+<td>7/6</td>
+<td>266.871</td>
+<td>entre 200 y 300 c, sin equivalente</td>
+</tr>
+<tr>
+<td>Tritono séptimo (suave)</td>
+<td>7/5</td>
+<td>582.512</td>
+<td>17.5 c bajo el tritono ET (600)</td>
+</tr>
+<tr>
+<td>Séptima natural (armónica)</td>
+<td>7/4</td>
+<td>968.826</td>
+<td>31.2 c bajo la séptima menor ET (1000)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="el-11-límite-la-cuarta-y-media">3.2 El 11-límite: la cuarta y
+media</h3>
+<p>El armónico 11, reducido a la octava fundamental, da la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>11</mn><mn>8</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.459432</mn><mo>=</mo><mn>551.318</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{11/8} = 1200 \cdot \log_2\left(\frac{11}{8}\right) = 1200 \times 0.459432 = 551.318 \text{ cents}</annotation></semantics></math></p>
+<p>Compara este valor con la cuarta justa (4/3 = 498.045 c) y con el
+tritono del temperamento igual (600 c): el 11/8 cae casi exactamente
+<strong>entre ambos</strong>, a solo 48.7 cents sobre la cuarta y 48.7
+cents bajo el tritono — de ahí el apodo “la cuarta y media” (<em>the
+undecimal semi-augmented fourth</em>). Más preciso todavía: si dividimos
+el semitono ET en cuartos de tono (pasos de 50 cents cada uno, la
+microtonalidad más simple que existe), el 11/8 cae en 551.318 c, apenas
+<strong>1.3 cents</strong> por encima del cuarto de tono superior a la
+cuarta (550 c) y a <strong>48.7 cents</strong> del cuarto de tono
+inferior al tritono (también podríamos decir que está a 1.3 c de un lado
+y 48.7 del otro del par de cuartos de tono que rodean la cuarta — ver
+sección 8 y el ejercicio correspondiente para el cálculo completo). El
+armónico 11 no es “un poco desafinado”: es, literalmente, la nota que
+vive en la grieta entre la cuarta justa y el tritono, un territorio que
+el piano ni siquiera intenta aproximar.</p>
+<h3 id="el-13-límite-un-vistazo-breve">3.3 El 13-límite: un vistazo
+breve</h3>
+<p>El armónico 13, reducido a la octava, da:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>13</mn><mi>/</mi><mn>8</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>13</mn><mn>8</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.700440</mn><mo>=</mo><mn>840.528</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{13/8} = 1200 \cdot \log_2\left(\frac{13}{8}\right) = 1200 \times 0.700440 = 840.528 \text{ cents}</annotation></semantics></math></p>
+<p>Comparado con la sexta menor pura (8/5 = 813.686 c) y la sexta mayor
+pura (5/3 = 884.359 c), el 13/8 cae entre ambas, más cerca de la menor
+(a 26.8 cents) que de la mayor (a 43.8 cents): es una especie de “sexta
+neutra”, sin análogo directo en la armonía tradicional ni en el
+temperamento igual (que solo ofrece 800 c u 900 c, a 40.5 y 59.5 cents
+de distancia respectivamente). No vamos a desarrollar todo un
+vocabulario de intervalos 13-límite —el 7 y el 11 concentran el
+repertorio real que vas a encontrar— pero vale la pena tener este número
+a mano: aparece en el acorde 8:9:10:11:12:13:14 que Partch usa como una
+de sus otonalidades extendidas, y en el capítulo de Ben Johnston que
+anticipamos en la sección 9.</p>
+<h2
+id="el-acorde-4567-la-séptima-de-dominante-como-la-canta-un-cuarteto-de-barbershop">4.
+El acorde 4:5:6:7: la séptima de dominante como la canta un cuarteto de
+barbershop</h2>
+<p>Volvamos al acorde 4:5:6 del M4 —el acorde mayor puro, Do:Mi:Sol de
+la fundamental común— y agreguemos un cuarto término: el séptimo
+armónico.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>:</mo><mn>5</mn><mo>:</mo><mn>6</mn><mo>:</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">4 : 5 : 6 : 7</annotation></semantics></math></p>
+<p>Tomemos, como en el M4, una fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>0</mn></msub><annotation encoding="application/x-tex">f_0</annotation></semantics></math>
+y construyamos las cuatro notas. Si queremos que la nota “raíz” del
+acorde (el cuarto armónico) sea un Do3 a 130.81 Hz, entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>130.81</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>32.7025</mn></mrow><annotation encoding="application/x-tex">f_0 = 130.81/4 = 32.7025</annotation></semantics></math>
+Hz, y las cuatro notas del acorde son:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>130.81</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz (Do3, raíz)</mtext></mrow><mspace width="1.0em"></mspace><mn>5</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>163.5125</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz (tercera)</mtext></mrow><mspace width="1.0em"></mspace><mn>6</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>196.215</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz (quinta)</mtext></mrow><mspace width="1.0em"></mspace><mn>7</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>228.9175</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz (séptima)</mtext></mrow></mrow><annotation encoding="application/x-tex">4f_0 = 130.81 \text{ Hz (Do3, raíz)} \quad 5f_0 = 163.5125 \text{ Hz (tercera)} \quad 6f_0 = 196.215 \text{ Hz (quinta)} \quad 7f_0 = 228.9175 \text{ Hz (séptima)}</annotation></semantics></math></p>
+<p>Este es, nota por nota, un <strong>acorde de séptima de
+dominante</strong>: raíz, tercera mayor, quinta y séptima menor. Pero la
+séptima no es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">16/9</annotation></semantics></math>
+(996.090 c, la que resultaría de apilar dos tonos mayores puros sobre la
+quinta) ni la del temperamento igual (1000 c): es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+sobre la raíz, es decir, 968.826 cents — <strong>31.174 cents más
+angosta</strong> que la séptima menor del piano. Compara los tres
+candidatos a “séptima menor” que hemos ido acumulando en el curso:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Candidato</th>
+<th>Razón</th>
+<th>Cents</th>
+<th>Diferencia con 7/4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Séptima natural (armónica)</td>
+<td>7/4</td>
+<td>968.826</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Séptima menor pitagórica/16:9</td>
+<td>16/9</td>
+<td>996.090</td>
+<td>+27.264 c</td>
+</tr>
+<tr>
+<td>Séptima menor 12-ET</td>
+<td>—</td>
+<td>1000.000</td>
+<td>+31.174 c</td>
+</tr>
+<tr>
+<td>Novena reducida a séptima, 9/5</td>
+<td>9/5</td>
+<td>1017.596</td>
+<td>+48.770 c</td>
+</tr>
+</tbody>
+</table></div>
+<p>La diferencia con el temperamento igual —<strong>31.2 cents</strong>—
+es enorme para los estándares de este curso: más grande que toda la coma
+pitagórica (23.460 c), casi un tercio de semitono. Y sin embargo,
+cualquier persona que haya escuchado un cuarteto de barbershop reconoce
+el sonido de esa séptima “angosta”: no suena “desafinada” ni “fuera de
+tono”, suena <strong>más consonante</strong> que la séptima del piano,
+más “cerrada”, más quieta.</p>
+<h3 id="por-qué-bloquea-batido-cero-generalizado">4.1 Por qué “bloquea”:
+batido cero, generalizado</h3>
+<p>La explicación es la misma que usamos en el M1 §5.2 para la quinta
+pura y en el M4 §3.1 para el acorde 4:5:6, ahora extendida a cuatro
+voces. Como las cuatro notas del acorde son múltiplos enteros exactos de
+una misma fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>0</mn></msub><annotation encoding="application/x-tex">f_0</annotation></semantics></math>
+(identidades 4, 5, 6 y 7), cualquier armónico de una nota que coincida
+en valor con un armónico de otra nota <strong>coincide
+exactamente</strong>, sin residuo. Y como 4, 5, 6 y 7 son números
+pequeños, sus mínimos comunes múltiplos también lo son, así que las
+coincidencias empiezan casi de inmediato:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Par de notas (identidad)</th>
+<th>Coincide en</th>
+<th>Frecuencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raíz (4), 3er armónico ↔︎ Quinta (6), 2º armónico</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">mcm</mtext><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo>,</mo><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">\text{mcm}(4,6)=12</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>392.43</mn></mrow><annotation encoding="application/x-tex">12 f_0 = 392.43</annotation></semantics></math>
+Hz</td>
+</tr>
+<tr>
+<td>Raíz (4), 5º armónico ↔︎ Tercera (5), 4º armónico</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">mcm</mtext><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo>,</mo><mn>5</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">\text{mcm}(4,5)=20</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>654.05</mn></mrow><annotation encoding="application/x-tex">20 f_0 = 654.05</annotation></semantics></math>
+Hz</td>
+</tr>
+<tr>
+<td>Raíz (4), 7º armónico ↔︎ Séptima (7), 4º armónico</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">mcm</mtext><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo>,</mo><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>28</mn></mrow><annotation encoding="application/x-tex">\text{mcm}(4,7)=28</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>28</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>915.67</mn></mrow><annotation encoding="application/x-tex">28 f_0 = 915.67</annotation></semantics></math>
+Hz</td>
+</tr>
+<tr>
+<td>Tercera (5), 6º armónico ↔︎ Quinta (6), 5º armónico</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">mcm</mtext><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>,</mo><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">\text{mcm}(5,6)=30</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>981.075</mn></mrow><annotation encoding="application/x-tex">30 f_0 = 981.075</annotation></semantics></math>
+Hz</td>
+</tr>
+<tr>
+<td>Tercera (5), 7º armónico ↔︎ Séptima (7), 5º armónico</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">mcm</mtext><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>,</mo><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>35</mn></mrow><annotation encoding="application/x-tex">\text{mcm}(5,7)=35</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>35</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>1144.5875</mn></mrow><annotation encoding="application/x-tex">35 f_0 = 1144.5875</annotation></semantics></math>
+Hz</td>
+</tr>
+<tr>
+<td>Quinta (6), 7º armónico ↔︎ Séptima (7), 6º armónico</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">mcm</mtext><mo stretchy="false" form="prefix">(</mo><mn>6</mn><mo>,</mo><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>42</mn></mrow><annotation encoding="application/x-tex">\text{mcm}(6,7)=42</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>42</mn><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>1373.505</mn></mrow><annotation encoding="application/x-tex">42 f_0 = 1373.505</annotation></semantics></math>
+Hz</td>
+</tr>
+</tbody>
+</table></div>
+<p>Seis coincidencias distintas, todas en la zona audible de los
+primeros armónicos, cada una de ellas un punto donde el batido es
+exactamente cero. Esto es lo que los cantantes de barbershop describen
+—sin necesitar nunca la palabra “armónico”— como el momento en que el
+acorde “se bloquea” (<em>locks</em>) o “suena” (<em>rings</em>): el aire
+literalmente produce tonos resultantes adicionales (combinaciones y
+diferencias de estas frecuencias coincidentes) que un oyente puede
+escuchar como una “quinta voz fantasma” flotando sobre el cuarteto, un
+efecto acústico real, medible con un micrófono, que la tradición
+barbershop llama el <strong>ringing chord</strong> o “acorde de
+campana”. No es magia ni exageración retórica de los cantantes: es la
+misma física de coincidencia de parciales del M1 §5.2, aplicada a cuatro
+voces en vez de dos, con un primo nuevo (el 7) haciendo su
+aparición.</p>
+<p>Si en cambio afinas ese mismo acorde en temperamento igual, ninguna
+de esas seis coincidencias ocurre de manera exacta: los armónicos
+superiores de las cuatro notas quedan separados por fracciones de
+hercio, y el resultado es un enjambre de batidos lentos superpuestos
+—perceptible como una especie de “aspereza cálida” o “vibrato” en el
+acorde sostenido— en vez del bloque sólido y sin movimiento del acorde
+justo. La tradición del barbershop, de hecho, entrena explícitamente a
+sus cantantes para afinar de oído hacia el 7/4 exacto sobre la marcha,
+ajustando microscópicamente la séptima hasta que el batido desaparece —
+sin que la mayoría de ellos sepa nunca que están cantando literalmente
+el séptimo armónico.</p>
+<h3 id="la-séptima-azul-del-blues">4.2 La séptima “azul” del blues</h3>
+<p>El mismo fenómeno, con menos precisión ritual pero igual raíz física,
+aparece en el blues: la llamada <strong>“blue note”</strong> de la
+séptima (y, de forma más debatida, de la tercera) tiende a ubicarse por
+debajo de su equivalente en temperamento igual, en una región que
+coincide, aproximadamente, con el territorio del 7/4 y el 7/6. No hay
+que exagerar la precisión de esta afirmación —el blues es una práctica
+oral con enorme variación individual, de intérprete a intérprete e
+incluso de frase a frase, y no todos los músicos de blues afinan “hacia”
+7/4 de manera consistente ni consciente— pero la dirección del gesto
+(aplanar la séptima, a veces también la tercera, respecto del piano)
+apunta consistentemente hacia el 7-límite, no hacia ningún otro lugar
+del espectro microtonal. Es una de las pocas prácticas de entonación
+7-límite verdaderamente vivas y masivas en la música popular de hoy, y
+conviene escucharla con este marco en mente, sin forzar cada inflexión a
+encajar en una fracción exacta.</p>
+<h2 id="nuevas-comas-para-nuevos-primos">5. Nuevas comas para nuevos
+primos</h2>
+<p>El curso ha repetido, desde el M2, un patrón: cada vez que exigimos
+que dos caminos distintos hacia “la misma nota” lleguen exactamente al
+mismo lugar, aparece un residuo aritmético — una coma. La coma
+pitagórica nace de comparar quintas con octavas (3-límite). La coma
+sintónica nace de comparar tonos apilados con la tercera del quinto
+armónico (5-límite). Extender el sistema a un primo nuevo no elimina el
+problema: lo repite, con una coma nueva y más pequeña cada vez que
+agregamos un primo.</p>
+<h3 id="la-coma-septimal-6463">5.1 La coma septimal, 64/63</h3>
+<p>Ya tienes, de hecho, todos los ingredientes para derivarla: mira de
+nuevo el tono septimal (8/7 = 231.174 c) de la sección 3.1 y el tono
+mayor justo (9/8 = 203.910 c) del M1. Son dos maneras distintas de
+llenar, aproximadamente, “un tono” — una construida con el primo 7, la
+otra con el primo 3. Dividamos una por la otra:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>8</mn><mi>/</mi><mn>7</mn></mrow><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow></mfrac><mo>=</mo><mfrac><mn>8</mn><mn>7</mn></mfrac><mo>×</mo><mfrac><mn>8</mn><mn>9</mn></mfrac><mo>=</mo><mfrac><mn>64</mn><mn>63</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{8/7}{9/8} = \frac{8}{7} \times \frac{8}{9} = \frac{64}{63}</annotation></semantics></math></p>
+<p>Y en cents, restando directamente:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>231.174</mn><mo>−</mo><mn>203.910</mn><mo>=</mo><mn>27.264</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">231.174 - 203.910 = 27.264 \text{ cents}</annotation></semantics></math></p>
+<p>Esta razón,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64</mn><mi>/</mi><mn>63</mn></mrow><annotation encoding="application/x-tex">64/63</annotation></semantics></math>,
+es la <strong>coma septimal</strong>: el primer residuo que aparece
+cuando el primo 7 entra en contacto con el mundo 3-límite y 5-límite que
+ya teníamos. Verifiquemos que el mismo número aparece por otro camino,
+exactamente como en el M4 §9 comprobamos que la quinta defectuosa y la
+tercera menor defectuosa del acorde de ii compartían el mismo defecto de
+81/80. Compara la séptima natural (7/4 = 968.826 c) con la séptima
+pitagórica/16:9 (996.090 c) que ya usamos en la sección 4:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>996.090</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mn>27.264</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">996.090 - 968.826 = 27.264 \text{ cents}</annotation></semantics></math></p>
+<p><strong>Exactamente la misma coma.</strong> Y algebraicamente:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>16</mn><mi>/</mi><mn>9</mn></mrow><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow></mfrac><mo>=</mo><mfrac><mn>16</mn><mn>9</mn></mfrac><mo>×</mo><mfrac><mn>4</mn><mn>7</mn></mfrac><mo>=</mo><mfrac><mn>64</mn><mn>63</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{16/9}{7/4} = \frac{16}{9} \times \frac{4}{7} = \frac{64}{63}</annotation></semantics></math></p>
+<p>No es casualidad: ambos caminos —“tono septimal contra tono justo” y
+“séptima pitagórica contra séptima armónica”— miden, en el fondo, la
+misma distancia entre el mundo del primo 7 y el mundo de los primos 2 y
+3. Cualquier instrumento de teclado afinado en 12 notas que quiera
+aproximar el 7-límite tiene que decidir, en algún punto, cómo esconder
+estos 27.264 cents — el mismo tipo de decisión que Werckmeister,
+Vallotti y Kirnberger tomaron para la coma pitagórica en el M6
+(volveremos a esto en la sección 8 y en los ejercicios).</p>
+<h3 id="el-cuarto-de-tono-undecimal-3332">5.2 El cuarto de tono
+undecimal, 33/32</h3>
+<p>Repitamos el procedimiento con el primo 11. Ya calculamos que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">11/8 = 551.318</annotation></semantics></math>
+cents cae cerca de la cuarta justa (4/3 = 498.045 c). Dividamos:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow></mfrac><mo>=</mo><mfrac><mn>11</mn><mn>8</mn></mfrac><mo>×</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mo>=</mo><mfrac><mn>33</mn><mn>32</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{11/8}{4/3} = \frac{11}{8} \times \frac{3}{4} = \frac{33}{32}</annotation></semantics></math></p>
+<p>En cents:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>498.045</mn><mo>=</mo><mn>53.273</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">551.318 - 498.045 = 53.273 \text{ cents}</annotation></semantics></math></p>
+<p>Esta razón,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">33/32</annotation></semantics></math>,
+es el <strong>cuarto de tono undecimal</strong>: la distancia entre la
+cuarta justa (3-límite, la más simple y protegida de todo el curso desde
+el M3) y la “cuarta y media” del armónico 11. A diferencia de la coma
+pitagórica (23.460 c) o la coma sintónica (21.506 c) —ambas menores a
+media docena de cents por encima de “casi imperceptible”—, el 33/32 mide
+más de 53 cents: <strong>más de la mitad de un semitono del temperamento
+igual</strong>. Ya no es una grieta microscópica que se pueda esconder
+sin que nadie note: es un intervalo con entidad propia, suficientemente
+grande como para funcionar como paso melódico audible por derecho
+propio, y de ahí su apodo de “cuarto de tono”, aunque no coincide
+exactamente con el cuarto de tono de 50 cents del sistema de 24-EDO (la
+diferencia es de solo 3.273 cents, pero existe).</p>
+<p>El patrón se sostiene, con un matiz: <strong>cada primo nuevo trae su
+propia “grieta” que hay que nombrar y decidir dónde esconder</strong>
+—eso no cambia—, pero el tamaño de la grieta no decrece de manera
+uniforme. El primo 5 trajo una coma de ~21.5 c; el primo 7 trae una de
+~27.3 c; el primo 11 trae una “grieta” de más de 53 c, ya del tamaño de
+un intervalo melódico. Esto anticipa algo importante para el M11 y el
+M12: cuantos más primos queremos representar simultáneamente en un solo
+sistema de notas fijas, más símbolos de notación (y más decisiones de
+dónde esconder cada residuo) se necesitan — el problema no se vuelve más
+fácil, se acumula.</p>
+<h2
+id="harry-partch-otonalidades-utonalidades-y-el-diamante-de-tonalidades">6.
+Harry Partch: otonalidades, utonalidades y el diamante de
+tonalidades</h2>
+<p>Harry Partch (1901–1974), compositor, teórico e instrumentista
+autodidacta estadounidense, es la figura central de la justa entonación
+extendida en el siglo XX. Partido de una insatisfacción radical con el
+temperamento igual —lo llamaba, sin medias tintas, una “tiranía” que
+había separado a la música occidental de sus raíces físicas—, Partch
+construyó desde cero un sistema completo de 43 tonos por octava y, como
+ningún instrumento existente podía tocarlo, construyó también sus
+propios instrumentos.</p>
+<h3 id="otonalidades-y-utonalidades">6.1 Otonalidades y
+utonalidades</h3>
+<p>Partch organiza su universo armónico en dos familias espejadas.</p>
+<p>Una <strong>otonalidad</strong> (de “over”, “sobre”) es un acorde
+formado por armónicos superiores de una fundamental común — exactamente
+el mismo principio que el acorde 4:5:6 del M4 o el 4:5:6:7 de la sección
+4, generalizado a cualquier conjunto de números impares. El ejemplo que
+Partch mismo usa como caso de estudio es el hexacorde
+<strong>8:9:10:11:12:14</strong> —los armónicos 8 a 14 de una
+fundamental, saltándose el 13— transportado de manera que el armónico 8
+se identifique con una nota de referencia, en este caso Sol. Dividiendo
+cada término por 8 obtenemos las razones reducidas:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>8</mn><mn>8</mn></mfrac><mo>=</mo><mn>1</mn><mspace width="1.0em"></mspace><mfrac><mn>9</mn><mn>8</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>10</mn><mn>8</mn></mfrac><mo>=</mo><mfrac><mn>5</mn><mn>4</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>11</mn><mn>8</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>12</mn><mn>8</mn></mfrac><mo>=</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>14</mn><mn>8</mn></mfrac><mo>=</mo><mfrac><mn>7</mn><mn>4</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{8}{8}=1 \quad \frac{9}{8} \quad \frac{10}{8}=\frac{5}{4} \quad \frac{11}{8} \quad \frac{12}{8}=\frac{3}{2} \quad \frac{14}{8}=\frac{7}{4}</annotation></semantics></math></p>
+<p>es decir, sobre Sol: Sol (0 c), Sol+9/8 (203.910 c), Sol+5/4 (386.314
+c), Sol+11/8 (551.318 c), Sol+3/2 (701.955 c) y Sol+7/4 (968.826 c).
+Nota que este hexacorde ya contiene, dentro de sí, tanto el acorde mayor
+puro 4:5:6 (aquí como 8:10:12) como la séptima natural 4:5:6:7 (como
+8:10:12:14) y el intervalo 11-límite completo (8:11): es, en cierto
+sentido, el catálogo completo de este módulo comprimido en un solo
+acorde.</p>
+<p>Una <strong>utonalidad</strong> (de “under”, “bajo”) es el espejo
+exacto: en vez de multiplicar una fundamental por números enteros
+crecientes, se <strong>divide</strong> una nota de referencia (el
+“numerador común”, que Partch llama la <em>identidad</em>) por esos
+mismos números. Si construimos la utonalidad espejo de la otonalidad
+anterior, dividiendo Sol (como 8) por 8, 9, 10, 11, 12 y 14, y
+reduciendo cada resultado a la octava:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>8</mn><mn>8</mn></mfrac><mo>=</mo><mn>1</mn><mspace width="1.0em"></mspace><mfrac><mn>8</mn><mn>9</mn></mfrac><mo>→</mo><mfrac><mn>16</mn><mn>9</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>8</mn><mn>10</mn></mfrac><mo>=</mo><mfrac><mn>4</mn><mn>5</mn></mfrac><mo>→</mo><mfrac><mn>8</mn><mn>5</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>8</mn><mn>11</mn></mfrac><mo>→</mo><mfrac><mn>16</mn><mn>11</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>8</mn><mn>12</mn></mfrac><mo>=</mo><mfrac><mn>2</mn><mn>3</mn></mfrac><mo>→</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mspace width="1.0em"></mspace><mfrac><mn>8</mn><mn>14</mn></mfrac><mo>=</mo><mfrac><mn>4</mn><mn>7</mn></mfrac><mo>→</mo><mfrac><mn>8</mn><mn>7</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{8}{8}=1 \quad \frac{8}{9} \to \frac{16}{9} \quad \frac{8}{10} = \frac{4}{5} \to \frac{8}{5} \quad \frac{8}{11} \to \frac{16}{11} \quad \frac{8}{12} = \frac{2}{3} \to \frac{4}{3} \quad \frac{8}{14} = \frac{4}{7} \to \frac{8}{7}</annotation></semantics></math></p>
+<p>Ordenando estas razones de menor a mayor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">8/7</annotation></semantics></math>
+(231.174 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>
+(498.045 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">16/11</annotation></semantics></math>
+(648.682 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">8/5</annotation></semantics></math>
+(813.686 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">16/9</annotation></semantics></math>
+(996.090 c). Compara esta lista con la de la otonalidad
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>203.910</mn><annotation encoding="application/x-tex">203.910</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>551.318</mn><annotation encoding="application/x-tex">551.318</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>701.955</mn><annotation encoding="application/x-tex">701.955</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>968.826</mn><annotation encoding="application/x-tex">968.826</annotation></semantics></math>)
+y suma cada par en el mismo orden desde los extremos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>203.910</mn><mo>+</mo><mn>996.090</mn><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">203.910 + 996.090 = 1200</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>+</mo><mn>813.686</mn><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">386.314 + 813.686 = 1200</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>+</mo><mn>648.682</mn><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">551.318 + 648.682 = 1200</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>+</mo><mn>498.045</mn><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">701.955 + 498.045 = 1200</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mo>+</mo><mn>231.174</mn><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">968.826 + 231.174 = 1200</annotation></semantics></math>.
+<strong>Cada intervalo de la utonalidad es el complemento exacto a la
+octava del intervalo correspondiente de la otonalidad.</strong> La
+utonalidad no es una colección arbitraria de “subarmónicos raros”: es,
+literalmente, la otonalidad leída al revés, la misma información
+reflejada como en un espejo puesto sobre la mitad de la octava. Esta es
+la idea dualista que ya viste asomar en el M4 §3.2 a propósito del
+acorde menor 10:12:15 — Partch la lleva, sistemáticamente, mucho más
+allá del 5-límite.</p>
+<h3 id="el-tonality-diamond-de-11-límites">6.2 El Tonality Diamond de 11
+límites</h3>
+<p>Partch organiza el universo completo de otonalidades y utonalidades
+posibles, hasta el 11-límite, en una estructura que llama el
+<strong>Tonality Diamond</strong>: una tabla donde las filas son
+identidades otonales (numerador) y las columnas son identidades utonales
+(denominador), tomadas del conjunto de números impares
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>7</mn><mo>,</mo><mn>9</mn><mo>,</mo><mn>11</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{1, 3, 5, 7, 9, 11\}</annotation></semantics></math>,
+y cada celda es la razón fila/columna reducida a la octava
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[1, 2)</annotation></semantics></math>.</p>
+<div class="table-scroll"><table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th>Oton.  Uton.</th>
+<th>/1</th>
+<th>/3</th>
+<th>/5</th>
+<th>/7</th>
+<th>/9</th>
+<th>/11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>1/1 (0)</td>
+<td>4/3 (498.0)</td>
+<td>8/5 (813.7)</td>
+<td>8/7 (231.2)</td>
+<td>16/9 (996.1)</td>
+<td>16/11 (648.7)</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>3/2 (702.0)</td>
+<td>1/1 (0)</td>
+<td>6/5 (315.6)</td>
+<td>12/7 (933.1)</td>
+<td>4/3 (498.0)</td>
+<td>12/11 (150.6)</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>5/4 (386.3)</td>
+<td>5/3 (884.4)</td>
+<td>1/1 (0)</td>
+<td>10/7 (617.5)</td>
+<td>10/9 (182.4)</td>
+<td>20/11 (1035.0)</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td>7/4 (968.8)</td>
+<td>7/6 (266.9)</td>
+<td>7/5 (582.5)</td>
+<td>1/1 (0)</td>
+<td>14/9 (764.9)</td>
+<td>14/11 (417.5)</td>
+</tr>
+<tr>
+<td><strong>9</strong></td>
+<td>9/8 (203.9)</td>
+<td>3/2 (702.0)</td>
+<td>9/5 (1017.6)</td>
+<td>9/7 (435.1)</td>
+<td>1/1 (0)</td>
+<td>18/11 (852.6)</td>
+</tr>
+<tr>
+<td><strong>11</strong></td>
+<td>11/8 (551.3)</td>
+<td>11/6 (1049.4)</td>
+<td>11/10 (165.0)</td>
+<td>11/7 (782.5)</td>
+<td>11/9 (347.4)</td>
+<td>1/1 (0)</td>
+</tr>
+</tbody>
+</table></div>
+<p>(cents entre paréntesis). La diagonal principal es siempre 1/1 —toda
+identidad sobre sí misma es el unísono—; la fila “1” contiene las
+utonalidades puras sobre la identidad 1 (los subarmónicos que acabas de
+calcular en 6.1); la columna “1” contiene las otonalidades puras sobre
+la identidad 1 (los armónicos superiores: 3/2, 5/4, 7/4, 9/8, 11/8 —
+todo lo que hemos calculado en las secciones 3 y 4). El resto de la
+tabla son combinaciones cruzadas: la fila “7”, columna “3”, por ejemplo,
+es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">7/6</annotation></semantics></math>
+(266.9 c), el mismo intervalo 7-límite que ya conoces de la sección 3.1.
+Partch construyó, físicamente, un instrumento —la <strong>Diamond
+Marimba</strong>— cuyas barras están dispuestas siguiendo exactamente
+este patrón geométrico, de modo que moverse por filas o columnas del
+instrumento es moverse por otonalidades o utonalidades completas con las
+manos, sin tener que calcular nada: el diamante deja de ser una tabla y
+se vuelve, literalmente, un objeto que se toca.</p>
+<h3 id="los-43-tonos-por-octava">6.3 Los 43 tonos por octava</h3>
+<p>El sistema completo de Partch reúne todas las razones del diamante
+11-límite (y algunas más, hasta ciertos límites superiores en casos
+puntuales) ordenadas de menor a mayor dentro de una sola octava,
+eliminando duplicados. El resultado son <strong>43 tonos por
+octava</strong>, documentado por Partch en detalle en su libro
+<em>Genesis of a Music</em> (1949). Damos aquí, verificados con cálculo
+directo, los primeros trece peldaños de la escalera —suficientes para
+reconocer el criterio de construcción— sin inventar los treinta
+restantes, que puedes consultar completos en la fuente original:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Razón</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1/1</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>81/80</td>
+<td>21.5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>33/32</td>
+<td>53.3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>21/20</td>
+<td>84.5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16/15</td>
+<td>111.7</td>
+</tr>
+<tr>
+<td>6</td>
+<td>12/11</td>
+<td>150.6</td>
+</tr>
+<tr>
+<td>7</td>
+<td>11/10</td>
+<td>165.0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>10/9</td>
+<td>182.4</td>
+</tr>
+<tr>
+<td>9</td>
+<td>9/8</td>
+<td>203.9</td>
+</tr>
+<tr>
+<td>10</td>
+<td>8/7</td>
+<td>231.2</td>
+</tr>
+<tr>
+<td>11</td>
+<td>7/6</td>
+<td>266.9</td>
+</tr>
+<tr>
+<td>12</td>
+<td>32/27</td>
+<td>294.1</td>
+</tr>
+<tr>
+<td>13</td>
+<td>6/5</td>
+<td>315.6</td>
+</tr>
+<tr>
+<td>⋮</td>
+<td>… hasta …</td>
+<td>…</td>
+</tr>
+<tr>
+<td>43</td>
+<td>2/1</td>
+<td>1200.0</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fíjate en algo que ya deberías reconocer sin esfuerzo: casi todos los
+intervalos de esta primera docena son viejos conocidos del curso (81/80
+la coma sintónica del M2, 16/15 el semitono diatónico del M1, 9/8 el
+tono mayor, 10/9 el tono menor) mezclados con los recién llegados de
+este módulo (33/32 en la posición 3, 21/20 y 8/7 y 7/6 del 7-límite,
+12/11 y 11/10 del 11-límite). El criterio de construcción no es “dividir
+la octava en partes iguales” —esto no es un EDO— sino <strong>reunir
+literalmente todas las razones relevantes del diamante 11-límite, más
+algunos productos e inversiones adicionales que Partch consideró
+musicalmente útiles, y ordenarlas</strong>. El resultado es una escala
+profundamente irregular en tamaño de paso (algunos huecos de apenas 20
+cents, otros de más de 50), pero cada nota individual es una razón
+simple y con sentido armónico propio — es, en esencia, un mapa de todas
+las relaciones consonantes disponibles hasta el 11-límite, vueltas
+escala.</p>
+<h3 id="instrumentos-y-corporealidad">6.4 Instrumentos y
+“corporealidad”</h3>
+<p>Ningún instrumento existente en la década de 1930 podía tocar 43
+tonos por octava con control preciso, así que Partch construyó (o
+modificó radicalmente) más de una veintena de instrumentos propios. Dos
+ejemplos ilustran su método: el <strong>Chromelodeon</strong>, un
+armonio (órgano de lengüetas) reconstruido internamente y con un teclado
+reetiquetado para producir directamente los 43 tonos, nota por nota; y
+la <strong>Diamond Marimba</strong> ya mencionada en 6.2, cuyas barras
+de madera están dispuestas siguiendo la geometría del diamante de
+tonalidades, de modo que ejecutar una otonalidad o una utonalidad
+completa es, literalmente, un gesto físico de la mano sobre una fila o
+columna del instrumento.</p>
+<p>Partch llamó a su proyecto completo una búsqueda de
+<strong>corporealidad</strong> (<em>corporeality</em>), en oposición
+deliberada a lo que él consideraba la “abstracción” excesiva de la
+música de concierto del siglo XX. Para Partch, la afinación justa
+extendida no era un ejercicio matemático de laboratorio: era inseparable
+de instrumentos que se podían ver, tocar y observar en escena, de textos
+hablados y cantados en un lenguaje directo, y de un teatro musical total
+donde el cuerpo del intérprete y la madera y el metal de los
+instrumentos eran parte del significado de la obra, no un medio
+transparente para transmitir “ideas” abstractas. Los 43 tonos, en este
+sentido, nunca fueron un fin en sí mismos: eran la base física de un
+proyecto teatral y filosófico mucho más amplio.</p>
+<h2 id="ben-johnston-notar-lo-que-partch-tocaba-puente-al-m11">7. Ben
+Johnston: notar lo que Partch tocaba (puente al M11)</h2>
+<p>Partch resolvió el problema de <em>tocar</em> microtonalidad
+extendida construyendo instrumentos nuevos. Pero queda pendiente un
+problema distinto, que el M11 va a desarrollar en profundidad: ¿cómo se
+<strong>escribe</strong> esta música en una partitura que un intérprete
+de instrumento tradicional (violín, voz, incluso teclado retunado) pueda
+leer?</p>
+<p>El compositor estadounidense Ben Johnston (1926–2019), alumno y
+colaborador cercano de Partch, propuso una solución elegante: en vez de
+inventar un pentagrama completamente nuevo, <strong>extiende la notación
+tradicional agregando un símbolo de alteración por cada primo nuevo que
+se necesite</strong>. La notación occidental estándar ya es, en el
+fondo, una notación 3-límite con un parche 5-límite: los nombres de nota
+y el círculo de quintas (Do, Sol, Re…) codifican relaciones de 3/2, y
+los sostenidos/bemoles codifican el apotome pitagórico (otra potencia de
+3). Johnston añade:</p>
+<ul>
+<li>Un signo específico para el primo <strong>5</strong> (más allá de
+sostenidos/bemoles): un signo “+” o “−” que indica una alteración de una
+coma sintónica (81/80) respecto de la afinación pitagórica de
+referencia.</li>
+<li>Un signo específico para el primo <strong>7</strong>: un “7” en
+superíndice, o un número similar, que indica una alteración de una coma
+septimal (64/63) — la misma que derivamos en la sección 5.1.</li>
+<li>Flechas hacia arriba y hacia abajo (↑ ↓) para el primo
+<strong>11</strong>: cada flecha indica una alteración de un cuarto de
+tono undecimal (33/32) — la misma que derivamos en la sección 5.2.</li>
+<li>Símbolos adicionales, menos usados, para primos superiores como el
+13.</li>
+</ul>
+<p>La lógica es exactamente la del patrón que enunciamos al final de la
+sección 5: <strong>cada primo nuevo trae su propia coma, y cada coma
+necesita su propio símbolo si queremos escribirla con
+precisión.</strong> Johnston no inventó números nuevos —usa los mismos
+que ya calculamos aquí—, inventó una gramática visual para que un
+intérprete de violín o de voz, leyendo una partitura, sepa exactamente
+cuántos cents (y en qué dirección, y respecto de qué primo) debe
+desviarse de la nota “de referencia” pitagórica. El desarrollo completo
+de esta notación —con ejemplos de partituras reales, incluidos los
+cuartetos de cuerdas de Johnston, que llegan hasta el 31-límite— es el
+tema central del Módulo 11.</p>
+<h2
+id="conexión-con-m9-edos-como-hogar-práctico-del-7-límite-y-el-11-límite">8.
+Conexión con M9: EDOs como hogar práctico del 7-límite y el
+11-límite</h2>
+<p>En el M9 viste que ciertos EDOs (divisiones iguales de la octava en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+pasos) aproximan de manera excepcionalmente buena familias completas de
+intervalos justos, no solo una quinta o una tercera sueltas. Dos de esos
+EDOs resultan ser, además, “hogares” naturales para el 7-límite y el
+11-límite respectivamente.</p>
+<p><strong>31-EDO</strong> divide la octava en 31 pasos iguales de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>38.710</mn></mrow><annotation encoding="application/x-tex">1200/31 = 38.710</annotation></semantics></math>
+cents cada uno. Ubiquemos ahí la séptima natural:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>968.826</mn><mn>38.710</mn></mfrac><mo>=</mo><mn>25.028</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> pasos</mtext></mrow></mrow><annotation encoding="application/x-tex">\frac{968.826}{38.710} = 25.028 \text{ pasos}</annotation></semantics></math></p>
+<p>El paso entero más cercano es 25, que corresponde a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>25</mn><mo>×</mo><mn>38.710</mn><mo>=</mo><mn>967.742</mn></mrow><annotation encoding="application/x-tex">25 \times 38.710 = 967.742</annotation></semantics></math>
+cents. El error es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mo>−</mo><mn>967.742</mn><mo>=</mo><mn>1.084</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">968.826 - 967.742 = 1.084 \text{ cents}</annotation></semantics></math></p>
+<p>Poco más de un cent de error: 31-EDO aproxima la séptima natural (y,
+por la misma razón geométrica, buena parte del resto del 7-límite: 7/6,
+7/5, 8/7) con una precisión que ningún sistema de 12 notas puede
+acercarse a igualar. No es casualidad: 31 pasos por octava es,
+históricamente, la extensión “microtonal” natural del temperamento
+mesotónico de 1/4 de coma que estudiaste en el M5, y resulta que esa
+misma familia de quintas ligeramente angostas también deja espacio para
+representar el 7-límite con enorme fidelidad.</p>
+<p><strong>72-EDO</strong> divide la octava en 72 pasos iguales de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>72</mn><mo>=</mo><mn>16.667</mn></mrow><annotation encoding="application/x-tex">1200/72 = 16.667</annotation></semantics></math>
+cents cada uno —seis veces más fino que el temperamento igual estándar.
+Ubiquemos la cuarta y media:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>551.318</mn><mn>16.667</mn></mfrac><mo>=</mo><mn>33.079</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> pasos</mtext></mrow></mrow><annotation encoding="application/x-tex">\frac{551.318}{16.667} = 33.079 \text{ pasos}</annotation></semantics></math></p>
+<p>El paso entero más cercano es 33, que corresponde a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mo>×</mo><mn>16.667</mn><mo>=</mo><mn>550.000</mn></mrow><annotation encoding="application/x-tex">33 \times 16.667 = 550.000</annotation></semantics></math>
+cents exactos. El error es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>550.000</mn><mo>=</mo><mn>1.318</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">551.318 - 550.000 = 1.318 \text{ cents}</annotation></semantics></math></p>
+<p>De nuevo, poco más de un cent: 72-EDO —adoptado como estándar de
+facto en buena parte del software de microtonalidad contemporáneo,
+incluyendo notación espectralista— representa el 11-límite (y, de hecho,
+gran parte del 13-límite también) con una precisión comparable a la que
+12-EDO ofrece para el 5-límite. La lección estructural es la misma del
+M9: no hace falta un sistema “justo” complicado de mantener en vivo para
+tocar estos intervalos con buena aproximación — basta elegir el EDO
+correcto, es decir, el que “sabe” acomodar la familia de primos que te
+interesa.</p>
+<h2 id="ejercicios-de-cálculo">9. Ejercicios de cálculo</h2>
+<p>Resuelve cada ejercicio mostrando el desarrollo completo. Las
+soluciones están al final.</p>
+<ol type="1">
+<li>Calcula en cents las razones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">7/6</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">7/5</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">8/7</annotation></semantics></math>,
+mostrando el cálculo del logaritmo paso a paso para al menos una de
+ellas.</li>
+<li>Deriva la coma septimal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64</mn><mi>/</mi><mn>63</mn></mrow><annotation encoding="application/x-tex">64/63</annotation></semantics></math>
+comparando el tono septimal
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">8/7</annotation></semantics></math>)
+con el tono mayor justo
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>),
+y verifica el resultado por el camino alternativo: comparando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">16/9</annotation></semantics></math>
+con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>.</li>
+<li>Deriva el cuarto de tono undecimal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">33/32</annotation></semantics></math>
+comparando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+con la cuarta justa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>.</li>
+<li>Sobre una fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>0</mn></msub><mo>=</mo><mn>32.7025</mn></mrow><annotation encoding="application/x-tex">f_0 = 32.7025</annotation></semantics></math>
+Hz, construye el acorde 4:5:6:7 (identifica las cuatro frecuencias).
+Calcula la frecuencia de coincidencia entre el 3er armónico de la raíz y
+el 2º armónico de la quinta, y verifica que da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><msub><mi>f</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">12 f_0</annotation></semantics></math>.</li>
+<li>Del mismo acorde del ejercicio 4, calcula la coincidencia entre el
+7º armónico de la raíz y el 4º armónico de la séptima. ¿A qué múltiplo
+de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>0</mn></msub><annotation encoding="application/x-tex">f_0</annotation></semantics></math>
+corresponde?</li>
+<li>Compara la séptima natural (7/4 = 968.826 c) con la séptima menor
+del temperamento igual (1000 c) y con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">9/5</annotation></semantics></math>
+(1017.596 c). ¿Cuál de las tres diferencias es mayor?</li>
+<li>En el M6 calculaste que, en Werckmeister III y en Kirnberger III, la
+nota Sib (es decir, el intervalo Do–Sib, una séptima menor) mide 996.090
+cents, mientras que en Vallotti mide 1000.000 cents exactos. Compara
+ambos valores con la séptima natural (7/4 = 968.826 c) y relaciona al
+menos una de las dos diferencias con un resultado de la sección 5.</li>
+<li>Ubica el armónico 11 (razón 11/8) respecto de los dos cuartos de
+tono que rodean la cuarta justa en la grilla de 24-EDO (pasos de 50
+cents: 500, 550, 600…). Calcula la distancia en cents a cada uno de los
+dos cuartos de tono vecinos.</li>
+<li>Verifica que 31-EDO aproxima la séptima natural (7/4) con un error
+de aproximadamente 1.08 cents, mostrando el cálculo completo (tamaño del
+paso, número de pasos, redondeo, diferencia).</li>
+<li>Verifica que 72-EDO aproxima 11/8 con un error de aproximadamente
+1.3 cents, con el mismo procedimiento del ejercicio anterior.</li>
+<li>Construye la otonalidad 1:3:5:7:9:11 sobre una fundamental de tu
+elección (por ejemplo, Do2 = 65.41 Hz tomado como identidad 1), dando
+las seis frecuencias resultantes. Luego construye su utonalidad espejo
+(dividiendo la misma nota de referencia por 1, 3, 5, 7, 9 y 11,
+reduciendo a la octava) y verifica, con al menos dos pares, que los
+intervalos correspondientes suman 1200 cents.</li>
+<li>Calcula en cents la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>13</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">13/8</annotation></semantics></math>
+y compárala con la sexta menor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">8/5</annotation></semantics></math>
+= 813.686 c) y con la sexta mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math>
+= 884.359 c). ¿De cuál está más cerca, y por cuánto?</li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>7</mn><mi>/</mi><mn>6</mn></mrow></msub><mo>=</mo><mn>1200</mn><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>7</mn><mi>/</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{7/6} = 1200 \log_2(7/6)</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>7</mn><mi>/</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.166667</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.154151</mn></mrow><annotation encoding="application/x-tex">\ln(7/6) = \ln(1.166667) = 0.154151</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mn>2</mn><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln 2 = 0.693147</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>7</mn><mi>/</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.222392</mn></mrow><annotation encoding="application/x-tex">\log_2(7/6) = 0.222392</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>7</mn><mi>/</mi><mn>6</mn></mrow></msub><mo>=</mo><mn>266.871</mn></mrow><annotation encoding="application/x-tex">c_{7/6} = 266.871</annotation></semantics></math>
+c. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>7</mn><mi>/</mi><mn>5</mn></mrow></msub><mo>=</mo><mn>1200</mn><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{7/5} = 1200\log_2(1.4)</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.4</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.336472</mn></mrow><annotation encoding="application/x-tex">\ln(1.4)=0.336472</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.4</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.485427</mn></mrow><annotation encoding="application/x-tex">\log_2(1.4)=0.485427</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>7</mn><mi>/</mi><mn>5</mn></mrow></msub><mo>=</mo><mn>582.512</mn></mrow><annotation encoding="application/x-tex">c_{7/5}=582.512</annotation></semantics></math>
+c. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>8</mn><mi>/</mi><mn>7</mn></mrow></msub><mo>=</mo><mn>1200</mn><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>8</mn><mi>/</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{8/7}=1200\log_2(8/7)</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>8</mn><mi>/</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.142857</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.133531</mn></mrow><annotation encoding="application/x-tex">\ln(8/7)=\ln(1.142857)=0.133531</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>8</mn><mi>/</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.192645</mn></mrow><annotation encoding="application/x-tex">\log_2(8/7)=0.192645</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>8</mn><mi>/</mi><mn>7</mn></mrow></msub><mo>=</mo><mn>231.174</mn></mrow><annotation encoding="application/x-tex">c_{8/7}=231.174</annotation></semantics></math>
+c.</p>
+<p><strong>2.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>7</mn><mo>÷</mo><mn>9</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>8</mn><mi>/</mi><mn>7</mn><mo>×</mo><mn>8</mn><mi>/</mi><mn>9</mn><mo>=</mo><mn>64</mn><mi>/</mi><mn>63</mn></mrow><annotation encoding="application/x-tex">8/7 \div 9/8 = 8/7 \times 8/9 = 64/63</annotation></semantics></math>.
+En cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>231.174</mn><mo>−</mo><mn>203.910</mn><mo>=</mo><mn>27.264</mn></mrow><annotation encoding="application/x-tex">231.174 - 203.910 = 27.264</annotation></semantics></math>
+c. Verificación alternativa:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn><mo>÷</mo><mn>7</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>16</mn><mi>/</mi><mn>9</mn><mo>×</mo><mn>4</mn><mi>/</mi><mn>7</mn><mo>=</mo><mn>64</mn><mi>/</mi><mn>63</mn></mrow><annotation encoding="application/x-tex">16/9 \div 7/4 = 16/9 \times 4/7 = 64/63</annotation></semantics></math>;
+en cents,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>996.090</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mn>27.264</mn></mrow><annotation encoding="application/x-tex">996.090 - 968.826 = 27.264</annotation></semantics></math>
+c. Ambos caminos dan exactamente la misma coma septimal, 27.264
+cents.</p>
+<p><strong>3.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn><mo>÷</mo><mn>4</mn><mi>/</mi><mn>3</mn><mo>=</mo><mn>11</mn><mi>/</mi><mn>8</mn><mo>×</mo><mn>3</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>33</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">11/8 \div 4/3 = 11/8 \times 3/4 = 33/32</annotation></semantics></math>.
+En cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>498.045</mn><mo>=</mo><mn>53.273</mn></mrow><annotation encoding="application/x-tex">551.318 - 498.045 = 53.273</annotation></semantics></math>
+c.</p>
+<p><strong>4.</strong> Frecuencias: raíz
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>32.7025</mn><mo>=</mo><mn>130.81</mn></mrow><annotation encoding="application/x-tex">4 \times 32.7025 = 130.81</annotation></semantics></math>
+Hz, tercera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>32.7025</mn><mo>=</mo><mn>163.5125</mn></mrow><annotation encoding="application/x-tex">5 \times 32.7025 = 163.5125</annotation></semantics></math>
+Hz, quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mn>32.7025</mn><mo>=</mo><mn>196.215</mn></mrow><annotation encoding="application/x-tex">6 \times 32.7025 = 196.215</annotation></semantics></math>
+Hz, séptima
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>32.7025</mn><mo>=</mo><mn>228.9175</mn></mrow><annotation encoding="application/x-tex">7 \times 32.7025 = 228.9175</annotation></semantics></math>
+Hz. El 3er armónico de la raíz es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>130.81</mn><mo>=</mo><mn>392.43</mn></mrow><annotation encoding="application/x-tex">3 \times 130.81 = 392.43</annotation></semantics></math>
+Hz; el 2º armónico de la quinta es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>196.215</mn><mo>=</mo><mn>392.43</mn></mrow><annotation encoding="application/x-tex">2 \times 196.215 = 392.43</annotation></semantics></math>
+Hz. Coinciden exactamente, y en efecto
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>32.7025</mn><mo>=</mo><mn>392.43</mn></mrow><annotation encoding="application/x-tex">12 \times 32.7025 = 392.43</annotation></semantics></math>
+Hz.</p>
+<p><strong>5.</strong> El 7º armónico de la raíz es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>130.81</mn><mo>=</mo><mn>915.67</mn></mrow><annotation encoding="application/x-tex">7 \times 130.81 = 915.67</annotation></semantics></math>
+Hz. El 4º armónico de la séptima es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>228.9175</mn><mo>=</mo><mn>915.67</mn></mrow><annotation encoding="application/x-tex">4 \times 228.9175 = 915.67</annotation></semantics></math>
+Hz. Coinciden, y corresponde a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>28</mn><mo>×</mo><mn>32.7025</mn><mo>=</mo><mn>915.67</mn></mrow><annotation encoding="application/x-tex">28 \times 32.7025 = 915.67</annotation></semantics></math>
+Hz — el múltiplo 28 de la fundamental.</p>
+<p><strong>6.</strong> Diferencia con ET:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1000</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mn>31.174</mn></mrow><annotation encoding="application/x-tex">1000 - 968.826 = 31.174</annotation></semantics></math>
+c. Diferencia con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">9/5</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1017.596</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mn>48.770</mn></mrow><annotation encoding="application/x-tex">1017.596 - 968.826 = 48.770</annotation></semantics></math>
+c. La diferencia con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">9/5</annotation></semantics></math>
+es mayor (48.770 c frente a 31.174 c): el 7/4 está bastante más lejos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">9/5</annotation></semantics></math>
+que del temperamento igual, aunque ambos son “grandes” para los
+estándares de este curso.</p>
+<p><strong>7.</strong> Diferencia Werckmeister III/Kirnberger III
+vs. 7/4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>996.090</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mn>27.264</mn></mrow><annotation encoding="application/x-tex">996.090 - 968.826 = 27.264</annotation></semantics></math>
+c — exactamente la coma septimal de la sección 5.1 (no es casualidad: el
+Sib de estos temperamentos se alcanza por quintas puras desde Do, así
+que es, en esencia, el mismo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">16/9</annotation></semantics></math>
+pitagórico). Diferencia Vallotti vs. 7/4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1000.000</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mn>31.174</mn></mrow><annotation encoding="application/x-tex">1000.000 - 968.826 = 31.174</annotation></semantics></math>
+c — la misma diferencia que calculaste en el ejercicio 6 contra el
+temperamento igual puro (el Sib de Vallotti pasa por la quinta temperada
+Fa–Do y queda, por coincidencia, en los 1000 c exactos del ET). Ninguno
+de los tres sistemas del M6 se acerca a la séptima natural a menos de
+una coma septimal completa.</p>
+<p><strong>8.</strong> El cuarto de tono inferior a la cuarta y media es
+550 c; el superior es 600 c (el tritono ET). Distancias:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>550</mn><mo>=</mo><mn>1.318</mn></mrow><annotation encoding="application/x-tex">551.318 - 550 = 1.318</annotation></semantics></math>
+c (al cuarto de tono inferior) y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>600</mn><mo>−</mo><mn>551.318</mn><mo>=</mo><mn>48.682</mn></mrow><annotation encoding="application/x-tex">600 - 551.318 = 48.682</annotation></semantics></math>
+c (al cuarto de tono superior, el tritono). El 11/8 está prácticamente
+pegado al cuarto de tono de 550 cents, y muy lejos del tritono.</p>
+<p><strong>9.</strong> Paso de 31-EDO:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>38.710</mn></mrow><annotation encoding="application/x-tex">1200/31 = 38.710</annotation></semantics></math>
+c. Pasos hasta 7/4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mi>/</mi><mn>38.710</mn><mo>=</mo><mn>25.028</mn></mrow><annotation encoding="application/x-tex">968.826/38.710 = 25.028</annotation></semantics></math>,
+redondea a 25. Valor de 25 pasos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>25</mn><mo>×</mo><mn>38.710</mn><mo>=</mo><mn>967.742</mn></mrow><annotation encoding="application/x-tex">25 \times 38.710 = 967.742</annotation></semantics></math>
+c. Error:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mo>−</mo><mn>967.742</mn><mo>=</mo><mn>1.084</mn></mrow><annotation encoding="application/x-tex">968.826 - 967.742 = 1.084</annotation></semantics></math>
+c.</p>
+<p><strong>10.</strong> Paso de 72-EDO:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>72</mn><mo>=</mo><mn>16.667</mn></mrow><annotation encoding="application/x-tex">1200/72 = 16.667</annotation></semantics></math>
+c. Pasos hasta 11/8:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mi>/</mi><mn>16.667</mn><mo>=</mo><mn>33.079</mn></mrow><annotation encoding="application/x-tex">551.318/16.667 = 33.079</annotation></semantics></math>,
+redondea a 33. Valor de 33 pasos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33</mn><mo>×</mo><mn>16.667</mn><mo>=</mo><mn>550.000</mn></mrow><annotation encoding="application/x-tex">33 \times 16.667 = 550.000</annotation></semantics></math>
+c. Error:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.318</mn><mo>−</mo><mn>550.000</mn><mo>=</mo><mn>1.318</mn></mrow><annotation encoding="application/x-tex">551.318 - 550.000 = 1.318</annotation></semantics></math>
+c.</p>
+<p><strong>11.</strong> Sobre Do2 = 65.41 Hz como identidad 1:
+otonalidad 1:3:5:7:9:11 da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>65.41</mn><annotation encoding="application/x-tex">65.41</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>65.41</mn><mo>=</mo><mn>196.23</mn></mrow><annotation encoding="application/x-tex">3 \times 65.41=196.23</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>65.41</mn><mo>=</mo><mn>327.05</mn></mrow><annotation encoding="application/x-tex">5\times 65.41=327.05</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>65.41</mn><mo>=</mo><mn>457.87</mn></mrow><annotation encoding="application/x-tex">7\times65.41=457.87</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>×</mo><mn>65.41</mn><mo>=</mo><mn>588.69</mn></mrow><annotation encoding="application/x-tex">9\times65.41=588.69</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mn>65.41</mn><mo>=</mo><mn>719.51</mn></mrow><annotation encoding="application/x-tex">11\times65.41=719.51</annotation></semantics></math>
+Hz (estas cinco últimas ya aparecían, de hecho, en la tabla de armónicos
+del M1 §3.2). Reducidas a razones sobre 65.41: 1/1, 3/1→3/2 (702.0 c,
+tras bajar una octava), 5/1→5/4 (386.3 c, tras bajar dos octavas),
+7/1→7/4 (968.8 c, tras bajar dos octavas), 9/1→9/8 (203.9 c, tras bajar
+tres octavas), 11/1→11/8 (551.3 c, tras bajar tres octavas). La
+utonalidad espejo divide 65.41 por 1, 3, 5, 7, 9, 11 y reduce a la
+octava:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.41</mn><mi>/</mi><mn>3</mn><mo>→</mo><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">65.41/3\to 4/3</annotation></semantics></math>
+(498.0 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.41</mn><mi>/</mi><mn>5</mn><mo>→</mo><mn>8</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">65.41/5\to 8/5</annotation></semantics></math>
+(813.7 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.41</mn><mi>/</mi><mn>7</mn><mo>→</mo><mn>8</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">65.41/7\to 8/7</annotation></semantics></math>
+(231.2 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.41</mn><mi>/</mi><mn>9</mn><mo>→</mo><mn>16</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">65.41/9\to 16/9</annotation></semantics></math>
+(996.1 c),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.41</mn><mi>/</mi><mn>11</mn><mo>→</mo><mn>16</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">65.41/11\to 16/11</annotation></semantics></math>
+(648.7 c). Verificación de espejo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>203.9</mn><mo>+</mo><mn>996.1</mn><mo>=</mo><mn>1200.0</mn></mrow><annotation encoding="application/x-tex">203.9+996.1=1200.0</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>551.3</mn><mo>+</mo><mn>648.7</mn><mo>=</mo><mn>1200.0</mn></mrow><annotation encoding="application/x-tex">551.3+648.7=1200.0</annotation></semantics></math>.
+Se cumple en ambos pares.</p>
+<p><strong>12.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>13</mn><mi>/</mi><mn>8</mn></mrow></msub><mo>=</mo><mn>1200</mn><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.625</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{13/8}=1200\log_2(1.625)</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.625</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.485508</mn></mrow><annotation encoding="application/x-tex">\ln(1.625)=0.485508</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.625</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.700440</mn></mrow><annotation encoding="application/x-tex">\log_2(1.625)=0.700440</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>13</mn><mi>/</mi><mn>8</mn></mrow></msub><mo>=</mo><mn>840.528</mn></mrow><annotation encoding="application/x-tex">c_{13/8}=840.528</annotation></semantics></math>
+c. Diferencia con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">8/5</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>840.528</mn><mo>−</mo><mn>813.686</mn><mo>=</mo><mn>26.842</mn></mrow><annotation encoding="application/x-tex">840.528-813.686=26.842</annotation></semantics></math>
+c. Diferencia con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>884.359</mn><mo>−</mo><mn>840.528</mn><mo>=</mo><mn>43.831</mn></mrow><annotation encoding="application/x-tex">884.359-840.528=43.831</annotation></semantics></math>
+c. Está más cerca de la sexta menor pura, por 26.842 cents.</p>
+<h2 id="guía-de-escucha">10. Guía de escucha</h2>
+<p>El laboratorio de este módulo (<code>laboratorio.html</code>) incluye
+un constructor de acordes sobre la serie armónica 1–16 con comparación
+A/B contra temperamento igual, un diamante de tonalidades clicable, un
+teclado Partch de 43 tonos, la séptima de barbería con crossfade, y las
+comas nuevas hechas audibles. Seis consignas:</p>
+<ol type="1">
+<li><strong>El acorde regalado, con un piso más.</strong> Activa 4:5:6
+(el acorde del M4) y luego agrega el 7: escucha cómo aparece una nueva
+“capa” de estabilidad, no una disonancia, cuando el séptimo armónico se
+suma al acorde mayor.</li>
+<li><strong>7/4 contra 1000 cents, con crossfade.</strong> Usa el
+control de la séptima de barbería para pasar, en tiempo real, de la
+séptima natural (968.826 c) a la del temperamento igual (1000 c) sobre
+el mismo acorde sostenido. Ubica el momento exacto en que el acorde deja
+de “sonar” (dejar de bloquear) y empieza a batir.</li>
+<li><strong>La cuarta y media, entre los cuartos de tono.</strong>
+Activa el 11/8 junto a los dos cuartos de tono vecinos (550 y 600 c, en
+el teclado de 24-EDO del laboratorio) y confirma de oído lo que
+calculaste en el ejercicio 8: que el 11/8 está pegado al cuarto de tono
+inferior, no al superior.</li>
+<li><strong>La coma septimal, audible.</strong> Activa el generador de
+comas del laboratorio en modo 64/63 y escucha el batido que produce esta
+coma sonando como intervalo por sí sola (27.264 c es, según la regla
+práctica del M1 §6.5, claramente perceptible como una “nota doble”
+borrosa, no como una sola nota).</li>
+<li><strong>El diamante clicable.</strong> Recorre al menos tres filas y
+tres columnas del diamante de tonalidades de la sección 6.2, y verifica
+de oído que cada fila entera “pertenece junta” (es una otonalidad,
+comparte fundamental implícita) mientras que cada columna suena como su
+espejo utonal.</li>
+<li><strong>El teclado de 43 tonos.</strong> Toca una escala ascendente
+lenta en el teclado Partch y presta atención a la irregularidad del
+tamaño de los pasos —algunos casi imperceptibles, otros del tamaño de un
+semitono completo— comparándola mentalmente con la uniformidad monótona
+de una escala cromática de piano.</li>
+</ol>
+<h2 id="repertorio">11. Repertorio</h2>
+<ul>
+<li><strong>Harry Partch</strong>, <em>Barstow</em> (1941, revisada
+varias veces) y <em>Delusion of the Fury</em> (1969). <em>Barstow</em>
+—basada en textos que Partch encontró escritos por autoestopistas en una
+señal de carretera— es un buen punto de entrada: escala pequeña, textura
+hablada/cantada, instrumentos justos claramente audibles uno por uno.
+<em>Delusion of the Fury</em>, su obra teatral tardía a gran escala,
+despliega el aparato instrumental completo (Chromelodeon, Diamond
+Marimba, Marimba Eroica, y muchos más) y es el mejor ejemplo grabado de
+lo que Partch entendía por “corporealidad”: música, teatro y objeto
+físico como una sola cosa.</li>
+<li><strong>Barbershop clásico</strong>: cualquier grabación de un
+cuarteto o coro competitivo (los concursos de la <em>Barbershop Harmony
+Society</em> están ampliamente disponibles) que sostenga un acorde de
+séptima de dominante al final de una frase. Escucha específicamente el
+“acorde de campana” (sección 4.1): un tono agudo adicional, casi como
+una quinta voz, que aparece solo cuando el acorde está afinado con
+precisión hacia el 7-límite.</li>
+<li><strong>Blues</strong> (grabaciones de cualquier época e intérprete
+que uses de referencia habitual). Escucha la séptima —y, con más cautela
+interpretativa, la tercera— buscando el gesto de “aplanar” respecto del
+piano, sin esperar una fracción exacta: es una práctica oral con enorme
+variación individual, no un sistema fijo, pero la dirección del gesto
+apunta consistentemente hacia el 7-límite.</li>
+<li><strong>La Monte Young</strong>, en particular su trabajo con
+acordes justos extendidos sostenidos durante períodos muy largos (el
+anticipo del M11 retoma esta figura con más detalle). Por ahora, si
+tienes acceso a alguna grabación suya, escucha cómo un acorde justo de
+límite alto, sostenido sin vibrato ni movimiento durante varios minutos,
+revela capas de batido y de “resonancia fantasma” que un oído
+acostumbrado a música de duración normal rara vez llega a percibir del
+todo.</li>
+</ul>
+<h2 id="mini-composición">12. Mini-composición</h2>
+<p>Escribe una progresión breve (8 a 12 compases, para el conjunto
+instrumental o vocal que prefieras) en la que el acorde
+<strong>4:5:6:7</strong> funcione como sonoridad de
+<strong>reposo</strong>, no de tensión. Esto invierte el hábito tonal
+más arraigado de la armonía occidental: normalmente, cualquier acorde de
+séptima “pide” resolución hacia una tríada más simple. Aquí, en cambio,
+la séptima natural (968.826 c) debe ser el punto de llegada y de
+descanso de la frase — el lugar donde el “acorde de campana” de la
+sección 4.1 aparece y se sostiene, sin necesidad de resolver a ninguna
+otra parte. Puedes construir la tensión previa con acordes 5-límite más
+simples (tríadas del M4) o incluso con quintas pitagóricas desnudas
+(M3), de manera que el contraste haga audible, por comparación directa,
+la diferencia entre “consonancia sin séptima” y “consonancia con séptima
+natural”. Anota, junto a la partitura, las frecuencias exactas del
+acorde de reposo si eliges una fundamental concreta.</p>
+<h2 id="autoevaluación">13. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo definir formalmente qué es un
+límite primo, y clasificar la pitagórica (M3), la justa de Zarlino (M4)
+y este módulo según ese criterio.</label></li>
+<li><label><input type="checkbox" />Puedo calcular en cents cualquiera
+de los intervalos nuevos del 7-límite (7/4, 7/6, 7/5, 8/7) a partir de
+su razón, mostrando el logaritmo paso a paso.</label></li>
+<li><label><input type="checkbox" />Puedo explicar, con el mismo
+argumento de coincidencia de armónicos del M1 §5.2 y el M4 §3, por qué
+el acorde 4:5:6:7 “bloquea” y producir al menos dos de sus coincidencias
+numéricas.</label></li>
+<li><label><input type="checkbox" />Puedo derivar la coma septimal
+(64/63) y el cuarto de tono undecimal (33/32) a partir de comparar dos
+caminos distintos hacia “el mismo” intervalo aproximado.</label></li>
+<li><label><input type="checkbox" />Puedo explicar la diferencia entre
+una otonalidad y una utonalidad, y demostrar la propiedad de espejo (los
+intervalos correspondientes suman 1200 cents).</label></li>
+<li><label><input type="checkbox" />Puedo leer una fila y una columna
+del diamante de tonalidades 11-límite y decir qué razón representa cada
+celda.</label></li>
+<li><label><input type="checkbox" />Puedo ubicar de oído y de cálculo
+dónde cae el armónico 11 (11/8) respecto de la cuarta justa y del
+tritono del temperamento igual.</label></li>
+<li><label><input type="checkbox" />Puedo explicar en una frase por qué
+31-EDO y 72-EDO son “hogares” naturales del 7-límite y el 11-límite
+respectivamente, con el cálculo de error correspondiente.</label></li>
+</ul>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Partch, H. <em>Genesis of a Music</em>. Da Capo Press, 2ª ed. 1974.
+Fuente primaria de las otonalidades, utonalidades, el diamante de
+tonalidades y los 43 tonos.</li>
+<li>Johnston, B. <em>Maximum Clarity and Other Writings on Music</em>
+(ed. Bob Gilmore). University of Illinois Press. Los ensayos sobre
+notación por límites primos, desarrollados en el M11.</li>
+<li>Gilmore, B. <em>Harry Partch: A Biography</em>. Yale University
+Press. Contexto biográfico y de los instrumentos.</li>
+<li>Doty, D. B. <em>The Just Intonation Primer</em>. Just Intonation
+Network. Introducción accesible al 7-límite y el 11-límite, con
+numerosos ejemplos calculados.</li>
+<li>Averill, G. “Bell Tones and Ringing Chords: Sense and Sensation in
+Barbershop Harmony”. <em>American Music</em>, 1999 — análisis del
+“ringing chord” del barbershop desde la acústica y la
+etnomusicología.</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>).</li>
+</ul>
+<h2 id="anticipo">Anticipo</h2>
+<p>Este módulo te dio las alturas: intervalos, comas, acordes y una
+escala completa de 43 tonos que Partch consideró suficiente para toda
+una vida de composición. Pero una escala de 43 tonos no cabe en un
+pentagrama tradicional sin ayuda, y Ben Johnston —que ya asomó en la
+sección 7 con su sistema de símbolos por límite primo— no fue el único
+compositor que tuvo que inventar cómo escribir, enseñar y notar estas
+alturas para que otros músicos pudieran leerlas. El Módulo 11 retoma
+exactamente esa pregunta: tenemos las notas, ¿cómo se escriben, y
+quiénes las han compuesto?</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 10</p><button id="progress-btn" class="progress-btn" data-modulo="10-justa-extendida">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

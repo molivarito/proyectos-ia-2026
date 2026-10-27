@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afinaciones y temperamentos históricos</title>
+<style>
+:root{--text:#eef5ff;--muted:#aebed1;--accent:#5cc8ff;--gold:#ffd166;--green:#66e3a4;--danger:#ff758f;}
+*{box-sizing:border-box;}
+body{margin:0;background:linear-gradient(145deg,#07101d,#0d1a2c);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;}
+header{max-width:1400px;margin:auto;padding:26px 24px 14px;}
+h1{margin:0 0 8px;font-size:clamp(26px,4vw,42px);}
+h2{margin-top:0;font-size:20px;}
+p{color:var(--muted);line-height:1.55;}
+.layout{max-width:1400px;margin:auto;padding:16px 24px 36px;display:grid;grid-template-columns:340px minmax(420px,1fr) 400px;gap:18px;}
+.panel{background:rgba(17,29,48,.95);border:1px solid #263d58;border-radius:16px;padding:18px;box-shadow:0 14px 35px rgba(0,0,0,.25);}
+label{display:block;margin:12px 0 6px;color:#d8e7f8;font-weight:650;font-size:13px;}
+select,input,button{width:100%;border:1px solid #38536f;border-radius:9px;background:#0c1728;color:var(--text);padding:10px 11px;font:inherit;}
+button{cursor:pointer;background:#18314c;font-weight:700;transition:.18s;}
+button:hover{background:#214566;transform:translateY(-1px);}
+button.primary{background:#0879b8;border-color:#2faeea;}
+button.primary:hover{background:#0b92d7;}
+.small-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.description{padding:12px;margin-top:14px;background:#0b1727;border-left:3px solid var(--accent);border-radius:7px;color:#c8d8e9;line-height:1.5;min-height:120px;font-size:13px;}
+.formula{color:var(--gold);font-family:Cambria,Georgia,serif;}
+#cycleWrap{display:flex;align-items:center;justify-content:center;min-height:560px;}
+svg{width:100%;max-width:640px;height:auto;overflow:visible;}
+.equal-ring{fill:none;stroke:#546b83;stroke-width:1.5;stroke-dasharray:5 6;}
+.cycle-line{stroke:#2d4c6c;stroke-width:2;fill:none;}
+.shift-line{stroke:#8ca1b7;stroke-width:1;opacity:.6;}
+.reference-dot{fill:#718397;opacity:.65;}
+.note{cursor:pointer;transition:filter .15s;}
+.note:hover{filter:brightness(1.3);}
+.note circle{fill:#087fbe;stroke:#8ee0ff;stroke-width:2;}
+.note.active circle{fill:#d49315;stroke:#ffe4a0;}
+.note text{fill:#fff;font-weight:750;text-anchor:middle;dominant-baseline:middle;pointer-events:none;font-size:12.5px;}
+.center-title{text-anchor:middle;fill:#eaf5ff;font-size:16px;font-weight:700;}
+.center-sub{text-anchor:middle;fill:#9db1c7;font-size:11px;}
+.note-info{min-height:62px;margin-top:12px;text-align:center;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.45;}
+.table-wrap{max-height:500px;overflow:auto;border:1px solid #2a415b;border-radius:10px;}
+table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums;}
+th{position:sticky;top:0;background:#19304a;color:#dcecff;padding:9px 7px;text-align:right;}
+th:first-child,td:first-child{text-align:left;}
+td{border-top:1px solid #263d56;padding:8px 7px;text-align:right;}
+tr:hover td{background:#15283e;}
+.pos{color:var(--green);}
+.neg{color:var(--danger);}
+.warning{margin-top:15px;padding:11px;border-radius:8px;background:#291f16;border:1px solid #73512c;color:#e9c99d;font-size:12px;line-height:1.45;}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin-top:10px;}
+.key{display:flex;gap:6px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;}
+footer{max-width:1400px;margin:auto;padding:0 24px 30px;color:#8297ad;font-size:12px;}
+@media(max-width:1100px){.layout{grid-template-columns:320px 1fr;}.right{grid-column:1/-1;}}
+@media(max-width:760px){.layout{grid-template-columns:1fr;padding:10px;}.right{grid-column:auto;}#cycleWrap{min-height:auto;}header{padding:20px 14px 8px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Afinaciones y temperamentos históricos</h1>
+  <p>Comparador visual y auditivo. El círculo discontinuo representa el temperamento igual; el desplazamiento radial de cada nota muestra su desviación, medida en cents. Pulse las notas para oírlas o forme acordes.</p>
+</header>
+
+<main class="layout">
+  <section class="panel">
+    <h2>Configuración</h2>
+
+    <label for="tuning">Sistema de afinación</label>
+    <select id="tuning">
+      <option value="equal">Temperamento igual</option>
+      <option value="pyth">Pitagórico</option>
+      <option value="mt4">Mesotónico de 1/4 de coma</option>
+      <option value="mt3">Mesotónico de 1/3 de coma</option>
+      <option value="zarlino">Zarlino / entonación justa</option>
+      <option value="werck">Werckmeister III</option>
+      <option value="vallotti">Vallotti</option>
+      <option value="kirn">Kirnberger III</option>
+    </select>
+
+    <label for="c4">Frecuencia de referencia de C4 (Hz)</label>
+    <input id="c4" type="number" min="200" max="330" step="0.001" value="261.626">
+
+    <label for="scale">Ampliación visual de las desviaciones</label>
+    <input id="scale" type="range" min="0.7" max="3.5" step="0.1" value="2">
+
+    <div class="description" id="description"></div>
+
+    <h2 style="margin-top:20px">Acordes</h2>
+    <div class="small-grid">
+      <div>
+        <label for="root">Fundamental</label>
+        <select id="root"></select>
+      </div>
+      <div>
+        <label for="quality">Tipo</label>
+        <select id="quality">
+          <option value="major">Mayor</option>
+          <option value="minor">Menor</option>
+          <option value="dim">Disminuido</option>
+          <option value="aug">Aumentado</option>
+          <option value="sus4">Sus4</option>
+          <option value="dom7">Séptima dominante</option>
+          <option value="maj7">Séptima mayor</option>
+          <option value="min7">Séptima menor</option>
+        </select>
+      </div>
+    </div>
+    <button class="primary" id="playChord" style="margin-top:12px">▶ Escuchar acorde</button>
+    <button id="arpeggio" style="margin-top:8px">♪ Arpegio</button>
+    <button id="stop" style="margin-top:8px">■ Detener sonido</button>
+
+    <div class="note-info" id="noteInfo">Pulse una nota del círculo para escucharla.</div>
+
+    <div class="warning">La entonación justa depende del contexto armónico. «Zarlino» usa aquí una escala cromática fija de doce alturas: es una demostración, no sustituye la adaptación dinámica de voces o instrumentos de afinación flexible.</div>
+  </section>
+
+  <section class="panel">
+    <h2>Ciclo de quintas</h2>
+    <div id="cycleWrap">
+      <svg id="cycle" viewBox="0 0 620 620" aria-label="Ciclo de quintas interactivo">
+        <circle class="equal-ring" cx="310" cy="310" r="215"></circle>
+        <path id="cyclePath" class="cycle-line"></path>
+        <g id="shiftLines"></g>
+        <g id="referenceDots"></g>
+        <g id="notes"></g>
+        <text x="310" y="298" class="center-title" id="centerName"></text>
+        <text x="310" y="320" class="center-sub">desviación respecto del</text>
+        <text x="310" y="337" class="center-sub">temperamento igual</text>
+      </svg>
+    </div>
+    <div class="legend">
+      <span class="key"><span class="dot" style="background:#718397"></span>Posición igual</span>
+      <span class="key"><span class="dot" style="background:#087fbe"></span>Altura afinada</span>
+      <span class="key"><span class="dot" style="background:#d49315"></span>Nota sonando</span>
+    </div>
+  </section>
+
+  <section class="panel right">
+    <h2>Alturas resultantes</h2>
+    <p>Cents medidos desde C. La desviación compara cada altura con el semitono correspondiente del temperamento igual.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Nota</th><th>Cents</th><th>Desv.</th><th>Hz</th></tr></thead>
+        <tbody id="pitchTable"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>Las grafías enarmónicas se simplifican para un teclado de doce notas. En los sistemas históricos, G♯ y A♭ —entre otros pares— pueden representar alturas distintas.</footer>
+
+<script>
+"use strict";
+
+/* ==================== DATOS BÁSICOS ==================== */
+const PC_NAMES  = ["C","C♯/D♭","D","E♭","E","F","F♯/G♭","G","G♯/A♭","A","B♭","B"];
+const CYCLE_NAMES = ["C","G","D","A","E","B","F♯","C♯","G♯/A♭","E♭","B♭","F"];
+const CYCLE_PC  = [0,7,2,9,4,11,6,1,8,3,10,5];
+
+const PYTH_COMMA     = 1200*Math.log2(531441/524288); // ≈23.460
+const SYNTONIC_COMMA = 1200*Math.log2(81/80);          // ≈21.506
+const SCHISMA        = PYTH_COMMA - SYNTONIC_COMMA;     // ≈1.954
+const PURE_FIFTH     = 1200*Math.log2(3/2);             // ≈701.955
+
+/* Cadena de quintas anclada en C:
+   Eb Bb F C G D A E B F# C# G#   (posiciones -3 … +8)          */
+const CHAIN_PC = [3,10,5,0,7,2,9,4,11,6,1,8];
+const C_INDEX  = 3;
+
+/* ==================== DESCRIPCIONES ==================== */
+const descriptions = {
+  equal:`<b>Temperamento igual.</b> Doce semitonos de 100 cents. Quintas de 700 cents; todas las tonalidades tienen idéntica estructura interválica.`,
+  pyth:`<b>Pitagórico.</b> Cadena de quintas puras <span class="formula">3/2</span>. El cierre genera una coma pitagórica de ${PYTH_COMMA.toFixed(3)} cents (quinta del lobo en G♯–E♭).`,
+  mt4:`<b>Mesotónico de 1/4 de coma.</b> Cada quinta ordinaria se estrecha ${(SYNTONIC_COMMA/4).toFixed(3)} cents. Cuatro quintas producen una tercera mayor pura <span class="formula">5/4</span>.`,
+  mt3:`<b>Mesotónico de 1/3 de coma.</b> Cada quinta ordinaria se estrecha ${(SYNTONIC_COMMA/3).toFixed(3)} cents. Favorece terceras menores puras <span class="formula">6/5</span>.`,
+  zarlino:`<b>Zarlino / entonación justa.</b> Proporciones simples con los primos 2, 3 y 5. Realización cromática de doce alturas, contextual, no un temperamento circular único.`,
+  werck:`<b>Werckmeister III.</b> C–G, G–D, D–A y B–F♯ estrechadas un cuarto de coma pitagórica; las demás quintas, puras. Cierra el círculo.`,
+  vallotti:`<b>Vallotti.</b> Seis quintas de F–C a E–B estrechadas un sexto de coma pitagórica; las otras seis, puras.`,
+  kirn:`<b>Kirnberger III.</b> C–G, G–D, D–A y A–E estrechadas un cuarto de coma sintónica; F♯–C♯ estrechada un schisma. C–E resulta pura.`
+};
+
+/* ==================== UTILIDADES ==================== */
+function mod(n,m){ return ((n%m)+m)%m; }
+
+function wrappedDeviation(cents,pc){
+  let d = cents - pc*100;
+  while(d> 600) d-=1200;
+  while(d<-600) d+=1200;
+  return d;
+}
+
+/* Construye las 12 alturas (cents desde C) a partir de las
+   11 anchuras de quinta de la cadena Eb→…→G#.               */
+function fromChain(widths){
+  const cents = new Array(12);
+  cents[CHAIN_PC[C_INDEX]] = 0;
+  let acc = 0;
+  for(let j=C_INDEX+1;j<12;j++){ acc += widths[j-1]; cents[CHAIN_PC[j]] = mod(acc,1200); }
+  acc = 0;
+  for(let j=C_INDEX-1;j>=0;j--){ acc -= widths[j]; cents[CHAIN_PC[j]] = mod(acc,1200); }
+  return cents;
+}
+
+/* Índices de widths (quintas ascendentes de la cadena):
+   0:Eb→Bb 1:Bb→F 2:F→C 3:C→G 4:G→D 5:D→A 6:A→E 7:E→B 8:B→F# 9:F#→C# 10:C#→G#  */
+function getTuning(type){
+  if(type==="equal") return Array.from({length:12},(_,i)=>i*100);
+
+  if(type==="zarlino"){
+    const r=[1,16/15,9/8,6/5,5/4,4/3,45/32,3/2,8/5,5/3,9/5,15/8];
+    return r.map(x=>1200*Math.log2(x));
+  }
+
+  const w = new Array(11).fill(PURE_FIFTH);
+
+  if(type==="pyth") return fromChain(w);
+
+  if(type==="mt4"){ w.fill(PURE_FIFTH - SYNTONIC_COMMA/4); return fromChain(w); }
+  if(type==="mt3"){ w.fill(PURE_FIFTH - SYNTONIC_COMMA/3); return fromChain(w); }
+
+  if(type==="werck"){                       // C-G,G-D,D-A,B-F#
+    [3,4,5,8].forEach(i=>w[i]-=PYTH_COMMA/4);
+    return fromChain(w);
+  }
+  if(type==="vallotti"){                     // F-C,C-G,G-D,D-A,A-E,E-B
+    [2,3,4,5,6,7].forEach(i=>w[i]-=PYTH_COMMA/6);
+    return fromChain(w);
+  }
+  if(type==="kirn"){                         // C-G,G-D,D-A,A-E + F#-C#
+    [3,4,5,6].forEach(i=>w[i]-=SYNTONIC_COMMA/4);
+    w[9]-=SCHISMA;
+    return fromChain(w);
+  }
+  return Array.from({length:12},(_,i)=>i*100);
+}
+
+/* ==================== REFERENCIAS DOM ==================== */
+const tuningSelect=document.getElementById("tuning");
+const c4Input=document.getElementById("c4");
+const scaleInput=document.getElementById("scale");
+const tableBody=document.getElementById("pitchTable");
+const notesGroup=document.getElementById("notes");
+const linesGroup=document.getElementById("shiftLines");
+const refsGroup=document.getElementById("referenceDots");
+const cyclePath=document.getElementById("cyclePath");
+const noteInfo=document.getElementById("noteInfo");
+const centerName=document.getElementById("centerName");
+const description=document.getElementById("description");
+const rootSelect=document.getElementById("root");
+
+PC_NAMES.forEach((name,i)=>{
+  const o=document.createElement("option");
+  o.value=i; o.textContent=name; rootSelect.appendChild(o);
+});
+
+let currentCents=getTuning("equal");
+let activePC=[];
+let audioCtx=null;
+let voices=[];
+
+/* ==================== GEOMETRÍA ==================== */
+function polar(a,r){ return {x:310+Math.cos(a)*r, y:310+Math.sin(a)*r}; }
+
+function frequencyFor(pc,octave=0){
+  const c4=Number(c4Input.value)||261.626;
+  return c4*Math.pow(2,octave)*Math.pow(2,currentCents[pc]/1200);
+}
+
+const SVGNS="http://www.w3.org/2000/svg";
+
+/* ==================== RENDER ==================== */
+function render(){
+  const type=tuningSelect.value;
+  const vScale=Number(scaleInput.value);
+  currentCents=getTuning(type);
+  description.innerHTML=descriptions[type];
+  centerName.textContent=tuningSelect.options[tuningSelect.selectedIndex].text;
+
+  /* tabla */
+  tableBody.innerHTML="";
+  for(let pc=0;pc<12;pc++){
+    const dev=wrappedDeviation(currentCents[pc],pc);
+    const cls=dev>0.0005?"pos":dev<-0.0005?"neg":"";
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${PC_NAMES[pc]}</td>
+      <td>${currentCents[pc].toFixed(3)}</td>
+      <td class="${cls}">${dev>=0?"+":""}${dev.toFixed(3)}</td>
+      <td>${frequencyFor(pc).toFixed(3)}</td>`;
+    tableBody.appendChild(tr);
+  }
+
+  /* círculo */
+  notesGroup.innerHTML=""; linesGroup.innerHTML=""; refsGroup.innerHTML="";
+  const pts=[];
+
+  CYCLE_PC.forEach((pc,i)=>{
+    const ang=-Math.PI/2 + i*Math.PI*2/12;
+    const base=polar(ang,215);
+    const dev=wrappedDeviation(currentCents[pc],pc);
+    const rad=Math.max(140,Math.min(285,215+dev*vScale));
+    const p=polar(ang,rad);
+    pts.push(p);
+
+    const ref=document.createElementNS(SVGNS,"circle");
+    ref.setAttribute("cx",base.x); ref.setAttribute("cy",base.y);
+    ref.setAttribute("r","4"); ref.setAttribute("class","reference-dot");
+    refsGroup.appendChild(ref);
+
+    const ln=document.createElementNS(SVGNS,"line");
+    ln.setAttribute("x1",base.x); ln.setAttribute("y1",base.y);
+    ln.setAttribute("x2",p.x); ln.setAttribute("y2",p.y);
+    ln.setAttribute("class","shift-line");
+    linesGroup.appendChild(ln);
+
+    const g=document.createElementNS(SVGNS,"g");
+    g.setAttribute("class","note"+(activePC.includes(pc)?" active":""));
+    g.setAttribute("transform",`translate(${p.x},${p.y})`);
+    g.setAttribute("role","button"); g.setAttribute("tabindex","0");
+
+    const c=document.createElementNS(SVGNS,"circle");
+    c.setAttribute("r","24");
+
+    const t=document.createElementNS(SVGNS,"text");
+    t.textContent=CYCLE_NAMES[i];
+
+    const title=document.createElementNS(SVGNS,"title");
+    title.textContent=`${CYCLE_NAMES[i]}: ${currentCents[pc].toFixed(3)} cents · desviación ${dev>=0?"+":""}${dev.toFixed(3)} cents`;
+
+    g.appendChild(c); g.appendChild(t); g.appendChild(title);
+    g.addEventListener("click",()=>playNote(pc));
+    g.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();playNote(pc);} });
+    notesGroup.appendChild(g);
+  });
+
+  if(pts.length){
+    let d=`M ${pts[0].x} ${pts[0].y}`;
+    for(let i=1;i<pts.length;i++) d+=` L ${pts[i].x} ${pts[i].y}`;
+    d+=" Z";
+    cyclePath.setAttribute("d",d);
+  }
+}
+
+/* ==================== AUDIO ==================== */
+function ctx(){
+  if(!audioCtx){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC){ alert("Este navegador no admite Web Audio API."); return null; }
+    audioCtx=new AC();
+  }
+  if(audioCtx.state==="suspended") audioCtx.resume();
+  return audioCtx;
+}
+
+function stopAll(){
+  if(!audioCtx) return;
+  const now=audioCtx.currentTime;
+  voices.forEach(v=>{
+    try{
+      v.gain.gain.cancelScheduledValues(now);
+      v.gain.gain.setValueAtTime(Math.max(v.gain.gain.value,0.0001),now);
+      v.gain.gain.exponentialRampToValueAtTime(0.0001,now+0.05);
+      v.osc.stop(now+0.06);
+    }catch(e){}
+  });
+  voices=[];
+}
+
+function voice(freq,start,dur,vol){
+  const c=ctx(); if(!c) return;
+  const osc=c.createOscillator();
+  const gain=c.createGain();
+  const real=new Float32Array([0,0,0,0,0,0]);
+  const imag=new Float32Array([0,1,0.30,0.14,0.07,0.035]);
+  osc.setPeriodicWave(c.createPeriodicWave(real,imag,{disableNormalization:false}));
+  osc.frequency.setValueAtTime(freq,start);
+  gain.gain.setValueAtTime(0.0001,start);
+  gain.gain.exponentialRampToValueAtTime(vol,start+0.03);
+  gain.gain.setValueAtTime(vol,start+Math.max(0.06,dur-0.3));
+  gain.gain.exponentialRampToValueAtTime(0.0001,start+dur);
+  osc.connect(gain); gain.connect(c.destination);
+  osc.start(start); osc.stop(start+dur+0.05);
+  const v={osc,gain}; voices.push(v);
+  osc.addEventListener("ended",()=>{ voices=voices.filter(x=>x!==v); });
+}
+
+function playNote(pc){
+  stopAll();
+  const c=ctx(); if(!c) return;
+  activePC=[pc]; render();
+  const f=frequencyFor(pc);
+  const dev=wrappedDeviation(currentCents[pc],pc);
+  noteInfo.innerHTML=`<b>${PC_NAMES[pc]}</b> · ${f.toFixed(3)} Hz · ${currentCents[pc].toFixed(3)} cents desde C · desv. ${dev>=0?"+":""}${dev.toFixed(3)} cents`;
+  voice(f,c.currentTime+0.02,1.6,0.16);
+  setTimeout(()=>{ if(activePC.length===1&&activePC[0]===pc){activePC=[];render();} },900);
+}
+
+const CHORDS={
+  major:{name:"mayor",iv:[0,4,7]},
+  minor:{name:"menor",iv:[0,3,7]},
+  dim:{name:"disminuido",iv:[0,3,6]},
+  aug:{name:"aumentado",iv:[0,4,8]},
+  sus4:{name:"suspendido de cuarta",iv:[0,5,7]},
+  dom7:{name:"séptima dominante",iv:[0,4,7,10]},
+  maj7:{name:"séptima mayor",iv:[0,4,7,11]},
+  min7:{name:"séptima menor",iv:[0,3,7,10]}
+};
+
+function chordNotes(){
+  const root=Number(rootSelect.value);
+  const q=CHORDS[document.getElementById("quality").value];
+  return {q, notes:q.iv.map(iv=>{
+    const raw=root+iv;
+    return {pc:mod(raw,12), oct:Math.floor(raw/12), freq:frequencyFor(mod(raw,12),Math.floor(raw/12))};
+  })};
+}
+
+function showChordInfo(root,q,notes){
+  const names=notes.map(n=>PC_NAMES[n.pc]).join(" – ");
+  const freqs=notes.map(n=>`${n.freq.toFixed(2)} Hz`).join(", ");
+  noteInfo.innerHTML=`<b>${PC_NAMES[root]} ${q.name}</b><br>${names}<br><span style="font-size:12px;color:#aebed1">${freqs}</span>`;
+}
+
+function playChord(){
+  stopAll();
+  const c=ctx(); if(!c) return;
+  const root=Number(rootSelect.value);
+  const {q,notes}=chordNotes();
+  const start=c.currentTime+0.03;
+  const vol=notes.length>3?0.075:0.095;
+  notes.forEach(n=>voice(n.freq,start,2.6,vol));
+  activePC=notes.map(n=>n.pc); render();
+  showChordInfo(root,q,notes);
+  setTimeout(()=>{activePC=[];render();},1300);
+}
+
+function playArpeggio(){
+  stopAll();
+  const c=ctx(); if(!c) return;
+  const root=Number(rootSelect.value);
+  const {q,notes}=chordNotes();
+  let t=c.currentTime+0.05;
+  notes.forEach((n,i)=>{
+    voice(n.freq,t,0.55,0.13);
+    setTimeout(()=>{activePC=[n.pc];render();}, i*300);
+    t+=0.32;
+  });
+  // acorde final completo
+  const finalStart=t+0.05;
+  notes.forEach(n=>voice(n.freq,finalStart,2.2,notes.length>3?0.07:0.09));
+  setTimeout(()=>{activePC=notes.map(n=>n.pc);render();showChordInfo(root,q,notes);}, notes.length*300);
+  setTimeout(()=>{activePC=[];render();}, notes.length*300+2200);
+}
+
+/* ==================== EVENTOS ==================== */
+tuningSelect.addEventListener("change",()=>{ stopAll(); activePC=[]; render(); noteInfo.textContent="Afinación actualizada. Pulse una nota o escuche un acorde."; });
+c4Input.addEventListener("input",render);
+scaleInput.addEventListener("input",render);
+document.getElementById("playChord").addEventListener("click",playChord);
+document.getElementById("arpeggio").addEventListener("click",playArpeggio);
+document.getElementById("stop").addEventListener("click",()=>{ stopAll(); activePC=[]; noteInfo.textContent="Sonido detenido."; render(); });
+document.addEventListener("visibilitychange",()=>{ if(document.hidden) stopAll(); });
+
+/* ==================== INICIO ==================== */
+render();
+</script>
+</body>
+</html>

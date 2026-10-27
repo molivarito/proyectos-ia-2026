@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>M12 · Herramientas del oficio</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="vendor/reveal/dist/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="vendor/curso.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">M12 · Herramientas del oficio</h1>
+  <p class="subtitle">de la teoría a tu música — Sistema de Aprendizaje
+de Afinaciones</p>
+</section>
+
+<section>
+<section id="del-cuaderno-al-primer-acorde"
+class="title-slide slide level1">
+<h1>Del cuaderno al primer acorde</h1>
+
+</section>
+<section id="once-módulos-de-cuadernos-llenos-de-cents"
+class="slide level2">
+<h2>Once módulos de cuadernos llenos de cents</h2>
+<ul>
+<li>Sabes derivar la quinta mesotónica de 1/4 de coma:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">701.955 - 21.506/4 = 696.578</annotation></semantics></math>
+c (M5).</li>
+<li>Sabes por qué Werckmeister III estrecha cuatro quintas exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5.865</mn><annotation encoding="application/x-tex">5.865</annotation></semantics></math>
+c cada una (M6).</li>
+<li>Sabes construir un EDO alternativo o el <em>tonality diamond</em> de
+Partch con límites 7 y 11 (M9, M10).</li>
+<li>Sabes anotar todo eso sobre un pentagrama con flechas de desviación
+(M11).</li>
+</ul>
+<p>Tienes el mapa completo.</p>
+<aside class="notes">
+<p>[min 00] Abrir preguntando: “¿quién trajo su laptop hoy?” Este módulo
+es taller, no exposición. Recorrer la lista rápido — son logros reales
+del curso, no relleno; dejar que se sientan orgullosos 10 segundos antes
+de tirar la pregunta incómoda de la próxima slide.</p>
+</aside>
+</section>
+<section id="mañana-en-la-mañana" class="slide level2">
+<h2>Mañana en la mañana…</h2>
+<p>…te sientas frente a tu computador, abres tu DAW de siempre, cargas
+tu sintetizador favorito, y quieres tocar un acorde en Vallotti. O en el
+31-EDO que derivaste en M9.</p>
+<p><strong>¿Qué hay entre tu cuaderno de cálculos y ese primer acorde
+sonando?</strong></p>
+<aside class="notes">
+<p>[min 02] Dejar la pregunta en el aire unos segundos, en serio — es la
+pregunta guía del apunte completo. Alguien va a decir “un plugin”,
+alguien “no sé”. Ambas respuestas sirven para la slide siguiente.</p>
+</aside>
+</section>
+<section
+id="casi-nada-de-lo-que-imaginas-y-una-cosa-muy-concreta-que-sí"
+class="slide level2">
+<h2>Casi nada de lo que imaginas, y una cosa muy concreta que sí</h2>
+<p>No necesitas programar un sintetizador, ni escribir un plugin, ni
+dominar el protocolo MIDI en profundidad (aunque hoy lo vamos a
+entender).</p>
+<p>Lo único que necesitas de verdad es <strong>un archivo de texto
+plano, de una página, con una lista de números.</strong></p>
+<p>Ese archivo es el formato <strong>Scala</strong> (<code>.scl</code>)
+— el idioma común de casi todo el software de afinación microtonal desde
+1992.</p>
+<aside class="notes">
+<p>[min 04] Este es el titular del módulo. Puede sonar anticlimático
+después de once módulos de matemática — aprovechar eso: “toda esa
+matemática cabe en una página de texto”. Es literalmente cierto y es
+tranquilizador.</p>
+</aside>
+</section>
+<section id="recapitulación-express" class="slide level2">
+<h2>Recapitulación express</h2>
+<p>Lo que necesitas fresco de módulos anteriores — hoy lo vuelves a
+usar, ahora en software real:</p>
+<ul>
+<li><strong>El cent como unidad portátil</strong> (M1 §6): cualquier
+sistema es una lista de números en cents respecto de una tónica. Eso es,
+literalmente, lo que va dentro del archivo.</li>
+<li><strong>Los sistemas históricos completos</strong> (M3–M7) y el
+<strong>mapa comparativo</strong> (M8): cada uno es “una lista de 12
+números” y una progresión de prueba ya conocida.</li>
+<li><strong>EDOs y justa extendida</strong> (M9, M10): sistemas sin 12
+notas por octava — exigen una pieza adicional, el
+<code>.kbm</code>.</li>
+<li><strong>Notación microtonal</strong> (M11 §3a): la desviación en
+cents respecto del temperamento igual — el mismo número que hoy alimenta
+un sintetizador.</li>
+</ul>
+<aside class="notes">
+<p>[min 06] No hay que profundizar en ninguno de estos puntos — es solo
+activar memoria antes de escribir un archivo real. Dos minutos, no
+más.</p>
+</aside>
+</section></section>
+<section>
+<section id="mapa-de-la-sesión" class="title-slide slide level1">
+<h1>Mapa de la sesión</h1>
+
+</section>
+<section id="cuatro-bloques-un-flujo" class="slide level2">
+<h2>Cuatro bloques, un flujo</h2>
+<ol type="1">
+<li><strong>El archivo <code>.scl</code></strong> — el idioma común,
+escrito a mano, línea por línea.</li>
+<li><strong>MIDI y afinación</strong> — pitch bend de 14 bits, MPE,
+MTS/MTS-ESP.</li>
+<li><strong>Panorama de flujos</strong> — synths, DAWs, notación, y el
+aviso honesto de obsolescencia.</li>
+<li><strong>El flujo del curso</strong> — de tu cuaderno a un synth
+real, en 4 pasos.</li>
+</ol>
+<p>Traigan su laptop cerca: hoy generamos, leemos y calculamos en
+vivo.</p>
+<aside class="notes">
+<p>[min 08] Anunciar el formato de la clase: es taller, no cátedra. Va a
+haber tres momentos donde todos abren el laboratorio del módulo al mismo
+tiempo. Confirmar que quienes no traen laptop puedan compartir pantalla
+con alguien al lado.</p>
+</aside>
+</section></section>
+<section>
+<section id="el-archivo-.scl-el-idioma-común"
+class="title-slide slide level1">
+<h1>El archivo .scl: el idioma común</h1>
+
+</section>
+<section id="por-qué-ganó-un-archivo-de-texto" class="slide level2">
+<h2>Por qué ganó un archivo de texto</h2>
+<p>El programa Scala (Manuel Op de Coul, 1992) necesitaba guardar y
+compartir escalas.</p>
+<p>En vez de un formato binario propietario, eligió <strong>texto plano
+legible por humanos</strong>:</p>
+<ul>
+<li>Trivial de generar.</li>
+<li>Trivial de verificar a ojo.</li>
+<li>Trivial de importar en cualquier lenguaje con diez líneas de
+código.</li>
+</ul>
+<p>Por eso sobrevivió más de tres décadas y se volvió el estándar de
+facto — más adelante, cuando veamos MIDI, el contraste va a ser
+evidente.</p>
+<aside class="notes">
+<p>[min 10] El punto pedagógico: “aburrido” y “texto plano” no son
+defectos, son la razón de que funcione treinta años después. Sembrar la
+idea antes de llegar a la tabla de obsolescencia de software, más
+adelante.</p>
+</aside>
+</section>
+<section id="anatomía-línea-por-línea" class="slide level2">
+<h2>Anatomía línea por línea</h2>
+<p>Un <code>.scl</code> tiene siempre esta estructura, en este
+orden:</p>
+<ol type="1">
+<li><strong>Comentarios</strong> — cualquier cantidad de líneas que
+empiezan con <code>!</code>.</li>
+<li><strong>Descripción</strong> — una línea de texto libre (puede ir
+vacía, pero debe existir).</li>
+<li><strong>Número de notas</strong> — una línea con un solo
+entero.</li>
+<li><strong>Las notas</strong>, una por línea: <strong>cents</strong>
+(con punto decimal, <code>696.578</code>) o <strong>razón</strong> de
+enteros (<code>3/2</code>; un entero solo se lee como <code>n/1</code>).
+Se pueden mezclar ambos formatos línea a línea.</li>
+</ol>
+<aside class="notes">
+<p>[min 13] Ir señalando cada punto en pantalla como una checklist —
+este es el momento “denso” de la clase, pero son solo cuatro reglas. La
+próxima slide cubre las dos trampas que todos pisan la primera vez.</p>
+</aside>
+</section>
+<section id="las-dos-trampas-de-siempre" class="slide level2">
+<h2>Las dos trampas de siempre</h2>
+<ul>
+<li><strong>La lista NO incluye el 1/1 inicial.</strong> La tónica (0
+cents) es siempre implícita — nunca se escribe. La primera línea de
+notas es el <em>segundo</em> grado de la escala.</li>
+<li><strong>La lista SÍ incluye la nota final</strong>, casi siempre la
+octava (<code>2/1</code> o <code>1200.0</code>).</li>
+</ul>
+<p>Un archivo de 12 notas tiene exactamente <strong>12 líneas de
+valores</strong>: los grados 2 al 12 más la octava final — el 1/1 se
+cuenta aparte y no tiene línea propia.</p>
+<aside class="notes">
+<p>[min 16] Este es literalmente el error más común al escribir un .scl
+a mano — vale la pena repetirlo con las manos: “conté 11 y me faltaba
+una” es el bug típico. Si alguien ya programó algo similar, que lo
+cuente.</p>
+</aside>
+</section>
+<section id="ejemplo-el-mesotónico-de-14-de-coma" class="slide level2">
+<h2>Ejemplo: el mesotónico de 1/4 de coma</h2>
+<p>Retomando M5: la quinta mesotónica mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>696.578</mn><annotation encoding="application/x-tex">696.578</annotation></semantics></math>
+c. Encadenando once quintas desde Mib hasta Sol# y reduciendo a la
+octava de Do:</p>
+<table>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Cents</th>
+<th>Nota</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>0.000</td>
+<td>Fa#</td>
+<td>579.471</td>
+</tr>
+<tr>
+<td>Do#</td>
+<td>76.049</td>
+<td>Sol</td>
+<td>696.578</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>193.157</td>
+<td>Sol#</td>
+<td>772.627</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>310.265</td>
+<td>La</td>
+<td>889.735</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>386.314</td>
+<td>Sib</td>
+<td>1006.843</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>503.422</td>
+<td>Si</td>
+<td>1082.892</td>
+</tr>
+</tbody>
+</table>
+<p>El Mi da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+— la tercera mayor <strong>pura</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>):
+el objetivo de todo el sistema (M5).</p>
+<aside class="notes">
+<p>[min 19] No hay que re-derivar la cadena de quintas aquí — ya se hizo
+en M5. Solo confirmar que la tabla es la misma que ya calcularon, para
+que la próxima slide (el archivo) no aparezca de la nada.</p>
+</aside>
+</section>
+<section id="el-archivo-completo-línea-por-línea" class="slide level2">
+<h2>El archivo completo, línea por línea</h2>
+<pre><code>! mesotonico_cuarto_coma.scl
+!
+Mesotonico de 1/4 de coma sintonica, 12 notas desde Do (M5)
+ 12
+!
+  76.049
+ 193.157
+ 310.265
+ 386.314
+ 503.422
+ 579.471
+ 696.578
+ 772.627
+ 889.735
+1006.843
+1082.892
+1200.000</code></pre>
+<p>Cuenta las líneas de valores: <strong>doce</strong>, tal como declara
+la línea <code>12</code>. La primera (<code>76.049</code>) es el Do#, no
+el Do. La última (<code>1200.000</code>) es la octava.</p>
+<aside class="notes">
+<p>[min 23] Esta es la slide-ancla del bloque: pedirle a alguien que
+cuente las líneas en voz alta frente a todos. Señalar el comentario
+<code>!</code> de la primera línea (nombre del archivo, por convención,
+no por regla) y la línea de descripción sin <code>!</code>.</p>
+</aside>
+</section>
+<section id="demo-exporta-y-descarga-tu-vallotti" class="slide level2">
+<h2>Demo: exporta y descarga tu Vallotti</h2>
+<div class="demo">
+<p><strong>Lab 1 · Generador de archivos .scl</strong></p>
+<p>Cada uno abre el laboratorio, elige <strong>Vallotti</strong> en el
+generador, revisa la vista previa del <code>.scl</code> y hace clic en
+<strong>Descargar .scl</strong>. Confirmen en el archivo descargado
+(ábranlo con cualquier editor de texto) que tiene la misma estructura
+que acabamos de ver: comentarios, descripción, conteo, y las 12 líneas
+de valores.</p>
+<p><a href="../modulos/12-herramientas/laboratorio.html#lab1">▶ Abrir
+laboratorio</a></p>
+</div>
+<aside class="notes">
+<p>[min 25] Demo en vivo, todos con laptop. Dar ~5 minutos. Recorrer la
+sala mientras trabajan — el error típico es no encontrar el botón de
+descarga o abrir el .scl con un programa que no sea editor de texto
+plano (evitar Word). Cerrar pidiendo que alguien lea en voz alta su
+línea del Sol (el valor exacto depende de Vallotti, no del mesotónico —
+confirmar que el número que ven corresponde al sistema elegido).</p>
+</aside>
+</section>
+<section id="la-familia-opuesta-razones-en-vez-de-cents"
+class="slide level2">
+<h2>La familia opuesta: razones en vez de cents</h2>
+<p>Mismo formato, otra filosofía: justa entonación 5-limit (extensión
+cromática de M4), con razones de primos 2, 3 y 5.</p>
+<pre><code>! justa_5limite.scl
+!
+Justa entonacion 5-limit, 12 notas desde Do (extension cromatica de M4)
+ 12
+!
+16/15
+9/8
+6/5
+5/4
+4/3
+45/32
+3/2
+8/5
+5/3
+9/5
+15/8
+2/1</code></pre>
+<p>Sin puntos decimales, con barras: eso le indica al lector que
+interprete cada línea como fracción, no como cents.</p>
+<aside class="notes">
+<p>[min 31] El punto es que el formato es neutral: no le importa si tus
+números vienen de una cadena de quintas temperadas o de un producto de
+razones justas, solo transporta la lista. Comparar de un vistazo con la
+slide del mesotónico — mismo número de líneas, mismo “12”, filosofías
+opuestas.</p>
+</aside>
+</section>
+<section id="ahora-ustedes-qué-sistema-es-este" class="slide level2">
+<h2>Ahora ustedes: ¿qué sistema es este?</h2>
+<pre><code>203.910
+407.820
+498.045
+701.955
+905.865
+1109.775
+1200.000</code></pre>
+<p>Es una escala de 7 notas, sin nombre ni descripción. ¿De qué sistema
+de afinación se trata? Justifiquen con al menos un cálculo — fíjense
+especialmente en el valor de la tercera.</p>
+<p><em>(2 minutos, en parejas, con calculadora o de memoria.)</em></p>
+<aside class="notes">
+<p>[min 35] Dar tiempo real, no retórico — 2 minutos de reloj. La pista
+está en 407.820: quien reconozca el ditono pitagórico de M3 lo resuelve
+de inmediato. Pasar por las mesas escuchando qué están comparando.</p>
+</aside>
+</section>
+<section id="solución-escala-mayor-pitagórica" class="slide level2">
+<h2>Solución: escala mayor pitagórica</h2>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>407.820</mn><annotation encoding="application/x-tex">407.820</annotation></semantics></math>
+c es exactamente el <strong>ditono pitagórico</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">81/64</annotation></semantics></math>,
+M1 §4.1 y M3) —
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>21.506</mn><annotation encoding="application/x-tex">21.506</annotation></semantics></math>
+c (una coma sintónica completa) más ancho que la tercera pura de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>.</p>
+<ul>
+<li>Si fuera justa entonación: tercera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">= 386.314</annotation></semantics></math>.</li>
+<li>Si fuera temperamento igual: tercera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>400.000</mn></mrow><annotation encoding="application/x-tex">= 400.000</annotation></semantics></math>.</li>
+<li>El resto confirma la lectura:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>203.910</mn><annotation encoding="application/x-tex">203.910</annotation></semantics></math>
+(tono mayor puro,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>701.955</mn><annotation encoding="application/x-tex">701.955</annotation></semantics></math>
+(quinta pura exacta),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>498.045</mn><annotation encoding="application/x-tex">498.045</annotation></semantics></math>
+(cuarta pura) — todos productos de cadenas de quintas puras, sin ningún
+reparto de coma.</li>
+</ul>
+<aside class="notes">
+<p>[min 37] Este es exactamente el ejercicio 2 del apunte — quien ya lo
+resolvió en casa puede confirmarlo aquí. El objetivo pedagógico real:
+entrenar la lectura de un .scl desconocido a partir de sus números, sin
+herramienta, antes de que el Lab 2 (más adelante) lo confirme
+automáticamente.</p>
+</aside>
+</section>
+<section id="el-archivo-.kbm-qué-resuelve" class="slide level2">
+<h2>El archivo <code>.kbm</code>: qué resuelve</h2>
+<p>Un <code>.scl</code> describe <em>qué notas</em> tiene una escala. No
+dice nada sobre:</p>
+<ol type="1">
+<li><strong>¿Qué tecla MIDI (0–127) corresponde a qué grado?</strong>
+Automático si tu escala tiene 12 notas — deja de serlo con 19, 31 o 43
+grados (M9, M10): un teclado físico no tiene una tecla por grado.</li>
+<li><strong>¿A qué frecuencia absoluta está anclado el sistema?</strong>
+Un <code>.scl</code> da solo intervalos relativos. El <code>.kbm</code>
+fija el ancla: “la tecla 69 (La4) suena a 440 Hz” — y desde ahí el
+sintetizador reconstruye todo lo demás.</li>
+</ol>
+<p>Cambiar solo el <code>.kbm</code> (sin tocar el <code>.scl</code>) te
+permite anclar el mismo mesotónico a La4 = 415 Hz (“barroco”) sin
+recalcular ni una razón.</p>
+<aside class="notes">
+<p>[min 39] No hace falta memorizar el formato de bytes del .kbm — el
+generador del Lab 1 ya lo escribe (botón “Descargar .kbm básico”). Lo
+que sí hay que retener: .scl = forma de la escala; .kbm = ancla a
+teclado físico y frecuencia real. Volver a esto en el ejercicio del
+teclado de 19 notas si alcanza el tiempo.</p>
+</aside>
+</section></section>
+<section>
+<section id="midi-y-afinación-el-problema-de-fondo"
+class="title-slide slide level1">
+<h1>MIDI y afinación: el problema de fondo</h1>
+
+</section>
+<section id="lo-que-midi-transmite-y-lo-que-no" class="slide level2">
+<h2>Lo que MIDI transmite (y lo que no)</h2>
+<p>MIDI, diseñado en 1983, <strong>no transmite frecuencias</strong>.
+Transmite <strong>números de tecla</strong>.</p>
+<p>“Note On” dice, en esencia: “activa la tecla 60” — y es el
+sintetizador quien decide a qué frecuencia suena, casi siempre
+temperamento igual de fábrica:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>440</mn><mo>×</mo><msup><mn>2</mn><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>69</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">f = 440 \times 2^{(n-69)/12}</annotation></semantics></math></p>
+<p>MIDI no tiene, en su mensaje básico, ningún campo para “pero quiero
+que esta tecla suene 5.865 cents más grave”. Hace falta una capa
+adicional.</p>
+<p>Ante esa limitación, existen dos familias de solución:
+<strong>desviar la altura después de la nota</strong> (pitch bend, y su
+formalización MPE), o <strong>decirle directamente al sintetizador la
+frecuencia que quieres</strong> (MTS/MTS-ESP). Vamos a desarrollar la
+primera en detalle: es, literalmente, la que usa el software del
+proyecto DAC (<code>core/audio_player.py</code>).</p>
+<aside class="notes">
+<p>[min 42] Este es el giro conceptual del bloque: todo lo que sigue
+(pitch bend, MPE, MTS) existe porque MIDI fue diseñado para temperamento
+igual y nada más. Preguntar: “¿alguien sabía esto antes de hoy?” — suele
+sorprender incluso a quienes usan MIDI hace años. Anunciar que hoy
+desarrollamos la primera familia a fondo (con código real) y la segunda
+como panorama al final del bloque.</p>
+</aside>
+</section>
+<section id="pitch-bend-un-mensaje-de-canal" class="slide level2">
+<h2>Pitch bend: un mensaje de canal</h2>
+<p>El pitch bend afecta a <strong>todas</strong> las notas sonando en un
+canal MIDI a la vez. Se transmite como un valor de <strong>14
+bits</strong>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mspace width="0.222em"></mspace><mtext mathvariant="normal">a</mtext><mspace width="0.222em"></mspace><msup><mn>2</mn><mn>14</mn></msup><mo>−</mo><mn>1</mn><mo>=</mo><mn>16383</mn><mo>,</mo><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">centro exacto en </mtext><mspace width="0.333em"></mspace></mrow><mn>8192</mn></mrow><annotation encoding="application/x-tex">0 \ \text{a} \ 2^{14}-1 = 16383, \quad \text{centro exacto en } 8192</annotation></semantics></math></p>
+<p>El <em>rango</em> de los extremos no está fijado por el estándar — lo
+declara un mensaje separado (RPN 0), que dice cuántos semitonos cubre el
+bend hacia cada lado.</p>
+<aside class="notes">
+<p>[min 46] Detenerse en el “centro exacto en 8192” — es contraintuitivo
+(no es 8191, no es 8000) y es la fuente de errores de implementación,
+tal como van a ver en dos slides más con el código real del
+proyecto.</p>
+</aside>
+</section>
+<section id="el-rango-se-fija-con-código-real" class="slide level2">
+<h2>El rango se fija con código real</h2>
+<p>El proyecto DAC configura el rango a <strong>±2 semitonos</strong>
+para 14 canales, con esta secuencia de control por canal
+(<code>core/audio_player.py</code>, <code>play_score</code>):</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">101</span>, <span class="dv">0</span>)  <span class="co"># RPN MSB</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">100</span>, <span class="dv">0</span>)  <span class="co"># RPN LSB</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">6</span>, <span class="dv">2</span>)    <span class="co"># Data Entry MSB (2 semitonos)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">38</span>, <span class="dv">0</span>)   <span class="co"># Data Entry LSB</span></span></code></pre></div>
+<p>Rango fijado en ±2 semitonos = ±200 cents. Ahora sí, tenemos todos
+los ingredientes para la fórmula.</p>
+<aside class="notes">
+<p>[min 49] No hace falta que entiendan cada mensaje de control byte por
+byte — el punto es mostrar que “±2 semitonos” no es un número mágico,
+sale de cuatro líneas de código reales que cualquiera puede leer en el
+repo del proyecto.</p>
+</aside>
+</section>
+<section id="la-fórmula-del-pitch-bend" class="slide level2">
+<h2>La fórmula del pitch bend</h2>
+<p>Con el rango fijado en ±200 cents, centrado en 8192:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">bend</mtext><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mtext mathvariant="normal">desviación (cents)</mtext><mn>200</mn></mfrac><mo>×</mo><mn>8192</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{bend} = 8192 + \text{round}\left(\frac{\text{desviación (cents)}}{200} \times 8192\right)</annotation></semantics></math></p>
+<p>Una desviación positiva empuja el bend por encima de 8192; una
+negativa, por debajo.</p>
+<aside class="notes">
+<p>[min 52] Escribir la fórmula en pantalla y dejarla ahí — la siguiente
+slide es la verificación numérica con un valor que ya conocen de
+memoria. No avanzar todavía.</p>
+</aside>
+</section>
+<section id="verificación-la-quinta-de-werckmeister-iii"
+class="slide level2">
+<h2>Verificación: la quinta de Werckmeister III</h2>
+<p>La quinta de Werckmeister III mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>696.090</mn><annotation encoding="application/x-tex">696.090</annotation></semantics></math>
+c, es decir
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>696.090</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>5.865</mn></mrow><annotation encoding="application/x-tex">696.090 - 701.955 = -5.865</annotation></semantics></math>
+cents respecto de la quinta pura (M6 §3.2).</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">bend</mtext><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>−</mi><mn>5.865</mn></mrow><mn>200</mn></mfrac><mo>×</mo><mn>8192</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>240.230</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>−</mo><mn>240</mn><mo>=</mo><mn>7952</mn></mrow><annotation encoding="application/x-tex">\text{bend} = 8192 + \text{round}\left(\frac{-5.865}{200} \times 8192\right) = 8192 + \text{round}(-240.230) = 8192 - 240 = 7952</annotation></semantics></math></p>
+<p>El sintetizador recibe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>7952</mn><annotation encoding="application/x-tex">7952</annotation></semantics></math>
+—
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>240</mn><annotation encoding="application/x-tex">240</annotation></semantics></math>
+unidades bajo el centro — y desplaza la altura hacia abajo en la
+proporción correspondiente.</p>
+<aside class="notes">
+<p>[min 55] Esta es la cuenta-ancla de todo el bloque MIDI: pedirle a
+alguien que la repita en voz alta paso a paso mientras la aritmética
+está en pantalla. Si alguien pregunta por qué -5.865 y no -3.910 (contra
+ET), aclarar: acá se usa la desviación respecto de la quinta pura como
+ejercicio de la fórmula, tal como en M6 §3.2 — el bend real que usaría
+el sintetizador depende de contra qué referencia se está comparando.</p>
+</aside>
+</section>
+<section id="demo-calculadora-de-pitch-bend" class="slide level2">
+<h2>Demo: calculadora de pitch bend</h2>
+<div class="demo">
+<p><strong>Lab 3 · Calculadora de pitch bend MIDI</strong></p>
+<p>Cada uno ingresa al menos dos desviaciones en cents que ya calculó en
+M5 o M6 (por ejemplo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>5.865</mn></mrow><annotation encoding="application/x-tex">-5.865</annotation></semantics></math>
+de Werckmeister, o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>76.049</mn><mo>−</mo><mn>100</mn><mo>=</mo><mi>−</mi><mn>23.951</mn></mrow><annotation encoding="application/x-tex">76.049-100=-23.951</annotation></semantics></math>
+del Do# mesotónico) y confirma el valor de bend contra su propio cálculo
+a mano. Después, prueben el camino inverso: valor de bend → cents.</p>
+<p><a href="../modulos/12-herramientas/laboratorio.html#lab3">▶ Abrir
+laboratorio</a></p>
+</div>
+<aside class="notes">
+<p>[min 57] Dar ~6 minutos. Insistir en que hagan el cálculo a mano
+primero y usen la calculadora solo para verificar — el objetivo es que
+la fórmula quede internalizada, no que aprendan a apretar un botón.
+Circular para revisar que el signo (+/-) esté bien puesto, es el error
+más común.</p>
+</aside>
+</section>
+<section id="cómo-lo-implementa-el-código-real" class="slide level2">
+<h2>Cómo lo implementa el código real</h2>
+<p><code>_play_element</code> calcula la desviación comparando la
+frecuencia afinada contra la de temperamento igual:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cents_dev <span class="op">=</span> <span class="dv">1200</span> <span class="op">*</span> np.log2(tuned_freq <span class="op">/</span> std_freq)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bend_value <span class="op">=</span> <span class="bu">int</span>(<span class="dv">8191</span> <span class="op">*</span> (cents_dev <span class="op">/</span> <span class="dv">200</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>bend_value <span class="op">=</span> <span class="bu">max</span>(<span class="op">-</span><span class="dv">8192</span>, <span class="bu">min</span>(<span class="dv">8191</span>, bend_value))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.pitch_bend(channel, bend_value)</span></code></pre></div>
+<p>Dos detalles honestos: <code>pyfluidsynth</code> usa convención
+<strong>centrada en cero</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>8192</mn></mrow><annotation encoding="application/x-tex">-8192</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>8191</mn></mrow><annotation encoding="application/x-tex">+8191</annotation></semantics></math>,
+no 8192 como centro del mensaje crudo), y el código usa
+<code>int()</code> (trunca) con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8191</mn><annotation encoding="application/x-tex">8191</annotation></semantics></math>
+en vez de <code>round()</code> con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8192</mn><annotation encoding="application/x-tex">8192</annotation></semantics></math>.
+La diferencia práctica: una fracción de cent, inaudible.</p>
+<aside class="notes">
+<p>[min 61] El valor pedagógico de esta slide es mostrar que el código
+real casi nunca coincide con la fórmula “de libro” al 100% — y que eso
+está bien, siempre que uno pueda explicar exactamente dónde y por qué
+difiere. Es una habilidad de lectura de código, no solo de
+matemática.</p>
+</aside>
+</section>
+<section id="la-limitación-de-fondo" class="slide level2">
+<h2>La limitación de fondo</h2>
+<p>El pitch bend es un mensaje <strong>de canal</strong>: todas las
+notas activas en ese canal comparten el mismo desplazamiento.</p>
+<p>Si Do y Mi necesitan dos desviaciones distintas respecto del
+temperamento igual —algo que ocurre en <strong>todos</strong> los
+sistemas del curso salvo ET mismo— no puedes tocarlas juntas en el mismo
+canal con un solo bend.</p>
+<aside class="notes">
+<p>[min 64] Dejar que caiga la ficha antes de mostrar la solución:
+preguntar “entonces, ¿cómo suena un acorde afinado con esto?” y dejar
+que alguien proponga “un canal por nota” antes de confirmarlo en la
+próxima slide.</p>
+</aside>
+</section>
+<section id="la-solución-rotar-canales" class="slide level2">
+<h2>La solución: rotar canales</h2>
+<p><code>audio_player.py</code> mantiene 14 canales disponibles:
+<code>list(range(9)) + list(range(10, 15))</code> = canales
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mi>.</mi><mn>.8</mn><mo stretchy="false" form="postfix">}</mo><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mn>10</mn><mi>.</mi><mn>.14</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0..8\} \cup \{10..14\}</annotation></semantics></math>
+(se evita el canal 9, reservado para percusión).</p>
+<p>Por cada nota nueva: <strong>saca un canal libre</strong>, le asigna
+el pitch bend exacto de esa nota, y recién ahí envía el
+<code>noteon</code>. Al terminar la nota, el canal vuelve al conjunto
+disponible.</p>
+<p>Hasta <strong>14 notas simultáneas</strong>, cada una con su propia
+microafinación independiente.</p>
+<aside class="notes">
+<p>[min 67] Conectar con la limitación anterior: el mecanismo de fondo
+(bend por canal) no cambia, lo que cambia es la gestión — nunca
+compartir un canal entre dos notas con desviaciones distintas que
+necesiten sonar juntas. Si alguien pregunta qué pasa con la nota 15:
+advertencia impresa, esa nota no suena, el resto del acorde sigue
+normal.</p>
+</aside>
+</section>
+<section id="mpe-la-misma-idea-formalizada" class="slide level2">
+<h2>MPE: la misma idea, formalizada</h2>
+<p>Lo que <code>audio_player.py</code> hace “a mano” —un canal por nota
+activa— es exactamente la idea que la industria estandarizó como
+<strong>MPE</strong> (<em>MIDI Polyphonic Expression</em>):</p>
+<ul>
+<li>Cada nota que suena recibe su <strong>propio canal MIDI
+dedicado</strong> (típicamente canales 2–16).</li>
+<li>El canal 1 queda como “canal maestro” para mensajes globales.</li>
+<li>Un sintetizador “MPE-aware” entiende esta convención de fábrica —
+sin que tengas que programar la lógica de asignación tú mismo.</li>
+</ul>
+<aside class="notes">
+<p>[min 70] El gancho aquí es que ya entendieron MPE sin darse cuenta,
+porque acaban de ver su lógica exacta en código Python. Mencionar de
+paso que el uso más difundido de MPE hoy es expresivo (glide de un dedo
+en un controlador táctil), no de afinación — pero es la misma
+maquinaria.</p>
+</aside>
+</section>
+<section id="mts-y-mts-esp-decir-la-frecuencia-directamente"
+class="slide level2">
+<h2>MTS y MTS-ESP: decir la frecuencia directamente</h2>
+<p>En vez de desviar la altura después del hecho, <strong>decirle al
+sintetizador la frecuencia exacta que quieres, de entrada</strong>. Eso
+hace el <strong>MTS</strong> (<em>MIDI Tuning Standard</em>), mensajes
+<em>sysex</em> dedicados a afinación: <strong>bulk dump</strong>
+(retempla de una vez las 128 teclas de un banco) o <strong>single note
+tuning change</strong> (una sola tecla en tiempo real — útil para justa
+entonación <em>adaptativa</em>, el “drift” de M4).</p>
+<p>La encarnación práctica hoy: <strong>MTS-ESP</strong> (Oddsound), un
+plugin “maestro” que transmite en tiempo real la frecuencia de cada
+tecla a todos los sintetizadores clientes de la sesión — sin límite de
+polifonía por canales, y toda la sesión sincronizada desde un único
+punto.</p>
+<aside class="notes">
+<p>[min 73] No hace falta profundizar en el formato de bytes del sysex —
+el contraste que importa es con pitch bend: ahí desviábamos después, acá
+se declara la frecuencia de entrada. Si el tiempo apremia, esta slide es
+la más comprimible del bloque MIDI: lo esencial de la clase ya quedó
+dicho en pitch bend/MPE, que es lo que usa el software del curso.</p>
+</aside>
+</section></section>
+<section>
+<section id="del-taller-al-mundo-real" class="title-slide slide level1">
+<h1>Del taller al mundo real</h1>
+
+</section>
+<section id="panorama-de-flujos-de-trabajo" class="slide level2">
+<h2>Panorama de flujos de trabajo</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Categoría</th>
+<th>Ejemplos</th>
+<th>Soporte típico</th>
+<th>Caveat honesto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Synths software</td>
+<td><strong>Surge XT</strong> (libre, recomendado), Pigments, Serum,
+Vital</td>
+<td>Carga nativa <code>.scl</code>/<code>.kbm</code>; algunos como
+clientes MTS-ESP</td>
+<td>El nombre exacto del menú cambia entre versiones</td>
+</tr>
+<tr>
+<td>DAWs</td>
+<td>Ableton, Logic, Reaper</td>
+<td>Parcial e indirecto: automatizar bend, alojar synth o plugin
+MTS-ESP</td>
+<td>El DAW casi nunca “entiende” microtonalidad de fábrica</td>
+</tr>
+<tr>
+<td>Notación</td>
+<td>Dorico, MuseScore</td>
+<td>Sistemas personalizados, reproducción microtonal aproximada</td>
+<td>El símbolo de alteración es tema de M11, no de este módulo</td>
+</tr>
+<tr>
+<td>Programación</td>
+<td>Max/MSP, SuperCollider, Pure Data</td>
+<td>Control total de cada frecuencia</td>
+<td>Curva de aprendizaje mayor</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>[min 78] No leer la tabla completa en voz alta — dejarla en pantalla
+y comentar solo la fila de Surge XT (el recomendado para el curso) y la
+de DAWs (la limitación honesta de que “el DAW no entiende afinación”,
+que suele sorprender a quienes vienen de producción).</p>
+</aside>
+</section>
+<section id="el-aviso-que-hay-que-decir-en-voz-alta"
+class="slide level2">
+<h2>El aviso que hay que decir en voz alta</h2>
+<p>Cualquier nombre de la tabla anterior puede discontinuarse, cambiar
+de dueño, o rediseñar su interfaz antes de que termine este curso.</p>
+<p>Lo que <strong>no</strong> cambia es el formato <code>.scl</code> en
+sí — treinta años siendo el idioma común, precisamente porque es texto
+plano y no depende de que ningún fabricante siga existiendo.</p>
+<p><strong>Los menús van a cambiar. El archivo, probablemente
+no.</strong></p>
+<aside class="notes">
+<p>[min 80] Esta slide es la razón de fondo de todo el módulo — decirla
+casi textual, es la frase que queremos que se lleven. Por eso invertimos
+tanto tiempo en enseñar a escribir el .scl a mano y tan poco en
+describir menús de software específico.</p>
+</aside>
+</section>
+<section id="demo-el-misterio.scl" class="slide level2">
+<h2>Demo: el misterio.scl</h2>
+<div class="demo">
+<p><strong>Lab 2 · Lector de archivos .scl — el
+misterio.scl</strong></p>
+<p>En parejas: abran el Lab 2, usen el chip
+<strong>misterio.scl</strong> (o pégenlo a mano) y hagan clic en
+<strong>Analizar</strong>. Antes de leer el diagnóstico automático,
+discutan: ¿a qué sistema se parece, mirando solo los números? Recién
+después dejen que el lab confirme.</p>
+<p><a href="../modulos/12-herramientas/laboratorio.html#lab2">▶ Abrir
+laboratorio</a></p>
+</div>
+<aside class="notes">
+<p>[min 82] El chiste de este demo es que misterio.scl es, en realidad,
+el mesotónico de 1/4 de coma disfrazado con un nombre neutro (“escala de
+prueba n.º 7”) — la misma tabla que vimos hace 20 minutos. Dar ~5
+minutos y después preguntar en voz alta quién lo identificó antes del
+diagnóstico, y con qué pista (386.314 en el Mi es la más delatora).</p>
+</aside>
+</section>
+<section id="el-flujo-recomendado-del-curso" class="slide level2">
+<h2>El flujo recomendado del curso</h2>
+<p>Cuatro pasos, de tu cuaderno a un sonido real:</p>
+<ol type="1">
+<li><strong>Exporta el <code>.scl</code></strong> desde el generador del
+laboratorio — Vallotti, el mesotónico, un EDO de M9, la justa extendida
+de M10…</li>
+<li><strong>Cárgalo en Surge XT</strong> (u otro synth con soporte
+<code>.scl</code>) — busca el panel de “tuning” y aplica el
+<code>.scl</code> (y el <code>.kbm</code> si tu escala no tiene 12
+notas).</li>
+<li><strong>Toca la progresión de prueba de M8</strong>, ahora con
+sonido real de sintetizador, no solo el generador simplificado del
+laboratorio.</li>
+<li><strong>Para orquesta o notación</strong>, usa la tabla de
+desviaciones en cents del mismo generador y anótalas siguiendo la
+convención de M11 §3a.</li>
+</ol>
+<aside class="notes">
+<p>[min 84] Este es el resumen operativo de toda la clase — el
+procedimiento que deberían poder repetir de memoria al salir de la sala.
+Vale la pena dejarlo en pantalla más tiempo del habitual y preguntar si
+alguien ya se imagina qué sistema propio quiere probar primero.</p>
+</aside>
+</section>
+<section id="síntesis-qué-te-llevas-hoy" class="slide level2">
+<h2>Síntesis: qué te llevas hoy</h2>
+<ul>
+<li>Escribir y leer un <code>.scl</code> a mano: comentarios,
+descripción, conteo, notas — con el 1/1 implícito y la octava final
+siempre presentes.</li>
+<li>El <code>.kbm</code> resuelve dos preguntas que el <code>.scl</code>
+no responde: mapeo de teclas y ancla de frecuencia absoluta.</li>
+<li>MIDI no transmite frecuencias — pitch bend/MPE desvía después del
+hecho; MTS/MTS-ESP fija la frecuencia de entrada.</li>
+<li>Calcular a mano un valor de pitch bend de 14 bits, y explicar la
+rotación de canales que lo hace polifónico.</li>
+<li>El flujo completo: exportar → cargar en un synth real → tocar →
+anotar cents para orquesta.</li>
+</ul>
+<aside class="notes">
+<p>[min 87] Recorrer esta lista como cierre de contenido, antes de pasar
+a la tarea. Es, básicamente, la autoevaluación del apunte condensada —
+si alguien duda de alguno de estos puntos, este es el momento de
+preguntar, no en el examen.</p>
+</aside>
+</section>
+<section id="mini-proyecto-cierre-de-la-fase-2" class="slide level2">
+<h2>Mini-proyecto: cierre de la Fase 2</h2>
+<p>Exporta <strong>dos sistemas distintos</strong> del curso como
+<code>.scl</code> (por ejemplo, un buen temperamento de M6 y un EDO de
+M9, o el mesotónico de M5 contra la justa extendida de M10).</p>
+<p>Cárgalos en un sintetizador real —Surge XT si no tienes otro— y
+<strong>graba un minuto de exploración libre</strong> con cada uno.</p>
+<p>Anota, para cada grabación, <strong>tres observaciones de oído
+concretas</strong> (no “suena raro”: qué intervalo sorprendió, dónde
+hubo un batido, qué acorde sonó más “asentado”).</p>
+<aside class="notes">
+<p>[min 89] Esta es la tarea que cierra formalmente la Fase 2 del curso
+— enfatizar que “tres observaciones concretas” excluye “suena raro” o
+“suena bonito”: tiene que ser algo que puedan defender con un intervalo
+o un acorde específico. Se revisa la próxima clase.</p>
+</aside>
+</section>
+<section id="anzuelo-lo-que-nunca-necesitó-nada-de-esto"
+class="slide level2">
+<h2>Anzuelo: lo que nunca necesitó nada de esto</h2>
+<p>Hasta aquí, todo el curso ocurrió dentro de un mismo territorio: doce
+notas, o extensiones matemáticas de esas doce notas.</p>
+<p>La Fase 3 cambia de terreno por completo: el <strong>maqam</strong>
+árabe, el <strong>gamelán</strong> indonesio y el sistema de
+<strong>shruti</strong> indostaní y carnático nunca necesitaron nada de
+este módulo — porque nunca perdieron su afinación.</p>
+<p>No hay una coma que esconder cuando la tradición oral y el oído del
+maestro han sido, durante siglos, el único <code>.scl</code> que
+necesitaron.</p>
+<aside class="notes">
+<p>[min 90] Cerrar con esta frase tal cual, sin agregar más — es el
+anzuelo hacia M13. Dejar la sala con la idea de que todo lo aprendido
+hasta ahora fue, en cierto sentido, un problema exclusivamente
+occidental.</p>
+</aside>
+</section>
+<section id="referencias-y-adónde-seguir" class="slide level2">
+<h2>Referencias y adónde seguir</h2>
+<ul>
+<li>Op de Coul, M. — <em>Scala home page and manual</em>: el programa
+que da nombre al formato, con más de 5000 escalas ya codificadas.</li>
+<li><strong>Xenharmonic Wiki</strong> — enciclopedia comunitaria de
+EDOs, temperamentos regulares y terminología microtonal; y la escena
+xenarmónica (<strong>Sevish</strong> entre sus nombres más
+reconocibles).</li>
+<li>MIDI Manufacturers Association — <em>MIDI Tuning Standard
+(MTS)</em>; MIDI Association — <em>MPE Specification</em>.</li>
+<li>De la Cuadra, P. — <code>core/audio_player.py</code>, proyecto
+“Suena Afinaciones Antiguas” (DAC).</li>
+<li><code>CURRICULO.md</code> — contenidos de M9, M10 y M11
+referenciados hoy.</li>
+</ul>
+<aside class="notes">
+<p>[min 90] Proyectar mientras se despide el curso — no hace falta
+leerla en voz alta. Mencionar de paso que el archivo Scala y la
+Xenharmonic Wiki son la puerta de entrada natural si alguien quiere
+seguir explorando por su cuenta. Recordar el mini-proyecto y la fecha de
+entrega, y que la próxima clase abre la Fase 3 con el maqam árabe.</p>
+</aside>
+</section></section>
+    </div>
+  </div>
+
+  <script src="vendor/reveal/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

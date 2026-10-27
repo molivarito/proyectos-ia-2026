@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filtros FIR / IIR — Demo Curso AyS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S03 · ATOMS</div>
+    <h1>Filtros FIR e IIR: el corazón del DSP</h1>
+    <p class="lead">
+      Un filtro digital es una ecuación de recurrencia de tres líneas. Pero esa ecuación es la base
+      de los ecualizadores que usas todos los días, de la voz que pasa por tu teléfono, y del sonido
+      "Moog" que define la música electrónica. Aquí mueves los polos y oyes en vivo.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-atoms">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>La diferencia entre filtros <strong>FIR</strong> (sin realimentación, fase lineal, costoso) e <strong>IIR</strong> (con realimentación, eficiente, sensible a la estabilidad).</li>
+      <li>Cómo la posición de los <strong>polos en el plano $z$</strong> determina resonancia, decaimiento y estabilidad.</li>
+      <li>Por qué un filtro Butterworth suena distinto de un Chebyshev aunque ambos sean paso-bajo.</li>
+      <li>Cómo un filtro paso-bajo resonante (el famoso "filter sweep") es el corazón de toda la música electrónica desde los años 70.</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Filtros FIR/IIR interactivos</span>
+      <a href="../embeds/s03_filtros.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s03_filtros.html" title="Demo de filtros" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así</h3>
+    <ol>
+      <li>Pon un filtro paso-bajo Butterworth con corte 800 Hz. Aplícalo a una señal con armónicos. Mira la respuesta en frecuencia y oye cómo cambia el timbre.</li>
+      <li>Sube el factor de calidad $Q$ a 8. Ahora hay <em>resonancia</em>: las frecuencias cercanas al corte se realzan. Sweep el corte: ese es el sonido sintetizador clásico.</li>
+      <li>Compara FIR vs IIR para el mismo objetivo: ¿cuál necesita más orden? ¿Cuál preserva la fase mejor?</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-atoms">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar filtros FIR e IIR desde cero, entender polos y ceros en el plano $z$.</li>
+      <li>Hacer el <strong>Fun Task 03 "Auto-Wah Funk"</strong>: combinar un seguidor de envolvente con un filtro paso-bajo resonante de corte variable. El resultado es el efecto wah-wah automático que se oye en el funk y el reggae.</li>
+      <li>Conectar con la S08 (síntesis sustractiva): los filtros resonantes son el corazón del sonido sintetizador analógico (Moog, ARP, MS-20).</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

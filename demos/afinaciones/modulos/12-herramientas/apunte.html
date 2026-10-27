@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M12 · Apunte — Herramientas del oficio microtonal</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../11-compositores/apunte.html">◀ Ben Johnston, La Monte Young y el espectralismo</a><a class="nav-link" href="../13-maqam/apunte.html">Maqam árabe ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m12.-herramientas-del-oficio-de-la-teoría-a-tu-música">M12.
+Herramientas del oficio: de la teoría a tu música</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Llevas once módulos llenando cuadernos de cents. Sabes derivar la
+quinta mesotónica de 1/4 de coma con la calculadora en la mano (696.578
+c, M5); sabes por qué Werckmeister III estrecha cuatro quintas
+exactamente 5.865 cents cada una (M6); sabes escribir el generador de un
+EDO alternativo o construir el <em>tonality diamond</em> de Partch con
+límites primos 7 y 11 (M9, M10); sabes, incluso, notar todo eso sobre un
+pentagrama con flechas de desviación (M11). Tienes, en otras palabras,
+el mapa completo. Y mañana en la mañana te sientas frente a tu
+computador, abres tu DAW de siempre, cargas tu sintetizador favorito, y
+quieres tocar un acorde en Vallotti. O en el 31-EDO que derivaste en M9.
+¿Qué hay entre tu cuaderno de cálculos y ese primer acorde sonando?</p>
+<p>La respuesta corta —y el motivo de que este módulo exista— es: casi
+nada de lo que imaginas, y una cosa muy concreta que sí. No necesitas
+programar un sintetizador desde cero, ni escribir un plugin, ni siquiera
+entender el protocolo MIDI en profundidad (aunque vamos a entenderlo,
+porque explica por qué las cosas se hacen como se hacen). Lo único que
+necesitas de verdad es un archivo de texto plano, de una página, con una
+lista de números. Ese archivo —el formato Scala, extensión
+<code>.scl</code>— es el idioma común que casi todo el software de
+afinación microtonal entiende, desde 1992 hasta el sintetizador que
+probablemente tengas instalado ahora mismo. Este módulo te enseña a
+escribirlo a mano, a leerlo, a cargarlo en un instrumento real, y a
+entender la maquinaria MIDI que hay detrás cuando ese archivo se
+traduce, nota por nota, en una frecuencia sonando por tus parlantes. Es
+el módulo más práctico del curso, y también el que cierra la Fase 2:
+después de esto, el mapa matemático que construiste en M9–M11 deja de
+vivir solo en el papel.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Antes de entrar en herramientas, fijemos qué “carga” tienes que poder
+mover de tu cuaderno al computador:</p>
+<ul>
+<li><strong>El cent como unidad portátil</strong> (M1 §6): todo sistema
+de afinación de este curso se puede escribir como una lista de números
+en cents (o de razones) respecto de una nota de referencia. Eso es,
+literalmente, lo que vamos a meter en un archivo.</li>
+<li><strong>La coma pitagórica y la coma sintónica</strong> (M2): los
+“presupuestos de error” que cada sistema reparte de manera distinta.
+Vamos a usar los valores exactos de Werckmeister III (M6) y del
+mesotónico de 1/4 de coma (M5) como ejemplos verificables en este
+módulo.</li>
+<li><strong>Los sistemas históricos completos</strong> (M3–M7):
+pitagórico, justa entonación, mesotónicos, buenos temperamentos,
+temperamento igual. Cada uno de ellos es, para efectos de este módulo,
+“una lista de 12 números”.</li>
+<li><strong>El mapa comparativo</strong> (M8): la tabla maestra de
+sistemas y la progresión de prueba que vamos a volver a tocar aquí,
+ahora en un sintetizador real.</li>
+<li><strong>Los EDOs alternativos y la justa extendida</strong> (M9,
+M10): sistemas que ya no tienen 12 notas por octava (19, 31, 53 pasos;
+los 43 tonos de Partch). Su archivo <code>.scl</code> no tiene nada de
+especial —el formato no sabe ni le importa cuántas notas trae—, pero
+cargarlos en un teclado físico de 12 teclas por octava sí exige una
+pieza adicional, el archivo <code>.kbm</code>, que vamos a ver en la
+sección 3.5.</li>
+<li><strong>La notación microtonal</strong> (M11 §3a): la convención de
+anotar desviaciones en cents sobre la partitura para músicos que tocan
+afinación fija (cuerdas, vientos, voz). Ese mismo número —la desviación
+en cents respecto del temperamento igual— es, como vamos a ver,
+exactamente lo que también necesita el sintetizador. Un solo cálculo,
+dos destinos.</li>
+</ul>
+<h2 id="el-formato-scala-.scl-el-estándar-universal">3. El formato Scala
+(<code>.scl</code>): el estándar universal</h2>
+<h3 id="por-qué-ganó-un-archivo-de-texto">3.1 Por qué ganó un archivo de
+texto</h3>
+<p>El programa Scala, escrito por el teórico holandés Manuel Op de Coul
+a partir de 1992, necesitaba una manera de guardar y compartir escalas.
+En vez de inventar un formato binario propietario, eligió texto plano
+legible por humanos: unas pocas líneas que cualquier editor de texto
+puede abrir, y que cualquier persona con la tabla de la sección 6.4 de
+M1 en la cabeza puede escribir a mano sin ayuda de ningún software. Esa
+decisión —aparentemente menor— es la razón por la que el formato
+sobrevivió más de tres décadas y se volvió el idioma común de facto: es
+trivial de generar, trivial de verificar a ojo, y trivial de importar en
+cualquier lenguaje de programación con diez líneas de código. Cuando en
+la sección 4 hablemos de MIDI vas a ver protocolos bastante más
+intrincados; el contraste te va a ayudar a apreciar por qué
+<code>.scl</code> ganó la partida frente a alternativas más
+“sofisticadas”.</p>
+<h3 id="anatomía-línea-por-línea">3.2 Anatomía línea por línea</h3>
+<p>Un archivo <code>.scl</code> tiene siempre esta estructura, en este
+orden:</p>
+<ol type="1">
+<li><strong>Comentarios</strong>, cualquier cantidad de líneas que
+empiezan con <code>!</code>. Por convención la primera línea del archivo
+es un comentario con el nombre del propio archivo, pero esto es solo
+costumbre, no una regla del formato.</li>
+<li><strong>Descripción</strong>: una única línea de texto libre (sin
+<code>!</code> inicial) que describe la escala. Puede estar vacía, pero
+la línea tiene que existir.</li>
+<li><strong>Número de notas</strong>: una línea con un solo entero, la
+cantidad de notas que vas a listar a continuación.</li>
+<li><strong>Las notas</strong>, una por línea, en el mismo orden en que
+suben desde la tónica. Cada línea es <em>o bien</em> un valor en
+<strong>cents</strong> (reconocible porque contiene un punto decimal,
+por ejemplo <code>696.578</code>), <em>o bien</em> una
+<strong>razón</strong> de enteros separados por una barra (por ejemplo
+<code>3/2</code>; un entero solo, como <code>2</code>, se interpreta
+como <code>2/1</code>). Puedes mezclar ambos formatos dentro del mismo
+archivo, línea por línea, sin problema — el programa que lo lee decide
+por la presencia o ausencia del punto y de la barra.</li>
+</ol>
+<p>Dos detalles que se te van a olvidar si no los memorizas ahora,
+porque son la fuente más común de errores al escribir un
+<code>.scl</code> a mano:</p>
+<ul>
+<li><strong>La lista NO incluye el 1/1 inicial.</strong> La tónica (el
+“grado cero”, 0 cents, razón 1/1) es siempre implícita — nunca se
+escribe. La primera línea de notas es el segundo grado de la
+escala.</li>
+<li><strong>La lista SÍ incluye la nota final</strong>, que casi siempre
+es la octava (<code>2/1</code> o <code>1200.0</code>), aunque el formato
+permite, en principio, escalas “no octava-repetitivas” donde el último
+valor es otra cosa (no las vas a necesitar en este curso).</li>
+</ul>
+<p>Así, un archivo de 12 notas tiene exactamente 12 líneas de valores
+después del número “12”: los grados 2 al 12 más la octava final, doce en
+total, con el 1/1 contado aparte y sin línea propia.</p>
+<h3
+id="ejemplo-desarrollado-1-mesotónico-de-14-de-coma-12-notas-en-cents">3.3
+Ejemplo desarrollado 1: mesotónico de 1/4 de coma (12 notas, en
+cents)</h3>
+<p>Retomemos la derivación completa de M5: la quinta mesotónica de 1/4
+de coma mide 696.578 cents (la cifra canónica del curso), obtenida de
+estrechar la quinta pura en un cuarto de coma sintónica:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>5.377</mn><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">701.955 - 21.506/4 = 701.955 - 5.377 = 696.578</annotation></semantics></math>.
+Encadenando esa quinta desde Mib hasta Sol# (once quintas:
+Mib–Sib–Fa–Do–Sol–Re–La–Mi–Si–Fa#–Do#–Sol#) y reduciendo cada nota a su
+octava respecto de Do, obtenemos la tabla de 12 notas (verificada
+numéricamente):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Cents desde Do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Do#</td>
+<td>76.049</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>193.157</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>310.265</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>386.314</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>503.422</td>
+</tr>
+<tr>
+<td>Fa#</td>
+<td>579.471</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>696.578</td>
+</tr>
+<tr>
+<td>Sol#</td>
+<td>772.627</td>
+</tr>
+<tr>
+<td>La</td>
+<td>889.735</td>
+</tr>
+<tr>
+<td>Sib</td>
+<td>1006.843</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>1082.892</td>
+</tr>
+<tr>
+<td>Do (8ª)</td>
+<td>1200.000</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fíjate que el Mi da exactamente 386.314 — la tercera mayor
+<em>pura</em> (5/4), que es precisamente el objetivo de todo el sistema
+mesotónico (M5): sacrificar la pureza de las quintas para comprar
+terceras puras. El archivo <code>.scl</code> completo, listo para
+guardar como <code>mesotonico_cuarto_coma.scl</code>:</p>
+<pre><code>! mesotonico_cuarto_coma.scl
+!
+Mesotonico de 1/4 de coma sintonica, 12 notas desde Do (M5)
+ 12
+!
+  76.049
+ 193.157
+ 310.265
+ 386.314
+ 503.422
+ 579.471
+ 696.578
+ 772.627
+ 889.735
+1006.843
+1082.892
+1200.000</code></pre>
+<p>Cuenta las líneas de valores: son doce, exactamente lo que declara la
+línea “12”. La primera (76.049) es el Do#, no el Do —recuerda, el 1/1
+nunca se escribe—, y la última (1200.000) es la octava.</p>
+<h3
+id="ejemplo-desarrollado-2-justa-entonación-5-limit-12-notas-en-razones">3.4
+Ejemplo desarrollado 2: justa entonación 5-limit (12 notas, en
+razones)</h3>
+<p>Ahora el mismo ejercicio con la familia opuesta: una escala cromática
+de 12 notas construida enteramente con razones de primos 2, 3 y 5 (justa
+entonación “5-limit”, la generalización cromática de la escala mayor
+justa de M4). Usamos la tabla de razones ya verificada en M1 §4 y M4,
+completada con los grados cromáticos que faltan:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Razón</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do#</td>
+<td>16/15</td>
+<td>111.731</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>9/8</td>
+<td>203.910</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>6/5</td>
+<td>315.641</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>5/4</td>
+<td>386.314</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>4/3</td>
+<td>498.045</td>
+</tr>
+<tr>
+<td>Fa#</td>
+<td>45/32</td>
+<td>590.224</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>3/2</td>
+<td>701.955</td>
+</tr>
+<tr>
+<td>Sol#</td>
+<td>8/5</td>
+<td>813.686</td>
+</tr>
+<tr>
+<td>La</td>
+<td>5/3</td>
+<td>884.359</td>
+</tr>
+<tr>
+<td>Sib</td>
+<td>9/5</td>
+<td>1017.596</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>15/8</td>
+<td>1088.269</td>
+</tr>
+<tr>
+<td>Do (8ª)</td>
+<td>2/1</td>
+<td>1200.000</td>
+</tr>
+</tbody>
+</table></div>
+<p>El archivo <code>.scl</code>, esta vez con razones en vez de cents
+(fíjate en la ausencia de puntos decimales y la presencia de barras: es
+lo que le indica al lector que interprete cada línea como fracción, no
+como cents):</p>
+<pre><code>! justa_5limite.scl
+!
+Justa entonacion 5-limit, 12 notas desde Do (extension cromatica de M4)
+ 12
+!
+16/15
+9/8
+6/5
+5/4
+4/3
+45/32
+3/2
+8/5
+5/3
+9/5
+15/8
+2/1</code></pre>
+<p>Compara los dos archivos: mismo formato exacto, misma cantidad de
+líneas, y sin embargo describen dos filosofías de afinación
+completamente distintas —una temperada para maximizar terceras puras vía
+una fracción de coma, la otra construida directamente con razones
+pequeñas de enteros sin ningún temperamento. El formato
+<code>.scl</code> es neutral: no le importa si tus números vienen de una
+cadena de quintas temperadas o de un producto de fracciones justas, solo
+transporta la lista.</p>
+<h3 id="el-archivo-.kbm-qué-resuelve">3.5 El archivo <code>.kbm</code>:
+qué resuelve</h3>
+<p>Un <code>.scl</code> describe <em>qué notas</em> tiene una escala y
+<em>cuánto miden sus intervalos</em>. No dice nada sobre <em>qué tecla
+del teclado dispara cada nota</em>, ni sobre <em>a qué frecuencia
+absoluta</em> está anclado todo el sistema. Eso es exactamente lo que
+resuelve el archivo complementario, el <strong>keyboard mapping</strong>
+(<code>.kbm</code>). Dos preguntas muy concretas quedan sin responder si
+solo tienes el <code>.scl</code>:</p>
+<ol type="1">
+<li><strong>¿Qué tecla MIDI (0–127) corresponde a qué grado de la
+escala?</strong> Para un sistema de 12 notas en un teclado estándar de
+12 teclas por octava, la respuesta es “obvia” (la tecla 60 toca el grado
+0, la 61 el grado 1, y así sucesivamente) y casi todo sintetizador la
+asume por defecto sin que tengas que escribir nada. Pero en cuanto tu
+escala deja de tener 12 notas —un EDO de 19 o 31 pasos (M9), o los 43
+tonos de Partch (M10)— la correspondencia deja de ser automática: un
+teclado físico de 12 teclas por octava no tiene una tecla para cada uno
+de los 19, 31 o 43 grados. El <code>.kbm</code> es el archivo que
+declara explícitamente esa correspondencia tecla-a-grado (y volveremos
+sobre este problema concreto en el ejercicio 5).</li>
+<li><strong>¿A qué frecuencia absoluta está anclado todo el
+sistema?</strong> Un <code>.scl</code> da solo <em>intervalos
+relativos</em> — nunca dice “el Do suena a 261.63 Hz”, porque un
+<code>.scl</code> es, por diseño, transportable a cualquier tonalidad.
+El <code>.kbm</code> es quien fija el ancla: declara qué <strong>nota de
+referencia</strong> (por ejemplo, la tecla MIDI 69, La4) suena a qué
+<strong>frecuencia de referencia</strong> (por ejemplo, 440 Hz), y a
+partir de ese único punto fijo el sintetizador reconstruye la frecuencia
+absoluta de cualquier otra tecla, aplicando los intervalos del
+<code>.scl</code> hacia arriba o hacia abajo. Cambiar solo el
+<code>.kbm</code> (sin tocar el <code>.scl</code>) te permite, por
+ejemplo, tocar exactamente el mismo mesotónico de 1/4 de coma pero
+anclado a La4 = 415 Hz en vez de 440 Hz (afinación “barroca”), sin
+recalcular ni una sola de las doce razones.</li>
+</ol>
+<p>No necesitas memorizar el formato de bytes exacto del
+<code>.kbm</code> para este curso —los generadores del laboratorio lo
+escriben por ti—; lo que sí tienes que retener es la idea: <strong>el
+<code>.scl</code> describe la forma de la escala; el <code>.kbm</code>
+la ancla a un teclado físico y a una frecuencia absoluta del mundo
+real.</strong></p>
+<h2 id="midi-y-afinación-el-problema-de-fondo">4. MIDI y afinación: el
+problema de fondo</h2>
+<h3 id="lo-que-midi-transmite-y-lo-que-no">4.1 Lo que MIDI transmite (y
+lo que no)</h3>
+<p>El protocolo MIDI, diseñado en 1983, no transmite frecuencias.
+Transmite <strong>números de tecla</strong>: un mensaje “Note On” dice,
+en esencia, “activa la tecla 60 con esta velocidad”, y es el
+sintetizador receptor quien decide, internamente, a qué frecuencia suena
+la tecla 60 — casi siempre, por convención de fábrica, la del
+temperamento igual con La4 = 440 Hz
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>440</mn><mo>×</mo><msup><mn>2</mn><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>69</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">f = 440 \times 2^{(n-69)/12}</annotation></semantics></math>).
+MIDI en sí mismo no tiene ningún campo en su mensaje básico de nota para
+decir “pero en realidad quiero que esta tecla suene 5.865 cents más
+grave que eso”. Cualquier afinación distinta del temperamento igual de
+fábrica exige, entonces, una capa adicional por encima del mensaje de
+nota. Existen, en la práctica, dos familias de solución: <strong>desviar
+la altura después de la nota</strong> (pitch bend, y su formalización
+MPE), o <strong>decirle directamente al sintetizador la frecuencia que
+quieres</strong> (MTS). Vamos a desarrollar la primera en detalle porque
+es, literalmente, la que usa el software del proyecto DAC.</p>
+<h3 id="pitch-bend-por-canal-la-técnica-de-audio_player.py">4.2 Pitch
+bend por canal: la técnica de <code>audio_player.py</code></h3>
+<p>El mensaje MIDI de <strong>pitch bend</strong> es un mensaje de canal
+(afecta a un canal MIDI completo, no a una tecla en particular) que
+desplaza la altura de todas las notas sonando en ese canal. Se transmite
+como un valor de <strong>14 bits</strong> —dos bytes de 7 bits cada uno,
+por razones históricas del protocolo—, lo que da un rango de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>14</mn></msup><mo>−</mo><mn>1</mn><mo>=</mo><mn>16383</mn></mrow><annotation encoding="application/x-tex">2^{14}-1 = 16383</annotation></semantics></math>,
+con el <strong>centro exacto en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8192</mn><annotation encoding="application/x-tex">8192</annotation></semantics></math></strong>
+representando “sin desviación”. El <em>rango</em> que representan los
+extremos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>16383</mn><annotation encoding="application/x-tex">16383</annotation></semantics></math>)
+no está fijado por el estándar MIDI: lo define un mensaje separado (un
+RPN, “Registered Parameter Number”, el número 0) que declara cuántos
+semitonos cubre el bend completo hacia cada lado. El código real del
+proyecto (<code>core/audio_player.py</code>, función
+<code>play_score</code>) configura ese rango explícitamente a <strong>±2
+semitonos</strong> para los 14 canales que usa, con esta secuencia de
+mensajes de control por canal:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">101</span>, <span class="dv">0</span>)  <span class="co"># RPN MSB</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">100</span>, <span class="dv">0</span>)  <span class="co"># RPN LSB</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">6</span>, <span class="dv">2</span>)    <span class="co"># Data Entry MSB (2 semitonos)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.cc(ch, <span class="dv">38</span>, <span class="dv">0</span>)   <span class="co"># Data Entry LSB</span></span></code></pre></div>
+<p>Con el rango fijado en ±2 semitonos (±200 cents), la fórmula que
+convierte una desviación en cents a un valor de bend de 14 bits,
+centrado en 8192, es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">bend</mtext><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mtext mathvariant="normal">desviación (cents)</mtext><mn>200</mn></mfrac><mo>×</mo><mn>8192</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{bend} = 8192 + \text{round}\left(\frac{\text{desviación (cents)}}{200} \times 8192\right)</annotation></semantics></math></p>
+<p>Verifiquémosla con un número que ya conoces de memoria: la quinta de
+Werckmeister III mide 696.090 cents, es decir,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>696.090</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>5.865</mn></mrow><annotation encoding="application/x-tex">696.090 - 701.955 = -5.865</annotation></semantics></math>
+cents respecto de la quinta pura (o, dicho de otra forma, es la quinta
+que necesitas obtener bendeando una quinta de temperamento igual, que
+mide 700 c, en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>696.090</mn><mo>−</mo><mn>700</mn><mo>=</mo><mi>−</mi><mn>3.910</mn></mrow><annotation encoding="application/x-tex">696.090-700=-3.910</annotation></semantics></math>
+c — pero usemos la desviación de -5.865 c respecto de la pura como
+ejercicio de la fórmula, tal como aparece en la derivación de M6
+§3.2):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">bend</mtext><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>−</mi><mn>5.865</mn></mrow><mn>200</mn></mfrac><mo>×</mo><mn>8192</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>240.230</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>−</mo><mn>240</mn><mo>=</mo><mn>7952</mn></mrow><annotation encoding="application/x-tex">\text{bend} = 8192 + \text{round}\left(\frac{-5.865}{200} \times 8192\right) = 8192 + \text{round}(-240.230) = 8192 - 240 = 7952</annotation></semantics></math></p>
+<p>El sintetizador recibe entonces el valor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>7952</mn><annotation encoding="application/x-tex">7952</annotation></semantics></math>
+en el mensaje de pitch bend de ese canal,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>240</mn><annotation encoding="application/x-tex">240</annotation></semantics></math>
+unidades por debajo del centro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8192</mn><annotation encoding="application/x-tex">8192</annotation></semantics></math>,
+y desplaza la altura hacia abajo en la proporción correspondiente.</p>
+<p><strong>Cómo lo implementa exactamente el código del
+proyecto.</strong> La función <code>_play_element</code> de
+<code>audio_player.py</code> calcula primero la desviación en cents
+comparando la frecuencia del sistema de afinación elegido contra la
+frecuencia estándar de temperamento igual:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cents_dev <span class="op">=</span> <span class="dv">1200</span> <span class="op">*</span> np.log2(tuned_freq <span class="op">/</span> std_freq)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bend_value <span class="op">=</span> <span class="bu">int</span>(<span class="dv">8191</span> <span class="op">*</span> (cents_dev <span class="op">/</span> <span class="dv">200</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>bend_value <span class="op">=</span> <span class="bu">max</span>(<span class="op">-</span><span class="dv">8192</span>, <span class="bu">min</span>(<span class="dv">8191</span>, bend_value))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.fs.pitch_bend(channel, bend_value)</span></code></pre></div>
+<p>Dos detalles honestos que vale la pena señalar, porque son la clase
+de cosas que solo se ven leyendo el código real y no una especificación
+abstracta: primero, la librería <code>pyfluidsynth</code> que usa el
+proyecto expone <code>pitch_bend()</code> con una convención
+<strong>centrada en cero</strong> (rango
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>8192</mn></mrow><annotation encoding="application/x-tex">-8192</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>8191</mn></mrow><annotation encoding="application/x-tex">+8191</annotation></semantics></math>,
+donde
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+significa “sin desviación”), no con el
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8192</mn><annotation encoding="application/x-tex">8192</annotation></semantics></math>
+como centro del mensaje MIDI crudo — es la misma información, con el
+offset de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8192</mn><annotation encoding="application/x-tex">8192</annotation></semantics></math>
+ya restado por la librería antes de armar el mensaje de bytes que
+efectivamente viaja por el cable o el buffer de audio. Segundo, el
+código usa <code>int()</code> (trunca hacia cero) en vez de
+<code>round()</code>, y multiplica por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8191</mn><annotation encoding="application/x-tex">8191</annotation></semantics></math>
+en lugar de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8192</mn><annotation encoding="application/x-tex">8192</annotation></semantics></math>;
+la diferencia práctica de ambas elecciones frente a la fórmula canónica
+de esta sección es de una fracción de cent, inaudible, pero es
+exactamente el tipo de pequeña asimetría de implementación que conviene
+poder leer y explicar en código ajeno, no solo en la fórmula de un
+libro.</p>
+<p><strong>La limitación de fondo.</strong> El pitch bend es un mensaje
+<em>de canal</em>: todas las notas activas en ese canal en ese instante
+comparten el mismo desplazamiento. Si Do y Mi necesitan, en tu sistema
+de afinación, dos desviaciones distintas respecto del temperamento igual
+(algo que ocurre en <em>todos</em> los sistemas de este curso salvo el
+temperamento igual mismo), no puedes tocarlas juntas en el mismo canal
+con un solo mensaje de bend — un bend afecta a ambas por igual. La
+solución de <code>audio_player.py</code> es <strong>rotar
+canales</strong>: mantiene un conjunto de 14 canales disponibles (los 16
+canales MIDI menos el canal 9, reservado por convención General MIDI
+para percusión, y menos… en realidad son
+<code>list(range(9)) + list(range(10, 15))</code>, es decir los canales
+0–8 y 10–14, catorce en total), y cada vez que necesita sonar una nota
+nueva <strong>saca un canal libre del conjunto</strong>, le asigna el
+pitch bend exacto que esa nota particular necesita, y recién ahí envía
+el <code>noteon</code>. Cuando la nota termina, el canal vuelve al
+conjunto de disponibles para la siguiente nota. Así, hasta 14 notas
+simultáneas pueden sonar cada una con su propia microafinación
+independiente, aunque el mecanismo de fondo (pitch bend) solo permita un
+valor por canal — el truco es no compartir nunca un canal entre dos
+notas con desviaciones distintas que sí necesiten sonar al mismo
+tiempo.</p>
+<h3 id="mpe-la-formalización-moderna-de-esa-misma-rotación">4.3 MPE: la
+formalización moderna de esa misma rotación</h3>
+<p>Lo que <code>audio_player.py</code> hace “a mano” —un canal por nota
+activa, con su propio pitch bend independiente— es exactamente la idea
+que la industria terminó estandarizando bajo el nombre
+<strong>MPE</strong> (<em>MIDI Polyphonic Expression</em>): una
+convención, hoy ampliamente soportada, donde cada nota que suena recibe
+su propio canal MIDI dedicado (típicamente los canales 2 a 16, dejando
+el canal 1 como “canal maestro” para mensajes globales), de modo que el
+pitch bend de ese canal pueda transportar información exclusiva de esa
+nota — ya sea una desviación de afinación fija, como en nuestro caso, o
+un deslizamiento expresivo continuo (el <em>glide</em> de un dedo sobre
+un controlador táctil, el uso más difundido de MPE hoy). Un sintetizador
+“MPE-aware” entiende esta convención de fábrica, con las mismas ventajas
+(polifonía con microafinación independiente por nota) y sin que tengas
+que programar tú mismo la lógica de asignación de canales que sí tuvo
+que escribir el proyecto DAC.</p>
+<h3 id="mts-y-mts-esp-decirle-la-frecuencia-directamente">4.4 MTS y
+MTS-ESP: decirle la frecuencia directamente</h3>
+<p>La alternativa de fondo, en vez de desviar la altura después del
+hecho, es <strong>decirle al sintetizador la frecuencia exacta que
+quieres, de entrada</strong>. Eso es lo que hace el <strong>MTS</strong>
+(<em>MIDI Tuning Standard</em>), un conjunto de mensajes <em>sysex</em>
+(System Exclusive, el “cajón de sastre” del protocolo MIDI para
+extensiones no estandarizadas en el mensaje básico) definidos
+específicamente para afinación. Existen dos variantes: el <strong>bulk
+dump</strong>, un mensaje largo que retempla de una vez las 128 teclas
+de un banco completo, cada una con su frecuencia asignada; y el
+<strong>single note tuning change</strong>, un mensaje corto que
+retempla una sola tecla en tiempo real, útil cuando la afinación
+necesita cambiar nota a nota durante la ejecución (por ejemplo, justa
+entonación <em>adaptativa</em>, que ajusta cada acorde según su contexto
+armónico — el problema del “drift” que viste en M4).</p>
+<p>La encarnación práctica más difundida hoy de esta idea es
+<strong>MTS-ESP</strong> (de la empresa Oddsound): un plugin “maestro”
+que se instala una sola vez en la sesión del DAW y transmite, en tiempo
+real, la frecuencia deseada de cada tecla actualmente sonando a todos
+los demás plugins de la sesión que sean “clientes MTS-ESP” —
+típicamente, todos los sintetizadores instanciados. La ventaja frente al
+pitch bend por canal es doble: no hay límite de polifonía impuesto por
+la cantidad de canales disponibles (no se necesita reservar un canal por
+nota), y toda la sesión completa —todos los sintetizadores a la vez—
+queda sincronizada desde un único punto de control, de modo que cambiar
+de sistema de afinación a mitad de una sesión es cambiar una sola cosa,
+no reconfigurar plugin por plugin.</p>
+<h2 id="panorama-de-flujos-de-trabajo">5. Panorama de flujos de
+trabajo</h2>
+<p>El software cambia de versión constantemente; lo que sigue describe
+<em>categorías</em> y <em>capacidades generales</em>, no menús
+específicos que puedan quedar desactualizados apenas publiques este
+apunte.</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Categoría</th>
+<th>Ejemplos</th>
+<th>Soporte típico de afinación</th>
+<th>Limitación honesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sintetizadores software</td>
+<td>Surge XT (libre y gratuito — recomendado para este curso), Pigments,
+Serum, Vital, entre otros</td>
+<td>Carga nativa de <code>.scl</code>/<code>.kbm</code>; algunos también
+actúan como clientes MTS-ESP</td>
+<td>Cada uno organiza su panel de afinación de forma distinta; el nombre
+exacto del menú cambia entre versiones</td>
+</tr>
+<tr>
+<td>DAWs</td>
+<td>Ableton Live, Logic Pro, Reaper, entre otros</td>
+<td>Soporte parcial e indirecto: automatizar pitch bend, alojar un synth
+con <code>.scl</code> propio, o alojar un plugin maestro tipo
+MTS-ESP</td>
+<td>El DAW en sí casi nunca “entiende” afinación microtonal de fábrica;
+la carga real vive en el sintetizador o en un plugin dedicado, no en el
+editor de piano roll</td>
+</tr>
+<tr>
+<td>Notación</td>
+<td>Dorico, MuseScore, entre otros</td>
+<td>Ediciones recientes permiten sistemas de afinación personalizados y
+una reproducción microtonal aproximada</td>
+<td>La notación microtonal en sí (qué símbolo de alteración usar) es un
+problema aparte — tema de M11 §3a, no de este módulo</td>
+</tr>
+<tr>
+<td>Entornos de programación</td>
+<td>Max/MSP, SuperCollider, Pure Data</td>
+<td>Control total: uno especifica la frecuencia exacta de cada evento
+sin depender de ningún estándar intermedio</td>
+<td>Curva de aprendizaje mayor; la formulación técnica del proyecto DAC
+contempla justamente un puente Python/Max para este fin, del mismo
+espíritu que <code>audio_player.py</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Aviso honesto de obsolescencia.</strong> Cualquiera de los
+nombres de esta tabla puede discontinuarse, cambiar de dueño, o
+rediseñar por completo su interfaz de afinación en el tiempo que pase
+entre que se escribe este apunte y que tú lo leas. Lo que
+<strong>no</strong> cambia es el formato <code>.scl</code> en sí — lleva
+más de treinta años siendo el idioma común, precisamente porque es texto
+plano y no depende de que ningún fabricante en particular siga
+existiendo. Por eso este módulo invierte tanto tiempo en enseñarte a
+escribirlo y leerlo a mano, y tan poco en describir menús: los menús van
+a cambiar: el archivo, probablemente no.</p>
+<h2 id="el-flujo-recomendado-del-curso">6. El flujo recomendado del
+curso</h2>
+<p>Un procedimiento conceptual, en cuatro pasos, para llevar cualquier
+sistema de este curso desde tu cuaderno hasta un sonido real:</p>
+<ol type="1">
+<li><strong>Exporta el <code>.scl</code></strong> desde el generador del
+laboratorio de este módulo, eligiendo cualquier sistema que hayas
+estudiado (Vallotti, el mesotónico de 1/4 de coma, un EDO de M9, la
+justa extendida de M10…). El generador te entrega un archivo de texto
+con exactamente el formato de la sección 3.</li>
+<li><strong>Cárgalo en un sintetizador con soporte
+<code>.scl</code>.</strong> Si tienes Surge XT (gratuito, y por eso el
+recomendado para seguir el curso sin costo), busca su panel o menú de
+“tuning” — el nombre exacto puede variar entre versiones, pero la
+función siempre es la misma: apuntar a un archivo <code>.scl</code> (y,
+si tu escala no tiene 12 notas, a un <code>.kbm</code> también) y
+aplicarlo a todo el instrumento.</li>
+<li><strong>Toca la progresión de prueba de M8</strong> — la misma
+cadencia o comparación acumulativa que usaste para entrenar el oído
+comparando sistemas — ahora con sonido real de sintetizador, no solo con
+el generador simplificado del laboratorio. Confirma que el color y las
+asperezas que predijiste con números son, efectivamente, lo que
+escuchas.</li>
+<li><strong>Para orquesta o notación</strong>, en vez de un
+sintetizador, usa la tabla de desviaciones en cents que el mismo
+generador del laboratorio produce junto al <code>.scl</code>, y anótalas
+sobre la partitura siguiendo la convención de M11 §3a — el mismo número
+que alimenta el <code>.kbm</code> de un sintetizador es, sin ningún
+cálculo adicional, la cifra que un músico de cuerda o viento necesita
+para ajustar de oído.</li>
+</ol>
+<h2 id="software-scala-y-el-ecosistema-xenarmónico">7. Software Scala y
+el ecosistema xenarmónico</h2>
+<p>El programa que le da nombre al formato —<strong>Scala</strong>, de
+Manuel Op de Coul— sigue siendo, décadas después de su primera versión,
+la herramienta histórica de referencia: distribuye un archivo de más de
+5000 escalas ya codificadas (el “archivo Scala”), cubriendo desde los
+sistemas históricos de este curso hasta temperamentos y escalas de
+tradiciones no occidentales que vas a empezar a ver en la Fase 3. Su
+interfaz es deliberadamente austera —más cercana a una consola de texto
+que a un sintetizador moderno—, pero es, en la práctica, la razón
+principal por la que <code>.scl</code> se volvió el estándar de facto:
+dos generaciones de investigadores y compositores microtonales lo usaron
+para intercambiar escalas antes de que existiera cualquier otra
+convención competidora.</p>
+<p>Alrededor de ese archivo y ese formato creció una comunidad que
+documenta su propio vocabulario y catálogo en la <strong>Xenharmonic
+Wiki</strong>, una enciclopedia colaborativa donde se describen
+sistematicamente EDOs, temperamentos regulares, y la terminología
+técnica del campo (mucha de la cual, como “EDO” mismo, la vas a
+reconocer de M9). Fuera del ámbito académico, la llamada <strong>escena
+xenarmónica</strong> —compositores y productores que trabajan
+activamente con afinaciones no estándar en música publicada, con
+<strong>Sevish</strong> como uno de los nombres más reconocibles de esa
+escena contemporánea— ha ido demostrando, disco a disco, que estos
+sistemas no son solo objeto de estudio teórico sino un recurso
+compositivo vivo, con público propio.</p>
+<h2 id="ejercicios-de-cálculo">8. Ejercicios de cálculo</h2>
+<p>Resuelve cada uno por escrito antes de mirar la solución. Todos son
+prácticos: se verifican con un archivo de texto, una calculadora, o el
+código citado en este módulo.</p>
+<ol type="1">
+<li><p>Escribe a mano el archivo <code>.scl</code> completo (12 líneas
+de cents, más la descripción y el conteo) de Werckmeister III. Puedes
+verificar tu resultado contra la tabla de M6 §3.2.</p></li>
+<li><p>Te entrego este archivo, sin nombre ni descripción:</p>
+<pre><code>203.910
+407.820
+498.045
+701.955
+905.865
+1109.775
+1200.000</code></pre>
+<p>¿De qué sistema de afinación es esta escala de 7 notas? Justifica tu
+respuesta con al menos un cálculo (pista: fíjate especialmente en el
+valor de la tercera).</p></li>
+<li><p>Usando la fórmula canónica de la sección 4.2 (rango ±2
+semitonos), calcula el valor de pitch bend de 14 bits para cada una de
+estas desviaciones:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>21.5</mn></mrow><annotation encoding="application/x-tex">+21.5</annotation></semantics></math>
+c,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>13.7</mn></mrow><annotation encoding="application/x-tex">-13.7</annotation></semantics></math>
+c,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>41.1</mn></mrow><annotation encoding="application/x-tex">+41.1</annotation></semantics></math>
+c,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>5.9</mn></mrow><annotation encoding="application/x-tex">-5.9</annotation></semantics></math>
+c.</p></li>
+<li><p>Calcula la <strong>resolución</strong> de un pitch bend de 14
+bits en rango ±2 semitonos (es decir, cuántos cents representa un paso
+mínimo del valor entero), y a partir de ella, el error máximo de
+redondeo que puede introducir la fórmula de la sección 4.2.</p></li>
+<li><p>Quieres tocar una escala de 19 notas por octava (M9) en un
+teclado MIDI físico estándar, que solo tiene 12 teclas por octava.
+Describe, conceptualmente, qué compromiso obliga a aceptar esa
+limitación de hardware, y qué tipo de solución (de hardware o de mapeo)
+lo evita.</p></li>
+<li><p>Usando la lógica exacta de <code>audio_player.py</code> (14
+canales disponibles: los canales 0 a 8 y 10 a 14, evitando el canal 9 de
+percusión), calcula cuántas notas simultáneas soporta el sistema, cada
+una con su propia microafinación, antes de que aparezca la advertencia
+de “no hay canales disponibles”. ¿Qué le pasa exactamente a la nota
+número 15 de un acorde muy denso?</p></li>
+<li><p>Calcula el valor de pitch bend necesario para el Do# del
+mesotónico de 1/4 de coma (76.049 c, tabla de la sección 3.3) respecto
+de su equivalente en temperamento igual (100 c).</p></li>
+<li><p>La resolución de la sección 4 (ejercicio 4) te da cuántos cents
+representa un paso del bend. Invierte el cálculo: ¿cuántos valores
+distintos de pitch bend “caben” dentro de un solo cent?</p></li>
+<li><p>Verifica, calculando tú mismo el logaritmo, que la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>45</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">45/32</annotation></semantics></math>
+(Fa# de la tabla de justa 5-limit, sección 3.4) corresponde
+efectivamente a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>590.224</mn><annotation encoding="application/x-tex">590.224</annotation></semantics></math>
+cents.</p></li>
+<li><p>Escribe el archivo <code>.scl</code> del temperamento igual
+estándar (12-EDO). ¿Por qué, a pesar de ser el sistema más común de
+todos, casi nunca vas a encontrar un archivo <code>.scl</code> de 12-EDO
+circulando en el archivo Scala o en foros?</p></li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong> Usando los valores derivados en M6 §3.2 (Do = 0,
+y de ahí Sol, Re, La, Fa#, etc. por cadena de quintas con cuatro de
+ellas temperadas 1/4 de coma pitagórica cada una):</p>
+<pre><code>! werckmeister3.scl
+!
+Werckmeister III, 12 notas desde Do (M6)
+ 12
+!
+  90.225
+ 192.180
+ 294.135
+ 390.225
+ 498.045
+ 588.270
+ 696.090
+ 792.180
+ 888.270
+ 996.090
+1092.180
+1200.000</code></pre>
+<p><strong>2.</strong> Es la <strong>escala mayor pitagórica</strong>
+(cadena de quintas puras, sin ningún temperamento), no la justa
+entonación ni el temperamento igual. La pista decisiva es la tercera:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>407.820</mn><annotation encoding="application/x-tex">407.820</annotation></semantics></math>
+c es exactamente el <strong>ditono pitagórico</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">81/64</annotation></semantics></math>,
+M1 §4.1 y M3), 21.506 cents (una coma sintónica completa) más ancho que
+la tercera mayor pura de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+c. Si fuera justa entonación, esa tercera mediría
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>;
+si fuera temperamento igual,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>400.000</mn><annotation encoding="application/x-tex">400.000</annotation></semantics></math>.
+El resto de los valores confirma la lectura:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>203.910</mn><annotation encoding="application/x-tex">203.910</annotation></semantics></math>
+(tono mayor puro,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>701.955</mn><annotation encoding="application/x-tex">701.955</annotation></semantics></math>
+(quinta pura exacta),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>498.045</mn><annotation encoding="application/x-tex">498.045</annotation></semantics></math>
+(cuarta pura) — todos productos de cadenas de quintas puras sin ningún
+reparto de coma.</p>
+<p><strong>3.</strong> Con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">bend</mtext><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">dev</mtext><mi>/</mi><mn>200</mn><mo>×</mo><mn>8192</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\text{bend} = 8192 + \text{round}(\text{dev}/200 \times 8192)</annotation></semantics></math>:
+-
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>21.5</mn></mrow><annotation encoding="application/x-tex">+21.5</annotation></semantics></math>
+c:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mn>880.640</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>+</mo><mn>881</mn><mo>=</mo><mn>9073</mn></mrow><annotation encoding="application/x-tex">8192 + \text{round}(880.640) = 8192+881 = 9073</annotation></semantics></math>
+-
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>13.7</mn></mrow><annotation encoding="application/x-tex">-13.7</annotation></semantics></math>
+c:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>561.152</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>−</mo><mn>561</mn><mo>=</mo><mn>7631</mn></mrow><annotation encoding="application/x-tex">8192 + \text{round}(-561.152) = 8192-561 = 7631</annotation></semantics></math>
+-
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>41.1</mn></mrow><annotation encoding="application/x-tex">+41.1</annotation></semantics></math>
+c:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mn>1683.456</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>+</mo><mn>1683</mn><mo>=</mo><mn>9875</mn></mrow><annotation encoding="application/x-tex">8192 + \text{round}(1683.456) = 8192+1683 = 9875</annotation></semantics></math>
+-
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>5.9</mn></mrow><annotation encoding="application/x-tex">-5.9</annotation></semantics></math>
+c:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>241.664</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>−</mo><mn>242</mn><mo>=</mo><mn>7950</mn></mrow><annotation encoding="application/x-tex">8192 + \text{round}(-241.664) = 8192-242 = 7950</annotation></semantics></math></p>
+<p><strong>4.</strong> El rango completo hacia un solo lado
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>8192</mn><annotation encoding="application/x-tex">8192</annotation></semantics></math>
+pasos) cubre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>200</mn><annotation encoding="application/x-tex">200</annotation></semantics></math>
+cents, así que la resolución es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>200</mn><mi>/</mi><mn>8192</mn><mo>=</mo><mn>0.0244140625</mn></mrow><annotation encoding="application/x-tex">200/8192 = 0.0244140625</annotation></semantics></math>
+cents por paso — prácticamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.024</mn><annotation encoding="application/x-tex">0.024</annotation></semantics></math>
+c, muy por debajo del umbral de 1 cent que ya es imperceptible (M1
+§6.5). El error máximo de redondeo es medio paso:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0244140625</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>0.01220703125</mn></mrow><annotation encoding="application/x-tex">0.0244140625/2 = 0.01220703125</annotation></semantics></math>
+cents, es decir, del orden de una centésima de cent — completamente
+inaudible, ninguna de las cifras de este curso (todas con 3 decimales)
+se ve afectada de forma perceptible por la cuantización de 14 bits.</p>
+<p><strong>5.</strong> El compromiso es que un teclado físico estándar
+solo puede disparar, como máximo, 12 notas distintas por octava física
+recorrida con los dedos — no hay manera de que 19 grados de escala
+quepan en 12 teclas sin que alguna tecla haga doble función o alguna
+zona del teclado quede reservada a un subconjunto de grados (una
+solución habitual, imperfecta, es mapear solo 12 de los 19 grados en la
+posición “natural” y alcanzar los 7 restantes solo transponiendo o
+cambiando de registro). La solución de hardware que evita el compromiso
+por completo es un <strong>teclado isomórfico generalizado</strong> (por
+ejemplo, del tipo Lumatone), diseñado específicamente con más de 12
+pulsadores por octava física y una disposición geométrica que se adapta
+al número de grados de la escala — el <code>.kbm</code> de la sección
+3.5 es, en ese caso, quien le dice al sintetizador exactamente qué
+pulsador físico corresponde a cuál de los 19 grados.</p>
+<p><strong>6.</strong> <code>list(range(9)) + list(range(10, 15))</code>
+da los canales
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>6</mn><mo>,</mo><mn>7</mn><mo>,</mo><mn>8</mn><mo stretchy="false" form="postfix">}</mo><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mn>10</mn><mo>,</mo><mn>11</mn><mo>,</mo><mn>12</mn><mo>,</mo><mn>13</mn><mo>,</mo><mn>14</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{0,1,2,3,4,5,6,7,8\} \cup \{10,11,12,13,14\}</annotation></semantics></math>:
+nueve más cinco, <strong>14 canales</strong> en total. Ese es el máximo
+de notas simultáneas, cada una con su propio pitch bend independiente.
+La nota número 15 de un acorde muy denso no sonará: el código encuentra
+la lista <code>available_channels</code> vacía, imprime la advertencia
+<code>"ADVERTENCIA: No hay canales MIDI disponibles. La nota no sonará."</code>,
+y simplemente omite esa nota — el resto del acorde suena normalmente,
+pero con una voz menos.</p>
+<p><strong>7.</strong> Desviación:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>76.049</mn><mo>−</mo><mn>100</mn><mo>=</mo><mi>−</mi><mn>23.951</mn></mrow><annotation encoding="application/x-tex">76.049 - 100 = -23.951</annotation></semantics></math>
+cents.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">bend</mtext><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>23.951</mn><mi>/</mi><mn>200</mn><mo>×</mo><mn>8192</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>+</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>981.033</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8192</mn><mo>−</mo><mn>981</mn><mo>=</mo><mn>7211</mn></mrow><annotation encoding="application/x-tex">\text{bend} = 8192 + \text{round}(-23.951/200 \times 8192) = 8192 + \text{round}(-981.033) = 8192 - 981 = 7211</annotation></semantics></math>.</p>
+<p><strong>8.</strong> Si un paso equivale a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0244140625</mn><annotation encoding="application/x-tex">0.0244140625</annotation></semantics></math>
+cents, entonces en un cent completo caben
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>0.0244140625</mn><mo>=</mo><mn>40.96</mn></mrow><annotation encoding="application/x-tex">1/0.0244140625 = 40.96</annotation></semantics></math>,
+es decir, <strong>aproximadamente 41 valores distintos</strong> de pitch
+bend por cada cent de desviación — margen más que suficiente para
+representar con fidelidad cualquier cifra de tres decimales de este
+curso.</p>
+<p><strong>9.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>45</mn><mi>/</mi><mn>32</mn><mo>=</mo><mn>1.40625</mn></mrow><annotation encoding="application/x-tex">45/32 = 1.40625</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.40625</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.340927</mn></mrow><annotation encoding="application/x-tex">\ln(1.40625) = 0.340927</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.40625</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.340927</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.491854</mn></mrow><annotation encoding="application/x-tex">\log_2(1.40625) = 0.340927/0.693147 = 0.491854</annotation></semantics></math>.
+Entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>45</mn><mi>/</mi><mn>32</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.491854</mn><mo>=</mo><mn>590.224</mn></mrow><annotation encoding="application/x-tex">c_{45/32} = 1200 \times 0.491854 = 590.224</annotation></semantics></math>
+cents — coincide exactamente con el valor de la tabla de la sección
+3.4.</p>
+<p><strong>10.</strong> El archivo:</p>
+<pre><code>! et12.scl
+!
+Temperamento igual, 12 notas (12-EDO)
+ 12
+!
+ 100.0
+ 200.0
+ 300.0
+ 400.0
+ 500.0
+ 600.0
+ 700.0
+ 800.0
+ 900.0
+1000.0
+1100.0
+1200.0</code></pre>
+<p>es trivial de escribir (cada línea es, exactamente, un múltiplo de
+100), y por eso mismo casi no circula como archivo independiente: el
+temperamento igual de 12 notas es la afinación <strong>por
+defecto</strong> de prácticamente cualquier sintetizador de fábrica, la
+que suena si nunca cargas ningún <code>.scl</code>. No hace falta un
+archivo para pedir lo que ya viene puesto — el archivo <code>.scl</code>
+solo gana su lugar cuando quieres <em>apartarte</em> del temperamento
+igual, que es, precisamente, el tema de todo este curso.</p>
+<h2 id="guía-de-escucha-uso">9. Guía de escucha / uso</h2>
+<p>El laboratorio de este módulo trae cuatro herramientas: un
+<strong>generador</strong> de <code>.scl</code> descargable con todos
+los sistemas del curso, un <strong>lector</strong> de <code>.scl</code>
+(pegado o desde archivo), una <strong>calculadora de pitch
+bend</strong>, y un <strong>probador A/B</strong> del sistema cargado.
+Seis consignas concretas:</p>
+<ol type="1">
+<li>Exporta desde el generador el mesotónico de 1/4 de coma y el
+Vallotti como dos archivos <code>.scl</code>; ábrelos con cualquier
+editor de texto plano y confirma a mano, para al menos dos notas de cada
+uno, que los valores coinciden con los que calculaste en M5 y M6.</li>
+<li>Si tienes instalado Surge XT (u otro sintetizador con soporte
+<code>.scl</code>), carga el archivo de Vallotti y toca la cadencia
+I–IV–V–I en Do mayor y en Fa# mayor. Contrasta lo que escuchas con el
+comparador auditivo del laboratorio de M6.</li>
+<li>Pega en el lector de <code>.scl</code> del laboratorio el archivo de
+7 notas del ejercicio 2 (o cualquier archivo real que consigas del
+archivo Scala) y practica identificar de qué sistema se trata mirando
+solo los números, antes de que el lector te lo confirme.</li>
+<li>Usa la calculadora de pitch bend del laboratorio para verificar a
+mano los cuatro valores del ejercicio 3, y luego pídele que calcule el
+bend de las 12 notas del mesotónico de 1/4 de coma respecto del
+temperamento igual.</li>
+<li>Usa el probador A/B para comparar de oído el mesotónico de 1/4 de
+coma contra la justa 5-limit desarrollada en la sección 3, ambas
+cargadas desde tus propios archivos <code>.scl</code> exportados en la
+consigna 1.</li>
+<li>Si tienes acceso a cualquier DAW, intenta reproducir manualmente
+(con automatización de pitch bend) la desviación de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>5.865</mn></mrow><annotation encoding="application/x-tex">-5.865</annotation></semantics></math>
+cents de la quinta de Werckmeister sobre una nota sostenida, y compara
+el resultado sonoro con el que calculaste en la sección 4.2.</li>
+</ol>
+<h2 id="repertorio-ecosistema">10. “Repertorio” → ecosistema</h2>
+<p>En un módulo de herramientas, el “repertorio” no son obras sino
+lugares donde seguir aprendiendo una vez termines el curso: la
+<strong>Xenharmonic Wiki</strong>, como enciclopedia comunitaria de
+EDOs, temperamentos regulares y terminología microtonal; el
+<strong>archivo de escalas de Scala</strong>, con más de 5000 sistemas
+ya codificados en el mismo formato <code>.scl</code> que aprendiste a
+escribir a mano en este módulo; y los foros y comunidades en línea
+dedicados a música xenarmónica, donde compositores como
+<strong>Sevish</strong> y otros de esa escena comparten tanto música
+terminada como las herramientas y escalas que usaron para hacerla. Nada
+de esto reemplaza lo que ya sabes hacer con lápiz y calculadora — lo
+extiende hacia sistemas que este curso no alcanzó a cubrir en
+detalle.</p>
+<h2 id="mini-proyecto-cierre-de-la-fase-2">11. Mini-proyecto (cierre de
+la Fase 2)</h2>
+<p>Exporta <strong>dos sistemas de afinación</strong> distintos de este
+curso como archivos <code>.scl</code> (por ejemplo, un buen temperamento
+de M6 y un EDO alternativo de M9, o el mesotónico de M5 contra la justa
+extendida de M10). Cárgalos en un sintetizador real —Surge XT si no
+tienes otro a mano— y graba <strong>un minuto de exploración
+libre</strong> con cada uno: acordes largos, escalas, lo que te permita
+escuchar el carácter del sistema con calma. Anota, para cada grabación,
+<strong>tres observaciones de oído</strong> concretas (no “suena raro”:
+qué intervalo te sorprendió, dónde escuchaste un batido, qué tonalidad o
+acorde sonó más “asentado” que el resto). Este mini-proyecto cierra la
+Fase 2 del curso: has llevado la microtonalidad moderna —EDOs, justa
+extendida, notación, y ahora las herramientas para hacerla sonar— desde
+el papel hasta una grabación real, tuya.</p>
+<h2 id="autoevaluación">12. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo escribir a mano un archivo
+<code>.scl</code> válido de 12 notas para cualquier sistema de este
+curso, respetando el formato exacto (comentarios, descripción, conteo,
+notas, octava final, y el 1/1 implícito nunca escrito).</label></li>
+<li><label><input type="checkbox" />Puedo leer un archivo
+<code>.scl</code> desconocido y distinguir si una línea representa cents
+o una razón, y reconocer de qué familia de sistema se trata a partir de
+sus valores.</label></li>
+<li><label><input type="checkbox" />Puedo explicar qué resuelve un
+archivo <code>.kbm</code> que el <code>.scl</code> por sí solo no
+resuelve (mapeo de teclas y ancla de frecuencia absoluta).</label></li>
+<li><label><input type="checkbox" />Puedo explicar por qué el MIDI
+clásico no transmite frecuencias, y nombrar las dos estrategias
+generales para sortear esa limitación.</label></li>
+<li><label><input type="checkbox" />Puedo calcular a mano el valor de
+pitch bend de 14 bits para una desviación en cents dada, en un rango
+configurable, y estimar el error de redondeo asociado.</label></li>
+<li><label><input type="checkbox" />Puedo explicar la lógica de rotación
+de canales de <code>audio_player.py</code>, su límite de polifonía, y
+cómo MPE formaliza la misma idea.</label></li>
+<li><label><input type="checkbox" />Puedo explicar la diferencia de
+fondo entre pitch bend/MPE (desviar después del hecho) y MTS/MTS-ESP
+(fijar la frecuencia directamente), y cuándo elegiría cada
+uno.</label></li>
+<li><label><input type="checkbox" />Puedo ejecutar el flujo completo:
+exportar un <code>.scl</code> del laboratorio, cargarlo en un
+sintetizador real, y verificar de oído que corresponde al sistema
+esperado.</label></li>
+</ul>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Op de Coul, M. <em>Scala home page and manual</em> (documentación
+técnica del formato <code>.scl</code> y <code>.kbm</code>, y del
+programa Scala).</li>
+<li>MIDI Manufacturers Association. <em>MIDI Tuning Standard (MTS)</em>
+— especificación de los mensajes sysex de afinación (bulk dump y single
+note tuning change).</li>
+<li>MIDI Association. <em>MIDI Polyphonic Expression (MPE)
+Specification</em>.</li>
+<li>De la Cuadra, P. <code>core/audio_player.py</code>, proyecto “Suena
+Afinaciones Antiguas” (código interno del proyecto DAC) — implementación
+real de retuning por pitch bend y rotación de canales, base de la
+sección 4.2 de este módulo.</li>
+<li>Xenharmonic Wiki — enciclopedia comunitaria de referencia para EDOs,
+temperamentos regulares y terminología microtonal.</li>
+<li>Currículo del curso, <code>CURRICULO.md</code> — contenidos de M9,
+M10 y M11 referenciados en la recapitulación.</li>
+</ul>
+<h2 id="anticipo">Anticipo</h2>
+<p>Hasta aquí, todo el curso ha ocurrido dentro de un mismo territorio:
+el mapa occidental —doce notas, o extensiones matemáticas de esas doce
+notas— y las herramientas para hacerlo sonar en cualquier estudio
+moderno. La Fase 3 cambia por completo de terreno: el maqam árabe, el
+gamelán indonesio y el sistema de shruti indostaní y carnático son
+tradiciones que <strong>nunca necesitaron nada de este módulo</strong>,
+porque nunca perdieron su afinación en primer lugar — no hay una “coma”
+que esconder cuando la tradición oral y el oído del maestro han sido,
+durante siglos, el único archivo <code>.scl</code> que necesitaron.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 12</p><button id="progress-btn" class="progress-btn" data-modulo="12-herramientas">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

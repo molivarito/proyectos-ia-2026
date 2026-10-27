@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyectos con IA — Pato</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#0B0D11;color:#F3EFE6;font-family:'IBM Plex Sans',Arial,sans-serif;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center}
+section{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;box-sizing:border-box}
+section:not(.on){display:none !important}
+section > *:not([style*="position:absolute"]){position:relative}
+section *{box-sizing:border-box}
+h1,h2,h3,p,ul,ol{margin:0}
+h1{font-size:96px;font-weight:600;line-height:1.1}h2{font-size:64px;font-weight:600;line-height:1.15}h3{font-size:44px;font-weight:600;line-height:1.2}
+p{font-size:32px;line-height:1.4}ul,ol{line-height:1.4}
+img{display:block}
+a{color:inherit;text-decoration:underline;text-decoration-color:rgba(58,143,163,.6)}
+aside{display:none}
+#nav{position:fixed;right:16px;bottom:12px;font:14px/1.4 'JetBrains Mono',monospace;color:#B8C0CC;background:rgba(21,25,31,.75);padding:3px 10px;border-radius:8px;z-index:9;user-select:none}
+#nav b{color:#F3EFE6}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:34%;overflow:auto;background:rgba(21,25,31,.96);color:#F3EFE6;padding:14px 24px;font-size:16px;line-height:1.5;display:none;z-index:8;border-top:3px solid #D97A2B}
+#notes.on{display:block}
+#help{position:fixed;left:16px;bottom:12px;font:14px/1.4 'JetBrains Mono',monospace;color:#8A8F96;z-index:9}
+</style></head>
+<body>
+<div id="stage">
+<section id="cover" data-transition="fade" style="background:#15191F;color:#F3EFE6;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between">
+<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:linear-gradient(135deg, #15191F 0%, #1C2630 60%, #24343A 100%)"></div>
+<div style="position:absolute;left:128px;top:128px;width:160px;height:12px;background:#D97A2B"></div>
+<div style="display:flex;flex-direction:column;gap:24px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase;padding:40px 0 0 0">Reunión de colegas · proyectos IA · 27 de octubre de 2026</p>
+<h1 style="font-family:'Oswald', Arial, sans-serif;font-size:140px;font-weight:600;line-height:1.0;letter-spacing:-2px">Lo que he hecho<br>con IA</h1>
+<p style="font-size:40px;color:#B8C0CC;line-height:1.3;width:1300px">Un recorrido por los proyectos, ordenados de más complejo a más simple: investigación, software, docencia, sistema de trabajo y vida diaria.</p>
+</div>
+<div style="display:flex;gap:64px;align-items:end">
+<div style="display:flex;flex-direction:column;gap:4px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:500;line-height:1;color:#F3EFE6">36</p>
+<p style="font-size:24px;color:#B8C0CC">proyectos vivos en Notion</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:500;line-height:1;color:#F3EFE6">7</p>
+<p style="font-size:24px;color:#B8C0CC">líneas de investigación</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:96px;font-weight:500;line-height:1;color:#F3EFE6">~40</p>
+<p style="font-size:24px;color:#B8C0CC">carpetas de trabajo con memoria propia</p>
+</div>
+<div style="flex:1"></div>
+<div style="display:flex;flex-direction:column;gap:4px;align-items:end">
+<p style="font-size:32px;font-weight:600;color:#F3EFE6">Patricio de la Cuadra</p>
+<p style="font-size:24px;color:#B8C0CC">CITA · Ingeniería Eléctrica · Pontificia Universidad Católica de Chile</p>
+</div>
+</div>
+<aside>Portada. Las cifras salen de la base «Líneas y proyectos» de Notion consultada hoy por API (36 proyectos, 7 líneas) y de las carpetas con memoria de Claude Code en el disco (~40). Casi todo lo que sigue se hizo con Claude Code desde la terminal, trabajando directo sobre Google Drive.</aside>
+</section>
+<section id="metodo" data-transition="fade" style="background:#15191F;color:#F3EFE6;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Antes de los proyectos</p>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Cómo trabajo: una terminal sobre mis archivos, no un chat</h2>
+<div style="display:flex;gap:24px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#1F2730;padding:36px;border-radius:16px;border-top:6px solid #D97A2B">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;color:#D97A2B;display:block"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></svg>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:36px;font-weight:500">Claude Code en el disco</h3>
+<p style="font-size:26px;line-height:1.4;color:#B8C0CC">Corre en la terminal, dentro de la carpeta del proyecto en Google Drive. Lee los datos reales, escribe código, lanza simulaciones, renderiza PDF y mide resultados.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#1F2730;padding:36px;border-radius:16px;border-top:6px solid #3A8FA3">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;color:#3A8FA3;display:block"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:36px;font-weight:500">Un modelo audita a otro</h3>
+<p style="font-size:26px;line-height:1.4;color:#B8C0CC">Opus diseña y diagnostica, Sonnet ejecuta en subagentes, Fable audita con el encargo «sé duro: busca fallos, no confirmaciones». Nunca el mismo modelo revisa su trabajo.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#1F2730;padding:36px;border-radius:16px;border-top:6px solid #D97A2B">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;color:#D97A2B;display:block"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:36px;font-weight:500">Memoria por proyecto</h3>
+<p style="font-size:26px;line-height:1.4;color:#B8C0CC">Cada carpeta tiene su CLAUDE.md, su bitácora y su memoria persistente. Notion es la única agenda; Drive guarda el material; las decisiones científicas viven en archivos, una ley por archivo.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#1F2730;padding:36px;border-radius:16px;border-top:6px solid #3A8FA3">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;color:#3A8FA3;display:block"><circle cx="12" cy="12" r="9"/><polyline points="8 12 11 15 16 9"/></svg>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:36px;font-weight:500">Protocolo de cierre</h3>
+<p style="font-size:26px;line-height:1.4;color:#B8C0CC">Comandos propios: /cerrar registra bitácora, Notion y próximo paso; /verificar comprueba lo hecho con otro modelo; /auditar lanza al auditor adversario sobre un resultado.</p>
+</div>
+</div>
+<p style="font-size:26px;color:#B8C0CC;line-height:1.4">Regla de evidencia en todo lo científico: distinguir siempre <b>simulado</b>, <b>medido</b> e <b>hipótesis</b>; nunca fabricar referencias ni mediciones.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">02 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>El punto clave para colegas: no uso la IA como un chat al que le pego texto. Es un agente en la terminal, con acceso a los archivos del proyecto, que ejecuta código y deja rastro (bitácora, Notion, git). La segunda idea importante es la auditoría cruzada: un modelo distinto revisa lo que hizo el otro. Eso encontró errores que llevaban semanas sin detectarse.</aside>
+</section>
+<section id="mapa" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">El mapa</p>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Cinco niveles, de más complejo a más simple</h2>
+<div style="display:flex;gap:20px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#15191F;color:#F3EFE6;padding:32px 28px;border-radius:16px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:500;line-height:1;color:#D97A2B">1</p>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:34px;font-weight:500">Investigación</h3>
+<ul style="font-size:24px;line-height:1.4;color:#B8C0CC;padding:0 0 0 24px"><li>Motor acústico y corpus</li><li>Cinco papers</li><li>Colección Spohr</li><li>Diseño inverso</li><li>Curso Coltman y Benade</li><li>Torno CNC y roscas</li><li>Robot flautista</li><li>Acústica médica</li></ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#1F2730;color:#F3EFE6;padding:32px 28px;border-radius:16px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:500;line-height:1;color:#D97A2B">2</p>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:34px;font-weight:500">Docencia</h3>
+<ul style="font-size:24px;line-height:1.4;color:#B8C0CC;padding:0 0 0 24px"><li>Tres cursos rediseñados, dos con sitio público</li><li>Más de 60 demos interactivas con audio</li><li>Campus de afinaciones (15 módulos)</li><li>Charlas y decks</li><li>Entrenadores de Cálculo</li></ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#3A8FA3;color:#F3EFE6;padding:32px 28px;border-radius:16px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:500;line-height:1;color:#F3EFE6">3</p>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:34px;font-weight:500">Software profesional</h3>
+<ul style="font-size:24px;line-height:1.4;color:#E6F0F2;padding:0 0 0 24px"><li>MGlass: optimizador de cortes de vidrio en Odoo, en producción</li><li>Informe de un sistema solar domiciliario</li></ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#D97A2B;color:#15191F;padding:32px 28px;border-radius:16px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:500;line-height:1;color:#15191F">4</p>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:34px;font-weight:500">Sistema de trabajo</h3>
+<ul style="font-size:24px;line-height:1.4;color:#2A2F36;padding:0 0 0 24px"><li>Comandos y agentes propios</li><li>Sincronización con Notion</li><li>Rendición de gastos</li><li>Rutinas en la nube</li><li>Orden del disco</li></ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#E6DFD0;color:#15191F;padding:32px 28px;border-radius:16px">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:500;line-height:1;color:#D97A2B">5</p>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:34px;font-weight:500">Colaboraciones y personal</h3>
+<ul style="font-size:24px;line-height:1.4;color:#4A5058;padding:0 0 0 24px"><li>Pedidos de almuerzo de Raúl</li><li>Partituras y afiches</li><li>Rescate de cintas MiniDV</li><li>Una docena de mini-apps</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">03 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Orden de la presentación. «Complejo» aquí significa: cuánto código, cuántas decisiones, cuánto riesgo de equivocarse y cuánta verificación hizo falta. Cada lámina lleva un indicador de complejidad de uno a cinco.</aside>
+</section>
+<section id="traverso" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Acústica del traverso barroco: motor, corpus y laboratorio</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Un motor de simulación propio (<b>flutelab</b>, sobre OpenWind) predice la afinación de una flauta a partir de su geometría. Un corpus de flautas históricas digitalizadas lo alimenta; una GUI, el «Flautoscopio», lo muestra.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Motor pasivo más un modelo de intérprete calibrado; cada convención científica (corcho, frontera de corte, embocadura, temperatura) es una ley escrita en su archivo.</li>
+<li>Corpus de perces en JSON con procedencia y un verificador web planos ↔ JSON.</li>
+<li>Batería de pruebas con «golden masters»: 0 FAIL antes de que una cifra salga a un paper.</li>
+<li>La IA escribió y refactorizó el código, corrió barridos de horas y detectó artefactos del palpador en los datos (cola fantasma, agujeros contados dos veces).</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://drive.google.com/drive/folders/17JtltWc8730YJKG_QDiJ_gMrDN7vfixH">Drive: trilogía de papers y documento de referencia</a> · <a href="https://drive.google.com/drive/folders/1OUYAyWE8YIM1EO0jZjmiDxaqijwzZIoH">Drive: corpus planos ↔ JSON</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/trav_corpus_map.png" alt="Mapa del corpus: nivel y pendiente del perfil de octava pasiva de cada flauta histórica" style="width:780px;height:400px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/flautoscopio_multi.png" alt="Flautoscopio: comparación de inarmonicidad entre varias flautas" style="width:780px;height:230px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">04 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>El proyecto más grande. Arriba: el mapa del corpus, cada punto es una flauta histórica caracterizada por el nivel y la pendiente de su perfil de octava simulado. Abajo: el Flautoscopio, la GUI de análisis. Lo que más valor dio la IA no fue escribir código sino encontrar artefactos en los datos: la cabeza se digitalizaba desde el tenón y no desde el corcho (43 mm de cavidad fantasma), y el palpador contaba cada agujero dos veces.</aside>
+</section>
+<section id="papers" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Cinco artículos en redacción, uno ya presentado</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<table style="font-size:25px;color:#2A2F36;width:100%">
+<tr style="background:#E6DFD0"><th style="width:14%;text-align:left">Paper</th><th style="width:46%;text-align:left">Tema</th><th style="width:40%;text-align:left">Estado</th></tr>
+<tr><td>1 · Física</td><td>Inertancia de agujero, equivalencia cabeza y pie</td><td>v2 en Quarto, validación pendiente</td></tr>
+<tr><td>2 · Lutería</td><td>Matriz de sensibilidad y resortes geométricos</td><td>v2 en Quarto</td></tr>
+<tr><td>3 · Overview</td><td>«A flute is a duet»</td><td>Presentado en TIMBRE 2026</td></tr>
+<tr><td>4 · Heurísticas</td><td>Reglas de taller cuantificadas</td><td>Listo para someter</td></tr>
+<tr><td>5 · Negatif</td><td>Perce negativa, con Benoît Fabre (LAM)</td><td>V2 en redacción, Acta Acustica</td></tr>
+</table>
+<ul style="font-size:25px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Migración de LaTeX a Quarto; figuras regeneradas por script; changelogs cifra a cifra cuando cambió una convención.</li>
+<li>Informes de revisor simulados antes de mandar a coautores; 131 mediciones de Étienne analizadas para el paper 5.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://github.com/molivarito/Article-negatif-2025">github.com/molivarito/Article-negatif-2025</a> · <a href="https://drive.google.com/drive/folders/17JtltWc8730YJKG_QDiJ_gMrDN7vfixH">Drive: manuscritos</a></p>
+</div>
+<div style="width:780px;display:flex;gap:16px">
+<img src="assets/paper1_p1.png" alt="Primera página del paper 1, física del traverso" style="width:382px;height:494px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/negatif_p1.png" alt="Primera página del reporte didáctico sobre perce negativa" style="width:382px;height:494px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">05 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Los manuscritos viven en Quarto desde septiembre; la IA hizo la conversión, mantiene las figuras por script y escribe los changelogs cuando cambia una convención. En el paper con Fabre le dije con humor en el correo que trabajo con «mon assistant IA»: política de no ocultarlo, encuadre de herramienta bajo control.</aside>
+</section>
+<section id="spohr" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Colección Spohr: tres flautas históricas digitalizadas y modeladas</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Un coleccionista alemán nos pasó escaneos de perce de un Denner, un Palanca y un Grenser. Del dato crudo al informe trilingüe, con correspondencia científica de ida y vuelta.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Fotogrametría validada a ±0,16 mm contra calibre; perce deducida con regla de dos ejes anclada a cada agujero.</li>
+<li>Batería de simulaciones de entonación por flauta; sensibilidad al socavado de la embocadura (figura).</li>
+<li>Informes v2 en español, alemán e inglés, generados desde una sola fuente Markdown; borradores de respuesta a cada carta.</li>
+<li>Material confidencial: scans y planos nunca salen del disco.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://drive.google.com/drive/folders/1Q332aXoCxkgP2oDToumVeour-k4ZYIbV">Drive: Spohr, informe v3 y correspondencia</a> · <a href="https://drive.google.com/drive/folders/1wOJyj6DejZ4AsUTPUeChLiKAXxoJEmF0">Drive: análisis de audio de las grabaciones</a></p>
+</div>
+<div style="width:780px;display:flex;gap:16px">
+<img src="assets/spohr_grenser_sweep.png" alt="Grenser-Montero: sensibilidad de la afinación al socavado de la embocadura" style="width:470px;height:300px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/spohr_p1.png" alt="Portada del informe Spohr v2 en inglés" style="width:294px;height:380px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">06 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Aquí la IA hizo de todo: ingesta de planillas con formato variable, deducción de la perce, batería de simulaciones, informes en tres idiomas y borradores de cartas en inglés. También aquí se retiraron dos hallazgos por circulares (lámina anterior). No mostrar scans ni planos: son confidenciales.</aside>
+</section>
+<section id="diseno" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Diseño inverso: de la afinación deseada a la geometría</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Dos optimizadores: <b>diseño desde copia</b> (corregir una flauta existente) y <b>diseño desde cero</b> (construir agujero por agujero a partir de diapasón, temperamento y manera de tocar).</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Jerarquía del luthier implementada: la perce es diseño, el corcho es ajuste, los agujeros son muestreo.</li>
+<li>Mapa de sensibilidad nodo/antinodo: cuánto mueve cada nota un +0,1 mm de radio en cada punto de la perce (figura).</li>
+<li>Política de riesgo del modelo: diseño pasivo como línea base hasta medir el control del músico.</li>
+<li>La IA escribió los optimizadores y sus tests, y propuso la métrica de «uniformidad del salto de octava».</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4">Código: CODIGO/activo/traverso/diseno_desde_copia y CODIGO/activo/diseno_desde_cero (repos locales en Drive)</p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/trav_bore_sens.png" alt="Mapa de sensibilidad de la perce: efecto de +0,1 mm de radio en cada posición sobre cada nota" style="width:780px;height:380px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/trav_inverse_design.png" alt="Diseño inverso: cilindro-cono ajustado a cono-cilindro" style="width:780px;height:250px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">07 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>El mapa de sensibilidad valida lo que Bouterse publicó desde el taller: una discontinuidad de 0,1 mm en la unión de cuerpos mueve los graves 5 a 9 cents. El optimizador es el paso siguiente natural de los papers: diseñar una flauta para la estrategia de control del músico.</aside>
+</section>
+<section id="coltman" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Curso «Coltman y Benade» y los cuadernos inéditos de Stanford</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Estudio consolidado de los dos físicos que fundaron la acústica de la flauta, convertido en un curso web de <b>10 módulos</b> con un motor de simulación en JavaScript, y traducido al francés para Benoît Fabre.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Los cuatro papers de flauta de Benade resultaron ser las cuatro piezas del motor; se corrigió una fórmula de embocadura al releerlos.</li>
+<li>Hallazgo nuevo: el Fa♯ es la nota más baja en 7 de 7 flautas históricas, y su mecanismo geométrico.</li>
+<li>Cuadernos de laboratorio de Coltman (archivo MARL, Stanford): bajados, mapeados y transcritos con herramientas propias.</li>
+<li>Traducción al francés con glosario, trozos verificables y revisión en cadena Sonnet → Sonnet → Opus para no gastar la cuota del modelo caro.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4">INVESTIGACION/lineas/01-Traversos/biblioteca/Curso-Coltman-Benade/index.html · biblioteca de 373 documentos indexada por script</p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/coltman_index.png" alt="Portada del curso web Coltman y Benade" style="width:780px;height:330px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/charla_fa.png" alt="El Fa sostenido es la nota más baja en las 7 flautas simuladas" style="width:780px;height:300px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">08 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Ejemplo de uso de la IA para estudiar, no para producir: leer a fondo a Benade y Coltman, consolidar, y de ahí salió una corrección del motor y un hallazgo (el Fa sostenido) que es candidato a validación del paper 1. Benoît acusó recibo del curso en francés: «ouaouh ! C'est super».</aside>
+</section>
+<section id="taller" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación · fabricación</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Del modelo a la viruta: torno CNC y una roscadora de madera</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">La IA también mueve máquinas. Dos frentes de taller dentro de proyectos financiados (DAC Exploración «Hilos de madera» y la línea Traversos).</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li><b>Torno y fresa Wabeco con Mach4:</b> generador de G-code para escariadores y manguitos, puente de scripts a la pantalla de la máquina, verificación del programa cargado por hash. Un accidente del 26-09 quedó registrado como ley: «la herramienta debe caber en el agujero actual».</li>
+<li><b>Roscadora orbital de madera:</b> máquina y tornillo/tuerca 50×6 modelados en build123d (CAD en Python); STEP y STL por pieza para el carpintero, manual de 24 páginas y visor 3D animado generados por script.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://drive.google.com/drive/folders/1jzZx1jav6P5SbZix8NUREeqpMugrTfDo">Drive: DAC Hilos de madera (roscas-madera/)</a> · <a href="https://drive.google.com/drive/folders/1lmIvnlssm3W6JDpYtYFDvVBOv4UakMp4">Drive: torno-cnc</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/roscas_orbital.png" alt="Render de la roscadora orbital de madera, revisión 25" style="width:780px;height:400px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+<div style="display:flex;gap:16px">
+<img src="assets/roscas_tornillo.png" alt="Tornillo de madera 50 por 6 modelado" style="width:500px;height:214px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/roscas_manual_p1.png" alt="Primera página del manual de la roscadora" style="width:264px;height:214px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">09 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Lo que tiene de distinto: el riesgo es físico. Por eso aquí se usó revisión de seguridad sobre el puente a Mach4 y se verifica por hash qué programa está cargado antes de cortar. La roscadora es para el proyecto con el escultor Luis Prato: los planos se le mandan como STEP/STL más un manual animado.</aside>
+</section>
+<section id="pierre" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación · robótica</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Pierre, el robot flautista: refactor de un sistema de nueve grados de libertad</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Software de control de un robot que toca flauta traversa: tres ejes con motores paso a paso, controlador de flujo de aire, servos para los dedos, sensor de presión y micrófono, todo por EtherNet/IP.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Arquitectura multiproceso (GUI en PyQt5 ↔ «músico») reescrita sobre el código heredado, con tests de regresión de cinemática y de conversiones.</li>
+<li>Protocolo de pruebas, plan de mejoras y changelog documentados; respuestas al escalón medidas por eje.</li>
+<li>Propuesta de cabezal sensorizado en evaluación; paper para Acta Acustica en pausa.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://github.com/molivarito/pierre_flutist">github.com/molivarito/pierre_flutist</a></p>
+</div>
+<div style="width:780px;display:flex;gap:16px">
+<img src="assets/pierre_foto.jpg" alt="Pierre, el robot flautista, en el laboratorio" style="width:440px;height:600px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/pierre_diagrama.png" alt="Diagrama del lazo de control de motores" style="width:324px;height:600px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">10 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Proyecto antiguo (con tesis de magíster de Fernando Hurtado) que la IA ayudó a poner en orden: el repo viejo se conserva como pierre_flutist_old y el nuevo tiene arquitectura documentada y tests. Línea 04 Flautista robot.</aside>
+</section>
+<section id="aplicada" data-transition="fade" style="background:#15191F;color:#F3EFE6;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 1 · Investigación · acústica aplicada a la medicina</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B8C0CC">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#3A4450"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Dos proyectos nuevos donde la IA es parte del método, no solo de la redacción</h2>
+<div style="display:flex;gap:32px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#1F2730;padding:40px;border-radius:16px;border-left:8px solid #D97A2B">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:52px;height:52px;color:#D97A2B;display:block"><polyline points="2 12 6 12 9 4 14 20 18 12 22 12"/></svg>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:40px;font-weight:500">Flujómetro de orina acústico</h3>
+<p style="font-size:27px;line-height:1.4;color:#B8C0CC">Estimar la curva de flujo urinario a partir del sonido de la micción, con aprendizaje supervisado. Tesis de magíster en curso (Magdalena Araya), postulación Fondef armada con la IA y conversaciones de transferencia tecnológica con una asociada.</p>
+<p style="font-size:24px;color:#3A8FA3"><a href="https://drive.google.com/drive/folders/18qgRXUsnKFOcHdeTr1li5J1nBWtuGHmC">Drive: 2026 Flujómetro de orina</a></p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#1F2730;padding:40px;border-radius:16px;border-left:8px solid #3A8FA3">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:52px;height:52px;color:#3A8FA3;display:block"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="11" width="3" height="9"/><rect x="11" y="6" width="3" height="14"/><rect x="16" y="13" width="3" height="7"/></svg>
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:40px;font-weight:500">Holter de arritmia: lectura asistida</h3>
+<p style="font-size:27px;line-height:1.4;color:#B8C0CC">Colaboración recién abierta con UC Christus (reunión del 23-10): apoyar la lectura de exámenes Holter. Esperando archivos anonimizados y pantallazos del visor actual para definir el alcance.</p>
+<p style="font-size:24px;color:#6B7280">Línea 07 Acústica aplicada · estado: exploratorio</p>
+</div>
+</div>
+<p style="font-size:26px;line-height:1.4;color:#B8C0CC">Qué hizo la IA hasta ahora: revisión de literatura, diseño del protocolo de datos, borradores de postulación y de correos, y la propuesta de títulos de tesis. Lo clínico lo deciden los médicos del equipo.</p>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">11 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Son los dos proyectos más nuevos y los únicos fuera de la música. Vale la pena decir en voz alta que el Holter está en fase cero: todavía no hay datos.</aside>
+</section>
+<section id="cursos" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 2 · Docencia</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Dos cursos rediseñados de punta a cabo: Señales y Sistemas, Acústica Musical</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Objetivos de aprendizaje → plan de semestre → material. Fuente única en Quarto, sitio público generado por CI, sincronización con Canvas por script.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li><b>IEE2103 Señales y Sistemas:</b> Reader de 7 capítulos, slides con 13 gráficos 3D vivos, banco de ejercicios con armador de pruebas, handouts de ayudantía, verificador de enunciados autocontenidos.</li>
+<li><b>Acústica Musical:</b> 15 sesiones y libro; datos del curso en un YAML que un verificador de consistencia cruza antes de cada commit; demos y audios embebidos en las láminas.</li>
+<li>Reglas aprendidas a golpes: las pautas nunca al sitio; nada de jerga de diseño en material de estudiantes.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://molivarito.github.io/iee2103/">molivarito.github.io/iee2103</a> · <a href="https://molivarito.github.io/acustica-musical/">molivarito.github.io/acustica-musical</a> · <a href="https://molivarito.github.io/proyectos-ia-2026/demos/">demos de los tres cursos</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/sitio_am.png" alt="Sitio público de Acústica Musical: mapa del curso" style="width:780px;height:330px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/sitio_sys.png" alt="Sitio público de IEE2103 Señales y Sistemas" style="width:780px;height:300px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">12 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Los dos sitios son públicos: se pueden abrir en la reunión. Lo que más tiempo ahorró no fue escribir material sino la infraestructura: CI que publica, script que sincroniza Canvas, verificadores que impiden inconsistencias entre el plan y las láminas.</aside>
+</section>
+<section id="demos_am" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 2 · Docencia · demos</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Acústica Musical: catorce demos que suenan, una por concepto</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Nosotros aprendimos acústica oyéndola. Cada sesión tiene una demo HTML autocontenida (JavaScript y Web Audio, cero dependencias) que se abre con doble clic en cualquier sala y suena.</p>
+<ul style="font-size:25px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Tren de pulsos: del ritmo al tono · forma de onda y espectro con el micrófono en vivo · la fundamental ausente · batidos → banda crítica → consonancia · temperamentos · resonancia forzada · Helmholtz · tubo virtual con agujeros · fuente y filtro de la voz · modos de sala.</li>
+<li><b>Modo predicción:</b> el alumno anota qué va a pasar antes de oírlo; <b>modo presentación</b> con los números ocultos para la escucha del día.</li>
+<li>Bloque «¿Qué observar?» con preguntas guía; las demos van embebidas en las láminas: en la sala se abre solo el mazo.</li>
+<li>Regla: una demo = un concepto; si crece hacia dos ideas, se divide.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://molivarito.github.io/proyectos-ia-2026/demos/">Abrir las demos (sitio publicado, suenan)</a> · <a href="https://molivarito.github.io/acustica-musical/">molivarito.github.io/acustica-musical</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/am_demo_tubo.png" alt="Demo del tubo virtual: columna de aire con largo, tapa y agujeros" style="width:780px;height:390px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<div style="display:flex;gap:16px">
+<img src="assets/am_demo_banda.png" alt="Demo de banda crítica: del batido a la consonancia" style="width:382px;height:240px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/am_demo_sintesis.png" alt="Demo de síntesis aditiva: el espectro como receta del timbre" style="width:382px;height:240px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">13 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Abrir una en vivo si hay tiempo: demo_tubo_agujeros.html o demo_banda_critica.html (doble clic, suenan). La IA escribió las catorce siguiendo una regla de formato escrita (formato-demos.md); yo las probé en la sala. Lección registrada: la demo de banda crítica con sinusoides inventadas no convenció; se demuestra con contraste y música conocida.</aside>
+</section>
+<section id="demos_sys" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 2 · Docencia · demos</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Señales y Sistemas: ver en 3D y oír lo que antes era una fórmula</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Unas cuarenta demos y apps, ordenadas por clase: HTML autocontenido que se incrusta en las láminas, apps en Python y notebooks para la casa.</p>
+<ul style="font-size:25px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li><b>Analizador de espectro en vivo</b> para tocar un instrumento en la primera clase.</li>
+<li><b>Convolución audible:</b> meter tu voz en una iglesia con respuestas al impulso reales; la cascada de dos espacios, al oído y paso a paso.</li>
+<li><b>Laplace sin dolor:</b> «amortiguar y después proyectar», la ROC como costa y terreno, la sombra del polo con polos arrastrables, el espectro complejo girable en 3D.</li>
+<li><b>Muestreo:</b> aliasing en vivo, la hélice muestreada, «¿cuál es periódica?» muestra a muestra; FFT paso a paso con sus mariposas.</li>
+<li><b>Audio DSP:</b> Karplus-Strong, filtros peine y biquad con osciloscopio, phase vocoder (voz robot vs. susurro).</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://molivarito.github.io/proyectos-ia-2026/demos/">Abrir las demos (sitio publicado: 24 de SyS, con audio y 3D)</a> · <a href="https://molivarito.github.io/iee2103/">molivarito.github.io/iee2103</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/sys_sombra_polo.png" alt="Demo La sombra del polo: plano s con polos arrastrables y su efecto en Fourier" style="width:780px;height:390px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<div style="display:flex;gap:16px">
+<img src="assets/sys_viz_terreno.png" alt="Figura: la transformada de Laplace como terreno y Fourier como corte" style="width:382px;height:240px;object-fit:contain;background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/sys_espectro3d.png" alt="Demo El espectro es complejo: coeficientes en 3D girable" style="width:382px;height:240px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">14 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>La intuición que a nosotros nos costó años (qué es la ROC, por qué Fourier es un corte de Laplace) hoy está en una superficie 3D que se gira con el mouse. La IA hizo las demos a partir de una descripción del concepto y de la metáfora que yo quería (costa y terreno, sombra del polo); las figuras estáticas de las láminas se generan por script desde las mismas demos.</aside>
+</section>
+<section id="ays" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 2 · Docencia</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Análisis y Síntesis de Señales Musicales: el sonido, desde los bytes hasta la IA</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Curso de 12 semanas para ingenieros eléctricos, diseñado desde cero con la IA: «enseñar es aprender dos veces». No hay cátedra: hay seminarios de pares, Fun Tasks semanales y un proyecto de software de audio.</p>
+<ul style="font-size:25px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Tres módulos: <b>Atoms</b> (bytes, convolución, filtros, delays), <b>Spectra</b> (STFT, phase vocoder, modelo sinusoidal) y <b>Creation</b> (síntesis, FM, Karplus-Strong, MIR, audio con IA).</li>
+<li>Fun Tasks con nombre propio: Glitch Art, Impossible Spaces, Auto-Wah Funk, Dub Echo, Robot Voice, Dumb Shazam, Neural Style…</li>
+<li>Diez demos web con audio y un sitio para que un alumno decida si tomar el curso jugando con ellas; guía del mini-docente por sesión; rúbricas y guía de proyecto en tres hitos.</li>
+<li>Uso explícito de la IA como herramienta de los estudiantes, con una ficha de uso acordada.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://molivarito.github.io/proyectos-ia-2026/demos/">Demos para mostrar (sitio publicado)</a> · <a href="https://github.com/molivarito/DSP_Musical">github.com/molivarito/DSP_Musical</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/ays_index.png" alt="Portada del sitio de demos del curso: el sonido, desde los bytes hasta la IA" style="width:780px;height:330px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<div style="display:flex;gap:16px">
+<img src="assets/ays_stft.png" alt="Página de la demo STFT: el microscopio tiempo-frecuencia" style="width:382px;height:300px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/ays_difusion.png" alt="Página de la demo de difusión y forense espectral" style="width:382px;height:300px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">15 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>El curso más «nativo IA» de los tres: nació con la IA en el diseño (sílabo, metodología, rúbricas, guías), las demos se hicieron con ella, y los alumnos la usan declaradamente. En junio de 2026 se dictó una semana completa a distancia con mini-clases en video. Demos para abrir en vivo: STFT, FM (el DX7), MIR/Shazam, difusión.</aside>
+</section>
+<section id="afinaciones" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 2 · Docencia</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Un campus de afinaciones para compositores: 15 módulos con laboratorio sonoro</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Del pitagórico al temperamento igual y más allá: comprender, derivar, escuchar y comparar. Funciona sin instalar nada, offline, con el progreso guardado en el navegador.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Cada módulo: apunte con la matemática paso a paso, laboratorio interactivo con audio, ejercicios resueltos y mini-composición.</li>
+<li>Tres fases, currículo escrito, guía para autores; los apuntes se generan desde Markdown con un script.</li>
+<li>Regla del proyecto: yo no valido el contenido de afinaciones; la IA verifica cada cifra con un cálculo independiente, siempre.</li>
+<li>Hermano de escritorio: «Suena afinaciones antiguas», app en Python para escuchar temperamentos.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://molivarito.github.io/proyectos-ia-2026/demos/">Abrir el campus (sitio publicado, con laboratorios sonoros)</a> · <a href="https://github.com/molivarito/aprendizaje-afinaciones">github.com/molivarito/aprendizaje-afinaciones</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/afinaciones_index.png" alt="Portal del Sistema de Aprendizaje de Afinaciones con sus módulos" style="width:780px;height:490px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">16 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Nació en una entrevista con la IA: web primero, módulos, audio al centro. Es el entregable docente del proyecto DAC Impacto sobre afinación. Se puede abrir index.html en la reunión y poner un laboratorio a sonar.</aside>
+</section>
+<section id="charlas" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 2 · Docencia y divulgación</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Charlas: el mismo relato, cuatro públicos</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<table style="font-size:25px;color:#2A2F36;width:100%">
+<tr style="background:#E6DFD0"><th style="width:44%;text-align:left">Charla</th><th style="width:30%;text-align:left">Público</th><th style="width:26%;text-align:left">Formato</th></tr>
+<tr><td>«A flute is a duet»</td><td>TIMBRE 2026, Montreal</td><td>Marp, 2 demos en vivo</td></tr>
+<tr><td>«Una flauta es un dúo»</td><td>Colegas, Chile 2026</td><td>Deck traducido, PDF y guion</td></tr>
+<tr><td>«¿Quién afina la flauta?»</td><td>Estudiantes de música</td><td>Deck con clips y figuras</td></tr>
+<tr><td>Temas de magíster</td><td>Ingenieros eléctricos</td><td>Deck web compartible</td></tr>
+</table>
+<ul style="font-size:25px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>La IA escribe el guion del orador, genera las figuras desde el código del proyecto y arma el deck por script (se regenera, no se edita a mano).</li>
+<li>Columna vertebral común: la flauta es un dúo entre la geometría y el músico; lo que afina es el intérprete.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4">traverso-papers/presentaciones/ y conferencia-timbre26/presentacion_timbre2026/</p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/timbre_p1.png" alt="Portada del deck A flute is a duet, TIMBRE 2026" style="width:780px;height:300px;object-fit:contain;background:#15191F;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/charla_p1.png" alt="Portada de la charla en español, Chile 2026" style="width:780px;height:300px;object-fit:contain;background:#15191F;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">17 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Esta misma presentación es un ejemplo: se armó en una sesión a partir de las memorias, Notion y las carpetas del disco, con capturas tomadas por Chrome sin cabeza.</aside>
+</section>
+<section id="calculo" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 2 · Docencia en casa</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Entrenadores de Cálculo I y II para mis hijos</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Una app web por curso (MAT1100 y MAT1220), construida a partir del programa real, las pruebas antiguas y las pautas: ejercicios por unidad, diagnóstico, simulacros cronometrados.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Contrato de contenido en un CONVENTIONS.md y un validador (node scripts/validate.mjs) que rechaza ejercicios mal formados.</li>
+<li>Simulacros A–D impresos sin pauta, para hacer en 100 minutos y corregir después.</li>
+<li>Las dos apps comparten código: un arreglo de interfaz se aplica a ambas.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://drive.google.com/drive/folders/1NBONTpln7APMaUvNe8J2qD23CK4B4Phy">Drive: Apoyo Cálculo II</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/calculo_app.png" alt="Pantalla de inicio del entrenador de Cálculo II" style="width:780px;height:490px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">18 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Lo pongo en docencia porque el método es el mismo que en los cursos: objetivos, material, verificador. La diferencia es el usuario: un hijo con una interrogación encima.</aside>
+</section>
+<section id="mglass" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 3 · Software profesional</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">MGlass: optimizador de cortes de vidrio, en producción en una fábrica</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Módulo para Odoo 18 que toma una cotización de vidrios, calcula cómo cortar las planchas con mínimo desperdicio y genera planos, archivos para la mesa de corte y etiquetas con código de barras.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Generación de columnas para el empaquetado; comparación directa con el software comercial del cliente: 28 planchas contra 28,5.</li>
+<li>Más de 50 pull requests revisados y mezclados por el integrador externo; staging y pase a producción el 21-10.</li>
+<li>Etiquetas probadas en impresora térmica, manual de operarios en PDF y HTML, webapp para vendedores en terreno.</li>
+<li>Acuerdo comercial de licencia cerrado en septiembre; propiedad intelectual propia.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://github.com/molivarito/vidrios_chuqui">github.com/molivarito/vidrios_chuqui</a> · <a href="https://drive.google.com/drive/folders/15FRPNoMOgk2apcvuZiQKP872EnSyctz9">Drive: MGlass</a></p>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/mglass_plano_maqueta.png" alt="Plano de corte de una plancha con las piezas numeradas" style="width:780px;height:380px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<div style="display:flex;gap:16px">
+<img src="assets/mglass_foto_etiqueta.jpg" alt="Foto de las etiquetas impresas en la fábrica" style="width:382px;height:250px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/mglass_manual_p1.png" alt="Portada del manual de usuario del taller" style="width:382px;height:250px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">19 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>El proyecto con más código y más consecuencias económicas. Yo no era usuario de Odoo: la IA explicó el modelo de negocio y de datos a medida que implementaba. Las decisiones de arquitectura están en ADRs dentro del repo. Lecciones: verificar por código antes de pedir un merge, y hablar con el cliente solo de lo que bloquea producción.</aside>
+</section>
+<section id="guayo" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 3 · Software profesional</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Un año de datos de un sistema solar domiciliario, en un informe de una pantalla</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Inversor híbrido con dos baterías de litio en una casa de El Arrayán, monitoreado cada 5 minutos desde agosto de 2025. La pregunta del dueño: ¿cuánto de mi casa cubre el sol y qué me conviene hacer?</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Scripts que descargan los registros del portal del fabricante, los limpian y calculan el balance sol / batería / red.</li>
+<li>Respuesta: <b>el sistema cubre el 77 % de la casa</b>; el resto se resume en tres decisiones.</li>
+<li>Informe en HTML y PDF con Excel anexo; auditoría escrita de las cifras antes de enviarlo.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://drive.google.com/drive/folders/1Xyk9VznSY3-LpT5X1IefD24aW9f7x_u5">Drive: reporte solar para Guayo</a> · código en CODIGO/activo/guayo_solar</p>
+</div>
+<div style="width:780px;display:flex;gap:16px">
+<img src="assets/guayo_informe.png" alt="Informe solar en HTML: titular con el 77 % de cobertura" style="width:470px;height:600px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/guayo_p2.png" alt="Página 2 del informe en PDF con las cifras clave" style="width:294px;height:600px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">20 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Proyecto corto y completo: dos semanas, de los CSV al informe. Buen ejemplo de la regla «figuras, no tablas; el texto como pie de figura».</aside>
+</section>
+<section id="sistema" data-transition="fade" style="background:#15191F;color:#F3EFE6;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 4 · Sistema de trabajo</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B8C0CC">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#3A4450"></div><div style="width:20px;height:20px;border-radius:50%;background:#3A4450"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">La infraestructura que sostiene todo lo anterior</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;flex:1">
+<div style="display:flex;flex-direction:column;gap:10px;background:#1F2730;padding:28px;border-radius:14px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:32px;font-weight:500;color:#D97A2B">Comandos y agentes propios</h3>
+<p style="font-size:24px;line-height:1.4;color:#B8C0CC">/cerrar, /verificar, /auditar, /estado, /readme. Dos agentes auditores con Fable, sin permiso de escritura. 23 reglas de permisos.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#1F2730;padding:28px;border-radius:14px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:32px;font-weight:500;color:#D97A2B">Notion como agenda única</h3>
+<p style="font-size:24px;line-height:1.4;color:#B8C0CC">Líneas → temas → proyectos. Tres scripts: lista viva por API, exportación de respaldo y «espejo» de bitácoras en cada ficha.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#1F2730;padding:28px;border-radius:14px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:32px;font-weight:500;color:#D97A2B">Avisos en la terminal</h3>
+<p style="font-size:24px;line-height:1.4;color:#B8C0CC">Cada pestaña de iTerm2 cambia de color según si la sesión trabaja, espera o terminó; una línea de estado muestra la cuota.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#1F2730;padding:28px;border-radius:14px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:32px;font-weight:500;color:#3A8FA3">Rendición de gastos</h3>
+<p style="font-size:24px;line-height:1.4;color:#B8C0CC">Bases de Notion (gastos, compras, ofertas) y un generador que llena la planilla oficial de la UC, la checklist y el correo.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#1F2730;padding:28px;border-radius:14px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:32px;font-weight:500;color:#3A8FA3">Rutinas en la nube</h3>
+<p style="font-size:24px;line-height:1.4;color:#B8C0CC">Seguimiento de reembolsos de salud; ofertas en EE. UU. puestas en Chile (desactivada); bandeja cero en Gmail con criterios aprobados.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#1F2730;padding:28px;border-radius:14px">
+<h3 style="font-family:'Oswald', Arial, sans-serif;font-size:32px;font-weight:500;color:#3A8FA3">Orden del disco</h3>
+<p style="font-size:24px;line-height:1.4;color:#B8C0CC">Reorganización de Drive por función (docencia, investigación, profesional, personal, código) con documento rector y árbol de referencia.</p>
+</div>
+</div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://app.notion.com/p/2ea8b0dd013c8073abdade73aa7205a9">Notion: base «Líneas y proyectos»</a> · <a href="https://drive.google.com/drive/folders/1FgfKcK6YYviLnuUHfjnAinhGy0HyH5nd">Drive: sistema de trabajo con Claude</a> · herramientas en CODIGO/herramientas/</p>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">21 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Nada de esto es investigación, pero sin esto los 36 proyectos no se sostienen. Lo que más recomendaría a un colega: el protocolo de cierre (cada sesión deja bitácora y próximo paso) y una sesión por proyecto, abierta en su carpeta.</aside>
+</section>
+<section id="raul" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 5 · Colaboraciones</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Pedidos de almuerzo para Raúl: sin servidor, sin costo, con Google</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#2A2F36">Un cocinero que reparte almuerzos a empresas necesitaba tomar pedidos semanales. Solución con lo que ya tiene: Google Forms, Sheets y Apps Script.</p>
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li>Formulario por empresa y por coordinador; panel de estado por empresa; página donde cada plato marcado queda en verde.</li>
+<li>Flyers del menú semanal y etiquetas para los envases, generados por script desde la minuta.</li>
+<li>Manual ilustrado paso a paso para que Raúl lo instale solo con su cuenta.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://drive.google.com/drive/folders/1qVE7NiQhrmM4z5f5atzntuuhdge9Uuq7">Drive: sistema de pedidos de almuerzos</a> · código en CODIGO/personal/recetas_ruli</p>
+</div>
+<div style="width:780px;display:flex;gap:16px">
+<img src="assets/raul_flyer_p1.png" alt="Flyer del menú semanal" style="width:330px;height:600px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<div style="width:434px;display:flex;flex-direction:column;gap:16px">
+<img src="assets/raul_menu.png" alt="Panel de almuerzos en Google Sheets" style="width:434px;height:292px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/raul_manual_p1.png" alt="Portada del manual para Raúl" style="width:434px;height:292px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">22 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Ejemplo de tecnología apropiada: el usuario no tiene servidor ni presupuesto, así que todo vive en su cuenta de Google. Falta ensayar la instalación con una segunda cuenta antes de entregárselo.</aside>
+</section>
+<section id="arte" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 5 · Música y gestión</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Partituras, afiches, programas y una marca que defender</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<ul style="font-size:26px;line-height:1.45;color:#4A5058;padding:0 0 0 28px">
+<li><b>«Recados a Gabriela»</b> (Barroco Andino): conversor vectorial propio que lee 24 partituras PDF exportadas de Sibelius y las vuelve editables para rearmar particellas. Falla conocida en cambios de métrica, registrada como prioridad.</li>
+<li><b>Afiches y programas de concierto:</b> jazz (dos cuartetos, Thelonious y Hotel Nodo) y el programa estilo postal del concierto del 8 de septiembre.</li>
+<li><b>Defensa de la marca Barroco Andino:</b> cronología del caso, datos verificados en INAPI, revisión de los borradores de los abogados. Regla aprendida: las respuestas legales, cortas y derivadas a los abogados.</li>
+<li><b>Temporada Música UC 2027:</b> dos programas propuestos y la postulación armada.</li>
+</ul>
+<div style="flex:1"></div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://drive.google.com/drive/folders/1oDCeR66uplbcps_c8V9KtPftgF2gDslI">Drive: afiches de conciertos</a> · <a href="https://drive.google.com/drive/folders/1C0s1bjycUkHnDXnM9hqQ1DX6DhzxtH0F">Drive: defensa de la marca</a> · <a href="https://drive.google.com/drive/folders/1itkWmRxQWeHG-LwLhprA6Sn24yhjCXlt">Drive: Temporada 2027</a></p>
+</div>
+<div style="width:780px;display:flex;gap:16px">
+<img src="assets/afiche_jazz.jpg" alt="Afiche del concierto de jazz Barrientos, de la Cuadra, Mardones" style="width:420px;height:600px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/recados_p1.png" alt="Primera página de la partitura Valle de Elqui, Recados a Gabriela" style="width:344px;height:600px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">23 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>La parte musical y de gestión. El conversor de partituras es el más técnico de estos: hubo que descifrar los códigos de glifos de la fuente de Sibelius dentro del PDF.</aside>
+</section>
+<section id="mini" data-transition="fade" style="background:#F3EFE6;color:#15191F;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase">Nivel 5 · Personal · lo más simple</p>
+<div style="display:flex;gap:10px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">complejidad</p>
+<div style="width:20px;height:20px;border-radius:50%;background:#D97A2B"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div><div style="width:20px;height:20px;border-radius:50%;background:#D9D2C3"></div>
+</div>
+</div>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:500;line-height:1.1">Una docena de cosas chicas que antes no habría hecho</h2>
+<div style="display:flex;gap:24px;flex:1">
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Rescate de cintas MiniDV (2004–2011)</b> con dvrescue, captura multipasada y reparación del audio canal por canal.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Digitalización de diapositivas:</b> revelado por lotes desde NEF, scripts por rollo, selección final.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Ritmo de tecleo:</b> entrenador para dejar de repetir y saltarse letras; publicado como página.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Gastos compartidos y tarjeta de crédito:</b> dos apps web con login, categorías y deudas.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Noticias con resumen por IA:</b> feed RSS filtrado, resumido y publicado cada mañana por cron.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Fotomosaicos</b> con las fotos propias y un <b>explorador del mapa logístico y Mandelbrot</b> para enseñar caos.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Hombros: pádel y cello.</b> Plan de ejercicios con páginas animadas y lista de compras.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Estudios de decisión:</b> e-bike bajo el techo legal de 250 W; hipoteca contra inversión (valor esperado negativo).</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Tocar el iPhone desde el Mac:</b> scripts que mandan eventos reales a la ventana de iPhone Mirroring.</p></div>
+<div style="background:#FBFAF6;border:1px solid #D9D2C3;border-radius:12px;padding:18px 22px"><p style="font-size:24px;line-height:1.35;color:#2A2F36"><b>Calendarios, apelaciones, manuales de la casa, monitores DIY:</b> trámites y documentos que antes se postergaban.</p></div>
+</div>
+<div style="width:560px;display:flex;flex-direction:column;gap:14px">
+<img src="assets/ritmo_tecleo.png" alt="Página del entrenador Ritmo de tecleo" style="width:560px;height:200px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/platas_dashboard.png" alt="Panel de la app de gastos compartidos" style="width:560px;height:200px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+<img src="assets/padel.png" alt="Página de seguimiento de pádel" style="width:560px;height:200px;object-fit:cover;border:1px solid #D9D2C3;border-radius:12px">
+</div>
+</div>
+<p style="font-size:24px;color:#3A8FA3;line-height:1.4"><a href="https://claude.ai/artifact/8k4XQC5ZpNUFtBczSbceX1">Ritmo de tecleo (página publicada)</a> · <a href="https://github.com/molivarito/create-a-mosaic-from-photos">fotomosaicos</a> · <a href="https://github.com/molivarito/collect-filter-resume-news">noticias</a> · resto en CODIGO/personal/</p>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#8A8F96">24 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>El punto de esta lámina no es ninguno de los proyectos sino el umbral: cosas de dos horas que antes no se hacían porque no valían una semana. El rescate de MiniDV es el que más valor personal tiene (nacimiento de un hijo en una cinta dañada).</aside>
+</section>
+<section id="cierre" data-transition="fade" style="background:#15191F;color:#F3EFE6;font-family:'IBM Plex Sans', Arial, sans-serif;padding:96px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="position:absolute;left:128px;top:96px;width:160px;height:12px;background:#D97A2B"></div>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#D97A2B;letter-spacing:2px;text-transform:uppercase;padding:36px 0 0 0">Cierre</p>
+<h2 style="font-family:'Oswald', Arial, sans-serif;font-size:84px;font-weight:500;line-height:1.05;width:1500px">Lo que aprendí, por si le sirve a alguien más</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1">
+<div style="display:flex;gap:20px;background:#1F2730;padding:32px;border-radius:14px;align-items:start">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:64px;font-weight:500;line-height:1;color:#D97A2B">1</p>
+<p style="font-size:28px;line-height:1.4;color:#F3EFE6"><b>Que un modelo distinto audite.</b> Encontró en horas lo que otro arrastró semanas. Encargo: «sé duro: busca fallos, no confirmaciones».</p>
+</div>
+<div style="display:flex;gap:20px;background:#1F2730;padding:32px;border-radius:14px;align-items:start">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:64px;font-weight:500;line-height:1;color:#D97A2B">2</p>
+<p style="font-size:28px;line-height:1.4;color:#F3EFE6"><b>Una sesión por proyecto, en su carpeta.</b> Con bitácora, memoria y protocolo de cierre; el contexto se va, lo importante queda escrito.</p>
+</div>
+<div style="display:flex;gap:20px;background:#1F2730;padding:32px;border-radius:14px;align-items:start">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:64px;font-weight:500;line-height:1;color:#D97A2B">3</p>
+<p style="font-size:28px;line-height:1.4;color:#F3EFE6"><b>Preguntar «¿qué puede salir mal?» antes de cualquier «dale».</b> Cinco segundos que evitan dos horas de renders fallidos.</p>
+</div>
+<div style="display:flex;gap:20px;background:#1F2730;padding:32px;border-radius:14px;align-items:start">
+<p style="font-family:'Oswald', Arial, sans-serif;font-size:64px;font-weight:500;line-height:1;color:#D97A2B">4</p>
+<p style="font-size:28px;line-height:1.4;color:#F3EFE6"><b>El conocimiento de dominio sigue siendo mío.</b> La IA calcula y redacta; saber que un luthier sabe que el socavado manda, eso no lo sabe.</p>
+</div>
+</div>
+<p style="font-size:26px;color:#B8C0CC;line-height:1.4">Esta presentación se armó hoy en una sesión, leyendo Notion, las memorias de cada proyecto y el disco; las capturas las tomó Chrome sin cabeza. Patricio de la Cuadra · pcuadra@uc.cl</p>
+<p style="position:absolute;left:128px;bottom:64px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6B7280">25 · Patricio de la Cuadra · Proyectos con IA · 2026</p>
+<aside>Terminar con la crítica honesta: lo que más cuota cuesta son las sesiones eternas y usar la IA de ejecutor cuando debería ser director. Y lo más valioso no fue pedirle cálculos sino pedirle que dude.</aside>
+</section>
+</div>
+<div id="help">← → navegar · N notas · F pantalla completa</div>
+<div id="nav"></div>
+<div id="notes"></div>
+<script>
+const S=[...document.querySelectorAll('section')];let i=0;
+function fit(){const st=document.getElementById('stage');const s=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform=`translate(-50%,-50%) scale(${s})`;}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,k)=>s.classList.toggle('on',k===i));
+ document.getElementById('nav').innerHTML=`<b>${i+1}</b> / ${S.length}`;location.hash='#'+(i+1);
+ const a=S[i].querySelector('aside');document.getElementById('notes').textContent=a?a.textContent:'';}
+addEventListener('resize',fit);fit();
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+ else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}
+ else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);
+ else if(e.key==='n'||e.key==='N')document.getElementById('notes').classList.toggle('on');
+ else if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}});
+document.getElementById('stage').addEventListener('click',e=>{if(e.target.closest('a'))return;go(e.clientX>innerWidth/2?i+1:i-1)});
+go(Math.max(0,(parseInt(location.hash.slice(1))||1)-1));
+</script>
+</body></html>

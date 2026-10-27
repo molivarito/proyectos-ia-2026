@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demos de cursos</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root{--bg:#F3EFE6;--ink:#15191F;--muted:#4A5058;--card:#FBFAF6;--line:#D9D2C3;--accent:#D97A2B;--teal:#2F7A8C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15191F;--ink:#F3EFE6;--muted:#B8C0CC;--card:#1F2730;--line:#303A46;--accent:#E8924A;--teal:#6CC3D5}}
+:root[data-theme="dark"]{--bg:#15191F;--ink:#F3EFE6;--muted:#B8C0CC;--card:#1F2730;--line:#303A46;--accent:#E8924A;--teal:#6CC3D5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',Arial,sans-serif;line-height:1.45}
+main{max-width:1100px;margin:0 auto;padding:40px 16px 80px}
+h1{font-family:Oswald,Arial,sans-serif;font-weight:500;font-size:clamp(32px,5vw,56px);line-height:1.05;margin:0 0 8px}
+h2{font-family:Oswald,Arial,sans-serif;font-weight:500;font-size:28px;margin:40px 0 6px;border-top:4px solid var(--accent);padding-top:14px}
+p.lead{color:var(--muted);font-size:18px;margin:0 0 8px}
+p.note{color:var(--muted);font-size:15px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);text-decoration:none}
+a.card:hover{border-color:var(--accent)}
+a.card b{display:block;font-size:16px}
+a.card span{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+.tag{display:inline-block;font-size:12px;color:var(--teal);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+a.big{display:inline-block;background:var(--accent);color:#15191F;font-weight:600;padding:10px 16px;border-radius:10px;text-decoration:none;margin:4px 8px 12px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Demos de los cursos</h1>
+<p class="lead">Patricio de la Cuadra · demos interactivas con audio, autocontenidas, para abrir en clase. Suben el volumen: todas suenan.</p>
+<p class="note">Algunas piden micrófono (analizador en vivo, forma de onda y espectro): el navegador lo preguntará. Las de 3D se giran con el mouse.</p>
+
+<h2>Acústica Musical (MUC860) · 14 demos, una por sesión</h2>
+<div class="grid">
+<a class="card" href="am/demo_tren_pulsos.html"><span class="tag">s01</span><b>Tren de pulsos</b><span>Del ritmo al tono</span></a>
+<a class="card" href="am/demo_forma_onda_espectro.html"><span class="tag">s02 · micrófono</span><b>Forma de onda y espectro en vivo</b><span>Lo que entra por el micrófono</span></a>
+<a class="card" href="am/demo_modos_cuerda.html"><span class="tag">s03–04</span><b>Modos de una cuerda</b><span>Nodos, vientres y armónicos</span></a>
+<a class="card" href="am/demo_sintesis_aditiva.html"><span class="tag">s04</span><b>Síntesis aditiva</b><span>El espectro como receta del timbre</span></a>
+<a class="card" href="am/demo_fundamental_ausente.html"><span class="tag">s05</span><b>Fundamental ausente</b><span>La altura es un patrón</span></a>
+<a class="card" href="am/demo_decibel_sonoridad.html"><span class="tag">s06</span><b>Decibel y sonoridad</b><span>Curvas isofónicas</span></a>
+<a class="card" href="am/demo_batidos.html"><span class="tag">s07</span><b>Batidos</b><span>Dos tonos casi iguales</span></a>
+<a class="card" href="am/demo_banda_critica.html"><span class="tag">s08</span><b>Banda crítica</b><span>Del batido a la consonancia</span></a>
+<a class="card" href="am/demo_temperamentos.html"><span class="tag">s09</span><b>Temperamentos</b><span>Afinar es elegir un compromiso</span></a>
+<a class="card" href="am/demo_resonancia.html"><span class="tag">s10</span><b>Resonancia</b><span>Oscilador forzado y amortiguamiento</span></a>
+<a class="card" href="am/demo_helmholtz.html"><span class="tag">s11</span><b>Resonador de Helmholtz</b><span>Pegar, soltar y una nota estable</span></a>
+<a class="card" href="am/demo_tubo_agujeros.html"><span class="tag">s12</span><b>Tubo virtual con agujeros</b><span>Largo, tapa y agujeros laterales; modo predicción</span></a>
+<a class="card" href="am/demo_formantes_voz.html"><span class="tag">s13</span><b>Formantes de la voz</b><span>Fuente y filtro</span></a>
+<a class="card" href="am/demo_modos_sala.html"><span class="tag">s14</span><b>Modos de sala</b><span>Las notas favoritas de una pieza</span></a>
+</div>
+
+<h2>Señales y Sistemas (IEE2103) · selección de demos web</h2>
+<div class="grid">
+<a class="card" href="sys/analizador-vivo/index.html"><span class="tag">C1 · micrófono</span><b>Analizador de espectro en vivo</b><span>Para tocar un instrumento en clase</span></a>
+<a class="card" href="sys/impulso-limite/index.html"><span class="tag">C4</span><b>El límite que da lugar a δ</b><span>Tres familias de pulsos encogiéndose</span></a>
+<a class="card" href="sys/convolucion/superposicion.html"><span class="tag">C6</span><b>Los ecos, uno a uno</b><span>La entrada hecha impulsos</span></a>
+<a class="card" href="sys/convolucion/espacios/index.html"><span class="tag">C6 · audio</span><b>Espacios imposibles</b><span>Tu voz en otra sala: x ∗ h con IR reales</span></a>
+<a class="card" href="sys/convolucion/cascada.html"><span class="tag">C7 · audio</span><b>La cascada, al oído</b><span>Iglesia y resorte en serie, paso a paso</span></a>
+<a class="card" href="sys/series-fourier/index.html"><span class="tag">C10–11</span><b>Series de Fourier</b><span>Modo clase: coeficientes, deslizador N</span></a>
+<a class="card" href="sys/espectro-complejo-3d/index.html"><span class="tag">C11 · 3D</span><b>El espectro es complejo</b><span>Los cₙ como barras en el plano complejo</span></a>
+<a class="card" href="sys/serie-a-transformada/index.html"><span class="tag">C12</span><b>De la serie a la transformada</b><span>Estirar T₀ y ver densificarse las rayas</span></a>
+<a class="card" href="sys/una-sola-curva/index.html"><span class="tag">C12 · 3D</span><b>Una sola curva</b><span>e⁻ᵃᵗ y su X(ω) como curva 3D</span></a>
+<a class="card" href="sys/roc-superficie/index.html"><span class="tag">C15 · 3D</span><b>La costa y el continente</b><span>La ROC como superficie</span></a>
+<a class="card" href="sys/espirales-plano-s/index.html"><span class="tag">C15</span><b>Cada punto del plano s es una espiral</b><span>Punto arrastrable</span></a>
+<a class="card" href="sys/amortiguar-y-proyectar/index.html"><span class="tag">semana 8</span><b>Amortiguar y después proyectar</b><span>Laplace con σ₀ arrastrable</span></a>
+<a class="card" href="sys/costa-y-terreno/index.html"><span class="tag">C17 · 3D</span><b>Costa y terreno</b><span>El mismo σ corta las dos superficies</span></a>
+<a class="card" href="sys/sombra-del-polo/index.html"><span class="tag">C17</span><b>La sombra del polo</b><span>Polos arrastrables; Fourier ve su sombra</span></a>
+<a class="card" href="sys/aliasing/index.html"><span class="tag">C19</span><b>El aliasing, en vivo</b><span>Cruzar, rueda y muestras</span></a>
+<a class="card" href="sys/sinusoides-discretas/index.html"><span class="tag">C20 · 3D</span><b>La hélice muestreada</b><span>Continua, muestras y la hélice alias</span></a>
+<a class="card" href="sys/tres-cosenos/index.html"><span class="tag">C20</span><b>Tres cosenos muestreados</b><span>¿Cuál es la más aguda?</span></a>
+<a class="card" href="sys/cual-es-periodica/index.html"><span class="tag">C20</span><b>¿Cuál es periódica?</b><span>Muestra a muestra, con el fasor</span></a>
+<a class="card" href="sys/cambiar-la-tasa/index.html"><span class="tag">C20</span><b>Cambiar la tasa</b><span>Diezmar e interpolar</span></a>
+<a class="card" href="sys/convolucion-discreta/index.html"><span class="tag">C21</span><b>La cinta y el reloj</b><span>Convolución discreta lineal y circular</span></a>
+<a class="card" href="sys/cadena-hibrida/index.html"><span class="tag">C22</span><b>La cadena híbrida</b><span>C/D → h[n] → D/C</span></a>
+<a class="card" href="sys/lineas-retardo/demo_comb_interactiva.html"><span class="tag">C25–26 · audio</span><b>Filtros peine</b><span>Laboratorio con audio en vivo</span></a>
+<a class="card" href="sys/filtros-biquad/demo_filtros_interactiva.html"><span class="tag">C25–26 · audio</span><b>Biquad vs SVF</b><span>Osciloscopio y plano Z; zipper noise audible</span></a>
+<a class="card" href="sys/fft-web/index.html"><span class="tag">C28</span><b>FFT paso a paso</b><span>Mariposas por etapa, conteo de operaciones</span></a>
+</div>
+
+<h2>Análisis y Síntesis de Señales Musicales · sitio del curso</h2>
+<p class="note">Diez demos con audio (filtros, delays, STFT, phase vocoder, modelo sinusoidal, síntesis, FM, Karplus-Strong, MIR/Shazam, difusión), temario y galería de ejemplos.</p>
+<a class="big" href="ays/index.html">Abrir el sitio de demos</a>
+<div class="grid">
+<a class="card" href="ays/demos/filtros.html"><span class="tag">S03</span><b>Filtros LTI</b><span>Auto-wah: envelope follower</span></a>
+<a class="card" href="ays/demos/comb.html"><span class="tag">S04</span><b>Delays y peine</b><span>Dub echo con feedback</span></a>
+<a class="card" href="ays/demos/stft.html"><span class="tag">S05</span><b>STFT</b><span>El microscopio tiempo-frecuencia</span></a>
+<a class="card" href="ays/demos/phase-vocoder.html"><span class="tag">S06</span><b>Phase vocoder</b><span>Estirar el tiempo sin cambiar el tono</span></a>
+<a class="card" href="ays/demos/sms.html"><span class="tag">S07</span><b>Modelo sinusoidal (SMS)</b><span>Del píxel al parcial; morphing</span></a>
+<a class="card" href="ays/demos/sintesis.html"><span class="tag">S08</span><b>Síntesis 101</b><span>Chiptune: osciladores y envolventes</span></a>
+<a class="card" href="ays/demos/fm.html"><span class="tag">S09</span><b>Síntesis FM</b><span>¿Cómo el DX7 sonó como sonó?</span></a>
+<a class="card" href="ays/demos/karplus-strong.html"><span class="tag">S10</span><b>Karplus-Strong</b><span>Una cuerda es un peine con un lowpass</span></a>
+<a class="card" href="ays/demos/mir-shazam.html"><span class="tag">S11</span><b>MIR y Shazam</b><span>Constelaciones de picos</span></a>
+<a class="card" href="ays/demos/difusion-ia.html"><span class="tag">S12</span><b>Difusión + forense espectral</b><span>Revertir un proceso de ruido; huellas de la IA</span></a>
+</div>
+
+<h2>Sistema de aprendizaje de afinaciones · campus de 15 módulos</h2>
+<p class="note">Portal con el progreso guardado en el navegador; cada módulo trae apunte y laboratorio sonoro.</p>
+<a class="big" href="afinaciones/index.html">Abrir el campus</a>
+<div class="grid">
+<a class="card" href="afinaciones/modulos/03-pitagorica/laboratorio.html"><span class="tag">módulo 3</span><b>Afinación pitagórica</b><span>Laboratorio</span></a>
+<a class="card" href="afinaciones/modulos/04-justa/laboratorio.html"><span class="tag">módulo 4</span><b>Entonación justa</b><span>Laboratorio</span></a>
+<a class="card" href="afinaciones/modulos/05-mesotonicos/laboratorio.html"><span class="tag">módulo 5</span><b>Mesotónicos</b><span>Laboratorio</span></a>
+<a class="card" href="afinaciones/modulos/06-buenos-temperamentos/laboratorio.html"><span class="tag">módulo 6</span><b>Buenos temperamentos</b><span>Laboratorio</span></a>
+<a class="card" href="afinaciones/modulos/08-mapa-comparativo/laboratorio.html"><span class="tag">módulo 8</span><b>Mapa comparativo</b><span>Laboratorio</span></a>
+<a class="card" href="afinaciones/modulos/13-maqam/laboratorio.html"><span class="tag">módulo 13</span><b>Maqam</b><span>Laboratorio</span></a>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M1 · Laboratorio — El material sonoro</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:640px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+input[type=number],input[type=text]{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+canvas{background:#0d0f14;border:1px solid var(--line);border-radius:8px;width:100%;display:block;margin:10px 0;}
+
+table.harm-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:10px;}
+.harm-table th{text-align:left;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--line);}
+.harm-table td{padding:5px 4px;border-bottom:1px solid #ffffff08;vertical-align:middle;}
+.harm-table input[type=range]{width:90px;}
+.flagged td.note-cell{color:var(--warn);font-weight:700;}
+.pos-cents{color:var(--good);}
+.neg-cents{color:var(--warn);}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;cursor:pointer;margin:3px 5px 3px 0;}
+.chip:hover{background:#313848;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+
+.beat-display{font-size:2.1rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;text-align:center;margin:8px 0;}
+.beat-display span{font-size:1rem;color:var(--muted);font-weight:500;}
+
+.compare-panel{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.compare-col{flex:1;min-width:220px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:0.85rem;}
+.compare-col h4{margin:0 0 8px;color:var(--accent);font-size:0.9rem;}
+.compare-col .kv{display:flex;justify-content:space-between;margin:4px 0;color:var(--muted);}
+.compare-col .kv b{color:var(--text);}
+
+table.ref-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:8px;}
+.ref-table th,.ref-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+.ref-table th:first-child,.ref-table td:first-child{text-align:left;}
+.ref-table th{color:var(--muted);font-weight:600;}
+
+.result-box{background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-top:8px;font-size:0.85rem;min-height:20px;}
+.result-box .calc{color:var(--muted);font-size:0.78rem;display:block;margin-top:6px;}
+
+.quiz-status{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;color:var(--muted);font-size:0.85rem;}
+.quiz-status b{color:var(--text);}
+.feedback{margin-top:12px;padding:12px 14px;border-radius:9px;font-size:0.87rem;display:none;}
+.feedback.correct{background:#123420;border:1px solid #2c6b45;color:#bdf0d1;}
+.feedback.incorrect{background:#3a1420;border:1px solid #7a2c40;color:#f5c2ce;}
+.summary{text-align:center;padding:14px;}
+.summary .score{font-size:2rem;font-weight:800;color:var(--accent);margin:8px 0;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .compare-panel{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M1 · Laboratorio: El material sonoro</h1>
+    <p class="subtitle">Cinco experimentos interactivos sobre armónicos, batidos y afinación justa vs. temperada. Todo el audio se sintetiza en el navegador.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Explorador de la serie armónica</h2>
+    <p class="purpose">Escucha y observa cómo se construye un timbre sumando armónicos puros sobre una fundamental.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l1Fundamental">Fundamental</label>
+        <input type="range" id="l1Fundamental" min="55" max="220" step="1" value="110">
+        <div><span class="value-tag" id="l1FundamentalHz">110 Hz</span> · nota más cercana: <span class="value-tag" id="l1FundamentalNote">La2</span></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="l1PresetFund">Solo fundamental</button>
+      <button class="btn" id="l1Preset18">1–8</button>
+      <button class="btn" id="l1PresetMaj">Acorde mayor (4·5·6)</button>
+      <button class="btn" id="l1Preset7th">Séptima natural (4·5·6·7)</button>
+      <button class="btn" id="l1PresetAll">Todos</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l1PlayBtn">▶ Reproducir armónicos</button>
+    </div>
+
+    <table class="harm-table" id="l1Table">
+      <thead>
+        <tr><th>n</th><th>Frecuencia</th><th>Nota aprox.</th><th>Desv. (c)</th><th>Activo</th><th>Amplitud</th></tr>
+      </thead>
+      <tbody id="l1TableBody"></tbody>
+    </table>
+
+    <h3>Amplitud de armónicos (eje de frecuencia logarítmico)</h3>
+    <canvas id="l1BarsCanvas" width="840" height="150"></canvas>
+
+    <h3>Osciloscopio (forma de onda resultante)</h3>
+    <canvas id="l1ScopeCanvas" width="840" height="140"></canvas>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · Batidos (beating)</h2>
+    <p class="purpose">Dos tonos casi idénticos revelan, al sumarse, una lenta pulsación de amplitud: el batido.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l2F1">Frecuencia f1</label>
+        <input type="range" id="l2F1" min="200" max="500" step="1" value="440">
+        <span class="value-tag" id="l2F1Display">440.0 Hz</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="l2DeltaHz">Δ en Hz (f2 = f1 + Δ)</label>
+        <input type="range" id="l2DeltaHz" min="-30" max="30" step="0.1" value="0">
+        <span class="value-tag" id="l2DeltaHzDisplay">0.00 Hz</span>
+      </div>
+      <div class="field">
+        <label for="l2DeltaCents">Δ equivalente en cents</label>
+        <input type="range" id="l2DeltaCents" min="-110" max="110" step="0.5" value="0">
+        <span class="value-tag" id="l2DeltaCentsDisplay">0.0 c</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="l2PresetUnison">Unísono perfecto (Δ=0)</button>
+      <button class="btn" id="l2Preset1">Δ=1 Hz</button>
+      <button class="btn" id="l2Preset4">Δ=4 Hz</button>
+      <button class="btn" id="l2Preset15">Δ=15 Hz (rugosidad)</button>
+      <button class="btn" id="l2PresetSemi">semitono (100 c)</button>
+    </div>
+
+    <div class="beat-display"><span>Batido predicho:</span> <span id="l2BeatDisplay">0.00 Hz</span></div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l2PlayBtn">▶ Reproducir batido</button>
+    </div>
+
+    <canvas id="l2Canvas" width="840" height="160"></canvas>
+
+    <div class="note-box">Al crecer Δ, el batido pasa de una <b>ondulación lenta</b> (Δ ≈ 1 Hz) a una <b>rugosidad</b> áspera (Δ ≈ 15 Hz) y, más allá, a la percepción de <b>dos notas distintas</b> que ya no se funden en una sola.</div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · Puro vs. temperado</h2>
+    <p class="purpose">El mismo intervalo, afinado justo o en 12-TET, produce batidos muy distintos entre sus armónicos.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l3Interval">Intervalo</label>
+        <select id="l3Interval">
+          <option value="0">Quinta (3/2, ET 700 c)</option>
+          <option value="1">Cuarta (4/3, ET 500 c)</option>
+          <option value="2">3.ª mayor (5/4, ET 400 c)</option>
+          <option value="3">3.ª menor (6/5, ET 300 c)</option>
+          <option value="4">6.ª mayor (5/3, ET 900 c)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="l3Base">Nota base (Hz) — La3 por defecto</label>
+        <input type="number" id="l3Base" min="80" max="500" step="0.01" value="220">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3PlayJusto">▶ Justo</button>
+      <button class="btn primary big-btn" id="l3PlayET">▶ Temperado igual</button>
+      <button class="btn big-btn" id="l3PlayAlt">▶ Alternar A/B</button>
+      <span class="value-tag" id="l3AltStatus"></span>
+    </div>
+
+    <div class="compare-panel">
+      <div class="compare-col">
+        <h4>Justo</h4>
+        <div class="kv"><span>Razón</span><b id="l3JustoRatio">3/2</b></div>
+        <div class="kv"><span>Cents</span><b id="l3JustoCents">701.96</b></div>
+        <div class="kv"><span>Frec. superior</span><b id="l3JustoFreq">330.00 Hz</b></div>
+        <div class="kv"><span>Batido predicho</span><b id="l3JustoBeat">0.00 Hz</b></div>
+      </div>
+      <div class="compare-col">
+        <h4>Temperado igual</h4>
+        <div class="kv"><span>Cents</span><b id="l3ETCents">700.00</b></div>
+        <div class="kv"><span>Frec. superior</span><b id="l3ETFreq">329.63 Hz</b></div>
+        <div class="kv"><span>Batido predicho</span><b id="l3ETBeat">0.74 Hz</b></div>
+      </div>
+    </div>
+
+    <h3>Tabla comparativa de referencia</h3>
+    <table class="ref-table">
+      <thead><tr><th>Intervalo</th><th>Cents justo</th><th>Cents ET</th><th>Diferencia</th></tr></thead>
+      <tbody id="l3RefTable"></tbody>
+    </table>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · Calculadora razón ⇄ cents</h2>
+    <p class="purpose">Convierte entre razones de frecuencia y cents, y encuentra la fracción simple más cercana a un valor en cents.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l4RatioInput">Razón (ej: 3/2 o 1.5)</label>
+        <input type="text" id="l4RatioInput" value="3/2">
+        <div class="result-box" id="l4RatioResult"></div>
+      </div>
+      <div class="field">
+        <label for="l4CentsInput">Cents</label>
+        <input type="number" id="l4CentsInput" value="701.96" step="0.01">
+        <div class="result-box" id="l4CentsResult"></div>
+      </div>
+    </div>
+
+    <div>
+      <span class="chip" data-ratio="3/2">3/2</span>
+      <span class="chip" data-ratio="5/4">5/4</span>
+      <span class="chip" data-ratio="81/64">81/64</span>
+      <span class="chip" data-ratio="81/80">81/80</span>
+      <span class="chip" data-ratio="531441/524288">531441/524288 (coma pitagórica)</span>
+      <span class="chip" data-cents="700">700 c</span>
+      <span class="chip" data-cents="400">400 c</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="l4Listen">🔊 Escuchar</button>
+    </div>
+  </section>
+
+  <!-- ==================== LAB 5 ==================== -->
+  <section class="card" id="lab5">
+    <h2>Lab 5 · Quiz auditivo: ¿puro o temperado?</h2>
+    <p class="purpose">10 rondas. Rondas 1–5: 3.ª mayor (más fácil de distinguir). Rondas 6–10: quinta (mucho más sutil).</p>
+
+    <div id="l5Intro">
+      <button class="btn primary big-btn" id="l5Start">Comenzar quiz</button>
+    </div>
+
+    <div id="l5Game" style="display:none;">
+      <div class="quiz-status">
+        <span id="l5RoundLabel"><b>Ronda 1 de 10</b> — Intervalo: 3.ª mayor (más fácil)</span>
+        <span>Puntaje: <b id="l5Score">0</b></span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="l5PlaySound">🔁 Repetir sonido (quedan 3)</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn big-btn" id="l5AnswerPure">Puro</button>
+        <button class="btn big-btn" id="l5AnswerET">Temperado</button>
+      </div>
+
+      <div class="feedback" id="l5Feedback"></div>
+
+      <div class="btn-row" id="l5NextRow" style="display:none;">
+        <button class="btn primary" id="l5Next">Siguiente ronda ▶</button>
+      </div>
+    </div>
+
+    <div id="l5Summary" style="display:none;" class="summary">
+      <div>Quiz terminado</div>
+      <div class="score" id="l5FinalScore">0 / 10</div>
+      <div id="l5Advice"></div>
+      <div class="btn-row" style="justify-content:center;display:flex;">
+        <button class="btn primary" id="l5Restart">Reiniciar quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Módulo 1 · Sistema de Aprendizaje de Afinaciones · Proyecto Afinaciones — funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+// Bloquea cualquier intento de sonar antes de activar el audio; da pista visual.
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* ==================== UTILIDADES MUSICALES ==================== */
+const NOTE_NAMES = ["Do","Do♯","Re","Re♯","Mi","Fa","Fa♯","Sol","Sol♯","La","La♯","Si"];
+
+function freqToNote(freq){
+  const midi = 69 + 12*Math.log2(freq/440);
+  const rounded = Math.round(midi);
+  const cents = (midi - rounded) * 100;
+  const pc = ((rounded % 12) + 12) % 12;
+  const octave = Math.floor(rounded/12) - 1;
+  return { name: NOTE_NAMES[pc], octave: octave, cents: cents };
+}
+
+function fmtCents(c){
+  return (c >= 0 ? '+' : '') + c.toFixed(1);
+}
+
+// Timbre rico en armónicos (~8 armónicos, amplitud 1/n) vía createPeriodicWave,
+// igual enfoque que afinacion.html / player.js, necesario para que el batido
+// del temperamento igual se perciba con claridad.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima (ataque/release con rampas exponenciales) sobre un AudioParam de gain,
+// para una nota de duración fija. Devuelve el instante en que termina el release.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Reproduce dos tonos (base + superior) con timbre armónico rico y envolvente ADSR.
+function playHarmonicInterval(baseFreq, upperFreq, duration, peak){
+  if(!ensureAudioReady()) return null;
+  const now = audioCtx.currentTime + 0.03;
+  [baseFreq, upperFreq].forEach(function(f){
+    const osc = createHarmonicOsc(audioCtx, f, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, now, duration, peak, 0.02, 0.15);
+    osc.start(now);
+    osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+  });
+  return now;
+}
+
+/* ==================== Lab 1: Serie armónica ==================== */
+(function(){
+  const fundInput = document.getElementById('l1Fundamental');
+  const fundHzLabel = document.getElementById('l1FundamentalHz');
+  const fundNoteLabel = document.getElementById('l1FundamentalNote');
+  const tableBody = document.getElementById('l1TableBody');
+  const playBtn = document.getElementById('l1PlayBtn');
+  const barsCanvas = document.getElementById('l1BarsCanvas');
+  const scopeCanvas = document.getElementById('l1ScopeCanvas');
+
+  let fundamental = 110;
+  const active = {};
+  const amplitudes = {};
+  for(let n = 1; n <= 16; n++){ active[n] = false; amplitudes[n] = 1; }
+
+  const rows = {};
+  let voices = {};
+  let playing = false;
+  let mixGain = null, analyser = null;
+  let rafId = null;
+
+  function buildTable(){
+    tableBody.innerHTML = '';
+    for(let n = 1; n <= 16; n++){
+      const freq = fundamental * n;
+      const note = freqToNote(freq);
+      const flagged = Math.abs(note.cents) > 15;
+      const tr = document.createElement('tr');
+      if(flagged) tr.className = 'flagged';
+
+      const tdN = document.createElement('td'); tdN.textContent = n;
+      const tdFreq = document.createElement('td'); tdFreq.textContent = freq.toFixed(1) + ' Hz';
+      const tdNote = document.createElement('td'); tdNote.className = 'note-cell';
+      tdNote.textContent = note.name + note.octave;
+      const tdCents = document.createElement('td'); tdCents.className = fmtCents(note.cents)[0] === '+' ? 'pos-cents':'neg-cents';
+      tdCents.textContent = fmtCents(note.cents);
+
+      const tdCheck = document.createElement('td');
+      const chk = document.createElement('input'); chk.type = 'checkbox';
+      chk.addEventListener('change', function(){ onCheckboxChange(n, chk.checked); });
+      tdCheck.appendChild(chk);
+
+      const tdAmp = document.createElement('td');
+      const amp = document.createElement('input'); amp.type='range'; amp.min='0'; amp.max='1'; amp.step='0.01'; amp.value='1';
+      amp.addEventListener('input', function(){ onAmpChange(n, parseFloat(amp.value)); });
+      tdAmp.appendChild(amp);
+
+      tr.appendChild(tdN); tr.appendChild(tdFreq); tr.appendChild(tdNote);
+      tr.appendChild(tdCents); tr.appendChild(tdCheck); tr.appendChild(tdAmp);
+      tableBody.appendChild(tr);
+
+      rows[n] = { tr: tr, freqCell: tdFreq, noteCell: tdNote, centsCell: tdCents, checkbox: chk, ampSlider: amp };
+    }
+  }
+
+  function refreshRowValues(){
+    for(let n = 1; n <= 16; n++){
+      const freq = fundamental * n;
+      const note = freqToNote(freq);
+      const flagged = Math.abs(note.cents) > 15;
+      rows[n].tr.className = flagged ? 'flagged' : '';
+      rows[n].freqCell.textContent = freq.toFixed(1) + ' Hz';
+      rows[n].noteCell.textContent = note.name + note.octave;
+      rows[n].centsCell.className = note.cents >= 0 ? 'pos-cents' : 'neg-cents';
+      rows[n].centsCell.textContent = fmtCents(note.cents);
+    }
+  }
+
+  function updateFundamentalLabel(){
+    fundHzLabel.textContent = fundamental.toFixed(0) + ' Hz';
+    const note = freqToNote(fundamental);
+    fundNoteLabel.textContent = note.name + note.octave;
+  }
+
+  function ensureGraph(){
+    if(!mixGain){
+      mixGain = audioCtx.createGain(); mixGain.gain.value = 1;
+      analyser = audioCtx.createAnalyser(); analyser.fftSize = 2048;
+      mixGain.connect(analyser); analyser.connect(masterGain);
+    }
+  }
+
+  function voiceAmplitude(n){
+    return (1/n) * amplitudes[n] * 0.6; // 0.6: escala global para evitar clipping al sumar armónicos
+  }
+
+  function startVoice(n){
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = fundamental * n;
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(mixGain);
+    const now = audioCtx.currentTime;
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(Math.max(voiceAmplitude(n), 0.0001), now + 0.02);
+    osc.start(now);
+    voices[n] = { osc: osc, gain: g };
+  }
+
+  function stopVoice(n){
+    const v = voices[n]; if(!v) return;
+    const now = audioCtx.currentTime;
+    v.gain.gain.cancelScheduledValues(now);
+    v.gain.gain.setValueAtTime(Math.max(v.gain.gain.value, 0.0001), now);
+    v.gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+    v.osc.stop(now + 0.09);
+    v.osc.addEventListener('ended', function(){ try{v.osc.disconnect(); v.gain.disconnect();}catch(e){} });
+    delete voices[n];
+  }
+
+  function updateVoiceLive(n){
+    const v = voices[n]; if(!v) return;
+    const now = audioCtx.currentTime;
+    v.osc.frequency.setTargetAtTime(fundamental * n, now, 0.01);
+    v.gain.gain.setTargetAtTime(Math.max(voiceAmplitude(n), 0.0001), now, 0.01);
+  }
+
+  function onCheckboxChange(n, checked){
+    active[n] = checked;
+    drawBars();
+    if(playing){
+      if(checked) startVoice(n); else stopVoice(n);
+    }
+  }
+
+  function onAmpChange(n, val){
+    amplitudes[n] = val;
+    drawBars();
+    if(playing) updateVoiceLive(n);
+  }
+
+  function applyPreset(list){
+    for(let n = 1; n <= 16; n++){
+      const on = list.indexOf(n) !== -1;
+      active[n] = on;
+      rows[n].checkbox.checked = on;
+      if(playing){
+        if(on && !voices[n]) startVoice(n);
+        if(!on && voices[n]) stopVoice(n);
+      }
+    }
+    drawBars();
+  }
+
+  function togglePlay(){
+    if(!ensureAudioReady()) return;
+    if(!playing){
+      ensureGraph();
+      playing = true;
+      for(let n = 1; n <= 16; n++){ if(active[n]) startVoice(n); }
+      playBtn.textContent = '■ Detener armónicos';
+      startScope();
+    } else {
+      for(let n = 1; n <= 16; n++){ stopVoice(n); }
+      playing = false;
+      playBtn.textContent = '▶ Reproducir armónicos';
+      stopScope();
+    }
+  }
+
+  function drawBars(){
+    const c = barsCanvas.getContext('2d');
+    const W = barsCanvas.width, H = barsCanvas.height;
+    c.clearRect(0,0,W,H);
+    const fMin = fundamental*0.8, fMax = fundamental*17;
+    const logMin = Math.log10(fMin), logMax = Math.log10(fMax);
+    const pad = 10;
+    function xFor(freq){ return pad + ((Math.log10(freq)-logMin)/(logMax-logMin)) * (W-2*pad); }
+    c.strokeStyle = '#2a2e3a';
+    c.beginPath(); c.moveTo(0, H-16); c.lineTo(W, H-16); c.stroke();
+    for(let n = 1; n <= 16; n++){
+      const freq = fundamental*n;
+      const x = xFor(freq);
+      const note = freqToNote(freq);
+      const flagged = Math.abs(note.cents) > 15;
+      const isActive = active[n];
+      const amp = isActive ? (1/n)*amplitudes[n] : 0.04;
+      const barH = Math.max(2, amp*(H-34));
+      c.fillStyle = isActive ? (flagged ? '#ff6b6b' : '#e8a33d') : '#3a4150';
+      c.fillRect(x-3, H-16-barH, 6, barH);
+      c.fillStyle = '#9aa0ac'; c.font = '9px system-ui'; c.textAlign = 'center';
+      c.fillText(String(n), x, H-4);
+    }
+  }
+
+  function startScope(){
+    const c2d = scopeCanvas.getContext('2d');
+    const bufferLen = analyser.fftSize;
+    const data = new Uint8Array(bufferLen);
+    function draw(){
+      rafId = requestAnimationFrame(draw);
+      analyser.getByteTimeDomainData(data);
+      c2d.clearRect(0,0,scopeCanvas.width, scopeCanvas.height);
+      c2d.strokeStyle = '#e8a33d'; c2d.lineWidth = 1.5;
+      c2d.beginPath();
+      const slice = scopeCanvas.width / bufferLen;
+      let x = 0;
+      for(let i = 0; i < bufferLen; i++){
+        const v = data[i]/128.0;
+        const y = v * scopeCanvas.height/2;
+        if(i===0) c2d.moveTo(x,y); else c2d.lineTo(x,y);
+        x += slice;
+      }
+      c2d.stroke();
+    }
+    draw();
+  }
+
+  function stopScope(){
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    const c2d = scopeCanvas.getContext('2d');
+    c2d.clearRect(0,0,scopeCanvas.width, scopeCanvas.height);
+  }
+
+  fundInput.addEventListener('input', function(){
+    fundamental = parseFloat(fundInput.value);
+    updateFundamentalLabel();
+    refreshRowValues();
+    drawBars();
+    if(playing){ for(let n=1;n<=16;n++){ if(active[n]) updateVoiceLive(n); } }
+  });
+
+  document.getElementById('l1PresetFund').addEventListener('click', function(){ applyPreset([1]); });
+  document.getElementById('l1Preset18').addEventListener('click', function(){ applyPreset([1,2,3,4,5,6,7,8]); });
+  document.getElementById('l1PresetMaj').addEventListener('click', function(){ applyPreset([4,5,6]); });
+  document.getElementById('l1Preset7th').addEventListener('click', function(){ applyPreset([4,5,6,7]); });
+  document.getElementById('l1PresetAll').addEventListener('click', function(){
+    const all=[]; for(let n=1;n<=16;n++) all.push(n); applyPreset(all);
+  });
+  playBtn.addEventListener('click', togglePlay);
+
+  buildTable();
+  updateFundamentalLabel();
+  applyPreset([1,2,3,4,5,6,7,8]);
+  drawBars();
+})();
+
+/* ==================== Lab 2: Batidos ==================== */
+(function(){
+  const f1Slider = document.getElementById('l2F1');
+  const f1Display = document.getElementById('l2F1Display');
+  const deltaHzSlider = document.getElementById('l2DeltaHz');
+  const deltaHzDisplay = document.getElementById('l2DeltaHzDisplay');
+  const deltaCentsSlider = document.getElementById('l2DeltaCents');
+  const deltaCentsDisplay = document.getElementById('l2DeltaCentsDisplay');
+  const beatDisplay = document.getElementById('l2BeatDisplay');
+  const canvas = document.getElementById('l2Canvas');
+  const playBtn = document.getElementById('l2PlayBtn');
+
+  let f1 = 440, deltaHz = 0;
+  let playing = false;
+  let osc1=null, osc2=null, gain1=null, gain2=null, mix=null;
+
+  function centsFromHz(base, dHz){ return 1200*Math.log2((base+dHz)/base); }
+  function hzFromCents(base, cents){ return base*(Math.pow(2, cents/1200) - 1); }
+
+  function refresh(){
+    const cents = centsFromHz(f1, deltaHz);
+    f1Display.textContent = f1.toFixed(1) + ' Hz';
+    deltaHzDisplay.textContent = deltaHz.toFixed(2) + ' Hz';
+    deltaCentsDisplay.textContent = cents.toFixed(1) + ' c';
+    beatDisplay.textContent = Math.abs(deltaHz).toFixed(2) + ' Hz';
+    drawCanvas();
+  }
+
+  function setDelta(dHz){
+    deltaHz = dHz;
+    deltaHzSlider.value = Math.max(-30, Math.min(30, dHz));
+    const cents = centsFromHz(f1, dHz);
+    deltaCentsSlider.value = Math.max(-110, Math.min(110, cents));
+    refresh();
+    liveUpdate();
+  }
+
+  function liveUpdate(){
+    if(playing){
+      const now = audioCtx.currentTime;
+      osc1.frequency.setTargetAtTime(f1, now, 0.01);
+      osc2.frequency.setTargetAtTime(f1+deltaHz, now, 0.01);
+    }
+  }
+
+  f1Slider.addEventListener('input', function(){
+    f1 = parseFloat(f1Slider.value);
+    const cents = centsFromHz(f1, deltaHz);
+    deltaCentsSlider.value = Math.max(-110, Math.min(110, cents));
+    refresh();
+    liveUpdate();
+  });
+
+  deltaHzSlider.addEventListener('input', function(){
+    deltaHz = parseFloat(deltaHzSlider.value);
+    const cents = centsFromHz(f1, deltaHz);
+    deltaCentsSlider.value = Math.max(-110, Math.min(110, cents));
+    refresh();
+    liveUpdate();
+  });
+
+  deltaCentsSlider.addEventListener('input', function(){
+    const cents = parseFloat(deltaCentsSlider.value);
+    deltaHz = hzFromCents(f1, cents);
+    deltaHzSlider.value = Math.max(-30, Math.min(30, deltaHz));
+    refresh();
+    liveUpdate();
+  });
+
+  document.getElementById('l2PresetUnison').addEventListener('click', function(){ setDelta(0); });
+  document.getElementById('l2Preset1').addEventListener('click', function(){ setDelta(1); });
+  document.getElementById('l2Preset4').addEventListener('click', function(){ setDelta(4); });
+  document.getElementById('l2Preset15').addEventListener('click', function(){ setDelta(15); });
+  document.getElementById('l2PresetSemi').addEventListener('click', function(){ setDelta(hzFromCents(f1, 100)); });
+
+  function togglePlay(){
+    if(!ensureAudioReady()) return;
+    if(!playing){
+      const now = audioCtx.currentTime;
+      mix = audioCtx.createGain(); mix.gain.value = 1; mix.connect(masterGain);
+      osc1 = audioCtx.createOscillator(); osc1.type='sine'; osc1.frequency.value = f1;
+      osc2 = audioCtx.createOscillator(); osc2.type='sine'; osc2.frequency.value = f1+deltaHz;
+      gain1 = audioCtx.createGain(); gain2 = audioCtx.createGain();
+      osc1.connect(gain1); gain1.connect(mix);
+      osc2.connect(gain2); gain2.connect(mix);
+      gain1.gain.setValueAtTime(0.0001, now); gain1.gain.exponentialRampToValueAtTime(0.16, now+0.02);
+      gain2.gain.setValueAtTime(0.0001, now); gain2.gain.exponentialRampToValueAtTime(0.16, now+0.02);
+      osc1.start(now); osc2.start(now);
+      playing = true;
+      playBtn.textContent = '■ Detener';
+    } else {
+      const now = audioCtx.currentTime;
+      [gain1, gain2].forEach(function(g){
+        g.gain.cancelScheduledValues(now);
+        g.gain.setValueAtTime(Math.max(g.gain.value,0.0001), now);
+        g.gain.exponentialRampToValueAtTime(0.0001, now+0.08);
+      });
+      osc1.stop(now+0.09); osc2.stop(now+0.09);
+      playing = false;
+      playBtn.textContent = '▶ Reproducir batido';
+    }
+  }
+  playBtn.addEventListener('click', togglePlay);
+
+  function drawCanvas(){
+    const c = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height, mid = H/2;
+    c.clearRect(0,0,W,H);
+    const fa = f1, fb = f1+deltaHz;
+    const N = 1200;
+    c.strokeStyle = '#4a5064'; c.lineWidth = 1; c.beginPath();
+    for(let i=0;i<=N;i++){
+      const t = i/N;
+      const y = Math.sin(2*Math.PI*fa*t) + Math.sin(2*Math.PI*fb*t);
+      const px = (i/N)*W, py = mid - (y/2)*(H*0.42);
+      if(i===0) c.moveTo(px,py); else c.lineTo(px,py);
+    }
+    c.stroke();
+    c.strokeStyle = '#e8a33d'; c.lineWidth = 2; c.beginPath();
+    for(let i=0;i<=N;i++){
+      const t = i/N;
+      const env = 2*Math.abs(Math.cos(Math.PI*deltaHz*t));
+      const px = (i/N)*W, py = mid - (env/2)*(H*0.42);
+      if(i===0) c.moveTo(px,py); else c.lineTo(px,py);
+    }
+    c.stroke();
+    c.beginPath();
+    for(let i=0;i<=N;i++){
+      const t = i/N;
+      const env = -2*Math.abs(Math.cos(Math.PI*deltaHz*t));
+      const px = (i/N)*W, py = mid - (env/2)*(H*0.42);
+      if(i===0) c.moveTo(px,py); else c.lineTo(px,py);
+    }
+    c.stroke();
+  }
+
+  refresh();
+})();
+
+/* ==================== Lab 3: Puro vs. temperado ==================== */
+const INTERVALS_L3 = [
+  { name:'Quinta',      p:3, q:2, centsET:700 },
+  { name:'Cuarta',      p:4, q:3, centsET:500 },
+  { name:'3.ª mayor',   p:5, q:4, centsET:400 },
+  { name:'3.ª menor',   p:6, q:5, centsET:300 },
+  { name:'6.ª mayor',   p:5, q:3, centsET:900 }
+];
+
+(function(){
+  const select = document.getElementById('l3Interval');
+  const baseInput = document.getElementById('l3Base');
+  const altStatus = document.getElementById('l3AltStatus');
+
+  const elJustoRatio = document.getElementById('l3JustoRatio');
+  const elJustoCents = document.getElementById('l3JustoCents');
+  const elJustoFreq = document.getElementById('l3JustoFreq');
+  const elJustoBeat = document.getElementById('l3JustoBeat');
+  const elETCents = document.getElementById('l3ETCents');
+  const elETFreq = document.getElementById('l3ETFreq');
+  const elETBeat = document.getElementById('l3ETBeat');
+
+  function compute(){
+    const iv = INTERVALS_L3[parseInt(select.value,10)];
+    const base = parseFloat(baseInput.value) || 220;
+    const centsJust = 1200*Math.log2(iv.p/iv.q);
+    const freqJusta = base*iv.p/iv.q;
+    const freqET = base*Math.pow(2, iv.centsET/1200);
+    const beatJusta = Math.abs(iv.p*base - iv.q*freqJusta);
+    const beatET = Math.abs(iv.p*base - iv.q*freqET);
+    return { iv:iv, base:base, centsJust:centsJust, freqJusta:freqJusta, freqET:freqET, beatJusta:beatJusta, beatET:beatET };
+  }
+
+  function refreshDisplay(){
+    const d = compute();
+    elJustoRatio.textContent = d.iv.p + '/' + d.iv.q;
+    elJustoCents.textContent = d.centsJust.toFixed(2);
+    elJustoFreq.textContent = d.freqJusta.toFixed(2) + ' Hz';
+    elJustoBeat.textContent = d.beatJusta.toFixed(3) + ' Hz';
+    elETCents.textContent = d.iv.centsET.toFixed(2);
+    elETFreq.textContent = d.freqET.toFixed(2) + ' Hz';
+    elETBeat.textContent = d.beatET.toFixed(3) + ' Hz';
+  }
+
+  function buildRefTable(){
+    const tbody = document.getElementById('l3RefTable');
+    tbody.innerHTML = '';
+    INTERVALS_L3.forEach(function(iv){
+      const centsJust = 1200*Math.log2(iv.p/iv.q);
+      const diff = centsJust - iv.centsET;
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+iv.name+' ('+iv.p+'/'+iv.q+')</td><td>'+centsJust.toFixed(3)+'</td><td>'+iv.centsET.toFixed(3)+'</td><td>'+(diff>=0?'+':'')+diff.toFixed(3)+'</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('l3PlayJusto').addEventListener('click', function(){
+    const d = compute();
+    altStatus.textContent = '';
+    playHarmonicInterval(d.base, d.freqJusta, 3, 0.16);
+  });
+  document.getElementById('l3PlayET').addEventListener('click', function(){
+    const d = compute();
+    altStatus.textContent = '';
+    playHarmonicInterval(d.base, d.freqET, 3, 0.16);
+  });
+  document.getElementById('l3PlayAlt').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const d = compute();
+    const segDur = 2;
+    const sequence = [
+      {label:'Justo', freq:d.freqJusta},
+      {label:'Temperado', freq:d.freqET},
+      {label:'Justo', freq:d.freqJusta},
+      {label:'Temperado', freq:d.freqET}
+    ];
+    let t = audioCtx.currentTime + 0.05;
+    sequence.forEach(function(seg, idx){
+      [d.base, seg.freq].forEach(function(f){
+        const osc = createHarmonicOsc(audioCtx, f, 8);
+        const g = audioCtx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        const end = scheduleTone(g.gain, t, segDur, 0.16, 0.02, 0.12);
+        osc.start(t); osc.stop(end+0.05);
+        osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+      });
+      setTimeout(function(){ altStatus.textContent = 'Sonando: ' + seg.label; }, idx*segDur*1000);
+      t += segDur;
+    });
+    setTimeout(function(){ altStatus.textContent = ''; }, sequence.length*segDur*1000);
+  });
+
+  select.addEventListener('change', refreshDisplay);
+  baseInput.addEventListener('input', refreshDisplay);
+
+  buildRefTable();
+  refreshDisplay();
+})();
+
+/* ==================== Lab 4: Calculadora razón <-> cents ==================== */
+(function(){
+  const ratioInput = document.getElementById('l4RatioInput');
+  const centsInput = document.getElementById('l4CentsInput');
+  const ratioResult = document.getElementById('l4RatioResult');
+  const centsResult = document.getElementById('l4CentsResult');
+
+  let currentRatioValue = 1.5;
+
+  function parseRatioInput(str){
+    str = (str||'').trim();
+    if(str.indexOf('/') !== -1){
+      const parts = str.split('/');
+      const num = parseFloat(parts[0]), den = parseFloat(parts[1]);
+      if(!isFinite(num) || !isFinite(den) || den === 0 || num <= 0) return null;
+      return { value: num/den, num: num, den: den, isFraction: true };
+    }
+    const v = parseFloat(str);
+    if(!isFinite(v) || v <= 0) return null;
+    return { value: v, isFraction: false };
+  }
+
+  function bestFraction(cents){
+    let best = null;
+    for(let q = 1; q <= 64; q++){
+      for(let p = 1; p <= 64; p++){
+        const c = 1200*Math.log2(p/q);
+        const err = Math.abs(c - cents);
+        if(!best || err < best.err - 1e-9 ||
+           (Math.abs(err-best.err) <= 1e-9 && (q < best.q || (q===best.q && p < best.p)))){
+          best = { p:p, q:q, err:err, c:c };
+        }
+      }
+    }
+    return best;
+  }
+
+  function computeFromRatio(){
+    const parsed = parseRatioInput(ratioInput.value);
+    if(!parsed){ ratioResult.textContent = 'Ingresa una razón válida (ej: 3/2 o 1.5)'; return; }
+    const cents = 1200*Math.log2(parsed.value);
+    let breakdown;
+    if(parsed.isFraction){
+      breakdown = '1200 · log2(' + parsed.num + '/' + parsed.den + ') = 1200 · log2(' + parsed.value.toFixed(5) + ') = 1200 · ' + Math.log2(parsed.value).toFixed(5) + ' = ' + cents.toFixed(2) + ' cents';
+    } else {
+      breakdown = '1200 · log2(' + parsed.value + ') = 1200 · ' + Math.log2(parsed.value).toFixed(5) + ' = ' + cents.toFixed(2) + ' cents';
+    }
+    ratioResult.innerHTML = '<b>' + cents.toFixed(2) + ' cents</b><span class="calc">' + breakdown + '</span>';
+    currentRatioValue = parsed.value;
+  }
+
+  function computeFromCents(){
+    const cents = parseFloat(centsInput.value);
+    if(!isFinite(cents)){ centsResult.textContent = 'Ingresa un valor de cents válido'; return; }
+    const ratio = Math.pow(2, cents/1200);
+    const frac = bestFraction(cents);
+    const err = frac.c - cents;
+    centsResult.innerHTML = '<b>razón = ' + ratio.toFixed(5) + '</b><span class="calc">Fracción más simple (≤64): ' + frac.p + '/' + frac.q + ' (' + frac.c.toFixed(2) + ' c, error ' + (err>=0?'+':'') + err.toFixed(3) + ' c)</span>';
+    currentRatioValue = ratio;
+  }
+
+  ratioInput.addEventListener('input', computeFromRatio);
+  centsInput.addEventListener('input', computeFromCents);
+
+  document.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      if(chip.dataset.ratio){
+        ratioInput.value = chip.dataset.ratio;
+        computeFromRatio();
+      } else if(chip.dataset.cents){
+        centsInput.value = chip.dataset.cents;
+        computeFromCents();
+      }
+    });
+  });
+
+  document.getElementById('l4Listen').addEventListener('click', function(){
+    const base = 220;
+    playHarmonicInterval(base, base*currentRatioValue, 2.5, 0.16);
+  });
+
+  computeFromRatio();
+  computeFromCents();
+})();
+
+/* ==================== Lab 5: Quiz auditivo ==================== */
+(function(){
+  const introBox = document.getElementById('l5Intro');
+  const gameBox = document.getElementById('l5Game');
+  const summaryBox = document.getElementById('l5Summary');
+  const roundLabel = document.getElementById('l5RoundLabel');
+  const scoreLabel = document.getElementById('l5Score');
+  const playSoundBtn = document.getElementById('l5PlaySound');
+  const answerPureBtn = document.getElementById('l5AnswerPure');
+  const answerETBtn = document.getElementById('l5AnswerET');
+  const feedbackBox = document.getElementById('l5Feedback');
+  const nextRow = document.getElementById('l5NextRow');
+  const nextBtn = document.getElementById('l5Next');
+  const finalScoreLabel = document.getElementById('l5FinalScore');
+  const adviceBox = document.getElementById('l5Advice');
+
+  const BASE_FREQ = 220;
+  const QUIZ_INTERVALS = {
+    major3: { name:'3.ª mayor', p:5, q:4, centsET:400, difficulty:'más fácil' },
+    fifth:  { name:'quinta',    p:3, q:2, centsET:700, difficulty:'más difícil' }
+  };
+
+  let round = 1, score = 0, playsUsed = 0, answered = false;
+  let curType = null, curIsPure = null;
+
+  function startQuiz(){
+    round = 1; score = 0;
+    introBox.style.display = 'none';
+    summaryBox.style.display = 'none';
+    gameBox.style.display = 'block';
+    scoreLabel.textContent = '0';
+    startRound();
+  }
+
+  function startRound(){
+    curType = round <= 5 ? 'major3' : 'fifth';
+    curIsPure = Math.random() < 0.5;
+    playsUsed = 0;
+    answered = false;
+    const iv = QUIZ_INTERVALS[curType];
+    roundLabel.innerHTML = '<b>Ronda ' + round + ' de 10</b> — Intervalo: ' + iv.name + ' (' + iv.difficulty + ')';
+    playSoundBtn.textContent = '🔁 Repetir sonido (quedan 3)';
+    playSoundBtn.disabled = false;
+    answerPureBtn.disabled = false;
+    answerETBtn.disabled = false;
+    feedbackBox.style.display = 'none';
+    feedbackBox.className = 'feedback';
+    nextRow.style.display = 'none';
+  }
+
+  function currentUpperFreq(){
+    const iv = QUIZ_INTERVALS[curType];
+    return curIsPure ? BASE_FREQ*iv.p/iv.q : BASE_FREQ*Math.pow(2, iv.centsET/1200);
+  }
+
+  function playCurrent(){
+    if(playsUsed >= 3) return;
+    if(!ensureAudioReady()) return;
+    playsUsed++;
+    playHarmonicInterval(BASE_FREQ, currentUpperFreq(), 2.5, 0.18);
+    const remaining = 3 - playsUsed;
+    if(remaining > 0){
+      playSoundBtn.textContent = '🔁 Repetir sonido (quedan ' + remaining + ')';
+    } else {
+      playSoundBtn.textContent = '🔁 Sin repeticiones restantes';
+      playSoundBtn.disabled = true;
+    }
+  }
+
+  function answer(choice){
+    if(answered) return;
+    answered = true;
+    answerPureBtn.disabled = true;
+    answerETBtn.disabled = true;
+    playSoundBtn.disabled = true;
+
+    const iv = QUIZ_INTERVALS[curType];
+    const wasPure = curIsPure;
+    const correct = (choice === 'pure') === wasPure;
+    if(correct) score++;
+    scoreLabel.textContent = String(score);
+
+    const upperFreq = currentUpperFreq();
+    const beat = Math.abs(iv.p*BASE_FREQ - iv.q*upperFreq);
+
+    let explanation;
+    if(wasPure){
+      explanation = 'Era <b>justa</b>: no había batido perceptible entre los armónicos (batido ≈ ' + beat.toFixed(3) + ' Hz) — por eso sonaba "limpio", señal de afinación justa.';
+    } else {
+      explanation = 'Era <b>temperada</b>: se oía un batido de ≈ ' + beat.toFixed(2) + ' Hz entre los armónicos — eso delata el temperamento igual.';
+    }
+
+    feedbackBox.style.display = 'block';
+    feedbackBox.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+    feedbackBox.innerHTML = (correct ? '✓ Correcto. ' : '✗ Incorrecto. ') + explanation;
+
+    nextRow.style.display = 'block';
+  }
+
+  function nextRound(){
+    round++;
+    if(round > 10){
+      showSummary();
+    } else {
+      startRound();
+    }
+  }
+
+  function showSummary(){
+    gameBox.style.display = 'none';
+    summaryBox.style.display = 'block';
+    finalScoreLabel.textContent = score + ' / 10';
+    let advice;
+    if(score < 6) advice = 'Entrena con el Lab 3 alternando A/B para afinar el oído a los batidos.';
+    else if(score <= 8) advice = 'Buen desempeño: ya distingues la mayoría de los casos.';
+    else advice = 'Oído de afinador: distingues incluso los batidos más sutiles.';
+    adviceBox.textContent = advice;
+  }
+
+  document.getElementById('l5Start').addEventListener('click', startQuiz);
+  playSoundBtn.addEventListener('click', playCurrent);
+  answerPureBtn.addEventListener('click', function(){ answer('pure'); });
+  answerETBtn.addEventListener('click', function(){ answer('et'); });
+  nextBtn.addEventListener('click', nextRound);
+  document.getElementById('l5Restart').addEventListener('click', startQuiz);
+})();
+
+</script>
+</body>
+</html>

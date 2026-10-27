@@ -1,0 +1,353 @@
+/**
+ * curso.css — tema del curso "Sistema de Aprendizaje de Afinaciones"
+ * para reveal.js, montado sobre dist/theme/black.css.
+ *
+ * Paleta compartida con el resto del sitio (ver build/build.py):
+ *   fondo #12141a · tarjetas #1c1f27 · acento #e8a33d
+ *
+ * Este archivo NO reemplaza black.css: se carga después y sobreescribe
+ * las variables de tema (--r-*) más una serie de utilidades propias
+ * (.demo, .nota-clase, tablas, código, MathML).
+ */
+
+:root {
+  --curso-bg: #12141a;
+  --curso-card: #1c1f27;
+  --curso-card-border: #2a2e3a;
+  --curso-text: #e9e9ec;
+  --curso-muted: #9aa0ac;
+  --curso-accent: #e8a33d;
+  --curso-accent-ink: #241a08;
+  --curso-line: #262b38;
+  --curso-code-bg: #0d0f14;
+  --curso-code-text: #f0d9a8;
+
+  /* --- overrides de las variables de black.css --- */
+  --r-background-color: var(--curso-bg);
+  --r-main-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --r-main-font-size: 38px;
+  --r-main-color: var(--curso-text);
+  --r-block-margin: 22px;
+  --r-heading-margin: 0 0 28px 0;
+  --r-heading-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --r-heading-color: var(--curso-accent);
+  --r-heading-line-height: 1.2;
+  --r-heading-letter-spacing: normal;
+  --r-heading-text-transform: none;
+  --r-heading-text-shadow: none;
+  --r-heading-font-weight: 700;
+  --r-heading1-text-shadow: none;
+  --r-heading1-size: 2.1em;
+  --r-heading2-size: 1.5em;
+  --r-heading3-size: 1.15em;
+  --r-heading4-size: 0.95em;
+  --r-code-font: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --r-link-color: var(--curso-accent);
+  --r-link-color-dark: #c98420;
+  --r-link-color-hover: #f0af52;
+  --r-selection-background-color: rgba(232, 163, 61, 0.35);
+  --r-selection-color: var(--curso-text);
+}
+
+.reveal-viewport {
+  background: var(--curso-bg);
+  background-color: var(--curso-bg);
+  background-image:
+    radial-gradient(1100px 480px at 12% -12%, #1c2030 0%, transparent 60%);
+}
+
+.reveal {
+  font-family: var(--r-main-font);
+}
+
+.reveal .slides section,
+.reveal .slides section > section {
+  text-align: left;
+  padding: 0 8px;
+}
+
+/* Slides de solo título centradas (nivel 1, sin slide-level hijos) */
+.reveal .slides > section:first-child {
+  text-align: center;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  hyphens: none;
+}
+
+.reveal h1 { color: var(--curso-accent); }
+.reveal h2 { color: var(--curso-accent); border-bottom: 2px solid var(--curso-line); padding-bottom: 0.18em; }
+.reveal h3 { color: var(--curso-text); }
+
+.reveal p,
+.reveal li {
+  color: var(--curso-text);
+  line-height: 1.4;
+}
+
+.reveal small,
+.reveal .subtitulo,
+.reveal p.subtitle,
+.reveal h2.subtitle {
+  color: var(--curso-muted);
+  font-weight: 400;
+}
+
+/* Poco texto por slide: listas más espaciadas y legibles a distancia */
+.reveal ul,
+.reveal ol {
+  display: block;
+  margin: 0 0 0 0.6em;
+}
+.reveal li {
+  margin-bottom: 0.45em;
+}
+.reveal li::marker {
+  color: var(--curso-accent);
+}
+
+.reveal a { color: var(--r-link-color); text-decoration: underline; text-decoration-color: rgba(232,163,61,0.4); }
+.reveal a:hover { color: var(--r-link-color-hover); }
+
+.reveal strong { color: #ffffff; font-weight: 700; }
+.reveal em { color: #d7d9e0; }
+
+hr, .reveal hr {
+  border: none;
+  border-top: 1px solid var(--curso-line);
+  margin: 0.6em 0;
+}
+
+/* ---------------------------------------------------------------------
+ * Código
+ * ------------------------------------------------------------------- */
+
+.reveal pre {
+  background: var(--curso-code-bg);
+  border: 1px solid var(--curso-line);
+  border-radius: 10px;
+  box-shadow: none;
+  width: 100%;
+  margin: 0.5em 0;
+}
+
+.reveal pre code {
+  background: var(--curso-code-bg);
+  color: var(--curso-code-text);
+  padding: 14px 18px;
+  max-height: 480px;
+  font-size: 0.62em;
+  line-height: 1.4;
+}
+
+.reveal code {
+  font-family: var(--r-code-font);
+  background: var(--curso-code-bg);
+  border: 1px solid var(--curso-line);
+  border-radius: 5px;
+  padding: 0.03em 0.35em;
+  color: var(--curso-code-text);
+}
+
+.reveal pre code {
+  border: none;
+}
+
+/* ---------------------------------------------------------------------
+ * Tablas — bordes sutiles, zebra, legibles a distancia
+ * ------------------------------------------------------------------- */
+
+.reveal table {
+  margin: 0.6em auto;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.68em;
+  background: var(--curso-card);
+  border: 1px solid var(--curso-card-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.reveal table th,
+.reveal table td {
+  padding: 0.35em 0.6em;
+  border: 1px solid var(--curso-line);
+  border-left: none;
+  border-right: none;
+  text-align: left;
+  vertical-align: top;
+  color: var(--curso-text);
+}
+
+.reveal table thead th {
+  color: var(--curso-accent);
+  font-weight: 700;
+  background: #21252f;
+  border-bottom: 2px solid var(--curso-card-border);
+  white-space: nowrap;
+}
+
+.reveal table tbody tr:last-child td { border-bottom: none; }
+
+.reveal table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.reveal table tbody tr:hover td {
+  background: rgba(232, 163, 61, 0.08);
+}
+
+.reveal .table-scroll,
+.reveal div.table-scroll {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------
+ * MathML — legible en tamaño de proyección
+ * ------------------------------------------------------------------- */
+
+.reveal math {
+  color: inherit;
+  font-size: 1.15em;
+}
+
+.reveal math,
+.reveal mrow,
+.reveal mi,
+.reveal mo,
+.reveal mn,
+.reveal mtext,
+.reveal msup,
+.reveal msub,
+.reveal mfrac {
+  color: inherit;
+}
+
+.reveal p math[display="block"],
+.reveal math[display="block"] {
+  display: block;
+  margin: 0.7em auto;
+  text-align: center;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ---------------------------------------------------------------------
+ * .demo — bloque destacado para los "momentos demo" en vivo
+ * ------------------------------------------------------------------- */
+
+.reveal .demo {
+  margin: 0.6em 0;
+  padding: 0.55em 0.9em;
+  background: var(--curso-card);
+  border: 2px solid var(--curso-accent);
+  border-radius: 4px 16px 16px 4px;
+  box-shadow: 0 0 0 1px rgba(232, 163, 61, 0.15);
+  position: relative;
+}
+
+.reveal .demo::before {
+  content: "▶ DEMO";
+  display: inline-block;
+  color: var(--curso-accent-ink);
+  background: var(--curso-accent);
+  font-size: 0.42em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  padding: 0.25em 0.8em;
+  margin: 0 0 0.45em;
+}
+
+.reveal .demo p:last-child { margin-bottom: 0; }
+.reveal .demo a {
+  color: var(--curso-accent);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------
+ * .nota-clase — nota discreta para el/la docente, visible en pantalla
+ * (distinto de las notas del orador en <aside class="notes">)
+ * ------------------------------------------------------------------- */
+
+.reveal .nota-clase {
+  margin: 0.5em 0;
+  padding: 0.35em 0.7em;
+  font-size: 0.6em;
+  color: var(--curso-muted);
+  border-left: 3px solid var(--curso-line);
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------------------
+ * Imágenes / figuras
+ * ------------------------------------------------------------------- */
+
+.reveal img {
+  border-radius: 8px;
+  box-shadow: none;
+  border: none;
+  max-height: 62vh;
+}
+
+.reveal figure { margin: 0.5em 0; }
+.reveal figcaption {
+  color: var(--curso-muted);
+  font-size: 0.55em;
+  margin-top: 0.4em;
+}
+
+/* ---------------------------------------------------------------------
+ * Blockquotes
+ * ------------------------------------------------------------------- */
+
+.reveal blockquote {
+  background: var(--curso-card);
+  border: 1px solid var(--curso-card-border);
+  border-left: 4px solid var(--curso-accent);
+  border-radius: 4px 14px 14px 4px;
+  padding: 0.5em 0.8em;
+  width: auto;
+  box-shadow: none;
+  font-style: normal;
+  color: var(--curso-text);
+}
+
+/* ---------------------------------------------------------------------
+ * Controles / progreso — mantener acento del curso
+ * ------------------------------------------------------------------- */
+
+.reveal .progress {
+  color: var(--curso-accent);
+  height: 4px;
+}
+
+.reveal .controls {
+  color: var(--curso-accent);
+}
+
+/* ---------------------------------------------------------------------
+ * Notas del orador: contenedor de reveal.js las oculta del público
+ * salvo en la vista de orador (tecla S) — no requiere estilo aquí,
+ * pero se deja una regla explícita de resguardo.
+ * ------------------------------------------------------------------- */
+
+.reveal aside.notes {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------
+ * Responsive
+ * ------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  :root {
+    --r-main-font-size: 30px;
+  }
+  .reveal table { font-size: 0.62em; }
+}

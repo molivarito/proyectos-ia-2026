@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M14 · Apunte — Gamelán: slendro y pelog</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../13-maqam/apunte.html">◀ Maqam árabe</a><a class="nav-link" href="../15-shruti-sintesis/apunte.html">Shruti en la música indostaní y carnática ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1
+id="m14.-gamelán-cuando-la-afinación-no-persigue-la-serie-armónica">M14.
+Gamelán: cuando la afinación no persigue la serie armónica</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Imagina que grabas un <em>gong kebyar</em> balinés — un gamelán
+completo, metalófonos de bronce, gongs, tambores — y te sientas al piano
+a transcribir lo que escuchas, nota por nota, en notación occidental
+normal. Vas a fracasar, y vas a fracasar de una manera muy específica y
+muy instructiva. No es que las notas caigan “entre” las teclas del
+piano, como pasaría con un maqam árabe o con una tercera justa (M4,
+M13): vas a notar algo más extraño. Cuando intentas afinar tu oído a la
+nota más grave del sarón (un metalófono de láminas de bronce) y luego
+subes al que suena “una octava arriba” siguiendo el instinto que te
+dieron quince años de música occidental, la octava te va a sonar
+<em>mal</em> — no ligeramente destemplada como una quinta pitagórica,
+sino con una relación que se resiste a sonar “vacía” y “fusionada” del
+modo en que una octava siempre suena. Y si grabas dos gamelanes
+distintos tocando, en teoría, “la misma pieza” en “la misma afinación”,
+vas a descubrir que sus notas no coinciden entre sí ni por casualidad:
+el Do del primer conjunto no es el Do del segundo, ni su Re, ni ningún
+otro grado.</p>
+<p>Todo este curso, desde el Módulo 1, ha dado por sentado un hecho
+físico que nunca cuestionamos: que los instrumentos producen armónicos,
+múltiplos enteros exactos de una fundamental
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = n f_1</annotation></semantics></math>),
+y que esa serie armónica es la que explica por qué preferimos ciertos
+intervalos (la octava
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math>,
+la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+la tercera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>)
+sobre otros. Pitagórica, justa, mesotónica, los buenos temperamentos, el
+temperamento igual — los ocho módulos de la Fase 1 completa son, en el
+fondo, ocho maneras distintas de <strong>negociar con la misma serie
+armónica</strong>: qué parte de ella proteger, dónde esconder el error.
+Incluso el maqam del Módulo 13, con su entonación regional y sus
+terceras neutras, sigue anclado a instrumentos (voz, laúd, caña) cuyo
+espectro es armónico.</p>
+<p>El gamelán javanés y balinés rompe esa premisa desde la raíz, porque
+sus instrumentos protagonistas —metalófonos de láminas de bronce, gongs,
+no cuerdas ni columnas de aire— <strong>no producen una serie
+armónica</strong>. Sus parciales (los “sobretonos” de cada nota) caen en
+razones de frecuencia que no son 1, 2, 3, 4… sino algo mucho más
+irregular. Si la afinación occidental es la historia de qué hacer con
+una serie armónica que no cabe perfectamente en doce notas por octava,
+el gamelán es la historia de qué escala construir cuando la serie
+armónica, directamente, no está disponible como referencia. Y la
+respuesta, medida una y otra vez desde los años 1880 hasta hoy, es
+sorprendente: los gamelanes no aproximan torpemente la escala
+occidental, ni tampoco caen en un caos sin lógica. Construyen una lógica
+propia — y ese es el tema de este módulo.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener frescos cuatro resultados de módulos anteriores. De
+<strong>M1 §3</strong>: la serie armónica de una cuerda o columna de
+aire ideal es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = n f_1</annotation></semantics></math>,
+y esa regularidad es lo que hace que la octava y la quinta “encajen” con
+las series armónicas de dos notas distintas (M1 §5.2). De <strong>M1
+§5.1</strong>: dos tonos producen un batido de frecuencia
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">batido</mtext></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>f</mi><mn>2</mn></msub><mo>−</mo><msub><mi>f</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">f_{\text{batido}} = |f_2 - f_1|</annotation></semantics></math>,
+perceptible como pulso lento si es de pocos hercios. De <strong>M7
+§3.7</strong>: un cuerpo vibrante <em>real</em>, con rigidez apreciable
+(una cuerda de piano), ya no sigue
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = nf_1</annotation></semantics></math>
+exactamente sino
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub><msqrt><mrow><mn>1</mn><mo>+</mo><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">f_n = nf_1\sqrt{1+Bn^2}</annotation></semantics></math>,
+con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+del orden de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0001</mn><annotation encoding="application/x-tex">0.0001</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.01</mn><annotation encoding="application/x-tex">0.01</annotation></semantics></math>
+— una <strong>desviación pequeña</strong>, de pocos cents, que sin
+embargo obliga a “estirar” las octavas del piano (curva de Railsback).
+De <strong>M8 §6.1</strong>: la rugosidad de Sethares mide, sumando
+sobre todos los pares de parciales de dos notas, cuánta aspereza
+sensorial produce un intervalo dado, y esa curva tiene mínimos donde
+coinciden (o casi coinciden) parciales de ambas notas. Vas a necesitar
+los cuatro: hoy la inarmonicidad deja de ser una perturbación pequeña
+(como en M7) para volverse el fenómeno dominante, y la curva de
+rugosidad de M8 va a ser la herramienta que explica por qué eso, lejos
+de ser un defecto, genera una lógica de afinación propia.</p>
+<h2 id="desarrollo-teórico">3. Desarrollo teórico</h2>
+<h3 id="la-física-primero-por-qué-una-barra-no-es-una-cuerda">3.1 La
+física primero: por qué una barra no es una cuerda</h3>
+<p>Todo el edificio de M1 a M13 descansa en un hecho físico muy
+específico: una cuerda tensa fija en sus extremos, o una columna de aire
+en un tubo, vibra según la ecuación de onda de segundo orden, cuya
+restitución es la <strong>tensión</strong>. Eso es lo que produce, como
+viste en M1 §3.1, modos cuya longitud de onda es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>n</mi></msub><mo>=</mo><mn>2</mn><mi>L</mi><mi>/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">\lambda_n = 2L/n</annotation></semantics></math>
+y cuya frecuencia es, en consecuencia,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = n f_1</annotation></semantics></math>:
+múltiplos enteros exactos, sin excepción, de la fundamental.</p>
+<p>Una barra o placa metálica libre —una lámina de bronce de sarón, una
+tecla de metalófono, una barra de xilófono sin tallar— es un objeto
+físicamente distinto. No está bajo tensión como una cuerda: es rígida, y
+lo que la hace vibrar y volver a su posición no es una tensión aplicada
+sino su propia <strong>rigidez a la flexión</strong> (la misma
+resistencia a doblarse que, en dosis pequeñas, introdujo la
+inarmonicidad del piano en M7 §3.7 mediante el término
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">Bn^2</annotation></semantics></math>).
+En una barra libre, esa rigidez no es una corrección pequeña: es el
+<em>único</em> mecanismo de restitución, y gobierna la ecuación
+completa. La ecuación de onda de la cuerda es de segundo orden en el
+espacio; la ecuación de una barra en flexión (la “ecuación de
+Euler-Bernoulli”) es de <strong>cuarto orden</strong>, y esa diferencia
+matemática es la que produce un resultado radicalmente distinto.</p>
+<p>Para una barra uniforme, libre en ambos extremos (sin sujeción,
+apoyada solo por los nudos de vibración, como una lámina de metalófono
+suspendida sobre su marco), las condiciones de frontera exigen que el
+momento flector y el esfuerzo de corte sean cero en cada extremo.
+Resolver esa condición no da, como en la cuerda, una fórmula limpia
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = nf_1</annotation></semantics></math>:
+da una ecuación trascendente,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>k</mi><mi>n</mi></msub><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mrow><mi mathvariant="normal">cosh</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>k</mi><mi>n</mi></msub><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>,</mo></mrow><annotation encoding="application/x-tex">\cos(k_n L)\cosh(k_n L) = 1,</annotation></semantics></math></p>
+<p>cuyas soluciones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>n</mi></msub><mi>L</mi></mrow><annotation encoding="application/x-tex">k_n L</annotation></semantics></math>
+no tienen fórmula cerrada y hay que obtenerlas numéricamente (es un
+resultado estándar de la acústica de instrumentos de percusión,
+documentado por ejemplo en Fletcher y Rossing, <em>The Physics of
+Musical Instruments</em>). Los primeros cuatro valores (excluyendo el
+modo de cuerpo rígido, que no vibra) son:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mn>1</mn></msub><mi>L</mi><mo>=</mo><mn>4.7300</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>k</mi><mn>2</mn></msub><mi>L</mi><mo>=</mo><mn>7.8532</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>k</mi><mn>3</mn></msub><mi>L</mi><mo>=</mo><mn>10.9956</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>k</mi><mn>4</mn></msub><mi>L</mi><mo>=</mo><mn>14.1372</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">k_1 L = 4.7300, \quad k_2 L = 7.8532, \quad k_3 L = 10.9956, \quad k_4 L = 14.1372.</annotation></semantics></math></p>
+<p>La frecuencia de cada modo es proporcional al
+<strong>cuadrado</strong> de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>n</mi></msub><mi>L</mi></mrow><annotation encoding="application/x-tex">k_n L</annotation></semantics></math>
+(a diferencia de la cuerda, donde era proporcional a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
+la primera potencia). Elevando al cuadrado y normalizando por el primer
+modo:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>f</mi><mn>2</mn></msub><msub><mi>f</mi><mn>1</mn></msub></mfrac><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>7.8532</mn><mn>4.7300</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>=</mo><mn>2.757</mn><mo>,</mo><mspace width="2.0em"></mspace><mfrac><msub><mi>f</mi><mn>3</mn></msub><msub><mi>f</mi><mn>1</mn></msub></mfrac><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>10.9956</mn><mn>4.7300</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>=</mo><mn>5.404</mn><mo>,</mo><mspace width="2.0em"></mspace><mfrac><msub><mi>f</mi><mn>4</mn></msub><msub><mi>f</mi><mn>1</mn></msub></mfrac><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>14.1372</mn><mn>4.7300</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>=</mo><mn>8.933</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\frac{f_2}{f_1} = \left(\frac{7.8532}{4.7300}\right)^2 = 2.757, \qquad \frac{f_3}{f_1} = \left(\frac{10.9956}{4.7300}\right)^2 = 5.404, \qquad \frac{f_4}{f_1} = \left(\frac{14.1372}{4.7300}\right)^2 = 8.933.</annotation></semantics></math></p>
+<p>Estas son las razones clásicas de la barra libre uniforme que vas a
+encontrar en cualquier texto de acústica de instrumentos de percusión:
+<strong>1 : 2.756 : 5.404 : 8.933</strong>. (Un detalle curioso, solo
+para quien tenga curiosidad numérica: si divides cada
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>n</mi></msub><mi>L</mi></mrow><annotation encoding="application/x-tex">k_nL</annotation></semantics></math>
+por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\pi/2</annotation></semantics></math>,
+obtienes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.0112</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>4.9994</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>7.0001</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>9.0000</mn></mrow><annotation encoding="application/x-tex">3.0112,\ 4.9994,\ 7.0001,\ 9.0000</annotation></semantics></math>
+— a partir del tercer modo, prácticamente los enteros impares exactos.
+Es la razón por la que algunos textos escriben la fórmula asintótica de
+la barra libre como “modos aproximadamente en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>n</mi><mo>+</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">(2n+1)^2</annotation></semantics></math>”,
+una aproximación que mejora rápido para los modos superiores pero que
+falla notoriamente en los dos primeros, que son precisamente los que más
+le importan al oído.)</p>
+<p>Comparemos con la serie armónica de una cuerda ideal
+—<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>6</mn><mi>…</mi></mrow><annotation encoding="application/x-tex">1, 2, 3, 4, 5, 6\dots</annotation></semantics></math>—
+donde el segundo parcial cae exactamente en la octava, el tercero en una
+octava más quinta, el cuarto en dos octavas. En la barra libre, el
+<strong>segundo parcial no cae ni cerca de la octava</strong>: cae en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2.756</mn><annotation encoding="application/x-tex">2.756</annotation></semantics></math>,
+casi al final del segundo intervalo de octava. Traduzcamos a cents,
+tomando el primer parcial como referencia (0 c):</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parcial</th>
+<th>Razón</th>
+<th>Cents desde
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>1</mn></msub><annotation encoding="application/x-tex">f_1</annotation></semantics></math></th>
+<th>Múltiplo de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+más cercano</th>
+<th>Desviación de ese múltiplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1.000</td>
+<td>0.0 c</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">1\times</annotation></semantics></math></td>
+<td>0.0 c</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2.7565</td>
+<td>1755.4 c</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">2\times</annotation></semantics></math>
+(1200 c)</td>
+<td><strong>+555.4 c</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>5.404</td>
+<td>2920.8 c</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">4\times</annotation></semantics></math>
+(2400 c)</td>
+<td><strong>+520.8 c</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>8.933</td>
+<td>3791.0 c</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">8\times</annotation></semantics></math>
+(3600 c)</td>
+<td><strong>+191.0 c</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Compara esta tabla con la inarmonicidad del piano de M7 §3.7: ahí,
+con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>≈</mo><mn>0.0001</mn></mrow><annotation encoding="application/x-tex">B \approx 0.0001</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.01</mn><annotation encoding="application/x-tex">0.01</annotation></semantics></math>,
+el segundo parcial de una cuerda de piano se adelantaba respecto de la
+octava exacta por <strong>unos pocos cents</strong> (el ejercicio de M7
+calculaba 1.73 c para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>0.0005</mn></mrow><annotation encoding="application/x-tex">B=0.0005</annotation></semantics></math>)
+— suficiente para obligar a estirar la octava, pero una cantidad casi
+imperceptible en la escala del oído. Aquí, en una barra libre uniforme,
+el “adelanto” del segundo parcial respecto de la octava es de
+<strong>555.4 cents</strong>: más de dos terceras mayores. No es una
+octava ligeramente estirada. Es, sencillamente, <strong>otro
+intervalo</strong>, uno que no tiene nombre reconocible en ningún
+sistema de este curso, ni siquiera aproximado. Esta es la diferencia
+cualitativa que organiza todo el módulo: la inarmonicidad del piano es
+una desviación de <em>cents</em> dentro de una estructura que sigue
+siendo, esencialmente, armónica; la inarmonicidad de una barra es una
+desviación de <em>octavas enteras</em> — una estructura que nunca fue
+armónica para empezar.</p>
+<p>La consecuencia inmediata: el “espectro” de un sarón, tomado en
+bruto, no contiene ni una octava ni una quinta reconocibles como tales.
+Cuando un afinador de pianos estira la octava (M7 §3.7) para que el
+segundo parcial —ya desplazado unos pocos cents por la rigidez— vuelva a
+coincidir con la fundamental de la nota de arriba, está haciendo un
+ajuste fino sobre una estructura que sigue siendo, en esencia, armónica.
+Si quisiéramos aplicar la misma lógica a una barra —templar la nota “de
+arriba” para que su fundamental coincida con el segundo parcial de la de
+abajo, y así eliminar el batido, tal como hace el afinador de pianos—
+tendríamos que subir la nota superior no a una octava (razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>,
+1200 c) sino a razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2.7565</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>1.3783</mn></mrow><annotation encoding="application/x-tex">2.7565/2 = 1.3783</annotation></semantics></math>,
+es decir, apenas <strong>555.4 cents</strong> sobre la fundamental: casi
+exactamente a mitad de camino de la octava, en una zona que en
+temperamento igual ocuparía un tritono aumentado, no una octava. Ninguna
+cultura musical llama “octava” a algo que sucede a 555 cents. La
+conclusión práctica —y es lo que hacen, de hecho, los fundidores y
+afinadores de gamelanes— es que nadie intenta “estirar la octava” de un
+metalófono siguiendo sus parciales, del modo en que un afinador de
+pianos sigue los suyos: la afinación de las fundamentales se decide por
+otros criterios (de oído, de tradición, y como vamos a ver en la sección
+3.5, de batido <em>deliberado</em>), y el rico enjambre de parciales
+inarmónicos que cada lámina produce simplemente se acepta como el timbre
+característico, brillante y “metálico”, del instrumento — no como algo
+que haya que domesticar hasta la consonancia. (Vale la pena una nota
+organológica: los constructores de xilófonos y marimbas occidentales sí
+tallan un rebaje curvo en la cara inferior de cada barra, precisamente
+para acercar el segundo parcial a una razón más “musical” —una duodécima
+o dos octavas, según el instrumento—; muchos sarones y metalófonos de
+bronce, en cambio, son láminas de perfil mucho más simple, y conservan
+buena parte del espectro “crudo” que acabamos de calcular.)</p>
+<h3 id="sethares-el-timbre-esculpe-la-escala">3.2 Sethares: el timbre
+esculpe la escala</h3>
+<p>Si el espectro de un metalófono no tiene ni octava ni quinta
+reconocibles, ¿por qué construir una escala en torno a él en primer
+lugar? ¿Por qué no simplemente usar espacios iguales, o cualquier
+partición arbitraria? Aquí entra la tesis central de este módulo,
+propuesta por el físico e ingeniero William Sethares en un artículo de
+1993 y desarrollada en su libro <em>Tuning, Timbre, Spectrum, Scale</em>
+(Springer): <strong>la curva de rugosidad de M8 §6.1 no tiene mínimos
+fijos — tiene mínimos que dependen de dónde caen los parciales del
+timbre que se está usando</strong>.</p>
+<p>Recordemos la fórmula de disonancia de Sethares para un par de
+parciales (M8 §6.1):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><msub><mi>f</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>l</mi><mn>1</mn></msub><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><msup><mi>e</mi><mrow><mi>−</mi><msub><mi>b</mi><mn>1</mn></msub><mi>s</mi><mi mathvariant="normal">Δ</mi><mi>f</mi></mrow></msup><mo>−</mo><msup><mi>e</mi><mrow><mi>−</mi><msub><mi>b</mi><mn>2</mn></msub><mi>s</mi><mi mathvariant="normal">Δ</mi><mi>f</mi></mrow></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">d(f_1,f_2) = l_1 l_2 (e^{-b_1 s \Delta f} - e^{-b_2 s \Delta f})</annotation></semantics></math>,
+sumada sobre todos los pares de parciales de dos notas. Cuando el timbre
+es armónico —parciales en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>6</mn><mi>…</mi></mrow><annotation encoding="application/x-tex">1, 2, 3, 4, 5, 6\dots</annotation></semantics></math>,
+como cualquier instrumento de cuerda o viento— y barremos el intervalo
+entre dos notas de ese timbre desde el unísono hasta la octava,
+calculando la rugosidad total en cada punto, los mínimos de esa curva
+caen, casi exactamente, en las razones simples que ya conoces: la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>,
+la cuarta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>,
+la tercera mayor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>.
+Esto no es una coincidencia cultural: es la razón física por la que
+Occidente (y, en gran medida, cualquier cultura que use instrumentos
+armónicos) tiende a afinar sus consonancias justamente ahí — son los
+puntos donde más parciales de ambas notas caen exactamente unos sobre
+otros, o muy cerca, minimizando el batido.</p>
+<p>Verifiquemos esto con números, comparando dos timbres: uno armónico
+(parciales
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>4</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">1,2,3,4,5,6</annotation></semantics></math>,
+amplitudes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">1/n</annotation></semantics></math>,
+el timbre “genérico de cuerda” que usa el laboratorio del curso desde
+M1) y uno de barra (parciales
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>2.757</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>5.404</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>8.933</mn></mrow><annotation encoding="application/x-tex">1,\ 2.757,\ 5.404,\ 8.933</annotation></semantics></math>,
+con amplitudes decrecientes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>0.7</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>0.5</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>0.3</mn></mrow><annotation encoding="application/x-tex">1,\ 0.7,\ 0.5,\ 0.3</annotation></semantics></math>).
+Calculando la rugosidad total —sumada sobre los ocho o doce pares
+cruzados de parciales entre las dos notas— para cada intervalo entre 350
+y 950 cents, con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>=</mo><mn>300</mn></mrow><annotation encoding="application/x-tex">f_1 = 300</annotation></semantics></math>
+Hz, aparecen los siguientes mínimos locales:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Timbre</th>
+<th>Mínimos de rugosidad (cents)</th>
+<th>Razón/intervalo más cercano</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Armónico</td>
+<td>386.3 · 500.2 · <strong>702.0</strong> · 882.6</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+·
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">4/3</annotation></semantics></math>
+·
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+·
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">5/3</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>Barra</td>
+<td><strong>672.9</strong> · <strong>872.2</strong></td>
+<td>(ningún nombre reconocible)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Con timbre armónico, el mínimo más profundo del rango cae exactamente
+en 702 cents — la quinta pura, sin sorpresas: es literalmente el mismo
+cálculo que ya hiciste, de otra forma, en M8 §6.1. Con timbre de barra,
+en cambio, los mínimos <strong>se corren</strong>: el más marcado (el
+más profundo, con menos rugosidad total) aparece cerca de 872 cents:
+58.5 cents por encima de la sexta menor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>813.7</mn><annotation encoding="application/x-tex">813.7</annotation></semantics></math>
+c) y 12.2 cents por debajo de la sexta mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>884.4</mn><annotation encoding="application/x-tex">884.4</annotation></semantics></math>
+c) — vecino de la sexta mayor, pero perceptiblemente desviado de ella,
+en una zona que el oído occidental no reconoce como ningún intervalo
+estándar afinado. El segundo mínimo, cerca de 673 cents, está a casi 30
+cents de la quinta pura: bastante para que un oído entrenado en música
+occidental lo escuche desafinado, pero sigue siendo, para el timbre de
+la barra, un valle genuino de consonancia relativa.</p>
+<p>La hipótesis de Sethares —y conviene remarcar que es una
+<strong>hipótesis explicativa</strong>, influyente pero no un hecho
+establecido sin discusión— es que las escalas de slendro y pelog no son
+“intentos fallidos” de aproximar quintas y terceras justas con
+instrumentos toscos, sino estructuras que reflejan, con razonable
+fidelidad, dónde caen los mínimos de rugosidad <em>para el timbre real
+de un metalófono de bronce</em>. En su artículo original, Sethares midió
+el espectro de instrumentos de gamelán reales y calculó curvas de
+disonancia con esos espectros medidos (no con la aproximación idealizada
+de barra libre que acabamos de usar aquí, que es más simple pero ilustra
+el mismo principio), encontrando una correspondencia razonable entre los
+mínimos calculados y los grados reportados de slendro y pelog en algunos
+conjuntos.</p>
+<p>Esta tesis tiene críticas serias, y es importante conocerlas antes de
+aceptarla como explicación completa. La más citada es la de los
+etnomusicólogos Marc Perlman y Carol Krumhansl (1996), quienes
+repitieron el ejercicio con datos de afinación y de espectro más
+extensos y encontraron que la correspondencia entre los mínimos de
+rugosidad predichos y las afinaciones reales de gamelanes concretos es,
+en el mejor de los casos, parcial: hay conjuntos donde coincide
+razonablemente y otros donde no, y el ajuste depende bastante de qué
+parciales y qué amplitudes se usan en el cálculo (algo que ya viste,
+como limitación general del método, en M8 §6.1). Más de fondo, la
+crítica cultural es sencilla y contundente: <strong>una escala musical
+no es solo el resultado de un cálculo acústico</strong>. La afinación de
+un gamelán concreto también refleja la tradición del taller que fundió
+sus láminas, el linaje de gamelanes anteriores que imitó o heredó, las
+proporciones de los gongs que ya tenía el conjunto, decisiones estéticas
+de la corte o del pueblo que lo encargó, y el gusto del afinador que lo
+ajustó a mano golpeando y limando cada lámina — nada de eso es reducible
+a una curva de rugosidad. La postura razonable, y la que vamos a
+sostener en este módulo, es intermedia: el timbre inarmónico de los
+metalófonos probablemente <strong>influye</strong> en por qué slendro y
+pelog no se parecen a las escalas justas occidentales y no
+<em>necesitan</em> parecerse — pero no determina, por sí solo, la
+afinación exacta de ningún gamelán particular. El timbre abre un espacio
+de posibilidades; la cultura elige dentro de él.</p>
+<h3 id="slendro-cinco-pasos-casi-iguales-nunca-exactamente">3.3 Slendro:
+cinco pasos, casi iguales, nunca exactamente</h3>
+<p><strong>Slendro</strong> es el nombre del sistema de cinco grados por
+octava más extendido en Java central y Bali. Vale la pena decirlo con la
+máxima claridad posible, porque es el punto pedagógico central de todo
+el módulo: <strong>no existe “la” escala slendro</strong>. No hay un
+estándar afinado de fábrica, ni un diapasón de referencia, ni siquiera
+consenso sobre si debería haberlo. Cada gamelán —cada conjunto físico de
+instrumentos, fundido y afinado como una unidad— tiene su propia
+afinación de slendro, ligeramente distinta de la de cualquier otro
+conjunto, incluso dentro del mismo pueblo o la misma corte.</p>
+<p>Lo que sí es cierto, y lo que hace de slendro un sistema reconocible
+pese a esa variabilidad, es que sus cinco grados tienden a repartirse la
+octava de manera <strong>aproximadamente equidistante</strong>: si
+dividieras 1200 cents en 5 pasos iguales (lo que en la terminología de
+M9 se llamaría 5-EDO), cada paso mediría exactamente</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1200</mn><mn>5</mn></mfrac><mo>=</mo><mn>240.0</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents (exactos)</mtext></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\frac{1200}{5} = 240.0 \text{ cents (exactos)}.</annotation></semantics></math></p>
+<p>Las mediciones de campo, sin embargo, muestran sistemáticamente que
+ningún slendro real tiene sus cinco pasos exactamente en 240 cents. La
+referencia clásica en esta área son las mediciones de Surjodiningrat,
+Sudarjana y Susanto, publicadas en 1972 (<em>Tone Measurements of
+Outstanding Javanese Gamelans in Jogjakarta and Surakarta</em>), que
+midieron con instrumentos de laboratorio decenas de gamelanes históricos
+de las dos grandes tradiciones cortesanas de Java central. Como
+<strong>ejemplo ilustrativo del tipo de variación que reportan</strong>
+—no como “la” tabla de slendro, y con la cautela de que los valores
+exactos varían de fuente a fuente y de gamelán a gamelán— los cinco
+pasos de un conjunto pueden verse, aproximadamente, así:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Grado (slendro)</th>
+<th>Paso (cents)</th>
+<th>Cents acumulados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 → 2</td>
+<td>228</td>
+<td>228</td>
+</tr>
+<tr>
+<td>2 → 3</td>
+<td>231</td>
+<td>459</td>
+</tr>
+<tr>
+<td>3 → 4</td>
+<td>250</td>
+<td>709</td>
+</tr>
+<tr>
+<td>4 → 5</td>
+<td>245</td>
+<td>954</td>
+</tr>
+<tr>
+<td>5 → 1’</td>
+<td>246</td>
+<td>1200</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fíjate en dos cosas. Primero, los cinco pasos <strong>suman
+exactamente 1200 cents</strong> —tienen que hacerlo, por definición de
+octava, sin importar cuán desiguales sean entre sí— así que su
+<em>promedio</em> es, inevitablemente,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>240.0</mn></mrow><annotation encoding="application/x-tex">1200/5 = 240.0</annotation></semantics></math>
+cents: coincide con el 5-EDO no porque el gamelán haya sido afinado
+“hacia” esa cifra, sino porque cualquier partición de la octava en 5
+pasos, sea cual sea, promedia 240 por aritmética pura. Segundo, y esto
+es lo que de verdad importa: ningún paso individual mide 240. Van de 228
+a 250 cents en este ejemplo — un rango de 22 cents, casi el tamaño de
+una coma pitagórica completa (M2), y muy por encima del umbral de
+audibilidad de M1 §6.5. Esto no es “un slendro mal afinado” ni “un
+slendro que se acerca torpemente a la igualdad”: es exactamente lo que
+las mediciones publicadas encuentran, sistemáticamente, en conjunto tras
+conjunto — una cercanía <em>general</em> a la equidistancia, sin que
+ningún gamelán la alcance con exactitud, y con variaciones de un
+conjunto a otro que serían impensables entre dos pianos occidentales
+afinados en temperamento igual.</p>
+<p>Ni siquiera tiene sentido preguntar “¿a cuál razón justa se acerca
+este slendro?”, porque —a diferencia de la pitagórica o la justa (M3,
+M4)— slendro no se construyó apilando quintas ni terceras: sus pasos no
+aproximan
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>,
+ni
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">10/9</annotation></semantics></math>,
+ni ninguna fracción simple reconocible. Y, según la discusión de la
+sección 3.2, no tiene por qué: si el timbre de referencia de sus
+instrumentos no tiene una quinta armónica que perseguir, no hay ningún
+“error” que la escala esté tratando de esconder. Slendro no es una
+aproximación fallida a nada. Es su propia solución.</p>
+<h3 id="pelog-siete-pasos-desiguales-y-los-subconjuntos-que-se-usan">3.4
+Pelog: siete pasos desiguales, y los subconjuntos que se usan</h3>
+<p><strong>Pelog</strong>, el segundo gran sistema javanés, tiene siete
+grados por octava, y su irregularidad es todavía más marcada que la de
+slendro: en vez de acercarse a la equidistancia, sus pasos alternan
+claramente entre dos tamaños — algunos “pequeños” (aproximadamente entre
+110 y 170 cents) y otros “grandes” (aproximadamente entre 250 y 300
+cents). De nuevo con la cautela debida —esto es un ejemplo ilustrativo
+del <em>tipo</em> de patrón reportado en mediciones publicadas, no una
+tabla universal—, un pelog concreto podría verse así:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Grado (pelog)</th>
+<th>Paso (cents)</th>
+<th>Tipo</th>
+<th>Cents acumulados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 → 2</td>
+<td>150</td>
+<td>pequeño</td>
+<td>150</td>
+</tr>
+<tr>
+<td>2 → 3</td>
+<td>120</td>
+<td>pequeño</td>
+<td>270</td>
+</tr>
+<tr>
+<td>3 → 4</td>
+<td>270</td>
+<td><strong>grande</strong></td>
+<td>540</td>
+</tr>
+<tr>
+<td>4 → 5</td>
+<td>140</td>
+<td>pequeño</td>
+<td>680</td>
+</tr>
+<tr>
+<td>5 → 6</td>
+<td>135</td>
+<td>pequeño</td>
+<td>815</td>
+</tr>
+<tr>
+<td>6 → 7</td>
+<td>115</td>
+<td>pequeño</td>
+<td>930</td>
+</tr>
+<tr>
+<td>7 → 1’</td>
+<td>270</td>
+<td><strong>grande</strong></td>
+<td>1200</td>
+</tr>
+</tbody>
+</table></div>
+<p>De nuevo, los siete pasos suman exactamente 1200 cents (verificación
+aritmética, no propiedad musical). Lo llamativo de pelog es que en la
+práctica <strong>casi nunca se usan los siete grados a la vez</strong>:
+cada pieza, cada conjunto y cada región selecciona un subconjunto de
+cinco grados —llamado <strong>pathet</strong>— que funciona como la
+escala efectiva de esa pieza, dejando los otros dos grados como “notas
+de paso” raras o directamente inusuales. Distintos pathet seleccionan
+distintos subconjuntos de los siete grados de pelog (por ejemplo, uno
+podría omitir los grados 4 y 7 del ejemplo de la tabla, dejando una
+escala pentatónica con un perfil melódico bastante distinto de slendro,
+con dos saltos grandes en vez de pasos casi iguales). El resultado es
+que un mismo conjunto de instrumentos de pelog puede sonar, según qué
+pathet se use, con un carácter melódico marcadamente distinto — una
+flexibilidad modal que no tiene equivalente directo en las doce notas
+fijas del temperamento igual, pero que si lo tiene, conceptualmente, en
+los ajnas del maqam (M13) o en los modos gregorianos de la música
+occidental antigua.</p>
+<p>Igual que con slendro, ni pelog ni ninguno de sus pathet están
+tratando de aproximar razones justas de 5-limit. Sus pasos “pequeños” no
+son semitonos diatónicos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>15</mn><mo>≈</mo><mn>112</mn></mrow><annotation encoding="application/x-tex">16/15 \approx 112</annotation></semantics></math>
+c) ni su patrón grande-pequeño reproduce la escala mayor justa de M4. Es
+una lógica propia, con su propia estética de asimetría deliberada.</p>
+<h3 id="el-ombak-fabricar-el-batido-no-eliminarlo">3.5 El ombak:
+fabricar el batido, no eliminarlo</h3>
+<p>Llegamos al giro más radical del módulo, y el que mejor resume por
+qué el gamelán merece un lugar propio en este curso. Todo el recorrido
+de M1 a M9 puede leerse como quinientos años de historia occidental
+<strong>eliminando batidos</strong>: cada sistema de afinación
+—pitagórico, justo, mesotónico, los buenos temperamentos, el
+temperamento igual— es, en mayor o menor medida, un esfuerzo por acercar
+los intervalos a razones que no batan, o por repartir el batido
+inevitable (la coma) de la manera menos molesta posible. La afinación
+occidental entera es una tecnología contra el batido.</p>
+<p>La tradición balinesa hace exactamente lo contrario: <strong>fabrica
+batidos a propósito</strong>. Los instrumentos de un gamelán balinés
+—especialmente en el estilo <em>gong kebyar</em>— se construyen y afinan
+en <strong>pares</strong> deliberadamente desafinados entre sí por una
+pequeña cantidad constante, típicamente entre 4 y 8 Hz según el registro
+y el estilo. Cada nota de la escala existe, literalmente, dos veces: una
+versión un poquito más grave, llamada <strong>pengumbang</strong> (“el
+que ondula” o “el que zumba”), y una versión un poquito más aguda,
+llamada <strong>pengisep</strong> (“el que aspira” o “el que llena”,
+según las traducciones). Ambas suenan simultáneamente en cada nota
+tocada por el conjunto, y el batido resultante entre ellas —el
+<strong>ombak</strong> (“ola”, en indonesio y balinés)— es el rasgo
+sonoro más reconocible de un gamelán balinés: ese brillo trémulo, esa
+vibración continua e imposible de aislar en una sola frecuencia limpia,
+que cualquiera que haya escuchado un gong kebyar identifica de
+inmediato.</p>
+<p>El cálculo es el mismo que aprendiste en M1 §5.1, aplicado con una
+intención exactamente opuesta. Si un par de sarones está afinado a 300
+Hz (pengumbang) y 306 Hz (pengisep):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">ombak</mtext></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>306</mn><mo>−</mo><mn>300</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>6</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Hz</mtext></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">f_{\text{ombak}} = |306 - 300| = 6 \text{ Hz},</annotation></semantics></math></p>
+<p>es decir, seis pulsos de intensidad por segundo — un ombak bastante
+activo, típico del estilo kebyar. En cents, esa diferencia de 6 Hz sobre
+una base de 300 Hz mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>306</mn><mi>/</mi><mn>300</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>34.3</mn></mrow><annotation encoding="application/x-tex">1200 \times \log_2(306/300) = 34.3</annotation></semantics></math>
+cents: una cantidad enorme para los estándares occidentales (recuerda,
+M1 §6.5, que 14 cents ya eran claramente audibles como aspereza en una
+tercera de piano), pero que en este contexto no es un error a corregir,
+sino la afinación <em>correcta</em> del par. Un afinador de gamelán que
+“arreglara” ese par para que sonaran exactamente a la misma frecuencia
+estaría, desde la perspectiva de la tradición balinesa, destruyendo el
+instrumento tanto como un afinador de pianos que dejara sin corregir el
+batido de una octava por inarmonicidad (M7 §3.7) — solo que en
+direcciones opuestas: uno busca el batido, el otro lo elimina.</p>
+<p>La velocidad del ombak no es uniforme entre tradiciones ni siquiera
+dentro de Bali: conjuntos y estilos más ceremoniales o contemplativos
+suelen preferir un ombak más lento (algo más cercano a los 4 Hz, un
+pulso “que respira”), mientras que el gong kebyar del siglo XX, con su
+estética de virtuosismo y brillo extremo, tiende hacia ombaks más
+rápidos (6 a 8 Hz o más), casi al límite entre “pulso contable” y
+“rugosidad” en el sentido de Plomp y Levelt (M1 §5.3). Java central, en
+cambio —lo vas a ver en la sección siguiente—, prefiere generalmente un
+ombak más discreto y lento, o directamente pares menos desafinados entre
+sí, coherente con una estética cortesana de refinamiento y control.</p>
+<p>La consecuencia estructural más importante del ombak es esta:
+<strong>la afinación completa de un gamelán —incluidos los ombaks de
+cada par de notas— es la firma sonora irrepetible de ese
+conjunto</strong>. No es una propiedad accesoria, como podría serlo el
+diapasón de referencia de una orquesta occidental (donde 440 Hz o 442 Hz
+es, en el fondo, una convención intercambiable): es la identidad
+acústica del instrumento colectivo. Por esta razón, los instrumentos de
+un gamelán tradicionalmente <strong>no se mezclan entre
+conjuntos</strong>: un saron fundido para el gamelán de un pueblo no se
+presta al gamelán del pueblo vecino, ni siquiera si ambos tocan “la
+misma” escala de slendro nominal, porque sus pares pengumbang/pengisep,
+sus ombaks concretos y las pequeñas idiosincrasias de cada lámina no van
+a coincidir. Un gamelán es, en un sentido muy literal, una sola entidad
+sonora afinada consigo misma — no un conjunto de piezas intercambiables
+de una afinación estándar, como sí lo son (dentro de una tolerancia
+pequeña) los instrumentos de una orquesta sinfónica.</p>
+<h3 id="java-y-bali-dos-maneras-de-habitar-el-shimmer">3.6 Java y Bali:
+dos maneras de habitar el shimmer</h3>
+<p>Aunque ambas tradiciones comparten el vocabulario básico de slendro y
+pelog, y ambas usan metalófonos de bronce con la misma física inarmónica
+de la sección 3.1, el carácter sonoro de Java central y de Bali es
+marcadamente distinto, y vale la pena nombrarlo con cuidado, sin caer en
+generalizaciones excesivas sobre culturas tan vastas y variadas. El
+gamelán de las cortes de Yogyakarta y Surakarta, en Java central,
+cultiva una estética de <strong>refinamiento</strong> (<em>alus</em>):
+tempos generalmente más pausados, dinámica contenida, texturas donde los
+instrumentos de bronce se entrelazan con voces y con el <em>rebab</em>
+(un cordófono de arco), y —coherente con esa estética— ombaks
+generalmente más lentos o discretos. El gong kebyar balinés, un estilo
+que se consolidó y popularizó especialmente en el siglo XX, busca lo
+contrario: velocidad, contraste dinámico abrupto, unísonos explosivos de
+todo el conjunto, y una brillantez tímbrica donde el ombak rápido de
+cada par de instrumentos no es un detalle sutil sino un ingrediente
+central, casi agresivo, del efecto sonoro. Ninguna de las dos es “más
+pura” o “más antigua” que la otra en un sentido simple; son dos
+desarrollos distintos, con sus propias historias regionales y
+cortesanas, de un mismo principio organológico.</p>
+<h3 id="el-gamelán-llega-a-occidente">3.7 El gamelán llega a
+Occidente</h3>
+<p>El primer contacto masivo de un público europeo con el gamelán
+ocurrió en la Exposición Universal de París de 1889, donde el pabellón
+de las Indias Orientales Neerlandesas incluyó un gamelán javanés (junto
+con danzarinas y músicos) tocando durante meses ante decenas de miles de
+visitantes. Entre esos visitantes estuvo, en más de una ocasión, un
+joven Claude Debussy, y el episodio se documenta con razonable solidez
+en la musicología del período: hay cartas, reseñas de prensa y
+testimonios de contemporáneos que confirman su asistencia y su
+fascinación. Lo que exactamente escuchó y cómo influyó en su obra
+posterior es un terreno donde conviene ser cauto: se le atribuyen a
+Debussy comentarios admirativos sobre el contrapunto del gamelán, y es
+una hipótesis razonable —defendida por buena parte de la musicología,
+aunque no exenta de matices y debate sobre el grado exacto de influencia
+directa— que esa experiencia alimentó su interés posterior por
+sonoridades no funcionales, texturas de capas superpuestas y el uso de
+escalas pentatónicas, rasgos audibles en piezas como <em>Pagodes</em>
+(de la suite <em>Estampes</em>, 1903), que evoca —sin transcribir
+literalmente— una sonoridad de metalófonos superpuestos y un tratamiento
+pentatónico del material.</p>
+<p>En el siglo XX, el compositor canadiense-estadounidense Colin McPhee
+viajó a Bali en los años treinta, estudió su música directamente con
+músicos locales, transcribió y documentó extensamente la tradición (su
+libro <em>Music in Bali</em>, de 1966, sigue siendo una referencia mayor
+de la etnomusicología del gamelán), y compuso <em>Tabuh-Tabuhan</em>
+(1936), una obra orquestal que incorpora directamente texturas, ritmos
+entrelazados (<em>kotekan</em>) y procedimientos del gamelán balinés
+dentro de una orquesta sinfónica occidental. Más adelante, el compositor
+estadounidense Lou Harrison —junto con su pareja e ingeniero de
+instrumentos William Colvig— construyó, desde los años 1970, varios
+gamelanes propios (“gamelán americano”), afinados no según convenciones
+javanesas o balinesas heredadas sino según las propias decisiones de
+justa entonación de Harrison, y compuso un repertorio extenso
+específicamente para esos instrumentos. El caso de Harrison es
+especialmente instructivo para este curso: toma la <em>forma
+organológica</em> del gamelán (metalófonos de láminas afinadas, gongs,
+texturas entrelazadas) y la reafina según una lógica de afinación
+completamente distinta de la de Java o Bali — la prueba, en la práctica
+compositiva, de que el timbre inarmónico y la elección de escala son,
+como discutimos en 3.2, relacionados pero no idénticos: se puede
+fabricar el instrumento y elegir otra escala para él.</p>
+<h2 id="ejercicios-de-cálculo">4. Ejercicios de cálculo</h2>
+<p>Resuelve cada ejercicio mostrando el desarrollo completo. Las
+soluciones están al final.</p>
+<ol type="1">
+<li><p>Un par pengumbang/pengisep balinés está afinado a 220 Hz y 226
+Hz. Calcula el ombak en Hz y en cents, y compara con el ejemplo de
+300/306 Hz de la sección 3.5.</p></li>
+<li><p>Un conjunto javanés, de estética más contenida, afina su par
+pengumbang/pengisep a 396 Hz y 400 Hz. Calcula el ombak en Hz, el
+período del batido (cuántos segundos dura cada pulso completo), y
+compáralo cualitativamente con el resultado del ejercicio 1.</p></li>
+<li><p>Verifica que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>240.0</mn></mrow><annotation encoding="application/x-tex">1200/5 = 240.0</annotation></semantics></math>
+cents exactos. Usando el slendro de ejemplo de la sección 3.3 (pasos
+228, 231, 250, 245, 246 cents), calcula la desviación de cada paso
+respecto de 240 y calcula la desviación promedio en valor absoluto. ¿El
+slendro de ejemplo es “5-EDO”? Justifica con los números, no solo con la
+conclusión.</p></li>
+<li><p>Calcula los cuatro primeros parciales de una barra libre uniforme
+con fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>=</mo><mn>250</mn></mrow><annotation encoding="application/x-tex">f_1 = 250</annotation></semantics></math>
+Hz, usando las razones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>2.7565</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>5.404</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>8.933</mn></mrow><annotation encoding="application/x-tex">1,\ 2.7565,\ 5.404,\ 8.933</annotation></semantics></math>.</p></li>
+<li><p>Usando el resultado del ejercicio 4, calcula en cents la
+distancia entre el segundo parcial de la barra y la octava exacta de su
+fundamental
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">2f_1</annotation></semantics></math>).
+Explica, en una frase, por qué esta cantidad no se puede describir como
+“una octava estirada” en el sentido de M7 §3.7.</p></li>
+<li><p>Calcula a qué frecuencia y a cuántos cents sobre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>=</mo><mn>250</mn></mrow><annotation encoding="application/x-tex">f_1=250</annotation></semantics></math>
+Hz habría que afinar una segunda barra para que su fundamental
+coincidiera exactamente con el segundo parcial de la primera barra del
+ejercicio 4 (es decir, calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>2.7565</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f_1 \times (2.7565/2)</annotation></semantics></math>
+y su valor en cents). Compara ese valor con 1200 cents (la octava real)
+y con 600 cents (el tritono del temperamento igual): ¿de cuál está más
+cerca?</p></li>
+<li><p>Con los mínimos de rugosidad de la tabla de la sección 3.2
+(timbre de barra: 672.9 c y 872.2 c), calcula a qué frecuencia debería
+sonar la segunda nota de un dyad si la primera está en 260 Hz, para cada
+uno de los dos mínimos. Redondea a dos decimales.</p></li>
+<li><p>Toma el pelog de ejemplo de la sección 3.4 (pasos 150, 120, 270,
+140, 135, 115, 270 cents). Verifica que la suma da 1200 cents exactos, y
+clasifica cada paso como “pequeño” (110–170 c) o “grande” (250–300
+c).</p></li>
+<li><p>Convierte el pelog del ejercicio 8 a un archivo Scala (.scl),
+siguiendo el formato de M12: una cabecera de comentario, una línea de
+descripción, el número de grados (sin contar el 1/1), y luego los cents
+acumulados desde el 1/1 hasta el 2/1. Escribe el contenido completo del
+archivo.</p></li>
+<li><p>Describe cualitativamente (sin nuevo cálculo de la curva
+completa, que hicimos en la sección 3.2) qué le pasaría a la rugosidad
+de una quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+(702 cents) si se toca con timbre de barra en vez de timbre armónico.
+Usa los valores exactos de rugosidad de la sección 3.2 en 702 cents para
+ambos timbres (armónico: 0.0202; barra: 0.0131) para justificar tu
+respuesta numéricamente, y explica en una frase por qué este resultado,
+por sí solo, no demuestra que “3/2 suena bien también en timbre de
+barra”.</p></li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong> Ombak
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>226</mn><mo>−</mo><mn>220</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">= |226-220| = 6</annotation></semantics></math>
+Hz — la misma cantidad en hercios que el ejemplo de 300/306 Hz. Pero en
+cents,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>226</mn><mi>/</mi><mn>220</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>46.6</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(226/220) = 46.6</annotation></semantics></math>
+cents, notablemente más ancho que los 34.3 cents del ejemplo de la
+sección 3.5. La lección: el mismo ombak en Hz representa un porcentaje
+de desafinación distinto según el registro (más grave, más cents por el
+mismo número de Hz) — es la misma lógica, en sentido inverso, que la
+banda crítica dependiente del registro en la fórmula de Sethares (M8
+§6.1).</p>
+<p><strong>2.</strong> Ombak
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>400</mn><mo>−</mo><mn>396</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">=|400-396|=4</annotation></semantics></math>
+Hz. Período del batido:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>0.25</mn></mrow><annotation encoding="application/x-tex">1/4 = 0.25</annotation></semantics></math>
+segundos por pulso — un pulso cada cuarto de segundo, perceptiblemente
+más lento y “respirado” que los 6 Hz (un pulso cada
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>6</mn><mo>≈</mo><mn>0.167</mn></mrow><annotation encoding="application/x-tex">1/6\approx0.167</annotation></semantics></math>
+s) del ejemplo balinés. Consistente con la estética javanesa más
+contenida descrita en 3.6.</p>
+<p><strong>3.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>240.0</mn></mrow><annotation encoding="application/x-tex">1200/5 = 240.0</annotation></semantics></math>
+exacto, por definición aritmética (cinco pasos iguales que suman una
+octava). Desviaciones:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>228</mn><mo>−</mo><mn>240</mn><mo>=</mo><mi>−</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">228-240=-12</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>231</mn><mo>−</mo><mn>240</mn><mo>=</mo><mi>−</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">231-240=-9</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>250</mn><mo>−</mo><mn>240</mn><mo>=</mo><mi>+</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">250-240=+10</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>245</mn><mo>−</mo><mn>240</mn><mo>=</mo><mi>+</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">245-240=+5</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>246</mn><mo>−</mo><mn>240</mn><mo>=</mo><mi>+</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">246-240=+6</annotation></semantics></math>
+cents. Desviación promedio en valor absoluto:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>12</mn><mo>+</mo><mn>9</mn><mo>+</mo><mn>10</mn><mo>+</mo><mn>5</mn><mo>+</mo><mn>6</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>5</mn><mo>=</mo><mn>42</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>8.4</mn></mrow><annotation encoding="application/x-tex">(12+9+10+5+6)/5 = 42/5 = 8.4</annotation></semantics></math>
+cents. No es 5-EDO: aunque el promedio de los pasos sea exactamente 240
+(por aritmética, no por diseño), los pasos individuales se apartan hasta
+12 cents de esa cifra — una cantidad claramente audible (M1 §6.5). Es
+“aproximadamente equidistante”, no “igual”.</p>
+<p><strong>4.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>=</mo><mn>250</mn><mo>×</mo><mn>1</mn><mo>=</mo><mn>250.0</mn></mrow><annotation encoding="application/x-tex">f_1 = 250 \times 1 = 250.0</annotation></semantics></math>
+Hz;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>2</mn></msub><mo>=</mo><mn>250</mn><mo>×</mo><mn>2.7565</mn><mo>=</mo><mn>689.1</mn></mrow><annotation encoding="application/x-tex">f_2 = 250 \times 2.7565 = 689.1</annotation></semantics></math>
+Hz;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>3</mn></msub><mo>=</mo><mn>250</mn><mo>×</mo><mn>5.404</mn><mo>=</mo><mn>1351.0</mn></mrow><annotation encoding="application/x-tex">f_3 = 250\times 5.404 = 1351.0</annotation></semantics></math>
+Hz;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>4</mn></msub><mo>=</mo><mn>250</mn><mo>×</mo><mn>8.933</mn><mo>=</mo><mn>2233.3</mn></mrow><annotation encoding="application/x-tex">f_4 = 250\times 8.933 = 2233.3</annotation></semantics></math>
+Hz.</p>
+<p><strong>5.</strong> El segundo parcial (689.1 Hz) comparado con la
+octava exacta
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>250</mn><mo>=</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">2\times250=500</annotation></semantics></math>
+Hz):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>689.1</mn><mi>/</mi><mn>500</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>555.4</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(689.1/500) = 555.4</annotation></semantics></math>
+cents por encima. Esto no es “una octava estirada” porque una octava
+estirada (M7 §3.7) es un ajuste de pocos cents sobre una octava que
+sigue siendo reconocible como tal; aquí la distancia (555.4 c) es casi
+la mitad de una octava completa — el segundo parcial de la barra no está
+cerca de ningún múltiplo entero de la fundamental, está en un punto
+intermedio sin nombre reconocible en el sistema de 12 notas.</p>
+<p><strong>6.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>250</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>2.7565</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>250</mn><mo>×</mo><mn>1.37825</mn><mo>=</mo><mn>344.6</mn></mrow><annotation encoding="application/x-tex">f = 250\times(2.7565/2) = 250\times1.37825 = 344.6</annotation></semantics></math>
+Hz. En cents sobre 250 Hz:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.37825</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>555.4</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(1.37825) = 555.4</annotation></semantics></math>
+cents (coincide con el resultado del ejercicio 5, como debía ser: es la
+misma razón). Está mucho más cerca de 600 cents (tritono ET, a 44.6
+cents de distancia) que de 1200 cents (octava, a 644.6 cents de
+distancia): la “octava tímbricamente ajustada” de una barra libre
+uniforme cae, sorprendentemente, más cerca de un tritono que de una
+octava.</p>
+<p><strong>7.</strong> Para el mínimo de 672.9 c:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>260</mn><mo>×</mo><msup><mn>2</mn><mrow><mn>672.9</mn><mi>/</mi><mn>1200</mn></mrow></msup><mo>=</mo><mn>260</mn><mo>×</mo><mn>1.4750</mn><mo>=</mo><mn>383.51</mn></mrow><annotation encoding="application/x-tex">f = 260\times2^{672.9/1200} = 260\times1.4750 = 383.51</annotation></semantics></math>
+Hz. Para el mínimo de 872.2 c:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>260</mn><mo>×</mo><msup><mn>2</mn><mrow><mn>872.2</mn><mi>/</mi><mn>1200</mn></mrow></msup><mo>=</mo><mn>260</mn><mo>×</mo><mn>1.6550</mn><mo>=</mo><mn>430.30</mn></mrow><annotation encoding="application/x-tex">f = 260\times2^{872.2/1200} = 260\times1.6550 = 430.30</annotation></semantics></math>
+Hz.</p>
+<p><strong>8.</strong> Suma:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>150</mn><mo>+</mo><mn>120</mn><mo>+</mo><mn>270</mn><mo>+</mo><mn>140</mn><mo>+</mo><mn>135</mn><mo>+</mo><mn>115</mn><mo>+</mo><mn>270</mn><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">150+120+270+140+135+115+270 = 1200</annotation></semantics></math>
+cents exactos. Clasificación: 150 (pequeño), 120 (pequeño), 270
+(<strong>grande</strong>), 140 (pequeño), 135 (pequeño), 115 (pequeño),
+270 (<strong>grande</strong>) — cinco pasos pequeños y dos grandes, un
+patrón consistente con lo reportado en la literatura para varios pelog
+javaneses (aunque, como siempre en este módulo, el número exacto de
+pasos grandes y su ubicación varía de gamelán a gamelán).</p>
+<p><strong>9.</strong></p>
+<pre><code>! pelog-ejemplo-m14.scl
+!
+Pelog de ejemplo (M14, ilustrativo, NO un estándar) - 7 grados
+ 7
+!
+ 150.000
+ 270.000
+ 540.000
+ 680.000
+ 815.000
+ 930.000
+ 1200.000</code></pre>
+<p>(Formato Scala: línea de comentario con el nombre de archivo, línea
+de descripción, línea con el número de grados sin contar el 1/1, y luego
+esa cantidad de líneas con los cents acumulados desde el 1/1 hasta el
+2/1 inclusive — el mismo formato que vas a usar para cargar cualquier
+escala propia en un sintetizador compatible con Scala, M12.)</p>
+<p><strong>10.</strong> A 702 cents, la rugosidad calculada con timbre
+armónico es 0.0202 y con timbre de barra es 0.0131 — es decir, con
+timbre de barra la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+tiene <em>menos</em> rugosidad total, no más. Pero esto no significa que
+“la quinta suene mejor” en timbre de barra en un sentido interesante:
+0.0131 en timbre de barra ni siquiera es el mínimo local de esa curva
+(los mínimos reales del timbre de barra están en 672.9 y 872.2 cents,
+con valores de 0.0123 y 0.0085, más bajos todavía); 702 cents es, para
+el timbre de barra, un punto en la ladera de la curva, no un valle.
+Comparar valores absolutos de rugosidad entre timbres distintos sin
+mirar dónde están los mínimos de cada uno lleva a conclusiones engañosas
+— lo que importa no es si el número es “alto o bajo” en abstracto, sino
+si el intervalo coincide con un mínimo <em>de su propio timbre</em>.</p>
+<h2 id="guía-de-escucha">5. Guía de escucha</h2>
+<p>El laboratorio de este módulo (<code>laboratorio.html</code>, en esta
+misma carpeta) incluye un sintetizador de timbre conmutable entre
+armónico e inarmónico (barra), teclados independientes de slendro y
+pelog, una demo de ombak con desafinación ajustable en Hz, y la curva de
+rugosidad interactiva comparando timbre armónico contra timbre de barra
+en tiempo real. Seis consignas:</p>
+<ol type="1">
+<li><p><strong>El espectro que no tiene octava.</strong> Activa el
+timbre de barra sobre una sola nota sostenida y trata de identificar, de
+oído, dónde “debería” caer la octava. Confirma con el analizador del
+laboratorio que el segundo parcial real está muy lejos de esa posición —
+es la tabla de la sección 3.1, ahora audible.</p></li>
+<li><p><strong>La consigna central del módulo: barrer el intervalo con
+timbre de barra.</strong> Usa el control deslizante de intervalo con
+timbre de barra activado y recorre todo el rango de una octava,
+prestando atención a dónde el sonido se siente más “fusionado” o menos
+áspero. Compara esas zonas con los mínimos calculados en la sección 3.2
+(672.9 y 872.2 cents) y, después, alterna al timbre armónico para
+confirmar que el valle se mueve hacia 702 cents.</p></li>
+<li><p><strong>Slendro al oído, sin mirar los números.</strong> Toca el
+teclado de slendro del laboratorio sin consultar la tabla de cents, y
+trata de cantar o tararear lo que te suena como “el paso más grande” y
+“el más chico” de los cinco. Después revisa la tabla de la sección 3.3 y
+comprueba si tu oído identificó correctamente cuáles pasos eran más
+anchos.</p></li>
+<li><p><strong>Pelog y sus pathet.</strong> Activa el teclado completo
+de pelog (siete grados) y luego el subconjunto pentatónico (pathet) que
+ofrece el laboratorio. Nota cómo cambia el carácter melódico al usar
+solo cinco de los siete grados, y ubica auditivamente los dos “pasos
+grandes” de la tabla de la sección 3.4.</p></li>
+<li><p><strong>El ombak ajustable.</strong> Con la demo de ombak del
+laboratorio, empieza en 0 Hz de diferencia (un unísono perfecto, sin
+batido) y sube gradualmente hasta 8 Hz. Ubica el punto donde el batido
+deja de sentirse como “afinación imprecisa” y empieza a sentirse como el
+timbre característico y deliberado de un gamelán balinés — un juicio
+subjetivo, pero vale la pena notar en qué Hz ocurre ese cambio de
+percepción para ti.</p></li>
+<li><p><strong>Java contra Bali, mismo par.</strong> Compara el mismo
+par de notas con un ombak lento (~4 Hz, estética javanesa) y uno rápido
+(~7-8 Hz, estética de kebyar balinés), y describe con tus propias
+palabras la diferencia de carácter, más allá de “uno bate más rápido que
+el otro”.</p></li>
+</ol>
+<h2 id="repertorio">6. Repertorio</h2>
+<ul>
+<li><strong>Gamelán de las cortes de Yogyakarta y Surakarta</strong>
+(Java central): busca grabaciones de gamelán <em>gadhon</em> o de la
+orquesta completa de palacio; presta atención al ombak lento o casi
+ausente y al entrelazamiento con voz y rebab, coherente con la estética
+<em>alus</em> descrita en 3.6.</li>
+<li><strong>Gong kebyar balinés</strong>: cualquier grabación de un
+conjunto de kebyar del siglo XX (por ejemplo, de agrupaciones como
+Gunung Sari o grabaciones de campo documentadas por musicólogos como
+Colin McPhee o, más recientemente, Michael Tenzer); escucha el ombak
+rápido y el unísono explosivo de todo el conjunto.</li>
+<li><strong>Lou Harrison</strong>, obras para gamelán americano (por
+ejemplo, piezas de su ciclo para el gamelán “Old Granddad”, construido
+con William Colvig): escucha cómo el timbre de metalófono se combina con
+una lógica de afinación explícitamente distinta de la javanesa o
+balinesa.</li>
+<li><strong>Claude Debussy</strong>, <em>Pagodes</em> (de
+<em>Estampes</em>, 1903): escucha el uso de la escala pentatónica y las
+texturas superpuestas de capas rítmicas, como eco (no transcripción
+literal) de lo que Debussy pudo haber escuchado en 1889 — con la cautela
+histórica discutida en 3.7.</li>
+<li><strong>Colin McPhee</strong>, <em>Tabuh-Tabuhan</em> (1936):
+escucha cómo los procedimientos rítmicos entrelazados (<em>kotekan</em>)
+del gamelán balinés se trasladan a una orquesta sinfónica occidental
+completa, con instrumentos de afinación temperada estándar tocando junto
+a percusión que evoca el timbre metálico original.</li>
+</ul>
+<h2 id="mini-composición-metalófonos-imaginarios">7. Mini-composición:
+metalófonos imaginarios</h2>
+<p>Elige, en el laboratorio, un espectro inarmónico (puedes usar el de
+la barra libre de este módulo, u otro que el laboratorio te permita
+ajustar cambiando las razones de los parciales). Usando el barrido de
+intervalo y la curva de rugosidad interactiva —la misma consigna de
+escucha 2—, identifica a oído <strong>cinco</strong> puntos de mínima
+rugosidad dentro de una octava para ese espectro particular. Anota esos
+cinco valores en cents: esa es tu escala, derivada del timbre, no
+impuesta sobre él — el ejercicio completo que propone Sethares en la
+sección 3.2, hecho con tus propias manos y oídos. Escribe ocho compases
+para un “conjunto” de metalófonos imaginarios (puedes anotar en
+pentagrama con las alturas más cercanas y una tabla de cents al margen,
+como has hecho en módulos anteriores) usando exclusivamente esos cinco
+grados. Añade, si quieres, un par de voces desafinadas deliberadamente
+entre 4 y 8 Hz (un ombak propio) en al menos una de las notas, y
+describe en dos líneas qué carácter le da al resultado.</p>
+<h2 id="autoevaluación">8. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar por qué una barra
+metálica vibra según parciales inarmónicos y no según la serie armónica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n=nf_1</annotation></semantics></math>,
+y nombrar la diferencia física de fondo (tensión vs. rigidez a la
+flexión) respecto de una cuerda.</label></li>
+<li><label><input type="checkbox" />Puedo dar de memoria las razones
+aproximadas de los primeros parciales de una barra libre uniforme (1 :
+2.76 : 5.40 : 8.93) y calcular esos parciales para una fundamental
+dada.</label></li>
+<li><label><input type="checkbox" />Puedo explicar la diferencia
+cualitativa entre la inarmonicidad del piano (M7, desviación de cents) y
+la de una barra de metalófono (desviación de octavas
+enteras).</label></li>
+<li><label><input type="checkbox" />Puedo explicar la tesis de Sethares
+sobre el timbre y la ubicación de los mínimos de rugosidad, con al menos
+una crítica concreta a esa tesis.</label></li>
+<li><label><input type="checkbox" />Puedo describir slendro y pelog en
+términos generales (número de grados, grado de (des)igualdad de sus
+pasos) sin presentar ninguna tabla de cents como “la” escala del
+gamelán.</label></li>
+<li><label><input type="checkbox" />Puedo calcular el ombak (en Hz y en
+cents) de un par de frecuencias dado, y explicar por qué la tradición
+balinesa lo busca en vez de eliminarlo.</label></li>
+<li><label><input type="checkbox" />Puedo explicar por qué los
+instrumentos de un gamelán no se intercambian entre conjuntos
+distintos.</label></li>
+<li><label><input type="checkbox" />Puedo nombrar al menos dos puntos de
+contacto documentados entre el gamelán y la música occidental
+(1889/Debussy, McPhee, Harrison) con la cautela histórica
+apropiada.</label></li>
+</ul>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Surjodiningrat, W., Sudarjana, P. J., y Susanto, A. (1972). <em>Tone
+Measurements of Outstanding Javanese Gamelans in Jogjakarta and
+Surakarta</em>. Gadjah Mada University Press.</li>
+<li>Sethares, W. A. (1993). “Local consonance and the relationship
+between timbre and scale”. <em>Journal of the Acoustical Society of
+America</em>, 94(3). Y su libro <em>Tuning, Timbre, Spectrum,
+Scale</em>, Springer.</li>
+<li>Perlman, M. y Krumhansl, C. L. (1996). “An Ethnomusicological
+Approach to Musical Pitch: Gamelan Tuning and the Perception of Tonal
+Structure”. <em>Music Perception</em>, 14(2).</li>
+<li>Perlman, M. (2004). <em>Unplayed Melodies: Javanese Gamelan and the
+Genesis of Music Theory</em>. University of California Press.</li>
+<li>Fletcher, N. H. y Rossing, T. D. <em>The Physics of Musical
+Instruments</em>. Springer — capítulos sobre barras y placas
+vibrantes.</li>
+<li>McPhee, C. (1966). <em>Music in Bali: A Study in Form and
+Instrumental Organization in Balinese Orchestral Music</em>. Yale
+University Press.</li>
+<li>Tenzer, M. (2000). <em>Gamelan Gong Kebyar: The Art of
+Twentieth-Century Balinese Music</em>. University of Chicago Press.</li>
+</ul>
+<h2 id="anticipo">9. Anticipo</h2>
+<p>El gamelán reemplazó la serie armónica por el timbre inarmónico y la
+ecuación de mínimos de rugosidad; el siguiente sistema que vamos a
+estudiar, la música indostaní y carnática de la India, plantea un
+problema distinto: ¿qué pasa cuando la afinación no se decide de
+antemano, en el instrumento, sino que se negocia en tiempo real, nota a
+nota, contra un <strong>drone</strong> que suena continuamente durante
+toda la interpretación? El Módulo 15 cierra el curso con los
+<em>shrutis</em> de la música india y con la síntesis final de todo lo
+que hemos aprendido: que la afinación, en cualquier cultura, es siempre
+una decisión — física, sí, pero también estética, histórica y
+colectiva.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 14</p><button id="progress-btn" class="progress-btn" data-modulo="14-gamelan">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

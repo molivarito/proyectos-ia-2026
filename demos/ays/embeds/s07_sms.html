@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo · Sinusoidal Modeling — Sesión 07</title>
+<style>
+:root {
+  --bg: #0f1720;
+  --panel: #1a2330;
+  --panel-soft: #243042;
+  --accent: #3aa9ff;
+  --accent-2: #ffb042;
+  --accent-3: #6ddb7a;
+  --accent-4: #ff5577;
+  --text: #e8edf2;
+  --text-dim: #8ea1b5;
+  --border: #2b3747;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: "SF Mono", "Consolas", "Monaco", monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--font);
+  line-height: 1.5; font-size: 15px;
+}
+header {
+  background: linear-gradient(135deg, #1a3a5c 0%, #2d5f8f 100%);
+  padding: 24px 32px; border-bottom: 1px solid var(--border);
+}
+header h1 { font-size: 1.7em; font-weight: 600; }
+header .subtitle { color: rgba(255,255,255,.82); font-size: 1.05em; margin-top: 4px; font-weight: 300; }
+nav.tabs {
+  display: flex; gap: 2px; background: var(--panel); padding: 0 32px;
+  border-bottom: 1px solid var(--border); overflow-x: auto;
+}
+nav.tabs button {
+  background: transparent; color: var(--text-dim); border: none; border-bottom: 3px solid transparent;
+  padding: 14px 22px; font: inherit; font-weight: 500; cursor: pointer; white-space: nowrap;
+  transition: all .15s;
+}
+nav.tabs button:hover { color: var(--text); }
+nav.tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
+main { padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+section.module { display: none; }
+section.module.active { display: block; }
+section.module h2 { font-size: 1.4em; margin-bottom: 8px; color: var(--accent-2); }
+section.module .prose { color: var(--text-dim); margin-bottom: 18px; max-width: 820px; }
+section.module .prose strong { color: var(--text); }
+section.module .prose code { font-family: var(--mono); background: var(--panel); padding: 1px 6px; border-radius: 3px; color: var(--accent-3); font-size: .9em; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; }
+.layout-wide { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.panel {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px 20px; min-width: 0;
+}
+.panel h3 { font-size: 1em; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
+.controls { display: flex; flex-direction: column; gap: 14px; }
+.control { display: flex; flex-direction: column; gap: 5px; }
+.control label { font-size: .82em; color: var(--text-dim); display: flex; justify-content: space-between; }
+.control label b { color: var(--accent-2); font-family: var(--mono); font-weight: 500; }
+.control input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  height: 6px; background: var(--panel-soft); border-radius: 3px;
+  outline: none;
+}
+.control input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+}
+.control select, .control input[type=number] {
+  background: var(--panel-soft); color: var(--text); border: 1px solid var(--border);
+  padding: 6px 10px; border-radius: 4px; font: inherit; font-size: .92em;
+}
+button.action {
+  background: var(--accent); color: #06121e; border: none; padding: 10px 16px;
+  border-radius: 5px; font: inherit; font-weight: 600; cursor: pointer;
+  transition: all .12s;
+}
+button.action:hover { background: #5fc0ff; transform: translateY(-1px); }
+button.action.secondary { background: var(--panel-soft); color: var(--text); }
+button.action.secondary:hover { background: #344258; }
+button.action[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: .92em; margin-top: 4px; }
+.stat { background: var(--panel-soft); padding: 8px 12px; border-radius: 4px; }
+.stat .label { color: var(--text-dim); font-size: .78em; text-transform: uppercase; letter-spacing: .05em; }
+.stat .value { font-family: var(--mono); font-weight: 600; font-size: 1.08em; }
+.stat .value.success { color: var(--accent-3); }
+.stat .value.danger { color: var(--accent-4); }
+canvas { display: block; width: 100%; background: #0a1218; border-radius: 4px; }
+.canvas-wrap { position: relative; }
+.canvas-wrap .overlay-text {
+  position: absolute; top: 10px; left: 14px; color: var(--text-dim);
+  font-family: var(--mono); font-size: .82em; pointer-events: none;
+}
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; font-size: .84em; color: var(--text-dim); }
+.legend .item { display: flex; align-items: center; gap: 5px; }
+.legend .swatch { width: 10px; height: 10px; border-radius: 2px; }
+.teaching-grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.callout {
+  background: var(--panel-soft); border-left: 3px solid var(--accent-2);
+  padding: 10px 12px; border-radius: 4px; color: var(--text-dim); font-size: .92em;
+}
+.callout strong { color: var(--text); }
+@media (max-width: 980px) {
+  .teaching-grid { grid-template-columns: 1fr; }
+  .mini-grid { grid-template-columns: 1fr; }
+}
+.kbd { font-family: var(--mono); background: var(--panel-soft); padding: 1px 6px; border-radius: 3px; font-size: .85em; border-bottom: 2px solid var(--border); }
+footer { padding: 20px 32px; color: var(--text-dim); font-size: .85em; border-top: 1px solid var(--border); text-align: center; margin-top: 40px; }
+.eq { font-family: var(--mono); font-size: .95em; background: var(--panel-soft); padding: 10px 14px; border-radius: 4px; border-left: 3px solid var(--accent); margin: 10px 0; display: inline-block; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎼 Modelado Sinusoidal · Demo interactiva</h1>
+  <div class="subtitle">Sesión 07 · Análisis y Síntesis de Señales Musicales</div>
+</header>
+
+<nav class="tabs">
+  <button data-tab="bin" class="active">1 · El problema del bin</button>
+  <button data-tab="parab">2 · Interpolación parabólica</button>
+  <button data-tab="track">3 · Peak tracking en vivo</button>
+  <button data-tab="add">4 · Síntesis aditiva progresiva</button>
+  <button data-tab="sms">5 · Descomposición SMS (archivo / mic)</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MÓDULO 1 — EL PROBLEMA DEL BIN -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="module-bin" class="module active">
+  <h2>1 · La STFT es una rejilla rígida</h2>
+  <p class="prose">
+    Ajusta la frecuencia real de una sinusoide pura. Mira el espectro de magnitud: el máximo
+    cae en un <strong>bin discreto</strong>, no en la frecuencia real. Con <code>N=2048</code> y <code>fs=44100</code>,
+    los bins están espaciados cada <strong>21.5 Hz</strong>.
+    <br><br>
+    Esa cuantización es la motivación de todo el modelado sinusoidal: <strong>si quiero saber la frecuencia exacta,
+    no puedo creerle al bin.</strong>
+  </p>
+
+  <div class="layout">
+    <div class="panel">
+      <h3>Espectro de magnitud (dB)</h3>
+      <div class="canvas-wrap">
+        <canvas id="cv-bin" width="900" height="340"></canvas>
+        <div class="overlay-text" id="cv-bin-overlay"></div>
+      </div>
+      <div class="legend">
+        <div class="item"><span class="swatch" style="background:#3aa9ff"></span>|X[k]| (dB, relativo al pico)</div>
+        <div class="item"><span class="swatch" style="background:#ffb042"></span>Frecuencia real (ajustable)</div>
+        <div class="item"><span class="swatch" style="background:#ff5577"></span>Bin detectado (crudo)</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="control">
+          <label>Frecuencia real <b id="lbl-bin-f">440.0 Hz</b></label>
+          <input type="range" id="sl-bin-f" min="200" max="1200" step="0.1" value="440">
+        </div>
+        <div class="control">
+          <label>Tamaño FFT (N) — solo potencias de 2</label>
+          <select id="sl-bin-n">
+            <option value="256">256</option>
+            <option value="512">512</option>
+            <option value="1024">1024</option>
+            <option value="2048" selected>2048</option>
+            <option value="4096">4096</option>
+            <option value="8192">8192</option>
+          </select>
+        </div>
+        <div class="stats" style="grid-template-columns:1fr;margin-top:10px">
+          <div class="stat">
+            <div class="label">Resolución del bin</div>
+            <div class="value" id="st-bin-res">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Bin detectado</div>
+            <div class="value" id="st-bin-idx">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Freq. del bin crudo</div>
+            <div class="value" id="st-bin-freq">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Error del bin crudo</div>
+            <div class="value danger" id="st-bin-err">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MÓDULO 2 — INTERPOLACIÓN PARABÓLICA -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="module-parab" class="module">
+  <h2>2 · Interpolación parabólica: el vértice entre bins</h2>
+  <p class="prose">
+    Tomamos los tres bins alrededor del pico (<code>α = X[k-1]</code>, <code>β = X[k]</code>, <code>γ = X[k+1]</code>),
+    ajustamos una parábola en dB y encontramos el vértice analíticamente.
+  </p>
+  <div class="eq">
+    δ = ½ · (α − γ) / (α − 2β + γ)&nbsp;&nbsp;&nbsp;&nbsp;k<sub>real</sub> = k + δ&nbsp;&nbsp;&nbsp;&nbsp;δ ∈ (−0.5, +0.5)
+  </div>
+
+  <div class="layout" style="margin-top:20px">
+    <div class="panel">
+      <h3>Zoom sobre el pico — tres bins y parábola ajustada</h3>
+      <div class="canvas-wrap">
+        <canvas id="cv-parab" width="900" height="360"></canvas>
+      </div>
+      <div class="legend">
+        <div class="item"><span class="swatch" style="background:#3aa9ff"></span>Bins STFT (α, β, γ)</div>
+        <div class="item"><span class="swatch" style="background:#ffb042"></span>Parábola ajustada</div>
+        <div class="item"><span class="swatch" style="background:#ff5577"></span>Vértice (k+δ)</div>
+        <div class="item"><span class="swatch" style="background:#6ddb7a"></span>Frecuencia real</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="control">
+          <label>Frecuencia real <b id="lbl-parab-f">440.0 Hz</b></label>
+          <input type="range" id="sl-parab-f" min="200" max="1200" step="0.1" value="440">
+        </div>
+        <div class="control">
+          <label>Tamaño FFT (N) — solo potencias de 2</label>
+          <select id="sl-parab-n">
+            <option value="256">256</option>
+            <option value="512">512</option>
+            <option value="1024">1024</option>
+            <option value="2048" selected>2048</option>
+            <option value="4096">4096</option>
+            <option value="8192">8192</option>
+          </select>
+        </div>
+        <div class="stats" style="grid-template-columns:1fr">
+          <div class="stat">
+            <div class="label">δ (corrección sub-bin)</div>
+            <div class="value" id="st-parab-delta">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Freq. bin crudo</div>
+            <div class="value danger" id="st-parab-raw">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Freq. con interpolación</div>
+            <div class="value success" id="st-parab-int">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Mejora (factor)</div>
+            <div class="value success" id="st-parab-factor">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MÓDULO 3 — PEAK TRACKING -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="module-track" class="module">
+  <h2>3 · Peak tracking — de picos sueltos a trayectorias físicas</h2>
+  <p class="prose">
+    Un modelo sinusoidal no guarda “los tres picos más grandes” de cada STFT. Debe decidir si un pico en el frame
+    <code>m</code> es la continuación física de un pico en <code>m−1</code>. Esta escena tiene tres parciales conocidos:
+    dos tonos estacionarios cuyas amplitudes se cruzan y un glide rápido. La pregunta didáctica es:
+    <strong>¿qué regla mantiene identidad temporal y cuál inventa saltos?</strong>
+  </p>
+
+  <div class="teaching-grid">
+    <div class="stack">
+      <div class="panel">
+        <h3>1 · Trayectorias reales vs tracks estimados</h3>
+        <div class="canvas-wrap">
+          <canvas id="cv-track" width="1200" height="410"></canvas>
+        </div>
+        <div class="legend">
+          <div class="item"><span class="swatch" style="background:#3aa9ff;opacity:.35"></span>A real: 600 Hz, se apaga</div>
+          <div class="item"><span class="swatch" style="background:#ffb042;opacity:.35"></span>B real: 1000 Hz, aparece</div>
+          <div class="item"><span class="swatch" style="background:#ff5577;opacity:.35"></span>C real: glide 700 → 1500 Hz</div>
+          <div class="item"><span class="swatch" style="background:#6ddb7a"></span>Tracks estimados</div>
+          <div class="item"><span class="swatch" style="background:#ffffff"></span>Picos detectados del frame inspeccionado</div>
+        </div>
+      </div>
+
+      <div class="mini-grid">
+        <div class="panel">
+          <h3>2 · Un frame: detección de picos</h3>
+          <div class="canvas-wrap">
+            <canvas id="cv-track-frame" width="580" height="230"></canvas>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>3 · Regla de asociación</h3>
+          <div class="canvas-wrap">
+            <canvas id="cv-track-assign" width="580" height="230"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Controles y diagnóstico</h3>
+      <div class="controls">
+        <div class="control">
+          <label>Algoritmo de tracking</label>
+          <select id="sl-track-algo">
+            <option value="mq">McAulay-Quatieri (con memoria)</option>
+            <option value="no-mem">Sin memoria (ranking por magnitud)</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>Tolerancia Δf_max <b id="lbl-track-df">30 Hz</b></label>
+          <input type="range" id="sl-track-df" min="5" max="100" step="1" value="30">
+        </div>
+        <div class="control">
+          <label>Longitud mínima <b id="lbl-track-min">8 frames</b></label>
+          <input type="range" id="sl-track-min" min="1" max="20" step="1" value="8">
+        </div>
+        <div class="control">
+          <label>Frame inspeccionado <b id="lbl-track-frame">—</b></label>
+          <input type="range" id="sl-track-frame" min="0" max="1" step="1" value="0">
+        </div>
+        <div class="stats" style="grid-template-columns:1fr">
+          <div class="stat">
+            <div class="label">Tiempo entre frames</div>
+            <div class="value" id="st-track-hop">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Drift esperado del glide</div>
+            <div class="value" id="st-track-glide">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Tracks visibles</div>
+            <div class="value success" id="st-track-count">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Saltos de identidad</div>
+            <div class="value danger" id="st-track-jumps">—</div>
+          </div>
+        </div>
+        <div class="callout">
+          <strong>Lectura.</strong> En MQ, un pico continúa un track si cae cerca de su frecuencia anterior:
+          <code>|f_m − f_{m−1}| &lt; Δf_max</code>. Si bajas Δf_max por debajo del drift del glide, ese parcial se
+          corta. En “sin memoria”, cada frame reordena por magnitud: cuando A y B cruzan nivel cerca de 1 s, el
+          track #1 cambia de identidad aunque no haya un evento acústico.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MÓDULO 4 — SÍNTESIS ADITIVA -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="module-add" class="module">
+  <h2>4 · Síntesis aditiva — ¿cuántos parciales hacen un instrumento?</h2>
+  <p class="prose">
+    Una nota armónica es <code>x(t) = Σ A_k · sin(2π · k·f₀ · t)</code>. Cambia el preset (voz, clarinete, trompeta)
+    y el número de parciales. Escucha cómo <em>aparece</em> el timbre a medida que agregas sinusoides.
+  </p>
+
+  <div class="layout">
+    <div class="panel">
+      <h3>Forma de onda temporal (primeros 180 ms — muestra ataque + modulaciones)</h3>
+      <div class="canvas-wrap">
+        <canvas id="cv-add-wave" width="900" height="220"></canvas>
+      </div>
+      <h3 style="margin-top:16px">Parciales activos — envolvente espectral</h3>
+      <div class="canvas-wrap">
+        <canvas id="cv-add-spec" width="900" height="180"></canvas>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Controles</h3>
+      <div class="controls">
+        <div class="control">
+          <label>Preset de instrumento</label>
+          <select id="sl-add-preset">
+            <option value="flute">Flauta (aire + impares débiles)</option>
+            <option value="clarinet">Clarinete (impares dominantes, seco)</option>
+            <option value="trumpet">Trompeta (bloom de armónicos)</option>
+            <option value="violin">Violín (cuerpo en parciales 2-4 + vibrato)</option>
+            <option value="voice">Voz "a" (formantes + vibrato)</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>Frecuencia fundamental f₀ <b id="lbl-add-f0">220.0 Hz</b></label>
+          <input type="range" id="sl-add-f0" min="80" max="800" step="1" value="220">
+        </div>
+        <div class="control">
+          <label>Número de parciales N <b id="lbl-add-n">20</b></label>
+          <input type="range" id="sl-add-n" min="1" max="30" step="1" value="20">
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="action" id="btn-add-play">▶ Reproducir (1 s)</button>
+          <button class="action secondary" id="btn-add-stop">Stop</button>
+        </div>
+        <div class="stats" style="grid-template-columns:1fr">
+          <div class="stat">
+            <div class="label">Parciales audibles (≤ Nyquist)</div>
+            <div class="value" id="st-add-used">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MÓDULO 5 — DESCOMPOSICIÓN SMS SOBRE AUDIO REAL -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section id="module-sms" class="module">
+  <h2>5 · Descomposición SMS — archivo o micrófono</h2>
+  <p class="prose">
+    Carga un archivo de audio o graba una nota sostenida con tu micrófono (vocal "aaaa", un silbido, un instrumento).
+    El demo corre el pipeline SMS completo: <strong>STFT → peak detection → parabolic interp → MQ tracking
+    → síntesis aditiva</strong>, y muestra la descomposición <em>determinista (senos) + estocástica (residuo)</em>,
+    la misma idea del paper original de Serra (1989) e implementada en <code>sms-tools</code>.
+    <br><br>
+    <strong>💡 Consejo:</strong> funciona mejor con sonidos <em>armónicos y monofónicos</em> (voz sostenida, flauta,
+    violín, nota de guitarra). Para percusión o voz hablada escucharás casi todo en el residuo — eso también es
+    pedagógicamente interesante.
+  </p>
+
+  <div class="layout" style="grid-template-columns: minmax(0,1fr) 340px">
+    <div class="panel">
+      <h3>Espectrograma + tracks detectados</h3>
+      <div class="canvas-wrap">
+        <canvas id="cv-sms" width="1100" height="380"></canvas>
+        <div class="overlay-text" id="cv-sms-overlay">Carga un audio para comenzar</div>
+      </div>
+      <h3 style="margin-top:16px">Formas de onda · original / sinusoides / residuo</h3>
+      <div class="canvas-wrap">
+        <canvas id="cv-sms-wave" width="1100" height="180"></canvas>
+      </div>
+      <div class="legend">
+        <div class="item"><span class="swatch" style="background:#3aa9ff"></span>Original</div>
+        <div class="item"><span class="swatch" style="background:#ffb042"></span>Modelo determinista (sinusoides)</div>
+        <div class="item"><span class="swatch" style="background:#ff5577"></span>Residuo = Original − Sinusoides</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Entrada</h3>
+      <div class="controls">
+        <input type="file" id="sms-file" accept="audio/*" style="display:none">
+        <button class="action" id="btn-sms-load">📁 Cargar archivo de audio</button>
+        <button class="action secondary" id="btn-sms-rec">🎤 Grabar micrófono</button>
+        <button class="action secondary" id="btn-sms-demo">🎻 Usar audio de prueba</button>
+        <div class="stat" style="margin-top:4px">
+          <div class="label">Estado</div>
+          <div class="value" id="st-sms-status">Sin audio</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:20px">Parámetros de análisis</h3>
+      <div class="controls">
+        <div class="control">
+          <label>Tamaño FFT (N)</label>
+          <select id="sl-sms-N">
+            <option value="1024">1024</option>
+            <option value="2048" selected>2048</option>
+            <option value="4096">4096</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>Hop (samples) <b id="lbl-sms-hop">512</b></label>
+          <input type="range" id="sl-sms-hop" min="128" max="1024" step="64" value="512">
+        </div>
+        <div class="control">
+          <label>Umbral peak relativo (dB) <b id="lbl-sms-thr">-30</b></label>
+          <input type="range" id="sl-sms-thr" min="-80" max="0" step="1" value="-30">
+        </div>
+        <div class="control">
+          <label>Δf_max (Hz) <b id="lbl-sms-df">40</b></label>
+          <input type="range" id="sl-sms-df" min="5" max="150" step="1" value="40">
+        </div>
+        <div class="control">
+          <label>Longitud mín. track (frames) <b id="lbl-sms-min">20</b></label>
+          <input type="range" id="sl-sms-min" min="2" max="80" step="1" value="20">
+        </div>
+        <button class="action" id="btn-sms-analyze">↻ Re-analizar</button>
+      </div>
+
+      <h3 style="margin-top:20px">Escuchar descomposición</h3>
+      <div class="controls">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="action secondary" id="btn-sms-play-orig">▶ Original</button>
+          <button class="action secondary" id="btn-sms-play-sin">▶ Sinusoides</button>
+          <button class="action secondary" id="btn-sms-play-res">▶ Residuo</button>
+          <button class="action secondary" id="btn-sms-stop">■ Stop</button>
+        </div>
+        <div class="stats" style="grid-template-columns:1fr 1fr">
+          <div class="stat">
+            <div class="label">Duración</div>
+            <div class="value" id="st-sms-dur">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Frames</div>
+            <div class="value" id="st-sms-frames">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Tracks</div>
+            <div class="value success" id="st-sms-ntracks">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">Energía residuo</div>
+            <div class="value" id="st-sms-res">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Demo preparada para Sesión 07 · Análisis y Síntesis de Señales Musicales · PUC Chile · 2026 · <br>
+  Inspirada en <code style="background:none;color:var(--text-dim)">sms-tools</code> de Xavier Serra (MTG-UPF).
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════
+// UTILIDADES GENERALES
+// ══════════════════════════════════════════════════════════════════════════
+const FS = 44100;
+
+// Formatea un número a la precisión dada
+const fmt = (v, d=2) => Number(v).toFixed(d);
+
+// FFT: implementación iterativa Cooley-Tukey. N debe ser potencia de 2.
+function fft(re, im) {
+  const n = re.length;
+  // bit-reversal
+  for (let i=1, j=0; i<n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) {
+      [re[i], re[j]] = [re[j], re[i]];
+      [im[i], im[j]] = [im[j], im[i]];
+    }
+  }
+  for (let len=2; len<=n; len<<=1) {
+    const ang = -2*Math.PI/len;
+    const wRe = Math.cos(ang), wIm = Math.sin(ang);
+    for (let i=0; i<n; i+=len) {
+      let curRe=1, curIm=0;
+      for (let j=0; j<len/2; j++) {
+        const uRe = re[i+j], uIm = im[i+j];
+        const vRe = re[i+j+len/2]*curRe - im[i+j+len/2]*curIm;
+        const vIm = re[i+j+len/2]*curIm + im[i+j+len/2]*curRe;
+        re[i+j] = uRe + vRe; im[i+j] = uIm + vIm;
+        re[i+j+len/2] = uRe - vRe; im[i+j+len/2] = uIm - vIm;
+        const nRe = curRe*wRe - curIm*wIm;
+        curIm = curRe*wIm + curIm*wRe;
+        curRe = nRe;
+      }
+    }
+  }
+}
+
+// Ventana de Hanning
+function hanning(n) {
+  const w = new Float64Array(n);
+  for (let i=0;i<n;i++) w[i] = 0.5 - 0.5*Math.cos(2*Math.PI*i/(n-1));
+  return w;
+}
+
+// Magnitud en dB de una ventana temporal
+function magDB(signal, N) {
+  const re = new Float64Array(N);
+  const im = new Float64Array(N);
+  const w = hanning(N);
+  const L = Math.min(signal.length, N);
+  for (let i=0;i<L;i++) re[i] = signal[i] * w[i];
+  fft(re, im);
+  const mag = new Float64Array(N/2 + 1);
+  for (let k=0;k<=N/2;k++) {
+    const m = Math.sqrt(re[k]*re[k] + im[k]*im[k]);
+    mag[k] = 20*Math.log10(m + 1e-12);
+  }
+  return mag;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// Tabs
+// ══════════════════════════════════════════════════════════════════════════
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('section.module').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('module-' + btn.dataset.tab).classList.add('active');
+    // trigger redraws for the newly visible tab
+    if (btn.dataset.tab === 'bin') drawBin();
+    if (btn.dataset.tab === 'parab') drawParab();
+    if (btn.dataset.tab === 'track') drawTrack();
+    if (btn.dataset.tab === 'add') drawAdd();
+    if (btn.dataset.tab === 'sms') drawSMS();
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// MÓDULO 1 — EL PROBLEMA DEL BIN
+// ══════════════════════════════════════════════════════════════════════════
+const binCv = document.getElementById('cv-bin');
+const binCtx = binCv.getContext('2d');
+const binOverlay = document.getElementById('cv-bin-overlay');
+
+function drawBin() {
+  const f = +document.getElementById('sl-bin-f').value;
+  const N = +document.getElementById('sl-bin-n').value;
+  document.getElementById('lbl-bin-f').textContent = fmt(f, 1) + ' Hz';
+
+  // Generar sinusoide y calcular magnitud
+  const signal = new Float64Array(N);
+  for (let i=0;i<N;i++) signal[i] = Math.sin(2*Math.PI*f*i/FS);
+  const magAbs = magDB(signal, N);
+  // Normalizamos a dB relativo al pico para evitar "plateau" por clipping del rango y.
+  let maxV = -Infinity, maxK = 0;
+  for (let k=1;k<magAbs.length-1;k++) if (magAbs[k] > maxV) { maxV = magAbs[k]; maxK = k; }
+  const mag = new Float64Array(magAbs.length);
+  for (let k=0;k<mag.length;k++) mag[k] = magAbs[k] - maxV;
+
+  // Stats
+  const binRes = FS/N;
+  const binFreq = maxK * binRes;
+  const err = binFreq - f;
+  document.getElementById('st-bin-res').textContent = fmt(binRes, 2) + ' Hz';
+  document.getElementById('st-bin-idx').textContent = 'k = ' + maxK;
+  document.getElementById('st-bin-freq').textContent = fmt(binFreq, 2) + ' Hz';
+  document.getElementById('st-bin-err').textContent = (err>=0?'+':'') + fmt(err, 2) + ' Hz';
+
+  // Dibujar
+  const W = binCv.width, H = binCv.height;
+  binCtx.clearRect(0,0,W,H);
+  binCtx.fillStyle = '#0a1218'; binCtx.fillRect(0,0,W,H);
+  // Rango X en Hz
+  const fMin = 0, fMax = 1500;
+  const kMin = Math.floor(fMin * N / FS), kMax = Math.ceil(fMax * N / FS);
+  // Rango Y: dB relativos al pico — pico queda en 0 dB, mostramos hasta -80 dB
+  const yMin = -80, yMax = 5;
+  // Ejes
+  binCtx.strokeStyle = '#2b3747'; binCtx.lineWidth = 1;
+  binCtx.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  binCtx.fillStyle = '#8ea1b5';
+  for (let y=yMin;y<=yMax;y+=20) {
+    const py = H - 30 - ((y - yMin)/(yMax - yMin)) * (H - 60);
+    binCtx.beginPath(); binCtx.moveTo(40, py); binCtx.lineTo(W-10, py); binCtx.stroke();
+    binCtx.fillText(y+' dB', 4, py+3);
+  }
+  for (let xf=0;xf<=fMax;xf+=250) {
+    const px = 40 + (xf/fMax) * (W - 50);
+    binCtx.beginPath(); binCtx.moveTo(px, 10); binCtx.lineTo(px, H-30); binCtx.stroke();
+    binCtx.fillText(xf+' Hz', px-15, H-15);
+  }
+  // Dibujar magnitud como barras verticales (una por bin)
+  binCtx.strokeStyle = '#3aa9ff'; binCtx.lineWidth = 1.5;
+  binCtx.beginPath();
+  for (let k=kMin;k<=kMax;k++) {
+    const freq = k*FS/N;
+    const px = 40 + (freq/fMax) * (W-50);
+    const v = Math.max(yMin, Math.min(yMax, mag[k]));
+    const py = H - 30 - ((v - yMin)/(yMax - yMin)) * (H - 60);
+    if (k===kMin) binCtx.moveTo(px, H-30);
+    binCtx.lineTo(px, py);
+  }
+  binCtx.stroke();
+  // Puntos en cada bin (para ver la cuantización)
+  binCtx.fillStyle = '#3aa9ff';
+  for (let k=kMin;k<=kMax;k++) {
+    const freq = k*FS/N;
+    if (freq > fMax) break;
+    const px = 40 + (freq/fMax) * (W-50);
+    const v = Math.max(yMin, Math.min(yMax, mag[k]));
+    const py = H - 30 - ((v - yMin)/(yMax - yMin)) * (H - 60);
+    binCtx.beginPath(); binCtx.arc(px, py, 2.4, 0, 2*Math.PI); binCtx.fill();
+  }
+  // Marcar frecuencia real
+  const pxReal = 40 + (f/fMax) * (W-50);
+  binCtx.strokeStyle = '#ffb042'; binCtx.lineWidth = 2;
+  binCtx.setLineDash([5,3]); binCtx.beginPath(); binCtx.moveTo(pxReal, 10); binCtx.lineTo(pxReal, H-30); binCtx.stroke(); binCtx.setLineDash([]);
+  binCtx.fillStyle = '#ffb042';
+  binCtx.fillText('f real = ' + fmt(f,1) + ' Hz', pxReal + 5, 22);
+  // Marcar bin detectado
+  const pxBin = 40 + (binFreq/fMax) * (W-50);
+  binCtx.strokeStyle = '#ff5577'; binCtx.lineWidth = 2;
+  binCtx.setLineDash([2,3]); binCtx.beginPath(); binCtx.moveTo(pxBin, 10); binCtx.lineTo(pxBin, H-30); binCtx.stroke(); binCtx.setLineDash([]);
+  binCtx.fillStyle = '#ff5577';
+  binCtx.fillText('bin ' + maxK + ' = ' + fmt(binFreq,1) + ' Hz', pxBin + 5, 40);
+  binOverlay.textContent = `Δ bin = ${fmt(binRes,2)} Hz  |  FFT N = ${N}  |  fs = ${FS} Hz`;
+}
+['sl-bin-f','sl-bin-n'].forEach(id => document.getElementById(id).addEventListener('input', drawBin));
+
+// ══════════════════════════════════════════════════════════════════════════
+// MÓDULO 2 — INTERPOLACIÓN PARABÓLICA
+// ══════════════════════════════════════════════════════════════════════════
+const parabCv = document.getElementById('cv-parab');
+const parabCtx = parabCv.getContext('2d');
+
+function drawParab() {
+  const f = +document.getElementById('sl-parab-f').value;
+  const N = +document.getElementById('sl-parab-n').value;
+  document.getElementById('lbl-parab-f').textContent = fmt(f,1) + ' Hz';
+
+  const signal = new Float64Array(N);
+  for (let i=0;i<N;i++) signal[i] = Math.sin(2*Math.PI*f*i/FS);
+  const mag = magDB(signal, N);
+
+  let kPeak=0, vPeak=-Infinity;
+  for (let k=1;k<mag.length-1;k++) if (mag[k] > vPeak) { vPeak = mag[k]; kPeak = k; }
+  const a = mag[kPeak-1], b = mag[kPeak], g = mag[kPeak+1];
+  const delta = 0.5 * (a - g) / (a - 2*b + g + 1e-12);
+  const kReal = kPeak + delta;
+  const fInt = kReal * FS / N;
+  const fRaw = kPeak * FS / N;
+
+  document.getElementById('st-parab-delta').textContent = (delta>=0?'+':'') + fmt(delta, 4);
+  document.getElementById('st-parab-raw').textContent = fmt(fRaw, 2) + ' Hz';
+  document.getElementById('st-parab-int').textContent = fmt(fInt, 3) + ' Hz';
+  const errRaw = Math.abs(fRaw - f), errInt = Math.abs(fInt - f) + 1e-9;
+  document.getElementById('st-parab-factor').textContent = fmt(errRaw/errInt, 1) + '×';
+
+  // Dibujar zoom alrededor del pico: 5 bins a cada lado
+  const W = parabCv.width, H = parabCv.height;
+  parabCtx.clearRect(0,0,W,H);
+  parabCtx.fillStyle = '#0a1218'; parabCtx.fillRect(0,0,W,H);
+  const kMin = kPeak-5, kMax = kPeak+5;
+  const yMin = Math.min(a,b,g,mag[kPeak-3]||b-30) - 3, yMax = Math.max(b,a,g) + 3;
+  // Ejes
+  parabCtx.strokeStyle = '#2b3747';
+  parabCtx.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  parabCtx.fillStyle = '#8ea1b5';
+  for (let k=kMin;k<=kMax;k++) {
+    const px = 50 + ((k-kMin)/(kMax-kMin)) * (W-60);
+    parabCtx.beginPath(); parabCtx.moveTo(px, 10); parabCtx.lineTo(px, H-30); parabCtx.stroke();
+    parabCtx.fillText('k=' + k, px-12, H-15);
+  }
+  for (let v=Math.floor(yMin/10)*10; v<=yMax; v+=10) {
+    const py = H - 30 - ((v-yMin)/(yMax-yMin))*(H-60);
+    parabCtx.beginPath(); parabCtx.moveTo(50, py); parabCtx.lineTo(W-10, py); parabCtx.stroke();
+    parabCtx.fillText(v+' dB', 10, py+3);
+  }
+  // Puntos de los bins
+  const pxOf = k => 50 + ((k-kMin)/(kMax-kMin))*(W-60);
+  const pyOf = v => H - 30 - ((v-yMin)/(yMax-yMin))*(H-60);
+  // Línea de conexión bins
+  parabCtx.strokeStyle = 'rgba(58, 169, 255, 0.35)'; parabCtx.lineWidth = 1;
+  parabCtx.beginPath();
+  for (let k=kMin;k<=kMax;k++) {
+    if (k===kMin) parabCtx.moveTo(pxOf(k), pyOf(mag[k]));
+    else parabCtx.lineTo(pxOf(k), pyOf(mag[k]));
+  }
+  parabCtx.stroke();
+  // Parábola ajustada
+  parabCtx.strokeStyle = '#ffb042'; parabCtx.lineWidth = 2;
+  parabCtx.beginPath();
+  const pStart = kPeak-1.5, pEnd = kPeak+1.5;
+  const a2 = 0.5*(a - 2*b + g), a1 = 0.5*(g - a);
+  const y0 = b;
+  for (let k=pStart; k<=pEnd; k+=0.02) {
+    const dk = k - kPeak;
+    const v = y0 + a1*dk + a2*dk*dk;
+    const px = pxOf(k), py = pyOf(v);
+    if (k===pStart) parabCtx.moveTo(px, py); else parabCtx.lineTo(px, py);
+  }
+  parabCtx.stroke();
+  // Bins como puntos grandes
+  parabCtx.fillStyle = '#3aa9ff';
+  for (let k=kMin;k<=kMax;k++) {
+    parabCtx.beginPath(); parabCtx.arc(pxOf(k), pyOf(mag[k]), 5, 0, 2*Math.PI); parabCtx.fill();
+  }
+  // Etiquetas α, β, γ
+  parabCtx.fillStyle = '#e8edf2'; parabCtx.font = 'bold 14px serif';
+  parabCtx.fillText('α', pxOf(kPeak-1) - 10, pyOf(a) - 10);
+  parabCtx.fillText('β', pxOf(kPeak) - 5, pyOf(b) - 10);
+  parabCtx.fillText('γ', pxOf(kPeak+1) + 5, pyOf(g) - 10);
+  // Línea vertical = bin crudo
+  parabCtx.strokeStyle = '#ff5577'; parabCtx.lineWidth = 2; parabCtx.setLineDash([3,4]);
+  parabCtx.beginPath(); parabCtx.moveTo(pxOf(kPeak), 10); parabCtx.lineTo(pxOf(kPeak), H-30); parabCtx.stroke();
+  parabCtx.setLineDash([]);
+  // Línea vertical = vértice real
+  parabCtx.strokeStyle = '#6ddb7a'; parabCtx.lineWidth = 2;
+  const pxVertex = pxOf(kReal);
+  parabCtx.beginPath(); parabCtx.moveTo(pxVertex, 10); parabCtx.lineTo(pxVertex, H-30); parabCtx.stroke();
+  parabCtx.fillStyle = '#ff5577'; parabCtx.font = '12px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  parabCtx.fillText('bin crudo = ' + fmt(fRaw,1) + ' Hz', pxOf(kPeak) + 5, 25);
+  parabCtx.fillStyle = '#6ddb7a';
+  parabCtx.fillText('interpolado = ' + fmt(fInt,2) + ' Hz', pxVertex + 5, 45);
+  parabCtx.fillStyle = '#8ea1b5';
+  parabCtx.fillText(`δ = ${fmt(delta,3)}`, pxOf(kPeak) + 5, 65);
+}
+['sl-parab-f','sl-parab-n'].forEach(id => document.getElementById(id).addEventListener('input', drawParab));
+
+// ══════════════════════════════════════════════════════════════════════════
+// MÓDULO 3 — PEAK TRACKING EN VIVO
+// ══════════════════════════════════════════════════════════════════════════
+// Generamos una señal con 3 parciales conocidos. El panel muestra tres capas:
+// verdad física, picos STFT detectados y tracks estimados por una regla de asociación.
+
+function buildScene() {
+  const dur = 2.0;
+  const N = Math.floor(dur * FS);
+  const sig = new Float64Array(N);
+  let phA = 0, phB = 0, phC = 0;
+  for (let i=0;i<N;i++) {
+    const t = i/FS;
+    const u = t/dur;
+    const aA = 0.9*(1-u) + 0.15*u;
+    const aB = 0.15*(1-u) + 0.9*u;
+    phA += 2*Math.PI* 600/FS; sig[i] += aA*Math.sin(phA);
+    phB += 2*Math.PI*1000/FS; sig[i] += aB*Math.sin(phB);
+    if (t >= 0.5 && t < 1.0) {
+      const tc = (t - 0.5) / 0.5;          // 0 → 1 sobre el intervalo
+      const fC = 700 + tc * 800;            // 700 → 1500 Hz
+      phC += 2*Math.PI*fC/FS;
+      sig[i] += 0.4*Math.sin(phC);
+    }
+  }
+  return {sig, N, dur};
+}
+const scene = buildScene();
+const TRACK_NFFT = 2048;
+const TRACK_HOP = 512;
+const TRACK_FMAX = 1700;
+
+function truthAt(t) {
+  const u = Math.max(0, Math.min(1, t / scene.dur));
+  const out = [
+    {id:'A', f:600,  a:0.9*(1-u) + 0.15*u, color:'#3aa9ff'},
+    {id:'B', f:1000, a:0.15*(1-u) + 0.9*u, color:'#ffb042'}
+  ];
+  if (t >= 0.5 && t < 1.0) {
+    const tc = (t - 0.5) / 0.5;
+    out.push({id:'C', f:700 + 800*tc, a:0.4, color:'#ff5577'});
+  }
+  return out;
+}
+
+function nearestTruthId(f, t) {
+  const candidates = truthAt(t);
+  let best = null, bestD = Infinity;
+  for (const c of candidates) {
+    const d = Math.abs(c.f - f);
+    if (d < bestD) { bestD = d; best = c; }
+  }
+  return bestD < 70 ? best.id : '?';
+}
+
+function analyzeTrackFrames(sig) {
+  const nFrames = Math.floor((sig.length - TRACK_NFFT) / TRACK_HOP) + 1;
+  const w = hanning(TRACK_NFFT);
+  const frames = [];
+  for (let m=0;m<nFrames;m++) {
+    const re = new Float64Array(TRACK_NFFT);
+    const im = new Float64Array(TRACK_NFFT);
+    for (let i=0;i<TRACK_NFFT;i++) re[i] = sig[m*TRACK_HOP + i] * w[i];
+    fft(re, im);
+    const mag = new Float64Array(TRACK_NFFT/2+1);
+    let maxMag = -Infinity;
+    for (let k=0;k<=TRACK_NFFT/2;k++) {
+      mag[k] = 20*Math.log10(Math.sqrt(re[k]*re[k] + im[k]*im[k]) + 1e-12);
+      if (mag[k] > maxMag) maxMag = mag[k];
+    }
+    const picos = [];
+    const kLo = Math.max(1, Math.floor(80 * TRACK_NFFT / FS));
+    const kHi = Math.min(TRACK_NFFT/2 - 1, Math.ceil(TRACK_FMAX * TRACK_NFFT / FS));
+    for (let k=kLo;k<=kHi;k++) {
+      if (mag[k] > maxMag - 45 && mag[k] > mag[k-1] && mag[k] > mag[k+1]) {
+        const a = mag[k-1], b = mag[k], g = mag[k+1];
+        const delta = Math.max(-0.5, Math.min(0.5, 0.5*(a-g)/(a - 2*b + g + 1e-12)));
+        const f = (k+delta) * FS / TRACK_NFFT;
+        const mInterp = b - 0.25*(a-g)*delta;
+        picos.push({f, m:mInterp, k, id:nearestTruthId(f, m*TRACK_HOP/FS)});
+      }
+    }
+    picos.sort((a,b) => b.m - a.m);
+    frames.push({mag, picos, maxMag, time:m*TRACK_HOP/FS});
+  }
+  return frames;
+}
+
+const trackFrames = analyzeTrackFrames(scene.sig);
+const trackFrameSlider = document.getElementById('sl-track-frame');
+trackFrameSlider.max = String(trackFrames.length - 1);
+trackFrameSlider.value = String(Math.min(trackFrames.length - 1, Math.round(1.0 * FS / TRACK_HOP)));
+
+function trackPeaks(algo, maxDevHz) {
+  let tracks = [];  // [{freqs:[], mags:[], startFrame, alive}]
+  if (algo === 'mq') {
+    for (let m=0;m<trackFrames.length;m++) {
+      const cands = trackFrames[m].picos.slice();
+      const used = new Set();
+      const live = tracks.map((t,i) => ({idx:i, t})).filter(x => x.t.alive);
+      live.sort((A,B) => B.t.mags[B.t.mags.length-1] - A.t.mags[A.t.mags.length-1]);
+      for (const {idx, t} of live) {
+        const lastF = t.freqs[t.freqs.length-1];
+        let best = -1, bestD = Infinity;
+        for (let j=0;j<cands.length;j++) {
+          if (used.has(j)) continue;
+          const d = Math.abs(cands[j].f - lastF);
+          if (d < bestD) { bestD = d; best = j; }
+        }
+        if (best >= 0 && bestD < maxDevHz) {
+          t.freqs.push(cands[best].f);
+          t.mags.push(cands[best].m);
+          t.ids.push(cands[best].id);
+          used.add(best);
+        } else {
+          t.alive = false;
+        }
+      }
+      for (let j=0;j<cands.length;j++) {
+        if (!used.has(j)) {
+          tracks.push({ freqs:[cands[j].f], mags:[cands[j].m], ids:[cands[j].id], startFrame:m, alive:true });
+        }
+      }
+    }
+  } else {
+    // Sin memoria: cada frame vuelve a rankear los picos por magnitud.
+    // Esto crea "tracks" que representan rangos, no identidades físicas.
+    const maxN = 3;
+    const matF = [], matM = [], matId = [];
+    for (let m=0;m<trackFrames.length;m++) {
+      const cands = trackFrames[m].picos.slice();
+      cands.sort((a,b) => b.m - a.m);
+      const rowF = new Array(maxN).fill(null), rowM = new Array(maxN).fill(-120);
+      const rowId = new Array(maxN).fill('?');
+      for (let j=0;j<Math.min(maxN, cands.length);j++) { rowF[j] = cands[j].f; rowM[j] = cands[j].m; rowId[j] = cands[j].id; }
+      matF.push(rowF); matM.push(rowM); matId.push(rowId);
+    }
+    for (let j=0;j<maxN;j++) {
+      const t = { freqs:[], mags:[], ids:[], startFrame:0, alive:false };
+      for (let m=0;m<matF.length;m++) { t.freqs.push(matF[m][j]); t.mags.push(matM[m][j]); t.ids.push(matId[m][j]); }
+      tracks.push(t);
+    }
+  }
+  return { tracks, nFrames: trackFrames.length, HOP: TRACK_HOP };
+}
+
+const trackCv = document.getElementById('cv-track');
+const trackCtx = trackCv.getContext('2d');
+const trackFrameCv = document.getElementById('cv-track-frame');
+const trackFrameCtx = trackFrameCv.getContext('2d');
+const trackAssignCv = document.getElementById('cv-track-assign');
+const trackAssignCtx = trackAssignCv.getContext('2d');
+
+function drawTrack() {
+  const algo = document.getElementById('sl-track-algo').value;
+  const df = +document.getElementById('sl-track-df').value;
+  const minLen = +document.getElementById('sl-track-min').value;
+  const inspectFrame = +document.getElementById('sl-track-frame').value;
+  const inspectTime = inspectFrame * TRACK_HOP / FS;
+  document.getElementById('lbl-track-df').textContent = df + ' Hz';
+  document.getElementById('lbl-track-min').textContent = minLen + ' frames';
+  document.getElementById('lbl-track-frame').textContent = `${inspectFrame} · ${fmt(inspectTime,3)} s`;
+  const res = trackPeaks(algo, df);
+  const W = trackCv.width, H = trackCv.height;
+  trackCtx.clearRect(0,0,W,H);
+  trackCtx.fillStyle = '#0a1218'; trackCtx.fillRect(0,0,W,H);
+  // Ejes
+  const fMin=0, fMax=1700, tMin=0, tMax=scene.dur;
+  const pxX = t => 50 + (t-tMin)/(tMax-tMin) * (W-60);
+  const pxY = f => H - 30 - (f-fMin)/(fMax-fMin) * (H-60);
+  trackCtx.strokeStyle = '#2b3747'; trackCtx.lineWidth = 1;
+  trackCtx.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  trackCtx.fillStyle = '#8ea1b5';
+  for (let f=0;f<=fMax;f+=200) {
+    trackCtx.beginPath(); trackCtx.moveTo(50, pxY(f)); trackCtx.lineTo(W-10, pxY(f)); trackCtx.stroke();
+    trackCtx.fillText(f+' Hz', 6, pxY(f)+3);
+  }
+  for (let tv=0;tv<=tMax+1e-6;tv+=0.25) {
+    trackCtx.beginPath(); trackCtx.moveTo(pxX(tv), 10); trackCtx.lineTo(pxX(tv), H-30); trackCtx.stroke();
+    trackCtx.fillText(tv.toFixed(2)+'s', pxX(tv)-12, H-15);
+  }
+  // Línea guía vertical en t=1s (cruce de magnitudes)
+  trackCtx.strokeStyle = 'rgba(255,80,80,0.35)'; trackCtx.lineWidth = 2;
+  trackCtx.setLineDash([4,4]);
+  trackCtx.beginPath(); trackCtx.moveTo(pxX(1.0), 10); trackCtx.lineTo(pxX(1.0), H-30); trackCtx.stroke();
+  trackCtx.setLineDash([]);
+  trackCtx.fillStyle = 'rgba(255,120,120,0.9)'; trackCtx.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  trackCtx.fillText('↑ t=1s: cruce de magnitudes A↔B', pxX(1.0)+6, H-38);
+
+  // Frame inspeccionado
+  trackCtx.strokeStyle = 'rgba(255,255,255,0.32)'; trackCtx.lineWidth = 2;
+  trackCtx.beginPath(); trackCtx.moveTo(pxX(inspectTime), 10); trackCtx.lineTo(pxX(inspectTime), H-30); trackCtx.stroke();
+
+  // Referencias ideales (fantasma)
+  trackCtx.lineWidth = 8; trackCtx.globalAlpha = 0.12;
+  trackCtx.strokeStyle = '#3aa9ff';
+  trackCtx.beginPath(); trackCtx.moveTo(pxX(0), pxY(600)); trackCtx.lineTo(pxX(scene.dur), pxY(600)); trackCtx.stroke();
+  trackCtx.strokeStyle = '#ffb042';
+  trackCtx.beginPath(); trackCtx.moveTo(pxX(0), pxY(1000)); trackCtx.lineTo(pxX(scene.dur), pxY(1000)); trackCtx.stroke();
+  // Track C: glide 700 → 1500 Hz en [0.5, 1.0]
+  trackCtx.strokeStyle = '#ff5577';
+  trackCtx.beginPath(); trackCtx.moveTo(pxX(0.5), pxY(700)); trackCtx.lineTo(pxX(1.0), pxY(1500)); trackCtx.stroke();
+  trackCtx.globalAlpha = 1;
+
+  // Tracks detectados — grosor proporcional a magnitud (escala global)
+  const validLen = t => t.freqs.reduce((n, f) => n + (f !== null && f > 0 ? 1 : 0), 0);
+  const longTracks = res.tracks.filter(t => validLen(t) >= minLen);
+  // Rango de magnitudes para mapear a grosor
+  let magLo = Infinity, magHi = -Infinity;
+  longTracks.forEach(t => t.mags.forEach((m, i) => {
+    if (t.freqs[i] === null || t.freqs[i] <= 0) return;
+    if (m<magLo) magLo=m;
+    if (m>magHi) magHi=m;
+  }));
+  if (!isFinite(magLo)) { magLo = -60; magHi = 0; }
+  const magToWidth = m => {
+    const u = Math.max(0, Math.min(1, (m - magLo) / Math.max(0.1, magHi - magLo)));
+    return 1.2 + 5.5 * u;
+  };
+  const mqColors     = ['#6ddb7a', '#d9a6ff', '#ffe066', '#ff9a6d', '#8ff5e0', '#f48b8b'];
+  const noMemColors  = ['#ff5577', '#ffb042', '#3aa9ff', '#d9a6ff'];
+  longTracks.forEach((t, idx) => {
+    const color = (document.getElementById('sl-track-algo').value === 'mq' ? mqColors : noMemColors)[idx % 6];
+    trackCtx.strokeStyle = color;
+    // Dibujo segmento a segmento con grosor según magnitud local
+    for (let j=0;j<t.freqs.length-1;j++) {
+      if (t.freqs[j] === null || t.freqs[j+1] === null || t.freqs[j] <= 0 || t.freqs[j+1] <= 0) continue;
+      const tt1 = (t.startFrame + j)   * res.HOP / FS;
+      const tt2 = (t.startFrame + j+1) * res.HOP / FS;
+      const f1 = t.freqs[j], f2 = t.freqs[j+1];
+      const mAvg = 0.5*(t.mags[j] + t.mags[j+1]);
+      trackCtx.lineWidth = magToWidth(mAvg);
+      trackCtx.beginPath();
+      trackCtx.moveTo(pxX(tt1), pxY(f1));
+      trackCtx.lineTo(pxX(tt2), pxY(f2));
+      trackCtx.stroke();
+    }
+  });
+  // Picos del frame inspeccionado como puntos blancos.
+  const picos = trackFrames[inspectFrame].picos;
+  for (const p of picos) {
+    trackCtx.fillStyle = '#ffffff';
+    trackCtx.beginPath(); trackCtx.arc(pxX(inspectTime), pxY(p.f), 4, 0, 2*Math.PI); trackCtx.fill();
+  }
+  // Leyenda de estado
+  trackCtx.fillStyle = '#e8edf2'; trackCtx.font = '13px ' + getComputedStyle(document.body).getPropertyValue('--font');
+  trackCtx.fillText(`Tracks detectados (≥${minLen} frames): ${longTracks.length}   ·   algoritmo: ${algo === 'mq' ? 'MQ con memoria' : 'sin memoria (por magnitud)'}`, 50, 24);
+
+  drawTrackFrame(inspectFrame);
+  drawTrackAssignment(res, algo, inspectFrame, minLen);
+  updateTrackStats(res, longTracks, algo, df, minLen);
+}
+document.getElementById('sl-track-algo').addEventListener('change', drawTrack);
+document.getElementById('sl-track-df').addEventListener('input', drawTrack);
+document.getElementById('sl-track-min').addEventListener('input', drawTrack);
+document.getElementById('sl-track-frame').addEventListener('input', drawTrack);
+
+function updateTrackStats(res, longTracks, algo, df, minLen) {
+  const hopMs = 1000 * TRACK_HOP / FS;
+  const glideHzPerFrame = 800 * (TRACK_HOP / FS) / 0.5;
+  let jumps = 0;
+  for (const t of longTracks) {
+    for (let i=1;i<t.ids.length;i++) {
+      if (t.freqs[i] === null || t.freqs[i-1] === null) continue;
+      if (t.ids[i] !== '?' && t.ids[i-1] !== '?' && t.ids[i] !== t.ids[i-1]) jumps++;
+    }
+  }
+  document.getElementById('st-track-hop').textContent = fmt(hopMs,1) + ' ms';
+  document.getElementById('st-track-glide').textContent = fmt(glideHzPerFrame,1) + ` Hz/frame`;
+  document.getElementById('st-track-count').textContent = `${longTracks.length} de ${res.tracks.length}`;
+  document.getElementById('st-track-jumps').textContent = algo === 'mq' ? `${jumps} ident.` : `${jumps} ident.`;
+}
+
+function drawTrackFrame(frameIdx) {
+  const fr = trackFrames[frameIdx];
+  const W = trackFrameCv.width, H = trackFrameCv.height;
+  trackFrameCtx.clearRect(0,0,W,H);
+  trackFrameCtx.fillStyle = '#0a1218'; trackFrameCtx.fillRect(0,0,W,H);
+  const padL=42, padR=10, padT=12, padB=28;
+  const fMin=0, fMax=TRACK_FMAX, yMin=-70, yMax=5;
+  const xOf = f => padL + (f-fMin)/(fMax-fMin)*(W-padL-padR);
+  const yOf = db => H-padB - (db-yMin)/(yMax-yMin)*(H-padT-padB);
+  trackFrameCtx.strokeStyle = '#2b3747'; trackFrameCtx.lineWidth = 1;
+  trackFrameCtx.font = '10px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  trackFrameCtx.fillStyle = '#8ea1b5';
+  for (let f=0;f<=fMax;f+=400) {
+    const x = xOf(f);
+    trackFrameCtx.beginPath(); trackFrameCtx.moveTo(x,padT); trackFrameCtx.lineTo(x,H-padB); trackFrameCtx.stroke();
+    trackFrameCtx.fillText(f+' Hz', x-16, H-8);
+  }
+  for (let db=-60;db<=0;db+=20) {
+    const y = yOf(db);
+    trackFrameCtx.beginPath(); trackFrameCtx.moveTo(padL,y); trackFrameCtx.lineTo(W-padR,y); trackFrameCtx.stroke();
+    trackFrameCtx.fillText(db+' dB', 4, y+3);
+  }
+  trackFrameCtx.strokeStyle = '#3aa9ff'; trackFrameCtx.lineWidth = 1.2;
+  trackFrameCtx.beginPath();
+  const kMax = Math.ceil(fMax * TRACK_NFFT / FS);
+  for (let k=0;k<=kMax;k++) {
+    const f = k*FS/TRACK_NFFT;
+    const db = Math.max(yMin, Math.min(yMax, fr.mag[k] - fr.maxMag));
+    const x = xOf(f), y = yOf(db);
+    if (k===0) trackFrameCtx.moveTo(x,y); else trackFrameCtx.lineTo(x,y);
+  }
+  trackFrameCtx.stroke();
+  for (const p of fr.picos) {
+    const color = p.id==='A' ? '#3aa9ff' : p.id==='B' ? '#ffb042' : p.id==='C' ? '#ff5577' : '#ffffff';
+    const db = Math.max(yMin, Math.min(yMax, p.m - fr.maxMag));
+    trackFrameCtx.fillStyle = color;
+    trackFrameCtx.beginPath(); trackFrameCtx.arc(xOf(p.f), yOf(db), 5, 0, 2*Math.PI); trackFrameCtx.fill();
+    trackFrameCtx.fillText(`${p.id} ${fmt(p.f,1)}`, xOf(p.f)+6, yOf(db)-5);
+  }
+  trackFrameCtx.fillStyle = '#e8edf2'; trackFrameCtx.font = '12px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  trackFrameCtx.fillText(`frame ${frameIdx} · t=${fmt(fr.time,3)}s · picos=${fr.picos.length}`, padL, 16);
+}
+
+function drawTrackAssignment(res, algo, frameIdx, minLen) {
+  const W = trackAssignCv.width, H = trackAssignCv.height;
+  trackAssignCtx.clearRect(0,0,W,H);
+  trackAssignCtx.fillStyle = '#0a1218'; trackAssignCtx.fillRect(0,0,W,H);
+  const padL=44, padR=12, padT=24, padB=26;
+  const fMin=0, fMax=TRACK_FMAX;
+  const yOf = f => H-padB - (f-fMin)/(fMax-fMin)*(H-padT-padB);
+  const xPrev = W*0.34, xNow = W*0.68;
+  trackAssignCtx.strokeStyle = '#2b3747'; trackAssignCtx.lineWidth = 1;
+  trackAssignCtx.font = '10px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  trackAssignCtx.fillStyle = '#8ea1b5';
+  for (let f=0;f<=fMax;f+=400) {
+    const y = yOf(f);
+    trackAssignCtx.beginPath(); trackAssignCtx.moveTo(padL,y); trackAssignCtx.lineTo(W-padR,y); trackAssignCtx.stroke();
+    trackAssignCtx.fillText(f+' Hz', 4, y+3);
+  }
+  trackAssignCtx.fillText('m−1', xPrev-12, 16);
+  trackAssignCtx.fillText('m', xNow-4, 16);
+
+  const colors = ['#6ddb7a', '#d9a6ff', '#ffe066', '#ff9a6d', '#8ff5e0', '#f48b8b'];
+  const visible = res.tracks.filter(t => t.freqs.reduce((n, f) => n + (f !== null && f > 0 ? 1 : 0), 0) >= minLen);
+  visible.forEach((t, idx) => {
+    const j = frameIdx - t.startFrame;
+    if (j <= 0 || j >= t.freqs.length) return;
+    if (t.freqs[j] === null || t.freqs[j-1] === null || t.freqs[j] <= 0 || t.freqs[j-1] <= 0) return;
+    const color = algo === 'no-mem' ? ['#ff5577', '#ffb042', '#3aa9ff'][idx % 3] : colors[idx % colors.length];
+    const y1 = yOf(t.freqs[j-1]), y2 = yOf(t.freqs[j]);
+    trackAssignCtx.strokeStyle = color; trackAssignCtx.lineWidth = 2;
+    if (algo === 'mq') trackAssignCtx.setLineDash([]);
+    else trackAssignCtx.setLineDash([5,4]);
+    trackAssignCtx.beginPath(); trackAssignCtx.moveTo(xPrev,y1); trackAssignCtx.lineTo(xNow,y2); trackAssignCtx.stroke();
+    trackAssignCtx.setLineDash([]);
+    trackAssignCtx.fillStyle = color;
+    trackAssignCtx.beginPath(); trackAssignCtx.arc(xPrev,y1,5,0,2*Math.PI); trackAssignCtx.fill();
+    trackAssignCtx.beginPath(); trackAssignCtx.arc(xNow,y2,5,0,2*Math.PI); trackAssignCtx.fill();
+    trackAssignCtx.fillText(`${t.ids[j-1]}→${t.ids[j]}`, xNow+8, y2+3);
+  });
+  trackAssignCtx.fillStyle = '#e8edf2'; trackAssignCtx.font = '12px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  const txt = algo === 'mq'
+    ? 'MQ: conecta por cercanía de frecuencia'
+    : 'Sin memoria: conecta rangos de magnitud';
+  trackAssignCtx.fillText(txt, padL, H-8);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// MÓDULO 4 — SÍNTESIS ADITIVA ORGÁNICA
+// Cada preset combina: envolvente ADSR, vibrato (FM lento en f0), tremolo
+// (AM lento en nivel), inarmonicidad (parciales altos ligeramente desafinados),
+// ataque diferido por parcial (brass bloom), ruido de soplido/arco, y fase
+// aleatoria por parcial. El resultado tiene la complejidad no-estática que
+// el oído asocia con instrumentos acústicos.
+// ══════════════════════════════════════════════════════════════════════════
+const presetConfig = {
+  flute: {
+    master: {attack: 0.08, release: 0.25},
+    vibrato: {rate: 5.2, depth: 0.006},
+    tremolo: {rate: 3.0, depth: 0.12},
+    inharmonicity: 0.0003,
+    partialAttackSpread: 0.025,
+    noise: 0.04,
+    amps: Array.from({length: 30}, (_, k) => 1/Math.pow(k+1, 1.7) * (k%2===0 ? 1 : 0.4))
+  },
+  clarinet: {
+    master: {attack: 0.05, release: 0.18},
+    vibrato: {rate: 0, depth: 0},
+    tremolo: {rate: 0, depth: 0},
+    inharmonicity: 0.0001,
+    partialAttackSpread: 0,
+    noise: 0.008,
+    amps: Array.from({length: 30}, (_, k) => (k%2===0 ? 1 : 0.07) / Math.pow(k+1, 0.65))
+  },
+  trumpet: {
+    master: {attack: 0.025, release: 0.15},
+    vibrato: {rate: 5.8, depth: 0.004},
+    tremolo: {rate: 5.8, depth: 0.06},
+    inharmonicity: 0.00015,
+    partialAttackSpread: 0.06,
+    noise: 0.018,
+    amps: Array.from({length: 30}, (_, k) => 1/Math.pow(k+1, 0.55))
+  },
+  violin: {
+    master: {attack: 0.07, release: 0.25},
+    vibrato: {rate: 5.8, depth: 0.010},
+    tremolo: {rate: 5.8, depth: 0.09},
+    inharmonicity: 0.0004,
+    partialAttackSpread: 0.02,
+    noise: 0.055,
+    amps: (() => {
+      // Violín: pico de energía en parciales 2-4, decaimiento suave
+      const out = new Array(30);
+      for (let k = 0; k < 30; k++) {
+        const bump = Math.exp(-Math.pow((k - 2.5)/4.0, 2));
+        out[k] = (0.3 + 0.9*bump) / Math.pow(k+1, 0.3);
+      }
+      return out;
+    })()
+  },
+  voice: {
+    master: {attack: 0.1, release: 0.3},
+    vibrato: {rate: 5.5, depth: 0.015},
+    tremolo: {rate: 5.5, depth: 0.14},
+    inharmonicity: 0,
+    partialAttackSpread: 0,
+    noise: 0.04,
+    formants: [[700, 150], [1200, 200], [2600, 320]],  // voz "a" sostenida
+    amps: null  // se computa según f0
+  }
+};
+
+function ampsForPreset(preset, f0, Npart) {
+  const p = presetConfig[preset];
+  if (preset === 'voice') {
+    const out = new Array(Math.max(30, Npart));
+    for (let k = 0; k < out.length; k++) {
+      const fk = (k + 1) * f0;
+      let a = 0;
+      for (const [ff, bw] of p.formants) a += Math.exp(-Math.pow((fk - ff)/bw, 2));
+      out[k] = (a + 0.05) / Math.pow(k+1, 0.3);
+    }
+    return out;
+  }
+  return p.amps;
+}
+
+// Síntesis orgánica — usada tanto para la visualización como para el playback
+function synthMusical(preset, f0, Npart, sr, durSecs) {
+  const p = presetConfig[preset];
+  const amps = ampsForPreset(preset, f0, Npart);
+  const ns = Math.floor(sr * durSecs);
+  const data = new Float32Array(ns);
+  // Fases aleatorias por parcial para evitar el "click" en t=0 de suma coherente
+  const phases = new Array(Npart).fill(0).map(() => Math.random() * 2 * Math.PI);
+  // Filtro 1-polo para el ruido (simula cuerpo resonante)
+  let nLp = 0;
+  for (let i = 0; i < ns; i++) {
+    const t = i / sr;
+    // Envolvente maestra ADR
+    let env = 1;
+    if (t < p.master.attack) env = Math.pow(t / p.master.attack, 1.5);
+    else if (t > durSecs - p.master.release) env = Math.max(0, (durSecs - t) / p.master.release);
+    // Vibrato sobre f0
+    const vib = 1 + p.vibrato.depth * Math.sin(2 * Math.PI * p.vibrato.rate * t);
+    // Tremolo sobre amplitud total
+    const trem = 1 - p.tremolo.depth * 0.5 + p.tremolo.depth * 0.5 * Math.cos(2 * Math.PI * p.tremolo.rate * t);
+    const f0Inst = f0 * vib;
+    let s = 0;
+    for (let k = 0; k < Npart; k++) {
+      const fk = f0Inst * (k + 1) * (1 + p.inharmonicity * k * k);
+      if (fk >= sr / 2) break;
+      const aK = amps[k] || 0;
+      phases[k] += 2 * Math.PI * fk / sr;
+      // Ataque diferido por parcial (brass bloom: armónicos altos entran después)
+      const pAtt = p.master.attack + k * p.partialAttackSpread;
+      const pEnv = t < pAtt ? Math.pow(t / pAtt, 1.3) : 1;
+      s += aK * pEnv * Math.sin(phases[k]);
+    }
+    // Ruido enveloped (respiración / arco)
+    const nSample = Math.random() * 2 - 1;
+    nLp = 0.85 * nLp + 0.15 * nSample;
+    s += p.noise * nLp;
+    data[i] = env * trem * s;
+  }
+  // Normalizamos a 0.8 de pico
+  let peak = 1e-9;
+  for (let i = 0; i < ns; i++) peak = Math.max(peak, Math.abs(data[i]));
+  for (let i = 0; i < ns; i++) data[i] = data[i] / peak * 0.8;
+  return data;
+}
+
+const addWaveCv = document.getElementById('cv-add-wave');
+const addWaveCtx = addWaveCv.getContext('2d');
+const addSpecCv = document.getElementById('cv-add-spec');
+const addSpecCtx = addSpecCv.getContext('2d');
+
+function drawAdd() {
+  const preset = document.getElementById('sl-add-preset').value;
+  const f0 = +document.getElementById('sl-add-f0').value;
+  const N  = +document.getElementById('sl-add-n').value;
+  document.getElementById('lbl-add-f0').textContent = fmt(f0,1) + ' Hz';
+  document.getElementById('lbl-add-n').textContent  = N;
+  const amps = ampsForPreset(preset, f0, 30);
+  let used = 0;
+  for (let k=0;k<N;k++) if ((k+1)*f0 < FS/2) used++;
+  document.getElementById('st-add-used').textContent = used + ' de ' + N;
+
+  // Forma de onda temporal — usamos la MISMA función de síntesis que el playback,
+  // con duración 180 ms (suficiente para ver ataque + modulaciones).
+  const secs = 0.180;
+  const buf = synthMusical(preset, f0, N, FS, secs);
+  const Ns = buf.length;
+  // Normalizamos ya viene — dibujamos
+  const W1 = addWaveCv.width, H1 = addWaveCv.height;
+  addWaveCtx.clearRect(0,0,W1,H1);
+  addWaveCtx.fillStyle = '#0a1218'; addWaveCtx.fillRect(0,0,W1,H1);
+  addWaveCtx.strokeStyle = '#2b3747';
+  addWaveCtx.beginPath(); addWaveCtx.moveTo(0, H1/2); addWaveCtx.lineTo(W1, H1/2); addWaveCtx.stroke();
+  addWaveCtx.strokeStyle = '#3aa9ff'; addWaveCtx.lineWidth = 1.2;
+  addWaveCtx.beginPath();
+  for (let x=0;x<W1;x++) {
+    const i = Math.floor(x * Ns / W1);
+    const py = H1/2 - buf[i] * (H1/2 - 8);
+    if (x===0) addWaveCtx.moveTo(x, py); else addWaveCtx.lineTo(x, py);
+  }
+  addWaveCtx.stroke();
+  addWaveCtx.fillStyle = '#8ea1b5'; addWaveCtx.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  addWaveCtx.fillText('t = 0', 4, H1 - 4);
+  addWaveCtx.fillText('t = 180 ms', W1 - 80, H1 - 4);
+  const p = presetConfig[preset];
+  const tags = [];
+  if (p.vibrato.depth > 0) tags.push(`vibrato ${p.vibrato.rate} Hz`);
+  if (p.tremolo.depth > 0) tags.push(`tremolo ${p.tremolo.rate} Hz`);
+  if (p.inharmonicity > 0) tags.push(`inharm. ${p.inharmonicity.toFixed(4)}`);
+  if (p.noise > 0.01) tags.push('ruido de soplido/arco');
+  addWaveCtx.fillStyle = '#ffb042';
+  addWaveCtx.fillText(tags.join(' · '), 4, 14);
+
+  // Espectro de envolvente — barras
+  const W2 = addSpecCv.width, H2 = addSpecCv.height;
+  addSpecCtx.clearRect(0,0,W2,H2);
+  addSpecCtx.fillStyle = '#0a1218'; addSpecCtx.fillRect(0,0,W2,H2);
+  const fMax = 5000;
+  addSpecCtx.strokeStyle = '#2b3747';
+  addSpecCtx.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  addSpecCtx.fillStyle = '#8ea1b5';
+  for (let fv=0;fv<=fMax;fv+=1000) {
+    const px = 30 + (fv/fMax) * (W2-40);
+    addSpecCtx.beginPath(); addSpecCtx.moveTo(px, 10); addSpecCtx.lineTo(px, H2-18); addSpecCtx.stroke();
+    addSpecCtx.fillText(fv+' Hz', px-15, H2-4);
+  }
+  // Rescalamos: pico de amps → 1
+  let ampPeak = 1e-9;
+  for (let k=0;k<30;k++) ampPeak = Math.max(ampPeak, amps[k] || 0);
+  for (let k=0;k<30;k++) {
+    const fk = (k+1) * f0;
+    if (fk >= fMax) break;
+    const px = 30 + (fk/fMax) * (W2-40);
+    const amp = (amps[k] || 0) / ampPeak;
+    const barH = Math.min(H2-30, amp * (H2-30));
+    const active = k < N && fk < FS/2;
+    addSpecCtx.fillStyle = active ? '#ffb042' : '#3a4656';
+    addSpecCtx.fillRect(px-2, H2-18 - barH, 4, barH);
+  }
+}
+['sl-add-preset','sl-add-f0','sl-add-n'].forEach(id => document.getElementById(id).addEventListener('input', drawAdd));
+
+// Audio playback — usa synthMusical para un sonido convincente (1.5 s)
+let audioCtx = null, currentSrc = null;
+document.getElementById('btn-add-play').addEventListener('click', async () => {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') await audioCtx.resume();
+  if (currentSrc) { try { currentSrc.stop(); } catch(e) {} }
+  const preset = document.getElementById('sl-add-preset').value;
+  const f0 = +document.getElementById('sl-add-f0').value;
+  const N  = +document.getElementById('sl-add-n').value;
+  const sr = audioCtx.sampleRate;
+  const dur = 1.5;
+  const data = synthMusical(preset, f0, N, sr, dur);
+  const buffer = audioCtx.createBuffer(1, data.length, sr);
+  buffer.getChannelData(0).set(data);
+  const src = audioCtx.createBufferSource();
+  src.buffer = buffer; src.connect(audioCtx.destination); src.start();
+  currentSrc = src;
+});
+document.getElementById('btn-add-stop').addEventListener('click', () => {
+  if (currentSrc) { try { currentSrc.stop(); } catch(e) {} currentSrc = null; }
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// MÓDULO 5 — DESCOMPOSICIÓN SMS SOBRE AUDIO REAL
+// Pipeline completo inspirado en sms-tools (Xavier Serra, MTG-UPF):
+//   STFT → peak detection → parabolic interp → MQ tracking → síntesis aditiva
+//   → residuo = original − sinusoides
+// ══════════════════════════════════════════════════════════════════════════
+const sms = {
+  audioCtx: null,
+  orig: null,       // Float32Array @ FS (mono)
+  sines: null,
+  residual: null,
+  tracks: [],
+  frames: [],       // [{mag: Float64Array(N/2+1), picos: [{f,m,ph}]}]
+  params: null,
+  currentSrc: null,
+  mediaRec: null,
+  recChunks: [],
+  recStream: null,
+  recState: 'idle'
+};
+
+function smsStatus(msg) { document.getElementById('st-sms-status').textContent = msg; }
+
+function ensureCtx() {
+  if (!sms.audioCtx) {
+    try { sms.audioCtx = new (window.AudioContext || window.webkitAudioContext)({sampleRate: FS}); }
+    catch (e) { sms.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+  }
+  return sms.audioCtx;
+}
+
+// Resampleo lineal simple
+function resampleTo(data, srcSR, dstSR) {
+  if (srcSR === dstSR) return new Float32Array(data);
+  const ratio = dstSR / srcSR;
+  const outLen = Math.floor(data.length * ratio);
+  const out = new Float32Array(outLen);
+  for (let i = 0; i < outLen; i++) {
+    const t = i / ratio;
+    const i0 = Math.floor(t);
+    const frac = t - i0;
+    const s0 = data[i0] || 0, s1 = data[i0 + 1] || s0;
+    out[i] = (1 - frac) * s0 + frac * s1;
+  }
+  return out;
+}
+
+async function smsLoadBlob(blob) {
+  try {
+    smsStatus('Decodificando...');
+    const ctx = ensureCtx();
+    const ab = await blob.arrayBuffer();
+    const decoded = await ctx.decodeAudioData(ab.slice(0));
+    // Promediamos canales a mono
+    let ch;
+    if (decoded.numberOfChannels === 1) ch = decoded.getChannelData(0);
+    else {
+      const L = decoded.getChannelData(0), R = decoded.getChannelData(1);
+      ch = new Float32Array(L.length);
+      for (let i = 0; i < L.length; i++) ch[i] = 0.5 * (L[i] + R[i]);
+    }
+    ch = resampleTo(ch, decoded.sampleRate, FS);
+    // Normalizamos a pico 0.9 y truncamos a máx 5 s
+    let peak = 1e-9;
+    for (let i = 0; i < ch.length; i++) peak = Math.max(peak, Math.abs(ch[i]));
+    const g = 0.9 / peak;
+    for (let i = 0; i < ch.length; i++) ch[i] *= g;
+    const maxSamples = 5 * FS;
+    if (ch.length > maxSamples) ch = ch.slice(0, maxSamples);
+    sms.orig = ch;
+    document.getElementById('st-sms-dur').textContent = (ch.length / FS).toFixed(2) + ' s';
+    smsStatus('Audio cargado · ' + (ch.length / FS).toFixed(2) + ' s');
+    smsRunAnalysis();
+  } catch (e) {
+    smsStatus('Error: ' + e.message);
+  }
+}
+
+// ── Carga por archivo ────────────────────────────────────────────────
+document.getElementById('btn-sms-load').addEventListener('click', () => {
+  document.getElementById('sms-file').click();
+});
+document.getElementById('sms-file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (f) smsLoadBlob(f);
+});
+
+// ── Audio de prueba sintético (violín simulado armónico + aire) ────
+document.getElementById('btn-sms-demo').addEventListener('click', () => {
+  const dur = 2.5;
+  const n = Math.floor(dur * FS);
+  const buf = new Float32Array(n);
+  // 5 parciales con ligero vibrato y aire (ruido filtrado)
+  const f0 = 220, vib = 5.0;
+  const ampK = [1.0, 0.7, 0.5, 0.35, 0.25];
+  const phs = new Array(ampK.length).fill(0);
+  for (let i = 0; i < n; i++) {
+    const t = i / FS;
+    const env = Math.min(1, t * 8) * Math.min(1, (dur - t) * 4);
+    const f0t = f0 * (1 + 0.006 * Math.sin(2 * Math.PI * vib * t));
+    for (let k = 0; k < ampK.length; k++) {
+      phs[k] += 2 * Math.PI * f0t * (k + 1) / FS;
+      buf[i] += env * ampK[k] * Math.sin(phs[k]);
+    }
+    // aire: ruido filtrado paso-bajo simple
+    buf[i] += 0.04 * env * (Math.random() * 2 - 1);
+  }
+  // Normaliza
+  let peak = 1e-9;
+  for (let i = 0; i < n; i++) peak = Math.max(peak, Math.abs(buf[i]));
+  for (let i = 0; i < n; i++) buf[i] *= 0.9 / peak;
+  sms.orig = buf;
+  document.getElementById('st-sms-dur').textContent = (n / FS).toFixed(2) + ' s';
+  smsStatus('Audio de prueba generado');
+  smsRunAnalysis();
+});
+
+// ── Grabación por micrófono ─────────────────────────────────────────
+document.getElementById('btn-sms-rec').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-sms-rec');
+  if (sms.recState === 'idle') {
+    try {
+      sms.recStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      sms.mediaRec = new MediaRecorder(sms.recStream);
+      sms.recChunks = [];
+      sms.mediaRec.ondataavailable = e => { if (e.data.size > 0) sms.recChunks.push(e.data); };
+      sms.mediaRec.onstop = async () => {
+        const blob = new Blob(sms.recChunks, { type: sms.mediaRec.mimeType || 'audio/webm' });
+        sms.recStream.getTracks().forEach(t => t.stop());
+        sms.recState = 'idle';
+        btn.textContent = '🎤 Grabar micrófono';
+        btn.classList.remove('action');
+        btn.classList.add('secondary', 'action');
+        await smsLoadBlob(blob);
+      };
+      sms.mediaRec.start();
+      sms.recState = 'recording';
+      btn.textContent = '⏹ Detener grabación';
+      smsStatus('🔴 Grabando... (canta una vocal sostenida)');
+    } catch (e) {
+      smsStatus('No se pudo acceder al mic: ' + e.message);
+    }
+  } else {
+    sms.mediaRec.stop();
+  }
+});
+
+// ── Listeners de parámetros ─────────────────────────────────────────
+const smsLblMap = {
+  'sl-sms-hop': 'lbl-sms-hop',
+  'sl-sms-thr': 'lbl-sms-thr',
+  'sl-sms-df': 'lbl-sms-df',
+  'sl-sms-min': 'lbl-sms-min'
+};
+Object.keys(smsLblMap).forEach(id => {
+  document.getElementById(id).addEventListener('input', e => {
+    document.getElementById(smsLblMap[id]).textContent = e.target.value;
+  });
+});
+document.getElementById('btn-sms-analyze').addEventListener('click', smsRunAnalysis);
+
+// ── Pipeline de análisis completo ───────────────────────────────────
+function smsRunAnalysis() {
+  if (!sms.orig) return;
+  const N = +document.getElementById('sl-sms-N').value;
+  const HOP = +document.getElementById('sl-sms-hop').value;
+  const thresh = +document.getElementById('sl-sms-thr').value;
+  const maxDev = +document.getElementById('sl-sms-df').value;
+  const minLen = +document.getElementById('sl-sms-min').value;
+  sms.params = { N, HOP, thresh, maxDev, minLen };
+  smsStatus('Analizando...');
+
+  const sig = sms.orig;
+  const w = hanning(N);
+  const winSum = w.reduce((a, b) => a + b, 0); // para normalizar síntesis
+  const nFrames = Math.max(0, Math.floor((sig.length - N) / HOP) + 1);
+  const frames = [];
+  for (let m = 0; m < nFrames; m++) {
+    const re = new Float64Array(N), im = new Float64Array(N);
+    for (let i = 0; i < N; i++) re[i] = sig[m * HOP + i] * w[i];
+    fft(re, im);
+    const mag = new Float64Array(N / 2 + 1);
+    const phase = new Float64Array(N / 2 + 1);
+    let maxMag = -Infinity;
+    for (let k = 0; k <= N / 2; k++) {
+      mag[k] = 20 * Math.log10(Math.sqrt(re[k] * re[k] + im[k] * im[k]) + 1e-12);
+      phase[k] = Math.atan2(im[k], re[k]);
+      if (mag[k] > maxMag) maxMag = mag[k];
+    }
+    // Peak detection
+    const plocs = [];
+    for (let k = 2; k < mag.length - 2; k++) {
+      if (mag[k] > maxMag + thresh && mag[k] > mag[k - 1] && mag[k] > mag[k + 1]) plocs.push(k);
+    }
+    // Parabolic interp + phase interp con UNWRAP a ±π relativo a phase[k].
+    // Sin unwrap, los saltos de fase entre bins (de 2π) corrompen la
+    // interpolación lineal y la síntesis sale desfasada.
+    const picos = plocs.map(k => {
+      const a = mag[k - 1], b = mag[k], g = mag[k + 1];
+      const d = 0.5 * (a - g) / (a - 2 * b + g + 1e-12);
+      const mInterp = b - 0.25 * (a - g) * d;                 // dB
+      let phP = phase[k - 1], phN = phase[k + 1];
+      while (phP - phase[k] >  Math.PI) phP -= 2 * Math.PI;
+      while (phP - phase[k] < -Math.PI) phP += 2 * Math.PI;
+      while (phN - phase[k] >  Math.PI) phN -= 2 * Math.PI;
+      while (phN - phase[k] < -Math.PI) phN += 2 * Math.PI;
+      const phInterp = phase[k] + d * (phN - phP) * 0.5;
+      return { f: (k + d) * FS / N, m: mInterp, ph: phInterp };
+    });
+    frames.push({ mag, picos, maxMag });
+  }
+  sms.frames = frames;
+  document.getElementById('st-sms-frames').textContent = nFrames;
+
+  // MQ tracking: para cada frame, live tracks (ordenados por magnitud) se emparejan
+  // con la mejor frecuencia disponible bajo tolerancia Δf_max. El resto son births.
+  const tracks = [];
+  for (let m = 0; m < frames.length; m++) {
+    const cands = frames[m].picos.slice();
+    const used = new Set();
+    const live = tracks.filter(t => t.alive);
+    live.sort((A, B) => B.mags[B.mags.length - 1] - A.mags[A.mags.length - 1]);
+    for (const t of live) {
+      const lastF = t.freqs[t.freqs.length - 1];
+      let best = -1, bestD = Infinity;
+      for (let j = 0; j < cands.length; j++) {
+        if (used.has(j)) continue;
+        const d = Math.abs(cands[j].f - lastF);
+        if (d < bestD) { bestD = d; best = j; }
+      }
+      if (best >= 0 && bestD < maxDev) {
+        t.freqs.push(cands[best].f);
+        t.mags.push(cands[best].m);
+        t.phases.push(cands[best].ph);
+        used.add(best);
+      } else {
+        t.alive = false; // death
+      }
+    }
+    for (let j = 0; j < cands.length; j++) {
+      if (!used.has(j)) {
+        tracks.push({
+          freqs: [cands[j].f], mags: [cands[j].m], phases: [cands[j].ph],
+          startFrame: m, alive: true
+        });
+      }
+    }
+  }
+  const longTracks = tracks.filter(t => t.freqs.length >= minLen);
+  sms.tracks = longTracks;
+  document.getElementById('st-sms-ntracks').textContent = longTracks.length;
+
+  // ── Síntesis sinusoidal por frames con overlap-add.
+  // Una fuente importante de artefactos era concatenar osciladores muestra a
+  // muestra y reanclar la fase en cada hop. Aquí cada frame genera sus senos
+  // usando frecuencia, magnitud y fase medidas, luego se aplica la misma
+  // ventana Hann y se recombina con OLA normalizada. Las pequeñas diferencias
+  // de fase entre frames quedan cruzadas suavemente por la ventana, no como
+  // clicks o aspereza en las junturas.
+  // Factor de normalización: una sinusoide de amplitud A genera |X[k_peak]| ≈ A*winSum/2
+  const sines = new Float32Array(sig.length);
+  const olaNorm = new Float64Array(sig.length);
+  const ampScale = 2 / winSum;
+  for (let m = 0; m < nFrames; m++) {
+    const start = m * HOP;
+    for (let i = 0; i < N; i++) {
+      const idx = start + i;
+      if (idx < sig.length) olaNorm[idx] += w[i];
+    }
+  }
+  for (const t of longTracks) {
+    for (let j = 0; j < t.freqs.length; j++) {
+      const start = (t.startFrame + j) * HOP;
+      const f = t.freqs[j];
+      const a = Math.pow(10, t.mags[j] / 20) * ampScale;
+      const ph = t.phases[j];
+      const w0 = 2 * Math.PI * f / FS;
+      for (let i = 0; i < N; i++) {
+        const idx = start + i;
+        if (idx >= 0 && idx < sines.length) {
+          sines[idx] += a * Math.cos(ph + w0 * i) * w[i];
+        }
+      }
+    }
+  }
+  for (let i = 0; i < sines.length; i++) {
+    if (olaNorm[i] > 1e-3) sines[i] /= olaNorm[i];
+    else sines[i] = 0;
+  }
+
+  // ── Residuo: original − sinusoides (alineado muestra a muestra)
+  const residual = new Float32Array(sig.length);
+  let eOrig = 0, eRes = 0;
+  for (let i = 0; i < sig.length; i++) {
+    residual[i] = sig[i] - sines[i];
+    eOrig += sig[i] * sig[i];
+    eRes += residual[i] * residual[i];
+  }
+  sms.sines = sines;
+  sms.residual = residual;
+  const pct = eOrig > 0 ? (eRes / eOrig) * 100 : 0;
+  document.getElementById('st-sms-res').textContent = pct.toFixed(1) + ' %';
+  smsStatus('✓ ' + longTracks.length + ' tracks · residuo = ' + pct.toFixed(1) + '%');
+  drawSMS();
+}
+
+// ── Dibujo del espectrograma + tracks + formas de onda ───────────────
+function drawSMS() {
+  const cv = document.getElementById('cv-sms');
+  if (!cv) return;
+  const ctx2 = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx2.clearRect(0, 0, W, H);
+  ctx2.fillStyle = '#0a1218'; ctx2.fillRect(0, 0, W, H);
+  const overlay = document.getElementById('cv-sms-overlay');
+  if (!sms.frames.length) {
+    overlay.textContent = 'Carga un audio o usa "Usar audio de prueba" para comenzar';
+    drawSMSWave(null, null, null); // limpia canvas inferior también
+    return;
+  }
+  overlay.textContent = '';
+
+  const { N, HOP } = sms.params;
+  const fMax = 4000;  // rango útil
+  const pad = 50;
+  const pxX = m => pad + (m / sms.frames.length) * (W - pad - 10);
+  const pxY = f => H - 30 - (f / fMax) * (H - 40);
+
+  // Espectrograma en azul-violeta (solo hasta bin de fMax)
+  const kMax = Math.floor(fMax * N / FS);
+  const frameW = Math.max(1, (W - pad - 10) / sms.frames.length);
+  const binH = (H - 40) / kMax;
+  const vmin = -80, vmax = 0;
+  for (let m = 0; m < sms.frames.length; m++) {
+    const mag = sms.frames[m].mag;
+    const frameMax = sms.frames[m].maxMag ?? 0;
+    const x = pxX(m);
+    for (let k = 1; k < kMax; k++) {
+      let v = mag[k] - frameMax;
+      if (v < vmin) continue;
+      if (v > vmax) v = vmax;
+      const t = (v - vmin) / (vmax - vmin);
+      const s = Math.pow(t, 0.6);
+      const R = Math.floor(20 + 90 * s);
+      const G = Math.floor(30 + 110 * s);
+      const B = Math.floor(60 + 160 * s);
+      ctx2.fillStyle = `rgb(${R},${G},${B})`;
+      const y = pxY(k * FS / N);
+      ctx2.fillRect(x, y - binH, frameW + 0.8, binH + 0.8);
+    }
+  }
+
+  // Ejes y grilla
+  ctx2.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+  ctx2.fillStyle = '#8ea1b5';
+  ctx2.strokeStyle = 'rgba(139,161,181,0.18)';
+  for (let f = 0; f <= fMax; f += 1000) {
+    ctx2.beginPath(); ctx2.moveTo(pad, pxY(f)); ctx2.lineTo(W - 10, pxY(f)); ctx2.stroke();
+    ctx2.fillText(f + ' Hz', 4, pxY(f) + 3);
+  }
+  const totalT = sms.orig.length / FS;
+  const tStep = totalT > 3 ? 0.5 : (totalT > 1 ? 0.25 : 0.1);
+  for (let tt = 0; tt <= totalT + 1e-6; tt += tStep) {
+    const m = tt * FS / HOP;
+    ctx2.fillText(tt.toFixed(tStep < 0.3 ? 2 : 1) + 's', pxX(m) - 12, H - 15);
+  }
+
+  // Tracks superpuestos
+  const colors = ['#ffb042', '#6ddb7a', '#ff5577', '#d9a6ff', '#ffe066', '#8ff5e0', '#ff9a6d', '#f48b8b', '#ffffff'];
+  ctx2.lineWidth = 2.2;
+  sms.tracks.forEach((t, idx) => {
+    ctx2.strokeStyle = colors[idx % colors.length];
+    ctx2.beginPath();
+    for (let j = 0; j < t.freqs.length; j++) {
+      const x = pxX(t.startFrame + j);
+      const y = pxY(t.freqs[j]);
+      if (j === 0) ctx2.moveTo(x, y); else ctx2.lineTo(x, y);
+    }
+    ctx2.stroke();
+  });
+
+  // Leyenda flotante
+  ctx2.fillStyle = '#e8edf2';
+  ctx2.font = '12px ' + getComputedStyle(document.body).getPropertyValue('--font');
+  ctx2.fillText(`N=${N}  ·  hop=${HOP}  ·  frames=${sms.frames.length}  ·  ${sms.tracks.length} tracks`, pad + 8, 20);
+
+  drawSMSWave(sms.orig, sms.sines, sms.residual);
+}
+
+function drawSMSWave(orig, sines, res) {
+  const wcv = document.getElementById('cv-sms-wave');
+  const wctx = wcv.getContext('2d');
+  const W = wcv.width, H = wcv.height;
+  wctx.clearRect(0, 0, W, H);
+  wctx.fillStyle = '#0a1218'; wctx.fillRect(0, 0, W, H);
+  if (!orig) return;
+  const rows = [
+    { data: orig, color: '#3aa9ff', label: 'Original' },
+    { data: sines, color: '#ffb042', label: 'Sinusoides (determinista)' },
+    { data: res, color: '#ff5577', label: 'Residuo (estocástico)' }
+  ];
+  const rowH = H / 3;
+  // Escala común: peak del original
+  let peak = 1e-9;
+  for (let i = 0; i < orig.length; i++) peak = Math.max(peak, Math.abs(orig[i]));
+  rows.forEach((r, row) => {
+    if (!r.data) return;
+    wctx.strokeStyle = r.color; wctx.lineWidth = 1;
+    wctx.beginPath();
+    const samples = r.data.length;
+    const cY = (row + 0.5) * rowH;
+    // línea cero
+    wctx.strokeStyle = 'rgba(139,161,181,0.15)';
+    wctx.beginPath(); wctx.moveTo(40, cY); wctx.lineTo(W, cY); wctx.stroke();
+    // Min-max envelope por píxel
+    wctx.strokeStyle = r.color; wctx.lineWidth = 1;
+    wctx.beginPath();
+    for (let x = 40; x < W; x++) {
+      const i0 = Math.floor((x - 40) * samples / (W - 40));
+      const i1 = Math.floor((x - 40 + 1) * samples / (W - 40));
+      let mn = Infinity, mx = -Infinity;
+      for (let i = i0; i < i1 && i < samples; i++) {
+        if (r.data[i] < mn) mn = r.data[i];
+        if (r.data[i] > mx) mx = r.data[i];
+      }
+      const yTop = cY - (mx / peak) * rowH * 0.45;
+      const yBot = cY - (mn / peak) * rowH * 0.45;
+      wctx.moveTo(x, yTop); wctx.lineTo(x, yBot);
+    }
+    wctx.stroke();
+    // etiqueta
+    wctx.fillStyle = r.color;
+    wctx.font = '11px ' + getComputedStyle(document.body).getPropertyValue('--mono');
+    wctx.fillText(r.label, 4, row * rowH + 14);
+  });
+}
+
+// ── Playback ────────────────────────────────────────────────────────
+function smsPlay(arr) {
+  if (!arr) return;
+  const ctx = ensureCtx();
+  if (sms.currentSrc) { try { sms.currentSrc.stop(); } catch (e) {} }
+  // Normalizamos a 0.85 para que los tres botones suenen parejos
+  let peak = 1e-9;
+  for (let i = 0; i < arr.length; i++) peak = Math.max(peak, Math.abs(arr[i]));
+  const buf = ctx.createBuffer(1, arr.length, FS);
+  const d = buf.getChannelData(0);
+  const g = 0.85 / Math.max(peak, 1e-6);
+  for (let i = 0; i < arr.length; i++) d[i] = arr[i] * g;
+  const src = ctx.createBufferSource();
+  src.buffer = buf; src.connect(ctx.destination); src.start();
+  sms.currentSrc = src;
+}
+document.getElementById('btn-sms-play-orig').addEventListener('click', () => smsPlay(sms.orig));
+document.getElementById('btn-sms-play-sin').addEventListener('click', () => smsPlay(sms.sines));
+document.getElementById('btn-sms-play-res').addEventListener('click', () => smsPlay(sms.residual));
+document.getElementById('btn-sms-stop').addEventListener('click', () => {
+  if (sms.currentSrc) { try { sms.currentSrc.stop(); } catch (e) {} sms.currentSrc = null; }
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// Inicialización
+// ══════════════════════════════════════════════════════════════════════════
+drawBin();
+drawParab();
+drawAdd();
+// draw track lazily (expensive) — only when first visited
+setTimeout(drawTrack, 100);
+
+</script>
+
+</body>
+</html>

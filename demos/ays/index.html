@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis y Síntesis de Señales Musicales — Curso 2026</title>
+<meta name="description" content="Curso de Ingeniería Eléctrica que combina DSP clásico, síntesis musical e IA generativa. Demos interactivos en el navegador para entender el audio digital.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="index.html" class="active">Inicio</a>
+      <a href="curso/temario.html">Temario</a>
+      <a href="curso/ejemplos.html">Ejemplos</a>
+      <a href="curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>El sonido, desde los bytes hasta la IA</h1>
+  <p class="subtitle">Un curso semestral de Ingeniería Eléctrica para entender cómo se procesa, se analiza y se crea el audio digital. Con demos interactivos en el navegador, Fun Tasks semanales, autopsia auditiva y la IA como pair programmer.</p>
+  <div class="pills">
+    <span class="pill">12 semanas</span>
+    <span class="pill">3 módulos</span>
+    <span class="pill">10 demos interactivos</span>
+    <span class="pill">Active learning</span>
+  </div>
+</section>
+
+<main>
+
+<section class="container section">
+  <h2>Manifiesto</h2>
+  <p>
+    Este curso es para estudiantes de Ingeniería Eléctrica que ya tomaron <em>Señales y Sistemas</em>
+    y quieren llevar ese conocimiento al terreno donde más vivo está: el audio digital, la síntesis musical
+    y la inteligencia artificial generativa que hoy reescribe la industria.
+  </p>
+  <p>
+    No es un curso de música, ni un curso de producción, ni un curso introductorio de IA.
+    Es un puente: doce semanas para llegar a entender cómo se piensa el sonido entre la matemática del DSP
+    clásico y los modelos de difusión de 2026, escuchando todo lo que se construye.
+  </p>
+  <p>
+    Cada semana hay <strong>mini-docentes</strong> entre estudiantes, <strong>Fun Tasks</strong> con autopsia auditiva,
+    <strong>desafíos relámpago</strong> en Jupyter y <strong>demos interactivos</strong> en el navegador.
+    El uso de IA (ChatGPT, Claude, Copilot) está explícitamente permitido y fomentado: la pregunta no es
+    si supiste escribir el código de memoria, sino si entiendes qué le hace al sonido y puedes defender tus decisiones.
+  </p>
+  <p>
+    En esta página puedes jugar con los demos del curso sin instalar nada. La invitación es simple:
+    aprieta sliders, escucha, rompe cosas. Si te enganchas, hay un semestre entero esperándote.
+  </p>
+</section>
+
+<section class="container section">
+  <h2>Los demos interactivos</h2>
+  <p class="section-intro">
+    Un demo por sesión, ejecutándose en tu navegador con Web Audio API.
+    Pulsa cualquiera y juega: no hay nada que instalar.
+  </p>
+  <div class="cards">
+
+    <div class="card">
+      <span class="tag atoms">S03 · ATOMS</span>
+      <h3>Filtros FIR e IIR</h3>
+      <p>Diseña filtros pasa-bajo, pasa-alto y pasa-banda. Mueve la frecuencia de corte y oye cómo cambia el timbre en tiempo real.</p>
+      <a href="demos/filtros.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag atoms">S04 · ATOMS</span>
+      <h3>Filtros peineta y delays</h3>
+      <p>Flanger, chorus, dub echo, spring reverb. La misma ecuación produce efectos radicalmente distintos según dónde pongas el delay.</p>
+      <a href="demos/comb.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag spectra">S05 · SPECTRA</span>
+      <h3>STFT y espectrograma</h3>
+      <p>El microscopio tiempo-frecuencia del DSP. Visualiza el compromiso entre resolución temporal y espectral en vivo.</p>
+      <a href="demos/stft.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag spectra">S06 · SPECTRA</span>
+      <h3>Phase Vocoder</h3>
+      <p>Estira el tiempo sin cambiar el pitch, cambia el pitch sin estirar el tiempo. Y entiende por qué la fase importa tanto.</p>
+      <a href="demos/phase-vocoder.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag spectra">S07 · SPECTRA</span>
+      <h3>Modelo sinusoidal SMS</h3>
+      <p>De los bins al concepto físico de "parcial". El morphing espectral entre dos timbres distintos.</p>
+      <a href="demos/sms.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag creation">S08 · CREATION</span>
+      <h3>Síntesis sustractiva</h3>
+      <p>VCO / VCF / VCA + ADSR. El corazón de cualquier sintetizador analógico. Bonus: SFX de chiptune.</p>
+      <a href="demos/sintesis.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag creation">S09 · CREATION</span>
+      <h3>Síntesis FM (Chowning, DX7)</h3>
+      <p>Bessel & bandas laterales, ratio C:M, índice dinámico. Cómo el DX7 generó el sonido de los 80 con dos sinusoides.</p>
+      <a href="demos/fm.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag creation">S10 · CREATION</span>
+      <h3>Karplus–Strong</h3>
+      <p>Una guitarra creíble con tres líneas de código. El modelado físico mínimo y el famoso bug del +½ sample.</p>
+      <a href="demos/karplus-strong.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag creation">S11 · CREATION</span>
+      <h3>MIR + Shazam</h3>
+      <p>Constelaciones de picos, hashes geométricos, mini-Shazam en vivo. Cómo identificar 1 canción entre millones en segundos.</p>
+      <a href="demos/mir-shazam.html" class="btn">Probar →</a>
+    </div>
+
+    <div class="card">
+      <span class="tag creation">S12 · CREATION</span>
+      <h3>Difusión + Forense Espectral</h3>
+      <p>Modelos de difusión paso a paso. Forense en vivo para detectar audio generado por IA. La última clase del semestre.</p>
+      <a href="demos/difusion-ia.html" class="btn">Probar →</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="container section">
+  <h2>Línea del tiempo del semestre</h2>
+  <p class="section-intro">Doce sesiones agrupadas en tres módulos. Cada paso cimienta el siguiente.</p>
+  <div class="timeline">
+    <div class="timeline-step atoms">    <div class="num">S01 · ATOMS</div>    <div class="title">Glitch Art & muestreo</div></div>
+    <div class="timeline-step atoms">    <div class="num">S02 · ATOMS</div>    <div class="title">Convolución LTI</div></div>
+    <div class="timeline-step atoms">    <div class="num">S03 · ATOMS</div>    <div class="title">Filtros FIR/IIR</div></div>
+    <div class="timeline-step atoms">    <div class="num">S04 · ATOMS</div>    <div class="title">Delays & filtros peineta</div></div>
+    <div class="timeline-step spectra">  <div class="num">S05 · SPECTRA</div>  <div class="title">STFT & espectrograma</div></div>
+    <div class="timeline-step spectra">  <div class="num">S06 · SPECTRA</div>  <div class="title">Phase Vocoder</div></div>
+    <div class="timeline-step spectra">  <div class="num">S07 · SPECTRA</div>  <div class="title">Modelo sinusoidal SMS</div></div>
+    <div class="timeline-step creation"> <div class="num">S08 · CREATION</div> <div class="title">Sustractiva + ADSR</div></div>
+    <div class="timeline-step creation"> <div class="num">S09 · CREATION</div> <div class="title">FM (Chowning, DX7)</div></div>
+    <div class="timeline-step creation"> <div class="num">S10 · CREATION</div> <div class="title">Karplus–Strong</div></div>
+    <div class="timeline-step creation"> <div class="num">S11 · CREATION</div> <div class="title">MIR + Shazam</div></div>
+    <div class="timeline-step creation"> <div class="num">S12 · CREATION</div> <div class="title">Difusión + forense IA</div></div>
+  </div>
+  <p style="margin-top:18px; color: var(--texto-suave);">
+    Ver el <a href="curso/temario.html">temario detallado</a> con concepto, Fun Task y aplicación real de cada sesión.
+  </p>
+</section>
+
+<section class="container section">
+  <h2>Cómo se evalúa</h2>
+  <p>
+    Cada semana hay un <strong>Showcase</strong> donde cada estudiante presenta su Fun Task en cinco minutos:
+    reproduce el audio, muestra dos slides, defiende sus decisiones. La rúbrica del Fun Task tiene tres partes:
+    <em>Cool Factor</em> (qué tan interesante quedó el resultado), <em>Correctitud</em> (qué tan bien implementado está),
+    y <em>Explicación</em> (qué tan bien entiendes lo que hiciste).
+  </p>
+  <p>
+    También hay <strong>talleres grupales</strong> donde los mini-docentes enseñan al grupo,
+    y un <strong>Proyecto Final integrador</strong> que el estudiante propone y se valida con el profesor.
+  </p>
+  <p class="warning">
+    <strong>Prerrequisitos:</strong> haber cursado Señales y Sistemas (o equivalente). Necesitas convolución,
+    transformada de Fourier discreta, filtros FIR/IIR como concepto, álgebra lineal, complejos,
+    y Python intermedio. Si te falta algo, se nivela en las primeras semanas; no es un curso introductorio
+    pero tampoco asume que ya sabes audio.
+  </p>
+</section>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te enganchó algún demo?</h2>
+  <p>El curso completo tiene 10 demos como los que viste, doce Fun Tasks, y un semestre de mini-docentes, autopsias auditivas y exploración guiada.</p>
+  <a href="curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="curso/temario.html" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver temario</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · Pontificia Universidad Católica de Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

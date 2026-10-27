@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>M2 · El problema imposible</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="vendor/reveal/dist/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="vendor/curso.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">M2 · El problema imposible</h1>
+  <p class="subtitle">la aritmética de las comas — Sistema de
+Aprendizaje de Afinaciones</p>
+</section>
+
+<section>
+<section id="apertura" class="title-slide slide level1">
+<h1>Apertura</h1>
+<aside class="notes">
+<p>Portadilla de apertura. Decir en voz alta el título del módulo y
+anclarlo a M1: “hoy le ponemos nombre, número y demostración al sobrante
+que encontramos la clase pasada”. No hay contenido matemático nuevo en
+esta portadilla — es transición. [min 00] acumulado.</p>
+</aside>
+</section>
+<section id="el-clavecinista-que-no-llega-a-do" class="slide level2">
+<h2>El clavecinista que no llega a Do</h2>
+<p>Un clavecinista afina por quintas puras, oído contra oído:
+Do–Sol–Re–La–Mi–Si–Fa#–Do#–Sol#–Re#–La#–Mi#–Si#. Doce quintas, cada una
+en calma total, sin ceder ni un cent.</p>
+<p>Si# <strong>debería</strong> ser Do, siete octavas más arriba. No lo
+es: suena claramente más agudo.</p>
+<aside class="notes">
+<p>Contar la historia como anécdota, casi con humor negro — el
+clavecinista de toda la vida. Preguntar: “¿alguien ha afinado algo por
+quintas de oído? ¿le ha pasado algo raro al cerrar el círculo?” Dejar la
+pregunta flotando sin responderla todavía: eso es literalmente la clase
+de hoy. [min 02] acumulado.</p>
+</aside>
+</section>
+<section id="la-quinta-del-lobo" class="slide level2">
+<h2>La quinta del lobo</h2>
+<p>La quinta final, Mi#–Si#, no es pura: si se usa en una pieza, el
+instrumento aúlla. Los libros de historia la bautizaron, con humor
+negro, la <strong>quinta del lobo</strong>.</p>
+<p>El clavecinista no cometió ningún error de oído. Cada una de las doce
+quintas fue, hasta donde el oído puede verificar, perfectamente
+pura.</p>
+<aside class="notes">
+<p>Enfatizar: esto no es un fallo de técnica ni de instrumento.
+Preguntar “entonces, ¿qué falló?” y dejar que alguien aventure una
+respuesta (probablemente digan algo sobre acumulación de error, lo cual
+ya apunta en la dirección correcta). [min 04] acumulado.</p>
+</aside>
+</section>
+<section id="recap-m1-lo-que-necesitas-fresco" class="slide level2">
+<h2>Recap M1: lo que necesitas fresco</h2>
+<ul>
+<li>El <strong>cent</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c = 1200 \cdot \log_2(r)</annotation></semantics></math>
+— apilar intervalos es sumar cents. Quinta pura: 701.955 c. Tercera
+mayor pura: 386.314 c.</li>
+<li>El cierre-anzuelo de M1:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>701.955</mn><mo>=</mo><mn>8423.460</mn></mrow><annotation encoding="application/x-tex">12\times701.955=8423.460</annotation></semantics></math>
+c contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>8400</mn></mrow><annotation encoding="application/x-tex">7\times1200=8400</annotation></semantics></math>
+c → sobran <strong>23.460 cents</strong>.</li>
+</ul>
+<aside class="notes">
+<p>Repaso rápido, sin demostrar nada nuevo — solo activar memoria. Este
+número, 23.460, va a perseguirnos toda la clase: pedirles que lo
+memoricen ahora, en voz alta si es necesario. Decir explícitamente:
+“todo lo que viene hoy es desmenuzar este único número”. Si el grupo
+viene inseguro con logaritmos y cents, vale la pena 30 segundos extra
+aquí. [min 07] acumulado.</p>
+</aside>
+</section>
+<section id="mapa-de-hoy" class="slide level2">
+<h2>Mapa de hoy</h2>
+<ol type="1">
+<li><strong>El teorema imposible</strong>: por qué ningún sistema puede
+tener quintas puras y octavas puras a la vez.</li>
+<li><strong>Las cuatro comas</strong>: el vocabulario de las
+grietas.</li>
+<li><strong>El presupuesto de error</strong>: −23.460 cents, sí o sí —
+la pregunta es dónde se esconden.</li>
+<li>Afinación vs. temperamento, y el mapa de M3 a M7.</li>
+</ol>
+<aside class="notes">
+<p>Slide de agenda — leerla rápido, señalando que el punto 1 es el
+clímax matemático de la clase y los puntos 2-4 son las consecuencias
+prácticas que van a usar todo el resto del curso. [min 09]
+acumulado.</p>
+</aside>
+</section></section>
+<section>
+<section id="el-teorema-imposible-32m-neq-2n"
+class="title-slide slide level1">
+<h1>El teorema imposible:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math></h1>
+<p>¿Puede, apilando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+quintas puras
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>)
+y reduciendo por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+octavas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>),
+llegarse exactamente al mismo lugar que partir?</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">¿para algún par de enteros positivos </mtext><mspace width="0.333em"></mspace></mrow><mi>m</mi><mo>,</mo><mi>n</mi><mtext mathvariant="normal">?</mtext></mrow><annotation encoding="application/x-tex">\left(\frac{3}{2}\right)^m = 2^n \quad \text{¿para algún par de enteros positivos } m, n\text{?}</annotation></semantics></math></p>
+<aside class="notes">
+<p>Portadilla — anunciar: “esta es la demostración más importante del
+curso. Es una línea de álgebra escolar, y de aquí se sigue TODO lo que
+viene en los próximos cinco módulos”. Bajar el ritmo, esto merece
+silencio y atención. Formular la pregunta con toda precisión y preguntar
+al curso “¿qué creen? ¿sí o no?” — dejar que se dividan opiniones, no
+corregir todavía. [min 11] acumulado.</p>
+</aside>
+</section>
+<section id="calentamiento-numérico-3-contra-2" class="slide level2">
+<h2>Calentamiento numérico: 3 contra 2</h2>
+<table>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math></th>
+<th>Potencia de 2 más cercana</th>
+<th>Diferencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>2</mn></msup><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">2^2=4</annotation></semantics></math></td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">2^3=8</annotation></semantics></math></td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>27</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>5</mn></msup><mo>=</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">2^5=32</annotation></semantics></math></td>
+<td>5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>243</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>8</mn></msup><mo>=</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">2^8=256</annotation></semantics></math></td>
+<td>13</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2187</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>11</mn></msup><mo>=</mo><mn>2048</mn></mrow><annotation encoding="application/x-tex">2^{11}=2048</annotation></semantics></math></td>
+<td>139</td>
+</tr>
+<tr>
+<td>12</td>
+<td>531441</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>19</mn></msup><mo>=</mo><mn>524288</mn></mrow><annotation encoding="application/x-tex">2^{19}=524288</annotation></semantics></math></td>
+<td>7153</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>Dejar que el curso mire la tabla en silencio 15 segundos antes de
+hablar. Señalar la fila m=2: 9 está a solo 1 de 8. Pregunta clave para
+lanzar: “¿alguien apostaría a que con un pequeño ajuste calzan?” [min
+13] acumulado.</p>
+</aside>
+</section>
+<section id="casi-pero-no" class="slide level2">
+<h2>Casi, pero no</h2>
+<p>Fila
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">m=2</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mn>2</mn></msup><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">3^2=9</annotation></semantics></math>,
+a solo 1 unidad de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">2^3=8</annotation></semantics></math>.
+Tentador… pero 9 no es 8, y ningún redondeo cambia eso.</p>
+<p>Fila
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">m=12</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>531441</mn><annotation encoding="application/x-tex">531441</annotation></semantics></math>
+contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>524288</mn><annotation encoding="application/x-tex">524288</annotation></semantics></math>
+— proporcionalmente altísima cercanía, y sin embargo, otra vez, no es
+igualdad.</p>
+<p><strong>En aritmética no hay premio por “casi”. O son iguales, o no
+lo son.</strong></p>
+<aside class="notes">
+<p>Este es el punto emocional antes del punto lógico: hacer sentir que
+la cercanía numérica es una trampa. La fila m=12 es exactamente el
+problema del clavecinista (531441/524288 son las cifras de la coma
+pitagórica que vamos a nombrar en la sección siguiente). [min 15]
+acumulado.</p>
+</aside>
+</section>
+<section id="demo-laboratorio-1-la-espiral-que-no-cierra"
+class="slide level2">
+<h2>[Demo] Laboratorio 1 — la espiral que no cierra</h2>
+<div class="demo">
+<p><a href="../modulos/02-comas/laboratorio.html">▶ Abrir
+laboratorio</a></p>
+<ol type="1">
+<li>Abrir la espiral de quintas interactiva y activar audio.</li>
+<li>Apilar las doce quintas puras una por una, escuchando cada una “en
+calma”.</li>
+<li>Observar (y escuchar) la nota 12 — Si#/Do — visiblemente desplazada
+del punto de partida.</li>
+<li>Confirmar que el desplazamiento visual coincide con los 23.460 cents
+que vamos a calcular hoy.</li>
+</ol>
+</div>
+<aside class="notes">
+<p>Demo central de esta sección — dar tiempo real, no apurar. Pedir a un
+estudiante que maneje el mouse mientras el resto escucha con los ojos
+cerrados la nota 12 contra la nota 1. Preguntar: “¿es un poco raro, o es
+claramente otra nota?” — la respuesta correcta es la segunda. [min 18]
+acumulado.</p>
+</aside>
+</section>
+<section id="la-demostración-paso-1-plantear" class="slide level2">
+<h2>La demostración, paso 1: plantear</h2>
+<p>Supongamos, por contradicción, que existen enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>
+con</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup><mspace width="0.278em"></mspace><mo>⇒</mo><mspace width="0.278em"></mspace><mfrac><msup><mn>3</mn><mi>m</mi></msup><msup><mn>2</mn><mi>m</mi></msup></mfrac><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup><mspace width="0.278em"></mspace><mo>⇒</mo><mspace width="0.278em"></mspace><msup><mn>3</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\left(\frac{3}{2}\right)^m = 2^n \;\Longrightarrow\; \frac{3^m}{2^m} = 2^n \;\Longrightarrow\; 3^m = 2^{n+m}</annotation></semantics></math></p>
+<aside class="notes">
+<p>Escribir esto en la pizarra o pantalla paso a paso, sin apurar.
+Verificar que todos entienden la manipulación algebraica (separar
+numerador/denominador, multiplicar por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>m</mi></msup><annotation encoding="application/x-tex">2^m</annotation></semantics></math>)
+antes de avanzar — es mecánica, no debería trabar a nadie, pero conviene
+confirmar. [min 20] acumulado.</p>
+</aside>
+</section>
+<section id="la-demostración-paso-2-paridad" class="slide level2">
+<h2>La demostración, paso 2: paridad</h2>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>:
+potencia de un número <strong>impar</strong>. Impar × impar = impar,
+siempre
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">3\times3=9</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>×</mo><mn>3</mn><mo>=</mo><mn>27</mn></mrow><annotation encoding="application/x-tex">9\times3=27</annotation></semantics></math>…).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>
+es impar para todo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">m\geq1</annotation></semantics></math>.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>:
+potencia de 2 con exponente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mi>m</mi><mo>≥</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n+m\geq2</annotation></semantics></math>.
+Toda potencia de 2 con exponente positivo es <strong>par</strong>.</li>
+</ul>
+<aside class="notes">
+<p>Este es el corazón del argumento — ir lento. Preguntar
+explícitamente: “¿por qué 3^m nunca puede volverse par, por muchas veces
+que lo multipliquemos por 3?” Dejar que alguien lo explique con sus
+palabras (nunca aparece un factor 2). [min 22] acumulado.</p>
+</aside>
+</section>
+<section id="la-demostración-paso-3-contradicción" class="slide level2">
+<h2>La demostración, paso 3: contradicción</h2>
+<p>La ecuación
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>3</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">3^m = 2^{n+m}</annotation></semantics></math>
+dice que <strong>el mismo número</strong> es, a la vez, impar (mirado
+como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>)
+y par (mirado como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>).</p>
+<p><strong>¿Puede un número ser impar y par al mismo tiempo? No,
+nunca.</strong> Contradicción.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∴</mo><mspace width="0.278em"></mspace><mrow><mtext mathvariant="normal">no existen enteros positivos </mtext><mspace width="0.333em"></mspace></mrow><mi>m</mi><mo>,</mo><mi>n</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> con </mtext><mspace width="0.333em"></mspace></mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">\therefore \; \text{no existen enteros positivos } m, n \text{ con } (3/2)^m = 2^n</annotation></semantics></math></p>
+<aside class="notes">
+<p>Pregunta participativa central de la clase: “¿puede un número entero
+ser impar y par a la vez?” — dejar que el silencio confirme lo obvio, y
+recién ahí cerrar: por eso la ecuación no puede sostenerse. Esta es LA
+frase que se van a llevar: ninguna cantidad de quintas puras coincide
+jamás con ninguna cantidad de octavas puras. Escribirla completa en
+pantalla y hacer una pausa larga. [min 24] acumulado.</p>
+</aside>
+</section>
+<section id="corolario-no-es-un-círculo-es-una-espiral"
+class="slide level2">
+<h2>Corolario: no es un círculo, es una espiral</h2>
+<p>Lo que llamamos “círculo de quintas” es, matemáticamente, una
+<strong>espiral</strong>: cada vuelta completa (12 quintas) te devuelve
+<em>cerca</em> del punto de partida, pero 23.460 cents más arriba. El
+“círculo” es una <strong>ficción útil</strong>: alguien decide fingir
+que la espiral cerró, y esconde la diferencia en algún rincón.</p>
+<p>Por qué el argumento funciona y no es un truco: el <strong>teorema
+fundamental de la aritmética</strong> —
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>3</mn><mi>m</mi></msup><annotation encoding="application/x-tex">3^m</annotation></semantics></math>
+se factoriza solo en treses,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+m}</annotation></semantics></math>
+solo en doses, y números con “listas de primos” distintas no pueden ser
+el mismo número. Mismo argumento sirve para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>5</mn><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">5^m\neq2^n</annotation></semantics></math>,
+o cualquier primo distinto de 2.</p>
+<aside class="notes">
+<p>Frase para que anoten: “el círculo de quintas es una ficción útil”.
+Todo el resto del curso trata de qué se hace con esa ficción — dónde se
+esconde la diferencia. Sobre la segunda mitad del slide: mencionar de
+paso que la justa entonación (M4) va a tener sus propias comas,
+generadas por el primo 5 — conectar hacia adelante sin resolverlo
+todavía. [min 27] acumulado.</p>
+</aside>
+</section>
+<section id="ahora-ustedes" class="slide level2">
+<h2>Ahora ustedes</h2>
+<p>Demuestren, usando <strong>solo paridad</strong> (sin logaritmos),
+que</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>5</mn><mn>4</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">para cualesquiera enteros positivos </mtext><mspace width="0.333em"></mspace></mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\left(\frac{5}{4}\right)^m \neq 2^n \quad \text{para cualesquiera enteros positivos } m, n</annotation></semantics></math></p>
+<p><em>Pista: escriban
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>=</mo><msup><mn>5</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mrow><mn>2</mn><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">(5/4)^m = 5^m/2^{2m}</annotation></semantics></math>,
+igualen a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>n</mi></msup><annotation encoding="application/x-tex">2^n</annotation></semantics></math>,
+y analicen qué le pasaría a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>5</mn><mi>m</mi></msup><annotation encoding="application/x-tex">5^m</annotation></semantics></math>.</em></p>
+<aside class="notes">
+<p>Mini-ejercicio individual, 3-4 minutos, en silencio o en parejas.
+Circular por la sala. No dar la solución todavía — dejar que se atasquen
+un poco es parte del punto (el argumento es idéntico al que ya vieron,
+solo cambia el primo). [min 30] acumulado.</p>
+</aside>
+</section>
+<section id="solución" class="slide level2">
+<h2>Solución</h2>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>5</mn><mi>m</mi></msup><mi>/</mi><msup><mn>2</mn><mrow><mn>2</mn><mi>m</mi></mrow></msup><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup><mspace width="0.278em"></mspace><mo>⇒</mo><mspace width="0.278em"></mspace><msup><mn>5</mn><mi>m</mi></msup><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mn>2</mn><mi>m</mi></mrow></msup></mrow><annotation encoding="application/x-tex">5^m/2^{2m} = 2^n \;\Longrightarrow\; 5^m = 2^{n+2m}</annotation></semantics></math>.</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>5</mn><mi>m</mi></msup><annotation encoding="application/x-tex">5^m</annotation></semantics></math>:
+potencia de un impar → siempre impar.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mo>+</mo><mn>2</mn><mi>m</mi></mrow></msup><annotation encoding="application/x-tex">2^{n+2m}</annotation></semantics></math>:
+potencia de 2 con exponente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\geq 3</annotation></semantics></math>
+→ siempre par.</li>
+</ul>
+<p>Mismo número, impar y par a la vez: contradicción. <strong>Idéntico
+argumento, otro primo.</strong></p>
+<aside class="notes">
+<p>Revisar en conjunto. Señalar explícitamente que la estructura es
+calcada de la demostración anterior — eso es la moraleja pedagógica: una
+vez que entienden el argumento de paridad, lo pueden reciclar para
+cualquier primo. Adelantar que esto es literalmente lo que distingue las
+comas del M4 (senario, primo 5) de las de hoy (primo 3). [min 32]
+acumulado.</p>
+</aside>
+</section></section>
+<section>
+<section id="las-cuatro-comas" class="title-slide slide level1">
+<h1>Las cuatro comas</h1>
+<aside class="notes">
+<p>Portadilla. Anunciar: “ya sabemos que la grieta es inevitable. Ahora
+le damos nombre, apellido y cifras exactas a cada una de las cuatro
+grietas que vamos a usar el resto del curso”. [min 33] acumulado.</p>
+</aside>
+</section>
+<section id="la-coma-pitagórica-la-razón-exacta" class="slide level2">
+<h2>La coma pitagórica: la razón exacta</h2>
+<p>Razón entre doce quintas puras (reducidas a una octava) y siete
+octavas puras:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">coma pitagórica</mtext><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup></mrow><msup><mn>2</mn><mn>7</mn></msup></mfrac><mo>=</mo><mfrac><msup><mn>3</mn><mn>12</mn></msup><msup><mn>2</mn><mn>19</mn></msup></mfrac><mo>=</mo><mfrac><mn>531441</mn><mn>524288</mn></mfrac></mrow><annotation encoding="application/x-tex">\text{coma pitagórica} = \frac{(3/2)^{12}}{2^7} = \frac{3^{12}}{2^{19}} = \frac{531441}{524288}</annotation></semantics></math></p>
+<aside class="notes">
+<p>Reconectar explícitamente con la fila m=12 del calentamiento numérico
+de hace 20 minutos — son los mismos números. Setup de la derivación
+(parte 1 de 3: razón → cálculo → significado). [min 35] acumulado.</p>
+</aside>
+</section>
+<section id="coma-pitagórica-cálculo-en-cents" class="slide level2">
+<h2>Coma pitagórica: cálculo en cents</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>531441</mn><mi>/</mi><mn>524288</mn><mo>=</mo><mn>1.0136432648</mn></mrow><annotation encoding="application/x-tex">531441/524288 = 1.0136432648</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.0136432648</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.0136432648</mn><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mn>2</mn></mrow></mfrac><mo>=</mo><mfrac><mn>0.013551</mn><mn>0.693147</mn></mfrac><mo>=</mo><mn>0.019550</mn></mrow><annotation encoding="application/x-tex">\log_2(1.0136432648) = \frac{\ln(1.0136432648)}{\ln 2} = \frac{0.013551}{0.693147} = 0.019550</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">coma pitagórica</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.019550</mn><mo>=</mo><mrow><mn mathvariant="bold">23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐜𝐞𝐧𝐭𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">c_{\text{coma pitagórica}} = 1200 \times 0.019550 = \mathbf{23.460 \text{ cents}}</annotation></semantics></math></p>
+<p>Exactamente lo que ya habíamos encontrado sumando cents en M1.</p>
+<aside class="notes">
+<p>Cálculo (parte 2 de 3). Señalar que este es el mismo número obtenido
+por dos caminos distintos —sumar en cents, o tomar logaritmo de la razón
+acumulada— porque son la misma operación mirada de dos maneras (el cent
+es aditivo, M1 §6.2). [min 37] acumulado.</p>
+</aside>
+</section>
+<section id="qué-significa-do-y-si-no-son-la-misma-nota"
+class="slide level2">
+<h2>Qué significa: Do y Si# no son la misma nota</h2>
+<p>23.46 cents es casi la cuarta parte de un semitono (25 c). Recordando
+M1: 5 cents ya se oyen con claridad.</p>
+<p>No es un matiz: es una <strong>nota distinta</strong>. Toda la
+enarmonía tradicional (Do#=Reb, Sol#=Lab) descansa sobre la misma
+ficción que el “círculo” de quintas.</p>
+<aside class="notes">
+<p>Moraleja (parte 3 de 3). Este es el punto más contraintuitivo de la
+clase para compositores acostumbrados a leer Do#=Reb sin pensarlo dos
+veces: preguntar “¿alguna vez pensaron que Do# y Reb podrían no ser la
+misma nota?” Dejar que la incomodidad se instale — se resuelve más
+adelante en el curso. [min 39] acumulado.</p>
+</aside>
+</section>
+<section id="la-coma-sintónica-el-ditono-contra-la-tercera-del-acorde"
+class="slide level2">
+<h2>La coma sintónica: el ditono contra la tercera del acorde</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>9</mn><mn>8</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>=</mo><mfrac><mn>81</mn><mn>64</mn></mfrac><mspace width="1.0em"></mspace><mtext mathvariant="normal">(dos tonos, el &quot;tropiezo&quot; de M1)</mtext><mspace width="2.0em"></mspace><mtext mathvariant="normal">versus</mtext><mspace width="2.0em"></mspace><mfrac><mn>5</mn><mn>4</mn></mfrac><mo>=</mo><mfrac><mn>80</mn><mn>64</mn></mfrac><mspace width="1.0em"></mspace><mtext mathvariant="normal">(tercera pura)</mtext></mrow><annotation encoding="application/x-tex">\left(\frac{9}{8}\right)^2 = \frac{81}{64} \quad\text{(dos tonos, el &quot;tropiezo&quot; de M1)} \qquad\text{versus}\qquad \frac{5}{4}=\frac{80}{64} \quad\text{(tercera pura)}</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">81/64</annotation></semantics></math>
+es también el resultado de apilar <strong>cuatro quintas puras</strong>
+(Do–Sol–Re–La–Mi) y reducir dos octavas: el <strong>ditono
+pitagórico</strong>.</p>
+<aside class="notes">
+<p>Setup (parte 1 de 3). Verificar en vivo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>4</mn></msup><mo>=</mo><mn>81</mn><mi>/</mi><mn>16</mn></mrow><annotation encoding="application/x-tex">(3/2)^4=81/16</annotation></semantics></math>,
+dos octavas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">=4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>16</mn><mo>÷</mo><mn>4</mn><mo>=</mo><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">81/16 \div 4 = 81/64</annotation></semantics></math>.
+Conectar Do-Sol-Re-La-Mi con “cuatro quintas” contando con los dedos
+junto al curso. [min 41] acumulado.</p>
+</aside>
+</section>
+<section id="coma-sintónica-cálculo-en-cents" class="slide level2">
+<h2>Coma sintónica: cálculo en cents</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn><mo>=</mo><mn>1.265625</mn><mspace width="2.0em"></mspace><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.265625</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>0.235566</mn><mn>0.693147</mn></mfrac><mo>=</mo><mn>0.339850</mn></mrow><annotation encoding="application/x-tex">81/64 = 1.265625 \qquad \log_2(1.265625) = \frac{0.235566}{0.693147}=0.339850</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.339850</mn><mo>=</mo><mn>407.820</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="1.0em"></mspace><mrow><mtext mathvariant="normal">vs. </mtext><mspace width="0.333em"></mspace></mrow><mn>386.314</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c (tercera pura)</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{81/64} = 1200 \times 0.339850 = 407.820 \text{ c} \quad\text{vs. } 386.314 \text{ c (tercera pura)}</annotation></semantics></math></p>
+<p>Diferencia: razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>81</mn><mn>80</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{81/64}{5/4} = \dfrac{81}{80}</annotation></semantics></math>
+→ <strong>21.506 cents</strong> — la <strong>coma
+sintónica</strong>.</p>
+<aside class="notes">
+<p>Cálculo (parte 2 de 3). Este cálculo del ditono ya lo vieron
+parcialmente en M1 (el “tropiezo”); hoy le ponemos nombre a la
+diferencia. Verificar aritméticamente la razón 81/80 en la pizarra:
+(81/64)×(4/5)=324/320=81/80. [min 43] acumulado.</p>
+</aside>
+</section>
+<section
+id="qué-significa-la-tercera-de-la-cadena-la-tercera-del-acorde"
+class="slide level2">
+<h2>Qué significa: la tercera de la cadena ≠ la tercera del acorde</h2>
+<p>Dos maneras legítimas de llegar a “Mi” desde Do: por <strong>quintas
+encadenadas</strong> (lógica melódica) o por el <strong>acorde
+4:5:6</strong> (lógica armónica). No coinciden.</p>
+<p>Toda afinación de 12 notas decide, para cada tercera, a cuál lógica
+le es fiel.</p>
+<aside class="notes">
+<p>Esta es la frase que van a repetir todo el curso: “la tercera de la
+cadena de quintas no es la tercera del acorde”. Anticipar sin resolver:
+pitagórica (M3) prioriza quintas puras → terceras anchas; justa
+entonación (M4) prioriza terceras puras → alguna quinta cede; mesotónico
+(M5) sistematiza esa cesión. [min 45] acumulado.</p>
+</aside>
+</section>
+<section id="demo-laboratorio-3-las-comas-audibles"
+class="slide level2">
+<h2>[Demo] Laboratorio 3 — las comas audibles</h2>
+<div class="demo">
+<p><a href="../modulos/02-comas/laboratorio.html">▶ Abrir
+laboratorio</a></p>
+<ol type="1">
+<li>Activar simultáneamente el ditono pitagórico (81/64) y la tercera
+mayor pura (5/4).</li>
+<li>Ubicar el batido entre ambas y relacionarlo con el tamaño de la coma
+sintónica (21.506 c).</li>
+<li>Activar el schisma (1.954 c) de forma aislada, como diferencia entre
+dos tonos sostenidos.</li>
+<li>Comparar el schisma con la coma sintónica: ¿qué tan cerca está el
+schisma del límite de lo imperceptible (M1 §6.5)?</li>
+</ol>
+</div>
+<aside class="notes">
+<p>Demo central del bloque de comas. El contraste ditono/tercera pura
+debería sonar claramente “torcido”; el schisma aislado debería sonar
+casi, casi imperceptible — ese contraste de escala es el punto
+pedagógico. Preguntar quién logra distinguir el schisma solo de oído.
+[min 48] acumulado.</p>
+</aside>
+</section>
+<section id="el-schisma-la-diferencia-entre-las-dos-comas"
+class="slide level2">
+<h2>El schisma: la diferencia entre las dos comas</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">schisma</mtext><mo>=</mo><mfrac><mtext mathvariant="normal">coma pitagórica</mtext><mtext mathvariant="normal">coma sintónica</mtext></mfrac><mo>=</mo><mfrac><mrow><mn>531441</mn><mi>/</mi><mn>524288</mn></mrow><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow></mfrac><mo>=</mo><mfrac><mn>32805</mn><mn>32768</mn></mfrac></mrow><annotation encoding="application/x-tex">\text{schisma} = \frac{\text{coma pitagórica}}{\text{coma sintónica}} = \frac{531441/524288}{81/80} = \frac{32805}{32768}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">schisma</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mfrac><mn>0.001129</mn><mn>0.693147</mn></mfrac><mo>=</mo><mrow><mn mathvariant="bold">1.954</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐜𝐞𝐧𝐭𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">c_{\text{schisma}} = 1200 \times \frac{0.001129}{0.693147} = \mathbf{1.954 \text{ cents}}</annotation></semantics></math></p>
+<p>Verificación directa:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>1.954</mn></mrow><annotation encoding="application/x-tex">23.460 - 21.506 = 1.954</annotation></semantics></math>
+✓</p>
+<aside class="notes">
+<p>Señalar que 1 cent es prácticamente imperceptible (regla de M1 §6.5)
+— el schisma es la coma “casi gratis” que ciertos temperamentos
+históricos (schismáticos, no se desarrollan en este curso) explotan para
+hacer trampa en otro rincón del sistema. [min 50] acumulado.</p>
+</aside>
+</section>
+<section id="la-gran-diesis-quiebre-por-el-lado-de-las-terceras"
+class="slide level2">
+<h2>La gran diesis: quiebre por el lado de las terceras</h2>
+<p>Tres terceras mayores puras casi completan una octava:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>3</mn></msup><mo>=</mo><mn>125</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">(5/4)^3 = 125/64</annotation></semantics></math>
+vs. octava
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>128</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">=128/64</annotation></semantics></math>.</p>
+<p>En cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>386.314</mn><mo>=</mo><mn>1158.942</mn></mrow><annotation encoding="application/x-tex">3\times386.314 = 1158.942</annotation></semantics></math>,
+contra 1200 — <strong>faltan 41.058 c</strong>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>128</mn><mi>/</mi><mn>125</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mfrac><mn>0.023717</mn><mn>0.693147</mn></mfrac><mo>=</mo><mrow><mn mathvariant="bold">41.059</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐜𝐞𝐧𝐭𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">c_{128/125} = 1200 \times \frac{0.023717}{0.693147} = \mathbf{41.059 \text{ cents}}</annotation></semantics></math></p>
+<aside class="notes">
+<p>Conectar con repertorio: el ciclo de acordes por terceras mayores
+(Do–Mi–Sol#–Do) no cierra si las tres terceras son puras — llega 41
+cents por debajo. Es casi el doble de audible que la coma pitagórica, y
+es la razón profunda por la que ese tipo de progresión “funciona”
+limpiamente solo en temperamento igual (M7). Mencionar de paso el
+territorio tardorromántico de acordes aumentados si el grupo lo conoce.
+[min 52] acumulado.</p>
+</aside>
+</section>
+<section id="tabla-resumen-los-cuatro-defectos-estructurales"
+class="slide level2">
+<h2>Tabla-resumen: los cuatro defectos estructurales</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Razón</th>
+<th>Cents</th>
+<th>Surge de comparar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coma pitagórica</td>
+<td>531441/524288</td>
+<td>23.460</td>
+<td>12 quintas puras vs. 7 octavas puras</td>
+</tr>
+<tr>
+<td>Coma sintónica</td>
+<td>81/80</td>
+<td>21.506</td>
+<td>Ditono (4 quintas) vs. tercera pura (5/4)</td>
+</tr>
+<tr>
+<td>Schisma</td>
+<td>32805/32768</td>
+<td>1.954</td>
+<td>Coma pitagórica vs. coma sintónica</td>
+</tr>
+<tr>
+<td>Diesis (gran)</td>
+<td>128/125</td>
+<td>41.059</td>
+<td>3 terceras mayores puras vs. octava</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>Slide para que fotografíen o copien literalmente — va a ser el
+vocabulario de los próximos cinco módulos. Pedir que memoricen al menos
+el orden de magnitud relativo: diesis ≈ 2× coma pitagórica ≈ coma
+sintónica ≈ 10× schisma. [min 54] acumulado.</p>
+</aside>
+</section></section>
+<section>
+<section id="el-presupuesto-de-error" class="title-slide slide level1">
+<h1>El presupuesto de error</h1>
+<aside class="notes">
+<p>Portadilla. Anunciar: “esta es la idea que organiza TODO el resto del
+curso: cada sistema histórico de afinación es una respuesta distinta a
+la misma pregunta — ¿dónde escondes la coma?” [min 55] acumulado.</p>
+</aside>
+</section>
+<section id="el-argumento-general" class="slide level2">
+<h2>El argumento general</h2>
+<p>Cualquier sistema de doce notas construido con una cadena de doce
+“quintas” (no necesariamente puras) que <strong>cierre el
+círculo</strong> debe cumplir:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><mo stretchy="false" form="prefix">(</mo><msub><mtext mathvariant="normal">quinta</mtext><mi>i</mi></msub><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> en cents</mtext></mrow><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>7</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>8400</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">\sum_{i=1}^{12} (\text{quinta}_i \text{ en cents}) = 7 \times 1200 = 8400 \text{ cents}</annotation></semantics></math></p>
+<aside class="notes">
+<p>Setup de la derivación (parte 1 de 3). Insistir en la palabra
+“circulante”: el sistema tiene que devolvernos a la nota de partida,
+siete octavas más arriba, para que las doce teclas de un piano tengan
+sentido como algo que se repite por octava. [min 57] acumulado.</p>
+</aside>
+</section>
+<section id="definiendo-la-desviación" class="slide level2">
+<h2>Definiendo la desviación</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mtext mathvariant="normal">quinta</mtext><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>701.955</mn><mspace width="1.0em"></mspace><mtext mathvariant="normal">(real menos puro)</mtext></mrow><annotation encoding="application/x-tex">d_i = (\text{quinta}_i) - 701.955 \quad \text{(real menos puro)}</annotation></semantics></math></p>
+<p><em>(Nota de convención: es el orden opuesto al de la tabla de M1
+§6.4 — aquí “real menos puro” da un número negativo prolijo.)</em></p>
+<aside class="notes">
+<p>Aclarar la convención de signo explícitamente para evitar confusión
+más adelante — es un detalle de notación, no matemático, pero conviene
+fijarlo ahora porque los módulos M5-M7 lo van a usar constantemente.
+[min 58] acumulado.</p>
+</aside>
+</section>
+<section id="derivación-el-presupuesto-es-siempre-23.460-c"
+class="slide level2">
+<h2>Derivación: el presupuesto es siempre −23.460 c</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><mo stretchy="false" form="prefix">(</mo><msub><mtext mathvariant="normal">quinta</mtext><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>12</mn><mo>×</mo><mn>701.955</mn><mo>=</mo><mn>8400</mn><mo>−</mo><mn>8423.460</mn><mo>=</mo><mrow><mi mathvariant="bold">−</mi><mn mathvariant="bold">23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐜</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">\sum_{i=1}^{12} d_i = \sum_{i=1}^{12}(\text{quinta}_i) - 12\times701.955 = 8400 - 8423.460 = \mathbf{-23.460 \text{ c}}</annotation></semantics></math></p>
+<p><strong>No depende de cómo se reparte el error</strong> — solo de que
+el sistema cierre el círculo.</p>
+<aside class="notes">
+<p>Cálculo (parte 2 de 3) — la moraleja viene en las dos verificaciones
+siguientes. Este es, literalmente, un presupuesto: tienen −23.460 cents
+que repartir, y la única decisión real es dónde. Dejar que la frase
+resuene antes de pasar a los ejemplos. [min 60] acumulado.</p>
+</aside>
+</section>
+<section id="verificación-1-temperamento-igual" class="slide level2">
+<h2>Verificación 1: temperamento igual</h2>
+<p>Cada quinta mide 700 c exactos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><mn>700</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>−</mi><mn>1.955</mn></mrow><annotation encoding="application/x-tex">d_i = 700-701.955=-1.955</annotation></semantics></math>
+c, para las doce.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>1.955</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="0.278em"></mspace><mi>✓</mi></mrow><annotation encoding="application/x-tex">12 \times (-1.955) = -23.460 \text{ c} \; \checkmark</annotation></semantics></math></p>
+<p>El sistema más “democrático” posible: cada quinta cede exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">1/12</annotation></semantics></math>
+de la coma.</p>
+<aside class="notes">
+<p>Moraleja (parte 3 de 3, primer caso). Adelantar que este es el
+sistema del Módulo 7, y que van a volver a verificar esta misma cuenta
+ahí con más detalle. [min 62] acumulado.</p>
+</aside>
+</section>
+<section id="verificación-2-afinación-pitagórica" class="slide level2">
+<h2>Verificación 2: afinación pitagórica</h2>
+<p>Once quintas puras
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d_i=0</annotation></semantics></math>);
+la duodécima —la quinta del lobo— mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>23.460</mn><mo>=</mo><mn>678.495</mn></mrow><annotation encoding="application/x-tex">701.955-23.460=678.495</annotation></semantics></math>
+c, con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>12</mn></msub><mo>=</mo><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">d_{12}=-23.460</annotation></semantics></math>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mn>0</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>23.460</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="0.278em"></mspace><mi>✓</mi></mrow><annotation encoding="application/x-tex">11\times0 + (-23.460) = -23.460 \text{ c}\; \checkmark</annotation></semantics></math></p>
+<p>El mismo presupuesto, repartido de la manera más desigual
+imaginable.</p>
+<aside class="notes">
+<p>Segundo caso de verificación — mismo total, reparto opuesto al del
+temperamento igual. Esto prepara directamente el Módulo 3: “once quintas
+intactas, una que carga con todo” es literalmente la definición de la
+afinación pitagórica que van a estudiar la próxima clase. [min 64]
+acumulado.</p>
+</aside>
+</section>
+<section id="demo-laboratorio-4-el-juego-del-presupuesto"
+class="slide level2">
+<h2>[Demo] Laboratorio 4 — el juego del presupuesto</h2>
+<div class="demo">
+<p><a href="../modulos/02-comas/laboratorio.html">▶ Abrir
+laboratorio</a></p>
+<ol type="1">
+<li>Abrir el simulador de doce sliders (deben sumar exactamente −23.46
+c).</li>
+<li>Repartir todo el presupuesto en un solo slider (recrea la afinación
+pitagórica).</li>
+<li>Repartir en partes iguales entre los doce (recrea el temperamento
+igual).</li>
+<li>Invitar a un estudiante a pasar al frente y “esconder la coma a su
+manera” — un reparto intermedio propio — y escuchar entre todos cuántas
+quintas siguen sonando puras y cuántas ya suenan a lobo.</li>
+</ol>
+</div>
+<aside class="notes">
+<p>Demo participativa fuerte — el momento social de la clase. Elegir a
+un estudiante voluntario, dejarlo experimentar 2-3 minutos con los
+sliders mientras el resto escucha y opina en voz alta. El objetivo es
+que sientan en el cuerpo que el total nunca cambia, solo el lugar donde
+se nota. [min 68] acumulado.</p>
+</aside>
+</section>
+<section id="afinación-vs.-temperamento" class="slide level2">
+<h2>Afinación vs. temperamento</h2>
+<p><strong>Afinación</strong> (sentido estricto de este curso):
+intervalos construidos con razones de enteros pequeños, sin alterarlos
+deliberadamente. Pitagórica (M3) y justa entonación (M4).</p>
+<p><strong>Temperamento</strong>: uno o más intervalos se alteran a
+propósito para redistribuir el presupuesto de otra manera. Mesotónicos
+(M5), buenos temperamentos (M6), igual (M7).</p>
+<aside class="notes">
+<p>Dos definiciones que van a usar constantemente el resto del curso —
+pedir que las anoten literalmente. La diferencia clave: “sin alterar”
+vs. “alterar a propósito”. [min 70] acumulado.</p>
+</aside>
+</section>
+<section id="regular-irregular-circulante-no-circulante"
+class="slide level2">
+<h2>Regular / irregular, circulante / no circulante</h2>
+<ul>
+<li><strong>Regular</strong>: todas las quintas (salvo, a veces, una del
+lobo) se tiemplan igual. <em>(ET, mesotónico.)</em></li>
+<li><strong>Irregular</strong>: cada quinta se tiempla distinto, nota
+por nota. <em>(Werckmeister III, Vallotti — M6.)</em></li>
+<li><strong>Circulante</strong>: se puede modular por las 12 tonalidades
+sin lobo inutilizable. <strong>No circulante</strong>: hay al menos una
+quinta vetada.</li>
+</ul>
+<aside class="notes">
+<p>Tres ejes, dos slides. Preguntar: “¿un sistema puede ser irregular y
+no circulante a la vez?” (sí — de hecho no hay relación automática entre
+los ejes, hay que evaluar cada sistema caso por caso). Esto prepara el
+mapa de la siguiente slide. [min 72] acumulado.</p>
+</aside>
+</section>
+<section id="el-mapa-de-la-fase-1-m3m7" class="slide level2">
+<h2>El mapa de la Fase 1: M3–M7</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Módulo</th>
+<th>Sistema</th>
+<th>¿Afinación/temperamento?</th>
+<th>¿Regular?</th>
+<th>¿Circulante?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M3</td>
+<td>Pitagórico</td>
+<td>Afinación</td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>Justa entonación</td>
+<td>Afinación</td>
+<td>—</td>
+<td>No (contextual)</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>Mesotónico</td>
+<td>Temperamento</td>
+<td>Regular</td>
+<td>No</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>Buenos temperamentos</td>
+<td>Temperamento</td>
+<td>Irregular</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>M7</td>
+<td>Igual (ET)</td>
+<td>Temperamento</td>
+<td>Regular (extremo)</td>
+<td>Sí</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>Slide para fotografiar — van a volver a esta tabla al empezar cada
+uno de los próximos cinco módulos. No hay que memorizarla hoy, solo
+saber que existe y dónde encontrarla. [min 74] acumulado.</p>
+</aside>
+</section></section>
+<section>
+<section id="cierre" class="title-slide slide level1">
+<h1>Cierre</h1>
+<aside class="notes">
+<p>Portadilla final. Bajar el ritmo, esto es síntesis y cierre emocional
+de la clase, no contenido nuevo. [min 76] acumulado.</p>
+</aside>
+</section>
+<section id="síntesis-las-tres-ideas-de-hoy" class="slide level2">
+<h2>Síntesis: las tres ideas de hoy</h2>
+<ol type="1">
+<li><strong>Es imposible, y se demuestra</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m\neq2^n</annotation></semantics></math>
+por paridad — ninguna cantidad de quintas puras coincide con ninguna
+cantidad de octavas puras.</li>
+<li><strong>Hay cuatro grietas con nombre</strong>: pitagórica,
+sintónica, schisma, diesis — el vocabulario del resto del curso.</li>
+<li><strong>El presupuesto es fijo</strong>: −23.460 cents, sí o sí. La
+única decisión real es dónde se esconden.</li>
+</ol>
+<aside class="notes">
+<p>Recapitular las tres ideas señalando que están en orden de
+generalidad creciente en importancia práctica: la primera es la razón
+última, la tercera es la que van a usar en cada módulo siguiente.
+Preguntar si hay dudas antes de pasar al anzuelo de M3. [min 78]
+acumulado.</p>
+</aside>
+</section>
+<section id="cierre-anzuelo-m3" class="slide level2">
+<h2>Cierre-anzuelo: M3</h2>
+<p>Ya sabemos que la coma pitagórica es inevitable y que <strong>alguien
+tiene que absorberla</strong>.</p>
+<p>El Módulo 3 muestra la decisión más extrema posible: que la absorba
+<strong>una sola quinta</strong>, y que las once restantes queden
+absolutamente puras.</p>
+<p>La afinación pitagórica: el imperio de la quinta — con su lobo
+aullando en un rincón, y terceras (ya lo vimos hoy) más anchas de lo que
+la armonía tonal iba a tolerar.</p>
+<aside class="notes">
+<p>Cerrar con energía, dejando ganas de la próxima clase. Conectar
+explícitamente con la Verificación 2 de hoy (once quintas puras + una
+del lobo de 678.495 c) — eso es exactamente lo que van a estudiar en
+detalle. [min 80] acumulado.</p>
+</aside>
+</section>
+<section id="referencias" class="slide level2">
+<h2>Referencias</h2>
+<ul>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover.</li>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony</em>. W. W.
+Norton.</li>
+<li>Isacoff, S. <em>Temperament: How Music Became a Battleground…</em>.
+Knopf.</li>
+<li>Benade, A. H. <em>Fundamentals of Musical Acoustics</em>.
+Dover.</li>
+<li>De la Cuadra, P. “La geografía del sonido”
+(<code>Fundamentos/Fundamentos.tex</code>).</li>
+</ul>
+<aside class="notes">
+<p>Slide final de referencias — mencionar brevemente que Zarlino (M4) y
+Werckmeister (M6) tienen sus propias fuentes primarias que se van a
+citar cuando corresponda. Cerrar la clase agradeciendo la participación
+en la demostración y en el juego del presupuesto. [min 82]
+acumulado.</p>
+</aside>
+</section></section>
+    </div>
+  </div>
+
+  <script src="vendor/reveal/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

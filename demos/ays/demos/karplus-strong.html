@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karplus–Strong — Demo Curso AyS</title>
+<meta name="description" content="Una guitarra creíble con tres líneas de código. Modelado físico mínimo de una cuerda pulsada, con el famoso bug del +½ sample.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S10 · CREATION</div>
+    <h1>Karplus–Strong: una guitarra con tres líneas de código</h1>
+    <p class="lead">
+      Kevin Karplus y Alex Strong descubrieron este algoritmo por accidente en 1978,
+      depurando un sintetizador wavetable. Reinyectaron por error la salida filtrada al buffer.
+      En vez de un bug: el sonido era una guitarra. Doscientos cincuenta caracteres de Python
+      bastan para sintetizar una cuerda pulsada que cualquier oído reconoce.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-creation">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>Cómo un <strong>buffer circular</strong> (la "cuerda digital") + un filtro pasa-bajo en lazo cerrado generan una cuerda creíble.</li>
+      <li>Por qué la fórmula intuitiva $N = \mathrm{round}(f_s/f_0)$ <strong>desafina</strong> y por qué hay que restarle medio sample.</li>
+      <li>Cómo el factor $\rho$ controla cuánto dura la nota: de pizzicato seco ($\rho = 0.9$) a una "cuerda eterna" ($\rho = 0.999$).</li>
+      <li>Que KS <strong>no inventa armónicos, los sostiene</strong>: lo que pongas como excitación inicial decide el carácter del timbre.</li>
+    </ul>
+  </div>
+
+  <p>
+    La ecuación en diferencias es:
+    $y[n] = \rho \cdot \tfrac{1}{2}(y[n-N] + y[n-N-1])$
+    con el buffer inicializado en ruido blanco. Tres líneas. La física emerge sola.
+  </p>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Karplus–Strong (5 pestañas)</span>
+      <a href="../embeds/s10_ks.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s10_ks.html" title="Demo de Karplus-Strong" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así (tres experimentos guiados)</h3>
+    <ol>
+      <li>En <strong>KS Lab</strong>, pulsa la nota A4 (440 Hz). Suena a guitarra. Ahora cambia el modo a "buggy" (sin la corrección de medio sample) y compara con un seno puro a 440 Hz superpuesto. Vas a oír un <em>batido</em> (pulsación lenta).</li>
+      <li>Ve a <strong>Bug del +½</strong>. Compara A2 y A6: en graves la desafinación es casi imperceptible; en agudos son 30 cents (más de un cuarto de tono).</li>
+      <li>En <strong>Excitación inicial</strong>, cambia el pluck de "ruido blanco" a "onda cuadrada". La cuerda se vuelve eléctrica con "mordida". KS sostiene los armónicos que ya estaban; no inventa nada.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-creation">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar KS en NumPy con la corrección del $+\tfrac{1}{2}$ sample explicada en clase.</li>
+      <li>Hacer el <strong>Fun Task 10 "Cuerda Mágica"</strong>: sintetizar una cuerda clásica y una cuerda imposible ($\rho \to 1$), y ---el reto creativo--- recrear con KS puro un riff/intro reconocible: <em>Stairway to Heaven</em>, <em>Wonderwall</em>, <em>Blackbird</em>, <em>Tears in Heaven</em>.</li>
+      <li>Entender la conexión con S04 (KS es un filtro peineta con un LP en el lazo) y con el modelado físico avanzado de waveguides para clarinetes y trompetas virtuales.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

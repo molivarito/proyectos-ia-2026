@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M5 · Apunte — Mesotónicos: temperar es negociar</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../04-justa/apunte.html">◀ Justa entonación: el paraíso de Zarlino y su precio</a><a class="nav-link" href="../06-buenos-temperamentos/apunte.html">Buenos temperamentos: cerrar el círculo sin igualarlo ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m5.-mesotónicos-temperar-es-negociar">M5. Mesotónicos: temperar
+es negociar</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Estás en un taller de órgano en Sevilla, en 1620. El organero acaba
+de terminar el instrumento y te deja probarlo antes de que se lo lleven
+a la iglesia. Tocas un Do mayor: la tercera Do–Mi suena límpida, quieta,
+sin el más mínimo temblor — como si las dos notas fueran, casi, una
+sola. Tocas un Sol mayor: lo mismo. Un Re mayor: lo mismo otra vez. Te
+entusiasmas y subes un semitono más, buscando Reb mayor… y el acorde
+explota. La tercera late como un motor mal calibrado, áspera, casi
+grotesca. El organero se ríe: “esa tecla no se toca. Está reservada para
+el diablo.”</p>
+<p>Ya sabes, de los dos módulos anteriores, por qué pasa esto. En M3
+viste que la afinación pitagórica —cadena de quintas puras— entrega
+quintas perfectas pero terceras mayores ásperas (el ditono de 407.820
+cents, muy lejos del ideal de 386.314). En M4 viste la salida opuesta:
+la entonación justa de Zarlino entrega terceras puras (5/4, 4:5:6) pero
+al precio de que la escala deje de ser rígida — hay dos tamaños de tono
+(9/8 y 10/9) y una quinta, Re–La, que sale defectuosa (40/27, un poco
+corta). Ninguna de las dos deja <em>quintas puras y terceras puras al
+mismo tiempo, en un teclado fijo de 12 teclas por octava</em>. Es, otra
+vez, la coma sintónica (81/80, 21.506 cents) negándose a
+desaparecer.</p>
+<p>Este módulo plantea la pregunta que nadie antes de aproximadamente
+1500 se había atrevido a formular con esta franqueza: ¿y si, en lugar de
+elegir un bando —quintas puras (pitagórico) o terceras puras pero escala
+inestable (justo)— <strong>sacrificamos deliberadamente un poquito de
+cada quinta</strong>, a cambio de comprar terceras mayores perfectamente
+puras en la mayoría de las teclas? No es un accidente ni una
+aproximación torpe: es una decisión de ingeniería, tomada a propósito,
+con el número exacto de cuánto hay que ceder calculado de antemano. Es,
+en este curso, el primer temperamento genuino — la primera vez que
+afinamos <em>en contra</em> de la pureza de un intervalo, sabiendo
+exactamente cuánto y por qué. Todo lo que viene después (M6, M7, y en el
+fondo todo el proyecto de afinaciones de esta investigación) es una
+variación sobre esta misma idea: negociar.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener frescos tres resultados:</p>
+<ul>
+<li><strong>M2</strong>: doce quintas puras exceden siete octavas en la
+<strong>coma pitagórica</strong> (23.460 c); toda afinación de 12 notas
+debe repartir ese excedente en algún lado.</li>
+<li><strong>M3</strong>: la cadena pitagórica de quintas puras da
+terceras mayores como el <strong>ditono</strong> 81/64 = 407.820 c, casi
+22 cents más ancho que la tercera pura (386.314 c) — esa diferencia de
+21.506 c es exactamente la <strong>coma sintónica</strong> (81/80).</li>
+<li><strong>M4</strong>: la escala mayor justa logra terceras y quintas
+puras <em>dentro de una sola tríada</em>, pero paga el precio de tener
+dos tamaños de tono (9/8 = 203.910 c y 10/9 = 182.404 c) y una quinta
+defectuosa (Re–La = 40/27 = 680.449 c, exactamente una coma sintónica
+más corta que la pura).</li>
+</ul>
+<p>La idea de este módulo nace de mirar esos dos fracasos juntos y notar
+que apuntan al mismo culpable: la coma sintónica. Si el problema es que
+4 quintas puras generan un ditono 21.506 c más ancho que la tercera
+pura, la solución mesotónica es aritméticamente inevitable:
+<strong>repartir esos 21.506 cents de exceso entre las 4 quintas que lo
+produjeron</strong>, para que el resultado final dé, por construcción,
+la tercera pura.</p>
+<h2
+id="la-idea-central-repartir-la-coma-sintónica-entre-cuatro-quintas">3.
+La idea central: repartir la coma sintónica entre cuatro quintas</h2>
+<h3 id="de-dónde-sale-el-ditono-cuatro-quintas-menos-dos-octavas">3.1 De
+dónde sale el ditono: cuatro quintas menos dos octavas</h3>
+<p>Ya viste en M3 que la tercera mayor pitagórica se obtiene apilando
+cuatro quintas y reduciendo el resultado dos octavas hacia abajo.
+Sigamos la cadena Do→Sol→Re→La→Mi:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Do</mtext><mover><mo>→</mo><msup><mn>5</mn><mrow><mi>t</mi><mi>a</mi></mrow></msup></mover><mtext mathvariant="normal">Sol</mtext><mover><mo>→</mo><msup><mn>5</mn><mrow><mi>t</mi><mi>a</mi></mrow></msup></mover><mtext mathvariant="normal">Re</mtext><mover><mo>→</mo><msup><mn>5</mn><mrow><mi>t</mi><mi>a</mi></mrow></msup></mover><mtext mathvariant="normal">La</mtext><mover><mo>→</mo><msup><mn>5</mn><mrow><mi>t</mi><mi>a</mi></mrow></msup></mover><mtext mathvariant="normal">Mi</mtext></mrow><annotation encoding="application/x-tex">\text{Do} \xrightarrow{5^{ta}} \text{Sol} \xrightarrow{5^{ta}} \text{Re} \xrightarrow{5^{ta}} \text{La} \xrightarrow{5^{ta}} \text{Mi}</annotation></semantics></math></p>
+<p>Son cuatro quintas. En cents, apilar es sumar (M1 §6), así que si las
+cuatro quintas son puras (701.955 c cada una):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>701.955</mn><mo>=</mo><mn>2807.820</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">4 \times 701.955 = 2807.820 \text{ c}</annotation></semantics></math></p>
+<p>Ese Mi está altísimo — dos octavas por encima del Mi que realmente
+queremos usar como tercera de un acorde de Do. Bajémoslo dos octavas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>2400</mn></mrow><annotation encoding="application/x-tex">2 \times 1200 = 2400</annotation></semantics></math>
+c):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2807.820</mn><mo>−</mo><mn>2400</mn><mo>=</mo><mn>407.820</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">2807.820 - 2400 = 407.820 \text{ c}</annotation></semantics></math></p>
+<p>Ese es el ditono pitagórico, la tercera “áspera” de M3. Compáralo con
+la tercera mayor pura, 386.314 c. La diferencia:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>407.820</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>21.506</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">407.820 - 386.314 = 21.506 \text{ c}</annotation></semantics></math></p>
+<p>Exactamente la coma sintónica. Nada nuevo hasta aquí — es el mismo
+cálculo de M3, escrito de nuevo para tenerlo a mano.</p>
+<h3 id="la-pregunta-de-ingeniería-qué-quinta-necesito">3.2 La pregunta
+de ingeniería: ¿qué quinta necesito?</h3>
+<p>Ahora viene la idea genial. En vez de aceptar que la quinta mide
+701.955 c y that el ditono salga donde salga, invirtamos el problema:
+<strong>¿de qué tamaño tendría que ser CADA una de esas cuatro quintas
+para que el resultado final, después de bajar dos octavas, fuera
+exactamente 386.314 c (la tercera pura)?</strong></p>
+<p>Llamemos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+al tamaño buscado, en cents, de esa quinta “atemperada”. La ecuación es
+la misma de arriba, pero con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+en vez de 701.955:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>Q</mi><mo>−</mo><mn>2400</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">4Q - 2400 = 386.314</annotation></semantics></math></p>
+<p>Despejamos:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>Q</mi><mo>=</mo><mn>386.314</mn><mo>+</mo><mn>2400</mn><mo>=</mo><mn>2786.314</mn></mrow><annotation encoding="application/x-tex">4Q = 386.314 + 2400 = 2786.314</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mfrac><mn>2786.314</mn><mn>4</mn></mfrac><mo>=</mo><mn>696.5785</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">Q = \frac{2786.314}{4} = 696.5785 \text{ c}</annotation></semantics></math></p>
+<p>Y aquí está el corazón de todo el módulo. Comparemos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+con la quinta pura:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>696.5785</mn><mo>=</mo><mn>5.3765</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">701.955 - 696.5785 = 5.3765 \text{ c}</annotation></semantics></math></p>
+<p>Fíjate en la estructura de ese número:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.3765</mn><mo>≈</mo><mn>21.506</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5.3765 \approx 21.506/4</annotation></semantics></math>.
+No es coincidencia — es exactamente eso:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>701.955</mn><mo>−</mo><mfrac><mn>21.506</mn><mn>4</mn></mfrac><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>5.3765</mn><mo>=</mo><mn>696.5785</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">Q = 701.955 - \frac{21.506}{4} = 701.955 - 5.3765 = 696.5785 \text{ c}</annotation></semantics></math></p>
+<p>Cada una de las cuatro quintas cede, exactamente, <strong>un cuarto
+de la coma sintónica</strong>. Por eso este temperamento se llama
+“mesotónico de 1/4 de coma” (en inglés, <em>quarter-comma
+meantone</em>): la coma sintónica —el excedente que en la cadena
+pitagórica se acumulaba entero en la tercera— se reparte ahora en cuatro
+cuotas iguales, una por cada quinta de la cadena que construye esa
+tercera. Al final de la cadena, el excedente ya no existe: se consumió,
+cuota a cuota, comprando pureza para la tercera.</p>
+<p>En razón de frecuencias, esto equivale a tomar la quinta pura
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+y multiplicarla por la raíz cuarta del recíproco de la coma
+sintónica:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mtext mathvariant="normal">razón</mtext></msub><mo>=</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>×</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>80</mn><mn>81</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>1</mn><mi>/</mi><mn>4</mn></mrow></msup><mo>=</mo><mn>1.49535</mn></mrow><annotation encoding="application/x-tex">Q_{\text{razón}} = \frac{3}{2} \times \left(\frac{80}{81}\right)^{1/4} = 1.49535</annotation></semantics></math></p>
+<p>Verifica tú mismo que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.49535</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">1200 \times \log_2(1.49535) = 696.578</annotation></semantics></math>
+c (con la calculadora de logaritmos de M1 §6.2) — coincide, salvo
+redondeo, con lo que obtuvimos por el camino de los cents. Guarda este
+número:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">Q = 696.578</annotation></semantics></math>
+c es, junto con 701.955 (quinta pura) y 386.314 (tercera pura), una de
+las tres cifras que vas a usar constantemente en lo que sigue.</p>
+<h2 id="el-mesotónico-de-14-de-coma-construcción-de-las-12-notas">4. El
+mesotónico de 1/4 de coma: construcción de las 12 notas</h2>
+<h3 id="la-cadena-de-quintas-atemperadas">4.1 La cadena de quintas
+atemperadas</h3>
+<p>Construimos las 12 notas del temperamento exactamente como se
+construye la escala pitagórica en M3 — apilando quintas, una tras otra—
+salvo que ahora cada quinta mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">Q = 696.578</annotation></semantics></math>
+c en vez de 701.955 c. La cadena estándar, la que evita el mayor número
+de problemas prácticos, va de Mib a Sol#:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Mib</mtext><mo>−</mo><mtext mathvariant="normal">Sib</mtext><mo>−</mo><mtext mathvariant="normal">Fa</mtext><mo>−</mo><mtext mathvariant="normal">Do</mtext><mo>−</mo><mtext mathvariant="normal">Sol</mtext><mo>−</mo><mtext mathvariant="normal">Re</mtext><mo>−</mo><mtext mathvariant="normal">La</mtext><mo>−</mo><mtext mathvariant="normal">Mi</mtext><mo>−</mo><mtext mathvariant="normal">Si</mtext><mo>−</mo><mtext mathvariant="normal">Fa#</mtext><mo>−</mo><mtext mathvariant="normal">Do#</mtext><mo>−</mo><mtext mathvariant="normal">Sol#</mtext></mrow><annotation encoding="application/x-tex">\text{Mib} - \text{Sib} - \text{Fa} - \text{Do} - \text{Sol} - \text{Re} - \text{La} - \text{Mi} - \text{Si} - \text{Fa\#} - \text{Do\#} - \text{Sol\#}</annotation></semantics></math></p>
+<p>Son 11 quintas atemperadas conectando 12 notas (igual estructura que
+en M3, solo que ahí conectaban Fab con Si, y las quintas eran puras).
+Tomando Do como referencia (0 c), cada nota se ubica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">n \times 696.578</annotation></semantics></math>
+cents de distancia de Do, donde
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+es su posición en la cadena (positiva hacia la derecha —hacia los
+sostenidos—, negativa hacia la izquierda —hacia los bemoles—), reducido
+dentro de una octava (módulo 1200).</p>
+<h3 id="tabla-completa-de-cents">4.2 Tabla completa de cents</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Nota</th>
+<th>Pasos de quinta desde Do</th>
+<th>Cents (mód. 1200)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do</td>
+<td>0</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Do#</td>
+<td>+7</td>
+<td>76.049</td>
+</tr>
+<tr>
+<td>Re</td>
+<td>+2</td>
+<td>193.157</td>
+</tr>
+<tr>
+<td>Mib</td>
+<td>−3</td>
+<td>310.265</td>
+</tr>
+<tr>
+<td>Mi</td>
+<td>+4</td>
+<td>386.314</td>
+</tr>
+<tr>
+<td>Fa</td>
+<td>−1</td>
+<td>503.422</td>
+</tr>
+<tr>
+<td>Fa#</td>
+<td>+6</td>
+<td>579.471</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>+1</td>
+<td>696.578</td>
+</tr>
+<tr>
+<td>Sol#</td>
+<td>+8</td>
+<td>772.627</td>
+</tr>
+<tr>
+<td>La</td>
+<td>+3</td>
+<td>889.735</td>
+</tr>
+<tr>
+<td>Sib</td>
+<td>−2</td>
+<td>1006.843</td>
+</tr>
+<tr>
+<td>Si</td>
+<td>+5</td>
+<td>1082.892</td>
+</tr>
+</tbody>
+</table></div>
+<p>(La columna de “pasos” se calcula módulo la cadena; lo que importa
+para verificar es el cent final, que se obtiene siempre como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>×</mo><mn>696.578</mn><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>1200</mn></mrow></mrow><annotation encoding="application/x-tex">(n \times 696.578) \bmod 1200</annotation></semantics></math>.
+Puedes reconstruir cualquier fila con una calculadora en 30
+segundos.)</p>
+<p>Tres verificaciones rápidas antes de seguir. Sol está a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math>
+paso:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>696.578</mn><annotation encoding="application/x-tex">696.578</annotation></semantics></math>
+c — la quinta atemperada sobre Do, tal cual la definimos. Mi está a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">+4</annotation></semantics></math>
+pasos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>696.578</mn><mo>=</mo><mn>2786.314</mn></mrow><annotation encoding="application/x-tex">4 \times 696.578 = 2786.314</annotation></semantics></math>,
+menos dos octavas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2400</mn><annotation encoding="application/x-tex">2400</annotation></semantics></math>),
+da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+c — exactamente la tercera pura que construimos para obtener. Y Re está
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">+2</annotation></semantics></math>
+pasos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>696.578</mn><mo>=</mo><mn>1393.157</mn></mrow><annotation encoding="application/x-tex">2 \times 696.578 = 1393.157</annotation></semantics></math>,
+menos una octava, da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>193.157</mn><annotation encoding="application/x-tex">193.157</annotation></semantics></math>
+c — un número que va a resultar central en la sección 4.5.</p>
+<h3 id="las-ocho-terceras-mayores-puras">4.3 Las ocho terceras mayores
+puras</h3>
+<p>La gracia de este temperamento es que la propiedad “4 quintas − 2
+octavas = tercera pura” no es exclusiva de Do–Mi: es una propiedad de la
+<em>quinta atemperada en sí misma</em>, así que se cumple para
+<strong>cualquier</strong> grupo de 4 notas consecutivas de la cadena de
+quintas, siempre que las 4 quintas involucradas sean todas del mismo
+tamaño
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>.
+Contando la cadena Mib–Sib–Fa–Do–Sol–Re–La–Mi–Si–Fa#–Do#–Sol#, cualquier
+nota que tenga “espacio” para otras 3 notas más hacia la derecha en la
+cadena forma una tercera mayor pura con la nota que está 4 pasos más
+allá:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Tercera</th>
+<th>Cents</th>
+<th>¿Pura?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mib–Sol</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Sib–Re</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Fa–La</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Do–Mi</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Sol–Si</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Re–Fa#</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>La–Do#</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Mi–Sol#</td>
+<td>386.314</td>
+<td>Sí</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Ocho</strong> terceras mayores perfectamente puras, sin
+batido, indistinguibles del acorde 4:5:6 de la serie armónica (M1 §3.3).
+Esto es un resultado extraordinario si lo comparas con la pitagórica
+(M3), donde <em>ninguna</em> tercera era pura, y con la justa (M4),
+donde las terceras eran puras pero la escala entera dependía del
+contexto armónico. Aquí, con una sola cadena fija de 12 teclas, ocho de
+las doce terceras posibles quedan puras de una vez y para siempre.</p>
+<h3 id="las-cuatro-terceras-del-lobo">4.4 Las cuatro terceras del
+lobo</h3>
+<p>¿Qué pasa con las cuatro notas que se quedan sin “espacio” en la
+cadena — Si, Fa#, Do# y Sol#? Cada una necesitaría, para tener una
+tercera pura, una nota que está 4 pasos más allá en la cadena de
+quintas, pero esa nota se sale de nuestras 12 teclas disponibles. Por
+ejemplo, la tercera pura sobre Si sería Re# — pero nuestra cadena no
+tiene Re#, tiene Mib en su lugar (son la misma tecla del teclado, pero
+<em>no</em> la misma altura en este temperamento: volveremos sobre esto
+en la sección 6). Al tocar Si–Mib en el teclado, en realidad estás
+tocando un intervalo distinto de una tercera mayor: una <strong>cuarta
+disminuida</strong>, que por construcción de la cadena vale:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Si</mtext><mo>→</mo><mtext mathvariant="normal">Mib</mtext><mo>:</mo><mspace width="1.0em"></mspace><mn>310.265</mn><mo>+</mo><mn>1200</mn><mo>−</mo><mn>1082.892</mn><mo>=</mo><mn>427.373</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Si} \to \text{Mib}: \quad 310.265 + 1200 - 1082.892 = 427.373 \text{ c}</annotation></semantics></math></p>
+<p>Comparado con la tercera pura (386.314 c), el exceso es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>427.373</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>41.059</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">427.373 - 386.314 = 41.059 \text{ c}</annotation></semantics></math></p>
+<p>Ese número, 41.059 c, tiene nombre propio en la tabla de cifras
+canónicas: es la <strong>gran diesis</strong> (128/125). Las cuatro
+“terceras del lobo” — Si–Mib, Fa#–Sib, Do#–Fa y Sol#–Do — miden todas,
+por la misma razón estructural, 427.373 c: son cuartas disminuidas
+disfrazadas de terceras mayores, cada una una diesis más ancha que la
+tercera pura, y suenan tan ásperas y batientes como para ganarse, igual
+que la quinta correspondiente (sección 5), el apodo de “del lobo”.</p>
+<h3 id="el-tono-medio-de-dónde-viene-el-nombre-mesotónico">4.5 El tono
+medio: de dónde viene el nombre “mesotónico”</h3>
+<p>Volvamos al valor de Re que calculamos arriba: 193.157 c. Este número
+no es un dato cualquiera — es la razón del nombre del temperamento
+completo. En M1 §4 vimos que hay dos tonos distintos en la música: el
+tono mayor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>203.910</mn></mrow><annotation encoding="application/x-tex">9/8 = 203.910</annotation></semantics></math>
+c) y el tono menor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>9</mn><mo>=</mo><mn>182.404</mn></mrow><annotation encoding="application/x-tex">10/9 = 182.404</annotation></semantics></math>
+c), que aparecen en distintos peldaños de la escala justa (M4). El
+mesotónico construye un único tono, de tamaño intermedio, que reemplaza
+a los dos:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mtext mathvariant="normal">Media aritmética de los cents: </mtext><mspace width="0.333em"></mspace></mrow><mfrac><mrow><mn>203.910</mn><mo>+</mo><mn>182.404</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mfrac><mn>386.314</mn><mn>2</mn></mfrac><mo>=</mo><mn>193.157</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Media aritmética de los cents: } \frac{203.910 + 182.404}{2} = \frac{386.314}{2} = 193.157 \text{ c}</annotation></semantics></math></p>
+<p>Coincide, cifra a cifra, con el Re que obtuvimos de la cadena de
+quintas atemperadas. Y hay una segunda manera de llegar al mismo número,
+trabajando directamente con razones en vez de cents: la <strong>media
+geométrica</strong> de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">10/9</annotation></semantics></math>
+es</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mrow><mfrac><mn>9</mn><mn>8</mn></mfrac><mo>×</mo><mfrac><mn>10</mn><mn>9</mn></mfrac></mrow></msqrt><mo>=</mo><msqrt><mfrac><mn>10</mn><mn>8</mn></mfrac></msqrt><mo>=</mo><msqrt><mfrac><mn>5</mn><mn>4</mn></mfrac></msqrt><mo>=</mo><mn>1.118034</mn></mrow><annotation encoding="application/x-tex">\sqrt{\frac{9}{8} \times \frac{10}{9}} = \sqrt{\frac{10}{8}} = \sqrt{\frac{5}{4}} = 1.118034</annotation></semantics></math></p>
+<p>y convirtiendo a cents,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.118034</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>193.157</mn></mrow><annotation encoding="application/x-tex">1200 \times \log_2(1.118034) = 193.157</annotation></semantics></math>
+c — el mismo resultado. Esto no es casualidad ni un segundo camino
+independiente: es la misma cosa vista desde dos ángulos, porque el cent
+<em>es</em> un logaritmo (M1 §6), y el logaritmo de una media geométrica
+de razones es, exactamente, la media aritmética de los logaritmos (es
+decir, de los cents) de esas razones. El tono del mesotónico es,
+literalmente, el tono “de en medio” entre el mayor y el menor — de ahí
+el nombre <em>mesotónico</em> (del griego “mesos”, medio, y “tono”): el
+temperamento que sustituye los dos tonos de la justa entonación por uno
+solo, a mitad de camino entre ambos.</p>
+<h3 id="los-dos-semitonos-ahora-al-revés-que-en-la-pitagórica">4.6 Los
+dos semitonos, ahora al revés que en la pitagórica</h3>
+<p>En M3 viste que la escala pitagórica tiene dos tamaños de semitono:
+el limma (256/243 = 90.225 c), que es el semitono diatónico (el que
+aparece entre grados vecinos de la escala, como Mi–Fa), y es más
+<em>angosto</em> que el apotome (2187/2048 = 113.685 c), el semitono
+cromático (el que separa una nota de su alteración, como Do–Do#).</p>
+<p>En el mesotónico de 1/4 de coma pasa exactamente lo contrario.
+Tomando las cifras de la tabla de la sección 4.2 y restando notas
+consecutivas dentro de la octava:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Semitono cromático (p. ej. Do–Do#):</mtext><mspace width="1.0em"></mspace><mn>76.049</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Semitono cromático (p. ej. Do–Do\#):} \quad 76.049 \text{ c}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Semitono diatónico (p. ej. Do#–Re):</mtext><mspace width="1.0em"></mspace><mn>193.157</mn><mo>−</mo><mn>76.049</mn><mo>=</mo><mn>117.108</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Semitono diatónico (p. ej. Do\#–Re):} \quad 193.157 - 76.049 = 117.108 \text{ c}</annotation></semantics></math></p>
+<p>El semitono diatónico (117.108 c) es ahora <strong>más ancho</strong>
+que el cromático (76.049 c) — justo al revés que en la pitagórica, donde
+el diatónico era el angosto. Este cruce no es un detalle anecdótico: es
+la firma acústica que le da al mesotónico su color particular, muy
+distinto al de la pitagórica al oído, aunque ambos sean “temperamentos
+de 12 notas construidos por cadena de quintas”. Vas a volver a usar
+estos dos números en el ejercicio 9, comparándolos con sus equivalentes
+justo y de temperamento igual.</p>
+<h2 id="la-quinta-del-lobo-y-el-presupuesto-de-error">5. La quinta del
+lobo y el presupuesto de error</h2>
+<p>Once quintas de la cadena
+(Mib–Sib–Fa–Do–Sol–Re–La–Mi–Si–Fa#–Do#–Sol#) miden, cada una, 696.578
+c. Pero el círculo de quintas tiene doce eslabones, no once: falta
+cerrar el círculo entre el último eslabón (Sol#) y el primero (Mib), que
+en teoría deberían ser la misma tecla (Sol# = Lab, enarmónicamente).
+Calculemos qué tamaño tiene esa quinta “de cierre”, Sol#–Mib, restando
+las cifras de la tabla 4.2:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Sol#</mtext><mo>→</mo><mtext mathvariant="normal">Mib</mtext><mo>:</mo><mspace width="1.0em"></mspace><mn>310.265</mn><mo>+</mo><mn>1200</mn><mo>−</mo><mn>772.627</mn><mo>=</mo><mn>737.637</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Sol\#} \to \text{Mib}: \quad 310.265 + 1200 - 772.627 = 737.637 \text{ c}</annotation></semantics></math></p>
+<p>Comparada con la quinta pura (701.955 c), esta quinta es
+<strong>35.682 cents más ancha</strong>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>737.637</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mn>35.682</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">737.637 - 701.955 = 35.682 \text{ c}</annotation></semantics></math></p>
+<p>Esta es la <strong>quinta del lobo</strong> mesotónica, y vale la
+pena detenerse en el contraste con la pitagórica (M3): ahí, la quinta
+del lobo medía 678.495 c — <strong>más corta</strong> que la pura, por
+23.460 c (la coma pitagórica entera, sin repartir). Aquí el lobo es
+<strong>más largo</strong> que la pura, y por una cantidad distinta y
+mayor: 35.682 c. El lobo mesotónico no solo suena mal — suena mal de una
+manera perceptivamente distinta a la pitagórica: donde el lobo
+pitagórico suena “estrecho” y tenso, el mesotónico suena “ancho” y
+desbordado.</p>
+<p>Verifiquemos el <strong>presupuesto de error</strong> completo del
+sistema, con el mismo espíritu contable de M2. Cada una de las 11
+quintas atemperadas cede 5.3765 c respecto de la pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>696.578</mn><mo>=</mo><mn>5.377</mn></mrow><annotation encoding="application/x-tex">701.955 - 696.578 = 5.377</annotation></semantics></math>
+c, con el signo negativo porque son más angostas):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>5.3765</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>59.142</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">11 \times (-5.3765) = -59.142 \text{ c}</annotation></semantics></math></p>
+<p>La quinta del lobo, en cambio, aporta un exceso positivo de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>35.682</mn></mrow><annotation encoding="application/x-tex">+35.682</annotation></semantics></math>
+c respecto de la pura. Sumando las 12 quintas del círculo completo (11
+atemperadas más el lobo) y comparando contra 12 quintas puras:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>59.142</mn><mo>+</mo><mn>35.682</mn><mo>=</mo><mi>−</mi><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">-59.142 + 35.682 = -23.460 \text{ c}</annotation></semantics></math></p>
+<p>El resultado es, salvo el signo, exactamente la coma pitagórica
+(23.460 c) — y tiene que serlo, por construcción: cualquier cadena de 12
+quintas que cierre el círculo (que vuelva a la nota de partida tras
+exactamente 7 octavas) debe diferir de “12 quintas puras” en exactamente
+una coma pitagórica, sin importar cómo se repartan las 12 cuotas entre
+las quintas individuales. Lo que decide cada temperamento histórico es
+<em>cómo</em> se reparte esa coma: la pitagórica la deja entera,
+escondida en una sola quinta (M3); el mesotónico de 1/4 la reparte en 11
+cuotas casi iguales y arroja el remanente, agrandado, sobre la única
+quinta que sobra. Vas a ver en M6 que “repartir mejor” ese remanente
+—para que ninguna quinta sea intolerable— es exactamente el problema que
+resuelven los “buenos temperamentos”.</p>
+<h2 id="la-familia-mesotónica-la-fracción-de-coma-como-parámetro">6. La
+familia mesotónica: la fracción de coma como parámetro</h2>
+<p>El mesotónico de 1/4 de coma es apenas un caso particular de una idea
+más general. Nada nos obliga a repartir <em>toda</em> la coma sintónica
+en cuartos: podríamos repartir un tercio, un quinto, dos séptimos,
+cualquier fracción
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>.
+La familia completa de temperamentos mesotónicos se describe con una
+sola fórmula, con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+como parámetro:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mi>a</mi><mo>×</mo><mn>21.506</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="2.0em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mtext mathvariant="normal">en razón: </mtext><mspace width="0.333em"></mspace></mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>×</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>80</mn><mn>81</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>a</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Q(a) = 701.955 - a \times 21.506 \text{ c} \qquad \left(\text{en razón: } Q(a) = \frac{3}{2} \times \left(\frac{80}{81}\right)^{a}\right)</annotation></semantics></math></p>
+<p>Ya trabajamos el caso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">a = 1/4</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">Q(1/4) = 701.955 - 21.506/4 = 696.578</annotation></semantics></math>
+c, la quinta que hace puras las terceras mayores. Veamos qué pasa con
+otras fracciones célebres.</p>
+<p><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">a = 1/3</annotation></semantics></math>:
+terceras menores puras.</strong> Probemos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>3</mn><mo>=</mo><mn>694.786</mn></mrow><annotation encoding="application/x-tex">Q(1/3) = 701.955 - 21.506/3 = 694.786</annotation></semantics></math>
+c. ¿Qué compra esta quinta? Igual que 4 quintas menos 2 octavas dan la
+tercera mayor, <strong>3 quintas hacia abajo</strong> (o,
+equivalentemente, 2 octavas menos 3 quintas hacia arriba) dan la tercera
+menor: la cadena Do→Fa→Sib→Mib recorre 3 quintas hacia abajo y llega a
+la tercera menor Do–Mib (invertida). En cents:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2400</mn><mo>−</mo><mn>3</mn><mo>×</mo><mi>Q</mi><mo>=</mo><mn>2400</mn><mo>−</mo><mn>3</mn><mo>×</mo><mn>694.786</mn><mo>=</mo><mn>2400</mn><mo>−</mo><mn>2084.359</mn><mo>=</mo><mn>315.641</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">2400 - 3 \times Q = 2400 - 3 \times 694.786 = 2400 - 2084.359 = 315.641 \text{ c}</annotation></semantics></math></p>
+<p>Que es, exactamente, la tercera menor pura (6/5). El temperamento de
+1/3 de coma sacrifica un poco más de quinta (694.786 c en vez de 696.578
+c) para comprar, en cambio, terceras <em>menores</em> puras — un
+intercambio distinto, pensado para repertorio o gustos que priorizan la
+sonoridad de los acordes menores.</p>
+<p><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>2</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">a = 2/7</annotation></semantics></math>:
+el temperamento de Zarlino (1558).</strong> El propio Gioseffo Zarlino,
+el mismo teórico de la escala justa de M4, propuso en su tratado <em>Le
+istitutioni harmoniche</em> (Venecia, 1558) un compromiso entre los dos
+casos anteriores:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>21.506</mn><mo>=</mo><mn>695.810</mn></mrow><annotation encoding="application/x-tex">Q(2/7) = 701.955 - (2/7) \times 21.506 = 695.810</annotation></semantics></math>
+c. Calculemos qué tan puras salen ambas terceras con esta quinta:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mtext mathvariant="normal">Tercera mayor: </mtext><mspace width="0.333em"></mspace></mrow><mn>4</mn><mo>×</mo><mn>695.810</mn><mo>−</mo><mn>2400</mn><mo>=</mo><mn>383.242</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>386.314</mn><mo>−</mo><mn>383.242</mn><mo>=</mo><mn>3.072</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c de defecto</mtext></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\text{Tercera mayor: } 4 \times 695.810 - 2400 = 383.242 \text{ c} \qquad (386.314 - 383.242 = 3.072 \text{ c de defecto})</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mtext mathvariant="normal">Tercera menor: </mtext><mspace width="0.333em"></mspace></mrow><mn>2400</mn><mo>−</mo><mn>3</mn><mo>×</mo><mn>695.810</mn><mo>=</mo><mn>312.569</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>315.641</mn><mo>−</mo><mn>312.569</mn><mo>=</mo><mn>3.072</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c de defecto</mtext></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\text{Tercera menor: } 2400 - 3 \times 695.810 = 312.569 \text{ c} \qquad (315.641 - 312.569 = 3.072 \text{ c de defecto})</annotation></semantics></math></p>
+<p>El resultado es notable: ambas terceras se desvían de su versión pura
+por <strong>exactamente la misma cantidad</strong>, 3.072 c, una en
+defecto y la otra también en defecto relativo a su ideal — un compromiso
+simétrico y deliberado entre las dos prioridades de las secciones
+anteriores, y probablemente la razón de que Zarlino lo prefiriera al de
+1/4 de coma para uso general.</p>
+<p><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">a = 1/5</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">a = 1/6</annotation></semantics></math>:
+hacia los buenos temperamentos.</strong> Con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">a = 1/5</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>697.654</mn></mrow><annotation encoding="application/x-tex">Q = 701.955 - 21.506/5 = 697.654</annotation></semantics></math>
+c. Con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">a = 1/6</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>6</mn><mo>=</mo><mn>698.371</mn></mrow><annotation encoding="application/x-tex">Q = 701.955 - 21.506/6 = 698.371</annotation></semantics></math>
+c. Estas fracciones más pequeñas ceden menos quinta y compran, en
+consecuencia, terceras menos puras — pero a cambio, como verás con
+detalle en M6, generan una quinta del lobo menos monstruosa, porque hay
+menos coma total repartida entre las 11 quintas “buenas” y por lo tanto
+menos excedente cae sobre la última. Son, en cierto sentido, el primer
+paso hacia la lógica de M6: temperamentos como el de Werckmeister o
+Vallotti usan fracciones de coma de este tamaño (a veces distintas en
+distintas quintas del círculo) precisamente para que <em>ninguna</em>
+quinta sea intolerable, sacrificando algo de la pureza de las terceras
+que el mesotónico estricto sí lograba.</p>
+<p><strong>Nota curiosa:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">a = 1/11</annotation></semantics></math>.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>11</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>11</mn><mo>=</mo><mn>700.000</mn></mrow><annotation encoding="application/x-tex">Q(1/11) = 701.955 - 21.506/11 = 700.000</annotation></semantics></math>
+c — el temperamento igual (M7) resulta ser, aritméticamente, el
+“mesotónico de 1/11 de coma”. No es una coincidencia profunda ni algo
+que los teóricos del siglo XVI hubieran podido anticipar (dividir la
+coma en once partes exactas no tiene ningún significado acústico
+especial), pero es un buen recordatorio de que toda esta familia de
+temperamentos vive sobre una única recta numérica, parametrizada por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
+y que el temperamento igual no es una criatura aparte, sino un punto más
+en esa misma recta.</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+(fracción de coma)</th>
+<th>Quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Q(a)</annotation></semantics></math></th>
+<th>Tercera mayor resultante</th>
+<th>Tercera menor resultante</th>
+<th>Quién / qué prioriza</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1/3</td>
+<td>694.786 c</td>
+<td>379.145 c (−7.2)</td>
+<td><strong>315.641 c (pura)</strong></td>
+<td>Terceras menores</td>
+</tr>
+<tr>
+<td>2/7</td>
+<td>695.810 c</td>
+<td>383.242 c (−3.1)</td>
+<td>312.569 c (−3.1)</td>
+<td>Zarlino 1558: compromiso</td>
+</tr>
+<tr>
+<td><strong>1/4</strong></td>
+<td><strong>696.578 c</strong></td>
+<td><strong>386.314 c (pura)</strong></td>
+<td>310.265 c (−5.4)</td>
+<td>Terceras mayores (el caso clásico)</td>
+</tr>
+<tr>
+<td>1/5</td>
+<td>697.654 c</td>
+<td>390.615 c (+4.3)</td>
+<td>307.039 c (−8.6)</td>
+<td>Transición (anticipa M6)</td>
+</tr>
+<tr>
+<td>1/6</td>
+<td>698.371 c</td>
+<td>393.483 c (+7.2)</td>
+<td>304.888 c (−10.8)</td>
+<td>Transición (anticipa M6)</td>
+</tr>
+<tr>
+<td>1/11</td>
+<td>700.000 c</td>
+<td>400.000 c (+13.7)</td>
+<td>300.000 c (−15.6)</td>
+<td>≈ Temperamento igual (M7)</td>
+</tr>
+<tr>
+<td>0</td>
+<td>701.955 c</td>
+<td>407.820 c (+21.5)</td>
+<td>294.135 c (−21.5)</td>
+<td>Pitagórico puro (M3)</td>
+</tr>
+</tbody>
+</table></div>
+<p>(Los valores de tercera mayor/menor en cada fila se obtienen con las
+mismas fórmulas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>Q</mi><mo>−</mo><mn>2400</mn></mrow><annotation encoding="application/x-tex">4Q - 2400</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2400</mn><mo>−</mo><mn>3</mn><mi>Q</mi></mrow><annotation encoding="application/x-tex">2400 - 3Q</annotation></semantics></math>
+usadas arriba; verifícalo tú mismo para al menos dos filas en el
+ejercicio 4.)</p>
+<h2 id="enarmonía-rota-sol-no-es-lab">7. Enarmonía rota: Sol# no es
+Lab</h2>
+<p>En la sección 5 usamos Sol# y Mib como si fueran, sencillamente, “la
+nota que sobra” al cerrar el círculo. Pero hay una segunda cara de la
+misma moneda que merece su propia sección, porque es una de las
+consecuencias más audibles —y más incómodas, para un instrumento de
+teclas fijas— de todo el sistema.</p>
+<p>En el temperamento igual (M7), Sol# y Lab son literalmente la misma
+tecla, la misma frecuencia, dos nombres para lo mismo. En el mesotónico,
+<strong>no lo son</strong>. Calculemos dónde caería Lab si lo
+construyéramos como una nota propia de la cadena, cuatro quintas
+<em>hacia abajo</em> de Do (Do→Fa→Sib→Mib→Lab), en vez de tomar Sol#
+(ocho quintas hacia arriba, como en nuestra tabla de la sección
+4.2):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mtext mathvariant="normal">Lab (4 quintas abajo de Do): </mtext><mspace width="0.333em"></mspace></mrow><mo>−</mo><mn>4</mn><mo>×</mo><mn>696.578</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>1200</mn></mrow><mo>=</mo><mi>−</mi><mn>2786.314</mn><mo>+</mo><mn>3600</mn><mo>=</mo><mn>813.686</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Lab (4 quintas abajo de Do): } -4 \times 696.578 \bmod 1200 = -2786.314 + 3600 = 813.686 \text{ c}</annotation></semantics></math></p>
+<p>Compara con Sol# de la tabla 4.2, 772.627 c. La diferencia:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>813.686</mn><mo>−</mo><mn>772.627</mn><mo>=</mo><mn>41.059</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">813.686 - 772.627 = 41.059 \text{ c}</annotation></semantics></math></p>
+<p>Otra vez 41.059 c — la gran diesis, la misma cantidad que ya vimos en
+la sección 4.4 gobernando el tamaño de las terceras del lobo. No es
+casualidad: es la misma estructura algebraica apareciendo dos veces.
+Sol# y Lab, que en un teclado moderno son una sola tecla, difieren aquí
+en más de un tercio de semitono — una distancia perfectamente audible,
+mayor que muchos de los “microtonos” que se estudian como curiosidades
+exóticas en otras tradiciones (M13–M15). Un teclado de 12 teclas por
+octava tiene que elegir: o construye la tecla como Sol# (y entonces las
+tonalidades con sostenidos suenan bien, pero Reb mayor, por ejemplo, es
+un desastre) o la construye como Lab (y es al revés). No hay manera de
+tener ambas con las mismas 12 teclas.</p>
+<p>Esta limitación de <strong>hardware</strong>, no de teoría, generó
+una respuesta de hardware: los constructores de órganos y clavicémbalos
+de los siglos XVI y XVII —sobre todo en Italia, Inglaterra y España—
+construyeron instrumentos con <strong>teclas partidas</strong>
+(<em>split keys</em> o <em>subsemitonos</em>): la tecla negra entre Sol
+y La, por ejemplo, se dividía físicamente en dos mitades independientes,
+una afinada como Sol# y la otra como Lab, cada una accionando una cuerda
+o tubo distinto. Con 14, 17 o incluso 19 teclas por octava en algunos
+instrumentos experimentales, un intérprete podía navegar un repertorio
+más amplio sin toparse con el lobo. Es, literalmente, una solución de
+ingeniería a un problema de aritmética — el mismo tipo de decisión, en
+otra escala, que va a reaparecer en M9 con los EDOs alternativos (19,
+31, 53 notas por octava).</p>
+<p>Para los instrumentos “normales”, de 12 teclas sin partir, rige lo
+que en este curso llamamos la <strong>regla del repertorio
+mesotónico</strong>: mientras la música se mueva dentro del círculo de
+tonalidades que va, aproximadamente, de Sib mayor a Mi mayor (o sus
+relativas menores) — es decir, mientras no exija ni Reb ni Sol#
+simultáneamente, ni obligue a cruzar la costura Sol#/Mib — el
+instrumento suena celestial, con terceras purísimas en casi cualquier
+acorde. Un compositor de la época, y cualquier organista que
+improvisaba, sabía esto de oído y de oficio: la elección de tonalidad no
+era solo un gesto expresivo, era una decisión sobre qué parte del
+teclado usar sin despertar al lobo.</p>
+<h2 id="cómo-suena-el-color-mesotónico">8. Cómo suena: el color
+mesotónico</h2>
+<p>Todo lo anterior se puede resumir en una frase: dentro del “jardín”
+—las tonalidades que no requieren cruzar la costura enarmónica— el
+mesotónico suena <strong>más puro que cualquier cosa que hayas escuchado
+en un piano moderno</strong>. Las tríadas mayores en las tonalidades
+cercanas a Do (Fa, Sib, Sol, Re, La, Mi, y sus relativas menores) tienen
+terceras sin el más mínimo batido —el mismo silencio armónico que
+calculaste en M1 §5 para la quinta pura, ahora trasladado a la tercera—
+y el efecto acumulado, en un acorde completo, es una sensación de reposo
+casi física, distinta de cualquier acorde mayor de temperamento igual
+(que siempre lleva esos 14 cents de aspereza en la tercera, M1
+§6.4).</p>
+<p>Las tonalidades vecinas entre sí comparten, además, un carácter
+marcadamente homogéneo: modular de Do mayor a Sol mayor o a Fa mayor es,
+tímbricamente, casi indistinguible — las terceras siguen siendo puras,
+el semitono diatónico sigue siendo el mismo (117.108 c), nada “cambia de
+sabor”. Y entonces, al acercarse a los bordes del jardín, aparece lo que
+un oyente de la época hubiese descrito, sin metáfora, como un
+precipicio: cruzar la costura Sol#/Mib no es una desafinación
+progresiva, es un salto brusco a un territorio sonoro completamente
+distinto, donde de pronto laten terceras de 427 cents y quintas de
+737.</p>
+<p>Este era, durante unos 250 años (aproximadamente 1500 a 1750, y en
+muchos órganos —sobre todo ibéricos— hasta bien entrado el siglo XIX),
+el sonido <em>por defecto</em> de la música occidental de tecla. No era
+una rareza histórica ni una curiosidad de anticuario: era la manera
+normal, esperada, de afinar un clave, un órgano o un virginal. Cuando
+escuchas hoy una grabación de música de ese período en temperamento
+igual, estás escuchando, literalmente, un objeto sonoro que sus
+compositores nunca imaginaron — un mundo sin jardín y sin lobo,
+uniformemente tibio en todas las tonalidades por igual.</p>
+<h2 id="conexión-con-el-proyecto-dac">9. Conexión con el proyecto
+DAC</h2>
+<p>El contraste entre el temperamento mesotónico/Zarlino y los “buenos
+temperamentos” del tipo Vallotti (M6) es, dentro del proyecto de
+investigación “Afinaciones Imaginadas” del que este curso forma parte,
+el eje central de las obras encargadas a los compositores participantes.
+La razón, después de este módulo, debería ser transparente: son dos
+filosofías opuestas frente al mismo problema aritmético. El mesotónico
+privilegia unas pocas tonalidades con pureza extrema y sacrifica el
+resto sin disimulo (el lobo está ahí, sin esconder); Vallotti (que verás
+en detalle en M6) reparte el mismo tipo de error en dosis pequeñas por
+todo el círculo, de modo que ninguna tonalidad sea perfecta pero tampoco
+ninguna sea intolerable. Un compositor que entiende esta diferencia —no
+como anécdota histórica sino como aritmética verificable, cents en mano—
+tiene un vocabulario nuevo para decidir, con intención, qué temperamento
+le conviene a una obra, y qué quiere decir exactamente cuando pide que
+un acorde “respire” o que una modulación “duela”. Este módulo te da ese
+vocabulario para el mesotónico; M6 te lo da para el otro extremo.</p>
+<hr />
+<h2 id="ejercicios-de-cálculo">10. Ejercicios de cálculo</h2>
+<p>Resuelve cada uno por escrito, con desarrollo completo. Soluciones al
+final.</p>
+<p><strong>a) La quinta de 1/4 de coma</strong></p>
+<ol type="1">
+<li>Deriva, paso a paso, la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+del mesotónico de 1/4 de coma a partir de la condición “4 quintas menos
+2 octavas = tercera mayor pura (386.314 c)”. Verifica que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">Q = 701.955 - 21.506/4</annotation></semantics></math>.</li>
+<li>Calcula el tono medio del mesotónico como media aritmética, en
+cents, del tono mayor (9/8) y el tono menor (10/9). Luego calcúlalo de
+nuevo como media geométrica de las razones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">9/8</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>9</mn></mrow><annotation encoding="application/x-tex">10/9</annotation></semantics></math>,
+convirtiendo el resultado a cents. Verifica que ambos caminos dan
+193.157 c.</li>
+</ol>
+<p><strong>b) La familia mesotónica</strong></p>
+<ol start="3" type="1">
+<li>Deriva la quinta del mesotónico de 1/3 de coma a partir de la
+condición “2 octavas menos 3 quintas = tercera menor pura (315.641 c)”.
+Verifica que da 694.786 c.</li>
+<li>Calcula la quinta de Zarlino
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>2</mn><mi>/</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">a = 2/7</annotation></semantics></math>)
+con la fórmula general
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mi>a</mi><mo>×</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">Q(a) = 701.955 - a \times 21.506</annotation></semantics></math>,
+y luego calcula qué tan puras salen, con esa quinta, tanto la tercera
+mayor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>Q</mi><mo>−</mo><mn>2400</mn></mrow><annotation encoding="application/x-tex">4Q - 2400</annotation></semantics></math>)
+como la tercera menor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2400</mn><mo>−</mo><mn>3</mn><mi>Q</mi></mrow><annotation encoding="application/x-tex">2400 - 3Q</annotation></semantics></math>).
+Verifica que ambos errores respecto de la tercera pura correspondiente
+son iguales en magnitud.</li>
+</ol>
+<p><strong>c) El lobo y su presupuesto</strong></p>
+<ol start="5" type="1">
+<li>Calcula la quinta del lobo mesotónica Sol#–Mib a partir de las
+cifras de la tabla de la sección 4.2, y compárala con la quinta pura.
+¿Por cuántos cents se excede?</li>
+<li>Verifica el presupuesto de error del círculo completo: multiplica el
+defecto de una quinta atemperada (respecto de la pura) por 11, súmale el
+exceso de la quinta del lobo (respecto de la pura), y comprueba que el
+resultado es, en valor absoluto, la coma pitagórica.</li>
+<li>Calcula la “tercera del lobo” Fa#–Sib, siguiendo el mismo
+procedimiento que usamos para Si–Mib en la sección 4.4. ¿Cuánto excede a
+la tercera pura, y qué nombre tiene ese excedente?</li>
+</ol>
+<p><strong>d) Comparaciones</strong></p>
+<ol start="8" type="1">
+<li>Calcula el semitono diatónico y el semitono cromático del mesotónico
+de 1/4 de coma usando la tabla de cents de la sección 4.2 (elige dos
+pares de notas consecutivas distintos a los usados en el apunte).
+Verifica que obtienes 117.108 c y 76.049 c respectivamente.</li>
+<li>Construye una tabla comparativa de semitonos: diatónico y cromático,
+en pitagórico (M3: limma 90.225 c, apotome 113.685 c), justo (16/15 =
+111.731 c para el diatónico; 25/24 para el cromático), mesotónico 1/4
+(117.108 c y 76.049 c) y temperamento igual (100 c ambos). Calcula tú
+mismo el valor del semitono cromático justo (25/24) en cents. ¿En cuál
+sistema el semitono diatónico es más ancho que el cromático, y en cuál
+es al revés?</li>
+<li>Compara la quinta del lobo pitagórica (678.495 c) con la mesotónica
+(737.637 c): ¿cuál se desvía más de la quinta pura, en valor absoluto, y
+por cuánto?</li>
+</ol>
+<p><strong>e) Desafíos</strong></p>
+<ol start="11" type="1">
+<li>Calcula la diferencia, en cents, entre Sol# (construido como 8
+quintas hacia arriba de Do) y Lab (construido como 4 quintas hacia abajo
+de Do), usando la quinta de 1/4 de coma. ¿Qué nombre tiene ese
+intervalo?</li>
+<li>Un compositor quiere escribir una progresión que module de Do mayor
+a Mi mayor y de vuelta a Do, sin salir jamás del “jardín” de la sección
+7. Verifica, contando pasos en la cadena de quintas de la tabla 4.2, si
+Mi mayor (que requiere Sol#, no Lab, como tercera de Do# menor relativo,
+y Re# en su escala) está dentro del rango Mib…Sol# que construimos, o si
+exige alguna nota fuera de esa cadena.</li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong> Partimos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>Q</mi><mo>−</mo><mn>2400</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">4Q - 2400 = 386.314</annotation></semantics></math>.
+Despejamos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>Q</mi><mo>=</mo><mn>2786.314</mn></mrow><annotation encoding="application/x-tex">4Q = 2786.314</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>2786.314</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>696.5785</mn></mrow><annotation encoding="application/x-tex">Q = 2786.314/4 = 696.5785</annotation></semantics></math>
+c. Reescribiendo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>386.314</mn><mo>+</mo><mn>2400</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">Q = (386.314+2400)/4</annotation></semantics></math>.
+Y como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>407.820</mn><annotation encoding="application/x-tex">407.820</annotation></semantics></math>
+(el ditono, con quintas puras) menos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+(la tercera pura) es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>21.506</mn><annotation encoding="application/x-tex">21.506</annotation></semantics></math>
+(la coma sintónica), y el ditono se obtiene con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>701.955</mn><mo>−</mo><mn>2400</mn></mrow><annotation encoding="application/x-tex">4 \times 701.955 - 2400</annotation></semantics></math>,
+la diferencia entre la quinta pura y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+es exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>21.506</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>5.3765</mn></mrow><annotation encoding="application/x-tex">21.506/4 = 5.3765</annotation></semantics></math>
+c. Por lo tanto
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>5.3765</mn><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">Q = 701.955 - 5.3765 = 696.578</annotation></semantics></math>
+c. ✓.</p>
+<p><strong>2.</strong> Media aritmética en cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>203.910</mn></mrow><annotation encoding="application/x-tex">9/8 = 203.910</annotation></semantics></math>
+c,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>9</mn><mo>=</mo><mn>182.404</mn></mrow><annotation encoding="application/x-tex">10/9 = 182.404</annotation></semantics></math>
+c;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>203.910</mn><mo>+</mo><mn>182.404</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>2</mn><mo>=</mo><mn>386.314</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>193.157</mn></mrow><annotation encoding="application/x-tex">(203.910+182.404)/2 = 386.314/2 = 193.157</annotation></semantics></math>
+c. Media geométrica de razones:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mrow><mo stretchy="false" form="prefix">(</mo><mn>9</mn><mi>/</mi><mn>8</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>10</mn><mi>/</mi><mn>9</mn><mo stretchy="false" form="postfix">)</mo></mrow></msqrt><mo>=</mo><msqrt><mrow><mn>10</mn><mi>/</mi><mn>8</mn></mrow></msqrt><mo>=</mo><msqrt><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow></msqrt><mo>=</mo><mn>1.118034</mn></mrow><annotation encoding="application/x-tex">\sqrt{(9/8)\times(10/9)} = \sqrt{10/8} = \sqrt{5/4} = 1.118034</annotation></semantics></math>;
+convirtiendo a cents,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.118034</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>193.157</mn></mrow><annotation encoding="application/x-tex">1200 \times \log_2(1.118034) = 193.157</annotation></semantics></math>
+c. Ambos caminos coinciden porque el cent es un logaritmo: la media
+aritmética de los logaritmos de dos números es el logaritmo de su media
+geométrica.</p>
+<p><strong>3.</strong> Partimos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2400</mn><mo>−</mo><mn>3</mn><mi>Q</mi><mo>=</mo><mn>315.641</mn></mrow><annotation encoding="application/x-tex">2400 - 3Q = 315.641</annotation></semantics></math>.
+Despejamos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>Q</mi><mo>=</mo><mn>2400</mn><mo>−</mo><mn>315.641</mn><mo>=</mo><mn>2084.359</mn></mrow><annotation encoding="application/x-tex">3Q = 2400 - 315.641 = 2084.359</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>2084.359</mn><mi>/</mi><mn>3</mn><mo>=</mo><mn>694.786</mn></mrow><annotation encoding="application/x-tex">Q = 2084.359/3 = 694.786</annotation></semantics></math>
+c. Comprobamos con la fórmula general:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>21.506</mn><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>7.169</mn><mo>=</mo><mn>694.786</mn></mrow><annotation encoding="application/x-tex">701.955 - (1/3)\times 21.506 = 701.955 - 7.169 = 694.786</annotation></semantics></math>
+c. ✓.</p>
+<p><strong>4.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>/</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>21.506</mn><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>6.145</mn><mo>=</mo><mn>695.810</mn></mrow><annotation encoding="application/x-tex">Q(2/7) = 701.955 - (2/7)\times 21.506 = 701.955 - 6.145 = 695.810</annotation></semantics></math>
+c. Tercera mayor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>695.810</mn><mo>−</mo><mn>2400</mn><mo>=</mo><mn>2783.242</mn><mo>−</mo><mn>2400</mn><mo>=</mo><mn>383.242</mn></mrow><annotation encoding="application/x-tex">4\times695.810 - 2400 = 2783.242-2400=383.242</annotation></semantics></math>
+c, que es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>−</mo><mn>383.242</mn><mo>=</mo><mn>3.072</mn></mrow><annotation encoding="application/x-tex">386.314-383.242=3.072</annotation></semantics></math>
+c más angosta que la pura. Tercera menor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2400</mn><mo>−</mo><mn>3</mn><mo>×</mo><mn>695.810</mn><mo>=</mo><mn>2400</mn><mo>−</mo><mn>2087.431</mn><mo>=</mo><mn>312.569</mn></mrow><annotation encoding="application/x-tex">2400-3\times695.810=2400-2087.431=312.569</annotation></semantics></math>
+c, que es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>315.641</mn><mo>−</mo><mn>312.569</mn><mo>=</mo><mn>3.072</mn></mrow><annotation encoding="application/x-tex">315.641-312.569=3.072</annotation></semantics></math>
+c más angosta que la pura. Ambos errores son, efectivamente, de 3.072 c
+— el temperamento de Zarlino reparte el “castigo” en partes exactamente
+iguales entre ambas terceras.</p>
+<p><strong>5.</strong> Usando la tabla 4.2: Sol# = 772.627 c, Mib =
+310.265 c (hay que sumarle una octava para que quede por encima de Sol#:
+310.265+1200=1510.265). La quinta Sol#→Mib mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1510.265</mn><mo>−</mo><mn>772.627</mn><mo>=</mo><mn>737.637</mn></mrow><annotation encoding="application/x-tex">1510.265-772.627=737.637</annotation></semantics></math>
+c. Comparada con la pura (701.955 c), se excede en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>737.637</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mn>35.682</mn></mrow><annotation encoding="application/x-tex">737.637-701.955=35.682</annotation></semantics></math>
+c.</p>
+<p><strong>6.</strong> Cada una de las 11 quintas atemperadas tiene un
+defecto de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>696.578</mn><mo>=</mo><mn>5.377</mn></mrow><annotation encoding="application/x-tex">701.955-696.578=5.377</annotation></semantics></math>
+c respecto de la pura. Multiplicado por 11:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>5.377</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>59.142</mn></mrow><annotation encoding="application/x-tex">11\times(-5.377)=-59.142</annotation></semantics></math>
+c. La quinta del lobo tiene un exceso de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>35.682</mn></mrow><annotation encoding="application/x-tex">+35.682</annotation></semantics></math>
+c (ejercicio 5). Sumando:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>59.142</mn><mo>+</mo><mn>35.682</mn><mo>=</mo><mi>−</mi><mn>23.460</mn></mrow><annotation encoding="application/x-tex">-59.142+35.682=-23.460</annotation></semantics></math>
+c. En valor absoluto, 23.460 c — exactamente la coma pitagórica, tal
+como debe ser: cualquier cadena de 12 quintas que cierre el círculo
+difiere de 12 quintas puras en una coma pitagórica completa, sin
+importar cómo se reparta internamente.</p>
+<p><strong>7.</strong> Fa# está en 579.471 c, Sib en 1006.843 c. La
+“tercera pura” que le correspondería a Fa# (4 pasos más allá en la
+cadena) sería Sol# doble… en la práctica, con las 12 teclas disponibles,
+se usa Sib en su lugar. El intervalo Fa#→Sib mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1006.843</mn><mo>−</mo><mn>579.471</mn><mo>=</mo><mn>427.372</mn></mrow><annotation encoding="application/x-tex">1006.843-579.471=427.372</annotation></semantics></math>
+c (coincide, salvo redondeo, con el valor exacto 427.373 c). El exceso
+sobre la tercera pura es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>427.373</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>41.059</mn></mrow><annotation encoding="application/x-tex">427.373-386.314=41.059</annotation></semantics></math>
+c — la gran diesis, la misma cantidad que en todas las terceras del
+lobo.</p>
+<p><strong>8.</strong> Por ejemplo, Fa–Fa# (cromático):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>579.471</mn><mo>−</mo><mn>503.422</mn><mo>=</mo><mn>76.049</mn></mrow><annotation encoding="application/x-tex">579.471-503.422=76.049</annotation></semantics></math>
+c. Fa#–Sol (diatónico):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>696.578</mn><mo>−</mo><mn>579.471</mn><mo>=</mo><mn>117.107</mn></mrow><annotation encoding="application/x-tex">696.578-579.471=117.107</annotation></semantics></math>
+c (coincide, salvo redondeo, con 117.108 c). Ambos valores confirman los
+de la sección 4.6.</p>
+<p><strong>9.</strong> Semitono cromático justo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>25</mn><mi>/</mi><mn>24</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>25</mn><mi>/</mi><mn>24</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{25/24}=1200\times\log_2(25/24)</annotation></semantics></math>.
+Calculamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>25</mn><mi>/</mi><mn>24</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.041</mn><mover><mn>6</mn><mo accent="true">¯</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.040822</mn></mrow><annotation encoding="application/x-tex">\ln(25/24)=\ln(1.041\overline{6})=0.040822</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.693147</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>25</mn><mi>/</mi><mn>24</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.040822</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.058894</mn></mrow><annotation encoding="application/x-tex">\log_2(25/24)=0.040822/0.693147=0.058894</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>25</mn><mi>/</mi><mn>24</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.058894</mn><mo>=</mo><mn>70.672</mn></mrow><annotation encoding="application/x-tex">c_{25/24}=1200\times0.058894=70.672</annotation></semantics></math>
+c. Tabla comparativa completa:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sistema</th>
+<th>Semitono diatónico</th>
+<th>Semitono cromático</th>
+<th>¿Cuál es más ancho?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pitagórico (M3)</td>
+<td>90.225 c (limma)</td>
+<td>113.685 c (apotome)</td>
+<td>Cromático</td>
+</tr>
+<tr>
+<td>Justo (M4)</td>
+<td>111.731 c (16/15)</td>
+<td>70.672 c (25/24)</td>
+<td>Diatónico</td>
+</tr>
+<tr>
+<td>Mesotónico 1/4</td>
+<td>117.108 c</td>
+<td>76.049 c</td>
+<td>Diatónico</td>
+</tr>
+<tr>
+<td>Temperamento igual (M7)</td>
+<td>100 c</td>
+<td>100 c</td>
+<td>Iguales</td>
+</tr>
+</tbody>
+</table></div>
+<p>El mesotónico comparte con la justa entonación (aunque con valores
+distintos) la propiedad de que el semitono diatónico es más ancho que el
+cromático — justo lo opuesto de la pitagórica, donde el orden se
+invierte.</p>
+<p><strong>10.</strong> El lobo pitagórico se desvía
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>678.495</mn><mo>=</mo><mn>23.460</mn></mrow><annotation encoding="application/x-tex">701.955-678.495=23.460</annotation></semantics></math>
+c (por defecto: es más corto). El lobo mesotónico se desvía
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>737.637</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mn>35.682</mn></mrow><annotation encoding="application/x-tex">737.637-701.955=35.682</annotation></semantics></math>
+c (por exceso: es más largo). El mesotónico se desvía más, y por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>35.682</mn><mo>−</mo><mn>23.460</mn><mo>=</mo><mn>12.222</mn></mrow><annotation encoding="application/x-tex">35.682-23.460=12.222</annotation></semantics></math>
+c adicionales — el lobo mesotónico es, en términos absolutos,
+considerablemente peor que el pitagórico, aunque compra a cambio ocho
+terceras puras que la pitagórica jamás ofrece.</p>
+<p><strong>11.</strong> Sol# (8 quintas arriba de Do):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>×</mo><mn>696.578</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>1200</mn></mrow><mo>=</mo><mn>5572.628</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>1200</mn></mrow><mo>=</mo><mn>772.627</mn></mrow><annotation encoding="application/x-tex">8\times696.578 \bmod 1200 = 5572.628 \bmod 1200 = 772.627</annotation></semantics></math>
+c (restando 4 octavas,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>1200</mn><mo>=</mo><mn>4800</mn></mrow><annotation encoding="application/x-tex">4\times1200=4800</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5572.628</mn><mo>−</mo><mn>4800</mn><mo>=</mo><mn>772.627</mn></mrow><annotation encoding="application/x-tex">5572.628-4800=772.627</annotation></semantics></math>
+c). Lab (4 quintas abajo de Do):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>4</mn><mo>×</mo><mn>696.578</mn><mo>=</mo><mi>−</mi><mn>2786.314</mn></mrow><annotation encoding="application/x-tex">-4\times696.578=-2786.314</annotation></semantics></math>;
+sumando 3 octavas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3600</mn><annotation encoding="application/x-tex">3600</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>2786.314</mn><mo>+</mo><mn>3600</mn><mo>=</mo><mn>813.686</mn></mrow><annotation encoding="application/x-tex">-2786.314+3600=813.686</annotation></semantics></math>
+c. La diferencia es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>813.686</mn><mo>−</mo><mn>772.627</mn><mo>=</mo><mn>41.059</mn></mrow><annotation encoding="application/x-tex">813.686-772.627=41.059</annotation></semantics></math>
+c — otra vez la gran diesis (128/125), la misma cifra que gobierna el
+tamaño de las terceras del lobo (ejercicios 7 y sección 4.4): no es
+casualidad, ambas son manifestaciones del mismo desajuste algebraico
+entre la cadena de quintas atemperadas y la enarmonía que el teclado de
+12 teclas obliga a fingir.</p>
+<p><strong>12.</strong> Mi mayor requiere, como notas propias de su
+escala, Fa#, Sol# y Re# (armadura de 4 sostenidos). De estas, Fa#
+(579.471 c) y Sol# (772.627 c) están dentro de la cadena Mib…Sol# de la
+tabla 4.2 — perfectamente disponibles y afinadas de manera consistente
+con el resto. Pero Re# <strong>no</strong> está en la cadena: la cadena
+tiene Mib en su lugar, que es una nota distinta (difieren en la gran
+diesis de 41.059 c, ejercicio 11 con la misma lógica aplicada a Re#/Mib
+en vez de Sol#/Lab). Por lo tanto, una progresión que module
+genuinamente a Mi mayor y use su cuarto grado alterado (Re#) sale,
+técnicamente, del jardín: sonará con una nota “equivocada” en 41 cents,
+a menos que el compositor evite deliberadamente ese grado o el
+instrumento tenga tecla partida (sección 7).</p>
+<hr />
+<h2 id="guía-de-escucha">11. Guía de escucha</h2>
+<p>Antes de seguir a M6, dedica 20-25 minutos al laboratorio interactivo
+de este módulo (<code>laboratorio.html</code>, en esta misma carpeta).
+El laboratorio incluye un slider de fracción de coma con la quinta y la
+tercera resultantes sonando en vivo, un teclado mesotónico de 1/4 de
+coma completo (con el lobo marcado y las dos enarmónicas Sol#/Lab
+disponibles por separado), un comparador A/B Sol# contra Lab, y una
+progresión armónica que viaja de una tonalidad cercana a una lejana.
+Seis consignas:</p>
+<ol type="1">
+<li><strong>El punto exacto donde deja de batir.</strong> Con el slider
+de fracción de coma en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a=0</annotation></semantics></math>
+(pitagórico puro), toca la tríada de Do mayor y escucha la tercera
+batir. Mueve el slider lentamente hacia
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">a=1/4</annotation></semantics></math>
+y encuentra, de oído, el punto exacto donde el batido desaparece por
+completo. ¿Coincide con la marca de 1/4 que el laboratorio indica
+numéricamente?</li>
+<li><strong>Las ocho terceras puras, una por una.</strong> Recorre las
+ocho tríadas mayores “buenas” del teclado mesotónico (Mib, Sib, Fa, Do,
+Sol, Re, La, Mi) y confirma, en cada una, la misma quietud sin batido.
+Presta atención a si tu oído empieza a “esperar” ese silencio después de
+las primeras tres o cuatro.</li>
+<li><strong>El precipicio.</strong> Toca la tríada de Si mayor (que usa
+la tercera del lobo Si–Mib/Re#) inmediatamente después de una de las
+tríadas puras de la consigna anterior. Describe, en tus palabras, el
+contraste — no como “desafinación gradual” sino como salto
+cualitativo.</li>
+<li><strong>Sol# contra Lab.</strong> Usa el comparador A/B para
+escuchar la misma tecla física tocada primero como Sol# y luego como
+Lab, en el contexto de un acorde de Mi mayor y luego de un acorde de Fa
+menor respectivamente. Verifica de oído que son, efectivamente, alturas
+distintas, y no solo un tecnicismo de notación.</li>
+<li><strong>El semitono al revés.</strong> Toca, aislados, un semitono
+diatónico (por ejemplo Do#–Re) y un semitono cromático (Do–Do#) en el
+teclado mesotónico. Luego haz lo mismo en el teclado pitagórico del
+laboratorio de M3, si lo tienes a mano. Confirma de oído cuál semitono
+es más ancho en cada sistema.</li>
+<li><strong>El viaje de la progresión.</strong> Escucha la progresión
+que va de tonalidad cercana a lejana. Marca, cronómetro en mano o
+simplemente de oído, el acorde exacto donde la sensación cambia de
+“reposo” a “tensión extrema” — debería coincidir con el primer acorde
+que usa una nota fuera del jardín Mib–Sol#.</li>
+</ol>
+<h2 id="repertorio">12. Repertorio</h2>
+<ul>
+<li><strong>Girolamo Frescobaldi, <em>Fiori musicali</em> (1635) y los
+libros de <em>Toccate</em>.</strong> Frescobaldi compuso pensando en el
+temperamento mesotónico de su época; sus disonancias “de paso” y sus
+cromatismos exploratorios suenan, en mesotónico, mucho más orgánicos —y
+a veces más atrevidos— que en temperamento igual, porque las terceras
+que sí usa son perfectamente puras y las que evita son, precisamente,
+las del lobo.</li>
+<li><strong>Antonio de Cabezón y Francisco Correa de Arauxo, música de
+tecla española del Renacimiento y Barroco temprano.</strong> Ambos
+compositores usan con frecuencia lo que la tradición ibérica llama
+“falsas” — disonancias momentáneas, cromatismos con sabor expresivo. En
+mesotónico, estas falsas suenan <strong>más dramáticas</strong>, no
+menos: el contraste entre la pureza casi absoluta del resto de la
+textura y el momento de aspereza calculada se magnifica precisamente
+porque el sistema, la mayor parte del tiempo, no tiene ninguna aspereza
+que enmascare el efecto.</li>
+<li><strong>Jan Pieterszoon Sweelinck</strong>, y los virginalistas
+ingleses (William Byrd, John Bull, Orlando Gibbons, reunidos en el
+<em>Fitzwilliam Virginal Book</em>). Este repertorio, escrito casi
+enteramente dentro del jardín mesotónico estándar, es el mejor lugar
+para escuchar el temperamento “haciendo lo que mejor sabe hacer”:
+variaciones y fantasías que se quedan cerca de la tónica, con tríadas
+mayores que suenan, una tras otra, con una pureza que el temperamento
+igual jamás reproduce.</li>
+<li><strong>Qué escuchar en cada caso:</strong> identifica primero las
+tríadas mayores estructurales de la pieza (tónica, dominante,
+subdominante) y confirma que están dentro del jardín; luego busca el
+momento —si existe— donde el compositor se acerca deliberadamente al
+borde, y escucha si ese momento coincide con un clímax expresivo o
+armónico de la pieza.</li>
+</ul>
+<h2 id="mini-composición">13. Mini-composición</h2>
+<p>Escribe una pieza breve para teclado (16 a 24 compases), en un estilo
+cercano a la toccata o fantasía del Barroco temprano, que permanezca
+casi todo el tiempo dentro del “jardín” del mesotónico de 1/4 de coma
+(usa como máximo las notas Mib–Sib–Fa–Do–Sol–Re–La–Mi–Si, evitando Fa#,
+Do# y Sol# salvo que los uses con pleno conocimiento de causa). Diseña
+<strong>una sola incursión calculada</strong> hacia el territorio del
+lobo —un acorde, una nota de paso, un breve pasaje— que cruce
+deliberadamente la costura enarmónica (por ejemplo, usando Sol# donde el
+oído espera Lab, o viceversa), como gesto expresivo puntual, no como
+error. Anota en la partitura, con una frase, qué efecto buscas provocar
+en ese instante y por qué elegiste ese punto exacto de la forma para
+hacerlo. Guarda la pieza: en M6 la vas a poder tocar de nuevo en un buen
+temperamento y comparar cómo cambia (o desaparece) el efecto del
+“precipicio” que construiste.</p>
+<h2 id="autoevaluación">14. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar, con la ecuación
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>Q</mi><mo>−</mo><mn>2400</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">4Q-2400=386.314</annotation></semantics></math>,
+por qué la quinta del mesotónico de 1/4 de coma mide 696.578 c, sin
+mirar el apunte.</label></li>
+<li><label><input type="checkbox" />Puedo construir de memoria la cadena
+de 12 notas del mesotónico (Mib a Sol#) y ubicar aproximadamente dónde
+cae cada una en cents.</label></li>
+<li><label><input type="checkbox" />Puedo explicar por qué hay
+exactamente ocho terceras mayores puras y cuatro “del lobo”, y calcular
+el tamaño de cualquiera de las terceras del lobo.</label></li>
+<li><label><input type="checkbox" />Puedo explicar de dónde sale el
+nombre “mesotónico” en términos del tono medio (193.157 c) y demostrar
+que es tanto media aritmética en cents como media geométrica en
+razones.</label></li>
+<li><label><input type="checkbox" />Puedo calcular la quinta del lobo
+mesotónica y compararla, con números, con la quinta del lobo
+pitagórica.</label></li>
+<li><label><input type="checkbox" />Puedo derivar cualquier miembro de
+la familia
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mi>a</mi><mo>×</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">Q(a) = 701.955 - a \times 21.506</annotation></semantics></math>
+y explicar qué compra cada fracción célebre (1/4, 1/3,
+2/7).</label></li>
+<li><label><input type="checkbox" />Puedo explicar por qué Sol# y Lab
+son notas distintas en mesotónico, calcular su diferencia (41.059 c), y
+describir qué solución de hardware inventaron los constructores de
+teclados históricos.</label></li>
+<li><label><input type="checkbox" />Puedo describir, con vocabulario
+técnico y no solo impresionista, cómo suena una tríada mayor mesotónica
+“dentro del jardín” comparada con una que cruza el lobo.</label></li>
+</ul>
+<hr />
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications.</li>
+<li>Lindley, M. <em>Lutes, Viols and Temperaments</em>. Cambridge
+University Press.</li>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony (and Why You
+Should Care)</em>. W. W. Norton.</li>
+<li>Zarlino, G. <em>Le istitutioni harmoniche</em> (Venecia, 1558) —
+fuente histórica original del temperamento de 2/7 de coma.</li>
+<li>Jorgensen, O. <em>Tuning: Containing the Perfection of
+Eighteenth-Century Temperament</em>. Michigan State University
+Press.</li>
+<li>“Afinaciones y temperamentos históricos” (PDF de referencia del
+curso,
+<code>Tools/Afinaciones_y_temperamentos_hi_a751a5.pdf</code>).</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>).</li>
+</ul>
+<h2 id="anticipo-m6">Anticipo M6</h2>
+<p>El mesotónico resolvió el problema de la tercera escondiendo el lobo
+entero en una sola quinta monstruosa, y funcionó mientras la música no
+necesitara cruzar esa costura. Pero el repertorio, con el tiempo, empezó
+a exigir justo eso: modular lejos, usar todas las tonalidades, no tener
+ninguna tecla “prohibida”. La pregunta del próximo módulo es la
+evolución natural de todo lo que acabas de calcular: ¿y si, en vez de
+esconder la coma entera en un solo lugar, la <strong>picamos en
+pedacitos</strong> y la repartimos, con cuidado, por las doce quintas
+del círculo — de modo que ninguna sea tan mala como para llamarse lobo,
+aunque ninguna sea tampoco perfectamente pura?</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 5</p><button id="progress-btn" class="progress-btn" data-modulo="05-mesotonicos">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

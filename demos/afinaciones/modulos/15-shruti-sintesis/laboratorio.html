@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M15 · Laboratorio — El drone, los shruti y el mapa completo</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --mid:#e8c33d;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:960px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 14px;font-size:0.95rem;max-width:700px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:14px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.drone-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#1a1d29;border:1px solid var(--card-border);border-radius:12px;padding:12px 18px;margin-bottom:22px;box-shadow:0 6px 14px rgba(0,0,0,0.25);}
+.drone-bar .drone-status{color:var(--muted);font-size:0.82rem;flex:1;min-width:200px;}
+.drone-bar .drone-status b{color:var(--good);}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+.note-box.small{font-size:0.8rem;padding:9px 12px;}
+.note-box.warn{border-left-color:var(--warn);background:#1d1512;margin:0 0 20px;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:190px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+select,input[type=number],input[type=text]{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn.toggle-on{background:var(--good);color:#0c2415;border-color:var(--good);font-weight:700;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;cursor:default;margin:3px 5px 3px 0;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;}
+
+.svara-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px;margin:10px 0;}
+.svara-key{background:#262b38;border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;}
+.svara-key:hover{background:#313848;}
+.svara-key .sname{font-size:1.05rem;font-weight:800;color:var(--accent);display:block;}
+.svara-key .sratio{font-size:0.7rem;color:var(--muted);display:block;}
+.svara-key .scents{font-size:0.7rem;color:var(--muted);display:block;}
+
+.shruti-ladder{display:flex;flex-direction:column-reverse;gap:3px;margin-top:10px;max-height:560px;overflow-y:auto;padding:4px;background:#0d0f14;border:1px solid var(--line);border-radius:9px;}
+.shruti-step{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:7px;cursor:pointer;background:#1a1d25;border:1px solid transparent;flex-wrap:wrap;}
+.shruti-step:hover{background:#262b38;}
+.shruti-step.svara-match{border-color:var(--good);}
+.shruti-step .idx{width:22px;color:var(--muted);font-size:0.72rem;}
+.shruti-step .ratio{width:72px;font-variant-numeric:tabular-nums;color:var(--text);font-size:0.8rem;}
+.shruti-step .cents{width:76px;font-variant-numeric:tabular-nums;color:var(--accent);font-size:0.8rem;}
+.stepbadge{font-size:0.66rem;padding:2px 8px;border-radius:10px;background:#2a2e3a;color:var(--muted);}
+.step-coma{background:#3a2f12;color:#e8c33d;}
+.step-70{background:#1c2a3a;color:#9fc6f5;}
+.step-90{background:#123420;color:#bdf0d1;}
+.svara-badge{background:#12151d;border:1px solid var(--good);color:var(--good);border-radius:10px;padding:1px 8px;font-size:0.68rem;}
+
+.answer-grid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.answer-grid .btn{flex:1;min-width:150px;}
+.quiz-status{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px;color:var(--muted);font-size:0.85rem;}
+.quiz-status b{color:var(--text);}
+.level-banner{font-size:0.78rem;color:var(--muted);margin-bottom:10px;}
+.feedback{margin-top:12px;padding:12px 14px;border-radius:9px;font-size:0.87rem;display:none;}
+.feedback.correct{background:#123420;border:1px solid #2c6b45;color:#bdf0d1;}
+.feedback.incorrect{background:#3a1420;border:1px solid #7a2c40;color:#f5c2ce;}
+.summary{text-align:center;padding:14px;}
+.summary .score{font-size:2rem;font-weight:800;color:var(--accent);margin:8px 0;}
+
+.diploma-box{background:#12151d;border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:0.87rem;line-height:1.65;text-align:left;margin-top:10px;}
+.diploma-box b{color:var(--accent);}
+.diploma-row{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0;font-size:0.84rem;}
+textarea.copy-area{width:100%;min-height:150px;background:#0d0f14;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px;font:0.76rem/1.4 ui-monospace,monospace;margin-top:8px;}
+.copy-status{color:var(--good);font-size:0.8rem;min-height:18px;margin-top:4px;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .shruti-step .ratio, .shruti-step .cents{width:auto;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M15 · Laboratorio: El drone, los shruti y el mapa completo</h1>
+    <p class="subtitle">Cierre del curso: la tanpura y los svaras, el ga oscilante de Darbari, la escalera de 22 shruti, y un gran quiz final que mezcla las siete familias de afinación estudiadas. Todo el audio se sintetiza en el navegador.</p>
+    <div class="note-box warn">⚠ Los valores usados aquí (svaras, shruti, andolan) son <b>reconstrucciones didácticas 5-límite</b> con fines de estudio comparativo. La entonación indostaní real es mucho más flexible, depende del raga, del gharana y del momento de la interpretación, y se transmite oralmente de maestro a discípulo — no por tablas de cents.</div>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <div class="drone-bar">
+    <button class="btn primary" id="droneToggleBtn">🎼 Activar drone de tanpura</button>
+    <div class="drone-status" id="droneStatus">Sa (Do3, 130.81 Hz) + Pa (quinta 3/2) + Sa agudo — disponible en todo el laboratorio.</div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · La tanpura y los svaras</h2>
+    <p class="purpose">Activa el drone arriba y toca los 12 svaras: en afinación justa 5-límite sobre Sa, cada uno se ubica en una razón simple.</p>
+
+    <div class="svara-grid" id="l1SvaraGrid"></div>
+
+    <h3>El experimento: afinar contra el drone</h3>
+    <p class="purpose">Escucha el mismo Ga (5/4) con el drone encendido, luego sin él, y luego con el drone de vuelta. El punto no es el sonido de cada paso por separado, sino lo que pasa en el oído cuando el drone reaparece.</p>
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l1ExpBtn">▶ Escuchar experimento</button>
+    </div>
+    <div class="note-box small" id="l1ExpStatus">Pulsa el botón para empezar. (Requiere audio activado arriba.)</div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · El ga de Darbari</h2>
+    <p class="purpose">El komal gandhar (ga) de raga Darbari Kanada es célebre por sonar más grave que el 6/5 "de manual" y por oscilar lentamente (andolan). Explora su afinación sobre el drone.</p>
+
+    <div class="row">
+      <div class="field">
+        <label for="l2Slider">Altura de ga (cents sobre Sa)</label>
+        <input type="range" id="l2Slider" min="280" max="330" step="0.1" value="315.6">
+        <div><span class="value-tag" id="l2CentsLabel">315.6 c</span> · <span id="l2FreqLabel">160.68 Hz</span></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="l2PresetJust">6/5 justo (315.6 c)</button>
+      <button class="btn" id="l2PresetET">ET (300 c)</button>
+      <button class="btn" id="l2PresetDarbari">Darbari bajo (~295 c)</button>
+      <button class="btn" id="l2PresetPyth">32/27 pitagórico (294.1 c)</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l2ToggleBtn">▶ Sonar ga sostenido</button>
+      <button class="btn" id="l2AndolanBtn">Andolan: apagado</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn big-btn" id="l2PhraseBtn">🎵 Frase Darbari (Sa–Re–ga–Re–Sa)</button>
+    </div>
+
+    <div class="note-box small">El andolan aplica una oscilación lenta de ±8 c a ~0.5 Hz sobre la altura elegida, modulando el <code>detune</code> del oscilador con un LFO — el mismo ga "vibra" en vez de quedarse fijo, como el balanceo característico de esta nota en Darbari.</div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · La escalera de los 22 shruti</h2>
+    <p class="purpose">La reconstrucción clásica 5-límite de los 22 shruti, de Sa a Sa octava, sonando contra el drone. Clic en cualquier peldaño para escucharlo; los bordeados en verde coinciden exactamente con uno de los 12 svaras del Lab 1.</p>
+
+    <div class="legend" id="l3Legend">
+      <span class="chip stepbadge step-coma">~22 c (coma sintónica)</span>
+      <span class="chip stepbadge step-70">~70 c</span>
+      <span class="chip stepbadge step-90">~90 c (limma)</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l3RecorrerBtn">▶ Recorrer los 22</button>
+    </div>
+
+    <div class="shruti-ladder" id="l3Ladder"></div>
+
+    <div class="note-box small">Patrón de pasos: la escalera solo usa tres tamaños — la coma sintónica (81/80, ~21.5 c), un paso de ~70.7 c y el limma pitagórico (256/243, ~90.2 c) — combinados en distinto orden según el tramo de la octava.</div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · El gran quiz final</h2>
+    <p class="purpose">15 rondas mezclando TODO el curso: los 7 sistemas occidentales (M3–M8), EDOs (M9), justa extendida (M10), maqam (M13), gamelán (M14) e indostaní (M15). Máximo 3 escuchas por ronda.</p>
+
+    <div id="l4Intro">
+      <p>Rondas 1–5: familias muy distintas entre sí (fíjate en el timbre, no solo en la afinación). Rondas 6–10: todo el material es occidental histórico — ahí se afina el oído fino. Rondas 11–15: todo mezclado, incluidas las confusiones más sutiles (ET vs. EDO, justa vs. JI extendida).</p>
+      <p><i>Nota: mientras el quiz está activo, el drone de tanpura y el ga sostenido del Lab 2 se detienen automáticamente para que no interfieran con el material de cada ronda.</i></p>
+      <button class="btn primary big-btn" id="l4Start">Comenzar quiz</button>
+    </div>
+
+    <div id="l4Game" style="display:none;">
+      <div class="level-banner" id="l4LevelBanner"></div>
+      <div class="quiz-status">
+        <span id="l4RoundLabel"><b>Ronda 1 de 15</b></span>
+        <span>Puntaje: <b id="l4Score">0</b></span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="l4PlaySound">🔁 Escuchar material (quedan 3)</button>
+      </div>
+
+      <div class="answer-grid" id="l4AnswerGrid"></div>
+
+      <div class="feedback" id="l4Feedback"></div>
+
+      <div class="btn-row" id="l4NextRow" style="display:none;">
+        <button class="btn primary" id="l4Next">Siguiente ronda ▶</button>
+      </div>
+    </div>
+
+    <div id="l4Summary" style="display:none;" class="summary">
+      <div>Quiz terminado</div>
+      <div class="score" id="l4FinalScore">0 / 15</div>
+      <div class="diploma-box" id="l4Diploma"></div>
+      <div class="btn-row" style="justify-content:center;display:flex;flex-wrap:wrap;">
+        <button class="btn primary" id="l4CopyBtn">📋 Copiar resultado</button>
+        <button class="btn" id="l4Restart">Reiniciar quiz</button>
+      </div>
+      <textarea class="copy-area" id="l4CopyArea" readonly style="display:none;"></textarea>
+      <div class="copy-status" id="l4CopyStatus"></div>
+    </div>
+  </section>
+
+  <footer>
+    Módulo 15 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* ==================== UTILIDADES MUSICALES ==================== */
+function ratioToCents(n, d){ return 1200 * Math.log2(n/d); }
+function fmtCents(c){ return (c >= 0 ? '+' : '') + c.toFixed(1); }
+
+// Timbre rico en armónicos (8 armónicos, amplitud 1/n) vía createPeriodicWave —
+// la misma convención del resto del curso, necesaria para oír con claridad las
+// diferencias de afinación entre sistemas.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima (ataque/release exponenciales) para una nota de duración
+// fija. Devuelve el instante en que termina el release.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Timbre melódico sostenido tipo voz/sarangi: parte del mismo banco armónico rico
+// (8 armónicos, 1/n) exigido por la guía para oír bien la afinación, pero se le
+// quita el filo metálico con un pasabajos suave — y usa un attack de 100 ms
+// (en vez de los ~20 ms de las notas "percusivas" de otros labs) para una entrada
+// redonda, como una voz o un sarangi apoyándose en la nota.
+function createVoiceOsc(ctx, freq){
+  const osc = createHarmonicOsc(ctx, freq, 8);
+  const filt = ctx.createBiquadFilter();
+  filt.type = 'lowpass';
+  filt.frequency.value = Math.min(4200, freq * 9);
+  filt.Q.value = 0.6;
+  osc.connect(filt);
+  return { osc: osc, output: filt };
+}
+
+// Reproduce una nota melódica sostenida; si andolan=true, añade un LFO de 0.5 Hz
+// y profundidad ±8 cents sobre el detune del oscilador durante toda la nota.
+function playVoiceNote(freq, start, dur, peak, andolan){
+  if(!audioCtx) return start;
+  const v = createVoiceOsc(audioCtx, freq);
+  const g = audioCtx.createGain();
+  v.output.connect(g); g.connect(masterGain);
+  const end = scheduleTone(g.gain, start, dur, peak, 0.10, 0.18);
+  v.osc.start(start);
+  v.osc.stop(end + 0.05);
+  let lfo = null, lfoGain = null;
+  if(andolan){
+    lfo = audioCtx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = 0.5;
+    lfoGain = audioCtx.createGain();
+    lfoGain.gain.value = 8; // profundidad ±8 cents, directo sobre detune (en cents)
+    lfo.connect(lfoGain);
+    lfoGain.connect(v.osc.detune);
+    lfo.start(start);
+    lfo.stop(end + 0.05);
+  }
+  v.osc.addEventListener('ended', function(){
+    try{ v.osc.disconnect(); v.output.disconnect(); g.disconnect(); }catch(e){}
+    if(lfo){ try{ lfo.disconnect(); lfoGain.disconnect(); }catch(e){} }
+  });
+  return end;
+}
+
+// Acorde sostenido y ACOTADO (no es un loop): usado como bordón de fondo para
+// materiales del quiz (maqam, indostaní) que necesitan "drone" pero deben apagarse
+// solos al terminar la ronda, sin depender del dron persistente del Lab 1-3.
+function playDroneChord(freqs, start, dur, peak){
+  if(!audioCtx) return;
+  freqs.forEach(function(f){
+    const osc = createHarmonicOsc(audioCtx, f, 6);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, start, dur, peak, 0.3, 0.4);
+    osc.start(start); osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  });
+}
+
+/* ==================== DRONE DE TANPURA (persistente, Lab 1-3) ==================== */
+// El dron es la referencia armónica de todo el laboratorio: Sa - Pa - Sa agudo.
+// Para evocar el "jvari" (el zumbido característico del puente curvo de la tanpura,
+// que hace que cada armónico entre y salga de foco todo el tiempo) la amplitud de
+// CADA armónico (12 por nota) se modula con su propio LFO lento (~0.3 Hz, período
+// ~3 s, profundidad ±10%) conectado directamente al AudioParam de ganancia — las
+// conexiones a un AudioParam se SUMAN en Web Audio, así que el LFO oscila alrededor
+// del valor base sin necesitar setValueCurveAtTime. Cada LFO arranca en un instante
+// aleatorio para que los 36 armónicos no "respiren" todos en fase.
+const SA = 130.81;            // Sa = Do3
+const PA = SA * 3/2;          // Pa = quinta justa sobre Sa
+const SA_AGUDO = SA * 2;      // Sa agudo = octava de Sa
+const DRONE_NOTES = [ { freq: SA, w: 1.00 }, { freq: PA, w: 0.85 }, { freq: SA_AGUDO, w: 0.70 } ];
+const DRONE_HARM = 12;
+const DRONE_BASE_AMP = 0.10;
+
+let droneOn = false;
+let droneVoices = [];
+let droneBus = null;
+let droneLocked = false;
+
+const droneToggleBtn = document.getElementById('droneToggleBtn');
+const droneStatus = document.getElementById('droneStatus');
+
+function startDrone(){
+  if(!ensureAudioReady() || droneOn || droneLocked) return;
+  droneOn = true;
+  const now = audioCtx.currentTime;
+  droneBus = audioCtx.createGain();
+  droneBus.gain.setValueAtTime(0.0001, now);
+  droneBus.gain.exponentialRampToValueAtTime(1, now + 1.4);
+  droneBus.connect(masterGain);
+  DRONE_NOTES.forEach(function(note){
+    for(let k = 1; k <= DRONE_HARM; k++){
+      const osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = note.freq * k;
+      const baseAmp = (DRONE_BASE_AMP * note.w) / k;
+      const g = audioCtx.createGain();
+      g.gain.value = baseAmp;
+      osc.connect(g); g.connect(droneBus);
+
+      const lfo = audioCtx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.28 + Math.random()*0.12; // ciclos de ~3.0-3.6 s, desincronizados
+      const lfoGain = audioCtx.createGain();
+      lfoGain.gain.value = baseAmp * 0.10; // profundidad de modulación: ±10% de la amplitud base
+      lfo.connect(lfoGain);
+      lfoGain.connect(g.gain);
+
+      osc.start(now);
+      lfo.start(now + Math.random()*2.5);
+      droneVoices.push({ osc: osc, gain: g, lfo: lfo, lfoGain: lfoGain });
+    }
+  });
+  updateDroneUI();
+}
+
+function stopDrone(){
+  if(!droneOn) return;
+  droneOn = false;
+  const now = audioCtx.currentTime;
+  const voices = droneVoices; droneVoices = [];
+  const bus = droneBus; droneBus = null;
+  bus.gain.cancelScheduledValues(now);
+  bus.gain.setValueAtTime(bus.gain.value, now);
+  bus.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
+  setTimeout(function(){
+    voices.forEach(function(v){
+      try{ v.osc.stop(); }catch(e){}
+      try{ v.lfo.stop(); }catch(e){}
+      try{ v.osc.disconnect(); v.lfo.disconnect(); v.gain.disconnect(); v.lfoGain.disconnect(); }catch(e){}
+    });
+    try{ bus.disconnect(); }catch(e){}
+  }, 800);
+  updateDroneUI();
+}
+
+function updateDroneUI(){
+  droneToggleBtn.textContent = droneOn ? '■ Detener drone' : '🎼 Activar drone de tanpura';
+  droneToggleBtn.className = droneOn ? 'btn toggle-on' : 'btn primary';
+  if(droneLocked){
+    droneStatus.innerHTML = 'El drone se pausó automáticamente mientras el <b>quiz</b> está activo (Lab 4).';
+  } else {
+    droneStatus.innerHTML = droneOn
+      ? '<b>Sonando</b>: Sa (130.81 Hz) + Pa + Sa agudo, con jvari (12 armónicos modulados).'
+      : 'Sa (Do3, 130.81 Hz) + Pa (quinta 3/2) + Sa agudo — disponible en todo el laboratorio.';
+  }
+}
+
+droneToggleBtn.addEventListener('click', function(){
+  if(droneLocked) return;
+  if(droneOn) stopDrone(); else startDrone();
+});
+
+// Usado por el Lab 4 (quiz): apaga y bloquea el dron persistente y el ga sostenido
+// del Lab 2 mientras dura el quiz, para que ningún loop de fondo se cruce con el
+// material de las rondas; se libera de nuevo al terminar o reiniciar el quiz.
+function setBackgroundLoopsLocked(locked){
+  droneLocked = locked;
+  droneToggleBtn.disabled = locked;
+  if(locked){
+    stopDrone();
+    stopGaHold();
+  }
+  updateDroneUI();
+  if(typeof updateGaHoldUI === 'function') updateGaHoldUI();
+}
+
+/* ==================== SOSTENIDO DE GA (Lab 2, estado compartido) ==================== */
+let gaCents = 315.6; // preset inicial: 6/5 justo
+let andolanOn = false;
+let gaHoldOn = false;
+let gaOsc = null, gaGain = null, gaLfo = null, gaLfoGain = null;
+let gaHoldLocked = false;
+
+function gaFreqFromCents(){ return SA * Math.pow(2, gaCents/1200); }
+
+function startGaHold(){
+  if(!ensureAudioReady() || gaHoldOn || gaHoldLocked) return;
+  gaHoldOn = true;
+  const now = audioCtx.currentTime;
+  const v = createVoiceOsc(audioCtx, gaFreqFromCents());
+  gaOsc = v.osc;
+  gaGain = audioCtx.createGain();
+  v.output.connect(gaGain); gaGain.connect(masterGain);
+  gaGain.gain.setValueAtTime(0.0001, now);
+  gaGain.gain.exponentialRampToValueAtTime(0.22, now + 0.12);
+  gaLfo = audioCtx.createOscillator();
+  gaLfo.type = 'sine';
+  gaLfo.frequency.value = 0.5;
+  gaLfoGain = audioCtx.createGain();
+  gaLfoGain.gain.value = andolanOn ? 8 : 0;
+  gaLfo.connect(gaLfoGain); gaLfoGain.connect(gaOsc.detune);
+  gaOsc.start(now);
+  gaLfo.start(now);
+  updateGaHoldUI();
+}
+
+function stopGaHold(){
+  if(!gaHoldOn) return;
+  gaHoldOn = false;
+  const now = audioCtx.currentTime;
+  gaGain.gain.cancelScheduledValues(now);
+  gaGain.gain.setValueAtTime(Math.max(gaGain.gain.value, 0.0001), now);
+  gaGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+  const osc = gaOsc, lfo = gaLfo, g = gaGain, lg = gaLfoGain;
+  gaOsc = null; gaLfo = null; gaGain = null; gaLfoGain = null;
+  setTimeout(function(){
+    try{ osc.stop(); lfo.stop(); }catch(e){}
+    try{ osc.disconnect(); lfo.disconnect(); g.disconnect(); lg.disconnect(); }catch(e){}
+  }, 250);
+  updateGaHoldUI();
+}
+
+function updateGaHoldLive(){
+  if(gaHoldOn && gaOsc && audioCtx) gaOsc.frequency.setTargetAtTime(gaFreqFromCents(), audioCtx.currentTime, 0.02);
+}
+
+let updateGaHoldUI = function(){}; // se reasigna dentro de la IIFE del Lab 2, cuando el DOM ya existe
+
+/* ==================== MÓDULO-SÍNTESIS: LOS 7 SISTEMAS OCCIDENTALES (M3-M8) ==================== */
+// Copiado tal cual del laboratorio del Módulo 8 (misma convención, incluida la del
+// schisma de Kirnberger III en Fa#-Do#) para que el quiz final use exactamente los
+// mismos sistemas que el resto del curso.
+const DO4 = 261.63;
+const PURE_FIFTH = 1200 * Math.log2(3/2);              // 701.955 c
+const PYTH_COMMA = 1200 * Math.log2(531441/524288);    // 23.460 c
+const SYN_COMMA  = 1200 * Math.log2(81/80);            // 21.506 c
+const POS_TO_PC = {'-3':3,'-2':10,'-1':5,'0':0,'1':7,'2':2,'3':9,'4':4,'5':11,'6':6,'7':1,'8':8};
+
+function buildFromFifthChain(fifthSizes){
+  const cumulative = {0:0};
+  for(let k = 1; k <= 8; k++) cumulative[k] = cumulative[k-1] + fifthSizes[k+2];
+  for(let k = -1; k >= -3; k--) cumulative[k] = cumulative[k+1] - fifthSizes[k+3];
+  const cents = new Array(12).fill(0);
+  for(let k = -3; k <= 8; k++){
+    let c = cumulative[k] % 1200;
+    if(c < 0) c += 1200;
+    cents[POS_TO_PC[String(k)]] = c;
+  }
+  return cents;
+}
+
+function tempered(fifthSize, temperedIndices){
+  const arr = new Array(11).fill(PURE_FIFTH);
+  temperedIndices.forEach(function(i){ arr[i] = fifthSize; });
+  return arr;
+}
+
+const JUST_RATIOS = [[1,1],[16,15],[9,8],[6,5],[5,4],[4,3],[45,32],[3,2],[8,5],[5,3],[9,5],[15,8]];
+const JUST_CENTS = JUST_RATIOS.map(function(r){ return 1200*Math.log2(r[0]/r[1]); });
+
+const TUNING_SYSTEMS = [
+  {
+    id: 'pit', nombre: 'Pitagórica',
+    cents: buildFromFifthChain(new Array(11).fill(PURE_FIFTH))
+  },
+  {
+    id: 'just', nombre: 'Justa 5-límite',
+    cents: JUST_CENTS.slice()
+  },
+  {
+    id: 'meso', nombre: 'Mesotónico 1/4 coma',
+    cents: buildFromFifthChain(new Array(11).fill(PURE_FIFTH - SYN_COMMA/4))
+  },
+  {
+    id: 'werck', nombre: 'Werckmeister III',
+    cents: buildFromFifthChain(tempered(PURE_FIFTH - PYTH_COMMA/4, [3,4,5,8]))
+  },
+  {
+    id: 'vallotti', nombre: 'Vallotti',
+    cents: buildFromFifthChain(tempered(PURE_FIFTH - PYTH_COMMA/6, [2,3,4,5,6,7]))
+  },
+  {
+    id: 'kirn', nombre: 'Kirnberger III',
+    // Convención del proyecto (Tools/afinacion.html y apunte M6): el schisma va en
+    // Fa#-Do# (índice 9 de la cadena).
+    cents: buildFromFifthChain((function(){
+      const w = tempered(PURE_FIFTH - SYN_COMMA/4, [3,4,5,6]);
+      w[9] -= (PYTH_COMMA - SYN_COMMA); // schisma = 1.954 c
+      return w;
+    })())
+  },
+  {
+    id: 'et', nombre: 'Temperamento igual',
+    cents: buildFromFifthChain(new Array(11).fill(700))
+  }
+];
+
+function sysById(id){ for(const s of TUNING_SYSTEMS) if(s.id === id) return s; return null; }
+
+function noteFreqWestern(semitoneOffset, cents){
+  const pc = ((semitoneOffset % 12) + 12) % 12;
+  const octave = Math.floor(semitoneOffset / 12);
+  return DO4 * Math.pow(2, cents[pc]/1200) * Math.pow(2, octave);
+}
+
+const KEY_ROOTS = [0, 7, 4, 8]; // Do, Sol, Mi, Lab
+const KEY_NAMES = { 0:'Do', 7:'Sol', 4:'Mi', 8:'Lab' };
+
+function playCadenceWestern(cents, rootPc){
+  if(!ensureAudioReady()) return 0;
+  const seq = [[0,4,7],[5,9,12],[7,11,14],[0,4,7]];
+  const dur = 1.1;
+  const now = audioCtx.currentTime + 0.05;
+  seq.forEach(function(offsets, i){
+    const freqs = offsets.map(function(o){ return noteFreqWestern(rootPc + o, cents); });
+    const t = now + i*dur;
+    const peak = 0.24 / Math.sqrt(freqs.length);
+    freqs.forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, t, dur, peak, 0.02, 0.25);
+      osc.start(t); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+    });
+  });
+  return seq.length * dur;
+}
+
+/* ==================== EDOs (M9) ==================== */
+// Convención propia de este laboratorio (M9 no fija una): la cadencia I-IV-V-I se
+// "trasplanta" a un N-EDO redondeando cada grado (en semitonos de 12-TET) al
+// escalón más cercano de 1200/N cents. Es exactamente lo mismo que hace un
+// instrumento MIDI microtonal al forzar un acorde de 12-TET a otra rejilla.
+function edoFreqForSemitone(semitoneOffset, edoN, refFreq){
+  const step = 1200/edoN;
+  const nSteps = Math.round(semitoneOffset * edoN/12);
+  return refFreq * Math.pow(2, (nSteps*step)/1200);
+}
+
+function playCadenceEDO(edoN, rootPc){
+  if(!ensureAudioReady()) return 0;
+  const seq = [[0,4,7],[5,9,12],[7,11,14],[0,4,7]];
+  const dur = 1.1;
+  const now = audioCtx.currentTime + 0.05;
+  seq.forEach(function(offsets, i){
+    const freqs = offsets.map(function(o){ return edoFreqForSemitone(rootPc + o, edoN, DO4); });
+    const t = now + i*dur;
+    const peak = 0.24 / Math.sqrt(freqs.length);
+    freqs.forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 8);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      const end = scheduleTone(g.gain, t, dur, peak, 0.02, 0.25);
+      osc.start(t); osc.stop(end + 0.05);
+      osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+    });
+  });
+  return seq.length * dur;
+}
+
+/* ==================== JI EXTENDIDA (M10) ==================== */
+function jiExtChordFreqs(kind, base){
+  if(kind === 'harm7') return [4,5,6,7].map(function(r){ return base*r/4; });
+  return [8,9,10,11,12].map(function(r){ return base*r/8; }); // otonalidad 8:9:10:11:12
+}
+
+function playJIExtChord(kind, base){
+  if(!ensureAudioReady()) return 0;
+  const freqs = jiExtChordFreqs(kind, base);
+  const now = audioCtx.currentTime + 0.05;
+  const dur = 3.0;
+  const peak = 0.24 / Math.sqrt(freqs.length);
+  freqs.forEach(function(f){
+    const osc = createHarmonicOsc(audioCtx, f, 8);
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const end = scheduleTone(g.gain, now, dur, peak, 0.03, 0.4);
+    osc.start(now); osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  });
+  return dur;
+}
+
+/* ==================== MAQAM (M13) ==================== */
+function playMaqamPhrase(base){
+  if(!ensureAudioReady()) return 0;
+  const now = audioCtx.currentTime + 0.05;
+  const droneDur = 3.4;
+  playDroneChord([base, base*3/2], now, droneDur, 0.14);
+  const notesCents = [0, 355, 500, 355, 0]; // tónica - 3.ª neutra - 4.ª - 3.ª neutra - tónica
+  const dur = 0.6;
+  let t = now + 0.15;
+  notesCents.forEach(function(c){
+    playVoiceNote(base * Math.pow(2, c/1200), t, dur, 0.20, false);
+    t += dur*0.9;
+  });
+  return droneDur;
+}
+
+/* ==================== GAMELÁN (M14) ==================== */
+const GAMELAN_PARTIALS = [1, 2.76, 5.40, 8.93]; // barra inarmónica (aprox. metalófono golpeado)
+const GAMELAN_PARTIAL_AMPS = [1, 0.55, 0.32, 0.18];
+const SLENDRO_CENTS = [0, 231, 474, 717, 955]; // slendro aproximado (5 notas)
+
+function playGamelanTone(freq, start, peak){
+  GAMELAN_PARTIALS.forEach(function(ratio, i){
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = freq * ratio;
+    const g = audioCtx.createGain();
+    osc.connect(g); g.connect(masterGain);
+    const amp = peak * GAMELAN_PARTIAL_AMPS[i];
+    const dur = Math.max(1.6 - i*0.15, 0.6);
+    const end = scheduleTone(g.gain, start, dur, amp, 0.004, Math.max(dur - 0.05, 0.3));
+    osc.start(start); osc.stop(end + 0.05);
+    osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  });
+}
+
+function playGamelanPhrase(base){
+  if(!ensureAudioReady()) return 0;
+  const now = audioCtx.currentTime + 0.05;
+  const dur = 0.5;
+  SLENDRO_CENTS.forEach(function(c, i){ playGamelanTone(base * Math.pow(2, c/1200), now + i*dur, 0.24); });
+  return SLENDRO_CENTS.length*dur + 1.3;
+}
+
+/* ==================== INDOSTANÍ (M15, este mismo laboratorio) ==================== */
+function playIndostaniPhrase(){
+  if(!ensureAudioReady()) return 0;
+  const now = audioCtx.currentTime + 0.05;
+  const droneDur = 3.6;
+  playDroneChord([SA, PA, SA_AGUDO], now, droneDur, 0.10);
+  const seq = [[1,1],[5,4],[4,3],[3,2],[1,1]]; // Sa-Ga-ma-Pa-Sa
+  const dur = 0.6;
+  let t = now + 0.15;
+  seq.forEach(function(r){
+    playVoiceNote(SA*r[0]/r[1], t, dur, 0.20, false);
+    t += dur*0.9;
+  });
+  return droneDur;
+}
+
+/* ==================== Lab 1: La tanpura y los svaras ==================== */
+(function(){
+  const grid = document.getElementById('l1SvaraGrid');
+  const expBtn = document.getElementById('l1ExpBtn');
+  const expStatus = document.getElementById('l1ExpStatus');
+
+  const SVARAS = [
+    { name:'Sa', n:1, d:1 }, { name:'re', n:16, d:15 }, { name:'Re', n:9, d:8 },
+    { name:'ga', n:6, d:5 }, { name:'Ga', n:5, d:4 }, { name:'ma', n:4, d:3 },
+    { name:'Ma', n:45, d:32 }, { name:'Pa', n:3, d:2 }, { name:'dha', n:8, d:5 },
+    { name:'Dha', n:5, d:3 }, { name:'ni', n:16, d:9 }, { name:'Ni', n:15, d:8 }
+  ];
+
+  SVARAS.forEach(function(sv){
+    const cents = ratioToCents(sv.n, sv.d);
+    const key = document.createElement('div');
+    key.className = 'svara-key';
+    key.innerHTML =
+      '<span class="sname">' + sv.name + '</span>' +
+      '<span class="sratio">' + sv.n + '/' + sv.d + '</span>' +
+      '<span class="scents">' + cents.toFixed(1) + ' c</span>';
+    key.addEventListener('click', function(){
+      if(!ensureAudioReady()) return;
+      playVoiceNote(SA * sv.n/sv.d, audioCtx.currentTime + 0.04, 1.9, 0.22, false);
+    });
+    grid.appendChild(key);
+  });
+
+  let expRunning = false;
+  function runExperiment(){
+    if(!ensureAudioReady() || expRunning) return;
+    expRunning = true;
+    expBtn.disabled = true;
+    const wasOn = droneOn;
+    if(!wasOn && !droneLocked) startDrone();
+    const gaFreq = SA * 5/4;
+    const t0 = wasOn ? 150 : 1400;
+
+    expStatus.textContent = '1) Ga con drone (se funde)…';
+    setTimeout(function(){ playVoiceNote(gaFreq, audioCtx.currentTime + 0.02, 2.0, 0.22, false); }, t0);
+
+    const t1 = t0 + 2300;
+    setTimeout(function(){
+      expStatus.textContent = '2) Drone apagado — el mismo Ga, solo…';
+      stopDrone();
+    }, t1);
+
+    const t2 = t1 + 900;
+    setTimeout(function(){ playVoiceNote(gaFreq, audioCtx.currentTime + 0.02, 1.6, 0.22, false); }, t2);
+
+    const t3 = t2 + 2000;
+    setTimeout(function(){
+      expStatus.textContent = '3) El drone vuelve — el oído reencuentra el Ga…';
+      if(!droneLocked) startDrone();
+    }, t3);
+
+    const t4 = t3 + 1500;
+    setTimeout(function(){ playVoiceNote(gaFreq, audioCtx.currentTime + 0.02, 2.2, 0.22, false); }, t4);
+
+    const t5 = t4 + 2700;
+    setTimeout(function(){
+      expStatus.textContent = 'Contra el drone, el oído sabe dónde afinar: por eso la tanpura nunca calla en un concierto indostaní.';
+      expBtn.disabled = false;
+      expRunning = false;
+    }, t5);
+  }
+
+  expBtn.addEventListener('click', runExperiment);
+})();
+
+/* ==================== Lab 2: El ga de Darbari ==================== */
+(function(){
+  const slider = document.getElementById('l2Slider');
+  const centsLabel = document.getElementById('l2CentsLabel');
+  const freqLabel = document.getElementById('l2FreqLabel');
+  const toggleBtn = document.getElementById('l2ToggleBtn');
+  const andolanBtn = document.getElementById('l2AndolanBtn');
+  const phraseBtn = document.getElementById('l2PhraseBtn');
+
+  function refreshLabels(){
+    centsLabel.textContent = gaCents.toFixed(1) + ' c';
+    freqLabel.textContent = gaFreqFromCents().toFixed(2) + ' Hz';
+  }
+
+  function setGaCents(c){
+    gaCents = Math.max(280, Math.min(330, c));
+    slider.value = gaCents;
+    refreshLabels();
+    updateGaHoldLive();
+  }
+
+  updateGaHoldUI = function(){
+    toggleBtn.disabled = gaHoldLocked;
+    toggleBtn.textContent = gaHoldOn ? '■ Detener ga' : '▶ Sonar ga sostenido';
+    toggleBtn.className = gaHoldOn ? 'btn toggle-on' : 'btn primary big-btn';
+  };
+
+  slider.addEventListener('input', function(){ setGaCents(parseFloat(slider.value)); });
+
+  document.getElementById('l2PresetJust').addEventListener('click', function(){ setGaCents(ratioToCents(6,5)); });
+  document.getElementById('l2PresetET').addEventListener('click', function(){ setGaCents(300); });
+  document.getElementById('l2PresetDarbari').addEventListener('click', function(){ setGaCents(295); });
+  document.getElementById('l2PresetPyth').addEventListener('click', function(){ setGaCents(ratioToCents(32,27)); });
+
+  toggleBtn.addEventListener('click', function(){
+    if(gaHoldLocked) return;
+    if(gaHoldOn) stopGaHold(); else startGaHold();
+  });
+
+  andolanBtn.addEventListener('click', function(){
+    andolanOn = !andolanOn;
+    andolanBtn.textContent = 'Andolan: ' + (andolanOn ? 'encendido (±8 c, 0.5 Hz)' : 'apagado');
+    andolanBtn.className = andolanOn ? 'btn toggle-on' : 'btn';
+    if(gaHoldOn && gaLfoGain && audioCtx){
+      gaLfoGain.gain.setTargetAtTime(andolanOn ? 8 : 0, audioCtx.currentTime, 0.05);
+    }
+  });
+
+  phraseBtn.addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.05;
+    const ReC = ratioToCents(9,8); // Re shuddha
+    const notes = [
+      { c:0, dur:0.7, andolan:false },
+      { c:ReC, dur:0.7, andolan:false },
+      { c:gaCents, dur:1.5, andolan:andolanOn },
+      { c:ReC, dur:0.7, andolan:false },
+      { c:0, dur:1.0, andolan:false }
+    ];
+    let t = now;
+    notes.forEach(function(n){
+      const freq = SA * Math.pow(2, n.c/1200);
+      playVoiceNote(freq, t, n.dur, 0.22, n.andolan);
+      t += n.dur + 0.05;
+    });
+  });
+
+  refreshLabels();
+  updateGaHoldUI();
+})();
+
+/* ==================== Lab 3: La escalera de los 22 shruti ==================== */
+(function(){
+  const ladderBox = document.getElementById('l3Ladder');
+  const recorrerBtn = document.getElementById('l3RecorrerBtn');
+
+  const SHRUTI_RATIOS = [
+    [256,243],[16,15],[10,9],[9,8],[32,27],[6,5],[5,4],[81,64],[4,3],[27,20],
+    [45,32],[729,512],[3,2],[128,81],[8,5],[5,3],[27,16],[16,9],[9,5],[15,8],
+    [243,128],[2,1]
+  ];
+  const SVARA_MATCH = {
+    '1/1':'Sa', '16/15':'re', '9/8':'Re', '6/5':'ga', '5/4':'Ga', '4/3':'ma',
+    '45/32':'Ma', '3/2':'Pa', '8/5':'dha', '5/3':'Dha', '16/9':'ni', '15/8':'Ni'
+  };
+
+  const LADDER = [ { n:1, d:1, ratio:1, cents:0 } ];
+  SHRUTI_RATIOS.forEach(function(r){
+    LADDER.push({ n:r[0], d:r[1], ratio:r[0]/r[1], cents: ratioToCents(r[0], r[1]) });
+  });
+  for(let i = 1; i < LADDER.length; i++) LADDER[i].step = LADDER[i].cents - LADDER[i-1].cents;
+
+  function classifyStep(step){
+    if(step < 45) return { cls:'step-coma', label:'~22 c' };
+    if(step < 82) return { cls:'step-70', label:'~70 c' };
+    return { cls:'step-90', label:'~90 c' };
+  }
+
+  function playShrutiRow(row){
+    if(!ensureAudioReady()) return;
+    playVoiceNote(SA * row.ratio, audioCtx.currentTime + 0.04, 1.6, 0.22, false);
+  }
+
+  LADDER.forEach(function(row, i){
+    const key = row.n + '/' + row.d;
+    const svara = SVARA_MATCH[key];
+    const div = document.createElement('div');
+    div.className = 'shruti-step' + (svara ? ' svara-match' : '');
+    let stepHtml;
+    if(i === 0){
+      stepHtml = '<span class="stepbadge">inicio</span>';
+    } else {
+      const info = classifyStep(row.step);
+      stepHtml = '<span class="stepbadge ' + info.cls + '">' + info.label + '</span>';
+    }
+    div.innerHTML =
+      '<span class="idx">' + i + '</span>' +
+      '<span class="ratio">' + row.n + '/' + row.d + '</span>' +
+      '<span class="cents">' + row.cents.toFixed(1) + ' c</span>' +
+      stepHtml +
+      (svara ? '<span class="svara-badge">= ' + svara + '</span>' : '');
+    div.addEventListener('click', function(){ playShrutiRow(row); });
+    ladderBox.appendChild(div);
+  });
+
+  recorrerBtn.addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.05;
+    const dur = 0.42;
+    LADDER.forEach(function(row, i){
+      playVoiceNote(SA * row.ratio, now + i*dur, dur*0.95, 0.20, false);
+    });
+  });
+})();
+
+/* ==================== Lab 4: El gran quiz final ==================== */
+(function(){
+  const introBox = document.getElementById('l4Intro');
+  const gameBox = document.getElementById('l4Game');
+  const summaryBox = document.getElementById('l4Summary');
+  const levelBanner = document.getElementById('l4LevelBanner');
+  const roundLabel = document.getElementById('l4RoundLabel');
+  const scoreLabel = document.getElementById('l4Score');
+  const playSoundBtn = document.getElementById('l4PlaySound');
+  const answerGrid = document.getElementById('l4AnswerGrid');
+  const feedbackBox = document.getElementById('l4Feedback');
+  const nextRow = document.getElementById('l4NextRow');
+  const nextBtn = document.getElementById('l4Next');
+  const finalScoreLabel = document.getElementById('l4FinalScore');
+  const diplomaBox = document.getElementById('l4Diploma');
+  const copyBtn = document.getElementById('l4CopyBtn');
+  const copyArea = document.getElementById('l4CopyArea');
+  const copyStatus = document.getElementById('l4CopyStatus');
+
+  const ANSWER_OPTIONS = [
+    { id:'pit', label:'Pitagórica' },
+    { id:'just', label:'Justa (5-límite)' },
+    { id:'meso', label:'Mesotónico' },
+    { id:'buentemp', label:'Buen temperamento (circulante)' },
+    { id:'et', label:'Temperamento igual' },
+    { id:'edo', label:'EDO alternativo (19/31)' },
+    { id:'jiext', label:'JI extendida' },
+    { id:'drone', label:'Tradición de drone / modal' },
+    { id:'gamelan', label:'Gamelán' }
+  ];
+
+  const WEST_ANSWER_MAP = { pit:'pit', just:'just', meso:'meso', werck:'buentemp', vallotti:'buentemp', kirn:'buentemp', et:'et' };
+  const WEST_EXPLAIN = {
+    pit: 'el ditono pitagórico (81/64, 407.8 c) ensancha la tercera al acumular cuatro quintas puras',
+    just: 'la tercera 5/4 no bate: es la firma de las razones 5-límite exactas',
+    meso: 'la tercera se empareja con la justa a costa de encoger todas las quintas 1/4 de coma',
+    werck: 'reparte la coma en solo 4 quintas: color de tonalidad marcado',
+    vallotti: 'reparte la coma suavemente en 6 quintas: casi indistinguible del temperamento igual',
+    kirn: 'deja la tercera Do-Mi pura y concentra el ajuste en otras quintas',
+    et: '12 semitonos idénticos: ninguna tonalidad suena mejor que otra'
+  };
+
+  const FAMILY_INFO = {
+    a: { label:'Occidental histórico', module:'M3–M8 (Pitagórica → Mapa comparativo)' },
+    b: { label:'EDOs', module:'M9 (EDOs)' },
+    c: { label:'JI extendida', module:'M10 (Justa extendida)' },
+    d: { label:'Maqam', module:'M13 (Maqam árabe)' },
+    e: { label:'Gamelán', module:'M14 (Gamelán)' },
+    f: { label:'Indostaní / shruti', module:'M15, Labs 1–3 (este mismo módulo)' }
+  };
+  const QUIZ_FAMILIES = ['a','b','c','d','e','f'];
+
+  function buildRound(family){
+    if(family === 'a'){
+      const sys = TUNING_SYSTEMS[Math.floor(Math.random()*TUNING_SYSTEMS.length)];
+      const rootPc = KEY_ROOTS[Math.floor(Math.random()*KEY_ROOTS.length)];
+      return {
+        family: 'a', correct: WEST_ANSWER_MAP[sys.id],
+        play: function(){ return playCadenceWestern(sys.cents, rootPc); },
+        explain: function(){
+          const thirdC = ((sys.cents[(rootPc+4)%12] - sys.cents[rootPc%12]) % 1200 + 1200) % 1200;
+          const dev = thirdC - 386.314;
+          return 'Cadencia I–IV–V–I en <b>' + sys.nombre + '</b> (tonalidad de ' + KEY_NAMES[rootPc] + '). Tercera mayor de la tónica: ' +
+            thirdC.toFixed(1) + ' c (' + fmtCents(dev) + ' c resp. a la justa): ' + WEST_EXPLAIN[sys.id] + '.';
+        }
+      };
+    }
+    if(family === 'b'){
+      const edoN = Math.random() < 0.5 ? 19 : 31;
+      const rootPc = KEY_ROOTS[Math.floor(Math.random()*KEY_ROOTS.length)];
+      return {
+        family: 'b', correct: 'edo',
+        play: function(){ return playCadenceEDO(edoN, rootPc); },
+        explain: function(){
+          const step = 1200/edoN;
+          return 'Cadencia trasplantada a <b>' + edoN + '-EDO</b>: cada grado se redondeó al escalón más cercano de ' +
+            step.toFixed(2) + ' c (1200/' + edoN + '). Ninguna fracción simple de la tabla occidental calza exacto con estos pasos.';
+        }
+      };
+    }
+    if(family === 'c'){
+      const kind = Math.random() < 0.5 ? 'harm7' : 'oton';
+      const base = 100 + Math.random()*50;
+      return {
+        family: 'c', correct: 'jiext',
+        play: function(){ return playJIExtChord(kind, base); },
+        explain: function(){
+          return kind === 'harm7'
+            ? 'Acorde <b>4:5:6:7</b> (tétrada armónica natural): el 7.º armónico (razón 7/4 ≈ 968.8 c) no existe en ninguna escala 5-límite: JI extendida.'
+            : 'Otonalidad <b>8:9:10:11:12</b>: suma los armónicos 9 y 11 (este último "entre" la 4.ª justa y el tritono) — más allá del senario 5-límite: JI extendida.';
+        }
+      };
+    }
+    if(family === 'd'){
+      const base = [174.61, 196.00, 220.00][Math.floor(Math.random()*3)];
+      return {
+        family: 'd', correct: 'drone',
+        play: function(){ return playMaqamPhrase(base); },
+        explain: function(){
+          return 'La melodía usó un grado a <b>~355 c</b> sobre la tónica — ni tercera menor (315.6 c) ni mayor (386.3 c): una 3.ª neutra típica de varios maqamat árabes, sostenida sobre un bordón fijo (drone).';
+        }
+      };
+    }
+    if(family === 'e'){
+      const base = 180 + Math.random()*80;
+      return {
+        family: 'e', correct: 'gamelan',
+        play: function(){ return playGamelanPhrase(base); },
+        explain: function(){
+          return 'Timbre de barra <b>inarmónico</b> (parciales en razón 1 : 2.76 : 5.40 : 8.93) sobre una escala <b>slendro</b> aproximada (0-231-474-717-955 c) que no calza con nada occidental: gamelán.';
+        }
+      };
+    }
+    // family === 'f'
+    return {
+      family: 'f', correct: 'drone',
+      play: function(){ return playIndostaniPhrase(); },
+      explain: function(){
+        return 'Frase de <b>svaras en afinación justa</b> (Sa-Ga-ma-Pa-Sa, razones 1/1-5/4-4/3-3/2) sostenida sobre el bordón de tanpura (Sa+Pa+Sa agudo): la firma de la música indostaní, una tradición de drone.';
+      }
+    };
+  }
+
+  function planFamilies(){
+    const shuffled = QUIZ_FAMILIES.slice().sort(function(){ return Math.random() - 0.5; });
+    const first5 = shuffled.slice(0, 5); // rondas 1-5: 5 de las 6 familias, muy distintas entre sí
+    const order = [];
+    for(let r = 1; r <= 15; r++){
+      if(r <= 5) order.push(first5[r-1]);
+      else if(r <= 10) order.push('a'); // rondas 6-10: afinan dentro de lo occidental
+      else order.push(QUIZ_FAMILIES[Math.floor(Math.random()*QUIZ_FAMILIES.length)]); // 11-15: todo mezclado
+    }
+    return order;
+  }
+
+  const LEVEL_TEXT = [
+    'Nivel 1 de 3 — familias muy distintas entre sí: fíjate en el timbre y la textura, no solo en la afinación fina.',
+    'Nivel 2 de 3 — todo el material es occidental histórico (M3–M8): ahora se trata de oído fino entre pitagórica, justa, mesotónico, buenos temperamentos y ET.',
+    'Nivel 3 de 3 — todo mezclado: cualquier familia puede aparecer, incluidas las confusiones más sutiles (ET vs. EDO, justa vs. JI extendida).'
+  ];
+  function levelForRound(r){ return r <= 5 ? 0 : (r <= 10 ? 1 : 2); }
+
+  let round = 1, score = 0, playsUsed = 0, answered = false;
+  let familiesOrder = [];
+  let currentRound = null;
+  let history = [];
+
+  function startQuiz(){
+    round = 1; score = 0; history = [];
+    familiesOrder = planFamilies();
+    setBackgroundLoopsLocked(true);
+    introBox.style.display = 'none';
+    summaryBox.style.display = 'none';
+    gameBox.style.display = 'block';
+    scoreLabel.textContent = '0';
+    copyArea.style.display = 'none';
+    copyStatus.textContent = '';
+    startRound();
+  }
+
+  function startRound(){
+    currentRound = buildRound(familiesOrder[round-1]);
+    playsUsed = 0; answered = false;
+    levelBanner.textContent = LEVEL_TEXT[levelForRound(round)];
+    roundLabel.innerHTML = '<b>Ronda ' + round + ' de 15</b>';
+    playSoundBtn.textContent = '🔁 Escuchar material (quedan 3)';
+    playSoundBtn.disabled = false;
+    feedbackBox.style.display = 'none';
+    feedbackBox.className = 'feedback';
+    nextRow.style.display = 'none';
+
+    answerGrid.innerHTML = '';
+    ANSWER_OPTIONS.forEach(function(opt){
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', function(){ answer(opt.id); });
+      answerGrid.appendChild(btn);
+    });
+  }
+
+  function playCurrent(){
+    if(playsUsed >= 3 || !currentRound) return;
+    if(!ensureAudioReady()) return;
+    playsUsed++;
+    currentRound.play();
+    const remaining = 3 - playsUsed;
+    if(remaining > 0){
+      playSoundBtn.textContent = '🔁 Escuchar material (quedan ' + remaining + ')';
+    } else {
+      playSoundBtn.textContent = '🔁 Sin escuchas restantes';
+      playSoundBtn.disabled = true;
+    }
+  }
+
+  function answer(guessId){
+    if(answered || !currentRound) return;
+    answered = true;
+    playSoundBtn.disabled = true;
+    answerGrid.querySelectorAll('button').forEach(function(b){ b.disabled = true; });
+
+    const ok = (guessId === currentRound.correct);
+    if(ok) score++;
+    scoreLabel.textContent = String(score);
+    history.push({ family: currentRound.family, correct: currentRound.correct, guess: guessId, ok: ok });
+
+    const correctOpt = ANSWER_OPTIONS.find(function(o){ return o.id === currentRound.correct; });
+    feedbackBox.style.display = 'block';
+    feedbackBox.className = 'feedback ' + (ok ? 'correct' : 'incorrect');
+    feedbackBox.innerHTML = (ok ? '✓ Correcto. ' : '✗ Incorrecto (era "' + correctOpt.label + '"). ') + currentRound.explain();
+    nextRow.style.display = 'block';
+  }
+
+  function nextRound(){
+    round++;
+    if(round > 15) showSummary(); else startRound();
+  }
+
+  function buildShareText(perFamily, weakest){
+    const lines = [];
+    lines.push('Diploma — Oído de Afinaciones (M15, cierre del curso)');
+    lines.push('Puntaje final: ' + score + ' / 15');
+    lines.push('');
+    lines.push('Desglose por familia:');
+    QUIZ_FAMILIES.forEach(function(f){
+      const st = perFamily[f];
+      lines.push('- ' + FAMILY_INFO[f].label + ': ' + st.correct + '/' + st.total);
+    });
+    lines.push('');
+    if(weakest && weakest.total > 0 && weakest.ratio < 1){
+      lines.push('A repasar: ' + FAMILY_INFO[weakest.f].module);
+    } else {
+      lines.push('Sin errores concentrados en una familia: buen dominio general del curso.');
+    }
+    return lines.join('\n');
+  }
+
+  function showSummary(){
+    setBackgroundLoopsLocked(false);
+    gameBox.style.display = 'none';
+    summaryBox.style.display = 'block';
+    finalScoreLabel.textContent = score + ' / 15';
+
+    const perFamily = {};
+    QUIZ_FAMILIES.forEach(function(f){ perFamily[f] = { correct:0, total:0 }; });
+    history.forEach(function(h){
+      perFamily[h.family].total++;
+      if(h.ok) perFamily[h.family].correct++;
+    });
+
+    let weakest = null;
+    QUIZ_FAMILIES.forEach(function(f){
+      const st = perFamily[f];
+      if(st.total > 0){
+        const ratio = st.correct/st.total;
+        if(weakest === null || ratio < weakest.ratio) weakest = { f:f, ratio:ratio, total:st.total };
+      }
+    });
+
+    let html = '<b>Diploma — Oído de Afinaciones</b><br>Cierre del curso · Puntaje final: ' + score + ' / 15<br><br>Desglose por familia:';
+    QUIZ_FAMILIES.forEach(function(f){
+      const st = perFamily[f];
+      html += '<div class="diploma-row"><span>' + FAMILY_INFO[f].label + '</span><span>' + st.correct + '/' + st.total + '</span></div>';
+    });
+    if(weakest && weakest.total > 0 && weakest.ratio < 1){
+      html += '<br>Módulo a repasar: <b>' + FAMILY_INFO[weakest.f].module + '</b>.';
+    } else {
+      html += '<br>Sin errores concentrados en una familia: buen dominio general del curso.';
+    }
+    diplomaBox.innerHTML = html;
+
+    copyArea.value = buildShareText(perFamily, weakest);
+  }
+
+  copyBtn.addEventListener('click', function(){
+    copyArea.style.display = 'block';
+    copyArea.focus();
+    copyArea.select();
+    function fallbackCopy(){
+      try{
+        document.execCommand('copy');
+        copyStatus.textContent = 'Copiado (si tu navegador lo bloqueó, el texto ya está seleccionado: Cmd/Ctrl+C).';
+      }catch(e){
+        copyStatus.textContent = 'Cópialo manualmente del cuadro de texto de arriba.';
+      }
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(copyArea.value).then(function(){
+        copyStatus.textContent = 'Resultado copiado al portapapeles.';
+      }).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  });
+
+  document.getElementById('l4Start').addEventListener('click', startQuiz);
+  playSoundBtn.addEventListener('click', playCurrent);
+  nextBtn.addEventListener('click', nextRound);
+  document.getElementById('l4Restart').addEventListener('click', startQuiz);
+})();
+
+</script>
+</body>
+</html>

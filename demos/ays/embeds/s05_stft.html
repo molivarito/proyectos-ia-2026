@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Cirugía Espectral y STFT — Sesión 05 (v2)</title>
+<!--
+  v2 — corrige bugs de la v1:
+   1. Ventana de Hann PERIÓDICA (denom = N) en lugar de simétrica (denom = N-1).
+   2. Normalización OLA dinámica: divide por sum_m w_a[n-mR]·w_s[n-mR] calculado
+      por posición → COLA² exacta para CUALQUIER hop, no solo divisores de N.
+   3. Bin Nyquist en modo SUSURRO: forzamos im[N/2]=0 para que la salida sea real.
+   4. Buffer circular para OLA (sin shift O(N) por sample).
+   Nota: sigue usando ScriptProcessorNode (deprecated) por simplicidad.
+   Para producción debería migrarse a AudioWorklet.
+-->
+<style>
+:root {
+  --bg:       #0a0e1a;
+  --panel:    #111827;
+  --border:   #1e2a3a;
+  --text:     #c8d6e5;
+  --text-dim: #6b7b8d;
+  --cyan:     #00e5ff;
+  --orange:   #ff6d00;
+  --red:      #ff1744;
+  --green:    #00e676;
+  --accent:   #7c4dff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'SF Mono','Fira Code','Consolas', monospace;
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 20px 60px;
+}
+h1 { font-size: 1.5em; color: var(--cyan); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 4px; text-align: center; }
+.subtitle { color: var(--text-dim); font-size: 0.85em; margin-bottom: 20px; text-align: center; }
+.badge-v2 { display: inline-block; background: var(--green); color: #000; padding: 2px 10px; border-radius: 12px; font-size: 0.7em; font-weight: 800; margin-left: 6px; vertical-align: middle; }
+.app { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 14px; }
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+.panel-title { font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 10px; }
+.panel-title .step-num { display: inline-block; background: var(--cyan); color: #000; width: 20px; height: 20px; border-radius: 50%; text-align: center; line-height: 20px; font-size: 0.85em; font-weight: 800; margin-right: 6px; vertical-align: middle; }
+
+.btn { border: none; border-radius: 6px; padding: 10px 20px; font-family: inherit; font-size: 0.9em; font-weight: 700; cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 1px; }
+.btn:active { transform: scale(0.96); }
+#btnPlay { background: var(--green); color: #000; min-width: 130px; }
+#btnPlay.playing { background: var(--red); }
+
+.type-switch { display: flex; background: #0d1117; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
+.type-switch label { padding: 10px 16px; cursor: pointer; font-size: 0.82em; font-weight: 600; transition: all 0.2s; text-align: center; line-height: 1.3; flex: 1; }
+.type-switch input { display: none; }
+.type-switch input:checked + label { background: var(--cyan); color: #000; }
+.type-switch input#modeRob:checked + label { background: var(--orange); }
+.type-switch input#modeWhis:checked + label { background: var(--accent); }
+
+.controls-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.slider-group { flex: 1; min-width: 180px; }
+.slider-label { display: flex; justify-content: space-between; font-size: 0.78em; margin-bottom: 4px; }
+.slider-label .val { color: var(--cyan); font-weight: 700; }
+input[type="range"] { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #1a2332; outline: none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--cyan); cursor: pointer; box-shadow: 0 0 8px rgba(0,229,255,0.4); }
+
+.source-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.source-row label { padding: 6px 14px; cursor: pointer; font-size: 0.8em; border: 1px solid var(--border); border-radius: 5px; transition: all 0.15s; }
+.source-row input { display: none; }
+.source-row input:checked + label { background: var(--green); color: #000; border-color: var(--green); }
+
+canvas { width: 100%; border-radius: 6px; background: #050a12; display: block; border: 1px solid #1a2332; }
+.canvas-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.canvas-row > .panel { flex: 1; min-width: 320px; }
+
+.info-box { background: rgba(0,229,255,0.05); border-left: 3px solid var(--cyan); padding: 10px 14px; font-size: 0.8em; line-height: 1.6; color: var(--text-dim); border-radius: 0 4px 4px 0; margin-top: 10px; }
+.info-box strong { color: var(--text); }
+.fix-box { background: rgba(0,230,118,0.06); border-left: 3px solid var(--green); padding: 10px 14px; font-size: 0.78em; line-height: 1.5; color: var(--text-dim); border-radius: 0 4px 4px 0; margin-top: 10px; }
+.fix-box strong { color: var(--green); }
+</style>
+</head>
+<body>
+
+<h1>Cirugía Espectral <span class="badge-v2">v2</span></h1>
+<p class="subtitle">Descomposición STFT y experimentación de fase en tiempo real (COLA exacta)</p>
+
+<div class="app">
+
+<!-- Fuente de Audio -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">1</span> Fuente de audio</div>
+  <div class="controls-row">
+    <div class="source-row">
+      <input type="radio" name="src" id="srcSaw" value="saw" checked>
+      <label for="srcSaw">Tono de Voz Sinfásico (Serrúcho)</label>
+      <input type="radio" name="src" id="srcNoise" value="noise">
+      <label for="srcNoise">Ruido Blanco</label>
+      <input type="radio" name="src" id="srcMic" value="mic">
+      <label for="srcMic">🎤 Micrófono (Habla Ahora)</label>
+    </div>
+    <button class="btn" id="btnPlay" onclick="toggleAudio()">Arrancar Motor DSP</button>
+  </div>
+</div>
+
+<!-- Lógica de Fase -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">2</span> Modificación de la Fase (Dominio Frecuencial)</div>
+  <div class="type-switch">
+    <input type="radio" name="mode" id="modeOrig" value="orig" checked>
+    <label for="modeOrig">Fase Original<br><small>Reconstrucción perfecta</small></label>
+    <input type="radio" name="mode" id="modeRob" value="robot">
+    <label for="modeRob">ROBOT (Fase = 0)<br><small>Zumbido alienígena constante</small></label>
+    <input type="radio" name="mode" id="modeWhis" value="whisper">
+    <label for="modeWhis">SUSURRO (Fase Aleatoria)<br><small>Pérdida caótica del pitch</small></label>
+  </div>
+</div>
+
+<!-- Parámetros de Ventaneado -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">3</span> Parámetros del Overlap-Add</div>
+  <div class="controls-row">
+    <div class="slider-group">
+      <div class="slider-label"><span>Hop Size R (salto entre frames)</span><span class="val" id="valHop">256</span></div>
+      <input type="range" id="sliderHop" min="64" max="800" value="256" step="16">
+      <div style="font-size:0.75em;color:var(--text-dim);margin-top:4px;" id="valPitch">Pitch resultante robot: ~172 Hz</div>
+    </div>
+  </div>
+  <div class="info-box" id="infoHop">
+    El tamaño de salto dicta la <strong>tasa de encuadre (Frame Rate)</strong>. Cuando modificas abruptamente la fase matemáticamente hacia cero, rompes la continuidad original y obligas a que el bloque resultante marque un acento físico cada <em>R</em> muestras. ¡Prueba deslizar esto con el modo ROBOT encendido!
+  </div>
+  <div class="fix-box">
+    <strong>v2:</strong> Reconstrucción exacta para cualquier hop. La normalización OLA se calcula por posición usando <code>w_a[n−mR]·w_s[n−mR]</code> acumulado, no asumiendo COLA² constante. En modo «Fase Original» deberías oír el input idéntico (con ~23 ms de latencia).
+  </div>
+</div>
+
+<!-- Monitores -->
+<div class="canvas-row">
+  <div class="panel">
+    <div class="panel-title"><span class="step-num" style="background:var(--accent)">A</span> Espectro de Fase ( -π a π )</div>
+    <canvas id="canvasPhase" height="200"></canvas>
+    <p style="font-size:0.7em;color:#6b7b8d;margin-top:8px;text-align:center;">Observa cómo en "Robot", toda la nube de puntos colapsa a una línea en cero.</p>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><span class="step-num" style="background:var(--orange)">B</span> Espectro de Magnitud ( dB )</div>
+    <canvas id="canvasMag" height="200"></canvas>
+    <p style="font-size:0.7em;color:#6b7b8d;margin-top:8px;text-align:center;">Los picos resonantes de los formantes bucales. ¡Están blindados a los cambios de fase!</p>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><span class="step-num" style="background:var(--green)">C</span> Forma de Onda Reconstruida y(n)</div>
+    <canvas id="canvasWave" height="200"></canvas>
+    <p style="font-size:0.7em;color:#6b7b8d;margin-top:8px;text-align:center;">Osciloscopio a la salida real tras la Inverse-FFT.</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+// =====================================================================
+// MINI IN-PLACE RADIX-2 FFT (Cooley-Tukey)
+// =====================================================================
+function MiniFFT(n) {
+  this.n = n;
+  this.cosTable = new Float32Array(n / 2);
+  this.sinTable = new Float32Array(n / 2);
+  for (let i = 0; i < n/2; i++) {
+    this.cosTable[i] = Math.cos(-2 * Math.PI * i / n);
+    this.sinTable[i] = Math.sin(-2 * Math.PI * i / n);
+  }
+  let maxBits = Math.log2(n);
+  this.bitRev = new Uint32Array(n);
+  for (let i = 0; i < n; i++) {
+    let rev = 0;
+    for (let j = 0; j < maxBits; j++) { rev = (rev << 1) | ((i >> j) & 1); }
+    this.bitRev[i] = rev;
+  }
+}
+MiniFFT.prototype.forward = function(re, im) { this.process(re, im, 1); };
+MiniFFT.prototype.inverse = function(re, im) {
+  this.process(re, im, -1);
+  for(let i=0; i<this.n; i++) { re[i]/=this.n; im[i]/=this.n; }
+};
+MiniFFT.prototype.process = function(re, im, dir) {
+  const n = this.n;
+  for (let i = 0; i < n; i++) {
+    let rev = this.bitRev[i];
+    if (i < rev) {
+      let tr = re[i]; let ti = im[i];
+      re[i] = re[rev]; im[i] = im[rev];
+      re[rev] = tr; im[rev] = ti;
+    }
+  }
+  for (let step = 2; step <= n; step *= 2) {
+    let half = step / 2;
+    let tabStep = n / step;
+    for (let i = 0; i < n; i += step) {
+      for (let j = 0; j < half; j++) {
+        let wr = this.cosTable[j * tabStep];
+        let wi = this.sinTable[j * tabStep] * dir;
+        let pRe = re[i + j + half];
+        let pIm = im[i + j + half];
+        let tRe = wr * pRe - wi * pIm;
+        let tIm = wr * pIm + wi * pRe;
+        re[i + j + half] = re[i + j] - tRe;
+        im[i + j + half] = im[i + j] - tIm;
+        re[i + j] += tRe;
+        im[i + j] += tIm;
+      }
+    }
+  }
+};
+
+// =====================================================================
+// ESTADO AUDIO & DSP STREAMING OLA (OVERLAP-ADD con normalización)
+// =====================================================================
+let audioCtx = null, isPlaying = false;
+let scriptNode = null, sourceNode = null, micStream = null;
+
+const N_FFT = 1024;
+let fftInstance = new MiniFFT(N_FFT);
+let HOP_SIZE = 256;
+let inBlock = new Float32Array(HOP_SIZE);
+let inFilled = 0;
+
+let fftBuf = new Float32Array(N_FFT);
+let outFrame = new Float32Array(N_FFT);
+
+// === FIX v2: Buffer circular para OLA + buffer de normalización paralelo ===
+// outRing: la suma OLA acumulada
+// normRing: la suma de productos de ventana w_a·w_s acumulada (denominador)
+// Cuando leemos un sample lo dividimos por su normRing.
+const RING_SIZE = N_FFT * 2;   // tamaño cómodo, mucho más que N
+let outRing = new Float32Array(RING_SIZE);
+let normRing = new Float32Array(RING_SIZE);
+let ringWrite = 0;             // posición donde se escribe el siguiente frame OLA
+let ringRead = 0;              // posición de lectura
+
+let re = new Float32Array(N_FFT);
+let im = new Float32Array(N_FFT);
+
+// === FIX v2: Hann PERIÓDICA (denominador N, no N-1) ===
+let windowBuf = new Float32Array(N_FFT);
+for(let i=0; i<N_FFT; i++) {
+  windowBuf[i] = 0.5 * (1 - Math.cos(2 * Math.PI * i / N_FFT));
+}
+// Producto w_a · w_s (= w² acá) precomputado para la normalización OLA.
+let winProd = new Float32Array(N_FFT);
+for(let i=0; i<N_FFT; i++) winProd[i] = windowBuf[i] * windowBuf[i];
+
+// Variables para el Canvas
+let drawMag = new Float32Array(N_FFT/2);
+let drawPhase = new Float32Array(N_FFT/2);
+let waveHistory = new Float32Array(1024);
+let waveHistoryPtr = 0;
+
+function updateHopParam() {
+  const newHop = parseInt(document.getElementById('sliderHop').value);
+  if (newHop !== HOP_SIZE) {
+    HOP_SIZE = newHop;
+    inBlock = new Float32Array(HOP_SIZE);
+    inFilled = 0;
+    const fs = audioCtx ? audioCtx.sampleRate : 44100;
+    document.getElementById('valPitch').textContent = `Pitch resultante robot: ~${(fs/HOP_SIZE).toFixed(1)} Hz`;
+  }
+  document.getElementById('valHop').textContent = HOP_SIZE;
+}
+
+document.getElementById('sliderHop').addEventListener('input', updateHopParam);
+
+// =====================================================================
+// RUTINA DE CIRUGÍA ESPECTRAL
+// =====================================================================
+function doSpectralSurgery() {
+  // 1. Ventaneado de Análisis
+  for(let i=0; i<N_FFT; i++) {
+    re[i] = fftBuf[i] * windowBuf[i];
+    im[i] = 0;
+  }
+  // 2. FFT hacia frecuencia
+  fftInstance.forward(re, im);
+
+  // 3. Modificación interactiva
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+
+  for(let i=0; i<=N_FFT/2; i++) {
+    let mag = Math.sqrt(re[i]*re[i] + im[i]*im[i]);
+    let phase = Math.atan2(im[i], re[i]);
+
+    if(i < N_FFT/2) drawMag[i] = mag;
+
+    if (mode === 'robot') {
+      phase = 0;
+    } else if (mode === 'whisper') {
+      phase = (Math.random() * 2 * Math.PI) - Math.PI;
+    }
+
+    if(i < N_FFT/2) drawPhase[i] = phase;
+
+    re[i] = mag * Math.cos(phase);
+    im[i] = mag * Math.sin(phase);
+
+    // === FIX v2: forzar Nyquist real para que la salida sea real ===
+    if (i === N_FFT/2) {
+      im[i] = 0;
+      // Si la fase aleatoria nos dejó re negativo, no pasa nada; sigue real.
+    }
+
+    // Simetría conjugada (no toca DC ni Nyquist)
+    if (i > 0 && i < N_FFT/2) {
+      re[N_FFT - i] = re[i];
+      im[N_FFT - i] = -im[i];
+    }
+  }
+
+  // 4. IFFT hacia tiempo
+  fftInstance.inverse(re, im);
+
+  // 5. Ventaneado de síntesis (sin compensación amplitud — la normalización
+  //    se hace al leer del ring buffer, dividiendo por la suma de w_a·w_s acumulada).
+  for(let i=0; i<N_FFT; i++) {
+    outFrame[i] = re[i] * windowBuf[i];
+  }
+}
+
+// =====================================================================
+// ENGINE DE AUDIO START/STOP
+// =====================================================================
+async function toggleAudio() {
+  if (isPlaying) { stopAudio(); return; }
+  await startAudio();
+}
+
+async function startAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') await audioCtx.resume();
+  updateHopParam();
+
+  // Reset buffers OLA
+  inFilled = 0;
+  outRing.fill(0);
+  normRing.fill(0);
+  ringWrite = 0;
+  ringRead = 0;
+  fftBuf.fill(0);
+
+  const srcType = document.querySelector('input[name="src"]:checked').value;
+  scriptNode = audioCtx.createScriptProcessor(1024, 1, 1);
+
+  let oscPhase = 0;
+
+  scriptNode.onaudioprocess = function(e) {
+    const output = e.outputBuffer.getChannelData(0);
+    const input = e.inputBuffer.getChannelData(0);
+
+    for (let i = 0; i < 1024; i++) {
+      // 1. Obtener la muestra de inicio dependiendo de la fuente
+      let x = 0;
+      if (srcType === 'mic') {
+        x = input[i];
+      } else if (srcType === 'noise') {
+        x = (Math.random()*2 - 1) * 0.3;
+      } else if (srcType === 'saw') {
+        oscPhase += 150 / audioCtx.sampleRate;
+        if(oscPhase > 1) oscPhase -= 1;
+        x = (oscPhase * 2 - 1) * 0.4;
+      }
+
+      // 2. Apilar dentro del bloque iterativo de Hop
+      inBlock[inFilled++] = x;
+
+      // 3. Procesa STFT cuando juntamos R (Hop) muestras
+      if (inFilled >= HOP_SIZE) {
+        // Shift buf a la izquierda e inyecta la nueva data al final
+        for(let j=0; j<N_FFT - HOP_SIZE; j++) fftBuf[j] = fftBuf[j + HOP_SIZE];
+        for(let j=0; j<HOP_SIZE; j++) fftBuf[N_FFT - HOP_SIZE + j] = inBlock[j];
+
+        inFilled = 0;
+        doSpectralSurgery();
+
+        // === FIX v2: Sumar OLA al ring buffer EN LA POSICIÓN DE ESCRITURA ===
+        // ringWrite avanza HOP por cada frame nuevo. La suma OLA va a las
+        // posiciones [ringWrite ... ringWrite+N-1] (módulo RING_SIZE).
+        for(let j=0; j<N_FFT; j++) {
+          const k = (ringWrite + j) % RING_SIZE;
+          outRing[k]  += outFrame[j];
+          normRing[k] += winProd[j];   // w_a[j] · w_s[j]
+        }
+        ringWrite = (ringWrite + HOP_SIZE) % RING_SIZE;
+      }
+
+      // 4. Leer sample del ring (con normalización), avanzar lector
+      const rk = ringRead;
+      let denom = normRing[rk];
+      let sample = (denom > 1e-8) ? (outRing[rk] / denom) : 0;
+      output[i] = sample;
+      // limpiamos la celda ya consumida
+      outRing[rk] = 0;
+      normRing[rk] = 0;
+      ringRead = (ringRead + 1) % RING_SIZE;
+
+      // Log para el osciloscopio UI
+      waveHistory[waveHistoryPtr++] = output[i];
+      if(waveHistoryPtr >= waveHistory.length) waveHistoryPtr = 0;
+    }
+  };
+
+  if (srcType === 'mic') {
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      sourceNode = audioCtx.createMediaStreamSource(micStream);
+      sourceNode.connect(scriptNode);
+    } catch(e) {
+      alert("No hay micrófono detectado o faltan permisos.");
+      return;
+    }
+  } else {
+    sourceNode = audioCtx.createBufferSource();
+    sourceNode.buffer = audioCtx.createBuffer(1, 1024, audioCtx.sampleRate);
+    sourceNode.loop = true;
+    sourceNode.connect(scriptNode);
+    sourceNode.start();
+  }
+
+  scriptNode.connect(audioCtx.destination);
+  isPlaying = true;
+  document.getElementById('btnPlay').textContent = 'Frenar Motor DSP';
+  document.getElementById('btnPlay').classList.add('playing');
+  requestAnimationFrame(renderLoop);
+}
+
+function stopAudio() {
+  if (scriptNode) { scriptNode.disconnect(); scriptNode = null; }
+  if (sourceNode) { try { sourceNode.disconnect(); } catch(e){} sourceNode = null; }
+  if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
+  isPlaying = false;
+  document.getElementById('btnPlay').textContent = 'Arrancar Motor DSP';
+  document.getElementById('btnPlay').classList.remove('playing');
+}
+
+// =====================================================================
+// CANVAS RENDERING
+// =====================================================================
+function resizeCanvas(id) {
+  const c = document.getElementById(id);
+  c.width = c.offsetWidth * window.devicePixelRatio;
+  c.height = c.offsetHeight * window.devicePixelRatio;
+}
+
+function renderLoop() {
+  if (!isPlaying) return;
+
+  // -- Onda Temporal
+  const cW = document.getElementById('canvasWave');
+  const ctxW = cW.getContext('2d');
+  ctxW.clearRect(0,0,cW.width, cW.height);
+  ctxW.beginPath();
+  ctxW.strokeStyle = '#00e676';
+  ctxW.lineWidth = 2 * window.devicePixelRatio;
+  for(let i=0; i<waveHistory.length; i++) {
+    const idx = (waveHistoryPtr + i) % waveHistory.length;
+    const x = (i / waveHistory.length) * cW.width;
+    const y = cW.height/2 - (waveHistory[idx] * cW.height/2);
+    if(i===0) ctxW.moveTo(x,y); else ctxW.lineTo(x,y);
+  }
+  ctxW.stroke();
+
+  // -- Magnitud (Log Scale espectral)
+  const cM = document.getElementById('canvasMag');
+  const ctxM = cM.getContext('2d');
+  ctxM.clearRect(0,0,cM.width, cM.height);
+  ctxM.beginPath();
+  ctxM.strokeStyle = '#ff6d00';
+  ctxM.lineWidth = 1.5 * window.devicePixelRatio;
+  for(let i=0; i<N_FFT/2; i++) {
+    const x = (i / (N_FFT/2)) * cM.width;
+    let db = 20 * Math.log10(drawMag[i] + 1e-6);
+    let norm = (db + 80) / 100;
+    if (norm < 0) norm = 0; if (norm > 1) norm = 1;
+    const y = cM.height - (norm * cM.height);
+    if(i===0) ctxM.moveTo(x,y); else ctxM.lineTo(x,y);
+  }
+  ctxM.stroke();
+
+  // -- Fase (Puntos en Scatter)
+  const cP = document.getElementById('canvasPhase');
+  const ctxP = cP.getContext('2d');
+  ctxP.clearRect(0,0,cP.width, cP.height);
+  ctxP.fillStyle = '#7c4dff';
+  const cy = cP.height / 2;
+  ctxP.beginPath();
+  ctxP.strokeStyle = '#1e2a3a'; ctxP.moveTo(0, cy); ctxP.lineTo(cP.width, cy); ctxP.stroke();
+
+  for(let i=0; i<N_FFT/2; i+=2) {
+    const x = (i / (N_FFT/2)) * cP.width;
+    const norm = (drawPhase[i] + Math.PI) / (2*Math.PI);
+    const y = cP.height - (norm * cP.height);
+    ctxP.fillRect(x, Math.min(Math.max(y, 1), cP.height-1), 2, 2);
+  }
+
+  requestAnimationFrame(renderLoop);
+}
+
+window.onresize = () => {
+    resizeCanvas('canvasWave');
+    resizeCanvas('canvasMag');
+    resizeCanvas('canvasPhase');
+};
+window.onresize();
+</script>
+</body>
+</html>

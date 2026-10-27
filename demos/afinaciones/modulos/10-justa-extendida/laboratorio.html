@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M10 · Laboratorio — Los primos 7, 11 y 13</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;}
+.wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px;}
+h1{font-size:clamp(20px,3.4vw,28px);margin:0 0 6px;}
+.subtitle{color:var(--muted);margin:0 0 20px;font-size:0.95rem;max-width:660px;}
+h2{margin:0 0 4px;font-size:1.15rem;color:var(--accent);}
+h3{font-size:0.95rem;color:var(--text);margin:14px 0 8px;}
+p{margin:0 0 10px;}
+.purpose{color:var(--muted);font-size:0.86rem;margin:0 0 16px;}
+
+.audio-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:26px;}
+button.activate{background:var(--accent);color:var(--accent-ink);border:none;font-weight:700;padding:10px 20px;border-radius:9px;cursor:pointer;font-size:0.95rem;}
+button.activate:disabled{background:#333a48;color:var(--muted);cursor:default;}
+.master-vol{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:0.85rem;flex:1;min-width:220px;}
+.master-vol input[type=range]{flex:1;}
+.master-vol span{min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;margin-bottom:26px;}
+
+.row{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px;}
+.field{flex:1;min-width:200px;}
+label{display:block;font-size:0.8rem;color:var(--muted);margin-bottom:4px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+input[type=number],input[type=text]{width:100%;background:#12151d;border:1px solid var(--line);color:var(--text);border-radius:7px;padding:8px 10px;font:inherit;}
+.value-tag{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;}
+
+.btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:0.83rem;margin:3px 6px 3px 0;}
+.btn:hover{background:#313848;}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.btn.primary:hover{background:#f0af52;}
+.btn:disabled{opacity:0.4;cursor:default;}
+.btn-row{margin:10px 0 4px;}
+.big-btn{font-size:1rem;padding:12px 18px;}
+
+table.harm-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:10px;}
+.harm-table th{text-align:left;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--line);}
+.harm-table td{padding:5px 4px;border-bottom:1px solid #ffffff08;vertical-align:middle;}
+.flagged td.note-cell{color:var(--warn);font-weight:700;}
+.pos-cents{color:var(--good);}
+.neg-cents{color:var(--warn);}
+
+table.ref-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:8px;}
+.ref-table th,.ref-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+.ref-table th:first-child,.ref-table td:first-child{text-align:left;}
+.ref-table th{color:var(--muted);font-weight:600;}
+
+.chip{display:inline-block;background:#262b38;border:1px solid var(--line);color:var(--accent);padding:4px 11px;border-radius:14px;font-size:0.76rem;cursor:pointer;margin:3px 5px 3px 0;}
+.chip:hover{background:#313848;}
+
+.note-box{padding:12px 14px;margin-top:12px;background:#12151d;border-left:3px solid var(--accent);border-radius:7px;color:#c7cbd4;font-size:0.85rem;line-height:1.55;}
+
+.compare-panel{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.compare-col{flex:1;min-width:220px;background:#12151d;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:0.85rem;}
+.compare-col h4{margin:0 0 8px;color:var(--accent);font-size:0.9rem;}
+.compare-col .kv{display:flex;justify-content:space-between;margin:4px 0;color:var(--muted);}
+.compare-col .kv b{color:var(--text);}
+
+.comma-row{background:#12151d;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+.comma-row-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+.comma-row-head h3{margin:0;color:var(--text);}
+.comma-row .beat-note{color:var(--muted);font-size:0.78rem;margin-top:6px;}
+.comma-row .beat-note b{color:var(--accent);}
+
+/* ---- Lab 2: diamante de tonalidades ---- */
+.diamond-wrap{overflow-x:auto;margin-top:12px;}
+table.diamond-table{border-collapse:collapse;font-size:0.72rem;margin:0 auto;}
+.diamond-table th,.diamond-table td{padding:5px 7px;text-align:center;border:1px solid var(--line);min-width:56px;}
+.diamond-table th{background:#12151d;color:var(--muted);}
+.diamond-table th.axis-btn{cursor:pointer;color:var(--accent);font-weight:700;background:#171b24;}
+.diamond-table th.axis-btn:hover{background:#262b38;}
+.diamond-table td.dcell{cursor:pointer;background:#171b24;}
+.diamond-table td.dcell:hover{background:#262b38;}
+.diamond-table td.diag{background:#1c2a1e;}
+.diamond-table .frac{display:block;font-weight:700;color:var(--text);}
+.diamond-table .cnt{display:block;color:var(--muted);font-size:0.65rem;margin-top:2px;}
+.diamond-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:0.78rem;color:var(--muted);margin:10px 0;}
+
+/* ---- Lab 3: teclado Partch ---- */
+.keys-scroll{overflow-x:auto;padding:6px 0 10px;border:1px solid var(--line);border-radius:9px;background:#0d0f14;}
+.keys-row{display:flex;gap:2px;min-width:max-content;padding:8px;touch-action:none;}
+.pkey{flex:0 0 auto;width:36px;min-height:130px;background:#20242e;border:1px solid var(--line);border-radius:5px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:6px 2px;cursor:pointer;user-select:none;font-size:0.6rem;color:var(--muted);text-align:center;}
+.pkey:hover{background:#2b3040;}
+.pkey.near-et{background:#173321;border-color:#2c6b45;color:#bdf0d1;}
+.pkey.sounding{outline:2px solid var(--accent);outline-offset:-2px;}
+.pkey .pk-idx{font-size:0.56rem;color:var(--muted);margin-bottom:auto;padding-top:2px;}
+.pkey .pk-ratio{font-weight:700;color:var(--text);margin-bottom:4px;font-size:0.62rem;}
+.pkey.near-et .pk-ratio{color:#bdf0d1;}
+.pkey .pk-cents{font-variant-numeric:tabular-nums;}
+
+footer{color:var(--muted);font-size:0.78rem;text-align:center;padding-top:14px;border-top:1px solid var(--card-border);margin-top:10px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:560px){
+  .row{gap:10px;}
+  .compare-panel{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>M10 · Laboratorio — Los primos 7, 11 y 13</h1>
+    <p class="subtitle">Cinco experimentos sobre la afinación justa extendida: acordes con los armónicos 7, 11 y 13, el diamante de tonalidades de Partch, su teclado de 43 tonos, la séptima de barbería y dos comas nuevas que no aparecían en los módulos anteriores. Todo el audio se sintetiza en el navegador.</p>
+  </header>
+
+  <div class="audio-bar">
+    <button class="activate" id="btnActivate">Activar audio</button>
+    <div class="master-vol">
+      <label style="margin:0;white-space:nowrap;">Volumen maestro</label>
+      <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.3">
+      <span id="masterVolumeLabel">0.30</span>
+    </div>
+  </div>
+
+  <!-- ==================== LAB 1 ==================== -->
+  <section class="card" id="lab1">
+    <h2>Lab 1 · Constructor de acordes armónicos</h2>
+    <p class="purpose">Enciende armónicos de la serie 1–16 sobre una fundamental y arma acordes con los primos 7, 11 y 13. Luego cuantiza el acorde exacto al semitono más cercano y escucha cómo desaparece —o aparece— el "encaje" entre los parciales.</p>
+
+    <div class="row">
+      <div class="field">
+        <label>Fundamental</label>
+        <div class="btn-row" id="l1FundGroup" style="margin:0;"></div>
+      </div>
+      <div class="field">
+        <label for="l1GlobalAmp">Amplitud global (peso 1/n fijo por armónico)</label>
+        <input type="range" id="l1GlobalAmp" min="0" max="1.5" step="0.01" value="1">
+        <span class="value-tag" id="l1GlobalAmpLabel">1.00</span>
+      </div>
+    </div>
+
+    <div class="btn-row" id="l1PresetGroup">
+      <button class="btn" data-preset="maj">4:5:6</button>
+      <button class="btn" data-preset="dom7">4:5:6:7</button>
+      <button class="btn" data-preset="undec">8:9:10:11:12</button>
+      <button class="btn" data-preset="tridec">8:10:12:13</button>
+      <button class="btn" data-preset="full">1:2:3:4:5:6:7:8</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l1PlayBtn">▶ Reproducir acorde</button>
+      <button class="btn big-btn" id="l1QuantBtn">⇄ Cuantizar a 12-ET</button>
+      <span class="value-tag" id="l1QuantStatus">exacto</span>
+    </div>
+
+    <table class="harm-table" id="l1Table">
+      <thead>
+        <tr><th>Activo</th><th>n</th><th>Frecuencia</th><th>Nota aprox.</th><th>Desv. (c)</th></tr>
+      </thead>
+      <tbody id="l1TableBody"></tbody>
+    </table>
+
+    <h3>Cuantización: cents exactos vs. 12-ET</h3>
+    <p class="purpose" style="margin-bottom:6px;">Cents acumulados desde la fundamental (1200 · log₂ n) contra el semitono más cercano. Los armónicos 7, 11, 13 y 14 caen entre las teclas del piano — por eso "se sueltan" al cuantizar.</p>
+    <table class="ref-table" id="l1QuantTable">
+      <thead><tr><th>n</th><th>Cents exactos</th><th>Cents cuantizados</th><th>Error</th></tr></thead>
+      <tbody id="l1QuantTableBody"></tbody>
+    </table>
+
+    <div class="note-box">El acorde suena con osciladores seno puros (amplitud 1/n) porque aquí el timbre <em>es</em> la serie armónica misma. Activa "Cuantizar a 12-ET" mientras suena: en 1 segundo el crossfade reemplaza cada parcial exacto por su vecino de 12-ET — el 7, el 11 y el 13 armónicos son los que más se mueven, y con ellos se pierde el "bloqueo" (locking) del acorde justo.</div>
+  </section>
+
+  <!-- ==================== LAB 2 ==================== -->
+  <section class="card" id="lab2">
+    <h2>Lab 2 · El diamante de tonalidades (límite 11)</h2>
+    <p class="purpose">El diamante de Harry Partch cruza las identidades [1,3,5,7,9,11] consigo mismas: cada fila es una <b>otonalidad</b> (numerador variable, denominador fijo — la serie armónica dividida hacia arriba) y cada columna una <b>utonalidad</b> (denominador variable, numerador fijo — su espejo, la serie subarmónica). Base: 1/1 = Sol2 = 98 Hz.</p>
+
+    <div class="btn-row">
+      <button class="btn" id="l2BtnOtoUno">Otonalidad sobre 1/1 (la serie)</button>
+      <button class="btn" id="l2BtnUtoUno">Utonalidad bajo 1/1 (el espejo)</button>
+      <button class="btn" id="l2BtnCompare">Compara: mayor 4:5:6 vs. menor utonal 1/(4:5:6)</button>
+      <button class="btn" id="l2DroneBtn">🔊 Drone 1/1: apagado</button>
+    </div>
+
+    <div class="diamond-wrap">
+      <table class="diamond-table" id="l2Diamond"></table>
+    </div>
+    <div class="diamond-legend">
+      <span><b style="color:var(--accent);">Encabezado de fila</b> (clic) → acorde otonal sobre esa fila</span>
+      <span><b style="color:var(--accent);">Encabezado de columna</b> (clic) → acorde utonal bajo esa columna</span>
+      <span>Celda (clic) → esa nota sonando sobre 1/1</span>
+    </div>
+
+    <div class="note-box" id="l2Note">La diagonal (fila = columna) siempre reduce a 1/1: es la identidad consigo misma. Compara la fila "1" (la serie armónica de verdad, hexacordo 1/1–9/8–5/4–11/8–3/2–7/4) con la columna "1" (su espejo utonal, 1/1–16/11–16/9–8/7–8/5–4/3): son el mismo conjunto de intervalos pero invertido — el otonal "sube" y el utonal "baja".</div>
+  </section>
+
+  <!-- ==================== LAB 3 ==================== -->
+  <section class="card" id="lab3">
+    <h2>Lab 3 · Teclado Partch (43 tonos)</h2>
+    <p class="purpose">Las 43 razones de la escala de Harry Partch (<em>Genesis of a Music</em>) entre 1/1 y 2/1, con 1/1 = Sol2 = 98 Hz. En verde, las teclas a menos de 10 cents de una tecla de piano (12-ET): todo lo demás es territorio que el piano no tiene.</p>
+
+    <div class="btn-row">
+      <button class="btn" id="l3GlissBtn">Modo glissando discreto: apagado</button>
+      <span class="value-tag" id="l3NearCount"></span>
+    </div>
+
+    <div class="keys-scroll">
+      <div class="keys-row" id="l3KeysRow"></div>
+    </div>
+
+    <div class="note-box">Clic normal: suena una tecla suelta. Con el modo glissando activado, mantén presionado y arrastra el dedo o el mouse sobre las teclas: cada nueva tecla bajo el cursor se dispara al instante (por eso es "discreto", no un portamento continuo), igual que deslizar la mano por el teclado de barras de Partch.</div>
+  </section>
+
+  <!-- ==================== LAB 4 ==================== -->
+  <section class="card" id="lab4">
+    <h2>Lab 4 · La séptima de barbería</h2>
+    <p class="purpose">El mismo acorde de dominante sobre Do3, en dos versiones: temperada (0–400–700–1000 c) y la "séptima natural" justa 4:5:6:7 (0–386.3–702.0–968.8 c) que persiguen los cuartetos de barbería para hacer sonar el "overtone lock".</p>
+
+    <div class="btn-row">
+      <button class="btn primary big-btn" id="l4PlayET">▶ A — Temperado igual</button>
+      <button class="btn primary big-btn" id="l4PlayJI">▶ B — 4:5:6:7 pura</button>
+      <button class="btn big-btn" id="l4Crossfade">🔀 Crossfade A → B (4 s)</button>
+      <button class="btn big-btn" id="l4SoloSeventh">▶ Solo la séptima (Do3 + 7ª)</button>
+    </div>
+
+    <div class="compare-panel">
+      <div class="compare-col">
+        <h4>A — Temperado igual</h4>
+        <div class="kv"><span>Cents</span><b>0 · 400 · 700 · 1000</b></div>
+        <div class="kv"><span>Frecuencias</span><b id="l4ETFreqs">—</b></div>
+      </div>
+      <div class="compare-col">
+        <h4>B — 4:5:6:7 justa</h4>
+        <div class="kv"><span>Cents</span><b id="l4JICents">—</b></div>
+        <div class="kv"><span>Frecuencias</span><b id="l4JIFreqs">—</b></div>
+      </div>
+    </div>
+
+    <h3>Batidos predichos entre parciales coincidentes</h3>
+    <p class="purpose" style="margin-bottom:6px;">Para cada intervalo desde la fundamental, batido = |p·f<sub>raíz</sub> − q·f<sub>superior</sub>|, con p:q la razón que debería coincidir (5:4 la tercera, 3:2 la quinta, 7:4 la séptima).</p>
+    <table class="ref-table" id="l4BeatTable">
+      <thead><tr><th>Intervalo</th><th>Batido ET (Hz)</th><th>Batido JI (Hz)</th></tr></thead>
+      <tbody id="l4BeatTableBody"></tbody>
+    </table>
+
+    <div class="note-box">En la versión justa los tres batidos dan (en teoría) 0.000 Hz: los armónicos 5, 6 y 7 de la fundamental coinciden exactamente con los parciales bajos de la tercera, la quinta y la séptima. En la versión temperada ninguno coincide del todo — de ahí la "aspereza" que el barbershop evita afinando de oído hacia la versión justa.</div>
+  </section>
+
+  <!-- ==================== LAB 5 ==================== -->
+  <section class="card" id="lab5">
+    <h2>Lab 5 · Las comas nuevas</h2>
+    <p class="purpose">Dos intervalos diminutos que solo aparecen al meter los primos 7 y 11 al juego: la coma septimal y el cuarto de tono undecimal. Todo sobre Do4.</p>
+
+    <div class="comma-row" data-comma="septimal">
+      <div class="comma-row-head">
+        <h3>Coma septimal</h3>
+        <span class="value-tag">64/63 · <span class="cval">27.264</span> c</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn" data-act="melodic">🎵 Melódico</button>
+        <button class="btn" data-act="harmonic">🎧 Armónico (batido)</button>
+        <button class="btn" data-act="context">🎼 Contexto: 7ª pitagórica 16/9 vs. 7ª armónica 7/4</button>
+      </div>
+      <div class="beat-note">Batido predicho en armónico: <b class="beatval">—</b> Hz · Contexto: dos "séptimas" sobre Do — la pitagórica (16/9, encadenando quintas) y la armónica (7/4, el séptimo parcial) — difieren en exactamente esta coma.</div>
+    </div>
+
+    <div class="comma-row" data-comma="undecimal">
+      <div class="comma-row-head">
+        <h3>Cuarto de tono undecimal</h3>
+        <span class="value-tag">33/32 · <span class="cval">53.273</span> c</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn" data-act="melodic">🎵 Melódico</button>
+        <button class="btn" data-act="harmonic">🎧 Armónico (batido)</button>
+        <button class="btn" data-act="context">🎼 Contexto: 4ª justa 4/3 vs. 11/8 (cuarta neutral)</button>
+      </div>
+      <div class="beat-note">Batido predicho en armónico: <b class="beatval">—</b> Hz · Contexto: la cuarta justa (4/3) y la "cuarta neutral" undecimal (11/8, el armónico 11) sobre Do — el intervalo entre ambas es casi medio semitono, ni mayor ni menor: territorio nuevo que 12-ET no distingue.</div>
+    </div>
+  </section>
+
+  <footer>
+    Módulo 10 · Sistema de Aprendizaje de Afinaciones · funciona offline, sin dependencias.<br>
+    <a href="apunte.md">Ver apunte del módulo</a>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== AUDIO GLOBAL ==================== */
+let audioCtx = null;
+let masterGain = null;
+let limiterNode = null;
+
+const btnActivate = document.getElementById('btnActivate');
+const masterVolumeInput = document.getElementById('masterVolume');
+const masterVolumeLabel = document.getElementById('masterVolumeLabel');
+
+btnActivate.addEventListener('click', function(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ alert('Este navegador no soporta Web Audio API.'); return; }
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = parseFloat(masterVolumeInput.value);
+    limiterNode = audioCtx.createDynamicsCompressor();
+    limiterNode.threshold.value = -8;
+    limiterNode.knee.value = 14;
+    limiterNode.ratio.value = 12;
+    limiterNode.attack.value = 0.003;
+    limiterNode.release.value = 0.25;
+    masterGain.connect(limiterNode);
+    limiterNode.connect(audioCtx.destination);
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  btnActivate.disabled = true;
+  btnActivate.textContent = 'Audio activado';
+});
+
+masterVolumeInput.addEventListener('input', function(){
+  const v = parseFloat(masterVolumeInput.value);
+  masterVolumeLabel.textContent = v.toFixed(2);
+  if(masterGain) masterGain.gain.setTargetAtTime(v, audioCtx.currentTime, 0.01);
+});
+
+function ensureAudioReady(){
+  if(!audioCtx){
+    btnActivate.style.outline = '2px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--warn');
+    setTimeout(function(){ btnActivate.style.outline = 'none'; }, 500);
+    return false;
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return true;
+}
+
+/* ==================== UTILIDADES MUSICALES COMPARTIDAS ==================== */
+const NOTE_NAMES = ["Do","Do♯","Re","Re♯","Mi","Fa","Fa♯","Sol","Sol♯","La","La♯","Si"];
+
+function freqToNote(freq){
+  const midi = 69 + 12*Math.log2(freq/440);
+  const rounded = Math.round(midi);
+  const cents = (midi - rounded) * 100;
+  const pc = ((rounded % 12) + 12) % 12;
+  const octave = Math.floor(rounded/12) - 1;
+  return { name: NOTE_NAMES[pc], octave: octave, cents: cents };
+}
+function fmtCents(c){ return (c >= 0 ? '+' : '') + c.toFixed(1); }
+function centsToRatio(c){ return Math.pow(2, c/1200); }
+function gcd(a,b){ a=Math.abs(Math.round(a)); b=Math.abs(Math.round(b)); while(b){ const t=b; b=a%b; a=t; } return a||1; }
+
+function stdFreq(semitonesFromA4){ return 440*Math.pow(2, semitonesFromA4/12); }
+const DO2_HZ = stdFreq(-33);   // 65.406 Hz
+const DO3_HZ = stdFreq(-21);   // 130.813 Hz
+const DO4_HZ = stdFreq(-9);    // 261.626 Hz
+const SOL2_HZ = 98.0;          // fijado en 98 Hz exactos, como usa Partch (≈ Sol2 estándar de 97.999 Hz)
+
+// Timbre rico en armónicos (~6-8 armónicos, amplitud 1/n) vía createPeriodicWave.
+function createHarmonicOsc(ctx, freq, numHarmonics){
+  numHarmonics = numHarmonics || 8;
+  const real = new Float32Array(numHarmonics + 1);
+  const imag = new Float32Array(numHarmonics + 1);
+  for(let k = 1; k <= numHarmonics; k++) imag[k] = 1/k;
+  const wave = ctx.createPeriodicWave(real, imag, { disableNormalization: false });
+  const osc = ctx.createOscillator();
+  osc.setPeriodicWave(wave);
+  osc.frequency.value = freq;
+  return osc;
+}
+
+// Envolvente ADSR mínima; devuelve el instante en que termina el release.
+function scheduleTone(param, start, duration, peak, attack, release){
+  attack = attack || 0.02;
+  release = Math.max(release || 0.08, 0.08);
+  const p = Math.max(peak, 0.0001);
+  param.cancelScheduledValues(start);
+  param.setValueAtTime(0.0001, start);
+  param.exponentialRampToValueAtTime(p, start + attack);
+  const relStart = Math.max(start + attack, start + duration - release);
+  param.setValueAtTime(p, relStart);
+  param.exponentialRampToValueAtTime(0.0001, relStart + release);
+  return relStart + release;
+}
+
+// Programa una sola voz armónica (timbre rico) en un instante dado.
+function scheduleHarmonicVoice(freq, startTime, duration, peak, harmonics){
+  const osc = createHarmonicOsc(audioCtx, freq, harmonics || 8);
+  const g = audioCtx.createGain();
+  osc.connect(g); g.connect(masterGain);
+  const release = Math.min(0.2, Math.max(duration * 0.25, 0.08));
+  const end = scheduleTone(g.gain, startTime, duration, peak, 0.02, release);
+  osc.start(startTime);
+  osc.stop(end + 0.05);
+  osc.addEventListener('ended', function(){ try{ osc.disconnect(); g.disconnect(); }catch(e){} });
+  return end;
+}
+
+// Toca un acorde (lista de frecuencias) simultáneo en un instante dado.
+function playChordAt(freqs, startTime, duration, peak, harmonics){
+  freqs.forEach(function(f){ scheduleHarmonicVoice(f, startTime, duration, peak, harmonics); });
+}
+
+// Toca una secuencia de pasos [{freqs:[...], duration, gap}] uno tras otro.
+function playSequence(steps, peak, harmonics){
+  if(!ensureAudioReady()) return;
+  let t = audioCtx.currentTime + 0.05;
+  steps.forEach(function(step){
+    playChordAt(step.freqs, t, step.duration, peak != null ? peak : 0.16, harmonics);
+    t += step.duration + (step.gap != null ? step.gap : 0.15);
+  });
+}
+
+/* ==================== Lab 1: Constructor de acordes armónicos ==================== */
+(function(){
+  const fundGroup = document.getElementById('l1FundGroup');
+  const globalAmpInput = document.getElementById('l1GlobalAmp');
+  const globalAmpLabel = document.getElementById('l1GlobalAmpLabel');
+  const presetGroup = document.getElementById('l1PresetGroup');
+  const playBtn = document.getElementById('l1PlayBtn');
+  const quantBtn = document.getElementById('l1QuantBtn');
+  const quantStatus = document.getElementById('l1QuantStatus');
+  const tableBody = document.getElementById('l1TableBody');
+  const quantTableBody = document.getElementById('l1QuantTableBody');
+
+  const FUNDS = [
+    { key:'do2', label:'Do2', hz:DO2_HZ },
+    { key:'sol2', label:'Sol2', hz:SOL2_HZ },
+    { key:'do3', label:'Do3', hz:DO3_HZ }
+  ];
+  const PRESETS = {
+    maj:    [4,5,6],
+    dom7:   [4,5,6,7],
+    undec:  [8,9,10,11,12],
+    tridec: [8,10,12,13],
+    full:   [1,2,3,4,5,6,7,8]
+  };
+  const FLAG_HARM = [7,11,13,14];
+
+  let fundamental = FUNDS[0].hz;
+  let globalAmp = 1;
+  let quantized = false;
+  let playing = false;
+  const active = {};
+  for(let n=1;n<=16;n++) active[n] = false;
+
+  const rows = {};
+  const quantRows = {};
+  const voices = {}; // n -> {oscExact,gExact,oscQuant,gQuant}
+  let mixGain = null, gainExactBus = null, gainQuantBus = null;
+
+  function harmCentsExact(n){ return 1200*Math.log2(n); }
+  function harmCentsQuant(n){ return Math.round(harmCentsExact(n)/100)*100; }
+  function harmFreqExact(n){ return fundamental*n; }
+  function harmFreqQuant(n){ return fundamental*centsToRatio(harmCentsQuant(n)); }
+  function voiceAmp(n){ return (1/n)*0.5; } // 0.5: cabecera para evitar clipping al sumar 16 armónicos
+
+  function buildFundButtons(){
+    fundGroup.innerHTML = '';
+    FUNDS.forEach(function(f){
+      const b = document.createElement('button');
+      b.className = 'btn' + (f.hz === fundamental ? ' primary' : '');
+      b.textContent = f.label + ' (' + f.hz.toFixed(1) + ' Hz)';
+      b.addEventListener('click', function(){ setFundamental(f.hz); });
+      fundGroup.appendChild(b);
+    });
+  }
+
+  function setFundamental(hz){
+    fundamental = hz;
+    buildFundButtons();
+    refreshTables();
+    if(playing){
+      for(let n=1;n<=16;n++){ if(voices[n]) retuneVoice(n); }
+    }
+  }
+
+  function buildTable(){
+    tableBody.innerHTML = '';
+    quantTableBody.innerHTML = '';
+    for(let n=1;n<=16;n++){
+      const tr = document.createElement('tr');
+      const tdCheck = document.createElement('td');
+      const chk = document.createElement('input'); chk.type = 'checkbox';
+      chk.addEventListener('change', function(){ onToggle(n, chk.checked); });
+      tdCheck.appendChild(chk);
+      const tdN = document.createElement('td'); tdN.textContent = n;
+      const tdFreq = document.createElement('td');
+      const tdNote = document.createElement('td'); tdNote.className = 'note-cell';
+      const tdCents = document.createElement('td');
+      tr.appendChild(tdCheck); tr.appendChild(tdN); tr.appendChild(tdFreq);
+      tr.appendChild(tdNote); tr.appendChild(tdCents);
+      tableBody.appendChild(tr);
+      rows[n] = { tr:tr, freqCell:tdFreq, noteCell:tdNote, centsCell:tdCents, checkbox:chk };
+
+      const qtr = document.createElement('tr');
+      const qtdN = document.createElement('td'); qtdN.textContent = n;
+      const qtdExact = document.createElement('td');
+      const qtdQuant = document.createElement('td');
+      const qtdErr = document.createElement('td');
+      qtr.appendChild(qtdN); qtr.appendChild(qtdExact); qtr.appendChild(qtdQuant); qtr.appendChild(qtdErr);
+      quantTableBody.appendChild(qtr);
+      quantRows[n] = { tr:qtr, exact:qtdExact, quant:qtdQuant, err:qtdErr };
+    }
+  }
+
+  function refreshTables(){
+    for(let n=1;n<=16;n++){
+      const freq = harmFreqExact(n);
+      const note = freqToNote(freq);
+      const r = rows[n];
+      r.tr.className = FLAG_HARM.indexOf(n) !== -1 ? 'flagged' : '';
+      r.freqCell.textContent = freq.toFixed(1) + ' Hz';
+      r.noteCell.textContent = note.name + note.octave;
+      r.centsCell.className = note.cents >= 0 ? 'pos-cents' : 'neg-cents';
+      r.centsCell.textContent = fmtCents(note.cents);
+
+      const cExact = harmCentsExact(n);
+      const cQuant = harmCentsQuant(n);
+      const err = cExact - cQuant;
+      const q = quantRows[n];
+      q.exact.textContent = cExact.toFixed(2);
+      q.quant.textContent = cQuant.toFixed(0);
+      q.err.className = err >= 0 ? 'pos-cents' : 'neg-cents';
+      q.err.textContent = (err>=0?'+':'') + err.toFixed(2);
+    }
+  }
+
+  function ensureGraph(){
+    if(!mixGain){
+      mixGain = audioCtx.createGain(); mixGain.gain.value = globalAmp;
+      gainExactBus = audioCtx.createGain(); gainExactBus.gain.value = quantized ? 0 : 1;
+      gainQuantBus = audioCtx.createGain(); gainQuantBus.gain.value = quantized ? 1 : 0;
+      gainExactBus.connect(mixGain); gainQuantBus.connect(mixGain);
+      mixGain.connect(masterGain);
+    }
+  }
+
+  function startVoice(n){
+    const now = audioCtx.currentTime;
+    const oscExact = audioCtx.createOscillator(); oscExact.type = 'sine';
+    oscExact.frequency.value = harmFreqExact(n);
+    const gExact = audioCtx.createGain();
+    oscExact.connect(gExact); gExact.connect(gainExactBus);
+    gExact.gain.setValueAtTime(0.0001, now);
+    gExact.gain.exponentialRampToValueAtTime(Math.max(voiceAmp(n),0.0001), now+0.02);
+    oscExact.start(now);
+
+    const oscQuant = audioCtx.createOscillator(); oscQuant.type = 'sine';
+    oscQuant.frequency.value = harmFreqQuant(n);
+    const gQuant = audioCtx.createGain();
+    oscQuant.connect(gQuant); gQuant.connect(gainQuantBus);
+    gQuant.gain.setValueAtTime(0.0001, now);
+    gQuant.gain.exponentialRampToValueAtTime(Math.max(voiceAmp(n),0.0001), now+0.02);
+    oscQuant.start(now);
+
+    voices[n] = { oscExact:oscExact, gExact:gExact, oscQuant:oscQuant, gQuant:gQuant };
+  }
+
+  function stopVoice(n){
+    const v = voices[n]; if(!v) return;
+    const now = audioCtx.currentTime;
+    [ [v.oscExact,v.gExact], [v.oscQuant,v.gQuant] ].forEach(function(pair){
+      const osc = pair[0], g = pair[1];
+      g.gain.cancelScheduledValues(now);
+      g.gain.setValueAtTime(Math.max(g.gain.value,0.0001), now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+0.08);
+      osc.stop(now+0.09);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+    delete voices[n];
+  }
+
+  function retuneVoice(n){
+    const v = voices[n]; if(!v) return;
+    const now = audioCtx.currentTime;
+    v.oscExact.frequency.setTargetAtTime(harmFreqExact(n), now, 0.01);
+    v.oscQuant.frequency.setTargetAtTime(harmFreqQuant(n), now, 0.01);
+  }
+
+  function onToggle(n, checked){
+    active[n] = checked;
+    if(playing){
+      if(checked && !voices[n]) startVoice(n);
+      if(!checked && voices[n]) stopVoice(n);
+    }
+  }
+
+  function applyPreset(list){
+    for(let n=1;n<=16;n++){
+      const on = list.indexOf(n) !== -1;
+      active[n] = on;
+      rows[n].checkbox.checked = on;
+      if(playing){
+        if(on && !voices[n]) startVoice(n);
+        if(!on && voices[n]) stopVoice(n);
+      }
+    }
+  }
+
+  function togglePlay(){
+    if(!ensureAudioReady()) return;
+    if(!playing){
+      ensureGraph();
+      playing = true;
+      for(let n=1;n<=16;n++){ if(active[n]) startVoice(n); }
+      playBtn.textContent = '■ Detener acorde';
+    } else {
+      for(let n=1;n<=16;n++){ stopVoice(n); }
+      playing = false;
+      playBtn.textContent = '▶ Reproducir acorde';
+    }
+  }
+
+  function toggleQuant(){
+    quantized = !quantized;
+    quantStatus.textContent = quantized ? 'cuantizado (12-ET)' : 'exacto';
+    quantBtn.className = quantized ? 'btn big-btn primary' : 'btn big-btn';
+    if(audioCtx && gainExactBus && gainQuantBus){
+      const now = audioCtx.currentTime;
+      const target = quantized ? 1 : 0;
+      [gainExactBus, gainQuantBus].forEach(function(bus, idx){
+        const isExact = (idx === 0);
+        const goal = isExact ? (1-target) : target;
+        bus.gain.cancelScheduledValues(now);
+        bus.gain.setValueAtTime(bus.gain.value, now);
+        bus.gain.linearRampToValueAtTime(goal, now+1.0);
+      });
+    }
+  }
+
+  presetGroup.querySelectorAll('button[data-preset]').forEach(function(b){
+    b.addEventListener('click', function(){ applyPreset(PRESETS[b.dataset.preset]); });
+  });
+  playBtn.addEventListener('click', togglePlay);
+  quantBtn.addEventListener('click', toggleQuant);
+  globalAmpInput.addEventListener('input', function(){
+    globalAmp = parseFloat(globalAmpInput.value);
+    globalAmpLabel.textContent = globalAmp.toFixed(2);
+    if(mixGain) mixGain.gain.setTargetAtTime(globalAmp, audioCtx.currentTime, 0.02);
+  });
+
+  buildFundButtons();
+  buildTable();
+  refreshTables();
+  applyPreset(PRESETS.dom7);
+})();
+
+/* ==================== Lab 2: El diamante de tonalidades ==================== */
+(function(){
+  const IDENTITIES = [1,3,5,7,9,11];
+  const diamondEl = document.getElementById('l2Diamond');
+  const droneBtn = document.getElementById('l2DroneBtn');
+  const noteBox = document.getElementById('l2Note');
+
+  let droneOn = false;
+  let droneOsc = null, droneGain = null;
+
+  function reduceToOctave(num, den){
+    let n = num, d = den;
+    while(n/d >= 2){ d *= 2; }
+    while(n/d < 1){ n *= 2; }
+    const g = gcd(n,d);
+    return { n: n/g, d: d/g };
+  }
+
+  function ratioFreq(r){ return SOL2_HZ * r.n / r.d; }
+
+  function playRatios(ratioList, duration, peak){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.05;
+    ratioList.forEach(function(r){ scheduleHarmonicVoice(ratioFreq(r), now, duration, peak, 6); });
+  }
+
+  function playSequenceOfChords(chords, duration, gap, peak){
+    if(!ensureAudioReady()) return;
+    let t = audioCtx.currentTime + 0.05;
+    chords.forEach(function(chord){
+      chord.forEach(function(r){ scheduleHarmonicVoice(ratioFreq(r), t, duration, peak, 6); });
+      t += duration + gap;
+    });
+  }
+
+  // Fila fija R (denominador constante) = otonalidad: numerador o varía.
+  function otonalChord(R){
+    return IDENTITIES.map(function(o){ return reduceToOctave(o, R); });
+  }
+  // Columna fija C (numerador constante) = utonalidad: denominador u varía.
+  function utonalChord(C){
+    return IDENTITIES.map(function(u){ return reduceToOctave(C, u); });
+  }
+
+  function buildDiamond(){
+    diamondEl.innerHTML = '';
+    const thead = document.createElement('thead');
+    const headRow = document.createElement('tr');
+    const corner = document.createElement('th'); corner.textContent = 'o \\ u';
+    headRow.appendChild(corner);
+    IDENTITIES.forEach(function(C){
+      const th = document.createElement('th');
+      th.className = 'axis-btn';
+      th.textContent = 'Uton. ' + C;
+      th.title = 'Utonalidad bajo ' + C + ' (columna): denominador varía, numerador fijo ' + C;
+      th.addEventListener('click', function(){ playRatios(utonalChord(C), 2.4, 0.14); });
+      headRow.appendChild(th);
+    });
+    thead.appendChild(headRow);
+    diamondEl.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    IDENTITIES.forEach(function(R){
+      const tr = document.createElement('tr');
+      const rowTh = document.createElement('th');
+      rowTh.className = 'axis-btn';
+      rowTh.textContent = 'Oton. ' + R;
+      rowTh.title = 'Otonalidad sobre ' + R + ' (fila): numerador varía, denominador fijo ' + R;
+      rowTh.addEventListener('click', function(){ playRatios(otonalChord(R), 2.4, 0.14); });
+      tr.appendChild(rowTh);
+      IDENTITIES.forEach(function(C){
+        const td = document.createElement('td');
+        td.className = 'dcell' + (R === C ? ' diag' : '');
+        const r = reduceToOctave(C, R);
+        const cents = 1200*Math.log2(r.n/r.d);
+        const fracSpan = document.createElement('span'); fracSpan.className = 'frac'; fracSpan.textContent = r.n + '/' + r.d;
+        const centSpan = document.createElement('span'); centSpan.className = 'cnt'; centSpan.textContent = cents.toFixed(1) + ' c';
+        td.appendChild(fracSpan); td.appendChild(centSpan);
+        td.addEventListener('click', function(){ playRatios([{n:1,d:1}, r], 2.6, 0.15); });
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    diamondEl.appendChild(tbody);
+  }
+
+  function toggleDrone(){
+    droneOn = !droneOn;
+    droneBtn.textContent = '🔊 Drone 1/1: ' + (droneOn ? 'encendido' : 'apagado');
+    droneBtn.className = droneOn ? 'btn primary' : 'btn';
+    if(droneOn){
+      if(!ensureAudioReady()){ droneOn = false; droneBtn.textContent = '🔊 Drone 1/1: apagado'; droneBtn.className = 'btn'; return; }
+      const now = audioCtx.currentTime;
+      droneOsc = createHarmonicOsc(audioCtx, SOL2_HZ, 6);
+      droneGain = audioCtx.createGain();
+      droneOsc.connect(droneGain); droneGain.connect(masterGain);
+      droneGain.gain.setValueAtTime(0.0001, now);
+      droneGain.gain.exponentialRampToValueAtTime(0.1, now+0.4);
+      droneOsc.start(now);
+    } else if(droneOsc){
+      const now = audioCtx.currentTime;
+      droneGain.gain.cancelScheduledValues(now);
+      droneGain.gain.setValueAtTime(Math.max(droneGain.gain.value,0.0001), now);
+      droneGain.gain.exponentialRampToValueAtTime(0.0001, now+0.3);
+      droneOsc.stop(now+0.35);
+      const o = droneOsc, g = droneGain;
+      o.addEventListener('ended', function(){ try{o.disconnect(); g.disconnect();}catch(e){} });
+      droneOsc = null; droneGain = null;
+    }
+  }
+
+  document.getElementById('l2BtnOtoUno').addEventListener('click', function(){
+    noteBox.innerHTML = '<b>Otonalidad sobre 1/1</b>: 1/1, 9/8, 5/4, 11/8, 3/2, 7/4 — el hexacordo otonal clásico de Partch, la serie armónica "peinada" a la octava.';
+    playRatios(otonalChord(1), 3.2, 0.14);
+  });
+  document.getElementById('l2BtnUtoUno').addEventListener('click', function(){
+    noteBox.innerHTML = '<b>Utonalidad bajo 1/1</b>: 1/1, 16/11, 16/9, 8/7, 8/5, 4/3 — el espejo exacto del hexacordo anterior, construido dividiendo en vez de multiplicar.';
+    playRatios(utonalChord(1), 3.2, 0.14);
+  });
+  document.getElementById('l2BtnCompare').addEventListener('click', function(){
+    noteBox.innerHTML = '<b>Mayor otonal 4:5:6</b> (1, 5/4, 3/2) seguido de <b>menor utonal 1/(4:5:6)</b> (1, 6/5, 3/2): mismo par de intervalos (tercera+quinta), pero la tercera queda arriba (mayor) o abajo (menor) de 1/1 — la dualidad otonal/utonal explica por qué el acorde menor "se siente" como el reflejo del mayor.';
+    const major = [{n:1,d:1}, reduceToOctave(5,4), reduceToOctave(6,4)];
+    const minorMirror = [{n:1,d:1}, reduceToOctave(6,5), reduceToOctave(6,4)]; // normalizado sobre 1/6: 1, 6/5, 3/2
+    playSequenceOfChords([major, minorMirror], 2.4, 0.35, 0.16);
+  });
+  droneBtn.addEventListener('click', toggleDrone);
+
+  buildDiamond();
+})();
+
+/* ==================== Lab 3: Teclado Partch (43 tonos) ==================== */
+(function(){
+  // Escala de 43 tonos de Harry Partch (Genesis of a Music), 1/1..160/81 (43 grados;
+  // 2/1 es el cierre de octava, no se cuenta como grado 44). Ratios y cents verificados
+  // de forma independiente (cálculo directo 1200*log2(n/d)) contra Wikipedia y la tabla
+  // de Puhm "The Partch 43 Tone Scale"; cents redondeados a 1 decimal para mostrar.
+  const PARTCH_43 = [
+    [1,1],[81,80],[33,32],[21,20],[16,15],[12,11],[11,10],[10,9],[9,8],[8,7],
+    [7,6],[32,27],[6,5],[11,9],[5,4],[14,11],[9,7],[21,16],[4,3],[27,20],
+    [11,8],[7,5],[10,7],[16,11],[40,27],[3,2],[32,21],[14,9],[11,7],[8,5],
+    [18,11],[5,3],[27,16],[12,7],[7,4],[16,9],[9,5],[20,11],[11,6],[15,8],
+    [40,21],[64,33],[160,81]
+  ].map(function(pair){
+    const cents = 1200*Math.log2(pair[0]/pair[1]);
+    return { n:pair[0], d:pair[1], cents:cents };
+  });
+
+  const keysRow = document.getElementById('l3KeysRow');
+  const glissBtn = document.getElementById('l3GlissBtn');
+  const nearCountLabel = document.getElementById('l3NearCount');
+
+  let glissMode = false;
+  let dragging = false;
+  let glissOsc = null, glissGain = null, glissCurrentIndex = -1;
+  const keyEls = [];
+
+  function freqOf(i){ const r = PARTCH_43[i]; return SOL2_HZ * r.n / r.d; }
+
+  function buildKeys(){
+    keysRow.innerHTML = '';
+    let nearCount = 0;
+    PARTCH_43.forEach(function(r, i){
+      const nearestET = Math.round(r.cents/100)*100;
+      const dev = r.cents - nearestET;
+      const isNear = Math.abs(dev) < 10;
+      if(isNear) nearCount++;
+      const key = document.createElement('div');
+      key.className = 'pkey' + (isNear ? ' near-et' : '');
+      key.dataset.idx = String(i);
+      const idxSpan = document.createElement('span'); idxSpan.className = 'pk-idx'; idxSpan.textContent = String(i+1);
+      const ratioSpan = document.createElement('span'); ratioSpan.className = 'pk-ratio'; ratioSpan.textContent = r.n + '/' + r.d;
+      const centsSpan = document.createElement('span'); centsSpan.className = 'pk-cents'; centsSpan.textContent = r.cents.toFixed(1);
+      key.appendChild(idxSpan); key.appendChild(ratioSpan); key.appendChild(centsSpan);
+      keysRow.appendChild(key);
+      keyEls.push(key);
+    });
+    nearCountLabel.textContent = nearCount + ' de 43 teclas a menos de 10 c de 12-ET';
+  }
+
+  function highlightKey(i, on){
+    if(i < 0 || i >= keyEls.length) return;
+    if(on) keyEls[i].classList.add('sounding'); else keyEls[i].classList.remove('sounding');
+  }
+
+  function playSingleKey(i){
+    if(!ensureAudioReady()) return;
+    scheduleHarmonicVoice(freqOf(i), audioCtx.currentTime+0.03, 1.4, 0.22, 6);
+    highlightKey(i, true);
+    setTimeout(function(){ highlightKey(i, false); }, 1400);
+  }
+
+  function glissStart(i){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime;
+    glissOsc = createHarmonicOsc(audioCtx, freqOf(i), 6);
+    glissGain = audioCtx.createGain();
+    glissOsc.connect(glissGain); glissGain.connect(masterGain);
+    glissGain.gain.setValueAtTime(0.0001, now);
+    glissGain.gain.exponentialRampToValueAtTime(0.22, now+0.02);
+    glissOsc.start(now);
+    glissCurrentIndex = i;
+    highlightKey(i, true);
+  }
+
+  function glissMoveTo(i){
+    if(i === glissCurrentIndex || !glissOsc) return;
+    const now = audioCtx.currentTime;
+    highlightKey(glissCurrentIndex, false);
+    glissGain.gain.cancelScheduledValues(now);
+    glissGain.gain.setValueAtTime(Math.max(glissGain.gain.value,0.0001), now);
+    glissGain.gain.exponentialRampToValueAtTime(0.0001, now+0.025);
+    glissGain.gain.setValueAtTime(0.0001, now+0.03);
+    glissOsc.frequency.setValueAtTime(freqOf(i), now+0.03);
+    glissGain.gain.exponentialRampToValueAtTime(0.22, now+0.055);
+    glissCurrentIndex = i;
+    highlightKey(i, true);
+  }
+
+  function glissStop(){
+    if(!glissOsc) return;
+    const now = audioCtx.currentTime;
+    glissGain.gain.cancelScheduledValues(now);
+    glissGain.gain.setValueAtTime(Math.max(glissGain.gain.value,0.0001), now);
+    glissGain.gain.exponentialRampToValueAtTime(0.0001, now+0.09);
+    glissOsc.stop(now+0.1);
+    const o = glissOsc, g = glissGain;
+    o.addEventListener('ended', function(){ try{o.disconnect(); g.disconnect();}catch(e){} });
+    highlightKey(glissCurrentIndex, false);
+    glissOsc = null; glissGain = null; glissCurrentIndex = -1;
+  }
+
+  keysRow.addEventListener('pointerdown', function(e){
+    const keyEl = e.target.closest ? e.target.closest('.pkey') : null;
+    if(!keyEl) return;
+    const idx = parseInt(keyEl.dataset.idx, 10);
+    if(glissMode){
+      dragging = true;
+      try{ keysRow.setPointerCapture(e.pointerId); }catch(err){}
+      glissStart(idx);
+    } else {
+      playSingleKey(idx);
+    }
+  });
+  keysRow.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const keyEl = el && el.closest ? el.closest('.pkey') : null;
+    if(keyEl){ glissMoveTo(parseInt(keyEl.dataset.idx,10)); }
+  });
+  function endDrag(){
+    if(dragging){ dragging = false; glissStop(); }
+  }
+  keysRow.addEventListener('pointerup', endDrag);
+  keysRow.addEventListener('pointerleave', endDrag);
+  keysRow.addEventListener('pointercancel', endDrag);
+
+  glissBtn.addEventListener('click', function(){
+    glissMode = !glissMode;
+    glissBtn.textContent = 'Modo glissando discreto: ' + (glissMode ? 'encendido' : 'apagado');
+    glissBtn.className = glissMode ? 'btn primary' : 'btn';
+  });
+
+  buildKeys();
+})();
+
+/* ==================== Lab 4: La séptima de barbería ==================== */
+(function(){
+  const BASE = DO3_HZ;
+  const ET_CENTS = [0,400,700,1000];
+  const JI_NUM = [4,5,6,7]; // 4:5:6:7 con 4 = raíz
+
+  const ET_FREQS = ET_CENTS.map(function(c){ return BASE*centsToRatio(c); });
+  const JI_FREQS = JI_NUM.map(function(n){ return BASE*n/4; });
+  const JI_CENTS = JI_NUM.map(function(n){ return 1200*Math.log2(n/4); });
+
+  document.getElementById('l4ETFreqs').textContent = ET_FREQS.map(function(f){ return f.toFixed(1); }).join(' · ') + ' Hz';
+  document.getElementById('l4JICents').textContent = JI_CENTS.map(function(c){ return c.toFixed(1); }).join(' · ');
+  document.getElementById('l4JIFreqs').textContent = JI_FREQS.map(function(f){ return f.toFixed(1); }).join(' · ') + ' Hz';
+
+  // Batido = |p*raíz - q*superior| para la razón p:q que debería coincidir.
+  const PAIRS = [
+    { label:'Tercera (5:4)', p:5, q:4, etUpper:ET_FREQS[1], jiUpper:JI_FREQS[1] },
+    { label:'Quinta (3:2)',  p:3, q:2, etUpper:ET_FREQS[2], jiUpper:JI_FREQS[2] },
+    { label:'Séptima (7:4)', p:7, q:4, etUpper:ET_FREQS[3], jiUpper:JI_FREQS[3] }
+  ];
+
+  const beatTableBody = document.getElementById('l4BeatTableBody');
+  beatTableBody.innerHTML = '';
+  PAIRS.forEach(function(pair){
+    const beatET = Math.abs(pair.p*BASE - pair.q*pair.etUpper);
+    const beatJI = Math.abs(pair.p*BASE - pair.q*pair.jiUpper);
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>'+pair.label+'</td><td>'+beatET.toFixed(3)+'</td><td>'+beatJI.toFixed(3)+'</td>';
+    beatTableBody.appendChild(tr);
+  });
+
+  document.getElementById('l4PlayET').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    playChordAt(ET_FREQS, audioCtx.currentTime+0.05, 3.2, 0.13, 6);
+  });
+  document.getElementById('l4PlayJI').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    playChordAt(JI_FREQS, audioCtx.currentTime+0.05, 3.2, 0.13, 6);
+  });
+  document.getElementById('l4SoloSeventh').addEventListener('click', function(){
+    playSequence([
+      { freqs:[BASE, ET_FREQS[3]], duration:2.2, gap:0.35 },
+      { freqs:[BASE, JI_FREQS[3]], duration:2.2, gap:0 }
+    ], 0.16, 6);
+  });
+  document.getElementById('l4Crossfade').addEventListener('click', function(){
+    if(!ensureAudioReady()) return;
+    const now = audioCtx.currentTime + 0.05;
+    const totalDur = 4.6;
+    const busA = audioCtx.createGain(); busA.gain.setValueAtTime(1, now);
+    const busB = audioCtx.createGain(); busB.gain.setValueAtTime(0, now);
+    busA.connect(masterGain); busB.connect(masterGain);
+    ET_FREQS.forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 6);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(busA);
+      const end = scheduleTone(g.gain, now, totalDur, 0.13, 0.03, 0.3);
+      osc.start(now); osc.stop(end+0.05);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+    JI_FREQS.forEach(function(f){
+      const osc = createHarmonicOsc(audioCtx, f, 6);
+      const g = audioCtx.createGain();
+      osc.connect(g); g.connect(busB);
+      const end = scheduleTone(g.gain, now, totalDur, 0.13, 0.03, 0.3);
+      osc.start(now); osc.stop(end+0.05);
+      osc.addEventListener('ended', function(){ try{osc.disconnect(); g.disconnect();}catch(e){} });
+    });
+    const fadeStart = now + 0.35;
+    busA.gain.setValueAtTime(1, fadeStart);
+    busA.gain.linearRampToValueAtTime(0, fadeStart+4.0);
+    busB.gain.setValueAtTime(0, fadeStart);
+    busB.gain.linearRampToValueAtTime(1, fadeStart+4.0);
+    setTimeout(function(){ try{busA.disconnect(); busB.disconnect();}catch(e){} }, (totalDur+0.6)*1000);
+  });
+})();
+
+/* ==================== Lab 5: Las comas nuevas ==================== */
+(function(){
+  const COMMAS = {
+    septimal:  { ratio:[64,63] },
+    undecimal: { ratio:[33,32] }
+  };
+
+  function commaCents(key){ const r = COMMAS[key].ratio; return 1200*Math.log2(r[0]/r[1]); }
+  function beatHz(cents){ return DO4_HZ * (centsToRatio(cents) - 1); }
+
+  document.querySelectorAll('.comma-row').forEach(function(row){
+    const key = row.dataset.comma;
+    const c = commaCents(key);
+    const beatEl = row.querySelector('.beatval');
+    if(beatEl) beatEl.textContent = beatHz(c).toFixed(3);
+    const cvalEl = row.querySelector('.cval');
+    if(cvalEl) cvalEl.textContent = c.toFixed(3);
+
+    row.querySelectorAll('button[data-act]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(!ensureAudioReady()) return;
+        const act = btn.dataset.act;
+        if(act === 'melodic'){
+          playSequence([
+            { freqs:[DO4_HZ], duration:0.9, gap:0.25 },
+            { freqs:[DO4_HZ*centsToRatio(c)], duration:0.9, gap:0 }
+          ], 0.2, 8);
+        } else if(act === 'harmonic'){
+          playSequence([{ freqs:[DO4_HZ, DO4_HZ*centsToRatio(c)], duration:3, gap:0 }], 0.16, 8);
+        } else if(act === 'context'){
+          if(key === 'septimal'){
+            const pyth7 = DO4_HZ * 16/9;
+            const harm7 = DO4_HZ * 7/4;
+            playSequence([
+              { freqs:[DO4_HZ, pyth7], duration:2, gap:0.3 },
+              { freqs:[DO4_HZ, harm7], duration:2, gap:0 }
+            ], 0.16, 8);
+          } else if(key === 'undecimal'){
+            const pureFourth = DO4_HZ * 4/3;
+            const neutralFourth = DO4_HZ * 11/8;
+            playSequence([
+              { freqs:[DO4_HZ, pureFourth], duration:2, gap:0.3 },
+              { freqs:[DO4_HZ, neutralFourth], duration:2, gap:0 }
+            ], 0.16, 8);
+          }
+        }
+      });
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

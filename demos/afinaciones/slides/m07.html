@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>M7 · Temperamento igual</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="vendor/reveal/dist/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/dist/reveal.css">
+  <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="vendor/curso.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">M7 · Temperamento igual</h1>
+  <p class="subtitle">la solución final y su costo — Sistema de
+Aprendizaje de Afinaciones</p>
+</section>
+
+<section>
+<section id="hook" class="title-slide slide level1">
+<h1>Hook</h1>
+<aside class="notes">
+<p>[min 00] Apertura de clase. No anunciar todavía el nombre
+“temperamento igual” — dejar que la escena de Chopin/Wagner haga el
+trabajo de generar la pregunta antes de nombrar la respuesta.</p>
+</aside>
+</section>
+<section id="la-escena-chopin-wagner-y-ningún-afinador-de-por-medio"
+class="slide level2">
+<h2>La escena: Chopin, Wagner, y ningún afinador de por medio</h2>
+<ul>
+<li>Un pianista termina el <em>Preludio Op. 28 n.º 15</em> de Chopin
+(“de la gota de agua”, en Reb mayor) y sigue <strong>sin levantar las
+manos</strong> con un pasaje de <em>Tristán e Isolda</em>.</li>
+<li>Nadie afina nada entre medio. Las mismas 88 teclas sirven para
+Chopin, para Wagner, para un standard de jazz con sustitución tritonal,
+para una serie de Webern.</li>
+<li>Un clave en mesotónico de 1/4 de coma (M5) no puede prometer eso:
+tiene una quinta del lobo que inhabilita tonalidades enteras.</li>
+<li>Un órgano en Vallotti o Kirnberger III (M6) reparte el color
+desigual entre tonalidades — brillantes y veladas — pero ninguna queda
+inservible.</li>
+</ul>
+<aside class="notes">
+<p>[min 01] Abrir con la escena completa, tocada o cantada si es
+posible. La pregunta retórica: ¿por qué esto es posible en un piano
+moderno y no lo era en un clave del siglo XVIII? Dejar que la clase
+proponga hipótesis antes de nombrar “temperamento igual”. Conectar con
+M5 (quinta del lobo) y M6 (color desigual) como los dos sistemas que el
+ET viene a superar.</p>
+</aside>
+</section>
+<section
+id="la-pregunta-del-módulo-repartir-la-coma-en-12-partes-exactamente-iguales"
+class="slide level2">
+<h2>La pregunta del módulo: repartir la coma en 12 partes exactamente
+iguales</h2>
+<ul>
+<li>Pitagórica (M3): concentra <strong>toda</strong> la coma en una sola
+quinta (la del lobo).</li>
+<li>Mesotónicos (M5): reparten la coma <em>sintónica</em> entre un
+subconjunto de quintas, a cambio de terceras puras.</li>
+<li>Buenos temperamentos (M6): reparten la coma pitagórica de forma
+desigual pero <em>acotada</em> — jerarquía de colores.</li>
+<li><strong>Temperamento igual</strong>: ¿qué pasa si repartimos la coma
+pitagórica en <strong>doce partes idénticas</strong>, sin favorecer a
+ninguna quinta?</li>
+</ul>
+<aside class="notes">
+<p>[min 03] Esta es la pregunta que organiza todo el módulo. Insistir en
+que no hay elección deliberada de qué proteger — la “política” es,
+precisamente, no tener política: simetría total. Adelantar que esa
+simetría trae fuerza y pobreza a la vez, y que lo vamos a medir en cents
+y en Hz de batido, no en adjetivos.</p>
+</aside>
+</section></section>
+<section>
+<section id="mapa-de-la-clase" class="title-slide slide level1">
+<h1>Mapa de la clase</h1>
+<aside class="notes">
+<p>[min 05] Transición breve: ya plantearon la pregunta, ahora mostrar
+el mapa completo de cómo se va a responder en las próximas hora y media,
+incluyendo el giro histórico y el giro organológico.</p>
+</aside>
+</section>
+<section id="ruta-de-los-próximos-90-minutos" class="slide level2">
+<h2>Ruta de los próximos 90 minutos</h2>
+<ol type="1">
+<li>La derivación:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+y la tabla completa ET vs. justo (~20 min)</li>
+<li>Lo irracional hecho música: ninguna quinta “de verdad” (~7 min)</li>
+<li>Historia honesta: el mito de Bach, Zhu Zaiyu, la adopción real (~19
+min)</li>
+<li>El balance: qué gana y qué pierde la música (~7 min)</li>
+<li>El piano real: inarmonicidad y octavas estiradas (~15 min)</li>
+<li>Ahora ustedes + síntesis + anzuelo de M8 (~12 min)</li>
+</ol>
+<aside class="notes">
+<p>[min 06] Repasar rápidamente la ruta para que la clase sepa que hay
+un giro histórico fuerte a la mitad (bloque 3) y un giro organológico al
+final (bloque 5, puente directo al proyecto DAC sobre inarmonicidad en
+instrumentos reales). Mencionar que van a usar los Laboratorios 2, 3 y 5
+en vivo.</p>
+</aside>
+</section>
+<section id="lo-que-necesitas-fresco" class="slide level2">
+<h2>Lo que necesitas fresco</h2>
+<ul>
+<li><strong>Cent</strong> y tabla de intervalos justos (M1 §6): quinta
+701.955 c, 3.ª mayor 386.314 c, 3.ª menor 315.641 c.</li>
+<li>Umbral perceptual (M1 §6.5): desde ~5 c hay batido audible; 14 c se
+“deja de escuchar” como error tras exposición prolongada.</li>
+<li><strong>Coma pitagórica</strong> = 23.460 c exactos (M1 §7, M2):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup><mo>≠</mo><msup><mn>2</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">(3/2)^{12} \neq 2^7</annotation></semantics></math>
+para ningún entero.</li>
+<li>Familia mesotónica (M5):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>80</mn><mi>/</mi><mn>81</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>a</mi></msup></mrow><annotation encoding="application/x-tex">Q = (3/2)\cdot(80/81)^a</annotation></semantics></math>.</li>
+<li>Circulación (M6): repartir la coma de forma desigual pero acotada —
+el ET es el caso límite cuando la desigualdad es exactamente cero.</li>
+</ul>
+<aside class="notes">
+<p>[min 08] Recapitulación rápida, casi un repaso de flashcards oral. Si
+la clase no recuerda la coma pitagórica exacta (23.460 c), vale la pena
+escribirla en la pizarra ahora porque reaparece literalmente en el
+minuto 19 como resultado central del módulo.</p>
+</aside>
+</section></section>
+<section>
+<section id="el-corazón-matemático-la-derivación"
+class="title-slide slide level1">
+<h1>El corazón matemático: la derivación</h1>
+<aside class="notes">
+<p>[min 10] Entramos al bloque más denso matemáticamente del módulo: una
+sola ecuación algebraica que produce, en cadena, el semitono, la quinta,
+la tabla completa de los doce intervalos y la explicación de por qué
+ningún intervalo del ET es racional. Avisar a la clase que vale la pena
+seguir el álgebra en la pizarra, no solo mirar los resultados.</p>
+</aside>
+</section>
+<section id="doce-semitonos-idénticos-una-octava" class="slide level2">
+<h2>Doce semitonos idénticos = una octava</h2>
+<p>Queremos doce semitonos <strong>idénticos</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+= razón de frecuencias de cada uno) que, apilados, sumen exactamente una
+octava:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>×</mo><mi>s</mi><mo>×</mo><mi>⋯</mi><mo>×</mo><mi>s</mi><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">12 veces</mtext><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>s</mi><mn>12</mn></msup><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">s \times s \times \cdots \times s\ (\text{12 veces}) = s^{12} = 2</annotation></semantics></math></p>
+<ul>
+<li>Ninguna otra condición. Toda la “receta” del temperamento igual es
+esta única ecuación.</li>
+<li>Compárese con M3–M6: ahí la ecuación de partida siempre involucraba
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+(la quinta). Aquí, la variable libre es la <strong>octava</strong>,
+dividida en partes iguales.</li>
+</ul>
+<aside class="notes">
+<p>[min 11] Plantear la ecuación en la pizarra y dejar que la clase
+intente despejar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+antes de mostrar el siguiente slide. Es autoevidente para compositores
+con álgebra básica, pero vale la pena el segundo de suspenso.</p>
+</aside>
+</section>
+<section id="despejando-con-logaritmos-s-2112" class="slide level2">
+<h2>Despejando con logaritmos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">s = 2^{1/12}</annotation></semantics></math></h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">s = 2^{1/12}</annotation></semantics></math></p>
+<p>Cálculo numérico (misma herramienta de M1 §6, logaritmo natural):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>1</mn><mn>12</mn></mfrac><mo>×</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>0.693147</mn><mn>12</mn></mfrac><mo>=</mo><mn>0.057762</mn></mrow><annotation encoding="application/x-tex">\ln(s) = \frac{1}{12}\times\ln(2) = \frac{0.693147}{12} = 0.057762</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mi>e</mi><mn>0.057762</mn></msup><mo>=</mo><mn>1.059463</mn></mrow><annotation encoding="application/x-tex">s = e^{0.057762} = 1.059463</annotation></semantics></math></p>
+<p>Verificación:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>1.059463</mn><mn>12</mn></msup><mo>≈</mo><mn>1.999999</mn><mi>.</mi><mi>.</mi><mi>.</mi><mo>≈</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1.059463^{12} \approx 1.999999... \approx 2</annotation></semantics></math>
+✓ (con 10 decimales,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mn>1.0594630944</mn></mrow><annotation encoding="application/x-tex">2^{1/12}=1.0594630944</annotation></semantics></math>,
+y su 12.ª potencia da 2 exacto).</p>
+<aside class="notes">
+<p>[min 13] Hacer el cálculo en la pizarra o con calculadora en vivo,
+paso a paso — la Guía de Autores del curso prohíbe el “es fácil ver
+que”, y en clase vale lo mismo: nadie memoriza 1.059463, todos lo
+derivan. Insistir en que no es un número redondo por casualidad, sino la
+única solución de la ecuación anterior.</p>
+</aside>
+</section>
+<section id="por-qué-el-semitono-mide-exactamente-100-cents"
+class="slide level2">
+<h2>Por qué el semitono mide EXACTAMENTE 100 cents</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">semitono ET</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mfrac><mn>1</mn><mn>12</mn></mfrac><mo>=</mo><mn>100.000000</mn><mi>…</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{\text{semitono ET}} = 1200 \times \log_2\left(2^{1/12}\right) = 1200 \times \frac{1}{12} = 100.000000\ldots \text{ cents}</annotation></semantics></math></p>
+<ul>
+<li>No es un resultado “que redondea bonito”: es una identidad
+algebraica exacta.</li>
+<li>El cent se <strong>definió</strong> (M1 §6.3) precisamente para que
+esto ocurriera — como un metro mide exactamente 100 centímetros porque
+el centímetro se calibró a partir del metro.</li>
+</ul>
+<aside class="notes">
+<p>[min 15] Este es un punto conceptual, no solo aritmético: el cent
+como unidad fue diseñado retrospectivamente para hacer que el semitono
+ET sea la unidad natural de medida. Vale la pena que la clase entienda
+que esta “perfección” del 100.000 es circular por diseño, no un hallazgo
+asombroso de la naturaleza.</p>
+</aside>
+</section>
+<section id="la-quinta-et-700-c-contra-701.955-c-justos"
+class="slide level2">
+<h2>La quinta ET: 700 c contra 701.955 c justos</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mtext mathvariant="normal">ET</mtext></msub><mo>=</mo><msup><mi>s</mi><mn>7</mn></msup><mo>=</mo><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><mspace width="2.0em"></mspace><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mfrac><mn>7</mn><mn>12</mn></mfrac><mo>=</mo><mn>700</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents exactos</mtext></mrow></mrow><annotation encoding="application/x-tex">Q_{\text{ET}} = s^7 = 2^{7/12} \qquad c = 1200\times\frac{7}{12} = 700 \text{ cents exactos}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>700.000</mn><mo>=</mo><mn>1.955</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">701.955 - 700.000 = 1.955 \text{ cents}</annotation></semantics></math></p>
+<ul>
+<li>La quinta del temperamento igual es <strong>1.955 cents más
+angosta</strong> que la quinta pura.</li>
+<li>Muy por debajo del umbral de 5 c (M1 §6.5): el oído la tolera sin
+esfuerzo.</li>
+</ul>
+<aside class="notes">
+<p>[min 17] Notar el contraste con la tercera, que viene en el próximo
+bloque: 1.955 c es casi nada. Preguntar a la clase: ¿alguien puede oír 2
+cents de diferencia en una quinta? La respuesta esperada es no, y esa es
+exactamente la razón por la que el sistema “se sale con la suya” en el
+registro de quintas y cuartas.</p>
+</aside>
+</section>
+<section id="la-aritmética-que-da-nombre-al-módulo"
+class="slide level2">
+<h2>La aritmética que da nombre al módulo</h2>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>1.955</mn><mo>=</mo><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">12 \times 1.955 = 23.460 \text{ cents}</annotation></semantics></math></p>
+<ul>
+<li>Cifra por cifra, la <strong>coma pitagórica completa</strong> (M1
+§7, M2).</li>
+<li>No sobra nada, no falta nada: la coma entera queda repartida en doce
+partes matemáticamente idénticas.</li>
+<li>Es, en el sentido más literal, la política de reparto más simétrica
+que existe en todo el curso.</li>
+</ul>
+<aside class="notes">
+<p>[min 19] Este es el momento “ajá” matemático de la primera mitad de
+la clase: la coma pitagórica que perseguimos desde M2 reaparece exacta,
+dividida en 12 partes iguales. Escribir la ecuación completa en la
+pizarra y dejar un segundo de silencio — es el resultado que justifica
+el nombre del sistema.</p>
+</aside>
+</section>
+<section id="tabla-completa-los-12-grados-et-vs.-justo"
+class="slide level2">
+<h2>Tabla completa: los 12 grados, ET vs. justo</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Grado</th>
+<th>Intervalo</th>
+<th>Cents ET</th>
+<th>Justo</th>
+<th>Cents justos</th>
+<th>Dif. (ET−justo)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2.ª menor</td>
+<td>100.000</td>
+<td>16/15</td>
+<td>111.731</td>
+<td><strong>−11.731</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2.ª mayor</td>
+<td>200.000</td>
+<td>9/8</td>
+<td>203.910</td>
+<td><strong>−3.910</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>3.ª menor</td>
+<td>300.000</td>
+<td>6/5</td>
+<td>315.641</td>
+<td><strong>−15.641</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>3.ª mayor</td>
+<td>400.000</td>
+<td>5/4</td>
+<td>386.314</td>
+<td><strong>+13.686</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>4.ª justa</td>
+<td>500.000</td>
+<td>4/3</td>
+<td>498.045</td>
+<td><strong>+1.955</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>5.ª justa</td>
+<td>700.000</td>
+<td>3/2</td>
+<td>701.955</td>
+<td><strong>−1.955</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>6.ª menor</td>
+<td>800.000</td>
+<td>8/5</td>
+<td>813.686</td>
+<td><strong>−13.686</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>6.ª mayor</td>
+<td>900.000</td>
+<td>5/3</td>
+<td>884.359</td>
+<td><strong>+15.641</strong></td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>[min 21] Tabla completa de 13 filas en el apunte (incluye unísono,
+tritono, 7.ª menor/mayor y octava); en la diapositiva se muestran las
+filas con mayor contraste pedagógico. Recorrer fila por fila señalando
+el patrón: los grados “de acorde” (3.ª, 6.ª) tienen las diferencias más
+grandes. El tritono no tiene candidato justo canónico único —
+mencionarlo solo si preguntan.</p>
+</aside>
+</section>
+<section
+id="lectura-de-la-tabla-dos-observaciones-que-organizan-todo-el-módulo"
+class="slide level2">
+<h2>Lectura de la tabla: dos observaciones que organizan todo el
+módulo</h2>
+<ul>
+<li><strong>Cuartas y quintas casi no se mueven</strong>: ±1.955 c,
+invisibles al oído en la práctica normal.</li>
+<li><strong>Terceras y sextas pagan la cuenta</strong>: 13.686 a 15.641
+cents de desviación — siete u ocho veces más que las quintas.</li>
+<li>Es la razón exacta por la que el ET “se sale con la suya” en power
+chords, organum, acompañamientos de guitarra — y por la que las tríadas
+de piano suenan con una aspereza constante.</li>
+</ul>
+<aside class="notes">
+<p>[min 23] Este es el núcleo perceptual del módulo. Pedir a la clase
+que piense en qué géneros musicales privilegian quintas/cuartas sobre
+terceras (rock, música modal, ciertos folclores) — ahí el ET “se
+esconde” mejor. En cambio, cualquier tríada tonal expone el defecto de
+inmediato.</p>
+</aside>
+</section>
+<section id="simetría-de-errores-en-intervalos-complementarios"
+class="slide level2">
+<h2>Simetría de errores en intervalos complementarios</h2>
+<ul>
+<li>3.ª mayor (+13.686 c) y 6.ª menor (−13.686 c) son complementarias
+(suman una octava): errores iguales, signo opuesto.</li>
+<li>3.ª menor (−15.641 c) y 6.ª mayor (+15.641 c): la misma
+simetría.</li>
+<li>No es casualidad: si dos intervalos suman 1200 c exactos, sus
+errores respecto de ET tienen que cancelarse.</li>
+</ul>
+<aside class="notes">
+<p>[min 25] Es un buen momento para un ejercicio mental rápido: si la
+4.ª es +1.955 c, ¿cuánto es la 5.ª? (complementaria, −1.955 c, ya lo
+vieron). La simetría de complementarios es una herramienta que van a
+reusar en M8 para construir la tabla maestra de los cinco sistemas.</p>
+</aside>
+</section>
+<section id="demo-lab-2-el-vibrato-de-fábrica" class="slide level2">
+<h2>demo: Lab 2 — El vibrato de fábrica</h2>
+<div class="demo">
+<p><strong>Lab 2 · El vibrato de fábrica</strong></p>
+<p><a href="../modulos/07-temperamento-igual/laboratorio.html">▶ Abrir
+laboratorio</a></p>
+<p><strong>Guion:</strong> activar el acorde de Do mayor sostenido
+(Do4–Mi4–Sol4). Reproducir primero en modo <strong>Justo
+(4:5:6)</strong> — silencio casi total en la tercera. Alternar en vivo a
+modo <strong>ET</strong> y dejar que el batido de la tercera aparezca
+ante la clase. Repetir en registro grave (Do3) y agudo (Do5) para
+mostrar que el batido escala con la frecuencia — mismo error relativo
+(+13.7 c), sonido distinto según el registro. Cerrar preguntando: “¿esto
+que acaban de escuchar, lo habían identificado antes como ‘el sonido
+normal del piano’ o como un error?”</p>
+</div>
+<aside class="notes">
+<p>[min 27] Demo central del bloque. Dejar sonar el crossfade justo→ET
+varias veces, sin apuro — es el momento en que la clase “escucha” los
+13.686 cents en vez de solo verlos en la tabla. Vincular explícitamente
+con la frase del apunte: “vibrato de fábrica”.</p>
+</aside>
+</section>
+<section id="es-irracional-demostración-breve" class="slide level2">
+<h2><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+es irracional (demostración breve)</h2>
+<ul>
+<li>Supongamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mi>p</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">2^{1/12} = p/q</annotation></semantics></math>
+(enteros, sin factores comunes). Elevando a la 12:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msup><mi>q</mi><mn>12</mn></msup><mo>=</mo><msup><mi>p</mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">2q^{12}=p^{12}</annotation></semantics></math>.</li>
+<li>Escribiendo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><msup><mn>2</mn><mi>a</mi></msup><msup><mi>q</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">q=2^a q&#39;</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><msup><mn>2</mn><mi>b</mi></msup><msup><mi>p</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">p=2^b p&#39;</annotation></semantics></math>
+(con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>q</mi><mo>′</mo></msup><mo>,</mo><msup><mi>p</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">q&#39;, p&#39;</annotation></semantics></math>
+impares):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>1</mn><mo>+</mo><mn>12</mn><mi>a</mi></mrow></msup><msup><mi>q</mi><mo>′</mo></msup><msup><mi></mi><mn>12</mn></msup><mo>=</mo><msup><mn>2</mn><mrow><mn>12</mn><mi>b</mi></mrow></msup><msup><mi>p</mi><mo>′</mo></msup><msup><mi></mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">2^{1+12a}q&#39;^{12} = 2^{12b}p&#39;^{12}</annotation></semantics></math>.</li>
+<li>Igualando potencias de 2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>+</mo><mn>12</mn><mi>a</mi><mo>=</mo><mn>12</mn><mi>b</mi><mo>⇒</mo><mn>12</mn><mo stretchy="false" form="prefix">(</mo><mi>b</mi><mo>−</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1+12a=12b \Rightarrow 12(b-a)=1</annotation></semantics></math>.</li>
+<li>El lado izquierdo es múltiplo de 12; 1 no lo es.
+<strong>Contradicción.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+es irracional.</li>
+</ul>
+<aside class="notes">
+<p>[min 31] Misma herramienta del ejercicio 11 de M1 (unicidad de la
+factorización en primos) — si la clase ya vio esa demostración, esta es
+su gemela. No hay que demorarse más de dos minutos aquí: el objetivo es
+que confíen en la conclusión, no que memoricen la prueba.</p>
+</aside>
+</section>
+<section id="ninguna-quinta-de-verdad-en-un-piano" class="slide level2">
+<h2>Ninguna quinta “de verdad” en un piano</h2>
+<ul>
+<li>Consecuencia radical: salvo la octava, <strong>ningún</strong>
+intervalo del ET corresponde a una razón de enteros pequeños.</li>
+<li>No hay ninguna quinta que sea, de verdad,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>.
+No hay ninguna tercera que sea, de verdad,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>.</li>
+<li>En rigor matemático estricto: <strong>no existe ni una sola quinta
+“de verdad” en un piano moderno.</strong></li>
+<li>Contraste con pitagórica y justa (M3, M4): ahí <em>algunos</em>
+intervalos son perfectamente racionales y sin batido. El ET sacrificó
+esa posibilidad en <strong>cada uno</strong> de sus doce
+intervalos.</li>
+</ul>
+<aside class="notes">
+<p>[min 34] Dejar que esta frase caiga con su peso completo: “ni una
+sola quinta de verdad”. Para compositores acostumbrados a pensar en el
+piano como la afinación “normal”, esto suele generar una reacción
+visible — es el punto filosófico más extraño del módulo,
+aprovecharlo.</p>
+</aside>
+</section>
+<section id="por-qué-funciona-igual-de-bien-tres-razones"
+class="slide level2">
+<h2>¿Por qué funciona igual de bien? Tres razones</h2>
+<ol type="1">
+<li><strong>Tolerancia perceptual</strong> (M1 §6.5): 2 c en una quinta
+son indistinguibles; incluso 14 c en una tercera caen dentro de lo
+reclasificable como “textura normal”.</li>
+<li><strong>El timbre enmascara</strong>: el armónico 7 ya cae 31 c bajo
+el Sib natural, el 11 cae 49 c entre Fa y Fa# (M1 §3.2) — el oído
+convive con desviaciones de esa magnitud dentro de un mismo timbre.</li>
+<li><strong>El vibrato</strong>: en instrumentos de afinación variable,
+una desviación fija de 14 c queda “escondida” dentro de la amplitud
+típica de un vibrato expresivo normal.</li>
+</ol>
+<aside class="notes">
+<p>[min 36] Tres razones independientes, cada una suficiente por sí
+sola. La tercera (vibrato) explica además por qué el piano expone el
+defecto con más crudeza que una voz o una cuerda: el piano no tiene
+vibrato para esconder el error.</p>
+</aside>
+</section></section>
+<section>
+<section id="historia-honesta-y-el-balance"
+class="title-slide slide level1">
+<h1>Historia honesta y el balance</h1>
+<aside class="notes">
+<p>[min 38] Segundo giro fuerte de la clase: de la matemática pura
+pasamos a la historia real, y va a incluir un desmontaje explícito de un
+mito muy instalado. Avisar a la clase que va a haber un nombre que
+probablemente nadie conoce (Zhu Zaiyu) y que va a cambiar la narrativa
+causal que casi todos aprendieron.</p>
+</aside>
+</section>
+<section id="el-mito-vs.-la-realidad-bach-inventó-el-temperamento-igual"
+class="slide level2">
+<h2>El mito vs. la realidad: “Bach inventó el temperamento igual”</h2>
+<ul>
+<li><strong>Mito muy difundido y falso</strong>: Bach inventó el ET, y
+<em>El clave bien temperado</em> (1722, 1742) demuestra que todas las
+tonalidades suenan iguales.</li>
+<li><strong>Realidad</strong>: Bach usaba, con toda probabilidad, un
+<strong>buen temperamento circulante</strong> (Werckmeister III,
+Kirnberger, algo cercano a Vallotti) — no ET estricto.</li>
+<li>“<em>Wohltemperirte</em>” en el alemán de la época significaba
+“temperado de forma que <strong>todas las tonalidades sean
+utilizables</strong>” — no “temperado de forma idéntica”.</li>
+<li>Evidencia interna: las tonalidades más lejanas están escritas con
+más disonancia estructural — coherente con color de tonalidades, no con
+simetría total.</li>
+</ul>
+<aside class="notes">
+<p>[min 39] Preguntar antes de responder: “¿quién cree que Bach inventó
+el temperamento igual?” — normalmente varias manos. Este es el primer
+paso del desmontaje del mito; el segundo y más fuerte viene con Zhu
+Zaiyu en dos slides más. Ya se vio la versión larga en M6; aquí es el
+resumen ejecutivo antes del golpe de efecto.</p>
+</aside>
+</section>
+<section id="vincenzo-galilei-1581-la-razón-1817" class="slide level2">
+<h2>Vincenzo Galilei, 1581: la razón 18/17</h2>
+<ul>
+<li>Lutenista, teórico, <strong>padre de Galileo Galilei</strong>. En su
+<em>Dialogo della musica antica et della moderna</em> (1581) propone
+dividir cada segmento de cuerda de laúd por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><mi>/</mi><mn>17</mn></mrow><annotation encoding="application/x-tex">18/17</annotation></semantics></math>
+para ubicar los trastes.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>18</mn><mi>/</mi><mn>17</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>18</mn><mi>/</mi><mn>17</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>98.955</mn></mrow><annotation encoding="application/x-tex">c_{18/17} = 1200\times\log_2(18/17) = 98.955</annotation></semantics></math>
+cents — <strong>1.045 c más angosto</strong> que el semitono ET exacto
+(100 c).</li>
+<li>Acumulado 12 veces sin corrección:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>1.045</mn><mo>=</mo><mn>12.545</mn></mrow><annotation encoding="application/x-tex">12\times1.045 = 12.545</annotation></semantics></math>
+c por debajo de la octava — un lutier real corregía “a oído” el último
+traste.</li>
+<li>Sin logaritmos, sin noción de raíz duodécima: una aproximación
+empírica de luthier, “suficientemente buena al oído”.</li>
+</ul>
+<aside class="notes">
+<p>[min 42] Presentar a Galilei como el primer intento europeo
+documentado, pero deliberadamente imperfecto y práctico — para preparar
+el contraste con Zhu Zaiyu, que llega tres años después con precisión
+matemática real. Si sobra tiempo, mencionar el ejercicio 8 del apunte
+(posición física de los trastes en una cuerda de 60 cm).</p>
+</aside>
+</section>
+<section id="momento-de-impacto-zhu-zaiyu-1584" class="slide level2">
+<h2>Momento de impacto: Zhu Zaiyu, 1584</h2>
+<ul>
+<li><strong>Zhu Zaiyu</strong> (朱載堉), príncipe de la dinastía Ming,
+matemático y músico.</li>
+<li>En 1584, en su tratado <em>Lülü Jingyi</em> (律呂精義, “Explicación
+exacta de los tubos sonoros”), calcula la razón que hoy escribimos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+<strong>con precisión asombrosa</strong> — a mano, sin logaritmos, solo
+con ábaco y aritmética de altísima precisión.</li>
+<li>Muchos historiadores de la ciencia consideran su trabajo la
+<strong>primera formulación matemáticamente rigurosa y
+explícita</strong> del temperamento igual de doce tonos en cualquier
+cultura del mundo.</li>
+<li>Tres años después de Galilei — y con una precisión que Galilei ni
+buscaba ni podía alcanzar.</li>
+</ul>
+<aside class="notes">
+<p>[min 45] Este es el momento de impacto en clase, explícitamente
+señalado en la planificación del módulo: dejar un silencio después de
+decir “1584”. La mayoría de la formación musical occidental nunca
+menciona este nombre. No apurar el siguiente slide — dejar que la clase
+procese antes de nombrar la palabra “prioridad”.</p>
+</aside>
+</section>
+<section id="la-prioridad-es-china-no-europea" class="slide level2">
+<h2>La prioridad es china, no europea</h2>
+<ul>
+<li>Simon Stevin (matemático flamenco) llega a un resultado equivalente
+hacia <strong>1585</strong> — un año después de Zhu Zaiyu, y
+aparentemente <strong>sin conexión conocida</strong> con el trabajo
+chino.</li>
+<li>Robinson (1980), <em>T’oung Pao</em>: estudio de referencia sobre la
+contribución de Zhu Zaiyu (Chu Tsai-yü) a la teoría del temperamento
+igual.</li>
+<li>Dicho sin rodeos, porque los libros de historia de la música
+occidental tienden a omitirlo: <strong>la prioridad en la formulación
+matemática del temperamento igual es, con la evidencia disponible,
+china.</strong></li>
+<li>Y aun así, en los teclados europeos, el ET estricto tardaría
+<strong>más de dos siglos</strong> en volverse norma práctica.</li>
+</ul>
+<aside class="notes">
+<p>[min 49] Nombrar explícitamente el sesgo de la historiografía musical
+occidental estándar. No es un dato anecdótico: cambia la narrativa
+causal completa que casi todos los músicos aprendieron (“Bach → ET →
+modernidad”). Dar espacio a preguntas o reacciones antes de avanzar al
+bloque de adopción real.</p>
+</aside>
+</section>
+<section id="adopción-real-recién-en-el-siglo-xix-y-con-resistencia"
+class="slide level2">
+<h2>Adopción real: recién en el siglo XIX, y con resistencia</h2>
+<ul>
+<li>La teoría matemática existía desde el siglo XVI (Zhu Zaiyu, Stevin),
+pero clavecinistas y organistas usaban mesotónicos o circulantes —
+sonaban mejor para la música tonal de la época.</li>
+<li>El ET estricto se vuelve <strong>norma de facto recién bien entrado
+el siglo XIX</strong>, impulsado por la industrialización del piano
+(Broadwood, Érard, Steinway) y una industria musical estandarizada
+(partituras para “el piano” en general).</li>
+<li>Los afinadores profesionales ingleses <strong>resistieron el cambio
+durante décadas</strong> (Duffin), defendiendo temperamentos circulantes
+por su superioridad tímbrica.</li>
+<li>Órganos y coros adoptaron todavía más tarde — y en muchos casos,
+nunca del todo: re-temperar un órgano de tubos es carísimo, y los coros
+a capela practican <strong>entonación adaptativa</strong> (M4 §7),
+ajustando de oído hacia relaciones más puras.</li>
+</ul>
+<aside class="notes">
+<p>[min 52] El punto pedagógico central: la adopción no fue instantánea,
+ni consensuada, ni impulsada por argumentos musicales — fue impulsada
+por la industria. Quienes mejor oían la diferencia (los afinadores
+profesionales) fueron quienes más resistieron. Vale la pena dejar
+explícito que esto contradice el relato de “progreso inevitable” que
+casi todos asumen.</p>
+</aside>
+</section>
+<section id="lo-que-gana-la-música-con-el-temperamento-igual"
+class="slide level2">
+<h2>Lo que gana la música con el temperamento igual</h2>
+<ul>
+<li><strong>Transposición y modulación sin límite</strong>: ninguna
+quinta, en ninguna tonalidad, es inutilizable. La quinta del lobo
+desaparece.</li>
+<li><strong>Una industria estandarizada</strong>: un piano de Hamburgo
+suena “igual de afinado” que uno de Boston.</li>
+<li><strong>La atonalidad y el dodecafonismo son hijos directos del
+ET</strong>: el sistema de Schoenberg, Berg y Webern depende de que Do#
+y Reb sean, literalmente, la misma frecuencia.</li>
+<li><strong>Instrumentos intercambiables</strong>: flauta, piano y
+violín tocan juntos sin negociar un temperamento compartido.</li>
+</ul>
+<aside class="notes">
+<p>[min 56] Insistir en el punto del dodecafonismo: no es una analogía
+suelta, es una dependencia estructural. Sin simetría total de las doce
+clases de altura, invertir o transportar una serie generaría
+inconsistencias microtonales. El ET no solo permitió el dodecafonismo —
+lo hizo pensable.</p>
+</aside>
+</section>
+<section id="lo-que-pierde-la-música-con-el-temperamento-igual"
+class="slide level2">
+<h2>Lo que pierde la música con el temperamento igual</h2>
+<ul>
+<li><strong>Las terceras baten, siempre, en todas partes</strong>:
+13.686 c (o 15.641 c) presentes en absolutamente cada acorde mayor o
+menor, sin excepción de tonalidad.</li>
+<li><strong>El color de tonalidades se reduce a metáfora</strong>: Do
+mayor “límpio”, Mi mayor “brillante” — diferencias que eran físicas y
+medibles en los temperamentos de M5/M6, hoy son solo memoria cultural
+retórica.</li>
+<li><strong>La conexión audible con la serie armónica se
+debilita</strong>: ningún intervalo (salvo la octava) coincide con una
+razón entera — la fusión perceptiva de M1 §5.2 nunca ocurre de manera
+exacta.</li>
+</ul>
+<aside class="notes">
+<p>[min 59] Cerrar el balance sin sermonear: no se trata de decir que el
+ET es “peor”, sino de que cada ganancia tuvo un costo específico y
+medible. Conectar con el documento del proyecto “La geografía del
+sonido”: el color de tonalidades barroco no era convención, era acústica
+— el ET lo convirtió en convención.</p>
+</aside>
+</section></section>
+<section>
+<section id="el-piano-real-participación-y-cierre"
+class="title-slide slide level1">
+<h1>El piano real, participación y cierre</h1>
+<aside class="notes">
+<p>[min 62] Último giro de la clase: de la historia volvemos a la
+física, pero ahora aplicada al instrumento real que todos conocen — el
+piano — y terminamos con participación activa (dos laboratorios en vivo,
+un ejercicio resuelto en el momento) antes de cerrar con la síntesis y
+el anzuelo de M8.</p>
+</aside>
+</section>
+<section id="la-cuerda-real-no-es-ideal-f_n-nf_1sqrt1bn2"
+class="slide level2">
+<h2>La cuerda real no es ideal:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub><msqrt><mrow><mn>1</mn><mo>+</mo><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">f_n = nf_1\sqrt{1+Bn^2}</annotation></semantics></math></h2>
+<ul>
+<li>Todo lo anterior asumió
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = nf_1</annotation></semantics></math>
+exacto (M1 §3.1) — cierto solo para una cuerda <strong>idealmente
+flexible</strong>.</li>
+<li>Una cuerda de piano real tiene <strong>rigidez</strong>: es una
+barra metálica gruesa, no un hilo perfectamente flexible.</li>
+<li>Esa rigidez agrega una fuerza de restitución que adelanta los modos
+superiores: ya no son armónicos exactos, son <strong>parciales
+inarmónicos</strong>.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+= coeficiente de inarmonicidad (positivo, pequeño): depende de rigidez,
+diámetro, tensión y longitud de la cuerda.</li>
+</ul>
+<aside class="notes">
+<p>[min 63] Marcar el giro de sección: hasta aquí todo fue matemática
+perfecta
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{n/12}</annotation></semantics></math>
+exacto); desde aquí entra la física real de un cuerpo vibrante concreto.
+Es el mismo tipo de giro que van a ver, aplicado a un instrumento de
+viento, en el puente al proyecto DAC más adelante.</p>
+</aside>
+</section>
+<section id="de-la-inarmonicidad-a-la-octava-estirada"
+class="slide level2">
+<h2>De la inarmonicidad a la octava estirada</h2>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+es pequeño en las cuerdas graves entorchadas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∼</mo><mn>0.0001</mn></mrow><annotation encoding="application/x-tex">\sim 0.0001</annotation></semantics></math>)
+y puede llegar a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.01</mn><annotation encoding="application/x-tex">0.01</annotation></semantics></math>
+o más en las agudas de acero, especialmente en pianos pequeños.</li>
+<li>Si afinas la octava “matemáticamente perfecta”
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>f</mi><mn>1</mn><mtext mathvariant="normal">arriba</mtext></msubsup><mo>=</mo><mn>2</mn><msubsup><mi>f</mi><mn>1</mn><mtext mathvariant="normal">abajo</mtext></msubsup></mrow><annotation encoding="application/x-tex">f_1^{\text{arriba}} = 2f_1^{\text{abajo}}</annotation></semantics></math>),
+el <strong>segundo parcial</strong> de la nota grave (ya desplazado por
+inarmonicidad) queda desafinado respecto de la fundamental aguda — y
+bate.</li>
+<li>Para eliminar ese batido, el afinador <strong>estira la
+octava</strong>: afina la nota aguda un poco más arriba de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{n/12}</annotation></semantics></math>
+estricto, hasta que coincida con el parcial 2 real (ya inarmónico) de la
+nota grave.</li>
+</ul>
+<aside class="notes">
+<p>[min 65] Ejemplo numérico rápido si hay tiempo (ejercicio 6 del
+apunte): con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>0.0005</mn></mrow><annotation encoding="application/x-tex">B=0.0005</annotation></semantics></math>,
+el segundo parcial real ya queda 1.73 cents por encima de su posición
+ideal — pequeño, pero ya del orden del umbral de batido audible. Con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+mayor (agudos, pianos chicos) el desplazamiento crece con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">Bn^2</annotation></semantics></math>,
+es decir, cuadráticamente.</p>
+</aside>
+</section>
+<section id="la-curva-de-railsback-hasta-30-cents-o-más"
+class="slide level2">
+<h2>La curva de Railsback: hasta ±30 cents o más</h2>
+<ul>
+<li><strong>O. L. Railsback</strong> documentó sistemáticamente el
+fenómeno en 1938, midiendo pianos reales.</li>
+<li>Los bajos terminan afinados <strong>más graves</strong> de lo que el
+ET estricto indicaría; los agudos, <strong>más agudos</strong>.</li>
+<li>Desviaciones que pueden llegar a <strong>±30 cents o más</strong> en
+los extremos del teclado — muchísimo más que los 1.955 c de la quinta o
+los 13.686 c de la tercera.</li>
+<li><strong>Ningún piano afinado “bien” está en temperamento igual
+estricto.</strong> El ET es el punto de partida matemático; la física
+real de las cuerdas obliga a desviarse de él.</li>
+</ul>
+<aside class="notes">
+<p>[min 67] Dejar que esto asiente: todo lo que se calculó en la primera
+mitad de la clase (2^(1/12) exacto, 700 cents exactos) describe un piano
+que no existe. Cada piano real que han tocado ya se desvió del ET puro
+antes de que sonara la primera tecla.</p>
+</aside>
+</section>
+<section id="demo-lab-3-encuentra-a-oído-la-octava-estirada"
+class="slide level2">
+<h2>demo: Lab 3 — Encuentra a oído la octava estirada</h2>
+<div class="demo">
+<p><strong>Lab 3 · Inarmonicidad y octavas estiradas</strong></p>
+<p><a href="../modulos/07-temperamento-igual/laboratorio.html">▶ Abrir
+laboratorio</a></p>
+<p><strong>Guion:</strong> invitar a un alumno al computador. Fijar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+en un valor realista de cuerda aguda (subir el slider a un valor
+medio-alto) y reproducir la octava afinada 2:1 exacto (deslizador de
+afinación fina en 0 cents) — pedirle a la clase que describa lo que oye
+(un batido lento). Luego, sin mirar el valor numérico, el alumno mueve
+el deslizador de afinación fina hasta que el batido desaparezca a oído.
+Revelar el valor encontrado y compararlo con el resultado de
+“Auto-estirar” (el estiramiento teórico calculado por el laboratorio).
+Preguntar: ¿qué tan cerca llegó el oído del cálculo?</p>
+</div>
+<aside class="notes">
+<p>[min 69] Demo participativa central del segundo bloque. El objetivo
+no es que el alumno acierte exacto, sino que la clase compruebe en vivo
+que “afinar bien” un piano real significa desafinarse deliberadamente
+respecto del ET matemático. Dejar tiempo — es una demo con expectativa y
+suspenso, no apurarla.</p>
+</aside>
+</section>
+<section id="puente-dac-la-misma-física-en-el-traverso-barroco"
+class="slide level2">
+<h2>Puente DAC: la misma física en el traverso barroco</h2>
+<ul>
+<li>El fenómeno es general: las propiedades físicas reales de un cuerpo
+vibrante (rigidez, geometría, material) alteran su serie de parciales
+respecto del ideal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = nf_1</annotation></semantics></math>.</li>
+<li>El documento “La geografía del sonido” del proyecto (De la Cuadra,
+<code>Fundamentos/Fundamentos.tex</code>) explora exactamente esto en la
+<strong>columna de aire de un traverso barroco</strong>: la conicidad
+del tubo y la posición de los orificios determinan qué tan lejos está
+cada parcial de su posición armónica ideal.</li>
+<li>Ahí también la inarmonicidad no es un defecto a esconder, sino una
+propiedad acústica que se puede estudiar, modelar y explotar
+composicionalmente.</li>
+<li>Mismo concepto, dos resonadores distintos: cuerda rígida de piano,
+columna de aire cónica de un viento histórico.</li>
+</ul>
+<aside class="notes">
+<p>[min 74] Este es el puente explícito hacia el trabajo de organología
+del proyecto DAC. Si hay tiempo, vincular con las digitaciones “que
+desafinan de manera sistemática y predecible” de instrumentos históricos
+de viento — no es error de fabricación, es física real del resonador,
+exactamente como la curva de Railsback no es un error de afinación sino
+una necesidad física.</p>
+</aside>
+</section>
+<section id="ahora-ustedes-calcula-los-tres-batidos-del-acorde-de-do"
+class="slide level2">
+<h2>Ahora ustedes: calcula los tres batidos del acorde de Do</h2>
+<p>Un acorde de Do mayor en ET: Do4 = 261.63 Hz, Mi4 = 329.63 Hz, Sol4 =
+392.00 Hz.</p>
+<p>Para cada par, usa el par de armónicos que “casi coincide” en
+afinación justa:</p>
+<ul>
+<li>Do–Mi (armónicos 4 y 5)</li>
+<li>Do–Sol (armónicos 2 y 3)</li>
+<li>Mi–Sol (armónicos 5 y 6)</li>
+</ul>
+<p><strong>Calcula la frecuencia de batido de cada par.</strong> (3–4
+minutos, en parejas.)</p>
+<aside class="notes">
+<p>[min 76] Ejercicio 3 del apunte, adaptado para trabajo en parejas.
+Recordarles la lógica de M1 §5.3: el batido es la diferencia entre las
+frecuencias de los armónicos que “casi” coinciden. Circular por la sala
+mientras calculan; la mayoría debería llegar razonablemente cerca de los
+valores exactos.</p>
+</aside>
+</section>
+<section id="solución" class="slide level2">
+<h2>Solución</h2>
+<ul>
+<li><strong>Do–Mi</strong> (4×329.63 = 1318.52; 5×261.63 = 1308.15):
+batido = <strong>10.37 Hz</strong></li>
+<li><strong>Do–Sol</strong> (3×261.63 = 784.89; 2×392.00 = 784.00):
+batido = <strong>0.89 Hz</strong></li>
+<li><strong>Mi–Sol</strong> (6×329.63 = 1977.78; 5×392.00 = 1960.00):
+batido = <strong>17.78 Hz</strong></li>
+<li>La misma jerarquía que ya vimos en cents (1.955 c la quinta, 13–16 c
+las terceras) reaparece aquí en <strong>Hz de batido real</strong>: la
+quinta casi no bate; la tercera menor Mi–Sol es la más áspera de las
+tres.</li>
+</ul>
+<aside class="notes">
+<p>[min 78] El resultado clave a subrayar: 0.89 Hz (quinta) es casi
+imperceptible como pulsación aislada, mientras que 17.78 Hz ya se acerca
+a una rugosidad tímbrica más que a un batido lento contable. Conectar
+directo con el Lab 5 que sigue: van a intentar encontrar su propio
+umbral entre estos extremos.</p>
+</aside>
+</section>
+<section id="demo-lab-5-tu-umbral-personal" class="slide level2">
+<h2>demo: Lab 5 — Tu umbral personal</h2>
+<div class="demo">
+<p><strong>Lab 5 · Tu umbral personal</strong></p>
+<p><a href="../modulos/07-temperamento-igual/laboratorio.html">▶ Abrir
+laboratorio</a></p>
+<p><strong>Guion:</strong> hacer el test de discriminación <strong>en
+colectivo</strong>, proyectado. Cada ronda reproduce un intervalo
+(quinta o 3.ª mayor) dos veces — una justa y otra desviada +X cents — en
+orden aleatorio; la clase vota a mano alzada cuál sonaba desafinada.
+Correr al menos 8–10 rondas. Al final, comparar el umbral colectivo
+encontrado con los <strong>13.7 cents</strong> (13.686 c exactos) que el
+piano real le agrega de fábrica a cada tercera mayor: ¿el umbral de la
+clase está por debajo o por encima de esa cifra?</p>
+</div>
+<aside class="notes">
+<p>[min 80] Cerrar el bloque de participación con esta comparación
+explícita: si el umbral colectivo resulta más bajo que 13.7 c, la
+conclusión es que técnicamente todos deberían poder oír el defecto de la
+tercera — y sin embargo lo toleran o ni lo registran, reforzando las
+tres razones perceptuales/tímbricas/de vibrato del bloque 2. Si resulta
+más alto, es evidencia de que el oído “entrenado por el piano” ya
+recalibró su propio umbral.</p>
+</aside>
+</section>
+<section
+id="síntesis-las-4-preguntas-del-curso-aplicadas-al-temperamento-igual"
+class="slide level2">
+<h2>Síntesis: las 4 preguntas del curso, aplicadas al temperamento
+igual</h2>
+<ul>
+<li><strong>¿Qué protege?</strong> Nada en particular — o, dicho de otro
+modo, protege la <em>simetría</em>: las doce tonalidades por igual.</li>
+<li><strong>¿Qué sacrifica?</strong> Un poco de cada intervalo, siempre,
+en todas partes: ninguna quinta ni tercera es pura.</li>
+<li><strong>¿Cómo se construye?</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">s=2^{1/12}</annotation></semantics></math>;
+doce semitonos idénticos que reparten la coma pitagórica (23.460 c) en
+partes exactamente iguales (1.955 c por quinta).</li>
+<li><strong>¿Cómo suena y para qué sirve?</strong> Modulación sin
+límite, industria estandarizada, dodecafonismo — a cambio de un “vibrato
+de fábrica” constante en cada tríada.</li>
+</ul>
+<aside class="notes">
+<p>[min 85] Repasar las cuatro preguntas del currículo tal como se
+aplicaron a cada sistema anterior (M3–M6). Es útil pedirle a la clase
+que las responda en voz alta antes de mostrar las respuestas del slide —
+refuerza que ya tienen el marco instalado.</p>
+</aside>
+</section>
+<section
+id="el-temperamento-igual-es-un-punto-en-el-mapa-no-el-destino-final"
+class="slide level2">
+<h2>El temperamento igual es un punto en el mapa, no el destino
+final</h2>
+<p>La familia mesotónica general (M5):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>80</mn><mi>/</mi><mn>81</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>a</mi></msup></mrow><annotation encoding="application/x-tex">Q = (3/2)\cdot(80/81)^a</annotation></semantics></math>.
+La quinta de un mesotónico de fracción
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+de coma sintónica:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>Q</mi></msub><mo>=</mo><mn>701.955</mn><mo>−</mo><mi>x</mi><mo>×</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">c_Q = 701.955 - x\times 21.506</annotation></semantics></math></p>
+<p>Buscando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>Q</mi></msub><mo>=</mo><mn>700.000</mn></mrow><annotation encoding="application/x-tex">c_Q = 700.000</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>1.955</mn><mi>/</mi><mn>21.506</mn><mo>≈</mo><mn>1</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">x = 1.955/21.506 \approx 1/11</annotation></semantics></math>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mfrac><mn>21.506</mn><mn>11</mn></mfrac><mo>=</mo><mn>700.000</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow><mi>✓</mi></mrow><annotation encoding="application/x-tex">701.955 - \frac{21.506}{11} = 700.000 \text{ cents} \checkmark</annotation></semantics></math></p>
+<p>El ET de 12 tonos <strong>es</strong> el mesotónico de <strong>1/11
+de coma sintónica</strong> — el miembro más simétrico de la misma
+familia que empezamos a explorar en M5.</p>
+<aside class="notes">
+<p>[min 87] Este es el cierre conceptual más elegante del módulo: el
+temperamento igual no es una categoría aparte de todo lo anterior, es un
+punto más en el mismo continuo. Dejar que la clase note la ironía: 1/11
+de coma es un mesotónico “tan suave” que sus terceras se alejan de la
+pureza en vez de acercarse — lo opuesto al propósito original de los
+mesotónicos de M5.</p>
+</aside>
+</section>
+<section
+id="anzuelo-en-m8-las-cinco-políticas-de-reparto-una-junto-a-la-otra"
+class="slide level2">
+<h2>Anzuelo: en M8, las cinco políticas de reparto, una junto a la
+otra</h2>
+<ul>
+<li>Con este módulo cerramos el núcleo histórico occidental: pitagórica,
+justa, mesotónicos, buenos temperamentos y temperamento igual — cinco
+políticas de reparto de la misma coma.</li>
+<li>En el <strong>Módulo 8</strong>: una sola tabla maestra con los
+cinco sistemas lado a lado, métricas cuantitativas de consonancia, y una
+sesión de identificación auditiva a ciegas.</li>
+<li>Y una pregunta que este módulo dejó abierta a propósito:
+<strong>¿por qué doce divisiones, y no otro número?</strong> — M9
+responde con fracciones continuas aplicadas a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(3/2)</annotation></semantics></math>,
+y aparecen 19, 31 y 53 como los otros “buenos candidatos”
+matemáticos.</li>
+</ul>
+<aside class="notes">
+<p>[min 88] Cerrar con la doble promesa: M8 es la síntesis comparativa
+(elegir sistema con criterio numérico), M9 es la generalización
+matemática (por qué 12 es un óptimo, no una obviedad cultural). Dejar la
+pregunta “¿por qué doce?” flotando como gancho explícito para la próxima
+clase.</p>
+</aside>
+</section>
+<section id="referencias" class="slide level2">
+<h2>Referencias</h2>
+<ul>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony (and Why You
+Should Care)</em>. W. W. Norton, 2007.</li>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications.</li>
+<li>Isacoff, S. <em>Temperament: How Music Became a Battleground for the
+Great Minds of Western Civilization</em>. Vintage, 2003.</li>
+<li>Jorgensen, O. H. <em>Tuning: Containing the Perfection of
+Eighteenth-Century Temperament</em>. Michigan State University Press,
+1991.</li>
+<li>Robinson, K. G. “A Critical Study of Chu Tsai-yü’s Contribution to
+the Theory of Equal Temperament in Chinese Music”. <em>T’oung Pao</em>,
+1980.</li>
+<li>Railsback, O. L. “Scale Temperament as Applied to Piano Tuning”.
+<em>J. Acoust. Soc. Am.</em>, 1938.</li>
+<li>Fletcher, N. H. y Rossing, T. D. <em>The Physics of Musical
+Instruments</em>. Springer (cap. sobre cuerdas rígidas e
+inarmonicidad).</li>
+<li>De la Cuadra, P. “La geografía del sonido”
+(<code>Fundamentos/Fundamentos.tex</code>, documento interno del
+proyecto).</li>
+</ul>
+<aside class="notes">
+<p>[min 89] Cierre de clase. Recordar que el apunte completo (con los 12
+ejercicios resueltos y la guía de escucha de 6 puntos) queda como
+material de estudio, y que el Laboratorio 4 (el mismo Chopin en tres
+mundos: ET, Vallotti, mesotónico 1/4 de coma) queda como tarea de
+escucha si no alcanzó el tiempo en clase.</p>
+</aside>
+</section></section>
+    </div>
+  </div>
+
+  <script src="vendor/reveal/dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>

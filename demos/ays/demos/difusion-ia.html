@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Difusión IA + Forense espectral — Demo Curso AyS</title>
+<meta name="description" content="Modelos de difusión paso a paso, generación de audio con MusicGen y AudioLDM, y forense espectral para detectar audio creado por IA.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S12 · CREATION · Última clase</div>
+    <h1>Difusión + Forense Espectral: la última clase del semestre</h1>
+    <p class="lead">
+      Los modelos de difusión (MusicGen, AudioLDM, Stable Audio) dominan la generación de audio en 2026.
+      Su principio es elegante: aprender a <em>revertir un proceso de ruido</em>. Su audio es señal real:
+      podemos analizarlo con todas las herramientas del semestre. Las huellas del modelo viven justo
+      donde la física importa y la estadística promedia.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-creation">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>El proceso de <strong>difusión paso a paso</strong>: forward (destruir el audio con ruido) y reverse (la red aprende a deshacerlo).</li>
+      <li>Por qué predecir ruido es una tarea de regresión bien definida y "generar audio" no lo es: la difusión convierte un problema difícil en muchos problemas fáciles encadenados.</li>
+      <li>Las <strong>cuatro huellas</strong> del audio generado por IA: transientes suavizados, armónicos demasiado estables, rolloff sospechosamente predecible, ruido sintético sin textura natural.</li>
+      <li>La <strong>regla del 2/3</strong>: con cuatro métricas espectrales sencillas (onset sharpness, spectral std, ZCR variability, rolloff) se distinguen clips IA-vs-humano con $\sim 100\%$ de precisión en didácticos.</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Difusión + Forense (5 pestañas, cierre del curso)</span>
+      <a href="../embeds/s12_diffusion.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s12_diffusion.html" title="Demo de difusión y forense espectral" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así (tres experimentos guiados)</h3>
+    <ol>
+      <li>En <strong>Difusión paso a paso</strong>, mueve el slider $t$ desde 0 hasta $T$. Mira cómo un audio real se transforma en ruido blanco gaussiano. Después haz el reverso.</li>
+      <li>En <strong>Quiz IA-vs-humano</strong>, escucha cinco clips ciegos y vota. Luego corre el forense y compara: ¿tu oído acertó tantas veces como las 4 métricas?</li>
+      <li>En <strong>Comparación lado a lado</strong>, fíjate en los transientes. El audio humano tiene "rayas verticales" claras (golpes percusivos); el audio IA suele tenerlas suavizadas.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-creation">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Generar audio con MusicGen-small o AudioLDM2 desde Python (corren en CPU; no necesitas GPU).</li>
+      <li>Aplicar el forense espectral con las 4 métricas calibradas y la regla del 2/3.</li>
+      <li>Hacer el <strong>Fun Task 12 "Diffusion Dreams + Engaña al detector"</strong>: el reto creativo es <em>adversarial training de juguete</em>. Generas audio con IA, verificas que tu detector lo identifica, y luego intentas engañarlo con post-procesamiento (transientes simulados, room tone real, micro-vibrato).</li>
+      <li>Cerrar el semestre con la pregunta abierta: <em>¿cuándo deja de funcionar el forense espectral?</em> Probablemente en 2 a 5 años los modelos pasarán cualquier detector puramente espectral. El problema se vuelve socio-técnico: watermarks, autenticación en la fuente, regulación legal.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

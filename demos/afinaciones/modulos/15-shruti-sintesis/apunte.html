@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M15 · Apunte — Shruti en la música indostaní y carnática</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../14-gamelan/apunte.html">◀ Gamelán: slendro y pelog</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1
+id="m15.-shruti-el-drone-y-la-síntesis-final-la-afinación-como-decisión">M15.
+Shruti, el drone y la síntesis final: la afinación como decisión</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Un vocalista de dhrupad se sienta en el suelo, ajusta la tanpura
+contra su costado, y empieza a puntear sus cuatro cuerdas en un ciclo
+lento: Pa, Sa, Sa, Sa (grave). Ese ciclo no se va a detener en los
+próximos cuarenta minutos. El cantante no ha emitido todavía ninguna
+nota melódica —está, literalmente, afinando el instrumento que lo va a
+acompañar sin pausa durante todo el alap— y sin embargo ya está
+sucediendo algo que es, en sí mismo, el tema completo de este módulo: un
+zumbido rico, denso, casi metálico, que no sostiene una sola frecuencia
+sino un enjambre entero de armónicos que suben y bajan de intensidad
+como una respiración lenta. Recién ahí, sobre ese fondo que nunca calla,
+el cantante deja salir el primer Sa vocal, exactamente unísono con el de
+la tanpura, y empieza a explorar —con un glissando lentísimo, sin las
+notas discretas de un teclado— los alrededores del segundo grado del
+raga que va a cantar esa tarde.</p>
+<p>Todo el curso, hasta este módulo, ha estudiado sistemas que primero
+<em>definen</em> una escala —doce razones fijas, o veintidós, o
+cincuenta y tres— y después preguntan qué música se puede hacer con
+ella. La música indostaní invierte el orden. No hay una escala fija
+sonando en el aire: hay una <strong>referencia sostenida</strong> (el
+drone) y una melodía que se afina, nota a nota, en tiempo real, contra
+ella. La pregunta que abre este módulo es la misma pregunta que cerró el
+Módulo 4, pero llevada a su versión más radical: ¿y si el secreto de la
+afinación “perfecta” —esa entonación justa, sensible al contexto, que un
+coro a capela solo puede aproximar microajustando de oído acorde por
+acorde— no fuera, después de todo, una escala más refinada, sino una
+arquitectura musical distinta por completo? ¿Una donde la pureza no se
+logra fijando de antemano doce (o veintidós) números, sino sosteniendo
+una sola referencia el tiempo suficiente para que el oído —humano,
+entrenado durante años de guru-shishya, la transmisión oral
+maestro-discípulo que ningún tratado ni ninguna tabla de cents
+reemplaza— encuentre, cada vez, dónde cae exactamente cada nota?</p>
+<p>Este es el último módulo del curso. Vamos a conocer el sistema
+teórico de los 22 <em>shruti</em> de Bharata —con toda la honestidad que
+un tratado de veintitantos siglos de antigüedad exige—, vamos a entender
+la física del drone y por qué la tanpura no es “una nota” sino una serie
+armónica entera sonando, vamos a ver cómo el raga convierte la afinación
+misma en un rasgo expresivo (el ga bajísimo y oscilante de Darbari, el
+re casi imposible de Bhairav), y vamos a cerrar con la síntesis completa
+de los quince módulos: una manera de mirar <em>cualquier</em> sistema de
+afinación —los diez que estudiaste, y cualquiera que inventes después—
+como una decisión tomada en cuatro niveles distintos, del más físico al
+más cultural.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener fresco, de todo el curso:</p>
+<ul>
+<li><strong>M1 §3, §5</strong>: la serie armónica como espectro de un
+solo sonido sostenido; la coincidencia de armónicos como origen físico
+de la consonancia; los batidos. Vas a necesitar exactamente esta idea
+para entender el drone: no es “una nota”, es un espectro entero.</li>
+<li><strong>M2, M4 §6–§7</strong>: la coma sintónica (81/80 ≈ 21.506 c)
+como el defecto recurrente que aparece cada vez que una tercera pura y
+una cadena de quintas puras intentan coexistir; el drift de coma; la
+idea de que la justa entonación real, la que canta un coro, <strong>no
+es una escala fija sino un campo de relaciones que se reconstruye nota a
+nota</strong> (M4 §8.1) — el “sueño imposible” que este módulo resuelve,
+pero de una manera que M4 no anticipó del todo: no con un coro que se
+autocorrige de oído, sino con una <em>arquitectura</em> explícita
+(referencia sostenida + melodía flexible) que hace ese autoajuste
+posible sin necesidad de que nadie memorice nada.</li>
+<li><strong>M8 §3, §5, §6</strong>: la plantilla de las cuatro preguntas
+(¿qué protege? / ¿qué sacrifica? / ¿cómo se construye? / ¿cómo suena y
+para qué sirve?); el eje melodía-armonía; las métricas de consonancia y
+la advertencia de que ninguna “es” la música.</li>
+<li><strong>M13 (maqam)</strong>: la entonación como rasgo dependiente
+de la dirección melódica, no solo del intervalo abstracto; sistemas de
+afinación que no son ni el temperamento igual ni ningún EDO limpio, y
+que se transmiten y varían regionalmente.</li>
+<li><strong>M14 (gamelán)</strong>: la idea de que un conjunto de
+instrumentos puede definir su propia afinación única, sin referencia
+externa universal, y que la inarmonicidad del timbre (metalófonos)
+determina qué combinaciones “sirven” — el timbre decide la consonancia,
+no al revés.</li>
+</ul>
+<h2 id="el-sistema-teórico-los-22-shruti-del-natyashastra">3. El sistema
+teórico: los 22 shruti del Natyashastra</h2>
+<h3 id="qué-es-y-qué-no-es-el-natyashastra">3.1 Qué es —y qué no es— el
+Natyashastra</h3>
+<p>El <em>Natyashastra</em>, atribuido al sabio-teórico Bharata, es un
+tratado sánscrito enciclopédico sobre teatro, danza y música, compuesto
+en una fecha que los especialistas no logran fijar con precisión: las
+estimaciones más citadas lo ubican en algún punto entre el siglo II a.C.
+y el siglo II d.C., con capas de composición posiblemente añadidas
+durante varios siglos. Dedica varios capítulos a la música
+(<em>sangita</em>), y ahí aparece, por primera vez en la historia
+escrita, la idea de que la octava se divide en <strong>22
+shruti</strong> —veintidós “microintervalos” o “puntos audibles”— sobre
+los cuales se construyen los siete <em>svara</em> (grados) de la
+escala.</p>
+<p>Aquí va la primera y más importante advertencia de honestidad de todo
+este módulo: <strong>el Natyashastra no contiene ninguna cifra en
+cents.</strong> El cent, como aprendiste en el M1 §6, es una invención
+de 1885 (Alexander J. Ellis); ningún autor antiguo, en ninguna cultura,
+pudo haber medido nada en esa unidad. Lo que el tratado describe es un
+procedimiento experimental con dos instrumentos de cuerda (vina): se
+afinan al unísono, se hace sonar uno de referencia y, subiendo el otro
+por quintas o desplazando su afinación paso a paso, se cuenta cuántos
+“pasos audibles” caben en la octava antes de completar el ciclo. El
+resultado de ese procedimiento —22 shruti— es un dato
+<strong>cualitativo y de conteo</strong>, no una tabla de razones.
+Cualquier tabla que veas con 22 valores en cents (incluida la que viene
+a continuación) es una <strong>reconstrucción moderna</strong>, hecha
+por teóricos del siglo XX que tomaron el marco conceptual antiguo (22
+divisiones desiguales) y le asignaron razones de frecuencia concretas,
+casi siempre del sistema de 5-limite que ya conoces de memoria desde el
+M4 (el senario de Zarlino). Esa reconstrucción es útil, es la que vas a
+usar en los ejercicios de este módulo, pero es <strong>una
+interpretación entre varias posibles</strong>, no un hecho arqueológico.
+Trátala con el mismo respeto —y la misma sospecha— con que un arqueólogo
+trata una reconstrucción de un edificio del que solo sobrevivieron los
+cimientos.</p>
+<h3 id="la-reconstrucción-moderna-estándar-5-limite">3.2 La
+reconstrucción moderna estándar (5-limite)</h3>
+<p>Con esa advertencia por delante, esta es la tabla que vas a usar,
+verificada cifra por cifra con Python (mismo método del M1 §6:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c = 1200 \times \log_2(r)</annotation></semantics></math>):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Razón</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1/1 (Sa)</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>2</td>
+<td>256/243</td>
+<td>90.225</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16/15</td>
+<td>111.731</td>
+</tr>
+<tr>
+<td>4</td>
+<td>10/9</td>
+<td>182.404</td>
+</tr>
+<tr>
+<td>5</td>
+<td>9/8 (Re)</td>
+<td>203.910</td>
+</tr>
+<tr>
+<td>6</td>
+<td>32/27</td>
+<td>294.135</td>
+</tr>
+<tr>
+<td>7</td>
+<td>6/5</td>
+<td>315.641</td>
+</tr>
+<tr>
+<td>8</td>
+<td>5/4 (Ga)</td>
+<td>386.314</td>
+</tr>
+<tr>
+<td>9</td>
+<td>81/64</td>
+<td>407.820</td>
+</tr>
+<tr>
+<td>10</td>
+<td>4/3 (Ma)</td>
+<td>498.045</td>
+</tr>
+<tr>
+<td>11</td>
+<td>27/20</td>
+<td>519.551</td>
+</tr>
+<tr>
+<td>12</td>
+<td>45/32</td>
+<td>590.224</td>
+</tr>
+<tr>
+<td>13</td>
+<td>729/512</td>
+<td>611.730</td>
+</tr>
+<tr>
+<td>14</td>
+<td>3/2 (Pa)</td>
+<td>701.955</td>
+</tr>
+<tr>
+<td>15</td>
+<td>128/81</td>
+<td>792.180</td>
+</tr>
+<tr>
+<td>16</td>
+<td>8/5</td>
+<td>813.686</td>
+</tr>
+<tr>
+<td>17</td>
+<td>5/3 (Dha)</td>
+<td>884.359</td>
+</tr>
+<tr>
+<td>18</td>
+<td>27/16</td>
+<td>905.865</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16/9</td>
+<td>996.090</td>
+</tr>
+<tr>
+<td>20</td>
+<td>9/5</td>
+<td>1017.596</td>
+</tr>
+<tr>
+<td>21</td>
+<td>15/8 (Ni)</td>
+<td>1088.269</td>
+</tr>
+<tr>
+<td>22</td>
+<td>243/128</td>
+<td>1109.775</td>
+</tr>
+<tr>
+<td>—</td>
+<td>2/1 (Sa’)</td>
+<td>1200.000</td>
+</tr>
+</tbody>
+</table></div>
+<p>Veintidós puntos dentro de la octava (del 1 al 22), más el cierre en
+Sa’ — que es, por definición, el mismo Sa una octava arriba, no un
+vigésimo tercer shruti nuevo. Nota que varias de estas razones ya son
+viejas conocidas tuyas: 256/243 es el <strong>limma pitagórico</strong>
+exacto del M3; 6/5, 5/4, 4/3, 3/2, 5/3, 15/8 son los intervalos puros
+del senario de Zarlino (M4); 32/27 es la <strong>tercera menor
+pitagórica</strong> que protagonizó el “acorde podrido” del M4 §6. La
+reconstrucción moderna, en otras palabras, no inventó materiales nuevos:
+reordenó materiales que ya conoces —pitagóricos y de 5-limite— en una
+secuencia de 22 pasos.</p>
+<h3 id="el-patrón-oculto-solo-tres-tamaños-de-paso">3.3 El patrón
+oculto: solo tres tamaños de paso</h3>
+<p>Aquí viene el primer hallazgo que conviene verificar con calculadora
+en mano (o mejor, con Python, como pide la guía de este curso):
+calculemos la diferencia entre cada shruti consecutivo, incluyendo Sa
+(0.000) al comienzo y Sa’ (1200.000) al final. El resultado —22
+diferencias en total, una por cada paso— cae en <strong>solo tres
+valores posibles</strong>:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tamaño del paso</th>
+<th>Cents</th>
+<th>Aparece</th>
+<th>Razón típica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comienzo pequeño</td>
+<td>21.506</td>
+<td>10 veces</td>
+<td>81/80 (coma sintónica)</td>
+</tr>
+<tr>
+<td>Paso intermedio</td>
+<td>70.672</td>
+<td>5 veces</td>
+<td>25/24 (semitono cromático justo)</td>
+</tr>
+<tr>
+<td>Paso grande</td>
+<td>90.225</td>
+<td>7 veces</td>
+<td>256/243 (limma pitagórico)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Verifiquemos que esto cierra exactamente la octava:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo>×</mo><mn>21.506</mn><mo>+</mo><mn>5</mn><mo>×</mo><mn>70.672</mn><mo>+</mo><mn>7</mn><mo>×</mo><mn>90.225</mn><mo>=</mo><mn>215.06</mn><mo>+</mo><mn>353.36</mn><mo>+</mo><mn>631.575</mn><mo>=</mo><mn>1199.995</mn><mo>≈</mo><mn>1200.000</mn></mrow><annotation encoding="application/x-tex">10 \times 21.506 + 5 \times 70.672 + 7 \times 90.225 = 215.06 + 353.36 + 631.575 = 1199.995 \approx 1200.000</annotation></semantics></math>
+cents (la diferencia de milésimas es puro redondeo de la tabla de tres
+decimales; con fracciones exactas, el producto de las 22 razones da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math>
+exacto — lo vas a comprobar tú mismo en el ejercicio 8). Este resultado
+es, en sí mismo, una pequeña obra de arte aritmética: los 22 shruti de
+la reconstrucción moderna no son 22 pasos iguales —esa sería una
+interpretación errónea muy común, la de pensar “22 shruti” como
+“22-EDO”— sino una mezcla cuidadosamente construida de comas sintónicas,
+semitonos cromáticos justos y limmas pitagóricos, exactamente los mismos
+tres ladrillos que ya usaste para construir la escala justa (M4) y la
+pitagórica (M3). El villano del curso —la coma sintónica— reaparece
+aquí, en el corazón mismo del sistema teórico indostaní, apareciendo
+<strong>diez veces</strong> en un solo ciclo de octava. No es
+casualidad: es la misma aritmética de primos 2, 3 y 5 que gobierna todo
+el 5-limite occidental, aplicada a una cultura que llegó a una
+conclusión de 22 divisiones por un camino histórico completamente
+distinto.</p>
+<h2 id="los-12-svara-de-la-práctica">4. Los 12 svara de la práctica</h2>
+<p>Nadie canta con 22 shruti como si fueran 22 teclas. La práctica
+musical indostaní opera con <strong>siete svara</strong> (Sa, Re, Ga,
+Ma, Pa, Dha, Ni) que además admiten variantes alteradas
+—<strong>komal</strong> (bajado) y <strong>shuddha</strong> (natural)
+para Re, Ga, Dha, Ni; <strong>shuddha</strong> y <strong>tivra</strong>
+(elevado) para Ma—, dando un total de <strong>doce posiciones cromáticas
+por octava</strong>, con Sa y Pa siempre fijos (nunca se alteran). Los
+tratados clásicos —empezando por el propio Natyashastra y desarrollados
+después en textos como el <em>Sangita Ratnakara</em> de Sharangdeva
+(siglo XIII)— asignan a cada svara un número de shruti que “le
+pertenecen”: Sa ocupa 4, Re 3, Ga 2, Ma 4, Pa 4, Dha 3, Ni 2. Verifica
+la suma:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>+</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>4</mn><mo>+</mo><mn>4</mn><mo>+</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>22</mn></mrow><annotation encoding="application/x-tex">4+3+2+4+4+3+2 = 22</annotation></semantics></math>.
+Exacto.</p>
+<p>Esta correspondencia entre “cuántos shruti tiene cada svara” y “en
+qué shruti concreto suena cada nota” es, otra vez, terreno de
+reconstrucción moderna y de desacuerdo académico real: distintos autores
+del siglo XX (entre ellos A. H. Fox Strangways, uno de los primeros en
+intentar una traducción sistemática a cents, y varios teóricos indios
+posteriores) proponen asignaciones ligeramente distintas. La versión más
+citada en la pedagogía moderna —la que vas a usar en este curso— asigna
+cada svara a una de las posiciones de la tabla de la sección 3.2
+así:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Svara</th>
+<th>Nombre</th>
+<th>Razón</th>
+<th>Cents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sa</td>
+<td>Shadja</td>
+<td>1/1</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Re komal</td>
+<td>Rishabha bajo</td>
+<td>256/243</td>
+<td>90.225</td>
+</tr>
+<tr>
+<td>Re shuddha</td>
+<td>Rishabha natural</td>
+<td>9/8</td>
+<td>203.910</td>
+</tr>
+<tr>
+<td>Ga komal</td>
+<td>Gandhara bajo</td>
+<td>32/27</td>
+<td>294.135</td>
+</tr>
+<tr>
+<td>Ga shuddha</td>
+<td>Gandhara natural</td>
+<td>5/4</td>
+<td>386.314</td>
+</tr>
+<tr>
+<td>Ma shuddha</td>
+<td>Madhyama natural</td>
+<td>4/3</td>
+<td>498.045</td>
+</tr>
+<tr>
+<td>Ma tivra</td>
+<td>Madhyama agudo</td>
+<td>45/32</td>
+<td>590.224</td>
+</tr>
+<tr>
+<td>Pa</td>
+<td>Panchama</td>
+<td>3/2</td>
+<td>701.955</td>
+</tr>
+<tr>
+<td>Dha komal</td>
+<td>Dhaivata bajo</td>
+<td>8/5</td>
+<td>813.686</td>
+</tr>
+<tr>
+<td>Dha shuddha</td>
+<td>Dhaivata natural</td>
+<td>5/3</td>
+<td>884.359</td>
+</tr>
+<tr>
+<td>Ni komal</td>
+<td>Nishada bajo</td>
+<td>16/9</td>
+<td>996.090</td>
+</tr>
+<tr>
+<td>Ni shuddha</td>
+<td>Nishada natural</td>
+<td>15/8</td>
+<td>1088.269</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fíjate en algo que ya viste en el Tonnetz del M4 §8.2 y que aquí
+reaparece con nombre propio: <strong>casi cada nota alterada tiene un
+“gemelo” a una coma sintónica de distancia</strong>, exactamente como
+los dos Re del retículo de Euler. Ga komal, por ejemplo, podría fijarse
+en 32/27 (294.135 c, la tercera menor <em>pitagórica</em>, la que usa
+este curso) o en 6/5 (315.641 c, la tercera menor <em>justa</em>) — las
+dos aparecen en la tabla de 22 shruti, separadas por exactamente 21.506
+cents, y distintas escuelas y distintos ragas prefieren una u otra según
+el contexto. Lo mismo ocurre con Ma tivra (45/32 = 590.224 c, de
+5-limite, frente a 729/512 = 611.730 c, la cuarta aumentada pitagórica
+de seis quintas puras) y con Ni komal (16/9 = 996.090 c frente a 9/5 =
+1017.596 c). La ambigüedad no es un defecto de la teoría: es la misma
+ambigüedad estructural de todo sistema de 5-limite que el M4 ya te
+enseñó a esperar, manifestándose aquí como “dos shruti candidatos” en
+vez de como “una nota rota en el acorde de ii”.</p>
+<p>Y aquí llega la segunda advertencia de honestidad, más importante que
+la primera: <strong>ningún músico indostaní aprende esta tabla como se
+aprende una tabla de multiplicar.</strong> La música se transmite en la
+relación <em>guru-shishya</em> (maestro-discípulo), de oído, durante
+años, cantando y escuchando, sin pasar jamás por una cifra en cents.
+Cualquier tabla —incluida esta— es una fotografía inmóvil de algo que en
+la práctica real es continuo, deslizante, y decidido en el momento por
+el intérprete según el raga, la escuela (<em>gharana</em>), el estado de
+ánimo de la interpretación y, como vas a ver en la sección 6, la
+dirección misma en la que se mueve la melodía. Usa esta tabla como el
+andamiaje conceptual que es —el mismo rol que cumplió la escala justa
+fija de doce notas en el M4 §9— pero no confundas el andamiaje con el
+edificio.</p>
+<h2 id="el-drone-la-tanpura-y-la-física-del-jvari">5. El drone: la
+tanpura y la física del jvari</h2>
+<h3 id="por-qué-el-drone-no-es-una-nota">5.1 Por qué el drone no es “una
+nota”</h3>
+<p>La tanpura (o tambura) es un instrumento de cuatro (a veces cinco)
+cuerdas, sin trastes, que no toca melodía: se puntea en ciclo continuo,
+cuerda por cuerda, produciendo un fondo sonoro que no se detiene en toda
+la interpretación. La afinación típica de sus cuatro cuerdas, para un
+raga con Ma shuddha, es Pa–Sa–Sa–Sa (grave), o Ma–Sa–Sa–Sa para ragas
+que enfatizan la cuarta en vez de la quinta. Fíjate en algo que ya sabes
+de memoria desde el M1: <strong>Sa y Pa forman una quinta pura,
+3/2</strong> — la tanpura, antes de que nadie cante una sola nota
+melódica, ya está sonando el intervalo más consonante de todo el curso
+después de la octava, sostenido, sin interrupción, durante toda la
+pieza.</p>
+<p>Pero llamar a esto “sostener dos notas” es quedarse corto. Como
+aprendiste en el M1 §3, cualquier cuerda vibrante no suena en un solo
+modo: suena en <em>todos</em> los modos simultáneamente, produciendo la
+serie armónica completa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>2</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>3</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mn>4</mn><msub><mi>f</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">f_1, 2f_1, 3f_1, 4f_1, \dots</annotation></semantics></math>.
+La tanpura, al estar diseñada específicamente para maximizar esta
+riqueza, convierte el drone en algo mucho más parecido a lo que viste en
+el laboratorio del M1 (el acorde 4:5:6 “regalado” por la serie armónica)
+que a dos tonos puros aislados: <strong>el drone es, literalmente, una
+serie armónica audible sostenida</strong>, y cada nota melódica que el
+cantante afina, la afina contra ese espectro entero, no contra dos
+frecuencias fundamentales.</p>
+<h3 id="la-física-del-jvari-el-puente-que-enciende-los-armónicos">5.2 La
+física del jvari: el puente que “enciende” los armónicos</h3>
+<p>¿Por qué la tanpura suena tan característicamente rica en armónicos,
+muchísimo más que una guitarra o un violín pulsados de manera
+comparable? La respuesta está en un detalle constructivo llamado
+<strong>jvari</strong> (también escrito <em>javari</em>): el puente de
+la tanpura no es recto, como en la mayoría de los instrumentos de cuerda
+occidentales, sino ligeramente curvo, y además se coloca un hilo de
+algodón entre la cuerda y el puente, ajustado con extrema precisión por
+el propio afinador del instrumento. El resultado es que la cuerda, al
+vibrar, no se separa limpiamente del puente en cada ciclo: hay un
+contacto gradual, un “deslizamiento” breve de la cuerda sobre la curva
+del puente en cada vaivén, antes de despegarse por completo.</p>
+<p>Este contacto no lineal —estudiado en detalle desde el punto de vista
+de la física acústica por el físico indio C. V. Raman (premio Nobel de
+Física 1930) en trabajos de comienzos del siglo XX sobre instrumentos de
+cuerda de la India— tiene un efecto muy concreto sobre el espectro: en
+vez de la caída relativamente rápida de amplitud de los armónicos altos
+que se observa en una cuerda con puente rígido, el jvari <strong>realza
+y sostiene</strong> un rango amplio de armónicos altos, produciendo ese
+timbre denso, “zumbante”, que un oyente occidental describe casi siempre
+con la palabra <em>shimmer</em> o “brillo ondulante” — el mismo
+vocabulario tímbrico que usaste para el gamelán en el M14. La diferencia
+importante es que en el gamelán el shimmer nace de la
+<em>inarmonicidad</em> del metal (parciales que no son múltiplos enteros
+exactos); en la tanpura nace de lo contrario: una manera de excitar la
+cuerda que <strong>refuerza la armonicidad</strong>, iluminando más
+parciales de la serie exacta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>⋅</mo><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">n \cdot f_1</annotation></semantics></math>
+de los que normalmente escucharías. Dos caminos físicos opuestos —uno
+rompe la armonicidad, el otro la amplifica— llegando cada uno a su
+propia versión de un timbre que un compositor puede usar como
+material.</p>
+<h3 id="afinar-en-tiempo-real-contra-el-espectro">5.3 Afinar en tiempo
+real contra el espectro</h3>
+<p>Aquí es donde se cierra el círculo que abrió el M4. Recuerda la
+conclusión incómoda de esa sección 7: una progresión de acordes cantada
+con intervalos rigurosamente puros, uno por uno, puede terminar en un
+“Do” que ya no es el Do de partida (el drift de coma). La solución que
+el M4 §8 describía para un coro —“afinan verticalmente puro, acorde por
+acorde, y horizontalmente hacen microajustes”— es exactamente lo que la
+arquitectura del drone hindustaní institucionaliza como
+<em>sistema</em>, no como parche de emergencia: como Sa (y Pa) suenan
+<strong>siempre</strong>, sin interrupción, nunca hay drift posible,
+porque nunca hay “acorde anterior” del cual alejarse — solo hay la
+referencia constante y la nota que se está cantando ahora mismo. El
+cantante no necesita recordar dónde estaba el Sa hace treinta segundos:
+ahí está, sonando, sin haberse movido nunca.</p>
+<p>Esto es la justa entonación contextual del M4 §8.1 —“un campo de
+relaciones que se reconstruye nota a nota”— resuelta no con una tabla
+más inteligente ni con un instrumento de teclas móviles, sino con una
+<strong>arquitectura musical completa</strong>: referencia sostenida (el
+drone, con su espectro armónico rico gracias al jvari) + melodía
+flexible (voz o instrumento sin trastes fijos, capaz de cualquier
+microafinación) + oído entrenado durante años (guru-shishya) para
+reconocer, en cada instante, cuál es el shruti que ese raga específico
+pide en ese contexto melódico específico. El “sueño imposible” del M4 §7
+—afinación pura que no se desliza nunca— no se cumple gracias a una
+fórmula matemática mejor: se cumple gracias a una manera distinta,
+radicalmente distinta, de organizar la práctica musical.</p>
+<h2 id="raga-e-intonación-cuando-la-afinación-misma-es-el-gesto">6. Raga
+e intonación: cuando la afinación misma es el gesto</h2>
+<h3 id="el-raga-es-más-que-una-escala">6.1 El raga es más que una
+escala</h3>
+<p>Un raga no es “una escala de la música india”, del mismo modo en que
+un modo gregoriano no es simplemente “una escala de siete notas”. Cada
+raga prescribe un conjunto de svara permitidos (frecuentemente distintos
+en el ascenso, <em>aroha</em>, y en el descenso, <em>avaroha</em>), una
+jerarquía de importancia entre esas notas (el <em>vadi</em>, nota más
+enfatizada, y el <em>samvadi</em>, su “socio” secundario), frases
+características (<em>chalan</em>) que identifican al raga de manera casi
+tan fuerte como su escala, y un vocabulario de ornamentos obligatorios:
+el <em>meend</em> (un glissando continuo entre dos notas, sin pasar por
+las notas intermedias como pasos discretos) y el <em>andolan</em> (una
+oscilación lenta y deliberada alrededor de un shruti, no un vibrato
+rápido sino un balanceo consciente, a veces de varios cientos de
+milisegundos por ciclo). Ninguno de estos rasgos está en la tabla de la
+sección 4. Todos son, sin embargo, tan constitutivos del raga como su
+escala nominal.</p>
+<h3 id="el-ga-bajísimo-de-darbari">6.2 El ga bajísimo de Darbari</h3>
+<p>El caso más citado, tanto por músicos como por estudios de análisis
+computacional de la entonación (el proyecto CompMusic de la Universitat
+Pompeu Fabra, entre otros, ha medido distribuciones de altura en
+grabaciones reales de música indostaní), es el <strong>komal gandhara de
+raga Darbari Kanada</strong>. La teoría, siguiendo la tabla de la
+sección 4, ubicaría ese Ga komal en 294.135 cents (32/27, la tercera
+menor pitagórica) o, en otra convención, en 315.641 (6/5). Pero los
+músicos de Darbari describen —y las mediciones tienden a confirmar,
+siempre en <strong>rangos</strong>, nunca en un número único, porque
+varía por intérprete, por <em>gharana</em> y por momento de la
+interpretación— un ga notablemente <strong>más bajo</strong> que
+cualquiera de esas dos posiciones teóricas, con un <em>andolan</em>
+lento y amplio que hace que la nota nunca se sienta “quieta”: oscila, de
+manera audible y deliberada, alrededor de un centro que muchos oyentes
+describen como “casi entre Ga komal y Re”, sin llegar nunca a resolver
+en un punto fijo. Si tomamos como referencia de trabajo que este ga
+suena, en su punto más bajo de la oscilación, <strong>aproximadamente un
+shruti completo por debajo</strong> de la posición de 6/5 (es decir, en
+la vecindad de 294 cents o incluso más abajo), estamos describiendo, en
+números, una nota que estructuralmente vive en la zona de la tercera
+menor <em>pitagórica</em> —no la justa— pero además nunca se queda
+quieta ahí: se mece, con un radio de oscilación que distintas fuentes
+describen entre 20 y 50 cents, alrededor de ese centro bajo. La
+entonación <em>es</em>, en Darbari, un rasgo compositivo del raga tan
+importante como su escala nominal — quizás el rasgo más importante, ya
+que es lo que hace que cualquier oyente familiarizado con el repertorio
+reconozca “esto es Darbari” en los primeros segundos del alap.</p>
+<h3 id="el-re-casi-imposible-de-bhairav">6.3 El re casi imposible de
+Bhairav</h3>
+<p>El otro ejemplo canónico es el <strong>komal rishabha de raga
+Bhairav</strong> (el raga matutino por excelencia). La teoría lo
+ubicaría en 90.225 cents (256/243, el limma pitagórico) — ya el más
+estrecho de los candidatos teóricos disponibles para Re komal. Los
+músicos e investigadores describen, sin embargo, el Re de Bhairav como
+todavía <strong>más bajo</strong> que ese valor teórico en la práctica
+real de muchos intérpretes: una nota apretadísima contra el Sa, cercana
+al límite perceptivo de lo que un oyente distingue como “una nota
+distinta” en vez de “el mismo Sa con vibrato” (recuerda la regla
+práctica del M1 §6.5: alrededor de 90 cents ya es una distancia clara,
+pero acercarse hacia los 70 u incluso 60 cents empieza a generar esa
+sensación de tensión extrema, casi dolorosa, que es precisamente el
+efecto que Bhairav busca para su carácter devocional y solemne). Otra
+vez: sin una cifra única, en rango, y con la advertencia de que esto es
+descripción de práctica documentada, no una ley física.</p>
+<h3 id="la-dirección-importa-otra-vez-como-en-el-maqam">6.4 La dirección
+importa (otra vez, como en el maqam)</h3>
+<p>Como viste en el M13 con el maqam árabe, la entonación de un mismo
+grado puede cambiar según la <strong>dirección</strong> en que la
+melodía se mueve — un fenómeno que un sistema de afinación fija
+(cualquiera de los diez de este curso, congelado en una tabla) no puede
+capturar en absoluto. En varios ragas, la posición exacta de un svara al
+subir hacia él por grado conjunto no es idéntica a su posición al
+descender desde el grado superior; el meend que conecta dos notas no
+pasa por el mismo “camino” de cents en ambas direcciones. Esto no es una
+imprecisión de los músicos: es información estructural del raga,
+transmitida de oído en el guru-shishya, y es exactamente el mismo
+fenómeno —la intonación como función de la trayectoria melódica, no solo
+del punto de llegada— que ya viste en M13. Dos culturas musicales
+completamente distintas, sin conexión histórica directa entre sí en este
+aspecto, llegaron independientemente a la misma idea: que “una nota” no
+es solo una frecuencia, es una frecuencia <em>más</em> la manera en que
+se llegó a ella.</p>
+<h2
+id="la-síntesis-final-del-curso-la-afinación-como-decisión-en-cuatro-niveles">7.
+La síntesis final del curso: la afinación como decisión en cuatro
+niveles</h2>
+<p>Has llegado al final de un curso que empezó con dos flautistas
+afinando una quinta y ha pasado por Zarlino, Bach, el piano industrial,
+los EDOs alternativos, Harry Partch, el maqam árabe, el gamelán balinés
+y ahora el drone hindostaní. Es momento de decir, con toda la precisión
+que catorce módulos de matemática y quince de historia y etnomusicología
+permiten, qué es exactamente “afinar”. La respuesta de este curso es:
+<strong>afinar es tomar una decisión en cuatro niveles
+distintos</strong>, cada uno con su propia lógica, y ningún sistema
+histórico o cultural escapa a tener que responder, aunque sea
+implícitamente, a los cuatro.</p>
+<h3
+id="nivel-físico-la-serie-armónica-y-el-timbre-deciden-qué-es-consonante">7.1
+Nivel físico: la serie armónica y el timbre deciden qué es
+consonante</h3>
+<p>El primer nivel no es una elección humana: es una restricción que la
+física impone. La serie armónica (M1) determina qué coincidencias de
+parciales son posibles entre dos notas, y el M14 (gamelán) añadió el
+giro crucial: esa restricción <strong>depende del timbre real del
+instrumento</strong>, no de una tabla abstracta de razones. Los
+metalófonos inarmónicos del gamelán hacen que las razones “puras” del
+5-limite occidental directamente <strong>no suenen mejor</strong> que
+otras combinaciones, porque los parciales reales de una lámina de bronce
+no caen donde la teoría del 5-limite los esperaría. La tanpura, por el
+camino opuesto (la sección 5 de este módulo), usa el jvari para
+<em>reforzar</em> la armonicidad en vez de romperla. En ambos casos, la
+lección es la misma: <strong>el timbre decide qué es
+consonante</strong>, no al revés. Ningún sistema de afinación se diseña
+en el vacío: se diseña para sonar con instrumentos concretos, cuyo
+espectro real —armónico o no— es la primera decisión, la más silenciosa,
+la que rara vez se discute porque parece “solo física”.</p>
+<h3 id="nivel-matemático-las-comas-y-el-presupuesto-de-error">7.2 Nivel
+matemático: las comas y el presupuesto de error</h3>
+<p>El segundo nivel es el que este curso demostró con álgebra escolar
+desde el M2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math>
+para cualesquiera enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m, n</annotation></semantics></math>.
+Ninguna cantidad de quintas puras coincide jamás con ninguna cantidad de
+octavas puras, y lo mismo ocurre, con otra combinación de primos, entre
+terceras puras y octavas. Esto no es una limitación de la tecnología ni
+de la habilidad de los músicos: es un teorema. <strong>Toda afinación de
+un número finito de notas fijas es, demostrablemente, un
+compromiso</strong> — un presupuesto de error (la coma pitagórica, la
+sintónica, o ambas) que hay que repartir en algún lado. Este módulo
+mostró una variante nueva de la misma ley: los 22 shruti reconstruidos
+contienen <strong>diez comas sintónicas</strong> repartidas dentro de
+una sola octava (sección 3.3) — el mismo teorema del M2, aplicado a un
+sistema que nació en un continente distinto, siglos antes, sin ninguna
+influencia pitagórica documentada. La aritmética de los primos 2, 3 y 5
+no reconoce fronteras culturales.</p>
+<h3 id="nivel-histórico-cada-época-eligió-qué-proteger">7.3 Nivel
+histórico: cada época eligió qué proteger</h3>
+<p>El tercer nivel es el que ocupó la Fase 1 completa de este curso
+(M3–M7): frente al mismo problema matemático irresoluble, cada época
+tomó una decisión distinta sobre <strong>qué proteger y qué
+sacrificar</strong>, y esa decisión definió, de manera directa y
+demostrable, qué música pudo escribirse bajo cada sistema. La pitagórica
+protegió las quintas y produjo un mundo de organum y contrapunto lineal;
+Zarlino protegió las tríadas y abrió la puerta a la polifonía vocal
+renacentista; el mesotónico negoció la coma para regalar terceras puras
+a cambio de un lobo brutal, y con eso hizo posible la música de tecla
+ibérica y el primer Barroco; los buenos temperamentos repartieron el
+error de manera desigual mas nunca intolerable, y permitieron <em>El
+clave bien temperado</em>; el temperamento igual igualó todo el error, y
+con eso hizo posible el cromatismo romántico y, después, el jazz y la
+industria del piano. Ninguna de estas decisiones fue “más correcta” que
+las otras en abstracto: cada una fue correcta <em>para la música que su
+época quería escribir</em>, y equivocada para la música de la época
+anterior o siguiente.</p>
+<h3 id="nivel-cultural-qué-se-optimiza-es-una-decisión-estética">7.4
+Nivel cultural: qué se optimiza es una decisión estética</h3>
+<p>El cuarto nivel, el que la Fase 3 de este curso (M13–M15) puso en
+primer plano, es quizás el más importante para ti como compositor de
+hoy: <strong>qué se optimiza no es un hecho, es una decisión
+estética</strong>, y culturas distintas, sin ponerse de acuerdo entre
+sí, optimizaron dimensiones completamente distintas de la experiencia
+sonora. El maqam (M13) optimiza el <strong>gesto melódico</strong>: la
+entonación como propiedad de una frase, dependiente de la dirección y
+del jins que la sostiene, con la armonía vertical simplemente ausente
+del cálculo. El gamelán (M14) optimiza el <strong>shimmer y la identidad
+del propio conjunto</strong>: cada gamelán es único, afinado contra sí
+mismo y no contra un diapasón universal, y ese “leve desafinamiento”
+deliberado entre instrumentos emparejados (el <em>ombak</em>, el batido
+intencional) es una elección estética explícita, no un defecto de
+fabricación. La música indostaní (M15, este módulo) optimiza la
+<strong>relación en tiempo real con el drone</strong>: no hay una escala
+que suene “correcta” en abstracto, hay una nota que suena correcta
+<em>contra esa referencia, en ese raga, en ese momento de la frase</em>.
+Ninguna de las tres optimiza lo mismo que Occidente optimizó con sus
+tríadas verticales o su transposición libre. Ninguna es una versión
+“incompleta” o “aproximada” de la afinación occidental — cada una es una
+respuesta completa, coherente y sofisticada a una pregunta distinta
+sobre qué merece ser protegido cuando dos sonidos suenan juntos, o uno
+después del otro.</p>
+<h3 id="la-tabla-final-de-todo-el-mapa">7.5 La tabla final de todo el
+mapa</h3>
+<p>Esta es la tabla que resume el curso completo — los diez sistemas o
+familias de sistemas que estudiaste, cada uno leído a través de las
+mismas cuatro preguntas que este curso te enseñó a hacer desde el M2,
+más dos columnas nuevas que sintetizan la lección de la Fase 3: ¿la
+afinación es fija de antemano o flexible en el momento?, ¿privilegia lo
+vertical (el acorde) o lo horizontal (la línea)?</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sistema</th>
+<th>¿Qué optimiza?</th>
+<th>¿Qué referencia usa?</th>
+<th>¿Fija o flexible?</th>
+<th>¿Vertical u horizontal?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pitagórica</strong> (M3)</td>
+<td>Quintas puras encadenadas (701.955 c)</td>
+<td>La tónica, vía cadena de quintas</td>
+<td>Fija (12 notas, con lobo)</td>
+<td>Horizontal — nació para contrapunto de quintas y cuartas</td>
+</tr>
+<tr>
+<td><strong>Justa 5-limite</strong> (M4)</td>
+<td>Tríadas 4:5:6 exactas</td>
+<td>Los propios armónicos de cada acorde sonando</td>
+<td>Contextual por diseño (fija solo si se congela a 12 teclas, con
+costo)</td>
+<td>Vertical — el acorde en reposo total</td>
+</tr>
+<tr>
+<td><strong>Mesotónico</strong> (M5)</td>
+<td>Terceras mayores puras en las tonalidades centrales</td>
+<td>Cadena de quintas templadas en 1/4 de coma</td>
+<td>Fija (con lobo)</td>
+<td>Vertical, resuelta con una escala fija</td>
+</tr>
+<tr>
+<td><strong>Buenos temperamentos</strong> (M6)</td>
+<td>Circulación sin quinta intolerable, con color por tonalidad</td>
+<td>Cadena de quintas con fracciones de coma repartidas
+desigualmente</td>
+<td>Fija</td>
+<td>Mixta — equilibrio deliberado entre color armónico y libertad
+melódica</td>
+</tr>
+<tr>
+<td><strong>Temperamento igual</strong> (M7)</td>
+<td>Transposición libre; las 12 tonalidades, idénticas</td>
+<td>Ninguna nota privilegiada; la octava repartida en partes
+iguales</td>
+<td>Fija</td>
+<td>Neutra — ninguna dimensión privilegiada, ese es su precio</td>
+</tr>
+<tr>
+<td><strong>EDOs alternativos</strong> (M9)</td>
+<td>Aproximar mesotónico y/o justa con menos error que 12-ET</td>
+<td>Fracciones continuas de la quinta o la tercera pura</td>
+<td>Fija (con más “teclas” disponibles)</td>
+<td>Vertical y horizontal a la vez, según el EDO elegido</td>
+</tr>
+<tr>
+<td><strong>JI extendida</strong> (M10–M11)</td>
+<td>Consonancias de primos altos (7, 11, 13) además del 5-limite</td>
+<td>La tabla de razones que el propio compositor diseña (tonality
+diamond)</td>
+<td>Fija una vez construido el instrumento; el diseño es flexible</td>
+<td>Vertical (consonancias nuevas) y melódica (nuevos modos)</td>
+</tr>
+<tr>
+<td><strong>Maqam</strong> (M13)</td>
+<td>El gesto melódico y el color modal de cada <em>jins</em></td>
+<td>La tónica del jins en curso, y la dirección del movimiento</td>
+<td>Flexible — varía por región, escuela e intérprete</td>
+<td>Horizontal — la entonación es, ante todo, un rasgo de la línea</td>
+</tr>
+<tr>
+<td><strong>Gamelán</strong> (M14)</td>
+<td>La identidad tímbrica del propio conjunto</td>
+<td>El juego de instrumentos afinados entre sí, sin tónica externa
+universal</td>
+<td>Fija dentro de un conjunto, única entre conjuntos</td>
+<td>Vertical (el <em>ombak</em> deliberado) y estructural (el
+<em>patet</em>)</td>
+</tr>
+<tr>
+<td><strong>Música indostaní / shruti</strong> (M15)</td>
+<td>La relación en tiempo real entre melodía y drone sostenido</td>
+<td>Sa y Pa de la tanpura, sonando siempre</td>
+<td>Flexible y contextual — realizada, no memorizada</td>
+<td>Ambas a la vez: melodía horizontal medida contra un ancla vertical
+constante</td>
+</tr>
+</tbody>
+</table></div>
+<p>Lee esta tabla en las dos direcciones. Leída por columnas, confirma
+el patrón que el M8 §5 llamó el eje melodía-armonía, ahora extendido a
+diez sistemas en vez de siete: los que protegen lo vertical sacrifican
+libertad horizontal (mesotónico, justa), los que protegen lo horizontal
+no se preocupan de si el acorde suena fundido (pitagórica, maqam), y los
+que buscan un compromiso pagan ese compromiso en ambas direcciones a la
+vez (buenos temperamentos, ET). Leída por filas, confirma la lección más
+grande del curso completo: <strong>no existe una afinación “neutra” o
+“sin decisión”</strong>. Incluso el sistema que más se acerca a la
+neutralidad —el temperamento igual, diseñado explícitamente para no
+privilegiar nada— es, él mismo, una decisión: la decisión de que la
+igualdad importa más que la pureza en cualquier dirección.</p>
+<h3 id="el-corolario-para-el-compositor-de-hoy">7.6 El corolario para el
+compositor de hoy</h3>
+<p>Aquí está el corolario final, y es también la razón por la que este
+curso existe como parte del proyecto DAC “Afinaciones Imaginadas”.
+Durante casi toda la historia de la música, un compositor heredaba su
+sistema de afinación: nacía en una época, con un instrumental
+disponible, y la afinación era una infraestructura tan dada por sentada
+como el tipo de papel para escribir partituras. Eso ya no es cierto.
+Como viste en el M12, las herramientas del oficio moderno —archivos
+Scala (.scl), el protocolo MTS/MPE, la afinación microtonal nativa de
+los sintetizadores y las estaciones de trabajo de audio digital— hacen
+posible, por primera vez en la historia de la música, tener <strong>todo
+el mapa disponible a la vez</strong>: puedes escribir una obra que use
+la pitagórica en una voz y el 5-limite en otra, un EDO de 31 pasos junto
+a una escala de shruti reconstruida, un drone electrónico afinado con
+razones de Harry Partch conviviendo con una melodía que respira como un
+taqsim.</p>
+<p>Esto cambia lo que significa “componer con afinación”. Ya no es una
+herencia que aceptas o rechazas: es un <strong>parámetro
+compositivo</strong>, exactamente al mismo nivel que la instrumentación,
+la forma o la orquestación. Y como todo parámetro compositivo real,
+viene con una responsabilidad: cada sistema que elijas —cada fila de la
+tabla de la sección 7.5— trae consigo una coma, una comisión, un costo
+matemático que no desaparece por ignorarlo. Componer con afinación como
+material es, entonces, decidir conscientemente <strong>dónde esconder
+esa coma</strong> —en un lobo que nadie va a tocar, en una modulación
+que evitas, en una nota que simplemente no existe en tu instrumento—
+<strong>o si, en cambio, decides dejarla sonar</strong>: convertir el
+batido, la aspereza, el desliz de un drift acumulado, en el gesto
+expresivo central de la obra, tal como Gesualdo explotó las grietas de
+la justa entonación (M4 §12) o como un mesotónico bien elegido explota
+su propio lobo como clímax armónico (M8 §11). La afinación, al final de
+este curso, deja de ser una pregunta técnica que resuelves antes de
+componer. Es una pregunta compositiva que resuelves
+<em>componiendo</em>.</p>
+<h2 id="ejercicios-de-cálculo">8. Ejercicios de cálculo</h2>
+<p>Resuelve cada uno mostrando el desarrollo completo. Soluciones
+completas al final.</p>
+<p><strong>1.</strong> Verifica en cents, mostrando el cálculo del
+logaritmo paso a paso (como en el M1 §6), estos cuatro shruti de la
+tabla de la sección 3.2: 27/20, 729/512, 27/16 y 243/128.</p>
+<p><strong>2.</strong> Calcula las diferencias entre shruti consecutivos
+para el tramo 256/243 → 16/15 → 10/9 → 9/8 (los primeros cuatro shruti
+después de Sa). Clasifica cada diferencia según los tres tamaños de paso
+de la sección 3.3 (coma sintónica ≈21.5 c, semitono cromático justo
+≈70.7 c, limma pitagórico ≈90.2 c) y nombra la razón exacta de cada
+paso.</p>
+<p><strong>3.</strong> Si el ga de raga Darbari está, como describen
+músicos y estudios de entonación, “un shruti bajo” respecto de la
+posición teórica 6/5 (315.641 c), ¿aproximadamente cuántos cents mide?
+¿Con qué intervalo ya conocido de M3/M4 coincide ese valor?</p>
+<p><strong>4.</strong> Diseña el drone: la tanpura suena Sa como
+fundamental
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>1</mn></msub><annotation encoding="application/x-tex">f_1</annotation></semantics></math>.
+Usando la tabla de armónicos del M1 §3.2 como modelo, indica qué
+armónico de Sa refuerza el jvari para que puedas afinar Pa por
+coincidencia de parciales, y qué armónico usarías, de la misma manera,
+para afinar Ga shuddha. Verifica numéricamente ambas coincidencias.</p>
+<p><strong>5.</strong> La tabla de la sección 4 usa 45/32 (590.224 c)
+para Ma tivra, pero la tabla de 22 shruti también contiene 729/512
+(611.730 c) como candidato alternativo. Calcula la diferencia entre
+ambos en cents. ¿Cuál de los dos es la cuarta aumentada
+<em>pitagórica</em> (seis quintas puras encadenadas) y cuál es la cuarta
+aumentada de <em>5-limite</em>?</p>
+<p><strong>6.</strong> Repite el ejercicio anterior para Ga komal:
+compara 32/27 (294.135 c) con 6/5 (315.641 c). ¿Con qué defecto exacto
+del M4 (sección 6) coincide esta diferencia?</p>
+<p><strong>7.</strong> Repite una vez más para Ni komal: compara 16/9
+(996.090 c) con 9/5 (1017.596 c). Relaciona este resultado con los “dos
+Re” del Tonnetz del M4 §8.2.</p>
+<p><strong>8.</strong> Demuestra, usando las razones exactas (no los
+cents redondeados), que el producto de los 22 pasos consecutivos de la
+tabla de la sección 3.2 (de Sa a Sa’) es exactamente 2. (Pista: sigue el
+método del M4 ejercicio 2 — multiplica numeradores y denominadores por
+separado.)</p>
+<p><strong>9.</strong> <em>Síntesis transversal.</em> Un colega te pide
+recomendar una afinación para un <strong>coral a cappella</strong> de
+cuatro voces, homofónico, con cadencias sostenidas. Recomienda un
+sistema de los diez de la sección 7.5 y justifica con al menos dos
+cifras concretas de los módulos correspondientes.</p>
+<p><strong>10.</strong> <em>Síntesis transversal.</em> Un colega te pide
+recomendar una afinación para un <strong>taqsim con cuarteto de
+cuerdas</strong> (una improvisación de estilo maqam, pero tocada con
+instrumentos de afinación libre como el cuarteto). Recomienda un enfoque
+y justifica citando al menos un intervalo característico del maqam (M13)
+y explica por qué el cuarteto de cuerdas —a diferencia de un piano—
+puede ejecutarlo.</p>
+<p><strong>11.</strong> <em>Síntesis transversal.</em> Un colega te pide
+recomendar una afinación para una <strong>pieza para vibráfonos</strong>
+(instrumento de láminas metálicas de afinación fija, pero re-afinable en
+el taller antes de la grabación). Recomienda un enfoque, considerando
+que las láminas metálicas —como viste en el M14— no son perfectamente
+armónicas, y justifica con al menos un concepto del M14 y uno del
+M9.</p>
+<p><strong>12.</strong> <em>Síntesis transversal.</em> Un colega te pide
+recomendar una afinación para una <strong>obra con drone
+electrónico</strong> (un oscilador o synth pad sostenido, sin
+interrupciones, como una tanpura sintética). Recomienda un enfoque
+basado en la arquitectura de este módulo (sección 5.3) y justifica con
+al menos una razón de justa entonación o de justa extendida (M4/M10) que
+un drone sostenido permite explotar sin miedo al drift.</p>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>20</mn><mo>=</mo><mn>1.35</mn></mrow><annotation encoding="application/x-tex">27/20 = 1.35</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.35</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.300105</mn></mrow><annotation encoding="application/x-tex">\ln(1.35) = 0.300105</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.35</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.432959</mn></mrow><annotation encoding="application/x-tex">\log_2(1.35) = 0.432959</annotation></semantics></math>,
+cents
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.432959</mn><mo>=</mo><mn>519.551</mn></mrow><annotation encoding="application/x-tex">= 1200 \times 0.432959 = 519.551</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>729</mn><mi>/</mi><mn>512</mn><mo>=</mo><mn>1.423828</mn></mrow><annotation encoding="application/x-tex">729/512 = 1.423828</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.423828</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.353349</mn></mrow><annotation encoding="application/x-tex">\ln(1.423828) = 0.353349</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.509775</mn></mrow><annotation encoding="application/x-tex">\log_2 = 0.509775</annotation></semantics></math>,
+cents
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>611.730</mn></mrow><annotation encoding="application/x-tex">= 611.730</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>16</mn><mo>=</mo><mn>1.6875</mn></mrow><annotation encoding="application/x-tex">27/16 = 1.6875</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.6875</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.523248</mn></mrow><annotation encoding="application/x-tex">\ln(1.6875) = 0.523248</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.754888</mn></mrow><annotation encoding="application/x-tex">\log_2 = 0.754888</annotation></semantics></math>,
+cents
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>905.865</mn></mrow><annotation encoding="application/x-tex">= 905.865</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>243</mn><mi>/</mi><mn>128</mn><mo>=</mo><mn>1.898438</mn></mrow><annotation encoding="application/x-tex">243/128 = 1.898438</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.898438</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.641031</mn></mrow><annotation encoding="application/x-tex">\ln(1.898438) = 0.641031</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo>=</mo><mn>0.924813</mn></mrow><annotation encoding="application/x-tex">\log_2 = 0.924813</annotation></semantics></math>,
+cents
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1109.775</mn></mrow><annotation encoding="application/x-tex">= 1109.775</annotation></semantics></math>.</p>
+<p><strong>2.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>15</mn><mo>÷</mo><mn>256</mn><mi>/</mi><mn>243</mn><mo>=</mo><mfrac><mn>16</mn><mn>15</mn></mfrac><mo>×</mo><mfrac><mn>243</mn><mn>256</mn></mfrac><mo>=</mo><mfrac><mn>3888</mn><mn>3840</mn></mfrac><mo>=</mo><mfrac><mn>81</mn><mn>80</mn></mfrac></mrow><annotation encoding="application/x-tex">16/15 \div 256/243 = \frac{16}{15}\times\frac{243}{256} = \frac{3888}{3840} = \frac{81}{80}</annotation></semantics></math>
+→ coma sintónica, 21.506 c
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>111.731</mn><mo>−</mo><mn>90.225</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">111.731-90.225=21.506</annotation></semantics></math>).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>9</mn><mo>÷</mo><mn>16</mn><mi>/</mi><mn>15</mn><mo>=</mo><mfrac><mn>10</mn><mn>9</mn></mfrac><mo>×</mo><mfrac><mn>15</mn><mn>16</mn></mfrac><mo>=</mo><mfrac><mn>150</mn><mn>144</mn></mfrac><mo>=</mo><mfrac><mn>25</mn><mn>24</mn></mfrac></mrow><annotation encoding="application/x-tex">10/9 \div 16/15 = \frac{10}{9}\times\frac{15}{16} = \frac{150}{144} = \frac{25}{24}</annotation></semantics></math>
+→ semitono cromático justo, 70.672 c
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>182.404</mn><mo>−</mo><mn>111.731</mn><mo>=</mo><mn>70.673</mn></mrow><annotation encoding="application/x-tex">182.404-111.731=70.673</annotation></semantics></math>,
+coincide salvo redondeo).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mi>/</mi><mn>8</mn><mo>÷</mo><mn>10</mn><mi>/</mi><mn>9</mn><mo>=</mo><mfrac><mn>9</mn><mn>8</mn></mfrac><mo>×</mo><mfrac><mn>9</mn><mn>10</mn></mfrac><mo>=</mo><mfrac><mn>81</mn><mn>80</mn></mfrac></mrow><annotation encoding="application/x-tex">9/8 \div 10/9 = \frac{9}{8}\times\frac{9}{10} = \frac{81}{80}</annotation></semantics></math>
+→ otra coma sintónica, 21.506 c
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>203.910</mn><mo>−</mo><mn>182.404</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">203.910-182.404=21.506</annotation></semantics></math>).</p>
+<p><strong>3.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>315.641</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>294.135</mn></mrow><annotation encoding="application/x-tex">315.641 - 21.506 = 294.135</annotation></semantics></math>
+cents. Ese valor coincide exactamente con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32</mn><mi>/</mi><mn>27</mn></mrow><annotation encoding="application/x-tex">32/27</annotation></semantics></math>,
+la <strong>tercera menor pitagórica</strong> que ya calculaste en el M3
+y que reapareció como el “defecto” del acorde de ii en el M4 §6.2. El ga
+de Darbari, descrito por músicos como notablemente bajo, cae
+estructuralmente en la misma zona que la tercera menor obtenida por
+cadena de quintas puras, no en la tercera menor del senario de
+Zarlino.</p>
+<p><strong>4.</strong> El tercer armónico de Sa es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">3f_1</annotation></semantics></math>,
+que reducido a la octava es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>:
+exactamente Pa. Puedes afinar Pa buscando que el tercer armónico de Sa
+(audible gracias al jvari) coincida sin batido con el segundo armónico
+de Pa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>3</mn><msub><mi>f</mi><mn>1</mn></msub><mi>/</mi><mn>2</mn><mo>=</mo><mn>3</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">2 \times 3f_1/2 = 3f_1</annotation></semantics></math>):
+la misma lógica de coincidencia de parciales de La2–Mi3 del M1 §5.2.
+Para Ga shuddha, usa el quinto armónico de Sa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">5f_1</annotation></semantics></math>,
+reducido a la octava
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>):
+Ga shuddha se afina de modo que su cuarto armónico
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>5</mn><msub><mi>f</mi><mn>1</mn></msub><mi>/</mi><mn>4</mn><mo>=</mo><mn>5</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">4 \times 5f_1/4 = 5f_1</annotation></semantics></math>)
+coincida con el quinto armónico de Sa. Ambas verificaciones son exactas:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+son, precisamente, Pa y Ga shuddha de la tabla de la sección 4.</p>
+<p><strong>5.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>611.730</mn><mo>−</mo><mn>590.224</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">611.730 - 590.224 = 21.506</annotation></semantics></math>
+cents — otra vez, exactamente la coma sintónica.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>729</mn><mi>/</mi><mn>512</mn><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>6</mn></msup><mi>/</mi><msup><mn>2</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">729/512 = (3/2)^6/2^3</annotation></semantics></math>
+es la cuarta aumentada <strong>pitagórica</strong> (seis quintas puras
+encadenadas, reducidas tres octavas);
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>45</mn><mi>/</mi><mn>32</mn><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>9</mn><mi>/</mi><mn>8</mn><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">45/32 = (9/8)\times(5/4)</annotation></semantics></math>
+es la cuarta aumentada de <strong>5-limite</strong> (un tono más una
+tercera mayor pura). El mismo par “versión pitagórica / versión de
+5-limite, separadas por una coma” que organizó todo el M3–M4 reaparece,
+intacto, dentro de un solo svara de la teoría hindustaní.</p>
+<p><strong>6.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>315.641</mn><mo>−</mo><mn>294.135</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">315.641 - 294.135 = 21.506</annotation></semantics></math>
+cents, la coma sintónica. Coincide exactamente con el defecto que el M4
+§6.1–6.2 calculó para la tercera “menor” del acorde de ii (Re–Fa, 32/27
+frente a la tercera menor pura 6/5): el mismo par de razones, con el
+mismo nombre de defecto, aparece aquí como los dos candidatos teóricos
+para Ga komal.</p>
+<p><strong>7.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1017.596</mn><mo>−</mo><mn>996.090</mn><mo>=</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">1017.596 - 996.090 = 21.506</annotation></semantics></math>
+cents, la coma sintónica otra vez. En el M4 §8.2, los “dos Re” del
+Tonnetz (9/8 = 203.910 c y 10/9 = 182.404 c) estaban separados por
+exactamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow><annotation encoding="application/x-tex">81/80</annotation></semantics></math>
+porque se llegaba a cada uno por un camino distinto de quintas y
+terceras en la grilla. Aquí, los “dos Ni komal” (16/9 y 9/5) son,
+estructuralmente, el mismo fenómeno: dos maneras igualmente válidas,
+dentro del 5-limite, de llegar a “una séptima menor bajo Sa”, separadas
+por el mismo residuo aritmético que ya es la firma de todo este
+curso.</p>
+<p><strong>8.</strong> Multiplicando los 22 factores de la tabla de la
+sección 3.2 (cada uno como el cociente entre un shruti y el anterior) y
+cancelando numeradores y denominadores comunes —el mismo procedimiento
+que el M4 ejercicio 2 aplicó a los 7 pasos de la escala justa—, el
+producto se reduce exactamente a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">2/1</annotation></semantics></math>:
+verificado con aritmética de fracciones exactas (sin redondeo) en
+Python, el resultado es la fracción <code>Fraction(2, 1)</code>, es
+decir 2 exacto. La octava cierra sin resto, tal como debía: los 22
+shruti, pese a su desigualdad, son una partición exacta y consistente de
+la octava, construida enteramente con los primos 2, 3 y 5.</p>
+<p><strong>9.</strong> Recomendación: <strong>justa entonación
+adaptativa</strong> (M4 §8). Justificación numérica: un coro sin
+acompañamiento fijo puede afinar cada tríada como 4:5:6 exacto (M4 §3),
+logrando batido cero en el acorde (verificado en el M8 ejercicio 7: la
+tercera de 386.314 c anula el batido entre el 4º armónico de la nota
+superior y el 5º armónico de la fundamental, mientras que en ET esa
+misma tercera deja
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>16.35</mn><annotation encoding="application/x-tex">16.35</annotation></semantics></math>
+Hz o, en registro medio, hasta 14 cents de desviación perceptible). Un
+coro, a diferencia de un piano, puede hacer los microajustes
+horizontales del M4 §8.1 para evitar el drift.</p>
+<p><strong>10.</strong> Recomendación: <strong>entonación de estilo
+maqam, ejecutada por instrumentos de afinación libre</strong>. El
+cuarteto de cuerdas, sin trastes, puede producir cualquier intervalo
+continuo — incluidos los “neutros” característicos del maqam (por
+ejemplo, una tercera ni mayor ni menor, en la vecindad de 350 cents, o
+segundas neutras cercanas a 150-160 cents, cifras siempre aproximadas y
+dependientes de la escuela regional, como se enfatizó en M13) — y puede,
+además, variar esa entonación según la dirección melódica (sección 6.4
+de este módulo), algo que ningún teclado de afinación fija puede hacer.
+Un piano quedaría descartado de entrada por la misma razón que el M8 §7
+descartó la pitagórica y el mesotónico para enarmonías estructurales: no
+tiene la tecla que el maqam necesita, y no puede improvisarla en tiempo
+real.</p>
+<p><strong>11.</strong> Recomendación: <strong>medir el espectro real de
+las láminas del vibráfono antes de elegir cualquier tabla de
+razones</strong> (la lección central del M14: el timbre decide la
+consonancia). Si las láminas resultan razonablemente armónicas —el
+vibráfono, a diferencia del gender o el saron de metal del gamelán,
+suele estar afinado y diseñado para aproximarse bastante bien al ET-12
+de fábrica—, un EDO de mayor resolución (19 o 31, M9) permite explorar
+color microtonal manteniendo estructura de quintas y terceras
+razonablemente cercanas a lo puro. Si la medición revela inarmonicidad
+significativa en alguna lámina, la afinación óptima para <em>esa</em>
+lámina específica puede no coincidir con ninguna tabla teórica: hay que
+construirla, como en el gamelán, a partir del espectro medido, no de la
+aritmética abstracta.</p>
+<p><strong>12.</strong> Recomendación: <strong>justa entonación
+extendida (M10), tonalidad afinada directamente contra el drone
+electrónico</strong>, aprovechando exactamente el mismo mecanismo que la
+sección 5.3 de este módulo describió para la tanpura: como el drone
+nunca se detiene, cualquier melodía o capa armónica puede afinarse en
+tiempo real (o, en un contexto electrónico, con retinado dinámico por
+software) contra sus armónicos exactos, sin temor al drift de coma del
+M4 §7 — no hay progresión de acordes que “se aleje” de una referencia
+que nunca deja de sonar. Esto permite usar razones de 5-limite o incluso
+de primos más altos (7/4, 11/8, del M10) con la confianza de que el
+batido cero es alcanzable y verificable en cada momento, porque el ancla
+armónica está siempre presente para comparar.</p>
+<h2 id="guía-de-escucha">9. Guía de escucha</h2>
+<p>El laboratorio de este módulo (<code>laboratorio.html</code>, en esta
+misma carpeta) es también el laboratorio de cierre de todo el curso:
+incluye una tanpura sintética con los doce svara de la sección 4
+superpuestos, un control deslizante para explorar el ga flexible de
+Darbari sobre el drone, la “escalera” completa de los 22 shruti para
+recorrer de oído sus tres tamaños de paso, y el gran quiz final que
+mezcla los diez sistemas de la tabla de la sección 7.5. Seis
+consignas:</p>
+<ol type="1">
+<li><strong>El drone antes que la melodía.</strong> Activa la tanpura
+sintética sola, sin ninguna nota melódica encima, durante al menos 30
+segundos. Identifica de oído al menos tres armónicos que se destaquen
+del zumbido general — son, literalmente, la serie armónica de Sa (y de
+Pa) haciéndose audible, la misma idea del M1 §3.3, ahora sostenida en el
+tiempo en vez de aislada un instante.</li>
+<li><strong>Svara contra drone, uno por uno.</strong> Con la tanpura
+activa, agrega cada svara de la tabla de la sección 4 por separado y
+evalúa cuáles se sienten “fundidos” con el drone (sin batido) y cuáles
+generan tensión audible. Compara tu evaluación auditiva con los valores
+de la tabla — deberían fundirse mejor Pa (3/2), Ga shuddha (5/4) y Dha
+shuddha (5/3), que son razones simples de 5-limite.</li>
+<li><strong>El ga que no se queda quieto.</strong> Usa el control
+deslizante del ga de Darbari para moverlo lentamente entre 294 y 316
+cents, en un ciclo lento (2-4 segundos por vaivén) sobre el drone de Sa.
+Evalúa si esa oscilación te suena “afinada de manera imprecisa” o, al
+contrario, como un gesto expresivo intencional — y contrasta con lo que
+sentirías si esa misma nota estuviera fija en cualquiera de sus dos
+extremos.</li>
+<li><strong>La escalera de los 22 shruti.</strong> Recorre los 22 shruti
+en orden ascendente, uno por uno, sobre el mismo drone de Sa. Antes de
+cada paso, predice si el salto que viene te va a sonar “grande” (limma,
+~90 c) o “chico” (coma, ~21.5 c) o “intermedio” (~70.7 c), y verifica
+contra tu predicción — con práctica, deberías empezar a distinguir de
+oído los tres tamaños sin mirar la pantalla.</li>
+<li><strong>Los dos candidatos, uno al lado del otro.</strong> Elige un
+svara con dos candidatos de la sección 4 (por ejemplo, Ga komal: 32/27
+frente a 6/5) y tócalos uno después del otro sobre el mismo drone.
+Describe la diferencia de carácter, no solo de altura — uno debería
+sonar más “afilado y tenso” (el pitagórico) y el otro más “dulce y
+fundido” (el de 5-limite), el mismo contraste que ya escuchaste en el M3
+y el M4 por separado, ahora dentro de un solo sistema.</li>
+<li><strong>El gran quiz final.</strong> Cierra tu paso por el curso
+completo con el quiz que mezcla los diez sistemas de la sección 7.5:
+identifica a ciegas, a partir de un acorde o una frase corta, de qué
+sistema se trata. No esperes el 100% — el objetivo, después de quince
+módulos, no es la perfección sino notar cuánto más fino se ha vuelto tu
+oído desde el primer batido que escuchaste en el laboratorio del
+M1.</li>
+</ol>
+<h2 id="repertorio">10. Repertorio</h2>
+<ul>
+<li><strong>Los hermanos Dagar</strong> (varias generaciones de la
+familia Dagar, tradición dhrupad). Busca cualquier grabación de un alap
+extenso: los primeros minutos, sin percusión, son el mejor laboratorio
+auditivo real para todo lo que estudiaste en las secciones 5 y 6 — el
+drone sostenido, la exploración lentísima de cada shruti por glissando,
+el meend conectando notas sin pasos discretos.</li>
+<li><strong>Kishori Amonkar</strong>, cualquier grabación de raga en
+formato khyal. Su fraseo es célebre, entre musicólogos y oyentes,
+precisamente por la precisión y la expresividad de sus microinflexiones
+— un caso de estudio vivo de la sección 6 de este módulo.</li>
+<li><strong>Nikhil Banerjee</strong>, sitar. Aunque el sitar tiene
+trastes (a diferencia de la voz), están diseñados para permitirle al
+intérprete “estirar” la cuerda lateralmente y alcanzar microtonos entre
+trastes — escucha cómo el meend instrumental reproduce, con otra
+técnica, la misma flexibilidad vocal de la sección 6.</li>
+<li><strong>Ravi Shankar</strong>, sitar. Su discografía es amplia y
+accesible; cualquier grabación de concierto con tanpura y tabla te da
+los tres elementos de este módulo sonando juntos: drone, raga y la
+métrica rítmica (tala) que no cubrimos aquí pero que completa el
+cuadro.</li>
+</ul>
+<h3
+id="discografía-transversal-final-un-repaso-de-todo-el-curso-módulo-por-módulo">Discografía
+transversal final: un repaso de todo el curso, módulo por módulo</h3>
+<p>Como cierre de todo el curso, aquí tienes un recorrido de escucha de
+una o dos obras por módulo — la lista de despedida:</p>
+<ol type="1">
+<li><strong>M1 (el material sonoro)</strong> — cualquier grabación de
+canto armónico tuvano o mongol (<em>khöömei</em>): el ejemplo más
+directo y accesible de una serie armónica completa hecha audible por una
+sola fuente.</li>
+<li><strong>M2 (el problema de las comas)</strong> — cualquier grabación
+de un afinador de pianos templando en vivo (documentales o videos
+didácticos): escuchar el conteo de batidos en tiempo real es la mejor
+ilustración posible del “presupuesto de error”.</li>
+<li><strong>M3 (pitagórica)</strong> — Guillaume de Machaut, <em>Messe
+de Notre Dame</em>: organum y textura de quintas y cuartas en su hábitat
+natural.</li>
+<li><strong>M4 (justa)</strong> — Giovanni Pierluigi da Palestrina,
+<em>Missa Papae Marcelli</em>: las cadencias finales de cada sección,
+con las tríadas asentándose en 4:5:6.</li>
+<li><strong>M5 (mesotónico)</strong> — Girolamo Frescobaldi, <em>Toccate
+e partite</em>: terceras dulces y el color de las tonalidades
+centrales.</li>
+<li><strong>M6 (buenos temperamentos)</strong> — J. S. Bach, <em>El
+clave bien temperado</em>, libros I y II: la colección escrita, muy
+probablemente, pensando en un temperamento circulante con color.</li>
+<li><strong>M7 (temperamento igual)</strong> — Frédéric Chopin, <em>24
+Preludios</em> Op. 28: las 24 tonalidades recorridas de manera
+sistemática, un proyecto que depende de que las 24 sean, en la práctica
+moderna, igualmente accesibles.</li>
+<li><strong>M8 (mapa comparativo)</strong> — cualquier coral de <em>El
+clave bien temperado</em> escuchado consecutivamente en Werckmeister
+III, Vallotti y temperamento igual (disponible en la aplicación “Suena
+Afinaciones Antiguas” del proyecto).</li>
+<li><strong>M9 (EDOs alternativos)</strong> — Easley Blackwood,
+<em>Twelve Microtonal Etudes for Electronic Music</em>: doce estudios,
+uno por cada EDO entre 13 y 24, incluidos 19 y 31.</li>
+<li><strong>M10 (justa extendida)</strong> — Harry Partch,
+<em>Barstow</em> o <em>Delusion of the Fury</em>: el tonality diamond y
+los primos altos hechos instrumento y drama escénico.</li>
+<li><strong>M11 (Johnston, La Monte Young, espectralismo)</strong> — La
+Monte Young, <em>The Well-Tuned Piano</em>: horas de exploración de un
+solo piano afinado en una justa entonación extendida y muy
+particular.</li>
+<li><strong>M12 (herramientas del oficio)</strong> — este módulo no
+tiene repertorio propio: es el módulo de las herramientas (Scala,
+MTS/MPE) que hicieron posible construir y ejecutar todo lo escuchado en
+M9–M11 y M15.</li>
+<li><strong>M13 (maqam árabe)</strong> — cualquier taqsim de oud de
+Munir Bashir: improvisación modal con entonación dependiente de la
+dirección melódica, tal como se describió en la sección 6.4 de este
+módulo.</li>
+<li><strong>M14 (gamelán)</strong> — cualquier grabación de un gamelán
+Gong Kebyar balinés (por ejemplo, grabaciones históricas de 1928
+reeditadas, o conjuntos activos como Gamelan Sekar Jaya): el shimmer del
+<em>ombak</em> como identidad del conjunto.</li>
+<li><strong>M15 (shruti y síntesis)</strong> — cualquier alap de dhrupad
+de los hermanos Dagar (ver arriba): el cierre perfecto, un drone que
+nunca calla y una melodía que se afina, nota a nota, contra él.</li>
+</ol>
+<h2 id="mini-composición-final-del-curso-el-proyecto-de-graduación">11.
+Mini-composición final del curso: el proyecto de graduación</h2>
+<p>Esta es la consigna de cierre de los quince módulos, pensada
+explícitamente como un pequeño proyecto de graduación, no como un
+ejercicio más.</p>
+<p><strong>Consigna.</strong> Escribe una obra breve (2 a 4 minutos) que
+ponga en <strong>diálogo consciente dos sistemas del mapa
+completo</strong> (sección 7.5). Algunas rutas posibles, cualquiera de
+las diez filas de la tabla puede combinarse con cualquier otra:</p>
+<ul>
+<li>Un drone en justa entonación (5-limite o extendida) bajo una melodía
+en 19-EDO, explotando el hecho de que 19-EDO aproxima razonablemente
+bien tanto el mesotónico como ciertas terceras justas, pero no
+exactamente — la fricción entre “casi puro” y “puro” es tu
+material.</li>
+<li>Un temperamento mesotónico clásico contrastado con un espectro
+inarmónico (síntesis tipo campana o metalófono), explotando la misma
+tensión armónico/inarmónico de la sección 7.1.</li>
+<li>Un drone electrónico sostenido (como el de la sección 5, pero
+sintético) con una melodía que se mueve entre entonación de estilo maqam
+y entonación de estilo shruti indostaní, dos tradiciones de
+melodía-contra-referencia que nunca se encontraron históricamente.</li>
+<li>Una progresión en un “buen temperamento” del M6 que en algún momento
+se disuelve hacia el lobo pitagórico o mesotónico, usado como clímax
+deliberado, tal como sugería el proyecto integrador del M8 §11.</li>
+</ul>
+<p><strong>La memoria (obligatoria, una página).</strong> Acompaña la
+partitura o la grabación con una memoria de una página que justifique
+<strong>cada decisión de afinación con números concretos del
+curso</strong>: qué cents mide cada intervalo relevante, qué coma estás
+escondiendo o dejando sonar, en qué módulo aprendiste la razón que estás
+usando y por qué. No basta con decir “usé un drone justo contra una
+melodía en 19-EDO”; di, como pide la rúbrica del M8 §11, algo del tipo
+“el drone sostiene Sa en 1/1 y Pa en 3/2 exactos; la melodía en 19-EDO
+tiene su quinta más cercana a 694.7 cents, 7.2 cents más angosta que el
+Pa del drone — ese batido lento y calculado es el gesto central del
+segundo minuto de la pieza”.</p>
+<p><strong>Para compartir.</strong> Esta pieza es, explícitamente, el
+proyecto de graduación del curso completo. Se sugiere presentarla en la
+sesión grupal de escucha con colegas descrita en el protocolo del M8 §9
+—el mismo formato de 60 a 90 minutos, adaptado para que cada
+participante presente su propia mini-composición final en vez de un
+pasaje de Bach— cerrando el curso de la misma manera colectiva y
+auditiva en que se estudió: escuchando juntos, discutiendo con números,
+y votando, sin necesidad de estar de acuerdo, cuál elección de afinación
+cuenta la historia más convincente.</p>
+<h2 id="autoevaluación-final-de-todo-el-curso">12. Autoevaluación final
+de todo el curso</h2>
+<p>Quince ítems, uno por módulo. Marca los que puedes hacer sin mirar
+ningún apunte — es la evaluación más importante del curso, porque mide
+quince módulos, no uno.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>M1</strong> — Puedo explicar
+por qué los intervalos se componen multiplicando razones, derivar la
+serie armónica de una cuerda con extremos fijos, y convertir cualquier
+razón a cents.</label></li>
+<li><label><input type="checkbox" /><strong>M2</strong> — Puedo
+demostrar, con paridad de enteros, que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math>
+para todo par de enteros positivos, y explicar qué es la coma pitagórica
+y la coma sintónica.</label></li>
+<li><label><input type="checkbox" /><strong>M3</strong> — Puedo
+construir la escala pitagórica por cadena de quintas y ubicar la quinta
+del lobo.</label></li>
+<li><label><input type="checkbox" /><strong>M4</strong> — Puedo derivar
+la escala mayor justa desde el senario de Zarlino y explicar por qué el
+drift de coma hace que la justa entonación fija de 12 notas sea
+incompatible con la armonía funcional en el tiempo.</label></li>
+<li><label><input type="checkbox" /><strong>M5</strong> — Puedo derivar
+la familia de mesotónicos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>80</mn><mi>/</mi><mn>81</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>a</mi></msup></mrow><annotation encoding="application/x-tex">Q=(3/2)(80/81)^a</annotation></semantics></math>
+y explicar la negociación central del temperamento.</label></li>
+<li><label><input type="checkbox" /><strong>M6</strong> — Puedo
+explicar, con las fracciones de coma exactas, cómo se construyen
+Werckmeister III, Vallotti y Kirnberger III, y qué es el “color de
+tonalidades”.</label></li>
+<li><label><input type="checkbox" /><strong>M7</strong> — Puedo derivar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+y explicar qué gana y qué pierde el temperamento igual respecto de todos
+los sistemas anteriores.</label></li>
+<li><label><input type="checkbox" /><strong>M8</strong> — Puedo
+completar de memoria la tabla maestra de los siete sistemas occidentales
+y explicar el eje melodía-armonía con el tamaño del semitono diatónico
+como evidencia.</label></li>
+<li><label><input type="checkbox" /><strong>M9</strong> — Puedo explicar
+por qué 19, 31 o 53 divisiones iguales de la octava aproximan mejor el
+mesotónico o la justa que 12, y qué son las fracciones continuas en este
+contexto.</label></li>
+<li><label><input type="checkbox" /><strong>M10</strong> — Puedo
+explicar qué es la justa entonación extendida a primos altos (7, 11, 13)
+y describir, en términos generales, el proyecto de Harry
+Partch.</label></li>
+<li><label><input type="checkbox" /><strong>M11</strong> — Puedo nombrar
+al menos dos compositores (Ben Johnston, La Monte Young u otro del
+espectralismo) que usaron la afinación microtonal como material
+compositivo central, no decorativo.</label></li>
+<li><label><input type="checkbox" /><strong>M12</strong> — Puedo
+explicar para qué sirven los archivos Scala (.scl) y el protocolo
+MTS/MPE, y por qué son la infraestructura que hace posible “tener todo
+el mapa a la vez”.</label></li>
+<li><label><input type="checkbox" /><strong>M13</strong> — Puedo
+explicar por qué los “cuartos de tono” del maqam árabe no son
+literalmente cuartos de tono, y por qué la dirección melódica afecta la
+entonación de un mismo grado.</label></li>
+<li><label><input type="checkbox" /><strong>M14</strong> — Puedo
+explicar por qué la afinación del gamelán es una decisión de identidad
+del conjunto, y cómo la inarmonicidad de los metalófonos cambia la
+pregunta misma de “qué es consonante”.</label></li>
+<li><label><input type="checkbox" /><strong>M15</strong> — Puedo
+describir la arquitectura del drone hindustaní (referencia sostenida +
+melodía flexible + oído entrenado) como una resolución cultural, no
+matemática, del “sueño imposible” de la justa entonación fija, y puedo
+presentar la tabla completa de los diez sistemas del curso con sus
+cuatro preguntas.</label></li>
+</ul>
+<h2 id="referencias">13. Referencias</h2>
+<ul>
+<li>Bharata. <em>Natyashastra</em> (fecha de composición disputada,
+entre el s. II a.C. y el s. II d.C.). Fuente primaria, en traducción,
+del marco teórico de los 22 shruti.</li>
+<li>Sharangdeva. <em>Sangita Ratnakara</em> (s. XIII). Desarrollo
+posterior de la teoría de shruti y grama.</li>
+<li>Danielou, A. <em>The Ragas of Northern Indian Music</em>. Munshiram
+Manoharlal — una de las reconstrucciones modernas más citadas (y más
+discutidas) de la correspondencia shruti-cents.</li>
+<li>Jairazbhoy, N. A. <em>The Rags of North Indian Music: Their
+Structure and Evolution</em>. Popular Prakashan.</li>
+<li>Raman, C. V. “On Some Indian Stringed Instruments” (1921) y trabajos
+relacionados sobre la acústica del puente curvo (jvari) de la tanpura y
+la vina.</li>
+<li>Widdess, R. “Involving the Performers in Transcription and Analysis:
+A Collaborative Approach to Dhrupad”. <em>Ethnomusicology</em>, 1994 —
+sobre la transmisión oral guru-shishya y los límites de la
+notación.</li>
+<li>Koduri, G. K. et al. (proyecto CompMusic, Universitat Pompeu Fabra).
+Trabajos de análisis computacional de entonación en música hindustaní y
+carnática — ejemplo contemporáneo de medición cuantitativa de rasgos
+como el ga de Darbari, siempre presentada como distribución, no como
+valor único.</li>
+<li>Sethares, W. A. <em>Tuning, Timbre, Spectrum, Scale</em>. Springer —
+el marco de “el timbre decide la consonancia” que conecta M1, M8, M14 y
+M15.</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>).</li>
+<li>CURRICULO.md y GUIA-AUTORES.md (documentos internos del proyecto) —
+el marco pedagógico de los quince módulos.</li>
+</ul>
+<h2 id="cierre">14. Cierre</h2>
+<p>Vuelve, por un momento, a la escena que abrió el Módulo 1: dos
+flautistas afinando una quinta, un intervalo que “ondula” y de pronto se
+aquieta cuando alguien gira apenas la embocadura un milímetro. En ese
+momento del primer módulo no teníamos ni el vocabulario ni las
+herramientas para decir mucho más que “algo cambió”. Ahora sí. Ese
+batido era, en términos exactos, una desviación de unos pocos cents
+respecto de la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>
+— probablemente una fracción de la misma coma sintónica que perseguiste,
+con distintos disfraces, en Zarlino, en Werckmeister, en el acorde de
+ii, en el drift de una progresión, en diez de los veintidós shruti de un
+tratado escrito hace dos mil años en un continente que nunca oyó hablar
+de Pitágoras. La misma grieta aritmética, la misma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>80</mn></mrow><annotation encoding="application/x-tex">81/80</annotation></semantics></math>,
+apareciendo una y otra vez porque tres números primos —2, 3 y 5— no
+coinciden nunca del todo entre sí, en ninguna cultura, en ninguna época,
+bajo ningún instrumento.</p>
+<p>Lo que sí cambió, entre el primer módulo y este último, es lo que ese
+batido significa para ti. Al principio era un error que corregir, un
+milímetro de embocadura que ajustar hasta que desapareciera. Después de
+quince módulos, sabes que ese batido nunca desaparece del todo: solo se
+reubica. Cada sistema que estudiaste —cada fila de la tabla de la
+sección 7.5— es una manera distinta de decidir dónde esconderlo, o de
+decidir, como hicieron Gesualdo, o el mesotónico bien explotado, o un
+drone hindustaní que convierte la propia inestabilidad de un ga
+oscilante en el corazón expresivo de un raga entero, que ese batido no
+se esconde: se escucha, a propósito, como lo que siempre fue. La
+pregunta que te queda, ahora que el mapa completo está en tus manos, ya
+no es cómo eliminar la coma. Es, cada vez que te sientes a componer: ¿la
+escondo, o la dejo sonar?</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 15</p><button id="progress-btn" class="progress-btn" data-modulo="15-shruti-sintesis">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

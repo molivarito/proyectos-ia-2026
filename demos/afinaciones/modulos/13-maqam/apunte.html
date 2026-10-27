@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M13 · Apunte — Maqam árabe</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../12-herramientas/apunte.html">◀ Herramientas del oficio microtonal</a><a class="nav-link" href="../14-gamelan/apunte.html">Gamelán: slendro y pelog ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m13.-maqam-los-cuartos-de-tono-que-no-lo-son">M13. Maqam: los
+cuartos de tono que no lo son</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Siéntate a un piano y pídele a alguien que tararee el comienzo de una
+canción de Umm Kulthum, cualquiera. En algún momento —a menudo en los
+primeros compases— vas a intentar encontrar esa nota en el teclado y vas
+a fallar. No porque desafines al tocar: el piano, literalmente, no tiene
+esa tecla. La nota que buscas no está “entre Mi y Mi bemol” en el
+sentido de que podrías tocar las dos y promediar de oído; está en un
+lugar que ningún fabricante de pianos ha puesto jamás bajo un martillo,
+porque el instrumento se diseñó para un repertorio que nunca la
+necesitó.</p>
+<p>Esa nota —los teóricos árabes la llaman a veces <em>sikah</em> cuando
+aparece como grado de la escala, y en Occidente se le ha puesto la
+etiqueta, torpe pero funcional, de “tercera neutra”— no es un adorno ni
+una desafinación ocasional. Es, en un sentido defendible, la nota más
+importante de gran parte de la música árabe: el color que distingue el
+maqam Rast de un Do mayor occidental, la razón por la que un oyente
+educado en el sistema temperado occidental, al escuchar Rast por primera
+vez, siente que está oyendo “un Do mayor melancólico” o “un Do mayor con
+la tercera desafinada” en vez de reconocer que está frente a un sistema
+modal propio, completo, con sus propias reglas de construcción y sus
+propios criterios de lo que suena “afinado”.</p>
+<p>Este módulo pregunta, entonces: ¿qué es exactamente esa nota, cuánto
+mide, y por qué el piano —cualquier piano, de cualquier marca, de
+cualquier época— es estructuralmente incapaz de tocarla? La respuesta
+corta es que el piano divide la octava en doce partes iguales y esta
+nota vive, aproximadamente, en la mitad entre dos de esas doce teclas
+—ni Mi, ni Mi bemol, sino un punto intermedio real, no un capricho de
+afinación—. La respuesta larga, que es la que nos ocupa el resto del
+módulo, tiene que lidiar con una advertencia incómoda: en cuanto alguien
+te diga “aproximadamente en la mitad” vas a querer un número exacto, y
+ese número exacto no existe de la misma manera en que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>702</mn><annotation encoding="application/x-tex">702</annotation></semantics></math>
+cents describe la quinta pura. Vamos a ver por qué, y vamos a ver qué
+hacen los teóricos —árabes, turcos, occidentales— cuando de todos modos
+necesitan escribir esa nota en un papel.</p>
+<p>Antes de seguir, una nota de método que vale para todo el módulo.
+Estamos entrando, con este apunte, en terreno que no es “nuestro”: el
+curso ha sido, hasta ahora, una historia de la afinación en la tradición
+musical occidental contada con las herramientas de esa misma tradición.
+El maqam árabe es un sistema vivo, con siglos de práctica, teoría y
+disputa interna propios, que no necesita que la aritmética de cents lo
+valide ni lo corrija. Lo que sigue es una traducción —parcial,
+aproximada, hecha desde afuera— pensada para que un compositor formado
+en armonía occidental pueda empezar a escuchar con más precisión. No es,
+ni pretende ser, la última palabra sobre cómo suena o debería sonar el
+maqam.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>De los módulos anteriores necesitas tener fresco: el cent como unidad
+logarítmica aditiva y la tabla de intervalos justos de 5-límite (M1 §6);
+el eje melodía-armonía que organiza todo el mapa comparativo de la Fase
+1 —sistemas de quinta pura favorecen líneas horizontales con tensión
+direccional, sistemas de tercera pura favorecen verticalidades en
+reposo— (M8 §5); la idea de EDOs alternativos como cuadrículas que
+aproximan otras estructuras, en particular que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>-EDO
+(con un paso de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>22.642</mn></mrow><annotation encoding="application/x-tex">1200/53 = 22.642</annotation></semantics></math>
+cents, la llamada “coma de Holder”) aproxima muy bien tanto la quinta
+pura como terceras de distintos tamaños (M9); y la extensión de la
+entonación justa a límites primos altos, en particular que el primo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>11</mn><annotation encoding="application/x-tex">11</annotation></semantics></math>
+genera intervalos que no tienen nombre en la armonía tradicional de
+5-límite y que ya nos había aparecido como candidato para “afinaciones
+exóticas” (M10). Ese primo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>11</mn><annotation encoding="application/x-tex">11</annotation></semantics></math>
+va a volver a aparecer hoy, en un contexto completamente distinto y
+mucho más antiguo que cualquier cosa que hayamos visto en la Fase 2.</p>
+<h2
+id="el-marco-de-24-el-congreso-de-el-cairo-y-una-cuadrícula-de-trabajo">3.
+El marco de 24: el Congreso de El Cairo y una cuadrícula de trabajo</h2>
+<p>En 1932 se reunió en El Cairo un congreso de música árabe que convocó
+a músicos, teóricos y musicólogos árabes junto con invitados europeos
+—entre ellos etnomusicólogos y compositores que viajaron específicamente
+para documentar y discutir el sistema modal árabe—. Uno de los temas
+centrales de discusión fue cómo notar, en un pentagrama de tipo
+occidental, las alturas intermedias que la práctica del maqam usa
+constantemente y que la notación de siete letras con sostenidos y
+bemoles simplemente no contempla. La resolución que terminó imponiéndose
+en buena parte de la pedagogía y la notación árabe moderna fue dividir
+la octava, sobre el papel, en veinticuatro partes iguales: doce
+semitonos del sistema occidental, cada uno partido a la mitad. Esto
+agrega, junto a los símbolos de sostenido (♯) y bemol (♭) ya conocidos,
+dos símbolos nuevos: el <strong>medio bemol</strong> (una versión del
+bemol con un trazo o gancho adicional que indica “baja solo la mitad de
+un semitono”) y el <strong>medio sostenido</strong> (una versión del
+sostenido con un solo trazo vertical en vez de la cruz completa,
+indicando “sube solo la mitad de un semitono”). Con esos cuatro signos
+—sostenido, medio sostenido, bemol, medio bemol— cualquier nota del
+sistema de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+queda notable en un pentagrama corriente.</p>
+<p>Conviene ser preciso sobre qué decidió exactamente el congreso,
+porque es fácil malinterpretarlo: <strong>lo que se adoptó fue un
+sistema de notación, no un sistema de entonación</strong>. Nadie en El
+Cairo en 1932 estaba proponiendo que los cantantes y instrumentistas
+debieran, de ahí en adelante, afinar sus notas neutras exactamente a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>
+o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>350</mn><annotation encoding="application/x-tex">350</annotation></semantics></math>
+cents con precisión de sintetizador. Se estaba resolviendo un problema
+práctico de escritura —cómo poner en un papel, de forma legible para
+cualquier músico entrenado en notación occidental, una melodía que usa
+alturas intermedias— y la solución elegida fue la cuadrícula más simple
+posible: partir cada semitono en dos mitades iguales.</p>
+<p>Aquí es donde este módulo necesita plantar una advertencia que va a
+organizar todo lo que sigue, y que conviene enunciar con toda la fuerza
+que merece:</p>
+<blockquote>
+<p><strong>El
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+es, para el maqam, exactamente lo que el temperamento igual de doce
+notas es para la música barroca: una cuadrícula de trabajo útil,
+pedagógicamente cómoda, y que la práctica real desborda por todos
+lados.</strong></p>
+</blockquote>
+<p>Ya viste esta historia en la Fase 1: el temperamento igual de doce
+notas no describe cómo afinaban Bach o Corelli —esa afinación real
+variaba con el instrumento, el intérprete, la época y hasta la
+tonalidad— y sin embargo es una herramienta de notación y de análisis
+indispensable, siempre que no se confunda el mapa con el territorio. Con
+el
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+del maqam pasa exactamente lo mismo, solo que la brecha entre cuadrícula
+y práctica es, si acaso, todavía más ancha, porque la cuadrícula tiene
+la mitad de resolución que la occidental (pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>
+cents en vez de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>100</mn><annotation encoding="application/x-tex">100</annotation></semantics></math>)
+sobre un repertorio que usa alturas variables, deslizantes y
+dependientes del contexto melódico de una manera que la música tonal
+occidental, en general, no usa. Vas a ver en la sección 5 cuán ancha es
+realmente esa brecha. Por ahora, quédate con la regla de oro de todo el
+módulo: <strong>cada vez que aparezca un número de cents en lo que
+sigue, léelo como una aproximación de trabajo, nunca como un valor
+sonoro fijo.</strong></p>
+<h2 id="las-notas-neutras-la-vecina-que-no-cabe-en-el-piano">4. Las
+notas neutras: la vecina que no cabe en el piano</h2>
+<h3 id="la-segunda-neutra">4.1 La segunda neutra</h3>
+<p>El escalón más pequeño del sistema de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+—un cuarto de tono,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>
+cents— rara vez aparece solo como intervalo melódico protagonista; lo
+que sí aparece constantemente, y es estructural en muchísimos maqamat,
+es la <strong>segunda neutra</strong>: un intervalo intermedio entre el
+semitono occidental (cerca de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>100</mn><annotation encoding="application/x-tex">100</annotation></semantics></math>
+cents) y el tono occidental (cerca de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>200</mn><annotation encoding="application/x-tex">200</annotation></semantics></math>
+cents), situado —según a qué teórico y a qué medición empírica se
+consulte— en torno a los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>
+cents, es decir, tres pasos de la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO.</p>
+<p>Una manera de racionalizar este intervalo —y hay que subrayar que es
+exactamente eso, una racionalización teórica y no un hecho acústico
+verificado nota por nota en cada interpretación— es como una razón del
+<strong>límite 11</strong>: la misma familia de intervalos que en el
+Módulo 10 aparecía como extensión “exótica” de la entonación justa hacia
+razones que involucran el número primo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>11</mn><annotation encoding="application/x-tex">11</annotation></semantics></math>.
+La razón candidata más citada para la segunda neutra es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">12/11</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>12</mn><mn>11</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">c_{12/11} = 1200 \times \log_2\left(\frac{12}{11}\right)</annotation></semantics></math></p>
+<p>Calculemos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn><mo>=</mo><mn>1.090909</mn><mi>…</mi></mrow><annotation encoding="application/x-tex">12/11 = 1.090909\ldots</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.090909</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.087011</mn></mrow><annotation encoding="application/x-tex">\ln(1.090909) = 0.087011</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>12</mn><mi>/</mi><mn>11</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.087011</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.125531</mn></mrow><annotation encoding="application/x-tex">\log_2(12/11) = 0.087011/0.693147 = 0.125531</annotation></semantics></math>.
+Entonces:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.125531</mn><mo>=</mo><mn>150.637</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{12/11} = 1200 \times 0.125531 = 150.637 \text{ cents}</annotation></semantics></math></p>
+<p>Nótese lo cerca que cae este valor de los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>
+cents “de manual” que se suelen citar como aproximación de la segunda
+neutra, y también lo cerca que cae de los tres pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>50</mn><mo>=</mo><mn>150</mn></mrow><annotation encoding="application/x-tex">3 \times 50 = 150</annotation></semantics></math>
+cents exactos): la diferencia entre la razón justa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">12/11</annotation></semantics></math>
+y el punto medio de la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+es de apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.637</mn><annotation encoding="application/x-tex">0.637</annotation></semantics></math>
+cents, un margen que ningún oído humano puede distinguir de manera
+confiable. Es un caso, poco frecuente en este curso, en el que la
+cuadrícula igual y una razón de números pequeños casi coinciden por
+accidente aritmético.</p>
+<h3 id="la-tercera-neutra-el-sonido-identitario-del-maqam">4.2 La
+tercera neutra: el sonido identitario del maqam</h3>
+<p>Si la segunda neutra es un ingrediente frecuente, la <strong>tercera
+neutra</strong> es, con bastante consenso entre músicos e investigadores
+del maqam, <em>el</em> intervalo que define el carácter del sistema
+completo —el mismo lugar, en la anatomía sonora del maqam, que ocupa la
+tercera mayor o menor en la tonalidad occidental—. Es la nota que abre
+la pregunta guía de este módulo: ni Mi (tercera mayor,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">5/4 = 386.314</annotation></semantics></math>
+cents) ni Mi bemol (tercera menor,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>315.641</mn></mrow><annotation encoding="application/x-tex">6/5 = 315.641</annotation></semantics></math>
+cents), sino un punto real y estructural entre ambas.</p>
+<p>La racionalización de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>11</mn><annotation encoding="application/x-tex">11</annotation></semantics></math>-límite
+más citada para este intervalo es la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>22</mn></mrow><annotation encoding="application/x-tex">27/22</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>27</mn><mi>/</mi><mn>22</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>27</mn><mn>22</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">c_{27/22} = 1200 \times \log_2\left(\frac{27}{22}\right)</annotation></semantics></math></p>
+<p>Calculemos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>22</mn><mo>=</mo><mn>1.227273</mn><mi>…</mi></mrow><annotation encoding="application/x-tex">27/22 = 1.227273\ldots</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.227273</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.204794</mn></mrow><annotation encoding="application/x-tex">\ln(1.227273) = 0.204794</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>27</mn><mi>/</mi><mn>22</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.204794</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.295456</mn></mrow><annotation encoding="application/x-tex">\log_2(27/22) = 0.204794 / 0.693147 = 0.295456</annotation></semantics></math>.
+Entonces:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>27</mn><mi>/</mi><mn>22</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.295456</mn><mo>=</mo><mn>354.547</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{27/22} = 1200 \times 0.295456 = 354.547 \text{ cents}</annotation></semantics></math></p>
+<p>Este valor —en torno a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>
+cents— cae casi exactamente a mitad de camino entre la tercera menor
+pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>315.641</mn><annotation encoding="application/x-tex">315.641</annotation></semantics></math>
+c) y la tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+c): ni un poco más cerca de una que de otra, lo que explica por qué al
+oído occidental le resulta tan difícil “decidir” si lo que escucha es
+una tercera mayor “baja” o una tercera menor “alta”. Verifiquemos la
+distancia a cada una:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>354.547</mn><mo>−</mo><mn>315.641</mn><mo>=</mo><mn>38.906</mn></mrow><annotation encoding="application/x-tex">354.547 - 315.641 = 38.906</annotation></semantics></math>
+cents por encima de la tercera menor, y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>−</mo><mn>354.547</mn><mo>=</mo><mn>31.767</mn></mrow><annotation encoding="application/x-tex">386.314 - 354.547 = 31.767</annotation></semantics></math>
+cents por debajo de la tercera mayor —efectivamente casi centrada,
+apenas un poco más cerca de la mayor—.</p>
+<p>Vale la pena mencionar, con la cautela que merece cualquier
+atribución histórica, que este territorio intermedio no es un
+descubrimiento del siglo XX: teóricos árabes medievales —Al-Farabi entre
+ellos— ya describían, en el siglo X, un traste o posición de dedo en el
+laúd (oud) atribuido al músico Zalzal (siglo VIII), a veces llamado
+<em>wusta Zalzal</em> (“el dedo medio de Zalzal”), que producía una
+tercera intermedia entre las dos que hoy llamaríamos mayor y menor. La
+reconstrucción exacta, en cents, de qué tan afinado estaba ese traste
+según cada tratadista es objeto de debate académico continuo, y las
+razones como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>22</mn></mrow><annotation encoding="application/x-tex">27/22</annotation></semantics></math>
+o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">12/11</annotation></semantics></math>
+que citamos aquí son, en el mejor de los casos, <em>hipótesis
+interpretativas modernas</em> que tratan de tender un puente entre la
+teoría matemática de razones (heredada, en parte, de la tradición
+pitagórica que también influyó en la teoría árabe medieval) y una
+práctica sonora documentada solo de forma indirecta, a través de
+tratados escritos, no de grabaciones. Preséntalas exactamente así en tu
+cabeza: como una hipótesis razonable de racionalización, no como “la
+afinación verdadera” del maqam.</p>
+<h3 id="otro-marco-el-mismo-problema-las-53-comas-turcas">4.3 Otro
+marco, el mismo problema: las 53 comas turcas</h3>
+<p>La tradición teórica turca de la música clásica otomana —el sistema
+conocido por las siglas AEU (Arel-Ezgi-Uzdilek)— aborda el mismo
+problema de las notas intermedias con una cuadrícula distinta a la de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO:
+divide la octava, teóricamente, en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>
+partes que reciben el nombre de “comas” (el mismo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>-EDO
+que viste en el M9 como aproximación de alta precisión a la entonación
+justa, con un paso de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>22.642</mn></mrow><annotation encoding="application/x-tex">1200/53 = 22.642</annotation></semantics></math>
+cents). En este marco, los distintos grados de tercera neutra y segunda
+neutra se describen como combinaciones de un número entero de estas
+comas —por ejemplo, la tercera neutra citada en la sección anterior
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>355</mn></mrow><annotation encoding="application/x-tex">\approx 355</annotation></semantics></math>
+c) equivaldría a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>355</mn><mi>/</mi><mn>22.642</mn><mo>=</mo><mn>15.68</mn></mrow><annotation encoding="application/x-tex">355 / 22.642 = 15.68</annotation></semantics></math>
+comas, un número que <strong>no</strong> es entero—.</p>
+<p>Y ahí está, otra vez, la misma lección del módulo entero: ni la
+cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+ni la de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>
+comas producen un número redondo para la tercera neutra. Esto no es un
+fallo de ninguna de las dos cuadrículas: es la evidencia de que estamos
+frente a un fenómeno sonoro continuo y variable (la sección 5 documenta
+cuánto), que cualquier cuadrícula discreta —tenga
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>12</mn><annotation encoding="application/x-tex">12</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>
+o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>
+divisiones— solo puede aproximar, nunca capturar por completo. La teoría
+turca, de hecho, no usa comas de tamaño estrictamente igual para todos
+los grados de su sistema (a diferencia del
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>-EDO
+puro), precisamente porque intenta ajustarse mejor a valores medidos e
+históricamente transmitidos; mencionamos la cifra de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>
+aquí solo como marco de referencia y puente con el M9, no como
+descripción exacta y consensuada del sistema otomano.</p>
+<h2 id="ajnas-los-tetracordios-ladrillos-del-sistema">5. Ajnas: los
+tetracordios, ladrillos del sistema</h2>
+<p>La unidad constructiva básica del maqam no es la escala completa de
+siete notas sino el <strong>jins</strong> (plural <em>ajnas</em>): un
+tetracordio, un fragmento melódico de tres o cuatro notas que abarca
+aproximadamente una cuarta
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">\approx 500</annotation></semantics></math>
+cents) y que tiene, él solo, una identidad melódica reconocible —un
+color, una función expresiva— independiente de en qué maqam aparezca
+después. Un maqam se construye, típicamente, combinando dos ajnas: uno
+sobre la tónica y otro sobre algún otro grado (con frecuencia el cuarto
+o el quinto).</p>
+<p>La tabla siguiente reúne los ajnas más frecuentes, con sus grados en
+cents aproximados medidos desde la tónica del jins (recuerda la regla de
+la sección 3: son valores de referencia teórica, no mediciones
+absolutas):</p>
+<div class="table-scroll"><table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Jins</th>
+<th>Grado 1</th>
+<th>Grado 2</th>
+<th>Grado 3</th>
+<th>Grado 4</th>
+<th>Carácter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rast</strong></td>
+<td>0</td>
+<td>~200</td>
+<td>~355</td>
+<td>~500</td>
+<td>Tono + tercera neutra: el color “identitario” del sistema</td>
+</tr>
+<tr>
+<td><strong>Bayati</strong></td>
+<td>0</td>
+<td>~150</td>
+<td>~300</td>
+<td>~500</td>
+<td>Segunda neutra + tercera menor: quizás el jins más usado en todo el
+repertorio</td>
+</tr>
+<tr>
+<td><strong>Hijaz</strong></td>
+<td>0</td>
+<td>~110</td>
+<td>~410</td>
+<td>~500</td>
+<td>Semitono estrecho + intervalo ancho: la “segunda aumentada”
+árabe</td>
+</tr>
+<tr>
+<td><strong>Nahawand</strong></td>
+<td>0</td>
+<td>200</td>
+<td>300</td>
+<td>500</td>
+<td>Tono + semitono + tono: muy cercano al tetracordio menor
+occidental</td>
+</tr>
+<tr>
+<td><strong>Kurd</strong></td>
+<td>0</td>
+<td>100</td>
+<td>300</td>
+<td>500</td>
+<td>Semitono + tono + tono: muy cercano al tetracordio frigio
+occidental</td>
+</tr>
+<tr>
+<td><strong>Saba</strong></td>
+<td>0</td>
+<td>~150</td>
+<td>~300</td>
+<td>~410</td>
+<td>Segunda neutra + tercera menor + intervalo estrecho: <strong>no
+llega a la cuarta</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Dos observaciones matemáticas antes de seguir. Primero, Nahawand
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>200</mn><mo>,</mo><mn>300</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,200,300,500</annotation></semantics></math>)
+y Kurd
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>100</mn><mo>,</mo><mn>300</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,100,300,500</annotation></semantics></math>)
+son, dentro del margen de aproximación de este apunte, prácticamente
+indistinguibles de tetracordios que ya conoces de la teoría modal
+occidental (menor natural y frigio, respectivamente) —lo cual tiene
+sentido: son los ajnas que más fácilmente “suenan familiares” a un oído
+occidental, y no es casualidad que aparezcan también en maqamat que
+muchos oyentes describen como “los que más se parecen a la música que ya
+conozco”—.</p>
+<p>Segundo, y más importante: fíjate en el jins <strong>Saba</strong>.
+Sus cuatro grados suman solo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>410</mn><annotation encoding="application/x-tex">410</annotation></semantics></math>
+cents, no los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>500</mn><annotation encoding="application/x-tex">500</annotation></semantics></math>
+cents (una cuarta) que tienen todos los demás. Esto no es un error de la
+tabla: Saba es, dentro de la teoría del maqam, un jins peculiar
+precisamente por eso —su ámbito es más estrecho que una cuarta justa—, y
+esa estrechez es parte de lo que le da su color melancólico
+característico, casi “suspendido”, que los músicos y oyentes
+familiarizados con el repertorio describen de forma consistente. Es un
+buen recordatorio de que estos sistemas no siempre respetan las
+simetrías que uno esperaría por analogía con la teoría occidental.</p>
+<p>Sobre Hijaz, vale la pena detenerse: sus grados
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>110</mn></mrow><annotation encoding="application/x-tex">\approx 110</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>410</mn></mrow><annotation encoding="application/x-tex">\approx 410</annotation></semantics></math>
+cents) están separados por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>410</mn><mo>−</mo><mn>110</mn><mo>=</mo><mn>300</mn></mrow><annotation encoding="application/x-tex">410 - 110 = 300</annotation></semantics></math>
+cents, el mismo tamaño, en el papel, que la “segunda aumentada” de la
+escala menor armónica occidental (por ejemplo, entre el sexto y el
+séptimo grado). Pero aquí aplica, con fuerza, la advertencia de la
+sección 3: las mediciones y descripciones de intérpretes sobre la
+práctica real de Hijaz tienden a situar ese intervalo <em>más
+angosto</em> que los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>300</mn><annotation encoding="application/x-tex">300</annotation></semantics></math>
+cents nominales —algunos análisis lo sitúan bastante por debajo, quizás
+en la vecindad de los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>250</mn><annotation encoding="application/x-tex">250</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>280</mn><annotation encoding="application/x-tex">280</annotation></semantics></math>
+cents, aunque la cifra exacta varía mucho según la región, el
+instrumento y el intérprete—. Esto produce, al oído occidental, una
+sensación de segunda aumentada “comprimida”, más íntima y menos
+“exótica” de lo que la notación en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+sugeriría a primera vista.</p>
+<h3 id="maqamat-combinar-ajnas-con-cautela">5.1 Maqamat: combinar ajnas
+(con cautela)</h3>
+<p>Un maqam completo se arma, en la teoría más difundida, apilando dos
+ajnas. Algunas combinaciones canónicas —presentadas aquí como
+descripción teórica simplificada, sabiendo que la práctica regional
+varía y que existen maqamat con estructuras más complejas que dos
+tetracordios simples—:</p>
+<ul>
+<li><strong>Maqam Rast</strong> = jins Rast sobre la tónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>200</mn><mo>,</mo><mn>355</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,200,355,500</annotation></semantics></math>)
++ jins Rast sobre la quinta superior. Si tomamos la quinta como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>700</mn><annotation encoding="application/x-tex">700</annotation></semantics></math>
+cents, el jins superior repite el mismo patrón desplazado:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>700</mn><mo>,</mo><mn>900</mn><mo>,</mo><mn>1055</mn><mo>,</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">700, 900, 1055, 1200</annotation></semantics></math>.
+La escala completa en Do sería, entonces: Do
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>)
+– Re
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>200</mn><annotation encoding="application/x-tex">200</annotation></semantics></math>)
+– Mi neutro
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>)
+– Fa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>500</mn><annotation encoding="application/x-tex">500</annotation></semantics></math>)
+– Sol
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>700</mn><annotation encoding="application/x-tex">700</annotation></semantics></math>)
+– La
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>900</mn><annotation encoding="application/x-tex">900</annotation></semantics></math>)
+– Si neutro
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1055</mn><annotation encoding="application/x-tex">1055</annotation></semantics></math>)
+– Do
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1200</mn><annotation encoding="application/x-tex">1200</annotation></semantics></math>).</li>
+<li><strong>Maqam Bayati</strong> = jins Bayati sobre la tónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>150</mn><mo>,</mo><mn>300</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,150,300,500</annotation></semantics></math>)
++ jins Nahawand sobre el cuarto grado. El jins Nahawand
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>200</mn><mo>,</mo><mn>300</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,200,300,500</annotation></semantics></math>)
+desplazado a partir de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>500</mn><annotation encoding="application/x-tex">500</annotation></semantics></math>
+da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>500</mn><mo>,</mo><mn>700</mn><mo>,</mo><mn>800</mn><mo>,</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">500,700,800,1000</annotation></semantics></math>.
+La escala completa sería: Re
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>)
+– Mi neutro
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>)
+– Fa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>300</mn><annotation encoding="application/x-tex">300</annotation></semantics></math>)
+– Sol
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>500</mn><annotation encoding="application/x-tex">500</annotation></semantics></math>)
+– La
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>700</mn><annotation encoding="application/x-tex">700</annotation></semantics></math>)
+– Sib
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>800</mn><annotation encoding="application/x-tex">800</annotation></semantics></math>)
+– Do
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1000</mn><annotation encoding="application/x-tex">1000</annotation></semantics></math>)
+– Re
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1200</mn><annotation encoding="application/x-tex">1200</annotation></semantics></math>).</li>
+<li><strong>Maqam Hijaz</strong> = jins Hijaz sobre la tónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>110</mn><mo>,</mo><mn>410</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,110,410,500</annotation></semantics></math>)
++ un tetracordio superior que, según la fuente, puede ser un jins
+Nahawand o un jins Hijaz nuevamente, generando variantes regionales del
+mismo maqam nominal.</li>
+<li><strong>Maqam Nahawand</strong> = jins Nahawand sobre la tónica +
+jins similar sobre el cuarto o quinto grado, produciendo una escala que
+a un oído occidental sonará muy próxima a una menor natural o menor
+melódica, con las salvedades de afinación que ya hemos discutido.</li>
+</ul>
+<p>Preséntalas con la cautela que la propia lista pide: estas son
+estructuras de manual, útiles para entender la lógica combinatoria del
+sistema, pero cualquier músico practicante del maqam te podrá señalar
+variantes, excepciones regionales y matices de <em>sayr</em> (sección 6)
+que una tabla de cuatro filas no puede capturar.</p>
+<h2 id="la-entonación-real-variación-oído-y-contexto">6. La entonación
+real: variación, oído y contexto</h2>
+<h3 id="alepo-contra-el-cairo-y-todo-lo-demás">6.1 Alepo contra El Cairo
+(y todo lo demás)</h3>
+<p>Si hay una sola idea que este módulo necesita dejar instalada con más
+fuerza que ninguna otra es esta: <strong>la tercera neutra no tiene un
+valor fijo</strong>. No es que exista un valor “correcto” de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>354.5</mn><annotation encoding="application/x-tex">354.5</annotation></semantics></math>
+cents que los intérpretes descuidados no alcanzan; es que la tradición,
+tal como la documentan músicos y musicólogos que han medido
+interpretaciones reales, contempla un rango de valores como legítimos, y
+ese rango varía sistemáticamente con la región. Una observación repetida
+en la literatura sobre práctica interpretativa es que las terceras
+neutras de la escuela de Alepo tienden a sonar más altas (más cerca de
+la tercera mayor) que las de la escuela de El Cairo, con mediciones
+publicadas que sitúan el rango completo, aproximadamente, entre unos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>345</mn><annotation encoding="application/x-tex">345</annotation></semantics></math>
+y unos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>365</mn><annotation encoding="application/x-tex">365</annotation></semantics></math>
+cents según la fuente, el intérprete y hasta la pieza concreta. Es un
+rango de veinte cents —una quinta parte de un semitono occidental
+completo— y todo él se considera, dentro de la tradición, “una tercera
+neutra correctamente afinada”: no hay un punto dentro de ese rango que
+sea “el verdadero” y los demás “aproximaciones”.</p>
+<p>A esta variación regional se suman, documentadas también por músicos
+practicantes, al menos tres capas más de variabilidad:</p>
+<ul>
+<li><strong>Variación por intérprete.</strong> Cada cantante o
+instrumentista tiene su propia “firma” de afinación para las notas
+neutras, tan reconocible para un oyente experimentado como el timbre de
+su voz.</li>
+<li><strong>Variación por contexto melódico.</strong> La misma nota
+neutra puede sonar más alta cuando la línea melódica asciende hacia ella
+y más baja cuando desciende —un fenómeno de inflexión direccional que no
+tiene equivalente sistemático en la práctica occidental
+tradicional—.</li>
+<li><strong>Variación como recurso expresivo.</strong> Un intérprete
+puede deslizar deliberadamente la altura de la nota neutra dentro de una
+misma frase, como un color expresivo comparable —aunque no idéntico— al
+portamento o al vibrato de amplitud variable en cuerdas y voz
+occidentales, pero aquí operando sobre la <em>afinación estructural</em>
+de la nota, no solo sobre su timbre.</li>
+</ul>
+<h3 id="cómo-se-aprende-esto-y-cómo-no">6.2 Cómo se aprende esto (y cómo
+no)</h3>
+<p>El maqam no se transmite, tradicionalmente, mediante una tabla de
+cents: se aprende de oído, en un proceso conocido como
+<strong><em>talqin</em></strong> (literalmente, algo como “dictado” o
+“inculcación” oral), en el que el estudiante absorbe la afinación, el
+fraseo y el repertorio de gestos característicos de un maqam escuchando
+y repitiendo con un maestro, durante años, antes de que cualquier
+notación entre en juego. Esto es coherente con todo lo que hemos visto:
+si la afinación exacta de la tercera neutra varía con la región, el
+intérprete y el contexto, ninguna tabla fija podría transmitir lo que sí
+transmite la imitación sostenida de un oído experto.</p>
+<p>Los instrumentos del repertorio reflejan, cada uno a su manera, esta
+necesidad de flexibilidad:</p>
+<ul>
+<li>El <strong>oud</strong> (laúd árabe) y el <strong>violín</strong>
+usado en las orquestas árabes tradicionalmente no tienen trastes: el
+intérprete tiene libertad continua para situar cualquier altura,
+incluida cualquier punto del rango de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>345</mn><annotation encoding="application/x-tex">345</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>365</mn><annotation encoding="application/x-tex">365</annotation></semantics></math>
+cents (o fuera de él) que la frase requiera.</li>
+<li>El <strong>qanun</strong> (cítara de mesa con muchas cuerdas)
+resuelve el problema de otra manera: cada cuerda tiene pequeñas palancas
+metálicas llamadas <strong><em>mandal</em></strong>, que el intérprete
+acciona con la mano izquierda mientras toca con la derecha, y que
+alteran la longitud vibrante de la cuerda en pasos de aproximadamente un
+octavo de tono —unos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>
+cents cada uno—, es decir, el doble de resolución que la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO.
+Es una cuadrícula más fina que la de notación, pero sigue siendo una
+cuadrícula: como vas a comprobar en el ejercicio 9, ni siquiera pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>
+cents alcanzan para posicionar con exactitud cada matiz de tercera
+neutra documentado.</li>
+<li>El <strong>ney</strong> (flauta de caña oblicua) logra su
+flexibilidad de altura mediante el ángulo de embocadura y la presión del
+aire, de forma similar —aunque con mecánica física distinta— a como un
+flautista occidental puede “doblar” ligeramente una nota.</li>
+</ul>
+<h3 id="el-sayr-lo-que-las-alturas-solas-no-dicen">6.3 El sayr: lo que
+las alturas solas no dicen</h3>
+<p>Conviene cerrar esta sección con una idea que un curso centrado en
+cents y razones de frecuencia corre el riesgo de perder de vista por
+completo: un maqam no es solo una colección de alturas. Es también, y
+quizás sobre todo, un <strong>sayr</strong> —un recorrido melódico
+característico, con puntos de reposo, notas de énfasis, direcciones
+preferidas de movimiento y una lógica de desarrollo propia (muy
+presente, por ejemplo, en la improvisación del taqsim, ver sección 8)—.
+Dos melodías podrían, en teoría, usar exactamente el mismo conjunto de
+alturas y aun así una “ser” claramente Rast y la otra sonar ajena al
+sistema, simplemente por cómo se recorren esas alturas en el tiempo.
+Este apunte, centrado en afinación, no puede desarrollar el sayr en
+profundidad, pero sería deshonesto no señalar que se está dejando fuera
+una dimensión entera —y quizás la más importante— de cómo funciona
+realmente un maqam.</p>
+<h2
+id="contraste-estructural-por-qué-aquí-los-cuartos-de-tono-no-baten">7.
+Contraste estructural: por qué aquí los cuartos de tono no baten</h2>
+<p>Aquí conviene volver, explícitamente, al eje que organizó todo el
+mapa comparativo de la Fase 1 (M8 §5): la tensión entre sistemas
+optimizados para la <strong>melodía</strong> (líneas horizontales,
+tensión direccional, semitonos estrechos) y sistemas optimizados para la
+<strong>armonía</strong> (verticalidades en reposo, tríadas fundidas sin
+batido). Todo el curso, hasta ahora, describía sistemas occidentales que
+se ubican en algún punto de ese eje sin abandonarlo nunca del todo:
+incluso la pitagórica, el sistema más “melódico” de la Fase 1, sigue
+siendo un sistema pensado, en última instancia, para música que
+eventualmente construye acordes.</p>
+<p>El maqam se ubica en un extremo del eje que ningún sistema occidental
+de este curso alcanza: es un sistema <strong>melódico sobre drone o
+monodia acompañada</strong>, no un sistema armónico en el sentido de la
+tríada vertical. La textura habitual del repertorio —una línea melódica
+principal, quizás con un bordón (drone) sostenido o con un
+acompañamiento heterofónico (varios instrumentos tocando variantes
+ligeramente distintas de la misma línea, no partes armónicas
+independientes)— nunca le pide a la tercera neutra que “funcione” dentro
+de un acorde. No hay una tríada Rast que necesite sonar fundida y sin
+batido de la misma manera en que una tríada de Do mayor necesita
+afinarse en el mesotónico o en la justa del M4 y el M5.</p>
+<p>Esto explica, con la misma lógica de batidos y armónicos coincidentes
+que usaste en el M1 §5, por qué la variabilidad de veinte cents de la
+sección 6.1 no es un problema para el sistema: <strong>no hay acordes
+verticales cuya consonancia proteger</strong>. Cuando dos armónicos de
+una nota real chocan contra los armónicos de otra nota real sonando
+simultáneamente en un intervalo occidental mal afinado, el resultado es
+un batido físico, medible, en los armónicos superiores —el fenómeno
+central del M1—. Pero si la tercera neutra rara vez suena en simultáneo,
+sostenida, contra otra nota con la que debiera formar una tríada
+estable, entonces no existe ese mecanismo físico de “castigo” por
+desviarse veinte cents en una dirección u otra. La afinación del maqam
+no está optimizando <strong>acordes</strong>; está optimizando
+<strong>gestos melódicos y color modal</strong> —el carácter específico
+de cada jins, la tensión y resolución de cada sayr—, una tarea para la
+cual una ventana de veinte cents de variación aceptable no es un defecto
+sino, literalmente, parte del vocabulario expresivo disponible.</p>
+<p>Dicho de otro modo: los cuartos de tono del maqam “no baten” no
+porque sean, en algún sentido místico, intervalos más consonantes que
+los occidentales, sino porque el maqam nunca les pide que sostengan el
+mismo trabajo estructural —fundirse en una tríada sin pulsación— que la
+armonía tonal occidental le pide a su tercera. Es el mismo tipo de
+observación que cierra el M8: cada sistema de afinación responde a la
+música para la que fue —o, en este caso, para la que fue <em>heredado y
+desarrollado durante siglos</em>— pensado, y juzgar uno con las métricas
+del otro es, casi siempre, la manera más rápida de malentenderlo.</p>
+<h2 id="ejercicios-de-cálculo">8. Ejercicios de cálculo</h2>
+<p>Resuelve cada ejercicio mostrando el desarrollo completo. Las
+soluciones están al final.</p>
+<ol type="1">
+<li>Calcula, con el mismo método de la sección 4.1, los cents exactos de
+la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">12/11</annotation></semantics></math>
+(segunda neutra) y verifica cuánto se aleja del valor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>
+cents citado habitualmente.</li>
+<li>Calcula los cents exactos de la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>22</mn></mrow><annotation encoding="application/x-tex">27/22</annotation></semantics></math>
+(tercera neutra) y verifica cuánto se aleja del valor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>
+cents usado en este apunte.</li>
+<li>Calcula los cents de la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>13</mn><mi>/</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">13/12</annotation></semantics></math>
+(otra racionalización, menos citada, de un intervalo neutro pequeño).
+Compárala con el resultado del ejercicio 1: ¿es mayor o menor que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">12/11</annotation></semantics></math>?</li>
+<li>Compara el valor de referencia de la tercera neutra
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>
+c) con cuatro puntos de referencia: la tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">5/4 = 386.314</annotation></semantics></math>
+c), la tercera menor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>315.641</mn></mrow><annotation encoding="application/x-tex">6/5 = 315.641</annotation></semantics></math>
+c), la tercera pitagórica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn><mo>=</mo><mn>407.820</mn></mrow><annotation encoding="application/x-tex">81/64 = 407.820</annotation></semantics></math>
+c) y el valor de la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+más cercano
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>350</mn><annotation encoding="application/x-tex">350</annotation></semantics></math>
+c, siete pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>
+cents). Calcula las cuatro diferencias en cents.</li>
+<li>Construye el maqam Rast completo en cents sobre Do, combinando el
+jins Rast sobre la tónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>200</mn><mo>,</mo><mn>355</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,200,355,500</annotation></semantics></math>)
+con el jins Rast sobre la quinta superior (asumiendo una quinta de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>700</mn><annotation encoding="application/x-tex">700</annotation></semantics></math>
+cents). Lista los ocho valores de la escala completa, de la tónica a la
+octava.</li>
+<li>Construye el maqam Bayati completo en cents sobre Re, combinando el
+jins Bayati sobre la tónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>150</mn><mo>,</mo><mn>300</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,150,300,500</annotation></semantics></math>)
+con el jins Nahawand
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>200</mn><mo>,</mo><mn>300</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0,200,300,500</annotation></semantics></math>)
+desplazado a partir del cuarto grado
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>500</mn><annotation encoding="application/x-tex">500</annotation></semantics></math>
+c). Lista los ocho valores.</li>
+<li>Usando el resultado del ejercicio 6, identifica cuáles de los ocho
+grados del maqam Bayati coinciden (dentro de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>2</mn><annotation encoding="application/x-tex">2</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+cents) con una tecla del piano en temperamento igual, y cuáles caen
+claramente “entre” dos teclas.</li>
+<li>Ubica los ajnas Rast, Bayati e Hijaz sobre la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+(pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>
+cents): para cada grado de cada jins, calcula a cuántos pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+corresponde (dividiendo el valor en cents por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>)
+e indica si el resultado es un número entero (cae exactamente en la
+cuadrícula) o no.</li>
+<li>El qanun ajusta la altura de cada cuerda mediante mandales que dan
+pasos de aproximadamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>
+cents
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">1/8</annotation></semantics></math>
+de tono). Calcula cuántos escalones de mandal, como mínimo, se necesitan
+para cubrir el rango completo desde la tercera menor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>315.641</mn><annotation encoding="application/x-tex">315.641</annotation></semantics></math>
+c) hasta la tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+c), y calcula el desajuste (overshoot) que queda al usar ese número
+entero de escalones.</li>
+<li>Convierte el valor de referencia de la tercera neutra
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>
+c) a “comas” del sistema turco de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>-EDO
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>22.642</mn></mrow><annotation encoding="application/x-tex">1200/53 = 22.642</annotation></semantics></math>
+c cada una). ¿El resultado es un número entero? ¿Qué te dice esto sobre
+la posibilidad de que cualquier cuadrícula fina “resuelva” el problema
+de notar la tercera neutra con exactitud?</li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn><mo>=</mo><mn>1.090909</mn><mi>…</mi></mrow><annotation encoding="application/x-tex">12/11 = 1.090909\ldots</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.090909</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.087011</mn></mrow><annotation encoding="application/x-tex">\ln(1.090909) = 0.087011</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>12</mn><mi>/</mi><mn>11</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.125531</mn></mrow><annotation encoding="application/x-tex">\log_2(12/11) = 0.125531</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.125531</mn><mo>=</mo><mn>150.637</mn></mrow><annotation encoding="application/x-tex">c = 1200 \times 0.125531 = 150.637</annotation></semantics></math>
+cents. Se aleja de los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>
+cents “de manual” en apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.637</mn><annotation encoding="application/x-tex">0.637</annotation></semantics></math>
+cents, una diferencia inaudible.</p>
+<p><strong>2.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>22</mn><mo>=</mo><mn>1.227273</mn><mi>…</mi></mrow><annotation encoding="application/x-tex">27/22 = 1.227273\ldots</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.227273</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.204794</mn></mrow><annotation encoding="application/x-tex">\ln(1.227273) = 0.204794</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>27</mn><mi>/</mi><mn>22</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.295456</mn></mrow><annotation encoding="application/x-tex">\log_2(27/22) = 0.295456</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.295456</mn><mo>=</mo><mn>354.547</mn></mrow><annotation encoding="application/x-tex">c = 1200 \times 0.295456 = 354.547</annotation></semantics></math>
+cents. Se aleja del valor de referencia de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>
+cents en apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.453</mn><annotation encoding="application/x-tex">0.453</annotation></semantics></math>
+cents, también inaudible.</p>
+<p><strong>3.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>13</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>1.083333</mn><mi>…</mi></mrow><annotation encoding="application/x-tex">13/12 = 1.083333\ldots</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.083333</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.080043</mn></mrow><annotation encoding="application/x-tex">\ln(1.083333) = 0.080043</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>13</mn><mi>/</mi><mn>12</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.115477</mn></mrow><annotation encoding="application/x-tex">\log_2(13/12) = 0.115477</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.115477</mn><mo>=</mo><mn>138.573</mn></mrow><annotation encoding="application/x-tex">c = 1200 \times 0.115477 = 138.573</annotation></semantics></math>
+cents. Es <strong>menor</strong> que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">12/11</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150.637</mn><annotation encoding="application/x-tex">150.637</annotation></semantics></math>
+c): la diferencia entre ambas racionalizaciones es de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>150.637</mn><mo>−</mo><mn>138.573</mn><mo>=</mo><mn>12.064</mn></mrow><annotation encoding="application/x-tex">150.637 - 138.573 = 12.064</annotation></semantics></math>
+cents, una diferencia que sí sería perceptible si se comparan
+directamente — un buen recordatorio de que “segunda neutra” no es un
+punto único sino una familia de candidatos teóricos cercanos mas no
+idénticos.</p>
+<p><strong>4.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>355</mn><mo>−</mo><mn>315.641</mn><mo>=</mo><mn>39.359</mn></mrow><annotation encoding="application/x-tex">355 - 315.641 = 39.359</annotation></semantics></math>
+cents por encima de la tercera menor pura.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>−</mo><mn>355</mn><mo>=</mo><mn>31.314</mn></mrow><annotation encoding="application/x-tex">386.314 - 355 = 31.314</annotation></semantics></math>
+cents por debajo de la tercera mayor pura.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>407.820</mn><mo>−</mo><mn>355</mn><mo>=</mo><mn>52.820</mn></mrow><annotation encoding="application/x-tex">407.820 - 355 = 52.820</annotation></semantics></math>
+cents por debajo de la tercera pitagórica.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>355</mn><mo>−</mo><mn>350</mn><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">355 - 350 = 5</annotation></semantics></math>
+cents por encima del punto de la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+más cercano. La tercera neutra queda, de las cuatro referencias, más
+cerca de la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+(solo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5</mn><annotation encoding="application/x-tex">5</annotation></semantics></math>
+c de diferencia) y de la tercera mayor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>31.3</mn><annotation encoding="application/x-tex">31.3</annotation></semantics></math>
+c), y más lejos de la tercera pitagórica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>52.8</mn><annotation encoding="application/x-tex">52.8</annotation></semantics></math>
+c).</p>
+<p><strong>5.</strong> Jins superior desplazado:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mn>700</mn><mo>=</mo><mn>700</mn></mrow><annotation encoding="application/x-tex">0+700=700</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>200</mn><mo>+</mo><mn>700</mn><mo>=</mo><mn>900</mn></mrow><annotation encoding="application/x-tex">200+700=900</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>355</mn><mo>+</mo><mn>700</mn><mo>=</mo><mn>1055</mn></mrow><annotation encoding="application/x-tex">355+700=1055</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>500</mn><mo>+</mo><mn>700</mn><mo>=</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">500+700=1200</annotation></semantics></math>.
+Escala completa:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>200</mn><mo>,</mo><mn>355</mn><mo>,</mo><mn>500</mn><mo>,</mo><mn>700</mn><mo>,</mo><mn>900</mn><mo>,</mo><mn>1055</mn><mo>,</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">0, 200, 355, 500, 700, 900, 1055, 1200</annotation></semantics></math>
+cents (Do, Re, Mi neutro, Fa, Sol, La, Si neutro, Do).</p>
+<p><strong>6.</strong> Jins Nahawand desplazado desde
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>500</mn><annotation encoding="application/x-tex">500</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>+</mo><mn>500</mn><mo>=</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0+500=500</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>200</mn><mo>+</mo><mn>500</mn><mo>=</mo><mn>700</mn></mrow><annotation encoding="application/x-tex">200+500=700</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>300</mn><mo>+</mo><mn>500</mn><mo>=</mo><mn>800</mn></mrow><annotation encoding="application/x-tex">300+500=800</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>500</mn><mo>+</mo><mn>500</mn><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">500+500=1000</annotation></semantics></math>.
+Escala completa:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>150</mn><mo>,</mo><mn>300</mn><mo>,</mo><mn>500</mn><mo>,</mo><mn>700</mn><mo>,</mo><mn>800</mn><mo>,</mo><mn>1000</mn><mo>,</mo><mn>1200</mn></mrow><annotation encoding="application/x-tex">0, 150, 300, 500, 700, 800, 1000, 1200</annotation></semantics></math>
+cents (Re, Mi neutro, Fa, Sol, La, Sib, Do, Re).</p>
+<p><strong>7.</strong> Comparando cada grado con la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>100</mn><annotation encoding="application/x-tex">100</annotation></semantics></math>
+cents del piano:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+(Re, exacto),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>
+(<strong>entre</strong> Mib y Mi, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>
+c de cada uno),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>300</mn><annotation encoding="application/x-tex">300</annotation></semantics></math>
+(Fa, exacto),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>500</mn><annotation encoding="application/x-tex">500</annotation></semantics></math>
+(Sol, exacto),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>700</mn><annotation encoding="application/x-tex">700</annotation></semantics></math>
+(La, exacto),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>800</mn><annotation encoding="application/x-tex">800</annotation></semantics></math>
+(Sib, exacto),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1000</mn><annotation encoding="application/x-tex">1000</annotation></semantics></math>
+(Do, exacto),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1200</mn><annotation encoding="application/x-tex">1200</annotation></semantics></math>
+(Re, exacto). De los ocho grados, <strong>solo uno</strong> —el segundo
+grado, la segunda neutra en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>150</mn><annotation encoding="application/x-tex">150</annotation></semantics></math>
+c— cae claramente entre dos teclas del piano; los otros siete coinciden,
+en esta aproximación teórica simplificada, con notas ordinarias del
+teclado. Es un resultado que vale la pena remarcar: en maqam Bayati,
+toda la “extrañeza” frente al piano se concentra en un solo grado de la
+escala.</p>
+<p><strong>8.</strong> Rast:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">0/50=0</annotation></semantics></math>
+(entero),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>200</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">200/50=4</annotation></semantics></math>
+(entero),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>355</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>7.1</mn></mrow><annotation encoding="application/x-tex">355/50=7.1</annotation></semantics></math>
+(<strong>no</strong> entero, sobra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.1</mn><annotation encoding="application/x-tex">0.1</annotation></semantics></math>
+de paso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">=5</annotation></semantics></math>
+cents),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>500</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">500/50=10</annotation></semantics></math>
+(entero). Bayati:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">0/50=0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>150</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">150/50=3</annotation></semantics></math>
+(entero),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>300</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">300/50=6</annotation></semantics></math>
+(entero),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>500</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">500/50=10</annotation></semantics></math>
+(entero) — los cuatro grados caen exactamente en la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO.
+Hijaz:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">0/50=0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>110</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>2.2</mn></mrow><annotation encoding="application/x-tex">110/50=2.2</annotation></semantics></math>
+(<strong>no</strong> entero),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>410</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>8.2</mn></mrow><annotation encoding="application/x-tex">410/50=8.2</annotation></semantics></math>
+(<strong>no</strong> entero),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>500</mn><mi>/</mi><mn>50</mn><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">500/50=10</annotation></semantics></math>
+(entero). Conclusión: ni siquiera la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO,
+diseñada específicamente para notar el maqam, logra capturar exactamente
+todos sus ajnas más comunes — Rast e Hijaz se le escapan por varios
+cents.</p>
+<p><strong>9.</strong> El rango a cubrir mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>−</mo><mn>315.641</mn><mo>=</mo><mn>70.673</mn></mrow><annotation encoding="application/x-tex">386.314 - 315.641 = 70.673</annotation></semantics></math>
+cents. Dividiendo por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>
+cents por escalón:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>70.673</mn><mi>/</mi><mn>25</mn><mo>=</mo><mn>2.827</mn></mrow><annotation encoding="application/x-tex">70.673 / 25 = 2.827</annotation></semantics></math>,
+que redondeado hacia arriba (necesitamos cubrir <em>todo</em> el rango)
+da <strong>3 escalones</strong>. Con 3 escalones de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>
+c se cubren
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>75</mn><annotation encoding="application/x-tex">75</annotation></semantics></math>
+cents, es decir,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>75</mn><mo>−</mo><mn>70.673</mn><mo>=</mo><mn>4.327</mn></mrow><annotation encoding="application/x-tex">75 - 70.673 = 4.327</annotation></semantics></math>
+cents de sobrante: el mandal, con su resolución de octavo de tono,
+tampoco alcanza a posicionar el límite superior con exactitud
+milimétrica — otra cuadrícula más fina, y todavía insuficiente.</p>
+<p><strong>10.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>355</mn><mi>/</mi><mn>22.642</mn><mo>=</mo><mn>15.679</mn></mrow><annotation encoding="application/x-tex">355 / 22.642 = 15.679</annotation></semantics></math>
+comas. No es un número entero — de hecho no está ni siquiera
+razonablemente cerca de uno
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>15.679</mn><annotation encoding="application/x-tex">15.679</annotation></semantics></math>
+queda casi a dos tercios de camino entre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>15</mn><annotation encoding="application/x-tex">15</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>16</mn><annotation encoding="application/x-tex">16</annotation></semantics></math>
+comas). Esto confirma la lección de la sección 4.3: ni la cuadrícula de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>
+pasos ni la de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>53</mn><annotation encoding="application/x-tex">53</annotation></semantics></math>
+comas producen un valor limpio para la tercera neutra de referencia. La
+conclusión pedagógica es que ninguna cuadrícula —sin importar cuán fina
+sea— puede describir con exactitud completa un fenómeno que la propia
+tradición trata como variable por diseño (sección 6.1); cada cuadrícula
+es, en el mejor de los casos, una aproximación de trabajo con su propio
+margen de error, nunca una medida definitiva.</p>
+<h2 id="guía-de-escucha">9. Guía de escucha</h2>
+<p>El laboratorio de este módulo (<code>laboratorio.html</code>, en esta
+misma carpeta) incluye un teclado de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+con las notas neutras marcadas, un constructor de ajnas y maqamat, un
+slider de “tercera flexible” sobre un drone sostenido, y una comparación
+A/B de una frase en maqam Rast tocada en tres versiones:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+exacto, entonación con inflexión (imitando una tercera “de intérprete”),
+y temperamento igual de doce notas. Dedica 15-20 minutos a estas
+consignas:</p>
+<ol type="1">
+<li><strong>Encuentra la nota que no está.</strong> Activa el teclado de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+y toca, en sucesión lenta, Do – Re – Mi neutro – Fa. Alterna después
+entre Mi neutro, Mi bemol (tercera menor) y Mi natural (tercera mayor)
+sobre el mismo Do sostenido como bordón, y describe con tus propias
+palabras en qué se diferencia el color de las tres.</li>
+<li><strong>La tercera que no se queda quieta.</strong> Usa el slider de
+“tercera flexible” para deslizar continuamente entre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>315</mn><annotation encoding="application/x-tex">315</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>390</mn><annotation encoding="application/x-tex">390</annotation></semantics></math>
+cents sobre un drone en Do. Identifica, de oído, en qué zona del
+deslizamiento sientes que el intervalo “es” tercera menor, en cuál “es”
+tercera mayor, y cuán ancha es la zona intermedia donde no logras
+decidir.</li>
+<li><strong>Rast en tres afinaciones.</strong> Escucha la frase de
+ejemplo en maqam Rast en sus tres versiones
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+exacto, entonada con inflexión, y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>12</mn><annotation encoding="application/x-tex">12</annotation></semantics></math>-ET).
+Anota qué versión te suena “más viva” o “más idiomática” y cuál te suena
+más aplanada o artificial, e intenta explicar por qué usando el
+vocabulario de la sección 6.1 (variación regional, por intérprete, por
+contexto melódico).</li>
+<li><strong>Construye Bayati y encuentra la nota fugitiva.</strong> Usa
+el constructor de ajnas para armar el maqam Bayati completo (ejercicio
+6) y comprueba de oído el resultado del ejercicio 7: que solo un grado
+de la escala —la segunda neutra— realmente “no cabe” en el piano,
+mientras los otros seis suenan como notas ordinarias.</li>
+<li><strong>Hijaz comprimido.</strong> Construye el jins Hijaz con el
+intervalo de “segunda aumentada” en su valor nominal de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>300</mn><annotation encoding="application/x-tex">300</annotation></semantics></math>
+cents, y luego repite con un valor más estrecho (alrededor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>260</mn><annotation encoding="application/x-tex">260</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>270</mn><annotation encoding="application/x-tex">270</annotation></semantics></math>
+cents). Compara cuál de las dos versiones te suena más cercana a lo que
+recuerdes de grabaciones de maqam Hijaz que hayas escuchado antes.</li>
+<li><strong>El límite del mandal.</strong> Si el laboratorio incluye una
+simulación del qanun con mandales de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>
+cents, intenta situar la tercera neutra de referencia
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>
+c) usando solo escalones de mandal disponibles, y comprueba de oído el
+desajuste calculado en el ejercicio 9.</li>
+</ol>
+<h2 id="repertorio">10. Repertorio</h2>
+<p>El género más directo para escuchar la entonación del maqam “desnuda”
+—sin las capas adicionales de arreglo orquestal, letra o forma de
+canción— es el <strong><em>taqsim</em></strong>: una improvisación
+instrumental no metrada sobre un maqam determinado, en la que el
+intérprete explora libremente el sayr del modo, sus ajnas constitutivos
+y sus puntos de reposo, con total libertad de afinación (especialmente
+en oud o violín sin trastes). Escuchar un taqsim y prestar atención,
+específicamente, a cómo el intérprete afina y reafina la tercera neutra
+en distintos momentos de la frase —a veces más alta, a veces más baja,
+según la dirección melódica— es probablemente el ejercicio de escucha
+más directo que existe para lo que este módulo describe con números.</p>
+<p>Algunos nombres seguros para empezar a explorar, con la advertencia
+de que esta es una lista mínima y no pretende representar la enorme
+diversidad del repertorio: <strong>Umm Kulthum</strong>, cuya obra
+completa —tanto en las introducciones instrumentales de sus canciones
+como en sus propias inflexiones vocales— es un catálogo extraordinario
+de entonación de maqam en la práctica real; <strong>Munir
+Bashir</strong>, oudista iraquí reconocido específicamente por sus
+taqasim (plural de taqsim) grabados como piezas de concierto en sí
+mismas, ideales para el ejercicio de escucha de esta sección; y
+<strong>Riyad al-Sunbati</strong>, compositor y también oudista, coautor
+de buena parte del repertorio más conocido de Umm Kulthum. Existen,
+además, grabaciones históricas asociadas al propio Congreso de El Cairo
+de 1932 —el congreso documentó y grabó a músicos de la época como parte
+de su trabajo—, un punto de partida interesante si te interesa la
+dimensión histórica además de la puramente sonora, aunque no puedo dar
+aquí referencias de catálogo específicas más allá de mencionar que ese
+material existe y ha sido objeto de reediciones y estudios
+posteriores.</p>
+<h2 id="mini-composición-el-ejercicio-de-humildad">11. Mini-composición:
+el ejercicio de humildad</h2>
+<p>Escribe una línea melódica de ocho compases en jins Rast (tónica más
+los grados
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>200</mn><mo>,</mo><mn>355</mn><mo>,</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">0, 200, 355, 500</annotation></semantics></math>
+cents y su continuación natural hacia la cadencia), pensada para un
+instrumento occidental de afinación flexible —violín o flauta traversa,
+no piano ni instrumento de trastes fijos—. Usa notación tradicional de
+pentagrama para las alturas “de manual” (Do, Re, Fa, Sol…) y, sobre la
+nota correspondiente a la tercera neutra, anota entre paréntesis la
+desviación en cents respecto de la nota escrita más cercana, siguiendo
+el formato que usaremos de forma sistemática en el Módulo 11 para
+notación microtonal (por ejemplo, “Mi (−31c)” si escribes Mi natural
+pero pretendes una altura
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>31</mn><annotation encoding="application/x-tex">31</annotation></semantics></math>
+cents más baja, acercándote a los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>355</mn><annotation encoding="application/x-tex">355</annotation></semantics></math>
+c de la tercera neutra de referencia).</p>
+<p>El ejercicio pedagógico central aquí no es escribir una melodía
+“auténtica” en maqam —esa pretensión sería, dado todo lo que hemos
+discutido en este módulo, poco honesta de tu parte después de una sola
+lectura—, sino practicar exactamente lo opuesto: <strong>notar lo que
+normalmente no se nota</strong>. Cada vez que tu línea toque o se
+acerque a la tercera neutra, vas a tener que tomar una decisión
+consciente y explícita —¿la escribo como Mi con una desviación de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>31</mn></mrow><annotation encoding="application/x-tex">-31</annotation></semantics></math>
+c, o como Mib con una desviación de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>39</mn></mrow><annotation encoding="application/x-tex">+39</annotation></semantics></math>
+c, y por qué elegí una convención y no la otra?— en un lugar donde la
+notación occidental de siete letras simplemente no te obliga a pensar.
+Ese acto de decidir, cifra en mano, es el ejercicio de humildad: te
+obliga a hacer explícito, nota por nota, un tipo de información que un
+músico formado en la tradición del maqam maneja de oído, sin pensarlo,
+después de años de talqin.</p>
+<h2 id="autoevaluación">12. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar por qué el piano no
+puede tocar la tercera neutra del maqam, y describir aproximadamente
+dónde cae respecto de la tercera mayor y la tercera menor.</label></li>
+<li><label><input type="checkbox" />Puedo explicar qué resolvió (y qué
+no resolvió) el Congreso de El Cairo de 1932, y por qué el
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>-EDO
+es un sistema de notación y no de entonación.</label></li>
+<li><label><input type="checkbox" />Puedo calcular los cents de las
+razones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">12/11</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>27</mn><mi>/</mi><mn>22</mn></mrow><annotation encoding="application/x-tex">27/22</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>13</mn><mi>/</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">13/12</annotation></semantics></math>,
+y explicar por qué se presentan como hipótesis interpretativas y no como
+“la” afinación del maqam.</label></li>
+<li><label><input type="checkbox" />Puedo reconocer, de memoria
+aproximada, la estructura en cents de al menos tres ajnas (Rast, Bayati,
+Hijaz) y explicar qué los distingue entre sí.</label></li>
+<li><label><input type="checkbox" />Puedo construir un maqam completo
+combinando dos ajnas y ubicar sus grados en cents sobre una tónica
+dada.</label></li>
+<li><label><input type="checkbox" />Puedo describir al menos tres
+fuentes documentadas de variación en la entonación real del maqam
+(regional, por intérprete, por contexto melódico) sin tratar ninguna
+como “el error” frente a las demás.</label></li>
+<li><label><input type="checkbox" />Puedo explicar, usando el eje
+melodía-armonía del M8, por qué la variabilidad de la tercera neutra no
+genera el mismo tipo de “problema de afinación” que generaría en un
+sistema armónico occidental.</label></li>
+<li><label><input type="checkbox" />Puedo describir, en términos
+generales, cómo el oud, el qanun y el ney logran o simulan afinación
+flexible, y calcular la resolución en cents de los mandales del
+qanun.</label></li>
+</ul>
+<h2 id="referencias">13. Referencias</h2>
+<ul>
+<li>Actas y documentación asociadas al Congreso de Música Árabe de El
+Cairo (1932) — punto de referencia histórico para la adopción del
+sistema de notación de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>24</mn><annotation encoding="application/x-tex">24</annotation></semantics></math>
+partes; existen estudios musicológicos posteriores dedicados
+específicamente a analizar sus resoluciones y su recepción.</li>
+<li>Touma, H. H. <em>The Music of the Arabs</em>. Amadeus Press —
+panorama general de teoría y práctica del maqam, incluyendo la discusión
+de ajnas y notas neutras.</li>
+<li>Marcus, S. L. — trabajos sobre teoría y práctica de la entonación
+del maqam egipcio, incluyendo documentación de variación regional en la
+afinación de terceras neutras.</li>
+<li>Beyhom, A. — trabajos de organología y teoría comparada sobre
+sistemas de división de la octava en la música árabe, incluyendo
+discusión crítica de las racionalizaciones de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>11</mn><annotation encoding="application/x-tex">11</annotation></semantics></math>-límite
+frente a la práctica medida.</li>
+<li>Signell, K. L. <em>Makam: Modal Practice in Turkish Art Music</em> —
+referencia para el sistema teórico turco de comas (AEU) mencionado en la
+sección 4.3.</li>
+</ul>
+<h2 id="anticipo">14. Anticipo</h2>
+<p>El Módulo 14 nos lleva del Mediterráneo a otro extremo del mundo y a
+un problema de naturaleza completamente distinta: el gamelán indonesio,
+donde la afinación de slendro y pelog ni siquiera intenta acercarse a la
+serie armónica que ha sido, hasta ahora, el trasfondo silencioso de
+absolutamente todo lo que hemos estudiado en este curso — occidental o
+árabe.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 13</p><button id="progress-btn" class="progress-btn" data-modulo="13-maqam">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

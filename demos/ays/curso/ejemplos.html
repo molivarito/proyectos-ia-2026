@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejemplos auditivos — AyS Señales Musicales</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="temario.html">Temario</a>
+      <a href="ejemplos.html" class="active">Ejemplos</a>
+      <a href="inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs">Curso · Galería de ejemplos auditivos</div>
+    <h1>Escucha el curso</h1>
+    <p class="lead">
+      Una selección curada de audios generados durante el semestre. Algunos son ejercicios de clase,
+      otros son resultados de Fun Tasks de estudiantes anónimos. Todos están en formato WAV y se reproducen
+      directamente en el navegador.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <p style="margin-bottom: 24px; color: var(--texto-suave);">
+    Estos audios viajan con el sitio si ejecutas el script <code>sync_demos.sh</code>.
+    Si no se reproducen, abre los WAVs en su ubicación original dentro de cada carpeta <code>sesiones/sesion_XX/</code>.
+  </p>
+
+  <div class="section">
+    <h2>Síntesis FM (S09)</h2>
+    <p class="section-intro">
+      El espectro FM cambia radicalmente según el ratio C:M, incluso con el mismo índice $I$.
+      Aquí tienes dos clips con $f_c = 220$ Hz e $I = 5$, separados solo por el ratio.
+    </p>
+    <div class="audio-grid">
+      <div class="audio-card">
+        <h4>Ratio 1:1, I = 8</h4>
+        <div class="meta">220 Hz · armónico denso, tipo saxo</div>
+        <audio controls preload="none" src="../assets/audios/s09_fm_armonic.wav"></audio>
+      </div>
+      <div class="audio-card">
+        <h4>Ratio 1:√2, I = 5</h4>
+        <div class="meta">220 Hz · inarmónico, tipo campana</div>
+        <audio controls preload="none" src="../assets/audios/s09_fm_inarmonic.wav"></audio>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Karplus–Strong (S10)</h2>
+    <p class="section-intro">
+      La cuerda KS bien afinada y una escala mayor completa generada con tres líneas de código.
+    </p>
+    <div class="audio-grid">
+      <div class="audio-card">
+        <h4>Cuerda KS a 440 Hz</h4>
+        <div class="meta">A4 — guitarra clásica sintetizada</div>
+        <audio controls preload="none" src="../assets/audios/s10_ks_440.wav"></audio>
+      </div>
+      <div class="audio-card">
+        <h4>Escala mayor</h4>
+        <div class="meta">Do mayor en KS — observar la afinación</div>
+        <audio controls preload="none" src="../assets/audios/s10_ks_escala.wav"></audio>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Mini-Shazam (S11)</h2>
+    <p class="section-intro">
+      La misma query enviada al fingerprinter con diferentes niveles de ruido.
+      A 0 dB SNR ya es difícil reconocer la canción para un humano, pero el algoritmo sigue acertando.
+    </p>
+    <div class="audio-grid">
+      <div class="audio-card">
+        <h4>Query SNR +0 dB</h4>
+        <div class="meta">Ruido y señal a igual nivel</div>
+        <audio controls preload="none" src="../assets/audios/s11_query_0db.wav"></audio>
+      </div>
+      <div class="audio-card">
+        <h4>Query SNR −5 dB</h4>
+        <div class="meta">Ruido más fuerte que la señal</div>
+        <audio controls preload="none" src="../assets/audios/s11_query_-5db.wav"></audio>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Forense IA-vs-humano (S12)</h2>
+    <p class="section-intro">
+      Dos clips ciegos. Uno es audio humano grabado en estudio. El otro es audio generado por un modelo
+      de difusión. ¿Cuál es cuál? Después del análisis forense te decimos.
+    </p>
+    <div class="audio-grid">
+      <div class="audio-card">
+        <h4>Clip A</h4>
+        <div class="meta">¿Humano o IA?</div>
+        <audio controls preload="none" src="../assets/audios/s12_clip_A.wav"></audio>
+      </div>
+      <div class="audio-card">
+        <h4>Clip C</h4>
+        <div class="meta">¿Humano o IA?</div>
+        <audio controls preload="none" src="../assets/audios/s12_clip_C.wav"></audio>
+      </div>
+    </div>
+  </div>
+
+  <p class="warning" style="margin-top:36px;">
+    <strong>Nota:</strong> los audios reales del repositorio están en <code>sesiones/sesion_XX/</code>.
+    Esta página los presenta como vista pública curada. Si los reproductores muestran error,
+    es probable que el sitio no haya copiado todavía los archivos a <code>assets/audios/</code>;
+    ejecuta <code>bash sitio_demos/sync_demos.sh</code> desde la raíz del curso para poblarlos.
+  </p>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Quieres construir audios como estos?</h2>
+  <p>Cada sesión te enseña a generar y analizar los sonidos que escuchaste aquí. Doce semanas, doce Fun Tasks.</p>
+  <a href="inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Probar demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

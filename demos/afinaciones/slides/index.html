@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Diapositivas — Sistema de Aprendizaje de Afinaciones</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6;}
+a{color:var(--accent);}
+
+.hero{border-bottom:1px solid var(--line);background:
+  radial-gradient(1100px 420px at 15% -10%, #23283a 0%, transparent 60%),
+  var(--bg);}
+.hero-inner{max-width:920px;margin:0 auto;padding:52px 22px 40px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+.kicker{color:var(--accent);text-transform:uppercase;letter-spacing:0.12em;font-size:0.78rem;font-weight:700;margin:0 0 12px;}
+.hero h1{font-size:clamp(24px,4vw,34px);line-height:1.2;margin:0;}
+.hero-lead{color:var(--muted);max-width:640px;font-size:0.95rem;margin:10px 0 0;}
+.nav-portal{white-space:nowrap;font-size:0.85rem;padding:8px 14px;border-radius:8px;border:1px solid var(--line);color:var(--text);text-decoration:none;}
+.nav-portal:hover{color:var(--accent);border-color:var(--accent);}
+
+.wrap{max-width:920px;margin:0 auto;padding:36px 22px 60px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.deck-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;}
+.deck-num{color:var(--accent);font-weight:800;font-size:0.75rem;letter-spacing:0.05em;}
+.deck-title{margin:0;font-size:1.05rem;color:var(--text);line-height:1.35;}
+.deck-subtitle{color:var(--muted);font-size:0.85rem;margin:0;flex:1;}
+.deck-links{margin-top:6px;}
+.deck-links a{display:inline-block;font-size:0.82rem;padding:7px 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;}
+.deck-links a:hover{background:#f0af52;}
+
+.empty{color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:26px;text-align:center;}
+
+.site-footer{border-top:1px solid var(--line);background:#171a22;margin-top:20px;}
+.footer-inner{max-width:920px;margin:0 auto;padding:20px 22px 36px;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+
+@media(max-width:600px){
+  .hero-inner{padding:40px 18px 30px;}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="kicker">Material de clase</p>
+      <h1>Diapositivas del curso</h1>
+      <p class="hero-lead">Un deck reveal.js por módulo, pensado para proyectar en clase: vista de orador con notas (tecla S), navegación con flechas y buscador de progreso (tecla ?).</p>
+    </div>
+    <a class="nav-portal" href="../index.html">⌂ Portal</a>
+  </div>
+</header>
+<main class="wrap">
+<div class="grid"><div class="deck-card"><p class="deck-num">M01</p><h3 class="deck-title">M1 · El material sonoro</h3><p class="deck-subtitle">de la cuerda al cent — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m01.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M02</p><h3 class="deck-title">M2 · El problema imposible</h3><p class="deck-subtitle">la aritmética de las comas — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m02.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M03</p><h3 class="deck-title">M3 · Pitagórica</h3><p class="deck-subtitle">el imperio de la quinta — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m03.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M04</p><h3 class="deck-title">M4 · Justa entonación</h3><p class="deck-subtitle">el paraíso de Zarlino y su precio — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m04.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M05</p><h3 class="deck-title">M5 · Mesotónicos</h3><p class="deck-subtitle">temperar es negociar — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m05.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M06</p><h3 class="deck-title">M6 · Buenos temperamentos</h3><p class="deck-subtitle">cerrar el círculo sin igualarlo — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m06.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M07</p><h3 class="deck-title">M7 · Temperamento igual</h3><p class="deck-subtitle">la solución final y su costo — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m07.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M08</p><h3 class="deck-title">M8 · El mapa completo</h3><p class="deck-subtitle">comparar, elegir, componer — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m08.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M09</p><h3 class="deck-title">M9 · EDOs alternativos</h3><p class="deck-subtitle">¿por qué 12? (y por qué 19, 31 y 53) — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m09.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M10</p><h3 class="deck-title">M10 · Justa entonación extendida</h3><p class="deck-subtitle">los primos 7, 11 y 13 — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m10.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M11</p><h3 class="deck-title">M11 · Los compositores del mapa</h3><p class="deck-subtitle">estéticas y notaciones microtonales — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m11.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M12</p><h3 class="deck-title">M12 · Herramientas del oficio</h3><p class="deck-subtitle">de la teoría a tu música — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m12.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M13</p><h3 class="deck-title">M13 · Maqam</h3><p class="deck-subtitle">los cuartos de tono que no lo son — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m13.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M14</p><h3 class="deck-title">M14 · Gamelán</h3><p class="deck-subtitle">cuando la afinación no persigue la serie armónica — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m14.html">Ver diapositivas ▸</a></div></div><div class="deck-card"><p class="deck-num">M15</p><h3 class="deck-title">M15 · Shruti y la síntesis final</h3><p class="deck-subtitle">la afinación como decisión — Sistema de Aprendizaje de Afinaciones</p><div class="deck-links"><a href="m15.html">Ver diapositivas ▸</a></div></div></div>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="stamp">Sistema de Aprendizaje de Afinaciones · diapositivas generadas con build_slides.py</p>
+  </div>
+</footer>
+</body>
+</html>

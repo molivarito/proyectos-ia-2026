@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filtros peineta y delays — Demo Curso AyS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S04 · ATOMS</div>
+    <h1>Filtros peineta: una ecuación, seis efectos distintos</h1>
+    <p class="lead">
+      Flanger, chorus, slapback echo, dub delay, spring reverb, allpass de Schroeder.
+      Todos son la misma estructura ---una línea de retardo combinada con la señal original
+      o con la salida del sistema--- con valores distintos del retardo y la realimentación.
+      Una ecuación, una familia entera de efectos clásicos.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-atoms">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>Cómo un retardo <strong>menor que 1 ms</strong> da flanger, $\sim 75$ ms da slapback, $\sim 250$ ms da dub delay.</li>
+      <li>La diferencia entre feedforward (FIR, muescas en el espectro) y feedback (IIR, picos resonantes).</li>
+      <li>Por qué el dub jamaicano operaba con $g \geq 1$ y no divergía: la cinta saturaba en cada vuelta. La $\tanh$ digital reproduce ese comportamiento.</li>
+      <li>El allpass de Schroeder: magnitud plana, fase no-trivial. La base de los reverberadores digitales.</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Filtros peineta interactivos</span>
+      <a href="../embeds/s04_comb.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s04_comb.html" title="Demo de filtros peineta" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así</h3>
+    <ol>
+      <li>Pon un feedforward con retardo de 1 ms y modula con un LFO lento. Eso es <strong>flanger</strong>: oirás el barrido característico.</li>
+      <li>Cambia a feedback con retardo 75 ms y $g = 0.6$. Eso es el <strong>slapback echo</strong> del rockabilly: cada palabra "rebota" una vez.</li>
+      <li>Sube $g$ a 1.05 con saturación tanh activada. El sistema no diverge: la $\tanh$ acota la señal en cada vuelta del loop. Eso es el sonido <strong>dub</strong> de los 70s.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-atoms">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar un <strong>buffer circular</strong> desde cero, en memoria $O(D)$ ---el truco que hace posibles los efectos en tiempo real.</li>
+      <li>Hacer el <strong>Fun Task 04 "Dub Echo Machine"</strong>: un eco con feedback saturado por $\tanh$, sobre un loop de tu elección. La autopsia incluye comparar la saturación dentro del lazo (estable) vs fuera del lazo (artefactos).</li>
+      <li>Conectar con la S10 (Karplus–Strong): KS es un filtro peineta de tipo feedback con un LP en el lazo. Una guitarra completa.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

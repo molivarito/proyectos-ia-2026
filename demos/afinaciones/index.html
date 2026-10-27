@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sistema de Aprendizaje de Afinaciones</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6;}
+a{color:var(--accent);}
+
+.hero{border-bottom:1px solid var(--line);background:
+  radial-gradient(1100px 420px at 15% -10%, #23283a 0%, transparent 60%),
+  var(--bg);}
+.hero-inner{max-width:920px;margin:0 auto;padding:64px 22px 48px;}
+.kicker{color:var(--accent);text-transform:uppercase;letter-spacing:0.12em;font-size:0.78rem;font-weight:700;margin:0 0 12px;}
+.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 22px;}
+blockquote.thesis{margin:0 0 22px;padding:18px 22px;background:var(--card);border:1px solid var(--card-border);border-left:4px solid var(--accent);border-radius:4px 14px 14px 4px;}
+blockquote.thesis p{margin:0 0 8px;font-size:1.02rem;color:#e2e4ea;}
+blockquote.thesis p:last-child{margin-bottom:0;color:var(--muted);font-style:italic;}
+.lead{color:var(--muted);max-width:700px;font-size:0.98rem;margin:0;}
+
+.wrap{max-width:1120px;margin:0 auto;padding:10px 22px 30px;}
+
+.fase{margin:52px 0;}
+.fase-header{margin:0 0 20px;}
+.fase-tag{display:inline-block;color:var(--accent-ink);background:var(--accent);font-weight:800;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:20px;padding:3px 12px;margin:0 0 8px;}
+.fase-header h2{margin:6px 0 4px;font-size:clamp(19px,2.6vw,24px);}
+.fase-sub{color:var(--muted);margin:0;font-size:0.9rem;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.modulo-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:8px;position:relative;}
+.modulo-card.disabled{opacity:0.45;}
+.modulo-num{color:var(--accent);font-weight:800;font-size:0.75rem;letter-spacing:0.05em;}
+.modulo-title{margin:0;font-size:1.05rem;color:var(--text);line-height:1.35;}
+.modulo-desc{color:var(--muted);font-size:0.85rem;margin:0;flex:1;}
+.modulo-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+.modulo-links a{font-size:0.8rem;padding:6px 12px;border-radius:8px;border:1px solid var(--line);color:var(--text);text-decoration:none;}
+.modulo-links a.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;}
+.badge-wip{align-self:flex-start;font-size:0.7rem;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 10px;}
+.badge-completado{align-self:flex-start;font-size:0.7rem;color:#0d2418;background:var(--good);border-radius:20px;padding:2px 10px;font-weight:700;display:none;}
+
+.tools{margin:56px 0 30px;}
+.tool-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:22px 24px;}
+.tool-card p{margin:0 0 14px;color:var(--muted);font-size:0.92rem;}
+.tool-card p:last-child{margin-bottom:0;}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:700;padding:10px 18px;border-radius:9px;text-decoration:none;font-size:0.9rem;}
+.btn:hover{background:#f0af52;}
+
+.site-footer{border-top:1px solid var(--line);background:#171a22;margin-top:20px;}
+.footer-inner{max-width:1120px;margin:0 auto;padding:22px 22px 40px;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0 0 8px;}
+.file-note{display:none;color:var(--warn);font-size:0.82rem;margin:0;max-width:760px;}
+
+@media(max-width:600px){
+  .hero-inner{padding:44px 18px 34px;}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <p class="kicker">Curso modular para compositores</p>
+    <h1>Sistema de Aprendizaje de Afinaciones</h1>
+    <blockquote class="thesis">
+      <p>Ninguna potencia de 3/2 coincide jamás con una potencia de 2 (ni tampoco las de 5/4). Quintas puras, terceras puras y octavas puras son mutuamente incompatibles.</p>
+      <p>Toda afinación es una política de reparto del error: decide qué intervalos proteger y dónde esconder la coma.</p>
+    </blockquote>
+    <p class="lead">Para compositores con dominio de armonía tradicional. La meta: comprender, describir, ejercitar y comparar —conceptual y cuantitativamente— los sistemas de afinación, hasta poder elegirlos y explotarlos como recurso compositivo.</p>
+  </div>
+</header>
+<main class="wrap">
+<section class="fase" id="fase-1"><div class="fase-header"><span class="fase-tag">Fase 1</span><h2>El núcleo histórico occidental</h2><p class="fase-sub">1 de 3 · 8 módulos</p></div><div class="grid"><div class="modulo-card" data-modulo="01-fundamentos"><span class="badge-completado">✓ completado</span><p class="modulo-num">M1</p><h3 class="modulo-title">El material sonoro: de la cuerda al cent</h3><p class="modulo-desc">Por qué una quinta “suena bien” y cómo medimos cuán bien: serie armónica, batidos y el cent.</p><div class="modulo-links"><a class="primary" href="modulos/01-fundamentos/apunte.html">Ver apunte</a><a href="modulos/01-fundamentos/laboratorio.html">Laboratorio</a><a href="slides/m01.html">Slides</a></div></div><div class="modulo-card" data-modulo="02-comas"><span class="badge-completado">✓ completado</span><p class="modulo-num">M2</p><h3 class="modulo-title">El problema imposible: la aritmética de las comas</h3><p class="modulo-desc">Por qué no puede existir la afinación perfecta: la coma pitagórica, la sintónica y el presupuesto de error.</p><div class="modulo-links"><a class="primary" href="modulos/02-comas/apunte.html">Ver apunte</a><a href="modulos/02-comas/laboratorio.html">Laboratorio</a><a href="slides/m02.html">Slides</a></div></div><div class="modulo-card" data-modulo="03-pitagorica"><span class="badge-completado">✓ completado</span><p class="modulo-num">M3</p><h3 class="modulo-title">Pitagórica: el imperio de la quinta</h3><p class="modulo-desc">Construir la escala por cadena de quintas puras y entender la quinta del lobo.</p><div class="modulo-links"><a class="primary" href="modulos/03-pitagorica/apunte.html">Ver apunte</a><a href="modulos/03-pitagorica/laboratorio.html">Laboratorio</a><a href="slides/m03.html">Slides</a></div></div><div class="modulo-card" data-modulo="04-justa"><span class="badge-completado">✓ completado</span><p class="modulo-num">M4</p><h3 class="modulo-title">Justa entonación: el paraíso de Zarlino y su precio</h3><p class="modulo-desc">El senario, la escala mayor justa y el problema del desplazamiento por comas.</p><div class="modulo-links"><a class="primary" href="modulos/04-justa/apunte.html">Ver apunte</a><a href="modulos/04-justa/laboratorio.html">Laboratorio</a><a href="slides/m04.html">Slides</a></div></div><div class="modulo-card" data-modulo="05-mesotonicos"><span class="badge-completado">✓ completado</span><p class="modulo-num">M5</p><h3 class="modulo-title">Mesotónicos: temperar es negociar</h3><p class="modulo-desc">Repartir la coma sintónica entre 4 quintas para ganar terceras mayores puras.</p><div class="modulo-links"><a class="primary" href="modulos/05-mesotonicos/apunte.html">Ver apunte</a><a href="modulos/05-mesotonicos/laboratorio.html">Laboratorio</a><a href="slides/m05.html">Slides</a></div></div><div class="modulo-card" data-modulo="06-buenos-temperamentos"><span class="badge-completado">✓ completado</span><p class="modulo-num">M6</p><h3 class="modulo-title">Buenos temperamentos: cerrar el círculo sin igualarlo</h3><p class="modulo-desc">Werckmeister III, Vallotti y Kirnberger III: circular sin igualar, con color de tonalidades.</p><div class="modulo-links"><a class="primary" href="modulos/06-buenos-temperamentos/apunte.html">Ver apunte</a><a href="modulos/06-buenos-temperamentos/laboratorio.html">Laboratorio</a><a href="slides/m06.html">Slides</a></div></div><div class="modulo-card" data-modulo="07-temperamento-igual"><span class="badge-completado">✓ completado</span><p class="modulo-num">M7</p><h3 class="modulo-title">Temperamento igual: la solución final y su costo</h3><p class="modulo-desc">La raíz doceava de 2, la transposición libre y lo que se pierde a cambio.</p><div class="modulo-links"><a class="primary" href="modulos/07-temperamento-igual/apunte.html">Ver apunte</a><a href="modulos/07-temperamento-igual/laboratorio.html">Laboratorio</a><a href="slides/m07.html">Slides</a></div></div><div class="modulo-card" data-modulo="08-mapa-comparativo"><span class="badge-completado">✓ completado</span><p class="modulo-num">M8</p><h3 class="modulo-title">El mapa completo: comparar, elegir, componer</h3><p class="modulo-desc">Tabla maestra de los siete sistemas y proyecto integrador para elegir afinación con criterio.</p><div class="modulo-links"><a class="primary" href="modulos/08-mapa-comparativo/apunte.html">Ver apunte</a><a href="modulos/08-mapa-comparativo/laboratorio.html">Laboratorio</a><a href="slides/m08.html">Slides</a></div></div></div></section>
+<section class="fase" id="fase-2"><div class="fase-header"><span class="fase-tag">Fase 2</span><h2>Microtonalidad moderna</h2><p class="fase-sub">2 de 3 · 4 módulos</p></div><div class="grid"><div class="modulo-card" data-modulo="09-edos"><span class="badge-completado">✓ completado</span><p class="modulo-num">M9</p><h3 class="modulo-title">EDOs alternativos: 19, 31, 53</h3><p class="modulo-desc">Divisiones iguales de la octava alternativas como aproximaciones al mesotónico y a la justa.</p><div class="modulo-links"><a class="primary" href="modulos/09-edos/apunte.html">Ver apunte</a><a href="modulos/09-edos/laboratorio.html">Laboratorio</a><a href="slides/m09.html">Slides</a></div></div><div class="modulo-card" data-modulo="10-justa-extendida"><span class="badge-completado">✓ completado</span><p class="modulo-num">M10</p><h3 class="modulo-title">Justa entonación extendida</h3><p class="modulo-desc">Límites primos 7, 11 y 13; Partch y sus 43 tonos; el tonality diamond.</p><div class="modulo-links"><a class="primary" href="modulos/10-justa-extendida/apunte.html">Ver apunte</a><a href="modulos/10-justa-extendida/laboratorio.html">Laboratorio</a><a href="slides/m10.html">Slides</a></div></div><div class="modulo-card" data-modulo="11-compositores"><span class="badge-completado">✓ completado</span><p class="modulo-num">M11</p><h3 class="modulo-title">Ben Johnston, La Monte Young y el espectralismo</h3><p class="modulo-desc">Notaciones microtonales prácticas para composición contemporánea.</p><div class="modulo-links"><a class="primary" href="modulos/11-compositores/apunte.html">Ver apunte</a><a href="modulos/11-compositores/laboratorio.html">Laboratorio</a><a href="slides/m11.html">Slides</a></div></div><div class="modulo-card" data-modulo="12-herramientas"><span class="badge-completado">✓ completado</span><p class="modulo-num">M12</p><h3 class="modulo-title">Herramientas del oficio microtonal</h3><p class="modulo-desc">Archivos Scala, MTS/MPE y afinación en DAWs y sintetizadores.</p><div class="modulo-links"><a class="primary" href="modulos/12-herramientas/apunte.html">Ver apunte</a><a href="modulos/12-herramientas/laboratorio.html">Laboratorio</a><a href="slides/m12.html">Slides</a></div></div></div></section>
+<section class="fase" id="fase-3"><div class="fase-header"><span class="fase-tag">Fase 3</span><h2>Sistemas no occidentales</h2><p class="fase-sub">3 de 3 · 3 módulos</p></div><div class="grid"><div class="modulo-card" data-modulo="13-maqam"><span class="badge-completado">✓ completado</span><p class="modulo-num">M13</p><h3 class="modulo-title">Maqam árabe</h3><p class="modulo-desc">Los “cuartos de tono” que no lo son: ajnas y entonación regional.</p><div class="modulo-links"><a class="primary" href="modulos/13-maqam/apunte.html">Ver apunte</a><a href="modulos/13-maqam/laboratorio.html">Laboratorio</a><a href="slides/m13.html">Slides</a></div></div><div class="modulo-card" data-modulo="14-gamelan"><span class="badge-completado">✓ completado</span><p class="modulo-num">M14</p><h3 class="modulo-title">Gamelán: slendro y pelog</h3><p class="modulo-desc">Afinación como identidad del conjunto e inarmonicidad de los metalófonos.</p><div class="modulo-links"><a class="primary" href="modulos/14-gamelan/apunte.html">Ver apunte</a><a href="modulos/14-gamelan/laboratorio.html">Laboratorio</a><a href="slides/m14.html">Slides</a></div></div><div class="modulo-card" data-modulo="15-shruti-sintesis"><span class="badge-completado">✓ completado</span><p class="modulo-num">M15</p><h3 class="modulo-title">Shruti en la música indostaní y carnática</h3><p class="modulo-desc">Síntesis final: la afinación como decisión cultural.</p><div class="modulo-links"><a class="primary" href="modulos/15-shruti-sintesis/apunte.html">Ver apunte</a><a href="modulos/15-shruti-sintesis/laboratorio.html">Laboratorio</a><a href="slides/m15.html">Slides</a></div></div></div></section>
+<section class="tools">
+  <div class="fase-header">
+    <h2>Herramientas del proyecto</h2>
+  </div>
+  <div class="tool-card">
+    <p><a class="btn" href="herramientas/afinacion.html">Abrir el comparador de afinaciones ▸</a></p>
+    <p>Contrasta ocho temperamentos históricos sobre el ciclo de quintas, con las cifras de cada uno lado a lado.</p>
+    <p>También puedes explorar la app Suena Afinaciones Antiguas (GitHub Pages del proyecto): corales de Bach reproducibles en siete afinaciones distintas, con métricas de consonancia en vivo.</p>
+  </div>
+  <div class="tool-card">
+    <p><a class="btn" href="slides/index.html">🎞 Slides del curso ▸</a></p>
+    <p>Diapositivas reveal.js listas para proyectar en clase, con vista de orador (notas) y navegación por teclado.</p>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="stamp">Sistema de Aprendizaje de Afinaciones · 15 módulos en 3 fases</p>
+    <p id="file-protocol-note" class="file-note">Estás viendo este portal abierto directamente como archivo (file://). El progreso guardado en este navegador (localStorage) puede no conservarse igual de bien que si el sitio se sirve por HTTP — por ejemplo, publicado en GitHub Pages o servido en local.</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var cards = document.querySelectorAll('[data-modulo]');
+  for (var i = 0; i < cards.length; i++) {
+    var card = cards[i];
+    var id = card.getAttribute('data-modulo');
+    var badge = card.querySelector('.badge-completado');
+    if (badge && window.AfinacionesProgreso.estaCompletado(id)) {
+      badge.style.display = 'inline-block';
+    }
+  }
+  if (location.protocol === 'file:') {
+    var note = document.getElementById('file-protocol-note');
+    if (note) note.style.display = 'block';
+  }
+})();
+</script>
+</body>
+</html>

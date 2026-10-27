@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 06: Phase Vocoder — Sesión 06</title>
+<style>
+:root {
+  --bg:     #0a0e1a;
+  --panel:  #111827;
+  --panel2: #0f1520;
+  --border: #1e2a3a;
+  --text:   #c8d6e5;
+  --dim:    #6b7b8d;
+  --cyan:   #00e5ff;
+  --orange: #ff6d00;
+  --red:    #ff1744;
+  --green:  #00e676;
+  --purple: #7c4dff;
+  --yellow: #ffd740;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px; min-height:100vh;
+  display:flex; flex-direction:column; align-items:center;
+  padding:24px 20px 60px;
+}
+code, .mono { font-family:'SF Mono','Fira Code','Consolas',monospace; }
+h1 { font-size:1.6em; color:var(--cyan); text-transform:uppercase; letter-spacing:3px;
+     margin-bottom:4px; text-align:center; font-family:'SF Mono','Fira Code','Consolas',monospace; }
+.subtitle { color:var(--dim); font-size:0.85em; margin-bottom:16px; text-align:center; }
+.app { width:100%; max-width:1100px; display:flex; flex-direction:column; gap:14px; }
+
+/* Intro */
+.intro-card {
+  background:rgba(0,229,255,0.04); border:1px solid rgba(0,229,255,0.18);
+  border-radius:8px; padding:14px 18px;
+  font-size:0.83em; line-height:1.8; color:var(--text);
+}
+.intro-card strong { color:var(--cyan); }
+
+/* Panels */
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:18px 20px; }
+.panel-title {
+  font-size:0.72em; text-transform:uppercase; letter-spacing:2px;
+  color:var(--dim); margin-bottom:12px; display:flex; align-items:center; gap:8px;
+}
+.step-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  background:var(--cyan); color:#000; width:22px; height:22px;
+  border-radius:50%; font-size:0.9em; font-weight:800; flex-shrink:0;
+}
+.step-num.orange { background:var(--orange); }
+.step-num.green  { background:var(--green);  }
+.step-num.purple { background:var(--purple); color:#fff; }
+
+/* Sliders */
+.controls-row { display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; }
+.slider-group { flex:1; min-width:200px; }
+.slider-label { display:flex; justify-content:space-between; font-size:0.78em; margin-bottom:5px; }
+.slider-label .val { color:var(--cyan); font-weight:700; }
+input[type="range"] {
+  -webkit-appearance:none; width:100%; height:5px;
+  border-radius:3px; background:#1a2332; outline:none; cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+  background:var(--cyan); cursor:pointer; box-shadow:0 0 8px rgba(0,229,255,0.4);
+}
+
+/* Buttons */
+.btn {
+  border:none; border-radius:6px; padding:9px 18px;
+  font-family:inherit; font-size:0.85em; font-weight:700;
+  cursor:pointer; transition:all 0.15s; text-transform:uppercase; letter-spacing:1px;
+}
+.btn:active { transform:scale(0.96); }
+.btn-cyan   { background:var(--cyan);   color:#000; }
+.btn-green  { background:var(--green);  color:#000; }
+.btn-red    { background:var(--red);    color:#fff; }
+.btn-purple { background:var(--purple); color:#fff; }
+.btn-dim    { background:#1e2a3a; color:var(--dim); border:1px solid var(--border); }
+.btn.active-play { box-shadow:0 0 14px currentColor; }
+
+/* Canvas */
+canvas { display:block; border-radius:6px; background:#050a12; border:1px solid #1a2332; }
+
+/* Info boxes */
+.info-box {
+  background:rgba(0,229,255,0.04); border-left:3px solid var(--cyan);
+  padding:10px 14px; font-size:0.78em; line-height:1.7; color:var(--dim);
+  border-radius:0 4px 4px 0; margin-top:10px;
+}
+.info-box strong { color:var(--text); }
+.info-box.orange { background:rgba(255,109,0,0.05); border-color:var(--orange); }
+.info-box.green  { background:rgba(0,230,118,0.04); border-color:var(--green);  }
+.info-box.red    { background:rgba(255,23,68,0.05);  border-color:var(--red);   }
+.info-box.yellow { background:rgba(255,215,64,0.05); border-color:var(--yellow);}
+
+/* Step cards (Panel 2) */
+.steps-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0; }
+.step-card {
+  background:var(--panel2); border:1px solid var(--border);
+  border-radius:6px; padding:10px 14px;
+}
+.step-card-title { font-size:0.7em; color:var(--dim); margin-bottom:6px;
+  text-transform:uppercase; letter-spacing:1.5px; font-family:'SF Mono','Fira Code','Consolas',monospace; }
+.step-card-val { font-size:1.1em; font-weight:700; font-family:'SF Mono','Fira Code','Consolas',monospace; }
+.step-card-val.cyan   { color:var(--cyan);   }
+.step-card-val.orange { color:var(--orange); }
+.step-card-val.yellow { color:var(--yellow); }
+
+/* Highlight box */
+.highlight-box {
+  background:var(--panel2); border:2px solid var(--yellow);
+  border-radius:6px; padding:12px 16px; margin:12px 0;
+  display:flex; gap:24px; flex-wrap:wrap; align-items:center;
+}
+.hl-col { flex:1; min-width:180px; }
+.hl-label { font-size:0.7em; text-transform:uppercase; letter-spacing:1.5px; color:var(--dim); margin-bottom:4px; }
+.hl-val { font-size:1.05em; font-weight:700; font-family:'SF Mono','Fira Code','Consolas',monospace; }
+
+/* Phasor */
+.phasor-section { display:grid; grid-template-columns:270px 1fr; gap:18px; margin:12px 0; align-items:start; }
+.phasor-wrap { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.phasor-controls { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.phasor-legend { font-size:0.75em; color:var(--dim); line-height:1.8; }
+.phasor-legend span { font-weight:700; }
+.frame-disp { font-family:'SF Mono','Fira Code','Consolas',monospace; font-size:0.85em;
+              color:var(--yellow); min-width:90px; }
+@media (max-width:700px) { .phasor-section { grid-template-columns:1fr; } }
+
+/* Audio lab */
+.play-row { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+.wave-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.canvas-label { font-size:0.7em; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px; }
+.sg-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+
+/* Status */
+#statusMsg {
+  font-size:0.8em; color:var(--yellow); padding:6px 0;
+  min-height:24px; display:flex; align-items:center; gap:8px;
+}
+.dot-pulse { width:8px; height:8px; border-radius:50%; background:var(--yellow);
+             animation:pulse 0.8s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* Glosario */
+details.glossary {
+  background: var(--panel2); border:1px solid var(--border);
+  border-radius:6px; padding:0; margin-top:8px;
+}
+details.glossary > summary {
+  cursor:pointer; padding:10px 14px; font-size:0.78em;
+  color:var(--cyan); text-transform:uppercase; letter-spacing:1.5px; font-weight:700;
+  list-style:none; user-select:none;
+}
+details.glossary > summary::-webkit-details-marker { display:none; }
+details.glossary > summary::before { content:"▸ "; display:inline-block; transition:transform 0.2s; }
+details.glossary[open] > summary::before { transform:rotate(90deg); }
+.glossary-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+  gap:6px 18px; padding:4px 14px 14px; font-size:0.78em; line-height:1.55;
+}
+.glossary-grid dt { color:var(--yellow); font-family:'SF Mono','Fira Code','Consolas',monospace;
+                    font-weight:700; margin-top:4px; }
+.glossary-grid dd { color:var(--dim); margin-left:0; }
+
+/* Bridge / narrativa entre paneles */
+.bridge {
+  text-align:center; font-size:0.82em; color:var(--yellow);
+  font-style:italic; padding:4px 12px; opacity:0.9;
+}
+.bridge::before { content:"↓ "; }
+
+/* Narrativa física dentro de step-card */
+.step-card .phys {
+  font-size:0.72em; color:#8ba3bd; margin-top:6px;
+  padding-top:6px; border-top:1px dashed var(--border);
+  line-height:1.55; font-style:italic;
+}
+</style>
+</head>
+<body>
+
+<h1>Phase Vocoder</h1>
+<p class="subtitle">Time Stretching · Phase Unwrapping · princArg — Lab Interactivo · Sesión 06</p>
+
+<div class="app">
+
+<!-- ══ INTRO ══ -->
+<div class="intro-card">
+  <strong>La pregunta:</strong> ¿cómo estiramos un audio al doble de duración sin bajarlo de
+  tono una octava? <br>
+  <strong>La respuesta ingenua:</strong> cortar en frames con STFT, separarlos en el tiempo y
+  pegarlos con Overlap-Add. <em>No funciona</em> → suena metálico, ahuecado.<br>
+  <strong>Por qué falla:</strong> al separar los frames, las oscilaciones dentro de cada uno
+  quedan desfasadas con las del vecino en la zona de solape. Los armónicos se cancelan parcialmente.<br>
+  <strong>La solución (Phase Vocoder):</strong> corregir la fase de cada bin antes de reinsertarlo,
+  de modo que las oscilaciones encajen en el nuevo tiempo. Esta demo recorre el proceso en
+  5 estaciones: <strong>(0) ver el problema</strong>, (1) los dos hops, (2) la corrección con
+  <code>princArg</code>, (3) escuchar la diferencia, (4) el caso extremo (Paulstretch).
+</div>
+
+<!-- Glosario colapsable -->
+<details class="glossary">
+  <summary>Diccionario de símbolos — abrir cuando algún símbolo no te suene</summary>
+  <dl class="glossary-grid">
+    <div><dt>α</dt><dd>Factor de estiramiento. α=2 → audio al doble de largo, mismo tono.</dd></div>
+    <div><dt>N<sub>FFT</sub></dt><dd>Tamaño de la ventana STFT (aquí 1024 muestras).</dd></div>
+    <div><dt>R<sub>a</sub></dt><dd>Hop de <em>análisis</em>: cada cuántas muestras se toma un frame al analizar (aquí 128).</dd></div>
+    <div><dt>R<sub>s</sub></dt><dd>Hop de <em>síntesis</em>: cada cuántas muestras se coloca un frame al reconstruir. R<sub>s</sub> = α·R<sub>a</sub>.</dd></div>
+    <div><dt>k</dt><dd>Índice del bin de frecuencia (0 ≤ k ≤ N<sub>FFT</sub>/2). La frecuencia central del bin es k·f<sub>s</sub>/N<sub>FFT</sub>.</dd></div>
+    <div><dt>m</dt><dd>Índice del frame (0, 1, 2, …).</dd></div>
+    <div><dt>φ(m,k)</dt><dd>Fase medida (ángulo) del bin k en el frame m. Viene del <code>atan2</code> del STFT.</dd></div>
+    <div><dt>Δφ</dt><dd>φ(m,k) − φ(m−1,k). Cuánto cambió la fase entre frames consecutivos.</dd></div>
+    <div><dt>Ω<sub>k</sub></dt><dd>Avance de fase <em>esperado</em> si la señal fuese una sinusoide pura en la frecuencia central del bin, durante R<sub>a</sub> muestras. Ω<sub>k</sub> = 2π·k·R<sub>a</sub>/N<sub>FFT</sub>.</dd></div>
+    <div><dt>princArg(x)</dt><dd>Envuelve x al rango (−π, π]. Deshace saltos espurios de 2π.</dd></div>
+    <div><dt>COLA</dt><dd>"Constant Overlap-Add": condición de solape ≥ 50% para que OLA no introduzca modulación.</dd></div>
+  </dl>
+</details>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 0: EL PROBLEMA — ¿POR QUÉ NO BASTA CON MOVER FRAMES?
+══════════════════════════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-title">
+    <span class="step-num" style="background:var(--yellow);color:#000;">0</span>
+    El Problema — ¿Qué pasa si solo separo los frames?
+  </div>
+
+  <p style="font-size:0.85em;line-height:1.75;color:var(--text);margin-bottom:10px;">
+    Antes de ver <em>la solución</em>, miremos <em>el problema</em>. Imagina una sinusoide pura
+    (ej. un armónico de una vocal). La STFT la corta en frames y cada frame contiene la oscilación.
+    Si para estirar el audio simplemente <strong style="color:var(--red);">separo los frames más de lo
+    que venían</strong> (hop de síntesis R<sub>s</sub> &gt; R<sub>a</sub>), en la zona donde dos
+    frames se solapan, las ondas <strong style="color:var(--red);">no coinciden en la fase</strong>:
+    una va subiendo y la otra ya iba bajando. Al sumarlos (OLA) se <strong>cancelan parcialmente</strong>.
+  </p>
+
+  <canvas id="canvasProblem" height="280" style="width:100%;"></canvas>
+
+  <div class="controls-row" style="margin-top:10px;align-items:center;">
+    <div class="slider-group" style="max-width:320px;">
+      <div class="slider-label">
+        <span>Modo</span>
+        <span class="val" id="valProblemMode" style="color:var(--red);">SIN corrección</span>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn btn-red"  id="btnProblemBad"  onclick="setProblemMode(false)">✗ Sin corrección</button>
+        <button class="btn btn-green" id="btnProblemGood" onclick="setProblemMode(true)">✓ Con corrección de fase</button>
+      </div>
+    </div>
+    <div style="background:var(--panel2);border:1px solid var(--border);border-radius:6px;
+                padding:10px 16px;font-size:0.82em;min-width:260px;">
+      <div style="color:var(--dim);margin-bottom:4px;">Amplitud resultante en el solape:</div>
+      <div id="problemAmpDisplay" style="font-size:1.15em;font-weight:700;font-family:monospace;color:var(--red);">
+        cancelación parcial →
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box yellow" style="margin-top:10px;">
+    <strong>Cómo leer el diagrama (tres carriles):</strong>
+    carril <strong style="color:var(--cyan);">azul</strong> = Frame 1 solo;
+    carril <strong style="color:var(--orange);">naranja</strong> = Frame 2 solo;
+    carril <strong>SUMA</strong> abajo = lo que realmente produce OLA (Frame 1 + Frame 2).
+    Dentro de la banda amarilla (solape) verás en gris tenue las dos contribuciones para que
+    puedas "ver la receta" de cómo se arma la suma.<br>
+    <strong style="color:var(--red);">SIN corrección</strong>: en el solape los dos frames
+    están desfasados π → la suma tiene un valle invertido y vuelve a cambiar bruscamente al
+    salir → eso es el artefacto metálico.<br>
+    <strong style="color:var(--green);">CON corrección</strong>: Frame 2 se ajustó para que al
+    entrar al solape continúe la oscilación del Frame 1 → la suma es una sinusoide limpia y
+    continua de principio a fin.
+  </div>
+</div>
+
+<div class="bridge">El Phase Vocoder es exactamente ese ajuste de fase. Veamos de dónde sale.</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 1: DOS HOPS
+══════════════════════════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-title">
+    <span class="step-num">1</span>
+    La Idea: Dos Hops — Análisis vs. Síntesis
+  </div>
+
+  <p style="font-size:0.85em;line-height:1.75;color:var(--text);margin-bottom:12px;">
+    Ya vimos <em>el problema</em>. Ahora fijamos el vocabulario:
+    <strong style="color:var(--cyan);">R<sub>a</sub></strong> es el hop con que
+    <em>analizamos</em> (STFT toma un frame cada R<sub>a</sub> muestras).
+    <strong style="color:var(--orange);">R<sub>s</sub> = α·R<sub>a</sub></strong> es el hop con que
+    <em>sintetizamos</em> (IFFT + OLA coloca cada frame cada R<sub>s</sub> muestras).
+    Si α&gt;1 los frames se separan → audio más largo; si α&lt;1 se aprietan → más corto.
+    El tono no cambia porque <em>los frames en sí no se alteran</em>, solo su posición —
+    pero justamente por eso la fase interna deja de encajar, y eso es lo que hay que corregir.
+  </p>
+  <p style="font-size:0.80em;line-height:1.75;color:var(--dim);margin-bottom:12px;">
+    Mueve el slider y observa: los frames azules (análisis) siempre están igual de pegados;
+    los naranjas (síntesis) se separan al crecer α. La flecha amarilla conecta el mismo frame
+    m=0 entre ambos tiempos — ese frame conserva su contenido pero aterriza más tarde.
+  </p>
+
+  <canvas id="canvasHops" height="130" style="width:100%;"></canvas>
+
+  <div class="controls-row" style="margin-top:12px;">
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Factor α = R<sub>s</sub> / R<sub>a</sub></span>
+        <span class="val" id="valAlpha">2.0</span>
+      </div>
+      <input type="range" id="sliderAlpha" min="0.5" max="4" step="0.1" value="2.0">
+    </div>
+    <div style="background:var(--panel2);border:1px solid var(--border);border-radius:6px;
+                padding:10px 16px;font-size:0.84em;min-width:200px;">
+      <div style="color:var(--cyan);">R<sub>a</sub> = 128 muestras (análisis)</div>
+      <div id="rsDisplay" style="color:var(--orange);">R<sub>s</sub> = 256 muestras (síntesis)</div>
+      <div id="factorMsg" style="color:var(--dim);margin-top:4px;font-size:0.82em;">Audio 2.0× más largo</div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Dato técnico — por qué limitamos α ≤ 4 en esta demo:</strong>
+    cada frame tiene un largo fijo <strong>N = 1024 muestras</strong> (el tamaño de la ventana STFT).
+    El porcentaje de solape entre frames vecinos de la señal reconstruida es
+    <strong>(N − R<sub>s</sub>) / N</strong>. Para que Overlap-Add reconstruya sin modulación
+    parásita se necesita ≥ 50% de solape (condición COLA con Hann).
+    Con R<sub>a</sub> = 128 fijo, el α máximo permitido es
+    <strong>α = 4</strong>, porque R<sub>s</sub> = 512 = N/2 → exactamente 50% de solape.
+  </div>
+</div>
+
+<div class="bridge">Entendido el "dónde". Ahora el "cuánto": qué corrección numérica aplicar a la fase.</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 2: PHASE UNWRAPPING
+══════════════════════════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-title">
+    <span class="step-num orange">2</span>
+    Phase Unwrapping en 4 Pasos — Calculadora Interactiva
+  </div>
+
+  <p style="font-size:0.85em;line-height:1.75;color:var(--text);margin-bottom:10px;">
+    <strong style="color:var(--cyan);">Pregunta clave:</strong> ¿cuánto tengo que avanzar la
+    fase de síntesis φ<sub>s</sub> en cada bin, entre frame y frame, para que al colocar el
+    frame m en la posición m·R<sub>s</sub> (en vez de m·R<sub>a</sub>) la oscilación "encaje"?
+    La respuesta son estos 4 pasos. Lee cada tarjeta de izquierda a derecha.
+  </p>
+  <div class="info-box" style="margin:8px 0 12px;">
+    <strong>Antes de las fórmulas, la intuición:</strong>
+    <ul style="margin:6px 0 0 18px;padding:0;line-height:1.65;">
+      <li>El bin <em>k</em> del STFT es un casillero que detecta energía alrededor de la
+        frecuencia central <em>f<sub>k</sub> = k·f<sub>s</sub>/N</em>. Si hubiera ahí una sinusoide pura,
+        su fase giraría exactamente <strong>Ω<sub>k</sub> = 2π·k·R<sub>a</sub>/N</strong> radianes
+        cada R<sub>a</sub> muestras — es la "predicción perfecta".</li>
+      <li>La señal real casi nunca cae justo en f<sub>k</sub>. Una voz a 197 Hz excita el bin
+        más cercano (digamos k=9 ≈ 194 Hz) con un <em>pequeño desajuste</em> de 3 Hz. Ese
+        desajuste hace que la fase medida gire un poquito más (o menos) que Ω<sub>k</sub>.</li>
+      <li><strong>Δφ = φ(m,k) − φ(m−1,k)</strong> es el giro <em>observado</em> por el STFT.
+        La diferencia <strong>Δφ − Ω<sub>k</sub></strong> es el extra (o faltante) respecto
+        a la predicción perfecta — la "firma" del desajuste de frecuencia.</li>
+      <li><strong>¿Por qué envolver con princArg?</strong> La fase medida viene de
+        <code>atan2</code>, que siempre reporta en (−π, π]. Si Δφ vale 2.9 rad, pudo haber sido
+        2.9 ó 2.9−2π=−3.4; ambos son el mismo ángulo. Como R<sub>a</sub> es corto, sabemos que
+        el giro <em>real</em> por hop es pequeño (mucho menor que π). princArg se queda con la
+        representación corta y descarta el salto espurio de 2π.</li>
+      <li>Con el desajuste ya "limpio", conocemos el avance real por muestra:
+        <em>(Ω<sub>k</sub> + desajuste) / R<sub>a</sub></em>. Multiplicamos por R<sub>s</sub>
+        y obtenemos cuánto avanzar la fase de síntesis.</li>
+    </ul>
+  </div>
+
+  <div class="controls-row">
+    <div class="slider-group">
+      <div class="slider-label"><span>φ(m−1, k) — fase anterior</span><span class="val" id="vPrev">1.20 rad</span></div>
+      <input type="range" id="slPrev" min="-3.14" max="3.14" step="0.01" value="1.20">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>φ(m, k) — fase actual</span><span class="val" id="vCurr">2.85 rad</span></div>
+      <input type="range" id="slCurr" min="-3.14" max="3.14" step="0.01" value="2.85">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>Bin k</span><span class="val" id="vBin">10</span></div>
+      <input type="range" id="slBin" min="1" max="64" step="1" value="10">
+    </div>
+  </div>
+
+  <div class="phasor-section">
+    <div class="phasor-wrap">
+      <canvas id="canvasPhasor" width="260" height="260" style="width:260px;height:260px;border-radius:50%;"></canvas>
+      <div class="phasor-controls">
+        <button class="btn btn-dim" id="btnPhasorPlay" onclick="togglePhasorAnim()" style="padding:6px 12px;">▶ Animar</button>
+        <button class="btn btn-dim" onclick="stepPhasor()" style="padding:6px 12px;">⏭ Paso</button>
+        <button class="btn btn-dim" onclick="resetPhasor()" style="padding:6px 12px;">↺ Reset</button>
+        <span class="frame-disp" id="phasorFrameDisp">Frame 0/30</span>
+      </div>
+      <div class="phasor-legend">
+        <span style="color:var(--cyan);">■</span> Análisis (medido)<br>
+        <span style="color:var(--green);">■</span> Síntesis correcta (con princArg)<br>
+        <span style="color:var(--red);">■</span> Síntesis rota (sin princArg)
+      </div>
+    </div>
+
+    <div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-card-title">① Lo que observé: Δφ</div>
+          <div class="step-card-val cyan" id="resDelta">—</div>
+          <div style="font-size:0.74em;color:var(--dim);margin-top:4px;">φ(m,k) − φ(m−1,k)</div>
+          <div class="phys">Cuánto giró la fase medida entre dos frames vecinos. Es un dato bruto del STFT: incluye tanto la oscilación "normal" como posibles saltos de 2π.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">② Lo que esperaba: Ω<sub>k</sub></div>
+          <div class="step-card-val orange" id="resOmega">—</div>
+          <div style="font-size:0.74em;color:var(--dim);margin-top:4px;">2π·k·R<sub>a</sub>/N = 2π·k·128/1024</div>
+          <div class="phys">Si el bin k fuera una sinusoide pura en su frecuencia central, avanzaría exactamente Ω<sub>k</sub> radianes durante un hop R<sub>a</sub>. Es la "predicción ingenua".</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">③ Resto SIN envolver ⚠</div>
+          <div class="step-card-val" style="color:#ff6584;" id="resRawResid">—</div>
+          <div style="font-size:0.74em;color:var(--dim);margin-top:4px;">Δφ − Ω<sub>k</sub> (puede quedar fuera de [−π,π])</div>
+          <div class="phys">La diferencia entre observado y esperado. Si sale grande (±2π, ±4π…) <strong>no</strong> es porque la frecuencia esté muy desviada: es que la fase medida <em>dio la vuelta al círculo</em> y atan2 la reportó desde el otro lado. Falso alarma.</div>
+        </div>
+        <div class="step-card" style="border-color:var(--yellow);">
+          <div class="step-card-title" style="color:var(--yellow);">④ Resto CORREGIDO con princArg ✓</div>
+          <div class="step-card-val yellow" id="resPrincArg">—</div>
+          <div style="font-size:0.74em;color:var(--dim);margin-top:4px;">princArg(Δφ − Ω<sub>k</sub>) ∈ (−π, π]</div>
+          <div class="phys">princArg envuelve al rango corto (−π, π]. Como R<sub>a</sub> es chico, la verdadera desviación de frecuencia por hop es pequeña → la corrección real vive ahí. Esto es el <strong>phase unwrapping</strong>.</div>
+        </div>
+      </div>
+      <div class="info-box green" style="margin-top:4px;">
+        <strong>Frecuencia instantánea del bin:</strong> (Ω<sub>k</sub> + princArg(Δφ−Ω<sub>k</sub>)) / R<sub>a</sub>
+        radianes por muestra. Multiplicamos por R<sub>s</sub> y obtenemos cuánto debe avanzar
+        la fase <em>sintetizada</em> entre frames separados por R<sub>s</sub> muestras. Esa es
+        la corrección del paso 4 en el código.
+      </div>
+
+      <div class="highlight-box">
+        <div class="hl-col">
+          <div class="hl-label" style="color:#ff6584;">❌ Sin princArg — acumulación errónea (20 frames)</div>
+          <div class="hl-val" style="color:#ff6584;" id="accBad">—</div>
+          <div style="font-size:0.74em;color:var(--dim);margin-top:3px;">La fase de síntesis diverge</div>
+        </div>
+        <div class="hl-col">
+          <div class="hl-label" style="color:var(--green);">✓ Con princArg — acumulación correcta (20 frames)</div>
+          <div class="hl-val" style="color:var(--green);" id="accGood">—</div>
+          <div style="font-size:0.74em;color:var(--dim);margin-top:3px;">Avance suave y predecible</div>
+        </div>
+      </div>
+
+      <canvas id="canvasAccum" height="150" style="width:100%;margin-top:4px;"></canvas>
+      <div style="font-size:0.72em;color:var(--dim);margin-top:5px;text-align:center;">
+        Acumulación de fase a lo largo de 20 frames —
+        <span style="color:var(--red);">Rojo</span>: sin princArg (errático).
+        <span style="color:var(--green);">Verde</span>: con princArg (lineal).
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bridge">Tenemos la corrección. ¿Suena realmente distinto? Comprobémoslo con los oídos.</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 3: LAB DE AUDIO
+══════════════════════════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-title">
+    <span class="step-num green">3</span>
+    Lab de Audio — Escucha la Diferencia
+  </div>
+
+  <p style="font-size:0.82em;line-height:1.75;color:var(--dim);margin-bottom:12px;">
+    Elige qué señal usar como entrada. La síntesis de 200 Hz + armónicos es útil para detectar
+    los artefactos con claridad; tu propia voz hace el efecto mucho más tangible.
+    La clave: los <strong style="color:var(--text);">espectrogramas de magnitud se ven casi
+    idénticos</strong> en las tres versiones — la diferencia auditiva viene <em>únicamente</em>
+    de la fase.
+  </p>
+
+  <div class="controls-row" style="align-items:center;margin-bottom:8px;gap:10px;">
+    <div style="display:flex;gap:6px;align-items:center;">
+      <span style="font-size:0.78em;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;">Fuente:</span>
+      <button class="btn btn-cyan active-play"  id="btnSrcSynth" onclick="setSource('synth')">Sintética (200 Hz)</button>
+      <button class="btn btn-dim"               id="btnSrcMic"   onclick="setSource('mic')">🎙 Mi voz</button>
+    </div>
+  </div>
+
+  <div id="micPanel" style="display:none;background:var(--panel2);border:1px solid var(--border);
+       border-radius:6px;padding:10px 14px;margin-bottom:10px;font-size:0.83em;">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <button class="btn btn-red" id="btnRec" onclick="toggleRecord()">● Grabar 2 s</button>
+      <button class="btn btn-dim" id="btnPlayRec" onclick="playRecording()" disabled>▶ Escuchar grabación</button>
+      <span id="recStatus" style="color:var(--dim);">Presiona grabar y di una palabra o una vocal sostenida.</span>
+    </div>
+    <canvas id="wvRecorded" height="60" style="width:100%;margin-top:8px;display:none;"></canvas>
+  </div>
+
+  <div class="controls-row" style="align-items:center;margin-bottom:8px;">
+    <div class="slider-group" style="max-width:320px;">
+      <div class="slider-label">
+        <span>Factor α (tiempo de salida / tiempo original)</span>
+        <span class="val" id="valAlphaAudio">4.0×</span>
+      </div>
+      <input type="range" id="slAlphaAudio" min="2" max="4" step="0.5" value="4">
+    </div>
+    <button class="btn btn-cyan" id="btnGenerate" onclick="generateAll()">⚙ Generar Señales</button>
+  </div>
+
+  <div id="statusMsg"></div>
+
+  <!-- Qué escuchar (siempre visible) -->
+  <div class="info-box yellow" style="margin-bottom:10px;">
+    <strong>¿Qué escuchar?</strong><br>
+    <strong style="color:var(--cyan);">Original</strong>: tono claro con armónicos (0.5 s).&nbsp;
+    <strong style="color:var(--green);">Correcto</strong>: mismo tono pero más lento (α× s), sin alteración tímbrica.&nbsp;
+    <strong style="color:var(--red);">Roto</strong>: mismo largo que el correcto, pero los frames se colocaron
+    sin corregir la fase → algunos armónicos se cancelan parcialmente en los puntos de solape.
+    El resultado es un timbre diferente, "ahuecado" o metálico, que delata la incoherencia de fase.&nbsp;
+    <strong style="color:var(--purple);">Paulstretch</strong>: fase aleatoria por diseño — como
+    <code>whisperize()</code> de la sesión 05 pero con ventana grande y α = 8.
+  </div>
+
+  <div class="play-row" id="playRow" style="display:none;">
+    <button class="btn btn-dim"    id="btnPlayOrig"  onclick="playAudio('orig')">▶ Original</button>
+    <button class="btn btn-green"  id="btnPlayGood"  onclick="playAudio('good')">▶ Correcto</button>
+    <button class="btn btn-red"    id="btnPlayBad"   onclick="playAudio('bad')">▶ Roto</button>
+    <button class="btn btn-purple" id="btnPlayPaul"  onclick="playAudio('paul')">▶ Paulstretch</button>
+    <button class="btn btn-dim"    onclick="stopAll()">◼ Detener</button>
+  </div>
+
+  <div class="wave-row" id="waveRow" style="display:none;margin-top:10px;">
+    <div>
+      <div class="canvas-label" style="color:var(--cyan);">Original (0.5 s)</div>
+      <canvas id="wvOrig" height="80" style="width:100%;"></canvas>
+    </div>
+    <div>
+      <div class="canvas-label" style="color:var(--green);">Correcto — Phase Vocoder completo</div>
+      <canvas id="wvGood" height="80" style="width:100%;"></canvas>
+    </div>
+    <div>
+      <div class="canvas-label" style="color:var(--red);">Roto — sin corrección de fase</div>
+      <canvas id="wvBad" height="80" style="width:100%;"></canvas>
+    </div>
+  </div>
+
+  <!-- Espectrogramas de la SALIDA (deberían verse casi iguales — ese es el punto) -->
+  <div class="sg-row" id="sgRow" style="display:none;">
+    <div>
+      <div class="canvas-label" style="color:var(--green);margin-top:10px;">Espectrograma salida — Correcto</div>
+      <canvas id="sgGood" height="110" style="width:100%;"></canvas>
+    </div>
+    <div>
+      <div class="canvas-label" style="color:var(--red);margin-top:10px;">Espectrograma salida — Roto</div>
+      <canvas id="sgBad" height="110" style="width:100%;"></canvas>
+    </div>
+  </div>
+  <div id="sgNote" style="display:none;font-size:0.72em;color:var(--dim);margin-top:6px;text-align:center;">
+    Los espectrogramas de magnitud se ven casi idénticos — mismos armónicos, misma energía.
+    La diferencia que escuchas existe <em>únicamente</em> en la fase, que no aparece en el espectrograma.
+  </div>
+
+  <!-- Trayectoria de fase -->
+  <div id="phaseTrailWrap" style="display:none;margin-top:10px;">
+    <div class="canvas-label" style="color:var(--dim);">
+      Fase acumulada del bin k=9 (≈ 194 Hz, el que captura la fundamental de 200 Hz) durante la síntesis
+    </div>
+    <canvas id="canvasPhase" height="90" style="width:100%;margin-top:4px;"></canvas>
+    <div style="font-size:0.72em;color:var(--dim);margin-top:5px;text-align:center;">
+      <span style="color:var(--green);">■</span> Correcto: avance lineal — cada frame colocado en la posición correcta del ciclo.&nbsp;&nbsp;
+      <span style="color:var(--red);">■</span> Roto: la fase de análisis se copia directamente, creando saltos en el solape OLA.
+    </div>
+  </div>
+</div>
+
+<div class="bridge">Si corregir la fase es <em>tan</em> importante… ¿qué pasa si la destruimos por completo?</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL 4: PAULSTRETCH
+══════════════════════════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-title">
+    <span class="step-num purple">4</span>
+    Paulstretch — El Caso Extremo (α ≫ 1)
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div>
+      <p style="font-size:0.83em;line-height:1.75;color:var(--dim);">
+        Para factores muy grandes (α = 8, 16, 32…), el Phase Vocoder estándar empieza a
+        perder coherencia en señales polifónicas. <strong style="color:var(--text);">Paulstretch</strong>
+        lo resuelve abrazando la incoherencia:
+      </p>
+      <ol style="font-size:0.8em;line-height:2.0;color:var(--dim);padding-left:18px;margin-top:8px;">
+        <li>Ventana muy grande (N ≥ 65 536 en la versión real)</li>
+        <li>Reemplaza <em>toda</em> la fase por ruido aleatorio uniforme en [−π, π]</li>
+        <li>Mantiene la magnitud espectral intacta</li>
+        <li>ISTFT + OLA con R<sub>s</sub> enorme → textura etérea</li>
+      </ol>
+    </div>
+    <div class="info-box" style="margin:0;align-self:start;">
+      <strong>Conexión directa con Sesión 05</strong><br><br>
+      ¿Recuerdas <code>whisperize()</code>?<br>
+      <em>Fase aleatoria + magnitud original.</em><br><br>
+      Paulstretch hace exactamente lo mismo,
+      pero con ventanas enormes y overlap extremo.
+      Los formantes (picos espectrales) sobreviven,
+      el pitch desaparece — igual que el susurro.<br><br>
+      <em style="color:var(--cyan);">El susurro infinito.</em>
+    </div>
+  </div>
+  <div class="info-box red" style="margin-top:12px;">
+    El botón <strong>▶ Paulstretch</strong> del Panel 3 usa α = 8 con fase aleatoria, ventana
+    grande simplificada (N = 4096) y 87.5% de solape en síntesis. Compara su espectrograma
+    con el del audio <em>Correcto</em>: los armónicos están en los mismos bins, pero la energía
+    está distribuida aleatoriamente en el tiempo.
+  </div>
+</div>
+
+</div><!-- end .app -->
+
+<script>
+// ════════════════════════════════════════════════════════════
+// FFT — Cooley-Tukey radix-2 DIT
+// ════════════════════════════════════════════════════════════
+function makeFFT(n) {
+  function bitrevPerm(re, im) {
+    let j = 0;
+    for (let i = 1; i < n; i++) {
+      let bit = n >> 1;
+      for (; j & bit; bit >>= 1) j ^= bit;
+      j ^= bit;
+      if (i < j) {
+        let t = re[i]; re[i] = re[j]; re[j] = t;
+            t = im[i]; im[i] = im[j]; im[j] = t;
+      }
+    }
+  }
+  function _fft(re, im, dir) {
+    bitrevPerm(re, im);
+    for (let s = 2; s <= n; s <<= 1) {
+      const half = s >> 1;
+      const ang  = dir * 2 * Math.PI / s;
+      const wRe  = Math.cos(ang), wIm = Math.sin(ang);
+      for (let k = 0; k < n; k += s) {
+        let curRe = 1, curIm = 0;
+        for (let j = 0; j < half; j++) {
+          const uRe = re[k+j], uIm = im[k+j];
+          const vRe = re[k+j+half]*curRe - im[k+j+half]*curIm;
+          const vIm = re[k+j+half]*curIm + im[k+j+half]*curRe;
+          re[k+j]      = uRe + vRe; im[k+j]      = uIm + vIm;
+          re[k+j+half] = uRe - vRe; im[k+j+half] = uIm - vIm;
+          const nr = curRe*wRe - curIm*wIm;
+          curIm = curRe*wIm + curIm*wRe; curRe = nr;
+        }
+      }
+    }
+  }
+  return {
+    fwd(re, im) { _fft(re, im, -1); },
+    inv(re, im) {
+      _fft(re, im, 1);
+      for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+    }
+  };
+}
+
+// ════════════════════════════════════════════════════════════
+// PARÁMETROS DSP
+// NFFT = 1024 garantiza 50% overlap de síntesis para α ≤ 4
+// (Rs_max = Ra*4 = 512 ≤ NFFT/2 = 512 → COLA satisfecha con Hann)
+// ════════════════════════════════════════════════════════════
+const FS   = 22050;
+const NFFT = 1024;   // ← 1024 para COLA correcta (era 512, que daba 0% overlap)
+const RA   = 128;
+const fft  = makeFFT(NFFT);
+
+function makeHann(n) {
+  const win = new Float64Array(n);
+  for (let i = 0; i < n; i++)
+    win[i] = 0.5 * (1 - Math.cos(2*Math.PI*i/(n-1)));
+  return win;
+}
+
+// Ventana de Hann (síntesis OLA correcta con solape ≥ 50%)
+const WIN = makeHann(NFFT);
+
+// princArg: envuelve cualquier ángulo a (−π, π]
+function princArg(x) {
+  return x - 2*Math.PI * Math.floor((x + Math.PI) / (2*Math.PI));
+}
+
+// ════════════════════════════════════════════════════════════
+// SEÑAL DE PRUEBA: voz sintética 200 Hz + 6 armónicos
+// ════════════════════════════════════════════════════════════
+function genSignal() {
+  const dur = 0.5, n = Math.round(FS * dur);
+  const sig = new Float64Array(n);
+  const f0  = 200;
+  const amps = [1, 0.70, 0.50, 0.35, 0.22, 0.14, 0.08];
+  for (let i = 0; i < n; i++) {
+    for (let h = 0; h < amps.length; h++)
+      sig[i] += amps[h] * Math.sin(2*Math.PI*f0*(h+1)*i/FS);
+    const fade = Math.min(1, Math.min(i/(FS*0.02), (n-1-i)/(FS*0.02)));
+    sig[i] *= fade * 0.35;
+  }
+  return sig;
+}
+
+// ════════════════════════════════════════════════════════════
+// STFT (análisis)
+// ════════════════════════════════════════════════════════════
+function computeSTFT(sig) {
+  const padded = new Float64Array(sig.length + NFFT); padded.set(sig);
+  const frames = [];
+  for (let m = 0; m + NFFT <= padded.length; m += RA) {
+    const re = new Float64Array(NFFT), im = new Float64Array(NFFT);
+    for (let i = 0; i < NFFT; i++) re[i] = padded[m+i] * WIN[i];
+    fft.fwd(re, im);
+    frames.push({ re, im });
+  }
+  return frames;
+}
+
+// ════════════════════════════════════════════════════════════
+// PHASE VOCODER
+//
+// usePrincArg = true  → versión CORRECTA: Phase Unwrapping completo
+// usePrincArg = false → versión ROTA: copia la fase de análisis directamente
+//   (phSynth[k] = phCurr). Esto crea errores de fase en los solapamientos OLA
+//   porque la diferencia de fase entre frames consecutivos es Ra-worth, no Rs-worth.
+//   Resultado: cancelación parcial de armónicos en los puntos de solape → timbre alterado.
+// ════════════════════════════════════════════════════════════
+function phaseVocoder(frames, Rs, usePrincArg) {
+  const nBins  = NFFT/2 + 1;
+  const nF     = frames.length;
+  const outLen = (nF-1)*Rs + NFFT;
+  const out    = new Float64Array(outLen);
+  const norm   = new Float64Array(outLen);
+  const phPrev  = new Float64Array(nBins);
+  const phSynth = new Float64Array(nBins);
+  const phaseTrack = [];   // registra fase del bin k=5 por frame
+
+  // Inicializar desde frame 0
+  for (let k = 0; k < nBins; k++) {
+    phPrev[k]  = Math.atan2(frames[0].im[k], frames[0].re[k]);
+    phSynth[k] = phPrev[k];
+  }
+
+  for (let m = 0; m < nF; m++) {
+    const ro = new Float64Array(NFFT), io = new Float64Array(NFFT);
+
+    for (let k = 0; k < nBins; k++) {
+      const mag    = Math.sqrt(frames[m].re[k]**2 + frames[m].im[k]**2);
+      const phCurr = Math.atan2(frames[m].im[k], frames[m].re[k]);
+
+      if (!usePrincArg && m > 0) {
+        // ROTO: copia la fase de análisis sin actualizar.
+        // El error de solape OLA = 2π·k·(Rs-Ra)/NFFT ≠ 0
+        // → incoherencia en el punto de superposición de frames → timbre alterado
+        phSynth[k] = phCurr;
+
+      } else if (m > 0) {
+        // CORRECTO: Phase Unwrapping completo con princArg
+        const dPhi  = phCurr - phPrev[k];   // paso 1: diferencia cruda
+        const omega = 2*Math.PI*k*RA/NFFT;  // paso 2: avance esperado Ω_k
+        const resid = princArg(dPhi - omega);// paso 3: residual envuelto
+        phSynth[k] += (omega + resid) * Rs / RA; // paso 4: acumular
+      }
+
+      phPrev[k] = phCurr;
+      ro[k] = mag * Math.cos(phSynth[k]);
+      io[k] = mag * Math.sin(phSynth[k]);
+    }
+
+    phaseTrack.push(phSynth[9]);  // tracking bin 9 (~194 Hz, ≈ fundamental de 200 Hz)
+
+    // Simetría conjugada para IFFT real
+    for (let k = 1; k < NFFT/2; k++) { ro[NFFT-k] = ro[k]; io[NFFT-k] = -io[k]; }
+
+    // IFFT + Overlap-Add
+    fft.inv(ro, io);
+    const pos = m * Rs;
+    for (let i = 0; i < NFFT; i++) {
+      if (pos+i < outLen) {
+        out[pos+i]  += ro[i] * WIN[i];
+        norm[pos+i] += WIN[i]*WIN[i];
+      }
+    }
+  }
+
+  // Normalización OLA (divide por la suma de ventanas superpuestas)
+  for (let i = 0; i < outLen; i++)
+    if (norm[i] > 1e-10) out[i] /= norm[i];
+
+  // Normalización de pico a 0.85
+  let peak = 0;
+  for (let i = 0; i < outLen; i++) if (Math.abs(out[i]) > peak) peak = Math.abs(out[i]);
+  if (peak > 0.01) for (let i = 0; i < outLen; i++) out[i] = out[i]/peak * 0.85;
+
+  return { audio: out, phaseTrack };
+}
+
+// ════════════════════════════════════════════════════════════
+// PAULSTRETCH
+//
+// Paulstretch no es sólo "phase vocoder con fase aleatoria": necesita una
+// ventana bastante mayor y mucho solape. Con NFFT=1024 y Rs=1024 no había
+// solape de síntesis, por eso el botón Paulstretch sonaba granular/cortado.
+// ════════════════════════════════════════════════════════════
+function paulstretch(sig, stretch) {
+  const paulN = 4096;
+  const synthHop = paulN / 8;                         // 87.5% overlap
+  const analysisHop = Math.max(1, Math.round(synthHop / stretch));
+  const paulFFT = makeFFT(paulN);
+  const paulWin = makeHann(paulN);
+  const padded = new Float64Array(sig.length + paulN);
+  padded.set(sig, Math.floor(paulN / 2));
+
+  const nFrames = Math.max(1, Math.floor((padded.length - paulN) / analysisHop) + 1);
+  const outLen = (nFrames - 1) * synthHop + paulN;
+  const out = new Float64Array(outLen);
+  const norm = new Float64Array(outLen);
+  const nBins = paulN / 2 + 1;
+
+  for (let m = 0; m < nFrames; m++) {
+    const re = new Float64Array(paulN);
+    const im = new Float64Array(paulN);
+    const inPos = m * analysisHop;
+
+    for (let i = 0; i < paulN; i++)
+      re[i] = padded[inPos + i] * paulWin[i];
+
+    paulFFT.fwd(re, im);
+
+    const ro = new Float64Array(paulN);
+    const io = new Float64Array(paulN);
+    ro[0] = Math.hypot(re[0], im[0]);
+    ro[paulN/2] = Math.hypot(re[paulN/2], im[paulN/2]) * (Math.random() < 0.5 ? -1 : 1);
+
+    for (let k = 1; k < nBins - 1; k++) {
+      const mag = Math.hypot(re[k], im[k]);
+      const ph = Math.random() * 2 * Math.PI - Math.PI;
+      ro[k] = mag * Math.cos(ph);
+      io[k] = mag * Math.sin(ph);
+      ro[paulN-k] = ro[k];
+      io[paulN-k] = -io[k];
+    }
+
+    paulFFT.inv(ro, io);
+
+    const outPos = m * synthHop;
+    for (let i = 0; i < paulN; i++) {
+      out[outPos+i] += ro[i] * paulWin[i];
+      norm[outPos+i] += paulWin[i] * paulWin[i];
+    }
+  }
+
+  for (let i = 0; i < outLen; i++)
+    out[i] = norm[i] > 1e-8 ? out[i] / norm[i] : 0;
+
+  const targetLen = Math.round(sig.length * stretch);
+  const start = Math.floor(paulN / 2);
+  const audio = out.slice(start, Math.min(out.length, start + targetLen));
+
+  let sum2 = 0;
+  for (let i = 0; i < audio.length; i++) sum2 += audio[i] * audio[i];
+  const rms = Math.sqrt(sum2 / Math.max(1, audio.length));
+  if (rms > 1e-5) {
+    const gain = 0.16 / rms;
+    for (let i = 0; i < audio.length; i++) audio[i] *= gain;
+  }
+
+  let peak = 0;
+  for (let i = 0; i < audio.length; i++) if (Math.abs(audio[i]) > peak) peak = Math.abs(audio[i]);
+  if (peak > 0.9) for (let i = 0; i < audio.length; i++) audio[i] = audio[i] / peak * 0.9;
+
+  return { audio };
+}
+
+// ════════════════════════════════════════════════════════════
+// AUDIO ENGINE
+// ════════════════════════════════════════════════════════════
+let audioCtx = null;
+let buffers  = {};
+let activeSrc = null;
+let phTrackGood = [], phTrackBad = [];
+let generated = false;
+
+// Fuente de la señal de entrada: 'synth' o 'mic'
+let signalSource = 'synth';
+let recordedSignal = null;     // Float32Array resampleado a FS
+let mediaRecorder = null;
+let recordChunks = [];
+let isRecording = false;
+
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function makeAudioBuffer(ctx, f32, fs) {
+  const buf = ctx.createBuffer(1, f32.length, fs);
+  buf.getChannelData(0).set(f32);
+  return buf;
+}
+
+function f64to32(arr) {
+  const f = new Float32Array(arr.length);
+  for (let i = 0; i < arr.length; i++) f[i] = arr[i];
+  return f;
+}
+
+function playAudio(key) {
+  stopAll();
+  const ctx = getCtx();
+  if (!buffers[key]) return;
+  const src = ctx.createBufferSource();
+  src.buffer = buffers[key];
+  src.connect(ctx.destination);
+  src.start();
+  activeSrc = src;
+  document.querySelectorAll('.play-row .btn').forEach(b => b.classList.remove('active-play'));
+  const idMap = { orig:'btnPlayOrig', good:'btnPlayGood', bad:'btnPlayBad', paul:'btnPlayPaul' };
+  if (idMap[key]) document.getElementById(idMap[key]).classList.add('active-play');
+}
+
+function stopAll() {
+  if (activeSrc) { try { activeSrc.stop(); } catch(e){} activeSrc = null; }
+  document.querySelectorAll('.play-row .btn').forEach(b => b.classList.remove('active-play'));
+}
+
+// ════════════════════════════════════════════════════════════
+// FUENTE DE SEÑAL — sintética o micrófono
+// ════════════════════════════════════════════════════════════
+function setSource(src) {
+  signalSource = src;
+  const bSyn = document.getElementById('btnSrcSynth');
+  const bMic = document.getElementById('btnSrcMic');
+  bSyn.classList.toggle('active-play', src === 'synth');
+  bSyn.classList.toggle('btn-cyan',    src === 'synth');
+  bSyn.classList.toggle('btn-dim',     src !== 'synth');
+  bMic.classList.toggle('active-play', src === 'mic');
+  bMic.classList.toggle('btn-cyan',    src === 'mic');
+  bMic.classList.toggle('btn-dim',     src !== 'mic');
+  document.getElementById('micPanel').style.display = (src === 'mic') ? 'block' : 'none';
+  document.getElementById('btnGenerate').disabled   = (src === 'mic' && !recordedSignal);
+}
+
+function resampleTo(sig, fsIn, fsOut) {
+  if (fsIn === fsOut) return new Float32Array(sig);
+  const ratio = fsIn / fsOut;
+  const nOut  = Math.floor(sig.length / ratio);
+  const out   = new Float32Array(nOut);
+  for (let i = 0; i < nOut; i++) {
+    const t  = i * ratio;
+    const i0 = Math.floor(t), i1 = Math.min(i0+1, sig.length-1);
+    const f  = t - i0;
+    out[i]   = sig[i0]*(1-f) + sig[i1]*f;
+  }
+  return out;
+}
+
+async function toggleRecord() {
+  if (isRecording) return;
+  const statusEl = document.getElementById('recStatus');
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio:{
+      echoCancellation:false, noiseSuppression:false, autoGainControl:false
+    }});
+    recordChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = (e) => { if (e.data.size) recordChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob    = new Blob(recordChunks);
+      const arrBuf  = await blob.arrayBuffer();
+      const ctx     = getCtx();
+      const audioBuf = await ctx.decodeAudioData(arrBuf.slice(0));
+      const raw     = audioBuf.getChannelData(0);
+      const fsIn    = audioBuf.sampleRate;
+      // Recortar a 0.5 s (mismo orden que la señal sintética) y resamplear a FS
+      const targetDur = 0.5;
+      const nIn   = Math.min(raw.length, Math.floor(fsIn * targetDur));
+      const slice = raw.slice(0, nIn);
+      recordedSignal = resampleTo(slice, fsIn, FS);
+      let peak = 0;
+      for (const s of recordedSignal) if (Math.abs(s) > peak) peak = Math.abs(s);
+      if (peak > 0.01) for (let i = 0; i < recordedSignal.length; i++)
+        recordedSignal[i] = recordedSignal[i] / peak * 0.85;
+
+      isRecording = false;
+      statusEl.textContent = `✓ ${(recordedSignal.length/FS).toFixed(2)} s grabados — ya puedes "Generar Señales"`;
+      statusEl.style.color = 'var(--green)';
+      document.getElementById('btnRec').textContent   = '● Grabar de nuevo';
+      document.getElementById('btnRec').disabled      = false;
+      document.getElementById('btnPlayRec').disabled  = false;
+      document.getElementById('btnGenerate').disabled = false;
+      document.getElementById('wvRecorded').style.display = 'block';
+      await waitFrames(2);
+      drawWaveform('wvRecorded', recordedSignal, '#ffd740');
+    };
+    mediaRecorder.start();
+    isRecording = true;
+    document.getElementById('btnRec').disabled = true;
+    statusEl.style.color = 'var(--red)';
+    for (let s = 2; s >= 1; s--) {
+      statusEl.textContent = `● Grabando… ${s}`;
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    mediaRecorder.stop();
+    statusEl.textContent = 'Procesando…';
+    statusEl.style.color = 'var(--yellow)';
+  } catch (err) {
+    isRecording = false;
+    statusEl.textContent = '✗ No pude acceder al micrófono: ' + (err.message||err);
+    statusEl.style.color = 'var(--red)';
+    document.getElementById('btnRec').disabled = false;
+  }
+}
+
+function playRecording() {
+  if (!recordedSignal) return;
+  stopAll();
+  const ctx = getCtx();
+  const buf = makeAudioBuffer(ctx, recordedSignal, FS);
+  const src = ctx.createBufferSource();
+  src.buffer = buf; src.connect(ctx.destination); src.start();
+  activeSrc = src;
+}
+
+// ════════════════════════════════════════════════════════════
+// GENERATE ALL
+// ════════════════════════════════════════════════════════════
+async function generateAll() {
+  const alpha = parseFloat(document.getElementById('slAlphaAudio').value);
+  const Rs    = Math.round(RA * alpha);
+
+  document.getElementById('btnGenerate').disabled = true;
+
+  setStatus('Preparando señal de entrada…', true); await yieldUI();
+  let origSig;
+  if (signalSource === 'mic' && recordedSignal && recordedSignal.length > NFFT) {
+    origSig = new Float64Array(recordedSignal.length);
+    for (let i = 0; i < recordedSignal.length; i++) origSig[i] = recordedSignal[i];
+  } else {
+    origSig = genSignal();
+  }
+  const frames = computeSTFT(origSig);
+
+  setStatus('Phase Vocoder correcto (con princArg)…', true); await yieldUI();
+  const resGood = phaseVocoder(frames, Rs, true);
+
+  setStatus('Versión rota (sin corrección de fase)…', true); await yieldUI();
+  const resBad  = phaseVocoder(frames, Rs, false);
+
+  setStatus('Paulstretch (α×8, ventana grande + fase aleatoria)…', true); await yieldUI();
+  const resPaul = paulstretch(origSig, 8);
+
+  phTrackGood = resGood.phaseTrack;
+  phTrackBad  = resBad.phaseTrack;
+
+  setStatus('Creando buffers de audio…', true); await yieldUI();
+  const ctx = getCtx();
+
+  // Normalizar original
+  let peak = 0;
+  for (const s of origSig) if (Math.abs(s) > peak) peak = Math.abs(s);
+  const origNorm = origSig.map(s => s/peak*0.85);
+
+  buffers.orig = makeAudioBuffer(ctx, f64to32(origNorm), FS);
+  buffers.good = makeAudioBuffer(ctx, f64to32(resGood.audio), FS);
+  buffers.bad  = makeAudioBuffer(ctx, f64to32(resBad.audio),  FS);
+  buffers.paul = makeAudioBuffer(ctx, f64to32(resPaul.audio), FS);
+
+  generated = true;
+  setStatus('✓ Listo — presiona ▶ para escuchar cada versión', false);
+
+  // Mostrar controles
+  ['playRow','waveRow','sgRow','sgNote','phaseTrailWrap'].forEach(id => {
+    const el = document.getElementById(id);
+    el.style.display = id === 'waveRow' ? 'grid'
+                     : id === 'sgRow'   ? 'grid'
+                     : 'block';
+  });
+
+  // Esperar dos frames de render para que el layout se compute
+  // antes de leer offsetWidth en setupCanvas()
+  await waitFrames(2);
+
+  drawWaveform('wvOrig', f64to32(origNorm),      '#00e5ff');
+  drawWaveform('wvGood', f64to32(resGood.audio), '#00e676');
+  drawWaveform('wvBad',  f64to32(resBad.audio),  '#ff1744');
+  drawSpectrogram('sgGood', frames, '#00e676');
+  drawSpectrogram('sgBad',  frames, '#ff1744');
+  drawPhaseTrail();
+
+  document.getElementById('btnGenerate').disabled = false;
+}
+
+function yieldUI() { return new Promise(r => setTimeout(r, 16)); }
+function waitFrames(n) {
+  return new Promise(resolve => {
+    let count = 0;
+    function loop() { if (++count >= n) resolve(); else requestAnimationFrame(loop); }
+    requestAnimationFrame(loop);
+  });
+}
+
+function setStatus(msg, active) {
+  document.getElementById('statusMsg').innerHTML = active
+    ? `<div class="dot-pulse"></div>${msg}` : msg;
+}
+
+// ════════════════════════════════════════════════════════════
+// CANVAS RENDERING
+// ════════════════════════════════════════════════════════════
+function setupCanvas(id) {
+  const c = document.getElementById(id);
+  const dpr = window.devicePixelRatio || 1;
+  c.width  = (c.offsetWidth  || 400) * dpr;
+  c.height = (c.offsetHeight || 80)  * dpr;
+  return c;
+}
+
+function drawWaveform(id, pcm, color) {
+  const c = setupCanvas(id);
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+  for (let x = 0; x < c.width; x++) {
+    const idx = Math.floor(x * pcm.length / c.width);
+    const y   = c.height/2 - pcm[idx] * c.height * 0.45;
+    x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  ctx.beginPath(); ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 1;
+  ctx.moveTo(0,c.height/2); ctx.lineTo(c.width,c.height/2); ctx.stroke();
+}
+
+function drawSpectrogram(id, frames, hue) {
+  // Muestra el espectrograma de los frames de ANÁLISIS.
+  // Ambas versiones (correcta y rota) comparten la misma magnitud — ese es el punto pedagógico.
+  const c = setupCanvas(id);
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+
+  const nF    = frames.length;
+  const nBins = Math.floor(NFFT / 4);  // mostrar primer cuarto del espectro
+  const cellW = c.width  / nF;
+  const cellH = c.height / nBins;
+  const isGreen = (hue === '#00e676');
+
+  for (let m = 0; m < nF; m++) {
+    for (let k = 0; k < nBins; k++) {
+      const mag = Math.sqrt(frames[m].re[k]**2 + frames[m].im[k]**2);
+      const db  = 20 * Math.log10(mag + 1e-8);
+      const t   = Math.max(0, Math.min(1, (db + 80) / 80));
+      ctx.fillStyle = isGreen
+        ? `rgba(0,230,118,${t*0.9})`
+        : `rgba(255,23,68,${t*0.9})`;
+      ctx.fillRect(m*cellW, c.height - (k+1)*cellH, cellW+1, cellH+1);
+    }
+  }
+}
+
+function drawPhaseTrail() {
+  const c = setupCanvas('canvasPhase');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  const nF = Math.min(phTrackGood.length, phTrackBad.length);
+  if (nF === 0) return;
+
+  function drawTrail(track, color) {
+    ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+    for (let m = 0; m < nF; m++) {
+      const x  = (m / nF) * c.width;
+      const ph = ((track[m] % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+      const y  = c.height - (ph / (2*Math.PI)) * c.height;
+      m === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+  drawTrail(phTrackGood, '#00e676');
+  drawTrail(phTrackBad,  '#ff1744');
+}
+
+// ════════════════════════════════════════════════════════════
+// PANEL 0: EL PROBLEMA — solape de dos frames con/sin corrección de fase
+// ════════════════════════════════════════════════════════════
+let problemGood = false;
+let problemPhase = 0;
+
+function setProblemMode(good) {
+  problemGood = good;
+  document.getElementById('valProblemMode').textContent = good ? 'CON corrección' : 'SIN corrección';
+  document.getElementById('valProblemMode').style.color = good ? 'var(--green)' : 'var(--red)';
+  document.getElementById('btnProblemGood').style.opacity = good ? '1' : '0.4';
+  document.getElementById('btnProblemBad' ).style.opacity = good ? '0.4' : '1';
+  const amp = document.getElementById('problemAmpDisplay');
+  if (good) { amp.textContent = 'sinusoide limpia ✓'; amp.style.color = 'var(--green)'; }
+  else      { amp.textContent = 'cancelación parcial ✗'; amp.style.color = 'var(--red)'; }
+  drawProblem();
+}
+
+function drawProblem() {
+  const c = setupCanvas('canvasProblem');
+  const ctx = c.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = c.width, H = c.height;
+  ctx.clearRect(0,0,W,H);
+
+  // Tres carriles horizontales: Frame 1 arriba, Frame 2 medio, Suma abajo.
+  const leftPad = 70 * dpr;  // espacio para etiquetas
+  const drawW = W - leftPad - 10*dpr;
+  const laneH = H / 3;
+  const lane1Y = laneH * 0.5;
+  const lane2Y = laneH * 1.5;
+  const lane3Y = laneH * 2.5;
+  const ampPx = laneH * 0.33;
+
+  // 50% de solape → COLA con Hann → envelope de suma = 1 en la zona de solape
+  const frLen = drawW * 0.60;
+  const hop   = frLen * 0.50;              // hop = L/2  ⇒  50% overlap
+  const fr1Start = leftPad + drawW * 0.05;
+  const fr1End   = fr1Start + frLen;
+  const fr2Start = fr1Start + hop;
+  const fr2End   = fr2Start + frLen;
+  const olapStart = fr2Start, olapEnd = fr1End;
+
+  // Fondo del solape: una banda vertical que atraviesa los 3 carriles
+  ctx.fillStyle = 'rgba(255,215,64,0.10)';
+  ctx.fillRect(olapStart, 0, olapEnd - olapStart, H);
+  ctx.strokeStyle = 'rgba(255,215,64,0.4)';
+  ctx.setLineDash([5*dpr, 4*dpr]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(olapStart, 0); ctx.lineTo(olapStart, H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(olapEnd,   0); ctx.lineTo(olapEnd,   H); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Líneas base y etiquetas de cada carril
+  const lanes = [
+    { y: lane1Y, color:'#00e5ff', label:'Frame 1' },
+    { y: lane2Y, color:'#ff6d00', label:'Frame 2' },
+    { y: lane3Y, color: problemGood ? '#00e676' : '#ff1744', label:'SUMA (OLA)' },
+  ];
+  for (const L of lanes) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(leftPad, L.y); ctx.lineTo(W, L.y); ctx.stroke();
+    ctx.font = `bold ${11*dpr}px monospace`; ctx.textAlign = 'right';
+    ctx.fillStyle = L.color;
+    ctx.fillText(L.label, leftPad - 8*dpr, L.y + 4*dpr);
+  }
+
+  // Etiqueta del solape al pie
+  ctx.font = `bold ${10*dpr}px monospace`; ctx.textAlign = 'center';
+  ctx.fillStyle = '#ffd740';
+  ctx.fillText('← SOLAPE (OLA) →', (olapStart+olapEnd)/2, H - 4*dpr);
+
+  function hann(x, start, end) {
+    if (x < start || x > end) return 0;
+    const t = (x - start) / (end - start);
+    return 0.5 * (1 - Math.cos(2*Math.PI*t));
+  }
+
+  // Número PAR de ciclos por frame → hop = L/2 corresponde a ciclos enteros →
+  // en modo "correcto" phi2 = phi1 produce continuidad exacta.
+  const cyclesPerFrame = 4;
+  const k0 = 2*Math.PI * cyclesPerFrame / (fr1End - fr1Start);
+  const phi1 = problemPhase;
+  const phi2 = problemGood ? phi1 : phi1 + Math.PI;
+
+  function wave1(x) { return Math.sin(k0*(x - fr1Start) + phi1) * hann(x, fr1Start, fr1End); }
+  function wave2(x) { return Math.sin(k0*(x - fr2Start) + phi2) * hann(x, fr2Start, fr2End); }
+
+  // Carril 1: Frame 1
+  ctx.beginPath(); ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2*dpr;
+  for (let x = fr1Start; x <= fr1End; x += 1) {
+    const y = lane1Y - wave1(x) * ampPx;
+    x === fr1Start ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  // Carril 2: Frame 2
+  ctx.beginPath(); ctx.strokeStyle = '#ff6d00'; ctx.lineWidth = 2*dpr;
+  for (let x = fr2Start; x <= fr2End; x += 1) {
+    const y = lane2Y - wave2(x) * ampPx;
+    x === fr2Start ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  // Carril 3: Suma OLA = Frame 1 + Frame 2
+  // Pintamos también las dos contribuciones individuales en gris tenue en la zona
+  // de solape para que se vea "de dónde salió" la suma.
+  ctx.globalAlpha = 0.35;
+  ctx.beginPath(); ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1.2*dpr;
+  for (let x = olapStart; x <= olapEnd; x += 1) {
+    const y = lane3Y - wave1(x) * ampPx;
+    x === olapStart ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  ctx.beginPath(); ctx.strokeStyle = '#ff6d00'; ctx.lineWidth = 1.2*dpr;
+  for (let x = olapStart; x <= olapEnd; x += 1) {
+    const y = lane3Y - wave2(x) * ampPx;
+    x === olapStart ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  // La suma en negrita con glow
+  ctx.beginPath();
+  ctx.strokeStyle = problemGood ? '#00e676' : '#ff1744';
+  ctx.lineWidth = 2.8*dpr;
+  ctx.shadowColor = problemGood ? '#00e676' : '#ff1744';
+  ctx.shadowBlur = 8*dpr;
+  for (let x = fr1Start; x <= fr2End; x += 1) {
+    const sum = wave1(x) + wave2(x);
+    const y = lane3Y - sum * ampPx;
+    x === fr1Start ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  // Nota de diagnóstico en el carril de suma
+  ctx.font = `bold ${10*dpr}px sans-serif`; ctx.textAlign = 'left';
+  ctx.fillStyle = problemGood ? '#00e676' : '#ff1744';
+  ctx.fillText(
+    problemGood
+      ? '↑ sinusoide continua: los frames se refuerzan'
+      : '↑ deformación en el solape: se cancelan parcialmente',
+    leftPad + 8*dpr, lane3Y + ampPx + 16*dpr
+  );
+}
+
+function animateProblem() {
+  problemPhase += 0.04;
+  drawProblem();
+  requestAnimationFrame(animateProblem);
+}
+
+// ════════════════════════════════════════════════════════════
+// PANEL 1: DIAGRAMA DOS HOPS
+// ════════════════════════════════════════════════════════════
+function drawHops() {
+  const c = setupCanvas('canvasHops');
+  const ctx = c.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  ctx.clearRect(0,0,c.width,c.height);
+
+  const alpha  = parseFloat(document.getElementById('sliderAlpha').value);
+  const RaPx   = 40 * dpr;
+  const RsPx   = RaPx * alpha;
+  const nFrames = 7;
+  const fW     = RaPx;
+  const row1   = c.height * 0.20;
+  const row2   = c.height * 0.62;
+  const rH     = c.height * 0.26;
+
+  ctx.font = `bold ${11*dpr}px monospace`;
+  ctx.fillStyle = '#00e5ff';
+  ctx.fillText('ANÁLISIS (Rₐ = 128)', 4*dpr, row1 - 6*dpr);
+  ctx.fillStyle = '#ff6d00';
+  ctx.fillText(`SÍNTESIS (Rₛ = ${Math.round(128*alpha)}, α = ${alpha.toFixed(1)})`, 4*dpr, row2 - 6*dpr);
+
+  // Ejes de tiempo
+  ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 1;
+  for (const row of [row1, row2]) {
+    ctx.beginPath();
+    ctx.moveTo(0, row + rH + 5*dpr); ctx.lineTo(c.width, row + rH + 5*dpr);
+    ctx.stroke();
+  }
+
+  // Frames de análisis
+  for (let i = 0; i < nFrames; i++) {
+    const x = i * RaPx + 8*dpr;
+    if (x + fW > c.width - 4*dpr) break;
+    ctx.fillStyle = `rgba(0,229,255,${i%2 === 0 ? 0.18 : 0.10})`;
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.rect(x, row1, fW, rH); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#00e5ff'; ctx.font = `bold ${9*dpr}px monospace`;
+    ctx.fillText(`m=${i}`, x+3*dpr, row1 + rH - 4*dpr);
+  }
+
+  // Frames de síntesis
+  for (let i = 0; i < nFrames; i++) {
+    const x = i * RsPx + 8*dpr;
+    if (x + fW > c.width - 4*dpr) break;
+    ctx.fillStyle = `rgba(255,109,0,${i%2 === 0 ? 0.18 : 0.10})`;
+    ctx.strokeStyle = '#ff6d00'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.rect(x, row2, fW, rH); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#ff6d00'; ctx.font = `bold ${9*dpr}px monospace`;
+    ctx.fillText(`m=${i}`, x+3*dpr, row2 + rH - 4*dpr);
+  }
+
+  // Flecha conectora frame 0
+  if (Math.abs(alpha - 1.0) > 0.05) {
+    const ax = 8*dpr + fW/2, bx = 8*dpr + RsPx/2;
+    ctx.setLineDash([4*dpr, 3*dpr]);
+    ctx.strokeStyle = '#ffd740'; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(ax, row1 + rH + 5*dpr);
+    ctx.lineTo(bx, row2);
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+}
+
+document.getElementById('sliderAlpha').addEventListener('input', () => {
+  const a = parseFloat(document.getElementById('sliderAlpha').value);
+  document.getElementById('valAlpha').textContent = a.toFixed(1);
+  document.getElementById('rsDisplay').textContent = `Rₛ = ${Math.round(128*a)} muestras (síntesis)`;
+  document.getElementById('factorMsg').textContent =
+    a > 1 ? `Audio ${a.toFixed(1)}× más largo` :
+    a < 1 ? `Audio comprimido a ${(1/a).toFixed(1)}× la velocidad` : 'Sin cambio de duración';
+  drawHops();
+});
+
+document.getElementById('slAlphaAudio').addEventListener('input', () => {
+  const a = parseFloat(document.getElementById('slAlphaAudio').value);
+  document.getElementById('valAlphaAudio').textContent = `${a.toFixed(1)}×`;
+});
+
+// ════════════════════════════════════════════════════════════
+// PANEL 2: CALCULADORA DE PHASE UNWRAPPING
+// ════════════════════════════════════════════════════════════
+function updateCalc() {
+  const phPrev = parseFloat(document.getElementById('slPrev').value);
+  const phCurr = parseFloat(document.getElementById('slCurr').value);
+  const k      = parseInt(document.getElementById('slBin').value);
+
+  document.getElementById('vPrev').textContent = phPrev.toFixed(2) + ' rad';
+  document.getElementById('vCurr').textContent = phCurr.toFixed(2) + ' rad';
+  document.getElementById('vBin').textContent  = k;
+
+  const dPhi     = phCurr - phPrev;
+  const omega    = 2*Math.PI*k*RA/NFFT;
+  const rawResid = dPhi - omega;
+  const paResid  = princArg(rawResid);
+
+  document.getElementById('resDelta').textContent    = dPhi.toFixed(4) + ' rad';
+  document.getElementById('resOmega').textContent    = omega.toFixed(4) + ' rad';
+  document.getElementById('resRawResid').textContent = rawResid.toFixed(4) + ' rad' +
+    (Math.abs(rawResid) > Math.PI ? ' ⚠ fuera de [−π,π]' : '');
+  document.getElementById('resPrincArg').textContent = paResid.toFixed(4) + ' rad ✓';
+
+  // Simular acumulación 20 frames con α=4
+  const RsDemo = RA * 4;
+  let accBad = 0, accGood = 0;
+  for (let m = 1; m <= 20; m++) {
+    accBad  += (omega + rawResid) * RsDemo / RA;
+    accGood += (omega + paResid)  * RsDemo / RA;
+  }
+  document.getElementById('accBad').textContent  =
+    accBad.toFixed(2) + ' rad (≈' + (accBad/(2*Math.PI)).toFixed(1) + ' ciclos)';
+  document.getElementById('accGood').textContent =
+    accGood.toFixed(2) + ' rad (≈' + (accGood/(2*Math.PI)).toFixed(1) + ' ciclos)';
+
+  drawAccumChart(omega, rawResid, paResid, 20);
+}
+
+function drawAccumChart(omega, rawResid, paResid, M) {
+  const c = setupCanvas('canvasAccum');
+  const ctx = c.getContext('2d');
+  const dpr = window.devicePixelRatio||1;
+  ctx.clearRect(0,0,c.width,c.height);
+
+  const RsDemo = RA * 4;
+  let accBad = 0, accGood = 0;
+  const badV = [0], goodV = [0];
+  for (let m = 1; m <= M; m++) {
+    accBad  += (omega + rawResid) * RsDemo / RA;
+    accGood += (omega + paResid)  * RsDemo / RA;
+    badV.push(accBad); goodV.push(accGood);
+  }
+
+  // Márgenes para ejes
+  const padL = 44*dpr, padR = 10*dpr, padT = 10*dpr, padB = 20*dpr;
+  const plotW = c.width - padL - padR;
+  const plotH = c.height - padT - padB;
+
+  const all   = [...badV, ...goodV];
+  const mn    = Math.min(...all), mx = Math.max(...all);
+  const range = Math.max(mx - mn, 1);
+  const toY   = v => padT + plotH - (v - mn) / range * plotH;
+  const toX   = m => padL + (m / M) * plotW;
+
+  // Ejes
+  ctx.strokeStyle = '#3a4a5a'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH); ctx.lineTo(padL + plotW, padT + plotH);
+  ctx.stroke();
+
+  // Grid horizontal cada 2π con tick labels en ciclos
+  ctx.strokeStyle = '#1e2a3a'; ctx.setLineDash([3*dpr, 3*dpr]); ctx.lineWidth = 1;
+  ctx.font = `${9*dpr}px monospace`; ctx.fillStyle = '#6b7b8d'; ctx.textAlign = 'right';
+  const step = 2*Math.PI;
+  for (let v = Math.ceil(mn/step)*step; v <= mx; v += step) {
+    const y = toY(v);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
+    const cycles = Math.round(v / step);
+    ctx.fillText(`${cycles}·2π`, padL - 4*dpr, y + 3*dpr);
+  }
+  ctx.setLineDash([]);
+
+  // Ticks X (frames): cada 5 frames
+  ctx.fillStyle = '#6b7b8d'; ctx.textAlign = 'center';
+  for (let m = 0; m <= M; m += 5) {
+    const x = toX(m);
+    ctx.strokeStyle = '#3a4a5a';
+    ctx.beginPath(); ctx.moveTo(x, padT + plotH); ctx.lineTo(x, padT + plotH + 3*dpr); ctx.stroke();
+    ctx.fillText(m, x, padT + plotH + 13*dpr);
+  }
+
+  // Títulos de ejes
+  ctx.fillStyle = '#8ba3bd'; ctx.font = `bold ${9*dpr}px monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('frame m', padL + plotW/2, c.height - 4*dpr);
+  ctx.save();
+  ctx.translate(10*dpr, padT + plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('fase de síntesis φₛ (rad)', 0, 0);
+  ctx.restore();
+
+  // Traza roja (sin princArg)
+  ctx.beginPath(); ctx.strokeStyle = '#ff1744'; ctx.lineWidth = 2*dpr;
+  for (let m = 0; m <= M; m++)
+    m === 0 ? ctx.moveTo(toX(m), toY(badV[m])) : ctx.lineTo(toX(m), toY(badV[m]));
+  ctx.stroke();
+
+  // Traza verde (con princArg)
+  ctx.beginPath(); ctx.strokeStyle = '#00e676'; ctx.lineWidth = 2*dpr;
+  for (let m = 0; m <= M; m++)
+    m === 0 ? ctx.moveTo(toX(m), toY(goodV[m])) : ctx.lineTo(toX(m), toY(goodV[m]));
+  ctx.stroke();
+
+  // Leyenda
+  ctx.font = `${10*dpr}px monospace`; ctx.textAlign = 'left';
+  ctx.fillStyle = '#ff1744'; ctx.fillText('■ sin princArg', padL + 8*dpr, padT + 12*dpr);
+  ctx.fillStyle = '#00e676'; ctx.fillText('■ con princArg', padL + 8*dpr, padT + 24*dpr);
+}
+
+['slPrev','slCurr','slBin'].forEach(id =>
+  document.getElementById(id).addEventListener('input', () => {
+    updateCalc(); drawPhasor();
+  })
+);
+
+// ════════════════════════════════════════════════════════════
+// ANIMACIÓN DEL FASOR (Panel 2)
+// ════════════════════════════════════════════════════════════
+let phasorFrame   = 0;
+const PHASOR_MAX  = 30;
+let phasorAnimId  = null;
+let phasorPlaying = false;
+
+function computePhasorData() {
+  const k = parseInt(document.getElementById('slBin').value);
+  const omega = 2*Math.PI*k*RA/NFFT;
+  const fActual = (k * FS / NFFT) + 7;  // 7 Hz fuera del bin → residual no nulo
+  let analysisPrev = 0, synthGood = 0, synthBad = 0;
+  const data = [];
+  for (let m = 0; m <= PHASOR_MAX; m++) {
+    const rawAngle   = 2*Math.PI*fActual*m*RA/FS;
+    const analysisCurr = princArg(rawAngle);
+    if (m > 0) {
+      const dPhi       = analysisCurr - analysisPrev;
+      const rawResid   = dPhi - omega;
+      synthGood += (omega + princArg(rawResid)) * 4;
+      synthBad  += (omega + rawResid)           * 4;
+    }
+    data.push({ analysis: analysisCurr, good: princArg(synthGood), bad: princArg(synthBad) });
+    analysisPrev = analysisCurr;
+  }
+  return data;
+}
+
+function drawPhasor() {
+  const c = document.getElementById('canvasPhasor');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const cx = W/2, cy = H/2, R = Math.min(W,H)*0.37;
+
+  ctx.clearRect(0,0,W,H);
+  ctx.beginPath(); ctx.arc(cx,cy,R,0,2*Math.PI);
+  ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  ctx.font = '11px monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#3a4a5a';
+  ctx.fillText('0',    cx+R+14, cy);
+  ctx.fillText('π/2',  cx, cy-R-12);
+  ctx.fillText('±π',   cx-R-14, cy);
+  ctx.fillText('-π/2', cx, cy+R+12);
+
+  // Ticks
+  ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 1;
+  for (let a = 0; a < 2*Math.PI; a += Math.PI/6) {
+    ctx.beginPath();
+    ctx.moveTo(cx+Math.cos(a)*(R-4), cy-Math.sin(a)*(R-4));
+    ctx.lineTo(cx+Math.cos(a)*(R+4), cy-Math.sin(a)*(R+4));
+    ctx.stroke();
+  }
+
+  const data = computePhasorData();
+  if (phasorFrame >= data.length) phasorFrame = data.length-1;
+  const f = data[phasorFrame];
+
+  // Rastros de posiciones anteriores
+  const trailLen = Math.min(phasorFrame, 8);
+  for (let t = phasorFrame-trailLen; t < phasorFrame; t++) {
+    if (t < 0) continue;
+    const alpha = 0.06 + 0.12 * ((t-(phasorFrame-trailLen)) / trailLen);
+    const d = data[t];
+    ctx.beginPath(); ctx.arc(cx+Math.cos(d.good)*R, cy-Math.sin(d.good)*R, 3,0,2*Math.PI);
+    ctx.fillStyle = `rgba(0,230,118,${alpha})`; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+Math.cos(d.bad)*R, cy-Math.sin(d.bad)*R, 3,0,2*Math.PI);
+    ctx.fillStyle = `rgba(255,23,68,${alpha})`; ctx.fill();
+  }
+
+  function drawArrow(angle, color, lw, label) {
+    const x = cx+Math.cos(angle)*R, y = cy-Math.sin(angle)*R;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
+    ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.stroke();
+    ctx.beginPath(); ctx.arc(x,y,5,0,2*Math.PI);
+    ctx.fillStyle = color; ctx.fill();
+    if (label) {
+      ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = color;
+      ctx.fillText(label, cx+Math.cos(angle)*(R+20), cy-Math.sin(angle)*(R+20));
+    }
+  }
+  drawArrow(f.analysis, '#00e5ff', 1.5, 'A');
+  drawArrow(f.good,     '#00e676', 2.5, '✓');
+  drawArrow(f.bad,      '#ff1744', 2.5, '✗');
+
+  ctx.beginPath(); ctx.arc(cx,cy,3,0,2*Math.PI);
+  ctx.fillStyle = '#fff'; ctx.fill();
+
+  document.getElementById('phasorFrameDisp').textContent = `Frame ${phasorFrame}/${PHASOR_MAX}`;
+}
+
+function stepPhasor()  { phasorFrame = (phasorFrame+1)%(PHASOR_MAX+1); drawPhasor(); }
+function resetPhasor() { stopPhasorAnim(); phasorFrame = 0; drawPhasor(); }
+function togglePhasorAnim() { phasorPlaying ? stopPhasorAnim() : startPhasorAnim(); }
+
+function startPhasorAnim() {
+  phasorPlaying = true;
+  document.getElementById('btnPhasorPlay').textContent = '⏸ Pausar';
+  function tick() {
+    phasorFrame = (phasorFrame+1) % (PHASOR_MAX+1);
+    drawPhasor();
+    if (phasorPlaying) phasorAnimId = setTimeout(tick, 250);
+  }
+  tick();
+}
+function stopPhasorAnim() {
+  phasorPlaying = false;
+  if (phasorAnimId) { clearTimeout(phasorAnimId); phasorAnimId = null; }
+  document.getElementById('btnPhasorPlay').textContent = '▶ Animar';
+}
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+window.addEventListener('resize', () => {
+  drawProblem();
+  drawHops();
+  if (generated) { drawPhaseTrail(); }
+});
+
+setProblemMode(false);
+animateProblem();
+drawHops();
+updateCalc();
+drawPhasor();
+setSource('synth');
+</script>
+</body>
+</html>

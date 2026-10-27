@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo — Forma de onda y espectro en vivo (s02)</title>
+<style>
+  /* Estética "tinta y agua" del curso (2026-07-22): fondo claro frío,
+     serif para texto explicativo, sans para controles y ejes. */
+  :root {
+    --tinta: #1f2937;
+    --acento: #0f766e;     /* verde petróleo: espectro, énfasis, botón primario */
+    --linea: #34558b;      /* azul: forma de onda */
+    --papel: #fbfbf9;
+    --panel: #eef3f2;
+    --sans: -apple-system, 'Segoe UI', Helvetica, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 1.2rem;
+    background: var(--papel); color: var(--tinta);
+    font-family: Georgia, 'Times New Roman', serif;
+    max-width: 900px; margin-inline: auto;
+  }
+  h1 { font-size: 1.35rem; margin: 0 0 .2rem; }
+  .sesion { font-family: var(--sans); font-size: .8rem;
+            letter-spacing: .06em; text-transform: uppercase; color: var(--acento); }
+  .bajada { font-style: italic; margin: .3rem 0 1rem; }
+  .panel {
+    background: var(--panel); border-radius: 6px; padding: .9rem 1rem;
+    font-family: var(--sans); font-size: .9rem;
+    display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: flex-start;
+  }
+  .ctrl { display: flex; flex-direction: column; gap: .25rem; min-width: 200px; flex: 1; }
+  .ctrl label { font-weight: bold; }
+  .valor { font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--acento); }
+  button {
+    font-family: var(--sans); font-size: .95rem;
+    padding: .5rem 1rem; border: 1px solid var(--tinta); border-radius: 4px;
+    background: white; color: var(--tinta); cursor: pointer;
+  }
+  button.primario { background: var(--acento); color: white; border-color: var(--acento); }
+  button.secundario { border-color: var(--linea); color: var(--linea); }
+  button[disabled] { opacity: .45; cursor: default; }
+  fieldset { border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .2rem; }
+  canvas { width: 100%; height: 180px; display: block; background: white;
+           border: 1px solid #ccc; border-radius: 4px; }
+  .contenedor-canvas { position: relative; margin-top: 1rem; }
+  .rotulo { font-family: var(--sans); font-size: .8rem;
+            color: #555; margin: .8rem 0 -0.8rem; display: flex; justify-content: space-between; gap: .5rem; flex-wrap: wrap; }
+  .rotulo .conteo { font-weight: bold; color: var(--acento); }
+  #estado { font-family: var(--sans); font-size: .85rem;
+            margin-top: .6rem; color: var(--acento); min-height: 1.2em; }
+  .etiqueta-actual { font-family: var(--sans); font-size: .85rem; margin: .8rem 0 0;
+            color: var(--tinta); }
+  .etiqueta-actual b { color: var(--linea); }
+  .observar { border-left: 4px solid var(--acento); padding: .2rem 0 .2rem 1rem; margin-top: 1.2rem; }
+  .observar h2 { font-size: 1rem; margin: .2rem 0; }
+  ol { margin: .4rem 0; padding-left: 1.2rem; }
+  /* Velo del "modo taller": cubre el gráfico para forzar la predicción en papel
+     antes de revelar la pantalla (taller "retratos de sonido" de s02). */
+  .velo {
+    position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+    text-align: center; padding: 1rem; border-radius: 4px;
+    background: rgba(251,251,249,.96); font-family: var(--sans); font-size: .9rem;
+    color: var(--tinta); border: 1px dashed var(--linea); cursor: pointer;
+  }
+  .cubierto .velo { display: flex; }
+</style>
+</head>
+<body>
+<p class="sesion">Acústica Musical UC · Sesión 02</p>
+<h1>Forma de onda y espectro: dos vistas del mismo sonido</h1>
+<p class="bajada">Cante, silbee o hable al micrófono y compare el sonido
+como historia (presión vs. tiempo) y como receta (nivel vs. frecuencia).</p>
+
+<div class="panel">
+  <div class="ctrl" style="min-width:170px; flex:0">
+    <label>Fuente del sonido</label>
+    <button id="btnMic" class="primario">▶ Micrófono</button>
+    <button id="btnOsc">▶ Fuente interna</button>
+    <button id="btnStop">■ Detener</button>
+    <button id="btnFreeze">❄ Congelar imagen</button>
+    <button id="btnCaptura" class="secundario" title="Graba unos segundos y congela sola el resultado: forma de onda completa y espectro de máximos. Ideal para sonidos breves (un golpe).">🔴 Capturar golpe (5 s)</button>
+  </div>
+  <div class="ctrl">
+    <label for="frec">Frecuencia (fuente interna): <span class="valor" id="frecVal">440 Hz</span></label>
+    <input type="range" id="frec" min="0" max="1000" value="529">
+    <label>Timbre (fuente interna)</label>
+    <fieldset id="timbre">
+      <label><input type="radio" name="timbre" value="seno" checked> senoidal (tono puro)</label>
+      <label><input type="radio" name="timbre" value="sierra"> sierra (rico en parciales)</label>
+      <label><input type="radio" name="timbre" value="ruido"> ruido ("sss")</label>
+    </fieldset>
+  </div>
+  <div class="ctrl" style="min-width:180px">
+    <label for="gan">Ganancia (fuente interna): <span class="valor" id="ganVal">0,30</span></label>
+    <input type="range" id="gan" min="0" max="50" value="30">
+    <span style="font-size:.8rem; color:#555">El micrófono no se reproduce
+    por los parlantes (evita el acople); suena lo que usted haga sonar.</span>
+  </div>
+  <div class="ctrl" style="min-width:190px">
+    <label>Taller "retratos de sonido": ¿qué está retratando?</label>
+    <fieldset id="retrato">
+      <label><input type="radio" name="retrato" value="vocal"> vocal sostenida ("aaa")</label>
+      <label><input type="radio" name="retrato" value="silbido"> silbido</label>
+      <label><input type="radio" name="retrato" value="sss"> "sss" sostenido</label>
+      <label><input type="radio" name="retrato" value="golpe"> golpe seco</label>
+      <label><input type="radio" name="retrato" value="libre" checked> libre / explorando</label>
+    </fieldset>
+    <button id="btnCubrir" class="secundario">🙈 Cubrir (modo predicción)</button>
+  </div>
+</div>
+<div id="estado"></div>
+<p class="etiqueta-actual">Retratando ahora: <b id="tagActual">libre / explorando</b> —
+  congele la imagen para comparar con el dibujo hecho en la guía.</p>
+
+<p class="rotulo"><span id="rotuloOnda">Forma de onda — presión (amplitud relativa) vs. tiempo (ms)</span></p>
+<div class="contenedor-canvas" id="wrapOnda">
+  <canvas id="cOnda"></canvas>
+  <div class="velo" id="veloOnda" title="Clic para revelar">🙈 Dibuje su predicción en la
+    guía. Clic aquí (o en «Cubrir») para revelar la forma de onda real.</div>
+</div>
+<p class="rotulo"><span>Espectro — nivel (dB relativos, 0 = máximo) vs. frecuencia (Hz)</span>
+  <span class="conteo" id="conteoPicos"></span></p>
+<div class="contenedor-canvas" id="wrapEspectro">
+  <canvas id="cEspectro"></canvas>
+  <div class="velo" id="veloEspectro" title="Clic para revelar">🙈 ¿Cuántos picos apuesta
+    que va a ver? Anótelo y haga clic aquí para revelar el espectro real.</div>
+</div>
+
+<div class="observar">
+  <h2>¿Qué observar?</h2>
+  <ol>
+    <li><b>Apueste antes de mirar:</b> active "Cubrir", cante una vocal en
+        nota fija y anote cuántos picos (parciales) cree que va a mostrar
+        el espectro. Revele: ¿el contador de picos le dio la razón? ¿Puede
+        distinguir esos parciales mirando solo la forma de onda, sin el
+        espectro?</li>
+    <li>Silbido y vocal en la misma nota: ¿en cuál de las dos vistas se
+        distinguen antes, y qué diferencia exactamente? Mire el contador de
+        picos: ¿por qué el silbido casi no suma parciales?</li>
+    <li>Con la fuente interna, pase de senoidal a sierra sin cambiar la
+        frecuencia: ¿qué cambia en cada vista, y qué cambia en lo que oye?
+        Cambie a ruido: ¿por qué el contador de picos salta de un número
+        estable a uno que tiembla cuadro a cuadro?</li>
+    <li>Con el rótulo "¿qué está retratando?" marcado y la imagen
+        congelada, guarde uno a uno los 4 retratos de su grupo (vocal,
+        silbido, "sss", golpe): ¿cuál de los cuatro cambia más entre la
+        forma de onda y el espectro? ¿Cuál casi no cambia? Para el golpe
+        use "Capturar golpe": la forma de onda muestra los segundos
+        completos (ataque y extinción) y el espectro retiene los máximos.
+        ¿Cuántos picos sobreviven al golpe? ¿Se parece ese espectro al de
+        una vocal o al del "sss"?</li>
+  </ol>
+</div>
+
+<script>
+'use strict';
+// ---------------------------------------------------------------------------
+// Demo s02 — forma de onda y espectro simultáneos. Un solo concepto: el mismo
+// sonido admite dos representaciones (tiempo y frecuencia) que revelan cosas
+// distintas. Fuente principal: micrófono en vivo (getUserMedia). Si el
+// navegador niega el permiso, la demo ofrece automáticamente la fuente
+// interna (oscilador o ruido) — caso límite obligatorio del plan de s02.
+// El micrófono NUNCA se conecta a los parlantes (evita realimentación).
+// Parámetros que el profesor puede ajustar aquí:
+const F_MIN = 80, F_MAX = 2000;   // límites del slider de frecuencia (Hz, escala log)
+const FFT_ONDA = 2048;            // muestras de la ventana de forma de onda
+const FFT_ESPECTRO = 4096;        // tamaño de FFT del espectro
+const F_VISTA_MAX = 8000;         // techo del eje de frecuencia dibujado (Hz)
+const DB_MIN = -100, DB_MAX = 0;  // rango del eje de nivel (dB relativos)
+const DUR_CAPTURA = 5;            // segundos que graba "Capturar golpe"
+
+let ctxAudio = null;
+let analOnda = null, analEspectro = null;   // dos analizadores sobre la misma señal
+let ganancia = null;                        // solo para la fuente interna
+let fuente = null;                          // nodo actual (mic u oscilador/ruido)
+let streamMic = null;                       // stream del micrófono, para cerrarlo
+let tipoFuente = 'ninguna';                 // 'mic' | 'osc' | 'ninguna'
+let congelado = false;
+let cubierto = false;                       // "modo taller": vela los gráficos hasta revelar
+let grabador = null;                        // ScriptProcessor que copia la señal durante la captura
+let captura = null;                         // estado de "Capturar golpe" (ver iniciaCaptura)
+
+const $ = id => document.getElementById(id);
+
+// Etiquetas legibles del taller "retratos de sonido" (mismos 4 sonidos del plan de s02)
+const ETIQUETAS_RETRATO = {
+  vocal: 'vocal sostenida ("aaa")', silbido: 'silbido', sss: '"sss" sostenido',
+  golpe: 'golpe seco', libre: 'libre / explorando'
+};
+
+// Slider logarítmico: posición 0..1000 → F_MIN..F_MAX (posición 529 ≈ 440 Hz)
+function frecActual() {
+  return F_MIN * Math.pow(F_MAX / F_MIN, $('frec').value / 1000);
+}
+function ganActual() { return $('gan').value / 100; }   // tope 0,5: protección auditiva
+function timbreActual() { return document.querySelector('input[name=timbre]:checked').value; }
+
+function refrescaEtiquetas() {
+  $('frecVal').textContent = frecActual().toFixed(0) + ' Hz';
+  $('ganVal').textContent = ganActual().toFixed(2).replace('.', ',');
+}
+function avisa(msj) { $('estado').textContent = msj; }
+
+// --- infraestructura común --------------------------------------------------
+function preparaContexto() {
+  if (ctxAudio) return;
+  ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
+  analOnda = ctxAudio.createAnalyser();
+  analOnda.fftSize = FFT_ONDA;
+  analEspectro = ctxAudio.createAnalyser();
+  analEspectro.fftSize = FFT_ESPECTRO;
+  analEspectro.smoothingTimeConstant = 0.8;   // espectro estable a la vista
+  ganancia = ctxAudio.createGain();
+  ganancia.connect(ctxAudio.destination);     // SOLO la fuente interna pasa por aquí
+  // Grabador para "Capturar golpe": copia la señal cruda mientras dura la
+  // captura. ScriptProcessorNode está obsoleto pero funciona en todos los
+  // navegadores sin archivos externos (AudioWorklet exigiría un módulo aparte).
+  // Para que procese debe colgar de la salida: va por una ganancia CERO, así
+  // el micrófono sigue sin sonar por los parlantes.
+  grabador = ctxAudio.createScriptProcessor(4096, 1, 1);
+  const mudo = ctxAudio.createGain();
+  mudo.gain.value = 0;
+  grabador.connect(mudo);
+  mudo.connect(ctxAudio.destination);
+  grabador.onaudioprocess = ev => {
+    if (!captura || !captura.activa) return;
+    if (captura.nMuestras >= DUR_CAPTURA * ctxAudio.sampleRate) return;   // tope
+    const b = ev.inputBuffer.getChannelData(0);
+    captura.trozos.push(new Float32Array(b));
+    captura.nMuestras += b.length;
+  };
+}
+
+// Desconecta y apaga la fuente vigente (mic o interna)
+function apagaFuente() {
+  if (fuente) { try { fuente.disconnect(); fuente.stop && fuente.stop(); } catch (e) {} }
+  fuente = null;
+  if (streamMic) { streamMic.getTracks().forEach(t => t.stop()); streamMic = null; }
+  tipoFuente = 'ninguna';
+  if (captura) cierraCaptura(false);        // cambiar de fuente descarta la captura
+}
+
+// --- fuente 1: micrófono en vivo ---------------------------------------------
+async function iniciaMic() {
+  preparaContexto();
+  await ctxAudio.resume();
+  apagaFuente();
+  try {
+    streamMic = await navigator.mediaDevices.getUserMedia({ audio: {
+      echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+  } catch (err) {
+    // Caso límite: permiso negado o sin micrófono → ofrecer la fuente interna
+    avisa('No hay acceso al micrófono (' + err.name + '). ' +
+          'Se activó la fuente interna: explore con el oscilador.');
+    iniciaOsc();
+    return;
+  }
+  fuente = ctxAudio.createMediaStreamSource(streamMic);
+  fuente.connect(analOnda);
+  fuente.connect(analEspectro);
+  fuente.connect(grabador);                  // inerte salvo durante una captura
+  // Ojo: el micrófono NO se conecta a "ganancia" ni a los parlantes.
+  tipoFuente = 'mic';
+  congelado = false;
+  avisa('Micrófono activo: lo que suene en la sala aparece en ambas vistas.');
+}
+
+// --- fuente 2: interna (oscilador o ruido) -----------------------------------
+let bufRuido = null;
+function preparaRuido() {
+  if (bufRuido) return;
+  const sr = ctxAudio.sampleRate, n = sr * 2;          // 2 s de ruido blanco en bucle
+  bufRuido = ctxAudio.createBuffer(1, n, sr);
+  const d = bufRuido.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+}
+async function iniciaOsc() {
+  preparaContexto();
+  await ctxAudio.resume();
+  apagaFuente();
+  ganancia.gain.value = ganActual();
+  if (timbreActual() === 'ruido') {
+    preparaRuido();
+    const src = ctxAudio.createBufferSource();
+    src.buffer = bufRuido; src.loop = true;
+    fuente = src;
+  } else {
+    const osc = ctxAudio.createOscillator();
+    osc.type = (timbreActual() === 'sierra') ? 'sawtooth' : 'sine';
+    osc.frequency.value = frecActual();
+    fuente = osc;
+  }
+  fuente.connect(analOnda);
+  fuente.connect(analEspectro);
+  fuente.connect(grabador);
+  fuente.connect(ganancia);                  // la fuente interna SÍ suena
+  fuente.start();
+  tipoFuente = 'osc';
+  congelado = false;
+  avisa('Fuente interna sonando. Cambie timbre y frecuencia y mire ambas vistas.');
+}
+
+function detener() {
+  apagaFuente();
+  if (ctxAudio) ctxAudio.suspend();
+  avisa('Detenido.');
+}
+
+// Cambios de controles con la fuente interna sonando: reiniciarla al vuelo
+$('frec').addEventListener('input', () => {
+  refrescaEtiquetas();
+  if (tipoFuente === 'osc' && fuente && fuente.frequency)
+    fuente.frequency.value = frecActual();
+});
+document.querySelectorAll('input[name=timbre]').forEach(r =>
+  r.addEventListener('change', () => { if (tipoFuente === 'osc') iniciaOsc(); }));
+$('gan').addEventListener('input', () => {
+  refrescaEtiquetas();
+  if (ganancia) ganancia.gain.value = ganActual();
+});
+
+$('btnMic').addEventListener('click', iniciaMic);
+$('btnOsc').addEventListener('click', iniciaOsc);
+$('btnStop').addEventListener('click', detener);
+$('btnFreeze').addEventListener('click', () => {
+  if (captura && captura.lista) { cierraCaptura(false); return; }   // descongelar = volver al vivo
+  if (captura && captura.activa) { cierraCaptura(true); return; }    // grabando: congelar = terminar ya
+  congelado = !congelado;
+  $('btnFreeze').textContent = congelado ? '▶ Descongelar' : '❄ Congelar imagen';
+  if (congelado) avisa('Imagen congelada — retrato: ' + ETIQUETAS_RETRATO[retratoActual()] +
+                        '. Compárela con el dibujo de la guía.');
+});
+
+// --- "Capturar golpe": grabar DUR_CAPTURA segundos y congelar el resultado ----
+// Resuelve el problema práctico de los sonidos breves: golpear un vaso y
+// congelar a mano a tiempo no es posible. Al pulsar, la demo graba la señal
+// cruda; al cumplirse el tiempo (temporizador propio: no depende del bucle de
+// dibujo, que el navegador pausa si la pestaña se oculta), o al pulsar de nuevo,
+// se congela sola mostrando la forma de onda completa y el ESPECTRO DE MÁXIMOS:
+// la grabación se parte en tramos del mismo tamaño que la FFT en vivo y se
+// retiene el máximo de cada bin (así el golpe no se pierde aunque dure poco).
+// "Descongelar" vuelve al vivo.
+async function iniciaCaptura() {
+  if (captura && captura.activa) { cierraCaptura(true); return; }  // terminar antes
+  if (captura && captura.lista) cierraCaptura(false);
+  if (tipoFuente === 'ninguna') {            // sin fuente: arrancar el micrófono primero
+    await iniciaMic();
+    if (tipoFuente === 'ninguna') return;
+  }
+  congelado = false;
+  $('btnFreeze').textContent = '❄ Congelar imagen';
+  captura = {
+    activa: true, lista: false,
+    inicio: ctxAudio.currentTime,
+    trozos: [], nMuestras: 0,                // bloques crudos que entrega el grabador
+    onda: null,                              // señal completa, al cerrar
+    espectroMax: null,                       // se calcula al cerrar, desde la grabación
+    duracion: 0,
+    temporizador: setTimeout(() => cierraCaptura(true), DUR_CAPTURA * 1000 + 150)
+  };
+  avisa('Grabando ' + DUR_CAPTURA + ' s… haga sonar el golpe ahora.');
+}
+
+// FFT radix-2 en el lugar (re, im de largo potencia de 2). Suficiente para los
+// ~200 tramos de una captura; no hace falta nada más sofisticado.
+function fft(re, im) {
+  const n = re.length;
+  for (let i = 1, j = 0; i < n; i++) {            // permutación bit-reversa
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) { let t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const ang = -2 * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang);
+    for (let i = 0; i < n; i += len) {
+      let cr = 1, ci = 0;
+      for (let k = 0; k < len / 2; k++) {
+        const a = i + k, b = a + len / 2;
+        const tr = re[b] * cr - im[b] * ci, ti = re[b] * ci + im[b] * cr;
+        re[b] = re[a] - tr; im[b] = im[a] - ti;
+        re[a] += tr; im[a] += ti;
+        const ncr = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = ncr;
+      }
+    }
+  }
+}
+
+// Espectro de máximos de una señal: tramos de FFT_ESPECTRO muestras con salto
+// de un cuarto, ventana de Blackman y escala 20·log10(|X|/N) — la misma
+// convención que usa AnalyserNode, para que la captura y el vivo compartan eje.
+function espectroDeMaximos(onda) {
+  const N = FFT_ESPECTRO, salto = N / 4, nBins = N / 2;
+  const maximo = new Float32Array(nBins).fill(DB_MIN);
+  const ventana = new Float32Array(N);
+  for (let i = 0; i < N; i++)
+    ventana[i] = 0.42 - 0.5 * Math.cos(2 * Math.PI * i / N) + 0.08 * Math.cos(4 * Math.PI * i / N);
+  const re = new Float64Array(N), im = new Float64Array(N);
+  for (let ini = 0; ini + N <= onda.length || ini === 0; ini += salto) {
+    for (let i = 0; i < N; i++) { re[i] = (onda[ini + i] || 0) * ventana[i]; im[i] = 0; }
+    fft(re, im);
+    for (let k = 0; k < nBins; k++) {
+      const mag = Math.hypot(re[k], im[k]) / N;
+      const db = mag > 0 ? 20 * Math.log10(mag) : DB_MIN;
+      if (db > maximo[k]) maximo[k] = db;
+    }
+  }
+  return maximo;
+}
+
+// Termina la captura: con `conservar` la congela en pantalla; sin él, la
+// descarta y vuelve al vivo.
+function cierraCaptura(conservar) {
+  if (!captura) return;
+  clearTimeout(captura.temporizador);
+  if (conservar && captura.trozos.length) {
+    const n = captura.trozos.reduce((a, t) => a + t.length, 0);
+    const onda = new Float32Array(n);
+    let k = 0;
+    for (const t of captura.trozos) { onda.set(t, k); k += t.length; }
+    captura.onda = onda;
+    captura.duracion = n / ctxAudio.sampleRate;
+    captura.espectroMax = espectroDeMaximos(onda);
+    captura.trozos = [];
+    captura.activa = false; captura.lista = true;
+    congelado = true;
+    $('btnFreeze').textContent = '▶ Descongelar';
+    $('btnCaptura').textContent = '🔴 Capturar golpe (' + DUR_CAPTURA + ' s)';
+    avisa('Captura de ' + captura.duracion.toFixed(1).replace('.', ',') + ' s congelada — retrato: ' +
+          ETIQUETAS_RETRATO[retratoActual()] + '. Forma de onda completa (normalizada) y espectro de máximos.' +
+          ' «Descongelar» vuelve al vivo.');
+  } else {
+    captura = null;
+    congelado = false;
+    $('btnFreeze').textContent = '❄ Congelar imagen';
+    $('btnCaptura').textContent = '🔴 Capturar golpe (' + DUR_CAPTURA + ' s)';
+    $('rotuloOnda').textContent = 'Forma de onda — presión (amplitud relativa) vs. tiempo (ms)';
+  }
+}
+$('btnCaptura').addEventListener('click', iniciaCaptura);
+
+// Llamado en cada cuadro: solo la cuenta regresiva del botón (el cierre lo
+// hace el temporizador de iniciaCaptura)
+function avanzaCaptura() {
+  if (!captura || !captura.activa) return;
+  const resta = Math.max(0, DUR_CAPTURA - (ctxAudio.currentTime - captura.inicio));
+  $('btnCaptura').textContent = '■ Terminar (' + resta.toFixed(1).replace('.', ',') + ' s)';
+}
+
+// Taller "retratos de sonido": qué sonido de los 4 (o "libre") se está mostrando
+function retratoActual() {
+  return document.querySelector('input[name=retrato]:checked').value;
+}
+document.querySelectorAll('input[name=retrato]').forEach(r =>
+  r.addEventListener('change', () => { $('tagActual').textContent = ETIQUETAS_RETRATO[retratoActual()]; }));
+
+// "Modo taller": cubre ambos gráficos para forzar la predicción en papel antes
+// de revelar la pantalla (coincide con la secuencia "dibuja ANTES" del plan).
+function ponVelo(activo) {
+  cubierto = activo;
+  $('wrapOnda').classList.toggle('cubierto', cubierto);
+  $('wrapEspectro').classList.toggle('cubierto', cubierto);
+  $('btnCubrir').textContent = cubierto ? '👁 Revelar' : '🙈 Cubrir (modo predicción)';
+}
+$('btnCubrir').addEventListener('click', () => ponVelo(!cubierto));
+$('veloOnda').addEventListener('click', () => ponVelo(false));
+$('veloEspectro').addEventListener('click', () => ponVelo(false));
+
+// --- dibujo -------------------------------------------------------------------
+// Prepara un canvas nítido en pantallas retina; devuelve contexto y tamaño CSS.
+function lienzo(c) {
+  const dpr = window.devicePixelRatio || 1;
+  const w = c.clientWidth, h = 180;
+  if (c.width !== w * dpr) { c.width = w * dpr; c.height = h * dpr; }
+  const g = c.getContext('2d');
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { g, w, h };
+}
+const AZUL = getComputedStyle(document.documentElement).getPropertyValue('--linea');
+const TEAL = getComputedStyle(document.documentElement).getPropertyValue('--acento');
+
+// Detección simple de picos (parciales) del espectro: máximos locales que
+// superan el piso de ruido y están a UMBRAL_REL dB del pico más fuerte.
+// Es deliberadamente naíf (no es un detector "profesional"): alcanza para
+// que el número visible coincida con lo que el ojo cuenta como picos, y para
+// que el ruido ("sss") arroje un conteo inestable cuadro a cuadro (a
+// propósito: ilustra que ahí no hay periodicidad que contar).
+function detectaPicos(datos, nBins, hzPorBin) {
+  const UMBRAL_REL = 25;             // dB bajo el máximo: cuánto "asoma" un pico
+  const PISO = DB_MIN + 15;          // ignora el piso de ruido del analizador
+  const SEP_MIN_HZ = 25;             // separación mínima entre picos (evita duplicar un lóbulo)
+  const sepMinBins = Math.max(1, Math.round(SEP_MIN_HZ / hzPorBin));
+  let maxDb = -Infinity;
+  for (let i = 0; i < nBins; i++) if (datos[i] > maxDb) maxDb = datos[i];
+  const picos = [];
+  for (let i = 2; i < nBins - 2; i++) {
+    const v = datos[i];
+    if (v < PISO || v < maxDb - UMBRAL_REL) continue;
+    if (v >= datos[i - 1] && v >= datos[i + 1] && v > datos[i - 2] && v > datos[i + 2]) {
+      if (!picos.length || (i - picos[picos.length - 1]) > sepMinBins) picos.push(i);
+    }
+  }
+  return picos;
+}
+
+// Forma de onda de una captura completa: envolvente (mínimo y máximo por
+// columna de píxeles), normalizada al pico para que un golpe suave también se
+// vea; el eje va en segundos. Lo que importa aquí es el perfil temporal
+// (ataque brusco, extinción), no la amplitud absoluta.
+function dibujaOndaCaptura(g, w, h) {
+  // se reservan 18 px abajo para los rótulos del eje (la envolvente, normalizada,
+  // llena casi todo el alto y taparía las etiquetas)
+  const margen = 40, base = (h - 18) / 2, anchoUtil = w - margen - 8;
+  const onda = captura.onda, n = onda.length, dur = captura.duracion;
+  let pico = 0;
+  for (let i = 0; i < n; i++) { const a = Math.abs(onda[i]); if (a > pico) pico = a; }
+  const escala = pico > 0 ? base * 0.9 / pico : 0;
+  $('rotuloOnda').textContent = 'Forma de onda capturada — amplitud (normalizada al máximo) vs. tiempo (s)';
+
+  g.strokeStyle = '#999'; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(margen, base); g.lineTo(w - 8, base); g.stroke();
+  g.font = '11px Helvetica, Arial, sans-serif'; g.fillStyle = '#555';
+  g.fillText('amplitud', 4, 14);
+  const paso = dur > 3 ? 0.5 : 0.2;
+  for (let t = 0; t <= dur + 1e-9; t += paso) {
+    const x = margen + anchoUtil * t / dur;
+    g.beginPath(); g.moveTo(x, base - 3); g.lineTo(x, base + 3); g.stroke();
+    g.fillText(t.toFixed(1).replace('.', ',') + ' s', x - 10, h - 6);
+  }
+  g.fillStyle = AZUL;
+  const cols = Math.floor(anchoUtil);
+  for (let c = 0; c < cols; c++) {
+    const i0 = Math.floor(n * c / cols), i1 = Math.max(i0 + 1, Math.floor(n * (c + 1) / cols));
+    let mn = Infinity, mx = -Infinity;
+    for (let i = i0; i < i1; i++) { const v = onda[i]; if (v < mn) mn = v; if (v > mx) mx = v; }
+    const yTop = base - mx * escala, yBot = base - mn * escala;
+    g.fillRect(margen + c, yTop, 1, Math.max(1, yBot - yTop));
+  }
+}
+
+const datosOnda = new Float32Array(FFT_ONDA);
+function dibujaOnda() {
+  const { g, w, h } = lienzo($('cOnda'));
+  if (captura && captura.lista) { g.clearRect(0, 0, w, h); dibujaOndaCaptura(g, w, h); return; }
+  if (!congelado) g.clearRect(0, 0, w, h); else return;
+  const margen = 40, base = h / 2, anchoUtil = w - margen - 8;
+
+  // Se dibuja media ventana (nVisibles muestras): deja margen para que el
+  // disparo desplace el inicio sin salirse del buffer. El eje de tiempo se
+  // rotula con la duración REALMENTE visible (≈ 21 ms a 48 kHz).
+  const sr = ctxAudio ? ctxAudio.sampleRate : 48000;
+  const nVisibles = FFT_ONDA / 2;
+  const durVisMs = nVisibles / sr * 1000;             // duración visible en ms
+  g.strokeStyle = '#999'; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(margen, base); g.lineTo(w - 8, base); g.stroke();
+  g.font = '11px Helvetica, Arial, sans-serif'; g.fillStyle = '#555';
+  g.fillText('amplitud', 4, 14);
+  for (let ms = 0; ms <= durVisMs; ms += 5) {
+    const x = margen + anchoUtil * ms / durVisMs;
+    g.beginPath(); g.moveTo(x, base - 3); g.lineTo(x, base + 3); g.stroke();
+    g.fillText(ms.toFixed(0) + ' ms', x - 10, h - 6);
+  }
+  if (!analOnda) return;
+  analOnda.getFloatTimeDomainData(datosOnda);
+
+  // disparo simple (como un osciloscopio): parte en un cruce por cero
+  // ascendente para que las señales periódicas se vean quietas
+  let ini = 0;
+  for (let i = 1; i < FFT_ONDA / 2; i++) {
+    if (datosOnda[i - 1] <= 0 && datosOnda[i] > 0) { ini = i; break; }
+  }
+  g.strokeStyle = AZUL; g.lineWidth = 1.5;
+  g.beginPath();
+  for (let i = 0; i < nVisibles; i++) {
+    const x = margen + anchoUtil * i / nVisibles;
+    const y = base - datosOnda[ini + i] * base * 0.9;
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  }
+  g.stroke();
+}
+
+let datosEspectro = null;
+function dibujaEspectro() {
+  const { g, w, h } = lienzo($('cEspectro'));
+  const hayCaptura = captura && captura.lista;
+  if (!congelado || hayCaptura) g.clearRect(0, 0, w, h); else return;
+  const margen = 40, anchoUtil = w - margen - 8, altoUtil = h - 26;
+
+  // ejes: frecuencia (0..F_VISTA_MAX, lineal) y nivel en dB relativos
+  g.font = '11px Helvetica, Arial, sans-serif'; g.fillStyle = '#555';
+  g.strokeStyle = '#999'; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(margen, 6); g.lineTo(margen, 6 + altoUtil);
+  g.lineTo(w - 8, 6 + altoUtil); g.stroke();
+  for (let f = 0; f <= F_VISTA_MAX; f += 1000) {
+    const x = margen + anchoUtil * f / F_VISTA_MAX;
+    g.beginPath(); g.moveTo(x, 6 + altoUtil); g.lineTo(x, 9 + altoUtil); g.stroke();
+    g.fillText(f === 0 ? '0' : (f / 1000) + 'k', x - 8, h - 6);
+  }
+  g.fillText('Hz', w - 26, 16);
+  for (let db = DB_MAX; db >= DB_MIN; db -= 30) {
+    const y = 6 + altoUtil * (DB_MAX - db) / (DB_MAX - DB_MIN);
+    g.fillText(db + ' dB', 2, y + 4);
+  }
+  if (!analEspectro || !ctxAudio) { $('conteoPicos').textContent = ''; return; }
+  if (!datosEspectro) datosEspectro = new Float32Array(analEspectro.frequencyBinCount);
+  let datos;
+  if (hayCaptura) {
+    datos = captura.espectroMax;              // espectro de máximos de la captura
+  } else {
+    analEspectro.getFloatFrequencyData(datosEspectro);
+    datos = datosEspectro;
+  }
+
+  const hzPorBin = ctxAudio.sampleRate / analEspectro.fftSize;
+  const nBins = Math.min(datos.length, Math.ceil(F_VISTA_MAX / hzPorBin));
+  g.strokeStyle = TEAL; g.lineWidth = 1.5;
+  g.beginPath();
+  for (let i = 0; i < nBins; i++) {
+    const x = margen + anchoUtil * (i * hzPorBin) / F_VISTA_MAX;
+    const db = Math.max(DB_MIN, Math.min(DB_MAX, datos[i]));
+    const y = 6 + altoUtil * (DB_MAX - db) / (DB_MAX - DB_MIN);
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  }
+  g.stroke();
+
+  // Marca los picos (parciales) detectados y actualiza el contador rotulado:
+  // responde en vivo a la pregunta guía "¿cuántos picos va a mostrar el espectro?"
+  const picos = detectaPicos(datos, nBins, hzPorBin);
+  g.fillStyle = TEAL;
+  for (const i of picos) {
+    const x = margen + anchoUtil * (i * hzPorBin) / F_VISTA_MAX;
+    const db = Math.max(DB_MIN, Math.min(DB_MAX, datos[i]));
+    const y = 6 + altoUtil * (DB_MAX - db) / (DB_MAX - DB_MIN);
+    g.beginPath(); g.arc(x, y, 3.2, 0, 2 * Math.PI); g.fill();
+  }
+  $('conteoPicos').textContent = picos.length + (picos.length === 1 ? ' pico detectado' : ' picos detectados') +
+    (hayCaptura ? ' (espectro de máximos de la captura)' : ' (aprox., sobre el piso de ruido)');
+}
+
+function cuadro() {
+  avanzaCaptura();
+  dibujaOnda();
+  dibujaEspectro();
+  requestAnimationFrame(cuadro);
+}
+requestAnimationFrame(cuadro);
+refrescaEtiquetas();
+$('btnCaptura').textContent = '🔴 Capturar golpe (' + DUR_CAPTURA + ' s)';
+</script>
+</body>
+</html>

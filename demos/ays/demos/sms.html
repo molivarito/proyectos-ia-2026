@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelo Sinusoidal SMS — Demo Curso AyS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">AyS <span>Señales Musicales</span></a>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="../curso/temario.html">Temario</a>
+      <a href="../curso/ejemplos.html">Ejemplos</a>
+      <a href="../curso/inscripcion.html">Inscripción</a>
+    </nav>
+  </div>
+</header>
+
+<section class="demo-hero">
+  <div class="container">
+    <div class="crumbs"><a href="../index.html">Demos</a> · S07 · SPECTRA</div>
+    <h1>Modelo sinusoidal SMS: del píxel al parcial</h1>
+    <p class="lead">
+      Un violín tiene armónicos; no tiene "bins número 14 al 16". El modelo sinusoidal (McAulay-Quatieri, 1986;
+      Serra y Smith, 1990) pasa de la representación por bins a una representación física:
+      trayectorias de parciales que nacen, evolucionan y mueren. Con eso, el morphing entre dos timbres
+      distintos se vuelve trivial.
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="info-box accent-spectra">
+    <h3>Qué vas a aprender jugando con esto</h3>
+    <ul>
+      <li>Cómo se extraen <strong>picos espectrales</strong> con precisión sub-bin usando interpolación parabólica.</li>
+      <li>Cómo el algoritmo de tracking <strong>MQ</strong> conecta picos entre frames y arma trayectorias continuas.</li>
+      <li>Cómo se descompone el sonido en <strong>parciales + ruido residual</strong> (la idea SMS de Xavier Serra).</li>
+      <li>Cómo el <strong>morphing espectral</strong> entre dos sonidos crea un timbre intermedio que no existe en la naturaleza.</li>
+    </ul>
+  </div>
+
+  <div class="demo-frame">
+    <div class="frame-bar">
+      <span>Demo · Modelado Sinusoidal SMS</span>
+      <a href="../embeds/s07_sms.html" target="_blank">Abrir en pestaña nueva ↗</a>
+    </div>
+    <iframe src="../embeds/s07_sms.html" title="Demo de modelado sinusoidal SMS" loading="lazy"></iframe>
+  </div>
+
+  <div class="info-box">
+    <h3>Pruébalo así</h3>
+    <ol>
+      <li>Aplica el modelo a un violín sostenido. Mira cómo las trayectorias de cada armónico aparecen como líneas horizontales.</li>
+      <li>Sintetiza solo la parte determinista (parciales). Vas a oír un violín "demasiado limpio": le falta el aire del arco.</li>
+      <li>Sintetiza solo el residuo. Ese es el aire, el ruido del arco, los transitorios del ataque.</li>
+    </ol>
+  </div>
+
+  <div class="info-box accent-spectra">
+    <h3>En el curso vas a...</h3>
+    <ul>
+      <li>Implementar peak detection con interpolación parabólica y el tracking MQ.</li>
+      <li>Hacer el <strong>Fun Task 07 "The Morph"</strong>: lograr una interpolación fluida entre dos timbres distintos (violín y flauta, voz y oboe, etc.).</li>
+      <li>Entender por qué los mismos picos sirven para resíntesis (S07) o para identificación (S11, Shazam): es el mismo objeto, distinta función.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="cta-final">
+  <h2>¿Te gustó este demo?</h2>
+  <p>El curso completo tiene 10 demos como este, doce Fun Tasks semanales y un semestre de exploración guiada.</p>
+  <a href="../curso/inscripcion.html" class="btn btn-acento">Cómo inscribirse</a>
+  <a href="../index.html#demos" class="btn" style="background: transparent; border: 1.5px solid white; margin-left: 8px;">Ver más demos</a>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p style="margin: 0 0 8px 0;"><strong>Análisis y Síntesis de Señales Musicales</strong> · PUC Chile · 2026</p>
+    <p style="margin: 0; opacity: 0.85;">Prof. Patricio de la Cuadra · <a href="mailto:patodelac@gmail.com">patodelac@gmail.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+</body>
+</html>

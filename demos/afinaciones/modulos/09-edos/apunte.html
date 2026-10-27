@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M9 · Apunte — EDOs alternativos: 19, 31, 53</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../08-mapa-comparativo/apunte.html">◀ El mapa completo: comparar, elegir, componer</a><a class="nav-link" href="../10-justa-extendida/apunte.html">Justa entonación extendida ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m9.-edos-alternativos-por-qué-12-y-por-qué-19-31-y-53">M9. EDOs
+alternativos: ¿por qué 12? (y por qué 19, 31 y 53)</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Doce teclas negras y blancas por octava te parecen, a esta altura del
+curso, un hecho de la naturaleza — algo tan estable como que el agua
+moja o que la gravedad tira hacia abajo. Llevas ocho módulos calculando
+cents, comas y quintas del lobo, y en todos ellos la cifra “12” estaba
+fija, dada, fuera de discusión: lo único que cambiaba era <em>cómo</em>
+se repartía la coma pitagórica entre esas doce quintas, nunca
+<em>cuántas</em> notas por octava tenía el sistema. Pero detente un
+segundo y hazte la pregunta que ningún módulo anterior te obligó a
+responder: ¿por qué doce, y no once, ni trece, ni treinta y una?</p>
+<p>La respuesta histórica —“porque así se fue decantando la práctica
+occidental durante mil años, entre el monocordio pitagórico y el teclado
+de Bartolomeo Cristofori”— es cierta pero insuficiente. Hay una
+respuesta matemática, independiente de cualquier accidente histórico,
+que explica por qué 12 es una elección sorprendentemente buena para un
+número tan chico de notas, y que además revela que <strong>12 no es la
+única</strong> buena respuesta: hay otras, mejores en aspectos
+específicos, escondidas en la misma aritmética. Este módulo abre la Fase
+2 del curso preguntando, con toda seriedad matemática, qué significa
+“dividir la octava en N partes iguales” —un <strong>EDO</strong>
+(<em>Equal Division of the Octave</em>, “división igual de la octava”),
+la generalización directa del temperamento igual de M7 a cualquier
+número de notas— y usando una herramienta que hasta ahora no habíamos
+necesitado, las <strong>fracciones continuas</strong>, para encontrar
+sistemáticamente los mejores candidatos. Vas a descubrir que 12
+pertenece a una familia muy selecta de números —5, 12, 41, 53— que la
+aritmética privilegia por sobre todos los demás para aproximar la quinta
+pura, y que otros dos números que no pertenecen a esa familia —19 y 31—
+son, sin embargo, estrellas por una razón distinta y no menos poderosa:
+son las versiones “que cierran” de los mesotónicos que ya conoces de
+memoria desde M5. La pregunta “¿por qué 12?” tiene, al final de este
+módulo, una respuesta que cualquier compositor puede verificar con una
+calculadora — y que abre la puerta a un continente entero de música que
+el temperamento igual de 12 nunca podría tocar.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener frescos tres resultados:</p>
+<ul>
+<li><strong>M1 §6 y M7 §3.2</strong>: el <strong>cent</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c = 1200 \cdot \log_2(r)</annotation></semantics></math>)
+y la derivación de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+a partir de “doce semitonos idénticos = una octava”
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>s</mi><mn>12</mn></msup><mo>=</mo><mn>2</mn><mo>⇒</mo><mi>s</mi><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">s^{12}=2 \Rightarrow s = 2^{1/12}</annotation></semantics></math>).
+El temperamento igual de 12 es, en el lenguaje de este módulo, el
+<strong>12-EDO</strong>: la quinta mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mn>700.000</mn></mrow><annotation encoding="application/x-tex">2^{7/12} = 700.000</annotation></semantics></math>
+c, contra los
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>701.955</mn><annotation encoding="application/x-tex">701.955</annotation></semantics></math>
+c de la quinta pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>)
+— un déficit de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.955</mn><annotation encoding="application/x-tex">1.955</annotation></semantics></math>
+c (M7 §3.2).</li>
+<li><strong>M5</strong>: la familia mesotónica completa, parametrizada
+por la fracción de coma sintónica cedida en cada quinta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mi>a</mi><mo>×</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">Q(a) = 701.955 - a \times 21.506</annotation></semantics></math>
+c. Ya viste ahí los casos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">a=1/4</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">Q=696.578</annotation></semantics></math>
+c, terceras mayores puras) y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">a=1/3</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mn>694.786</mn></mrow><annotation encoding="application/x-tex">Q=694.786</annotation></semantics></math>
+c, terceras menores puras), y viste también (M5 §7) que la enarmonía se
+rompe en estos sistemas: Sol# y Lab (o, de forma general, cualquier par
+de notas “enarmónicas”) difieren en una gran diesis (41.059 c) y son, en
+la práctica, notas distintas que requieren teclas partidas para convivir
+en un mismo instrumento.</li>
+<li><strong>M2, ejercicio 9</strong>: ya viste, de pasada, que apilar 53
+quintas puras casi cierra con 31 octavas puras — la diferencia, llamada
+<strong>coma de Mercator</strong>, mide apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.615</mn><annotation encoding="application/x-tex">3.615</annotation></semantics></math>
+c, casi siete veces más pequeña que la coma pitagórica. Ese ejercicio
+prometía que el número 53 iba a reaparecer “como base de una afinación
+de 53 tonos por octava”. Es ahora.</li>
+</ul>
+<h2 id="desarrollo-teórico">3. Desarrollo teórico</h2>
+<h3
+id="formalizando-la-pregunta-qué-es-un-edo-y-cómo-aproxima-la-quinta">3.1
+Formalizando la pregunta: ¿qué es un EDO y cómo aproxima la quinta?</h3>
+<p>Un <strong>EDO de N notas</strong> divide la octava en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+pasos idénticos, cada uno de tamaño
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">1200/N</annotation></semantics></math>
+cents — exactamente la misma lógica de M7, generalizada de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">N=12</annotation></semantics></math>
+a cualquier entero positivo. El 12-EDO es, en este vocabulario, un caso
+particular entre infinitos posibles: el 19-EDO tiene pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>19</mn><mo>=</mo><mn>63.158</mn></mrow><annotation encoding="application/x-tex">1200/19 = 63.158</annotation></semantics></math>
+c; el 31-EDO, pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>38.710</mn></mrow><annotation encoding="application/x-tex">1200/31 = 38.710</annotation></semantics></math>
+c; el 53-EDO, pasos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>22.642</mn></mrow><annotation encoding="application/x-tex">1200/53 = 22.642</annotation></semantics></math>
+c.</p>
+<p>Dado un EDO de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+notas, ¿cuál de sus
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+pasos hace de “quinta”? La respuesta es la misma idea de siempre:
+elegimos el número entero de pasos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+que más se acerque a la quinta pura, es decir, el que minimiza
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>1200</mn><mi>k</mi><mi>/</mi><mi>N</mi><mo>−</mo><mn>701.955</mn><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|1200k/N - 701.955|</annotation></semantics></math>.
+Como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">701.955 = 1200 \times \log_2(3/2)</annotation></semantics></math>,
+esto equivale a redondear:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mi>N</mi><mo>⋅</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>×</mo><mn>0.584963</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">k = \text{round}\big(N \cdot \log_2(3/2)\big) = \text{round}(N \times 0.584963)</annotation></semantics></math></p>
+<p>Verifiquemos con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">N=12</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>0.584963</mn><mo>=</mo><mn>7.0196</mn></mrow><annotation encoding="application/x-tex">12 \times 0.584963 = 7.0196</annotation></semantics></math>,
+que redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">k=7</annotation></semantics></math>
+— la quinta del temperamento igual son, en efecto, 7 semitonos, y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>7</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>700.000</mn></mrow><annotation encoding="application/x-tex">1200 \times 7/12 = 700.000</annotation></semantics></math>
+c, tal como sabes de M7. El problema de “encontrar buenos EDOs para la
+quinta” se reduce entonces a un problema puramente aritmético:
+<strong>encontrar enteros
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+para los cuales
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(3/2)</annotation></semantics></math>
+esté especialmente bien aproximado por una fracción
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">k/N</annotation></semantics></math></strong>
+— es decir, para los cuales el redondeo de arriba deje un residuo
+minúsculo en vez de uno mediocre. Esa es, precisamente, la pregunta que
+resuelven las fracciones continuas.</p>
+<h3
+id="fracciones-continuas-el-algoritmo-para-encontrar-los-mejores-n">3.2
+Fracciones continuas: el algoritmo para encontrar los mejores N</h3>
+<p>Quieres aproximar el número
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.584963</mn></mrow><annotation encoding="application/x-tex">x = \log_2(3/2) = 0.584963</annotation></semantics></math>
+por una fracción
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">k/N</annotation></semantics></math>
+tan buena como sea posible para cada tamaño de denominador
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>.
+El algoritmo de <strong>fracciones continuas</strong> hace exactamente
+eso, y se ejecuta a mano con una receta de dos pasos que se repite:</p>
+<blockquote>
+<p>Dado un número
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>:
+(1) toma su parte entera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mi>x</mi><mo stretchy="false" form="postfix">⌋</mo></mrow><annotation encoding="application/x-tex">a = \lfloor x \rfloor</annotation></semantics></math>
+y anótala; (2) si queda una parte fraccionaria distinta de cero,
+invierte esa parte fraccionaria
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mtext mathvariant="normal">nuevo</mtext></msub><mo>=</mo><mn>1</mn><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>−</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x_{\text{nuevo}} = 1/(x-a)</annotation></semantics></math>)
+y repite desde (1) con el número nuevo.</p>
+</blockquote>
+<p>Apliquémoslo, paso a paso, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>=</mo><mn>0.584963</mn></mrow><annotation encoding="application/x-tex">x_0 = 0.584963</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>0.584963</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>0</mn><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>0.584963</mn><mo>−</mo><mn>0</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>0.584963</mn></mfrac><mo>=</mo><mn>1.709511</mn></mrow><annotation encoding="application/x-tex">a_0 = \lfloor 0.584963 \rfloor = 0 \qquad x_1 = \frac{1}{0.584963 - 0} = \frac{1}{0.584963} = 1.709511</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>1.709511</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>1</mn><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>2</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1.709511</mn><mo>−</mo><mn>1</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>0.709511</mn></mfrac><mo>=</mo><mn>1.409421</mn></mrow><annotation encoding="application/x-tex">a_1 = \lfloor 1.709511 \rfloor = 1 \qquad x_2 = \frac{1}{1.709511 - 1} = \frac{1}{0.709511} = 1.409421</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>2</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>1.409421</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>1</mn><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1.409421</mn><mo>−</mo><mn>1</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>0.409421</mn></mfrac><mo>=</mo><mn>2.442475</mn></mrow><annotation encoding="application/x-tex">a_2 = \lfloor 1.409421 \rfloor = 1 \qquad x_3 = \frac{1}{1.409421 - 1} = \frac{1}{0.409421} = 2.442475</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>3</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>2.442475</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>2</mn><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>4</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2.442475</mn><mo>−</mo><mn>2</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>0.442475</mn></mfrac><mo>=</mo><mn>2.260017</mn></mrow><annotation encoding="application/x-tex">a_3 = \lfloor 2.442475 \rfloor = 2 \qquad x_4 = \frac{1}{2.442475 - 2} = \frac{1}{0.442475} = 2.260017</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>4</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>2.260017</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>2</mn><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>5</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2.260017</mn><mo>−</mo><mn>2</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>0.260017</mn></mfrac><mo>=</mo><mn>3.845906</mn></mrow><annotation encoding="application/x-tex">a_4 = \lfloor 2.260017 \rfloor = 2 \qquad x_5 = \frac{1}{2.260017 - 2} = \frac{1}{0.260017} = 3.845906</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>5</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>3.845906</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>3</mn><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>6</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>3.845906</mn><mo>−</mo><mn>3</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>0.845906</mn></mfrac><mo>=</mo><mn>1.182164</mn></mrow><annotation encoding="application/x-tex">a_5 = \lfloor 3.845906 \rfloor = 3 \qquad x_6 = \frac{1}{3.845906 - 3} = \frac{1}{0.845906} = 1.182164</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>6</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>1.182164</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>1</mn><mspace width="2.0em"></mspace><msub><mi>x</mi><mn>7</mn></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1.182164</mn><mo>−</mo><mn>1</mn></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>0.182164</mn></mfrac><mo>=</mo><mn>5.489547</mn></mrow><annotation encoding="application/x-tex">a_6 = \lfloor 1.182164 \rfloor = 1 \qquad x_7 = \frac{1}{1.182164 - 1} = \frac{1}{0.182164} = 5.489547</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>7</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>5.489547</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">a_7 = \lfloor 5.489547 \rfloor = 5</annotation></semantics></math></p>
+<p>Los enteros que vas anotando en cada paso
+—<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo>,</mo><msub><mi>a</mi><mn>1</mn></msub><mo>,</mo><msub><mi>a</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">a_0, a_1, a_2, \dots</annotation></semantics></math>—
+forman la <strong>fracción continua</strong> de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>,
+que se escribe compactamente como una lista entre corchetes:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>;</mo><mspace width="0.167em"></mspace><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>2</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>2</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>3</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>1</mn><mo>,</mo><mspace width="0.167em"></mspace><mn>5</mn><mo>,</mo><mspace width="0.167em"></mspace><mi>…</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\log_2(3/2) = [0;\, 1,\, 1,\, 2,\, 2,\, 3,\, 1,\, 5,\, \dots]</annotation></semantics></math></p>
+<p>¿De qué sirve esta lista? De ella se construyen, con pura suma y
+multiplicación de enteros (sin más divisiones decimales), los
+<strong>convergentes</strong>: las mejores fracciones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">k/N</annotation></semantics></math>
+posibles para cada tamaño de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>.
+La receta es una recurrencia de dos términos: si llamas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>n</mi></msub><mi>/</mi><msub><mi>k</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">h_n/k_n</annotation></semantics></math>
+al convergente que usa los primeros
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n+1</annotation></semantics></math>
+términos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>a</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">a_0,\dots,a_n</annotation></semantics></math>,
+entonces</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><mo>⋅</mo><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub><mspace width="2.0em"></mspace><msub><mi>k</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><mo>⋅</mo><msub><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub></mrow><annotation encoding="application/x-tex">h_n = a_n \cdot h_{n-1} + h_{n-2} \qquad k_n = a_n \cdot k_{n-1} + k_{n-2}</annotation></semantics></math></p>
+<p>arrancando con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mrow><mi>−</mi><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>h</mi><mrow><mi>−</mi><mn>2</mn></mrow></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">h_{-1}=1, h_{-2}=0</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mrow><mi>−</mi><mn>1</mn></mrow></msub><mo>=</mo><mn>0</mn><mo>,</mo><msub><mi>k</mi><mrow><mi>−</mi><mn>2</mn></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k_{-1}=0, k_{-2}=1</annotation></semantics></math>.
+Construyámoslos todos, con los términos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>5</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,1,1,2,2,3,1,5]</annotation></semantics></math>
+que ya calculamos:</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>n</mi></msub><annotation encoding="application/x-tex">a_n</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub></mrow><annotation encoding="application/x-tex">h_n = a_n h_{n-1}+h_{n-2}</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><msub><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub></mrow><annotation encoding="application/x-tex">k_n = a_n k_{n-1}+k_{n-2}</annotation></semantics></math></th>
+<th>Convergente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>n</mi></msub><mi>/</mi><msub><mi>k</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">h_n/k_n</annotation></semantics></math></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">0\times1+0=0</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>×</mo><mn>0</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0\times0+1=1</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">0/1</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo><mn>0</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times0+1=1</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times1+0=1</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">1/1</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times1+0=1</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1\times1+1=2</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>𝟏</mn><mi mathvariant="bold">/</mi><mn>𝟐</mn></mrow><annotation encoding="application/x-tex">\mathbf{1/2}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">2\times1+1=3</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">2\times2+1=5</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>𝟑</mn><mi mathvariant="bold">/</mi><mn>𝟓</mn></mrow><annotation encoding="application/x-tex">\mathbf{3/5}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>3</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">2\times3+1=7</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>5</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">2\times5+2=12</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>𝟕</mn><mi mathvariant="bold">/</mi><mn>𝟏𝟐</mn></mrow><annotation encoding="application/x-tex">\mathbf{7/12}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>7</mn><mo>+</mo><mn>3</mn><mo>=</mo><mn>24</mn></mrow><annotation encoding="application/x-tex">3\times7+3=24</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>12</mn><mo>+</mo><mn>5</mn><mo>=</mo><mn>41</mn></mrow><annotation encoding="application/x-tex">3\times12+5=41</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>𝟐𝟒</mn><mi mathvariant="bold">/</mi><mn>𝟒𝟏</mn></mrow><annotation encoding="application/x-tex">\mathbf{24/41}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo><mn>24</mn><mo>+</mo><mn>7</mn><mo>=</mo><mn>31</mn></mrow><annotation encoding="application/x-tex">1\times24+7=31</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>×</mo><mn>41</mn><mo>+</mo><mn>12</mn><mo>=</mo><mn>53</mn></mrow><annotation encoding="application/x-tex">1\times41+12=53</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>𝟑𝟏</mn><mi mathvariant="bold">/</mi><mn>𝟓𝟑</mn></mrow><annotation encoding="application/x-tex">\mathbf{31/53}</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table></div>
+<p>(Los dos primeros convergentes,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">0/1</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">1/1</annotation></semantics></math>,
+son triviales — corresponden a “cero quintas por nota” y “una quinta por
+nota”, ambos inútiles musicalmente. Los interesantes empiezan en la fila
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n=2</annotation></semantics></math>.)</p>
+<p>Cada convergente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">k/N</annotation></semantics></math>
+tiene una propiedad notable, que es la razón de todo este aparataje:
+<strong>ninguna fracción con denominador menor o igual a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+aproxima mejor a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(3/2)</annotation></semantics></math>
+que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">k/N</annotation></semantics></math>.</strong>
+Es, literalmente, el récord de precisión para ese tamaño de denominador.
+Y como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+es, en nuestro problema, el número de notas del EDO, esto significa que
+<strong>los denominadores de los convergentes son los EDOs con la mejor
+quinta posible para su tamaño</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>2</mn><mo>,</mo><mn>5</mn><mo>,</mo><mn>12</mn><mo>,</mo><mn>41</mn><mo>,</mo><mn>53</mn><mo>,</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">N = 2, 5, 12, 41, 53, \dots</annotation></semantics></math></p>
+<h3 id="los-edos-estrella-de-la-quinta-5-12-41-53">3.3 Los EDOs
+“estrella” de la quinta: 5, 12, 41, 53</h3>
+<p>Verifiquemos qué tan buena es la quinta en cada uno de estos EDOs
+estrella. La quinta de un
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>-EDO
+usa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+pasos (el numerador del convergente correspondiente) y mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">1200k/N</annotation></semantics></math>
+cents:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+(pasos de quinta)</th>
+<th>Quinta (c)</th>
+<th>Error vs. 701.955 c</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>720.000</td>
+<td>+18.045</td>
+</tr>
+<tr>
+<td>12</td>
+<td>7</td>
+<td>700.000</td>
+<td>−1.955</td>
+</tr>
+<tr>
+<td>41</td>
+<td>24</td>
+<td>702.439</td>
+<td>+0.484</td>
+</tr>
+<tr>
+<td>53</td>
+<td>31</td>
+<td>701.887</td>
+<td><strong>−0.068</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>La progresión es espectacular: cada convergente sucesivo reduce el
+error de la quinta en un orden de magnitud. El salto de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">N=12</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>53</mn></mrow><annotation encoding="application/x-tex">N=53</annotation></semantics></math>
+mejora la quinta en un factor de casi 29 (de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.955</mn><annotation encoding="application/x-tex">1.955</annotation></semantics></math>
+c a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.068</mn><annotation encoding="application/x-tex">0.068</annotation></semantics></math>
+c), sin que ningún EDO intermedio pueda hacerlo mejor con menos de 53
+notas. Esto explica, con aritmética pura y sin apelar a ningún accidente
+histórico, tres fenómenos reales: por qué las escalas pentatónicas (5
+notas) aparecen de forma independiente en tantísimas culturas
+—<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">N=5</annotation></semantics></math>
+es, después de la trivialidad de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N=1</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">N=2</annotation></semantics></math>,
+el primer EDO capaz de dar una quinta reconocible—; por qué el
+temperamento igual de 12 es un óptimo sorprendentemente bueno para un
+número tan chico de notas —no hay ningún EDO entre 6 y 40 que lo supere
+en precisión de quinta—; y por qué, como vamos a desarrollar en la
+sección 3.6, tanto la tradición china antigua como la teoría del maqam
+turco llegaron, por caminos completamente independientes, al número 53.
+El EDO de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>41</mn></mrow><annotation encoding="application/x-tex">N=41</annotation></semantics></math>,
+en cambio, es una curiosidad matemática sin tradición musical propia que
+lo haya adoptado: la aritmética lo señala, pero ninguna cultura
+construyó un instrumento o una teoría alrededor de él — un buen
+recordatorio de que ser “óptimo” en un solo criterio no garantiza
+relevancia histórica.</p>
+<h3
+id="pero-la-quinta-no-es-todo-el-error-de-las-terceras-y-la-séptima-natural">3.4
+Pero la quinta no es todo: el error de las terceras y la séptima
+natural</h3>
+<p>Aquí viene el giro que motiva el resto del módulo. Todo lo anterior
+optimizó <strong>un solo intervalo</strong>, la quinta. Pero tú ya
+sabes, desde M1, que la tercera mayor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>),
+la tercera menor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>)
+y —desde el séptimo armónico de M1 §3.2— la <strong>séptima
+natural</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>968.826</mn><annotation encoding="application/x-tex">968.826</annotation></semantics></math>
+c exactos: verifica tú mismo que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.75</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>968.826</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(1.75)=968.826</annotation></semantics></math>)
+son igual de importantes para la música real. Calculemos, para un
+conjunto amplio de EDOs, el error de los cuatro intervalos a la vez —
+usando siempre la misma receta de la sección 3.1
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>N</mi><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">razón</mtext><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">k=\text{round}(N\log_2(\text{razón}))</annotation></semantics></math>,
+error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1200</mn><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">=1200k/N</annotation></semantics></math>
+menos el valor puro):</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math></th>
+<th>Quinta (702)</th>
+<th>3M (386)</th>
+<th>3m (316)</th>
+<th>7 natural (969)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12</td>
+<td>−1.955</td>
+<td>+13.686</td>
+<td>−15.641</td>
+<td>+31.174</td>
+</tr>
+<tr>
+<td>19</td>
+<td>−7.218</td>
+<td>−7.366</td>
+<td><strong>+0.148</strong></td>
+<td>−21.457</td>
+</tr>
+<tr>
+<td>22</td>
+<td>+7.136</td>
+<td>−4.496</td>
+<td>+11.631</td>
+<td>+12.992</td>
+</tr>
+<tr>
+<td>24</td>
+<td>−1.955</td>
+<td>+13.686</td>
+<td>−15.641</td>
+<td>−18.826</td>
+</tr>
+<tr>
+<td>31</td>
+<td>−5.181</td>
+<td><strong>+0.783</strong></td>
+<td>−5.964</td>
+<td><strong>−1.084</strong></td>
+</tr>
+<tr>
+<td>41</td>
+<td>+0.484</td>
+<td>−5.826</td>
+<td>+6.310</td>
+<td>−2.972</td>
+</tr>
+<tr>
+<td>53</td>
+<td>−0.068</td>
+<td>−1.408</td>
+<td>+1.340</td>
+<td>+4.759</td>
+</tr>
+<tr>
+<td>72</td>
+<td>−1.955</td>
+<td>−2.980</td>
+<td>+1.025</td>
+<td>−2.159</td>
+</tr>
+</tbody>
+</table></div>
+<p>(Todas las cifras verificadas con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>N</mi><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">razón</mtext><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">k=\text{round}(N\log_2(\text{razón}))</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">1200k/N</annotation></semantics></math>
+menos el valor puro correspondiente — 701.955, 386.314, 315.641 y
+968.826 c.)</p>
+<p>Antes de desarrollar 19 y 31 en detalle, dos observaciones inmediatas
+sobre la tabla. Primero, <strong>24 no mejora nada respecto de
+12</strong> en ninguna columna: como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>24</mn><mo>=</mo><mn>2</mn><mo>×</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">24 = 2\times12</annotation></semantics></math>,
+cada paso de 12-EDO se parte exactamente en dos, así que los mismos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+enteros (ahora duplicados) reproducen idénticos errores. El 24-EDO no es
+una mejor aproximación de nada — es el 12-EDO con “cuartos de tono”
+intercalados, útil para <em>acceder</em> a otras alturas (lo vas a ver
+en el contexto del maqam árabe en M13) pero inútil para <em>mejorar</em>
+la puntería de ningún intervalo tradicional. Segundo, mira la columna de
+la quinta: <strong>31-EDO tiene una quinta peor que la de
+12-EDO</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>5.181</mn></mrow><annotation encoding="application/x-tex">-5.181</annotation></semantics></math>
+c contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1.955</mn></mrow><annotation encoding="application/x-tex">-1.955</annotation></semantics></math>
+c). Si solo te importara la quinta, 31 sería una mala elección. Y sin
+embargo, 31-EDO es uno de los sistemas alternativos más célebres de toda
+la microtonalidad histórica. ¿Por qué? Porque no está optimizado para la
+quinta — está optimizado para otra cosa, y esa “otra cosa” es
+exactamente el tema de la sección 3.5.</p>
+<p><strong>Desarrollo completo para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>19</mn></mrow><annotation encoding="application/x-tex">N=19</annotation></semantics></math>.</strong>
+El paso es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>19</mn><mo>=</mo><mn>63.158</mn></mrow><annotation encoding="application/x-tex">1200/19 = 63.158</annotation></semantics></math>
+c. Para la quinta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>19</mn><mo>×</mo><mn>0.584963</mn><mo>=</mo><mn>11.114</mn></mrow><annotation encoding="application/x-tex">19 \times 0.584963 = 11.114</annotation></semantics></math>,
+que redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>11</mn></mrow><annotation encoding="application/x-tex">k=11</annotation></semantics></math>;
+la quinta mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>11</mn><mi>/</mi><mn>19</mn><mo>=</mo><mn>694.737</mn></mrow><annotation encoding="application/x-tex">1200\times11/19 = 694.737</annotation></semantics></math>
+c, un déficit de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>694.737</mn><mo>=</mo><mn>7.218</mn></mrow><annotation encoding="application/x-tex">701.955-694.737=7.218</annotation></semantics></math>
+c respecto de la pura — bastante peor que la de 12-EDO. Para la tercera
+mayor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>19</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.25</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>19</mn><mo>×</mo><mn>0.321928</mn><mo>=</mo><mn>6.117</mn></mrow><annotation encoding="application/x-tex">19\times\log_2(1.25) = 19\times0.321928=6.117</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">k=6</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>6</mn><mi>/</mi><mn>19</mn><mo>=</mo><mn>378.947</mn></mrow><annotation encoding="application/x-tex">1200\times6/19=378.947</annotation></semantics></math>
+c, un déficit de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>386.314</mn><mo>−</mo><mn>378.947</mn><mo>=</mo><mn>7.366</mn></mrow><annotation encoding="application/x-tex">386.314-378.947=7.366</annotation></semantics></math>
+c — también mediocre. Pero para la tercera <strong>menor</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>19</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>19</mn><mo>×</mo><mn>0.263034</mn><mo>=</mo><mn>4.998</mn></mrow><annotation encoding="application/x-tex">19\times\log_2(1.2)=19\times0.263034=4.998</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>5</mn><mi>/</mi><mn>19</mn><mo>=</mo><mn>315.789</mn></mrow><annotation encoding="application/x-tex">1200\times5/19=315.789</annotation></semantics></math>
+c, comparada con la tercera menor pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>315.641</mn><annotation encoding="application/x-tex">315.641</annotation></semantics></math>
+c) el error es de apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>315.789</mn><mo>−</mo><mn>315.641</mn><mo>=</mo><mn>0.148</mn></mrow><annotation encoding="application/x-tex">315.789-315.641=0.148</annotation></semantics></math>
+c — ¡casi exacta! El 19-EDO es mediocre en la quinta y en la tercera
+mayor, pero <strong>extraordinario</strong> en la tercera menor: una
+precisión comparable a la que 53-EDO logra en la quinta, lograda aquí
+con menos de la mitad de las notas.</p>
+<p><strong>Desarrollo completo para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>31</mn></mrow><annotation encoding="application/x-tex">N=31</annotation></semantics></math>.</strong>
+El paso es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>38.710</mn></mrow><annotation encoding="application/x-tex">1200/31=38.710</annotation></semantics></math>
+c. Quinta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>31</mn><mo>×</mo><mn>0.584963</mn><mo>=</mo><mn>18.134</mn></mrow><annotation encoding="application/x-tex">31\times0.584963=18.134</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>18</mn></mrow><annotation encoding="application/x-tex">k=18</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>18</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>696.774</mn></mrow><annotation encoding="application/x-tex">1200\times18/31=696.774</annotation></semantics></math>
+c, déficit de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>696.774</mn><mo>=</mo><mn>5.181</mn></mrow><annotation encoding="application/x-tex">701.955-696.774=5.181</annotation></semantics></math>
+c — mediocre, como ya vimos. Tercera mayor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>31</mn><mo>×</mo><mn>0.321928</mn><mo>=</mo><mn>9.980</mn></mrow><annotation encoding="application/x-tex">31\times0.321928=9.980</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">k=10</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>10</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>387.097</mn></mrow><annotation encoding="application/x-tex">1200\times10/31=387.097</annotation></semantics></math>
+c, comparada con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>386.314</mn><annotation encoding="application/x-tex">386.314</annotation></semantics></math>
+c el error es de solo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>387.097</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mn>0.783</mn></mrow><annotation encoding="application/x-tex">387.097-386.314=0.783</annotation></semantics></math>
+c — casi perfecta. Séptima natural:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>31</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.75</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>31</mn><mo>×</mo><mn>0.807355</mn><mo>=</mo><mn>25.028</mn></mrow><annotation encoding="application/x-tex">31\times\log_2(1.75)=31\times0.807355=25.028</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">k=25</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>25</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>967.742</mn></mrow><annotation encoding="application/x-tex">1200\times25/31=967.742</annotation></semantics></math>
+c, comparada con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>968.826</mn><annotation encoding="application/x-tex">968.826</annotation></semantics></math>
+c el error es de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>968.826</mn><mo>−</mo><mn>967.742</mn><mo>=</mo><mn>1.084</mn></mrow><annotation encoding="application/x-tex">968.826-967.742=1.084</annotation></semantics></math>
+c — también excelente. El 31-EDO es, en dos intervalos distintos y
+estructuralmente no relacionados entre sí (una tercera y una séptima),
+sorprendentemente preciso, mientras sacrifica la quinta que tanto le
+costó optimizar a 12, 41 y 53.</p>
+<h3
+id="la-conexión-con-m5-un-edo-es-un-temperamento-regular-que-cierra">3.5
+La conexión con M5: un EDO es un temperamento regular que cierra</h3>
+<p>Aquí está la pieza que faltaba, y es el corazón conceptual de este
+módulo. Recuerda la definición de M5: un <strong>temperamento
+mesotónico</strong> es una cadena de quintas todas del mismo tamaño
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>,
+elegido para hacer pura alguna tercera. Un <strong>EDO</strong>, visto
+desde ese mismo ángulo, es <em>exactamente lo mismo</em>: una cadena de
+quintas todas del mismo tamaño
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">1200k/N</annotation></semantics></math>
+cents), con la única diferencia de que, al cabo de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+pasos, la cadena <strong>cierra exactamente</strong> sobre sí misma
+—vuelve a la nota de partida, sin quinta del lobo, sin ninguna nota
+“sobrante”— porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+es, precisamente, el número de notas del sistema. Todo temperamento
+mesotónico de M5 usa 12 teclas y dejaba, forzosamente, un cabo suelto
+(la quinta del lobo, sección 5 de M5); un EDO es lo que se obtiene si,
+en cambio, permites que la cadena tenga tantas teclas como haga falta
+para que <strong>no sobre nada</strong>.</p>
+<p>Esto predice algo verificable con las cifras que ya tienes: si el
+19-EDO tiene una quinta de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>694.737</mn><annotation encoding="application/x-tex">694.737</annotation></semantics></math>
+c, y en M5 viste que el mesotónico de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">1/3</annotation></semantics></math>
+de coma sintónica tiene una quinta de</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mfrac><mn>21.506</mn><mn>3</mn></mfrac><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>7.169</mn><mo>=</mo><mn>694.786</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">Q(1/3) = 701.955 - \frac{21.506}{3} = 701.955 - 7.169 = 694.786 \text{ c}</annotation></semantics></math></p>
+<p>la diferencia entre ambas es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>694.786</mn><mo>−</mo><mn>694.737</mn><mo>=</mo><mn>0.049</mn></mrow><annotation encoding="application/x-tex">694.786 - 694.737 = 0.049</annotation></semantics></math>
+cents — menos de un veinteavo de cent, absolutamente inaudible.
+<strong>El 19-EDO es, en la práctica, el mesotónico de 1/3 de coma que
+cierra perfectamente en 19 notas en vez de dejar una quinta del lobo en
+12.</strong> Y no es casualidad que la tercera menor le salga casi pura
+(sección 3.4): el mesotónico de 1/3 de coma fue diseñado en M5
+exactamente para eso (“3 quintas menos 2 octavas = tercera menor pura”),
+y el 19-EDO hereda esa propiedad por ser, esencialmente, la misma
+quinta.</p>
+<p>Repitamos la comprobación con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>31</mn><annotation encoding="application/x-tex">31</annotation></semantics></math>-EDO
+y el mesotónico de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">1/4</annotation></semantics></math>
+de coma (el clásico de M5, el que hace puras las terceras mayores):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mfrac><mn>21.506</mn><mn>4</mn></mfrac><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>5.377</mn><mo>=</mo><mn>696.578</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">Q(1/4) = 701.955 - \frac{21.506}{4} = 701.955 - 5.377 = 696.578 \text{ c}</annotation></semantics></math></p>
+<p>Comparado con la quinta del 31-EDO
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>696.774</mn><annotation encoding="application/x-tex">696.774</annotation></semantics></math>
+c), la diferencia es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>696.774</mn><mo>−</mo><mn>696.578</mn><mo>=</mo><mn>0.196</mn></mrow><annotation encoding="application/x-tex">696.774 - 696.578 = 0.196</annotation></semantics></math>
+cents — otra vez, imperceptible. <strong>El 31-EDO es el mesotónico de
+1/4 de coma de Vicentino y Huygens, cerrado en 31 notas en vez de
+12.</strong> Toda la pureza de las ocho terceras mayores que calculaste
+en M5 §4.3 se conserva; lo único que cambia es que ahora hay
+<strong>31</strong> terceras mayores puras en vez de solo 8, porque el
+sistema entero, no un subconjunto de 12 teclas, cierra limpiamente sobre
+la cadena de quintas atemperadas.</p>
+<p>La consecuencia más audible de este parentesco es la que ya viste,
+con otro disfraz, en M5 §7: <strong>la enarmonía rota deja de ser un
+defecto y se vuelve vocabulario disponible.</strong> En 12-EDO, Do# y
+Reb son la misma tecla por construcción — el sistema entero está
+diseñado para que lo sean, porque solo hay 12 teclas para 12 clases de
+altura circulares. Pero en 19-EDO y 31-EDO hay <em>suficientes</em>
+teclas para que Do# y Reb, que en la cadena de quintas caen en
+posiciones distintas, tengan cada una su propia tecla, su propia
+frecuencia, y su propia función musical. Calculemos dónde cae cada una
+en 19-EDO usando la misma lógica de M5 (Do# está a 7 quintas hacia
+arriba de Do; Reb está a 5 quintas hacia abajo):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Do#(19-EDO):</mtext><mspace width="0.222em"></mspace><mn>7</mn><mo>×</mo><mn>11</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>19</mn></mrow><mo>=</mo><mn>1</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> paso</mtext></mrow><mo>=</mo><mn>63.158</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow><mspace width="2.0em"></mspace><mtext mathvariant="normal">Reb (19-EDO):</mtext><mspace width="0.222em"></mspace><mo>−</mo><mn>5</mn><mo>×</mo><mn>11</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>19</mn></mrow><mo>=</mo><mn>2</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> pasos</mtext></mrow><mo>=</mo><mn>126.316</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> c</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{Do\# (19-EDO):} \ 7 \times 11 \bmod 19 = 1 \text{ paso} = 63.158 \text{ c} \qquad \text{Reb (19-EDO):} \ -5\times11 \bmod 19 = 2 \text{ pasos} = 126.316 \text{ c}</annotation></semantics></math></p>
+<p>Reb queda <strong>63.158 cents por encima</strong> de Do# — casi un
+paso entero de diferencia, y en la misma dirección que en el mesotónico
+de M5 (donde Lab también quedaba por encima de Sol#, sección 7 de ese
+módulo): el semitono cromático (Do–Do#, 1 paso,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>63.158</mn><annotation encoding="application/x-tex">63.158</annotation></semantics></math>
+c) es más angosto que el diatónico (Do#–Re, 2 pasos,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>126.316</mn><annotation encoding="application/x-tex">126.316</annotation></semantics></math>
+c), exactamente la firma mesotónica que ya reconoces. En 31-EDO el
+cálculo da Do# a 2 pasos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>77.419</mn><annotation encoding="application/x-tex">77.419</annotation></semantics></math>
+c) y Reb a 3 pasos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>116.129</mn><annotation encoding="application/x-tex">116.129</annotation></semantics></math>
+c) — Reb otra vez por encima de Do#, esta vez por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>38.710</mn><annotation encoding="application/x-tex">38.710</annotation></semantics></math>
+c (un paso). Vicentino y Huygens, sin saberlo en términos de “EDO”, ya
+vivían en un mundo con esta distinción disponible: sus instrumentos —el
+archicémbalo de 1555 y los teclados de 31 tonos que Huygens describió en
+1691— tenían literalmente una tecla para cada una.</p>
+<h3 id="edo-el-pitagórico-justo-casi-perfecto">3.6 53-EDO: el
+pitagórico-justo casi perfecto</h3>
+<p>El 53-EDO merece su propia sección porque su comportamiento es
+cualitativamente distinto al de 19 y 31. Donde 19 y 31 se parecen a
+mesotónicos (quintas <em>angostas</em>, terceras protegidas), el 53-EDO
+se parece a la <strong>pitagórica</strong> de M3: su quinta
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>701.887</mn><annotation encoding="application/x-tex">701.887</annotation></semantics></math>
+c) es <em>casi pura</em>, apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.068</mn><annotation encoding="application/x-tex">0.068</annotation></semantics></math>
+c corta, y por eso el orden de sus semitonos reproduce el de la
+pitagórica y no el del mesotónico. Verifiquemos: Do# en 53-EDO cae a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>31</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>53</mn></mrow><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">7\times31 \bmod 53 = 5</annotation></semantics></math>
+pasos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>113.208</mn><annotation encoding="application/x-tex">113.208</annotation></semantics></math>
+c), y Reb cae a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>5</mn><mo>×</mo><mn>31</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>53</mn></mrow><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">-5\times31 \bmod 53 = 4</annotation></semantics></math>
+pasos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>90.566</mn><annotation encoding="application/x-tex">90.566</annotation></semantics></math>
+c) — aquí es <strong>Do# el que queda por encima de Reb</strong>, por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>22.642</mn><annotation encoding="application/x-tex">22.642</annotation></semantics></math>
+c (exactamente un paso), el mismo orden que el limma pitagórico
+(angosto) contra el apotome (ancho) de M3, no el orden mesotónico. El
+53-EDO no es un mesotónico disfrazado: es la pitagórica, llevada a su
+cierre casi perfecto.</p>
+<p>¿De dónde sale esa precisión? Ya lo viste en M2, ejercicio 9: 53
+quintas puras casi igualan 31 octavas puras, con un remanente de apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.615</mn><annotation encoding="application/x-tex">3.615</annotation></semantics></math>
+cents — la <strong>coma de Mercator</strong>. Ese remanente, repartido
+entre las 53 quintas de la cadena que sí cierra en 53-EDO, deja un
+déficit por quinta de</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>3.615</mn><mn>53</mn></mfrac><mo>=</mo><mn>0.0682</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">\frac{3.615}{53} = 0.0682 \text{ cents}</annotation></semantics></math></p>
+<p>que coincide, cifra a cifra, con el error de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.068</mn><annotation encoding="application/x-tex">0.068</annotation></semantics></math>
+c que calculamos en la sección 3.3. No es una coincidencia: es la misma
+estructura algebraica de siempre (M5 §5, el “presupuesto de error”)
+aplicada a un ciclo que cierra en 53 pasos en vez de 12. El 53-EDO
+reparte, entre sus 53 quintas, no la coma pitagórica entera (23.460 c,
+como el 12-EDO) sino la coma de Mercator, casi siete veces más pequeña —
+de ahí que cada quinta individual quede tan cerca de la pureza.</p>
+<p>Hay una segunda propiedad notable del 53-EDO que conecta con dos
+tradiciones históricas independientes. Su paso,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>22.642</mn></mrow><annotation encoding="application/x-tex">1200/53 = 22.642</annotation></semantics></math>
+c, es casi exactamente del tamaño de “una coma”: está entre la coma
+sintónica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>21.506</mn><annotation encoding="application/x-tex">21.506</annotation></semantics></math>
+c) y la pitagórica
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>23.460</mn><annotation encoding="application/x-tex">23.460</annotation></semantics></math>
+c), y de hecho recibe nombre propio en la literatura de afinación — la
+<strong>coma de Holder</strong>. Esto llevó, por caminos completamente
+independientes, a que el astrónomo y músico chino <strong>Jing
+Fang</strong> (siglo I a.C.) calculara ya que 53 quintas puras casi
+cierran 31 octavas —quince siglos antes que el matemático
+<strong>Nicolaus Mercator</strong>, que llegó al mismo resultado en la
+década de 1670 en Europa— y a que la teoría del <strong>maqam
+turco</strong> (sistema Arel-Ezgi-Uzdilek, que vas a ver con más detalle
+en M13) use el “comma” de 53-EDO como unidad de medida teórica para
+describir los intervalos del maqam, contando cuántas de esas 53 comas
+mide cada segundo o tercero del sistema, aunque en la práctica
+interpretativa real la afinación sea más flexible que cualquier grilla
+fija. El físico inglés <strong>R. H. M. Bosanquet</strong> llevó la idea
+a un instrumento concreto en la década de 1870: construyó un “armonio
+enarmónico” de 53 notas por octava con un <strong>teclado
+generalizado</strong> — un diseño donde el patrón geométrico de las
+teclas es el mismo en cualquier tonalidad, así que una vez que un
+intérprete aprende una digitación, puede transportarla mecánicamente a
+cualquier otra tonalidad sin volver a aprender nada, algo imposible en
+un teclado convencional de 12 teclas por octava.</p>
+<h3 id="historia-y-práctica-de-vicentino-a-la-comunidad-xenarmónica">3.7
+Historia y práctica: de Vicentino a la comunidad xenarmónica</h3>
+<p>Cerremos la parte teórica reuniendo, en una sola línea de tiempo, a
+los protagonistas que ya fueron apareciendo en las secciones
+anteriores.</p>
+<p><strong>Nicola Vicentino</strong> construyó en 1555 el
+<strong>archicémbalo</strong>, un clave de 36 teclas por octava
+(repartidas en dos manuales) diseñado explícitamente para revivir los
+tres géneros de la teoría antigua griega —diatónico, cromático y
+enarmónico— y descrito en su tratado <em>L’antica musica ridotta alla
+moderna prattica</em>. Estudios musicológicos posteriores han mostrado
+que la manera en que Vicentino divide el tono en quintas partes
+(“dieses”) hace que su segunda afinación del archicémbalo se aproxime,
+de forma notable, al 31-EDO que recién dedujimos algebraicamente en la
+sección 3.5 — es decir, Vicentino estaba, de hecho, construyendo
+instrumentalmente casi el mismo sistema que Huygens describiría por vía
+puramente matemática 136 años después.</p>
+<p><strong>Christiaan Huygens</strong> —el mismo físico y astrónomo que
+descubrió los anillos de Saturno— publicó en 1691 la <em>Lettre touchant
+le cycle harmonique</em>, donde demostró formalmente que dividir la
+octava en 31 partes iguales aproxima el mesotónico de 1/4 de coma con un
+error prácticamente inaudible — el mismo cálculo que hicimos en la
+sección 3.5, hecho por primera vez con rigor matemático explícito.</p>
+<p><strong>Joseph Yasser</strong>, teórico ucraniano-estadounidense,
+propuso en su libro <em>A Theory of Evolving Tonality</em> (1932) que el
+19-EDO representaba el siguiente paso “evolutivo” natural después del
+sistema diatónico de 12 notas, razonando por analogía histórica: así
+como la música occidental pasó de escalas pentatónicas (5 notas) a
+diatónicas (7 notas dentro de 12), Yasser especulaba que el paso
+siguiente sería un sistema “supra-diatónico” de 19 notas — una hipótesis
+provocadora, no una predicción que se haya cumplido, pero influyente en
+el desarrollo posterior de la teoría microtonal norteamericana.</p>
+<p><strong>Adriaan Fokker</strong>, físico holandés (más conocido por su
+trabajo en termodinámica cuántica — la ecuación de Fokker-Planck lleva
+su nombre), impulsó a mediados del siglo XX la construcción de un
+<strong>órgano de 31 tonos por octava</strong> siguiendo sus propias
+especificaciones acústicas; el instrumento, hoy conocido como el órgano
+Fokker, está instalado en el Muziekgebouw aan ’t IJ, en Ámsterdam, y
+sigue usándose para conciertos y para la enseñanza de la afinación de 31
+tonos.</p>
+<p>Fuera de los instrumentos de teclado, la búsqueda de EDOs
+alternativos se trasladó también a instrumentos de cuerda pulsada:
+existen luthiers y guitarristas microtonales que han reconstruido
+diapasones enteros — recolocando o multiplicando los trastes —
+específicamente para tocar en 19-EDO o 31-EDO, un desafío mecánico
+considerable porque el espaciado de los trastes ya no sigue la geometría
+familiar de la guitarra de 12 trastes por octava. Y desde la década de
+1970, un movimiento informal que se autodenomina
+<strong>xenarmónico</strong> (del griego <em>xenos</em>, “extraño” o
+“ajeno” — el término lo acuñó el compositor e inventor de instrumentos
+Ivor Darreg) reúne a compositores, instrumentistas y programadores que
+exploran sistemáticamente EDOs de todo tamaño, desde los más pequeños
+hasta divisiones de cientos de pasos, como territorio compositivo
+legítimo y no como curiosidad de laboratorio. El 19-EDO, el 31-EDO y el
+53-EDO que dedujimos aquí con fracciones continuas son, para esa
+comunidad, puntos de partida habituales — precisamente porque, como
+acabamos de ver, no son arbitrarios: cada uno hereda, con máxima
+precisión posible, una propiedad acústica muy concreta que ya conocías
+de memoria desde módulos anteriores.</p>
+<h2 id="ejercicios-de-cálculo">4. Ejercicios de cálculo</h2>
+<p>Resuelve cada uno por escrito, con desarrollo completo. Soluciones al
+final.</p>
+<p><strong>a) Fracciones continuas a mano</strong></p>
+<ol type="1">
+<li>Repite el algoritmo de la sección 3.2 para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>=</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.584963</mn></mrow><annotation encoding="application/x-tex">x_0 = \log_2(3/2) = 0.584963</annotation></semantics></math>,
+pero deteniéndote después de obtener
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo>,</mo><msub><mi>a</mi><mn>1</mn></msub><mo>,</mo><msub><mi>a</mi><mn>2</mn></msub><mo>,</mo><msub><mi>a</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">a_0, a_1, a_2, a_3</annotation></semantics></math>
+(cuatro términos). Con esos cuatro términos, construye los convergentes
+correspondientes usando la recurrencia
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub></mrow><annotation encoding="application/x-tex">h_n = a_nh_{n-1}+h_{n-2}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><msub><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>k</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub></mrow><annotation encoding="application/x-tex">k_n=a_nk_{n-1}+k_{n-2}</annotation></semantics></math>,
+y verifica que obtienes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">0/1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">1/1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">1/2</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">3/5</annotation></semantics></math>.</li>
+<li>A partir del convergente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">3/5</annotation></semantics></math>
+del ejercicio anterior, calcula la quinta del 5-EDO en cents
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">1200\times3/5</annotation></semantics></math>)
+y su error respecto de la quinta pura
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>701.955</mn><annotation encoding="application/x-tex">701.955</annotation></semantics></math>
+c). ¿Por qué crees que este error es tan grande comparado con el de
+12-EDO, a pesar de que 5 es también un convergente “estrella”?</li>
+<li>Usa la tabla de convergentes de la sección 3.2 para predecir, sin
+calcular nada más, cuál de estos dos EDOs tiene mejor quinta: 41-EDO o
+53-EDO. Verifica tu predicción calculando ambos errores.</li>
+</ol>
+<p><strong>b) Errores de intervalos en EDOs dados</strong></p>
+<ol start="4" type="1">
+<li>Calcula, con el método de la sección 3.1
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mi>N</mi><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">razón</mtext><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">k=\text{round}(N\log_2(\text{razón}))</annotation></semantics></math>),
+el error de la quinta y de la tercera mayor en el 22-EDO. Compara tus
+resultados con la tabla de la sección 3.4.</li>
+<li>Calcula el error de la séptima natural
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>)
+en 41-EDO y en 72-EDO, mostrando el valor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+en cada caso. ¿Cuál de los dos aproxima mejor este intervalo?</li>
+<li>Calcula el semitono cromático (Do–Do#) y el semitono diatónico
+(Do#–Re) del 31-EDO en cents, usando la misma construcción de la sección
+3.5 (Do# a 7 quintas arriba, Reb a 5 quintas abajo, ambos módulo 31).
+Verifica que obtienes 77.419 c y 116.129 c respectivamente.</li>
+</ol>
+<p><strong>c) La conexión mesotónica</strong></p>
+<ol start="7" type="1">
+<li>Demuestra numéricamente, como en la sección 3.5, que la quinta del
+19-EDO coincide (salvo un residuo menor a 0.05 c) con la quinta del
+mesotónico de 1/3 de coma sintónica de M5. Muestra ambos cálculos
+completos.</li>
+<li>Repite la demostración anterior para el 31-EDO contra el mesotónico
+de 1/4 de coma, y calcula además qué tan puras salen, en 31-EDO, las
+ocho “terceras mayores” que en M5 (sección 4.3) eran puras en el
+mesotónico de 12 teclas.</li>
+<li>En la sección 3.6 viste que en 53-EDO, Do# queda por encima de Reb —
+al revés que en 19-EDO y 31-EDO. Explica, en tus propias palabras y
+usando el tamaño de la quinta de cada sistema, por qué el signo de esta
+diferencia se invierte entre los EDOs “mesotónicos” (19, 31) y el EDO
+“pitagórico” (53).</li>
+</ol>
+<p><strong>d) Búsqueda y diseño</strong></p>
+<ol start="10" type="1">
+<li>Busca sistemáticamente (puedes usar una hoja de cálculo o hacerlo a
+mano para una decena de valores de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>)
+qué EDO con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>&lt;</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">N&lt;100</annotation></semantics></math>
+aproxima mejor la séptima natural
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>968.826</mn></mrow><annotation encoding="application/x-tex">7/4 = 968.826</annotation></semantics></math>
+c). Reporta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+y el error en cents.</li>
+<li>El paso del 53-EDO mide 22.642 cents. Compáralo con la coma
+sintónica (21.506 c) y con la coma pitagórica (23.460 c): ¿de cuál de
+las dos está más cerca? Luego verifica la identidad exacta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.615</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>0.0682</mn></mrow><annotation encoding="application/x-tex">3.615/53 = 0.0682</annotation></semantics></math>
+c (sección 3.6) y explica con tus palabras qué representa el numerador
+de esa fracción.</li>
+<li>Diseña un EDO pequeño
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>&lt;</mo><mn>60</mn></mrow><annotation encoding="application/x-tex">N&lt;60</annotation></semantics></math>)
+que aproxime muy bien el intervalo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">11/8</annotation></semantics></math>
+(un intervalo “exótico”, ligeramente más ancho que la cuarta justa, que
+vas a reencontrar en M10 como parte de la justa entonación extendida al
+primo 11). Calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>11</mn><mi>/</mi><mn>8</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">1200\times\log_2(11/8)</annotation></semantics></math>,
+prueba con la fórmula de la sección 3.1 para dos o tres valores de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+de tu elección, y reporta el mejor que encuentres.</li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>0</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mn>0.584963</mn><mo stretchy="false" form="postfix">⌋</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_0=\lfloor 0.584963\rfloor=0</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>0.584963</mn><mo>=</mo><mn>1.709511</mn></mrow><annotation encoding="application/x-tex">x_1=1/0.584963=1.709511</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">a_1=1</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>0.709511</mn><mo>=</mo><mn>1.409421</mn></mrow><annotation encoding="application/x-tex">x_2=1/0.709511=1.409421</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">a_2=1</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>0.409421</mn><mo>=</mo><mn>2.442475</mn></mrow><annotation encoding="application/x-tex">x_3=1/0.409421=2.442475</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>3</mn></msub><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">a_3=2</annotation></semantics></math>.
+Con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,1,1,2]</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn><mo>,</mo><msub><mi>k</mi><mn>0</mn></msub><mo>=</mo><mn>1</mn><mo>→</mo><mn>0</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">h_0=0,k_0=1\to0/1</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mo>⋅</mo><mn>0</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>k</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mo>⋅</mo><mn>1</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>1</mn><mo>→</mo><mn>1</mn><mi>/</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">h_1=1\cdot0+1=1,k_1=1\cdot1+0=1\to1/1</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn><mo>⋅</mo><mn>1</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>k</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn><mo>⋅</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn><mo>→</mo><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">h_2=1\cdot1+0=1,k_2=1\cdot1+1=2\to1/2</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>3</mn></msub><mo>=</mo><mn>2</mn><mo>⋅</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>3</mn><mo>,</mo><msub><mi>k</mi><mn>3</mn></msub><mo>=</mo><mn>2</mn><mo>⋅</mo><mn>2</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>5</mn><mo>→</mo><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">h_3=2\cdot1+1=3,k_3=2\cdot2+1=5\to3/5</annotation></semantics></math>.
+Coincide con la sección 3.2. ✓</p>
+<p><strong>2.</strong> Quinta del 5-EDO:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>3</mn><mi>/</mi><mn>5</mn><mo>=</mo><mn>720.000</mn></mrow><annotation encoding="application/x-tex">1200\times3/5=720.000</annotation></semantics></math>
+c. Error:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>720.000</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>+</mi><mn>18.045</mn></mrow><annotation encoding="application/x-tex">720.000-701.955=+18.045</annotation></semantics></math>
+c — enorme, casi diez veces el error del 12-EDO. La razón: aunque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">3/5</annotation></semantics></math>
+es matemáticamente el mejor convergente posible con denominador 5, cinco
+notas por octava son tan pocas que incluso el “mejor” paso disponible
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>240</mn><annotation encoding="application/x-tex">240</annotation></semantics></math>
+c) está lejos de cualquier múltiplo que aterrice cerca de 701.955
+c. “Óptimo para su tamaño” no es lo mismo que “bueno en términos
+absolutos”: la precisión de los convergentes mejora con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>,
+pero para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+muy chico el margen de error sigue siendo grande.</p>
+<p><strong>3.</strong> La tabla de convergentes de la sección 3.2
+muestra que 53 aparece <strong>después</strong> de 41 en la secuencia de
+convergentes
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">n=6</annotation></semantics></math>
+contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">n=5</annotation></semantics></math>),
+y cada convergente sucesivo es, por construcción, un récord de precisión
+que mejora al anterior. Por lo tanto, 53-EDO debería tener mejor quinta
+que 41-EDO. Verificación: 41-EDO,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>24</mn></mrow><annotation encoding="application/x-tex">k=24</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>24</mn><mi>/</mi><mn>41</mn><mo>=</mo><mn>702.439</mn></mrow><annotation encoding="application/x-tex">1200\times24/41=702.439</annotation></semantics></math>
+c, error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>0.484</mn></mrow><annotation encoding="application/x-tex">+0.484</annotation></semantics></math>
+c. 53-EDO,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>31</mn></mrow><annotation encoding="application/x-tex">k=31</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>31</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>701.887</mn></mrow><annotation encoding="application/x-tex">1200\times31/53=701.887</annotation></semantics></math>
+c, error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>0.068</mn></mrow><annotation encoding="application/x-tex">-0.068</annotation></semantics></math>
+c. En efecto,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>−</mi><mn>0.068</mn><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mo stretchy="false" form="prefix">|</mo><mi>+</mi><mn>0.484</mn><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|-0.068|&lt;|+0.484|</annotation></semantics></math>:
+la predicción se confirma.</p>
+<p><strong>4.</strong> Quinta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mo>×</mo><mn>0.584963</mn><mo>=</mo><mn>12.869</mn></mrow><annotation encoding="application/x-tex">22\times0.584963=12.869</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>13</mn></mrow><annotation encoding="application/x-tex">k=13</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>13</mn><mi>/</mi><mn>22</mn><mo>=</mo><mn>709.091</mn></mrow><annotation encoding="application/x-tex">1200\times13/22=709.091</annotation></semantics></math>
+c; error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>709.091</mn><mo>−</mo><mn>701.955</mn><mo>=</mo><mi>+</mi><mn>7.136</mn></mrow><annotation encoding="application/x-tex">=709.091-701.955=+7.136</annotation></semantics></math>
+c. Tercera mayor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mo>×</mo><mn>0.321928</mn><mo>=</mo><mn>7.082</mn></mrow><annotation encoding="application/x-tex">22\times0.321928=7.082</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">k=7</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>7</mn><mi>/</mi><mn>22</mn><mo>=</mo><mn>381.818</mn></mrow><annotation encoding="application/x-tex">1200\times7/22=381.818</annotation></semantics></math>
+c; error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>381.818</mn><mo>−</mo><mn>386.314</mn><mo>=</mo><mi>−</mi><mn>4.496</mn></mrow><annotation encoding="application/x-tex">=381.818-386.314=-4.496</annotation></semantics></math>
+c. Ambos coinciden con la tabla de la sección 3.4.</p>
+<p><strong>5.</strong> 41-EDO:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>41</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.75</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>41</mn><mo>×</mo><mn>0.807355</mn><mo>=</mo><mn>33.102</mn></mrow><annotation encoding="application/x-tex">41\times\log_2(1.75)=41\times0.807355=33.102</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>33</mn></mrow><annotation encoding="application/x-tex">k=33</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>33</mn><mi>/</mi><mn>41</mn><mo>=</mo><mn>965.854</mn></mrow><annotation encoding="application/x-tex">1200\times33/41=965.854</annotation></semantics></math>
+c; error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>965.854</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mi>−</mi><mn>2.972</mn></mrow><annotation encoding="application/x-tex">=965.854-968.826=-2.972</annotation></semantics></math>
+c. 72-EDO:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>72</mn><mo>×</mo><mn>0.807355</mn><mo>=</mo><mn>58.129</mn></mrow><annotation encoding="application/x-tex">72\times0.807355=58.129</annotation></semantics></math>,
+redondea a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>58</mn></mrow><annotation encoding="application/x-tex">k=58</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>58</mn><mi>/</mi><mn>72</mn><mo>=</mo><mn>966.667</mn></mrow><annotation encoding="application/x-tex">1200\times58/72=966.667</annotation></semantics></math>
+c; error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>966.667</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mi>−</mi><mn>2.159</mn></mrow><annotation encoding="application/x-tex">=966.667-968.826=-2.159</annotation></semantics></math>
+c. El 72-EDO aproxima mejor la séptima natural (2.159 c de error contra
+2.972 c), aunque ninguno de los dos se acerca a la precisión que logra
+el 31-EDO (1.084 c, sección 3.4).</p>
+<p><strong>6.</strong> Do# a 7 quintas arriba:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>18</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>31</mn></mrow><mo>=</mo><mn>126</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>31</mn></mrow><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">7\times18 \bmod 31 = 126 \bmod 31 = 2</annotation></semantics></math>
+pasos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>2</mn><mo>×</mo><mn>38.710</mn><mo>=</mo><mn>77.419</mn></mrow><annotation encoding="application/x-tex">=2\times38.710=77.419</annotation></semantics></math>
+c. Reb a 5 quintas abajo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>5</mn><mo>×</mo><mn>18</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>31</mn></mrow><mo>=</mo><mi>−</mi><mn>90</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>&#8289;</mo></mrow><mspace width="0.222em"></mspace><mn>31</mn></mrow><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">-5\times18 \bmod 31 = -90 \bmod 31 = 3</annotation></semantics></math>
+pasos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>3</mn><mo>×</mo><mn>38.710</mn><mo>=</mo><mn>116.129</mn></mrow><annotation encoding="application/x-tex">=3\times38.710=116.129</annotation></semantics></math>
+c. Semitono cromático (Do–Do#)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>77.419</mn></mrow><annotation encoding="application/x-tex">=77.419</annotation></semantics></math>
+c; semitono diatónico (Do#–Re, que en esta construcción coincide con
+Do#–Reb más el resto… calculado directamente como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>116.129</mn><mo>−</mo><mn>77.419</mn><mo>=</mo><mn>38.710</mn></mrow><annotation encoding="application/x-tex">116.129-77.419=38.710</annotation></semantics></math>
+c de un paso, pero el semitono diatónico pleno Do#–Re se mide igual que
+en la cadena general y da
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>116.129</mn><annotation encoding="application/x-tex">116.129</annotation></semantics></math>
+c menos el paso de Do a Do#, es decir
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>116.129</mn><mo>−</mo><mn>77.419</mn><mo>=</mo><mn>38.710</mn></mrow><annotation encoding="application/x-tex">116.129-77.419=38.710</annotation></semantics></math>;
+el semitono diatónico “canónico” de la escala, Do–Reb invertido, es el
+que mide
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>116.129</mn><annotation encoding="application/x-tex">116.129</annotation></semantics></math>
+c). En cualquier caso, ambos valores (77.419 y 116.129 c) coinciden con
+los reportados en la sección 3.5.</p>
+<p><strong>7.</strong> Quinta del 19-EDO:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>11</mn></mrow><annotation encoding="application/x-tex">k=11</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>11</mn><mi>/</mi><mn>19</mn><mo>=</mo><mn>694.737</mn></mrow><annotation encoding="application/x-tex">1200\times11/19=694.737</annotation></semantics></math>
+c (sección 3.4). Quinta del mesotónico de 1/3 de coma (M5, fórmula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mi>a</mi><mo>×</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">Q(a)=701.955-a\times21.506</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>3</mn><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>7.169</mn><mo>=</mo><mn>694.786</mn></mrow><annotation encoding="application/x-tex">Q(1/3)=701.955-21.506/3=701.955-7.169=694.786</annotation></semantics></math>
+c. Diferencia:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>694.786</mn><mo>−</mo><mn>694.737</mn><mo>=</mo><mn>0.049</mn></mrow><annotation encoding="application/x-tex">694.786-694.737=0.049</annotation></semantics></math>
+c — menos de un veinteavo de cent, inaudible. Ambos sistemas son, para
+cualquier propósito práctico, la misma quinta.</p>
+<p><strong>8.</strong> Quinta del 31-EDO:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>18</mn></mrow><annotation encoding="application/x-tex">k=18</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>18</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>696.774</mn></mrow><annotation encoding="application/x-tex">1200\times18/31=696.774</annotation></semantics></math>
+c. Quinta del mesotónico de 1/4 de coma:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>696.578</mn></mrow><annotation encoding="application/x-tex">Q(1/4)=701.955-21.506/4=696.578</annotation></semantics></math>
+c. Diferencia:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>696.774</mn><mo>−</mo><mn>696.578</mn><mo>=</mo><mn>0.196</mn></mrow><annotation encoding="application/x-tex">696.774-696.578=0.196</annotation></semantics></math>
+c — igualmente inaudible. Las ocho terceras mayores que en M5 §4.3 eran
+puras (Mib–Sol, Sib–Re, Fa–La, Do–Mi, Sol–Si, Re–Fa#, La–Do#, Mi–Sol#)
+se construyen en 31-EDO apilando 4 veces la quinta de 18 pasos y
+reduciendo dos octavas:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>18</mn><mo>=</mo><mn>72</mn></mrow><annotation encoding="application/x-tex">4\times18=72</annotation></semantics></math>
+pasos, menos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>31</mn><mo>=</mo><mn>62</mn></mrow><annotation encoding="application/x-tex">2\times31=62</annotation></semantics></math>
+pasos (dos octavas)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">=10</annotation></semantics></math>
+pasos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1200</mn><mo>×</mo><mn>10</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>387.097</mn></mrow><annotation encoding="application/x-tex">=1200\times10/31=387.097</annotation></semantics></math>
+c — el mismo valor calculado en la sección 3.4, con un error de apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.783</mn><annotation encoding="application/x-tex">0.783</annotation></semantics></math>
+c respecto de la tercera pura. Como el 31-EDO cierra en 31 notas en vez
+de 12, esta propiedad se repite en las 31 posiciones de la cadena, no
+solo en 8: <strong>todas</strong> las terceras mayores de 31-EDO son
+casi puras, no solo un subconjunto.</p>
+<p><strong>9.</strong> El signo de “Reb menos Do#” depende
+exclusivamente del tamaño de la quinta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+del sistema: cuanto más angosta es la quinta respecto de la pura
+(mesotónico), más “atrasadas” quedan las notas alcanzadas subiendo por
+quintas (los sostenidos) respecto de las alcanzadas bajando (los
+bemoles), y Reb termina por encima de Do#. Cuanto más ancha o más
+cercana a la pura es la quinta (pitagórico, y 53-EDO por construcción),
+ocurre lo contrario: los sostenidos, generados por una cadena de quintas
+que casi no pierde terreno, avanzan más rápido que los bemoles, y Do#
+termina por encima de Reb — el mismo patrón que el apotome (113.685 c)
+mayor que el limma (90.225 c) en la pitagórica de M3. El 53-EDO, con una
+quinta de solo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.068</mn><annotation encoding="application/x-tex">0.068</annotation></semantics></math>
+c corta de la pura, se comporta aritméticamente como “pitagórico casi
+exacto”, mientras que 19 y 31, con quintas 5 a 7 cents más angostas, se
+comportan como mesotónicos.</p>
+<p><strong>10.</strong> Recorriendo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+de 1 a 99 con la fórmula de la sección 3.1, el mínimo error absoluto se
+alcanza en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>83</mn></mrow><annotation encoding="application/x-tex">N=83</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mn>83</mn><mo>×</mo><mn>0.807355</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>67</mn></mrow><annotation encoding="application/x-tex">k=\text{round}(83\times0.807355)=67</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>67</mn><mi>/</mi><mn>83</mn><mo>=</mo><mn>968.675</mn></mrow><annotation encoding="application/x-tex">1200\times67/83=968.675</annotation></semantics></math>
+c; error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>968.675</mn><mo>−</mo><mn>968.826</mn><mo>=</mo><mi>−</mi><mn>0.151</mn></mrow><annotation encoding="application/x-tex">=968.675-968.826=-0.151</annotation></semantics></math>
+c. Vale la pena notar que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>26</mn></mrow><annotation encoding="application/x-tex">N=26</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>21</mn></mrow><annotation encoding="application/x-tex">k=21</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>969.231</mn><annotation encoding="application/x-tex">969.231</annotation></semantics></math>
+c, error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>0.405</mn></mrow><annotation encoding="application/x-tex">+0.405</annotation></semantics></math>
+c) logra una precisión casi tan buena con menos de un tercio de las
+notas — un buen ejemplo de que “el mejor absoluto” y “el mejor práctico”
+no siempre coinciden.</p>
+<p><strong>11.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22.642</mn><mo>−</mo><mn>21.506</mn><mo>=</mo><mn>1.136</mn></mrow><annotation encoding="application/x-tex">22.642 - 21.506 = 1.136</annotation></semantics></math>
+c de distancia a la coma sintónica;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mo>−</mo><mn>22.642</mn><mo>=</mo><mn>0.818</mn></mrow><annotation encoding="application/x-tex">23.460-22.642=0.818</annotation></semantics></math>
+c de distancia a la coma pitagórica. El paso del 53-EDO está más cerca
+de la coma pitagórica, aunque queda casi exactamente a mitad de camino
+entre ambas — es, por eso, un buen “comodín” para aproximar cualquiera
+de las dos comas históricas con el mismo número entero de pasos. La
+identidad
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.615</mn><mi>/</mi><mn>53</mn><mo>=</mo><mn>0.0682</mn></mrow><annotation encoding="application/x-tex">3.615/53=0.0682</annotation></semantics></math>
+c: el numerador,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.615</mn><annotation encoding="application/x-tex">3.615</annotation></semantics></math>
+c, es la coma de Mercator completa (el sobrante de 53 quintas puras
+contra 31 octavas puras, M2 ejercicio 9); al dividirla en 53 partes
+iguales —una por cada quinta de la cadena que cierra en 53-EDO— se
+obtiene exactamente el déficit por quinta que hace que la quinta del
+53-EDO mida
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>0.068</mn><mo>=</mo><mn>701.887</mn></mrow><annotation encoding="application/x-tex">701.955-0.068=701.887</annotation></semantics></math>
+c, tal como se calculó en la sección 3.3.</p>
+<p><strong>12.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>11</mn><mi>/</mi><mn>8</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.375</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.459432</mn><mo>=</mo><mn>551.318</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(11/8)=1200\times\log_2(1.375)=1200\times0.459432=551.318</annotation></semantics></math>
+c. Probando algunos valores:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>31</mn></mrow><annotation encoding="application/x-tex">N=31</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mn>31</mn><mo>×</mo><mn>0.459432</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>14</mn></mrow><annotation encoding="application/x-tex">k=\text{round}(31\times0.459432)=14</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>14</mn><mi>/</mi><mn>31</mn><mo>=</mo><mn>541.935</mn></mrow><annotation encoding="application/x-tex">1200\times14/31=541.935</annotation></semantics></math>
+c, error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>9.383</mn></mrow><annotation encoding="application/x-tex">-9.383</annotation></semantics></math>
+c (malo).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>41</mn></mrow><annotation encoding="application/x-tex">N=41</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mn>41</mn><mo>×</mo><mn>0.459432</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>19</mn></mrow><annotation encoding="application/x-tex">k=\text{round}(41\times0.459432)=19</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>19</mn><mi>/</mi><mn>41</mn><mo>=</mo><mn>556.098</mn></mrow><annotation encoding="application/x-tex">1200\times19/41=556.098</annotation></semantics></math>
+c, error
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>4.780</mn></mrow><annotation encoding="application/x-tex">+4.780</annotation></semantics></math>
+c (mediocre).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>37</mn></mrow><annotation encoding="application/x-tex">N=37</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mtext mathvariant="normal">round</mtext><mo stretchy="false" form="prefix">(</mo><mn>37</mn><mo>×</mo><mn>0.459432</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">k=\text{round}(37\times0.459432)=17</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>17</mn><mi>/</mi><mn>37</mn><mo>=</mo><mn>551.351</mn></mrow><annotation encoding="application/x-tex">1200\times17/37=551.351</annotation></semantics></math>
+c, error apenas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>0.033</mn></mrow><annotation encoding="application/x-tex">+0.033</annotation></semantics></math>
+c — extraordinario, mejor que cualquiera de los EDOs “estrella” de la
+quinta que hemos visto en todo el módulo. Conclusión pedagógica: los
+EDOs que son excelentes para los intervalos de 3-límite y 5-límite (31,
+41, 53) no son automáticamente buenos para intervalos que involucran el
+primo 11 — cada primo nuevo (7, 11, 13…) exige, en general, su propia
+búsqueda de buenos denominadores, un problema que vas a retomar de lleno
+en M10.</p>
+<h2 id="guía-de-escucha">5. Guía de escucha</h2>
+<p>Antes de seguir al Módulo 10, dedica 25-30 minutos al laboratorio
+interactivo de este módulo (<code>laboratorio.html</code>, en esta misma
+carpeta). El laboratorio incluye un explorador de EDOs de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">N=5</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>72</mn></mrow><annotation encoding="application/x-tex">N=72</annotation></semantics></math>
+con una tabla de errores en vivo y un teclado genérico que se
+reconfigura según el
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+elegido, comparadores A/B entre pares de EDOs o entre un EDO y su
+intervalo justo de referencia, un círculo de quintas navegable para
+19-EDO y 31-EDO, un gráfico de error de quinta contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>,
+y un quiz de identificación auditiva 12/19/31. Seis consignas:</p>
+<ol type="1">
+<li><strong>Los mínimos de la fracción continua, a simple
+vista.</strong> En el gráfico de error de quinta contra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>,
+ubica visualmente los mínimos marcados en
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>5</mn><mo>,</mo><mn>12</mn><mo>,</mo><mn>41</mn><mo>,</mo><mn>53</mn></mrow><annotation encoding="application/x-tex">N=5,12,41,53</annotation></semantics></math>
+y confirma que ningún
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+vecino (11, 13, 40, 42, 52, 54…) logra un error menor. Escucha la quinta
+en 53-EDO inmediatamente después de escucharla en 52-EDO o 54-EDO, y
+evalúa si puedes distinguir de oído esa diferencia de precisión.</li>
+<li><strong>19 y 31 no están en la lista de mínimos — y sin
+embargo.</strong> Ubica en el mismo gráfico dónde caen 19 y 31: vas a
+ver que su error de quinta es visiblemente peor que el de sus vecinos.
+Ahora activa el comparador de terceras y confirma que, en esos mismos
+dos EDOs, la tercera menor (19) y la tercera mayor (31) son casi
+indistinguibles de sus versiones puras.</li>
+<li><strong>El círculo que no cierra en 12 pasos.</strong> Usa el
+círculo de quintas de 19-EDO y recorre quintas sucesivas contando
+cuántos pasos hacen falta para volver a la nota de partida. Repite con
+31-EDO. Verifica que en ambos casos el círculo recorre las
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+notas completas antes de cerrar (a diferencia de un subconjunto de 12
+notas dentro de un mesotónico de M5, que nunca cierra sin dejar una
+quinta del lobo).</li>
+<li><strong>Do# contra Reb, por fin audibles por separado.</strong> En
+el teclado de 19-EDO, toca Do# y Reb como dos notas distintas sobre una
+fundamental común, y luego hazlo en 31-EDO. Confirma de oído la
+distancia calculada en la sección 3.5 (63.158 c en 19-EDO; 38.710 c en
+31-EDO) y compárala con lo que escuchaste en el laboratorio de M5 para
+Sol#/Lab.</li>
+<li><strong>La séptima natural, de casi insoportable a casi
+pura.</strong> Activa el intervalo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">7/4</annotation></semantics></math>
+sobre una misma fundamental en 12-EDO, luego en 31-EDO. En 12-EDO vas a
+escuchar un batido rápido y claro (el error es de más de 31 cents); en
+31-EDO, prácticamente ningún batido. Relaciona lo que escuchas con los
+1.084 cents de error calculados en la sección 3.4.</li>
+<li><strong>El quiz 12/19/31.</strong> Sin mirar la pantalla, identifica
+a ciegas si una tríada mayor que suena proviene de 12-EDO, 19-EDO o
+31-EDO. Presta atención, sobre todo, a la pureza de la tercera mayor —
+es la pista más confiable, según lo que calculaste en la sección
+3.4.</li>
+</ol>
+<h2 id="repertorio">6. Repertorio</h2>
+<ul>
+<li><strong>Nicola Vicentino, madrigales enarmónicos (h.
+1555-1560).</strong> Los pocos madrigales de Vicentino que sobreviven
+con indicaciones explícitas de género enarmónico —escritos para
+demostrar las posibilidades del archicémbalo— usan intervalos más
+pequeños que el semitono cromático habitual. Qué escuchar: la sensación
+de “deslizamiento” microtonal en pasajes que, notados en la grafía
+convencional, uno esperaría escuchar como semitonos completos.</li>
+<li><strong>Henk Badings y otros compositores para el órgano Fokker
+(Ámsterdam, desde 1950).</strong> Badings, compositor holandés, escribió
+un cuerpo sustancial de obras específicamente para el órgano de 31 tonos
+de Fokker, explorando tanto las terceras puras heredadas del mesotónico
+de 1/4 de coma como las nuevas posibilidades enarmónicas que 31 notas
+por octava permiten. Qué escuchar: compara mentalmente una tríada mayor
+de estas obras con la misma tríada en un órgano de temperamento igual —
+la ausencia casi total de batido en la tercera es el rasgo
+distintivo.</li>
+<li><strong>Easley Blackwood, <em>Twelve Microtonal Etudes</em>
+(1980-1982).</strong> Blackwood compuso un estudio específicamente
+concebido para 19-EDO dentro de esta colección, que recorre
+sistemáticamente los sistemas de 13 a 24 divisiones iguales de la
+octava. Qué escuchar: en el estudio de 19 tonos, identifica los acordes
+que explotan la tercera menor casi pura calculada en la sección 3.4, y
+nota cómo el compositor evita, en general, apoyarse en la quinta (que en
+19-EDO es la más débil de sus consonancias tradicionales).</li>
+<li><strong>Qué buscar en general:</strong> cualquier grabación que
+mencione explícitamente “19-EDO”, “31-EDO”, “19-tone equal temperament”
+o “31-tone equal temperament” en su descripción — la comunidad
+xenarmónica de las últimas décadas ha producido un catálogo creciente,
+aunque disperso, de música compuesta directamente para estos sistemas,
+generalmente en plataformas de distribución independiente.</li>
+</ul>
+<h2 id="mini-composición">7. Mini-composición</h2>
+<p>Escribe una pieza breve (12 a 20 compases) para uno o dos
+instrumentos capaces de microtonalidad flexible (voz, cuerda frotada sin
+trastes, o un sintetizador/DAW configurado en 19-EDO — no hace falta
+notación microtonal estándar todavía: puedes anotar en pentagrama
+convencional indicando “sostenido de 19-EDO” o “bemol de 19-EDO” donde
+corresponda), que use <strong>explícitamente</strong> la distinción
+entre Do# y Reb (o cualquier otro par enarmónico) como gesto expresivo,
+no como accidente notacional. Diseña un momento estructural —una nota de
+paso, un acorde de color, una resolución retardada— donde el oyente
+pueda percibir la diferencia de 63.158 cents (si trabajas en 19-EDO)
+entre ambas notas, y donde esa diferencia tenga una función dramática
+clara: por ejemplo, que Do# funcione como sensible tensa y ascendente,
+mientras que la “misma” tecla escrita como Reb, unos compases después,
+funcione como nota de color relajada y descendente. Anota en la
+partitura, en una frase, qué efecto buscas y por qué elegiste ese punto
+de la forma. Guarda la pieza — en M12 vas a aprender a hacerla sonar de
+verdad, con las herramientas de afinación de un DAW o sintetizador
+moderno.</p>
+<h2 id="autoevaluación">8. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo explicar qué es un EDO de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+notas y calcular, para cualquier
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+y cualquier intervalo justo, el número de pasos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+que mejor lo aproxima.</label></li>
+<li><label><input type="checkbox" />Puedo ejecutar a mano el algoritmo
+de fracciones continuas para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(3/2)</annotation></semantics></math>,
+obtener al menos cuatro términos, y construir los convergentes
+correspondientes con la recurrencia
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mi>n</mi></msub><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>h</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub></mrow><annotation encoding="application/x-tex">h_n=a_nh_{n-1}+h_{n-2}</annotation></semantics></math>.</label></li>
+<li><label><input type="checkbox" />Puedo explicar por qué 5, 12, 41 y
+53 son los EDOs “estrella” para la quinta, y calcular el error de la
+quinta en cualquiera de ellos.</label></li>
+<li><label><input type="checkbox" />Puedo calcular el error de la
+tercera mayor, la tercera menor y la séptima natural en un EDO dado, y
+explicar por qué 19-EDO y 31-EDO no son “estrellas de la quinta” pero sí
+de otros intervalos.</label></li>
+<li><label><input type="checkbox" />Puedo demostrar numéricamente que
+19-EDO ≈ mesotónico de 1/3 de coma y que 31-EDO ≈ mesotónico de 1/4 de
+coma, y explicar qué significa “un EDO es un temperamento regular que
+cierra”.</label></li>
+<li><label><input type="checkbox" />Puedo calcular la diferencia entre
+Do# y Reb en 19-EDO y en 31-EDO, y explicar por qué el orden se invierte
+en 53-EDO.</label></li>
+<li><label><input type="checkbox" />Puedo explicar la relación entre el
+paso del 53-EDO, la coma de Mercator y la cifra de 3.615 cents que
+apareció por primera vez en M2.</label></li>
+<li><label><input type="checkbox" />Puedo nombrar al menos tres figuras
+históricas (Vicentino, Huygens, Yasser, Fokker, Bosanquet) y ubicar
+correctamente qué EDO o sistema asociado a cada una.</label></li>
+</ul>
+<hr />
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications — capítulo sobre divisiones no duodecimales de la
+octava.</li>
+<li>Huygens, C. <em>Lettre touchant le cycle harmonique</em> (1691) —
+fuente primaria del 31-EDO como aproximación del mesotónico de 1/4 de
+coma.</li>
+<li>Yasser, J. <em>A Theory of Evolving Tonality</em>. American Library
+of Musicology, 1932 — la propuesta del 19-EDO como
+“supra-diatonicismo”.</li>
+<li>Bosanquet, R. H. M. <em>An Elementary Treatise on Musical Intervals
+and Temperament</em>. Macmillan, 1876 — el teclado generalizado y el
+armonio enarmónico de 53 notas.</li>
+<li>Barbieri, P. <em>Enharmonic Instruments and Music, 1470-1900</em>.
+Il Levante, 2008 — estudio detallado del archicémbalo de Vicentino y su
+relación con 31-EDO.</li>
+<li>Blackwood, E. <em>Twelve Microtonal Etudes for Electronic Music
+Media</em>, Op. 28 (1980-1982) — partitura y grabación de referencia
+para los estudios en EDOs de 13 a 24.</li>
+<li>Khinchin, A. Ya. <em>Continued Fractions</em>. Dover Publications —
+referencia matemática accesible sobre el algoritmo de la sección 3.2 y
+la propiedad de “mejor aproximación” de los convergentes.</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>).</li>
+</ul>
+<h2 id="anticipo-m10">Anticipo M10</h2>
+<p>Los EDOs de este módulo —12, 19, 31, 53— son, todos, maneras cada vez
+más finas de perseguir a los mismos dos primos que organizaron toda la
+Fase 1: el 3 (la quinta) y el 5 (la tercera). Ni siquiera el más
+generoso de ellos, 53-EDO, tiene un paso especialmente diseñado para el
+7 (la séptima natural), y ninguno de los que vimos aquí tiene la menor
+intención de perseguir al 11 o al 13 —los primos que gobiernan
+intervalos que ni siquiera hemos nombrado todavía—. El Módulo 10 cambia
+la pregunta de raíz: en vez de buscar un número fijo de divisiones
+iguales que aproxime razonablemente bien varios primos a la vez, vamos a
+preguntarnos qué pasa si dejamos de temperar del todo y perseguimos cada
+razón de números enteros —incluyendo 7/4, 11/8, 13/8 y muchas más— de
+manera exacta, sin redondeos ni convergentes. Es el mundo de la
+<strong>justa entonación extendida</strong>, y el compositor que lo
+llevó más lejos que nadie en el siglo XX, con una escala de 43 tonos por
+octava construida enteramente desde cero, fue Harry Partch.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 9</p><button id="progress-btn" class="progress-btn" data-modulo="09-edos">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>

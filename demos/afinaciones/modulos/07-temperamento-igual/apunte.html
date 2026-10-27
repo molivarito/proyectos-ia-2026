@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>M7 · Apunte — Temperamento igual: la solución final y su costo</title>
+<style>
+:root{
+  --bg:#12141a;
+  --card:#1c1f27;
+  --card-border:#2a2e3a;
+  --text:#e9e9ec;
+  --muted:#9aa0ac;
+  --accent:#e8a33d;
+  --accent-ink:#241a08;
+  --warn:#ff6b6b;
+  --good:#6fcf97;
+  --line:#262b38;
+}
+*{box-sizing:border-box;}
+html{background:var(--bg);}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65;}
+
+/* ---- barra superior de navegación ---- */
+.topbar{position:sticky;top:0;z-index:10;background:#171a22e8;border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.topbar-inner{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid transparent;white-space:nowrap;}
+.nav-link:hover{color:var(--text);background:#262b38;border-color:var(--line);}
+.nav-link.nav-lab{margin-left:auto;color:var(--accent-ink);background:var(--accent);font-weight:700;border-color:var(--accent);}
+.nav-link.nav-lab:hover{background:#f0af52;}
+
+/* ---- contenido ---- */
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px;}
+h1{font-size:clamp(22px,3.8vw,32px);line-height:1.25;margin:0 0 22px;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:16px;}
+h2{font-size:clamp(18px,2.6vw,22px);color:var(--accent);margin:38px 0 12px;}
+h3{font-size:1.05rem;color:var(--text);margin:26px 0 10px;}
+h4{font-size:0.95rem;color:var(--muted);margin:18px 0 8px;}
+p{margin:0 0 16px;}
+ul,ol{margin:0 0 16px;padding-left:1.4em;}
+li{margin:0 0 8px;}
+li>ul,li>ol{margin-top:8px;}
+a{color:var(--accent);}
+strong{color:var(--text);}
+em{color:#d7d9e0;}
+hr{border:none;border-top:1px solid var(--line);margin:34px 0;}
+
+blockquote{margin:0 0 18px;padding:12px 16px;background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;color:#c7cbd4;font-size:0.95rem;}
+blockquote p:last-child{margin-bottom:0;}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0d0f14;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:0.88em;color:#f0d9a8;}
+pre{background:#0d0f14;border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:0 0 18px;}
+pre code{background:none;border:none;padding:0;color:var(--text);}
+
+/* ---- tablas ---- */
+.table-scroll{overflow-x:auto;margin:0 0 20px;border:1px solid var(--card-border);border-radius:12px;background:var(--card);}
+table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:520px;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+thead th{color:var(--accent);font-weight:700;background:#1c1f27;white-space:nowrap;border-bottom:1px solid var(--card-border);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#20242e;}
+
+/* ---- matemática (MathML) ---- */
+math{color:inherit;font-size:1.02em;}
+mrow, mi, mo, mn, mtext{color:inherit;}
+p math[display="block"], math[display="block"]{display:block;margin:14px 0;text-align:center;overflow-x:auto;}
+
+img{max-width:100%;border-radius:8px;}
+
+/* ---- pie de página ---- */
+.site-footer{border-top:1px solid var(--line);background:#171a22;}
+.footer-inner{max-width:860px;margin:0 auto;padding:26px 20px 40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;}
+.stamp{color:var(--muted);font-size:0.82rem;margin:0;}
+.progress-btn{background:#262b38;border:1px solid var(--line);color:var(--text);padding:10px 18px;border-radius:9px;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;}
+.progress-btn:hover{background:#313848;}
+.progress-btn.done{background:var(--good);border-color:var(--good);color:#0d2418;}
+
+@media(max-width:600px){
+  .topbar-inner{padding:8px 14px;}
+  .nav-link{font-size:0.78rem;padding:5px 8px;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<nav class="topbar"><div class="topbar-inner"><a class="nav-link" href="../../index.html">⌂ Portal</a><a class="nav-link" href="../06-buenos-temperamentos/apunte.html">◀ Buenos temperamentos: cerrar el círculo sin igualarlo</a><a class="nav-link" href="../08-mapa-comparativo/apunte.html">El mapa completo: comparar, elegir, componer ▶</a><a class="nav-link nav-lab" href="laboratorio.html">🎛 Laboratorio</a></div></nav>
+<main class="wrap">
+<h1 id="m7.-temperamento-igual-la-solución-final-y-su-costo">M7.
+Temperamento igual: la solución final y su costo</h1>
+<h2 id="pregunta-guía">1. Pregunta guía</h2>
+<p>Un pianista termina de tocar el <em>Preludio en Do# menor</em> de
+Chopin (el famoso “de la gota de agua”, Op. 28 n.º 15) y, sin levantar
+las manos del teclado, sigue directo con un pasaje de <em>Tristán e
+Isolda</em> transcrito para piano. No afina nada entre una pieza y otra.
+No hay pausa técnica, no hay ajuste de ningún tipo: las mismas 88 teclas
+sirven, sin excepción, para Chopin en Reb mayor, para Wagner
+deslizándose por acordes que no se sabe bien a qué tonalidad pertenecen,
+y — si quisiera — para un standard de jazz con sustituciones de acorde
+por tritono, o para una serie dodecafónica de Webern. Ningún
+temperamento histórico anterior a este podía prometer eso. Un clave
+afinado en mesotónico de 1/4 de coma (M5) tiene una quinta del lobo que
+hace impracticables varias tonalidades; un órgano en Vallotti o
+Kirnberger III (M6) reparte el color de manera desigual entre
+tonalidades, con algunas brillantes y otras veladas, pero
+<strong>ninguna</strong> tonalidad queda completamente inservible. El
+temperamento igual va un paso más allá: no reparte el color de manera
+desigual — lo <strong>elimina</strong>. Todas las tonalidades sueltan
+exactamente el mismo perfil de consonancias y disonancias, nota por
+nota, siempre.</p>
+<p>La pregunta que organiza este módulo es la más simple de plantear de
+todo el curso, y quizás la más radical en sus consecuencias:
+<strong>¿qué pasa si repartimos la coma pitagórica exactamente igual
+entre las doce quintas del círculo, sin favorecer a ninguna?</strong> No
+hay una tonalidad “protegida” que quede pura a costa de otra que se
+sacrifica, como en la pitagórica (M3) o en la justa (M4); no hay una
+elección deliberada de qué intervalo salvar, como en los mesotónicos
+(M5); no hay una jerarquía cuidadosamente diseñada de tonalidades más y
+menos brillantes, como en los buenos temperamentos (M6). Hay una sola
+decisión, aplicada doce veces sin excepción: que nadie reciba trato
+especial. El resultado es el temperamento que trata a las doce
+tonalidades exactamente igual de bien — y, como vamos a ver con toda su
+crudeza numérica, exactamente igual de mal. Es la solución que ganó la
+carrera histórica y que hoy suena en casi cualquier instrumento de
+afinación fija del planeta. Entender su costo — no de manera abstracta,
+sino en cents concretos y en Hz de batido concretos — es el objetivo de
+las páginas que siguen.</p>
+<h2 id="recapitulación">2. Recapitulación</h2>
+<p>Necesitas tener fresco: la definición del <strong>cent</strong> y la
+tabla de intervalos justos de M1 §6 (quinta 701.955 c, tercera mayor
+386.314 c, tercera menor 315.641 c), junto con la regla práctica de
+percepción de M1 §6.5 (desde ~5 c ya hay batido audible; 14 c se “deja
+de escuchar” como error tras exposición prolongada). Necesitas también
+el resultado de M1 §7 y M2: doce quintas puras superan a siete octavas
+puras en <strong>23.460 cents exactos</strong> — la <strong>coma
+pitagórica</strong> — y esa discrepancia es matemáticamente inevitable
+(M1, ejercicio 11:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>m</mi></msup><mo>≠</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">(3/2)^m \neq 2^n</annotation></semantics></math>
+para enteros positivos). De M5 necesitas la idea de <strong>familia
+mesotónica</strong>: temperamentos que reparten una fracción de la coma
+<em>sintónica</em> entre un número reducido de quintas, definidos por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>80</mn><mi>/</mi><mn>81</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>a</mi></msup></mrow><annotation encoding="application/x-tex">Q = (3/2) \cdot (80/81)^a</annotation></semantics></math>.
+De M6 necesitas el concepto de <strong>circulación</strong>: repartir la
+coma pitagórica entre las doce quintas de manera <em>desigual pero
+acotada</em>, de forma que ninguna quede insoportable — el temperamento
+igual es, como vamos a ver, el caso límite de esa idea cuando la
+desigualdad se hace exactamente cero.</p>
+<h2 id="desarrollo-teórico">3. Desarrollo teórico</h2>
+<h3 id="una-política-de-reparto-sin-favoritismos">3.1 Una política de
+reparto sin favoritismos</h3>
+<p>Repasemos el vocabulario que venimos usando desde M2: toda afinación
+de doce notas por octava es una <strong>política de reparto del
+error</strong> — una decisión sobre qué intervalos proteger (dejar
+puros) y dónde esconder la coma pitagórica de 23.460 cents que sobra al
+cerrar el círculo de quintas. Cada sistema que hemos visto hasta ahora
+reparte esa coma de forma <strong>desigual y deliberada</strong>: la
+pitagórica la concentra entera en una sola quinta (la del lobo) y dejó
+las otras once puras; los mesotónicos reparten una coma
+<em>distinta</em> (la sintónica) entre un subconjunto de quintas para
+regalar terceras puras a cambio; los buenos temperamentos de M6 reparten
+la coma pitagórica de forma desigual pero <em>suave</em>, sin ningún
+intervalo verdaderamente inservible, y por eso cada tonalidad conserva
+un color propio.</p>
+<p>El temperamento igual propone la política más simple posible, y en
+cierto sentido la más “justa” en el sentido aritmético de la palabra:
+<strong>repartir la coma pitagórica en doce partes exactamente
+iguales</strong>, una por cada quinta del círculo. Ninguna quinta es
+pura. Ninguna quinta es especialmente mala. Las doce son idénticas entre
+sí, cada una levemente angosta respecto de la quinta justa, en la misma
+cantidad exacta. No hay una “tonalidad de home”, no hay una “quinta del
+lobo”: hay simetría total. Esa simetría es la fuente tanto de la fuerza
+como de la pobreza del sistema, como vamos a desarrollar en las próximas
+secciones.</p>
+<h3 id="derivación-completa-el-semitono-como-raíz-duodécima-de-2">3.2
+Derivación completa: el semitono como raíz duodécima de 2</h3>
+<p>Planteemos el problema de manera algebraica, tal como lo haríamos con
+cualquier otro sistema de este curso. Queremos doce semitonos
+<strong>idénticos</strong> (llamemos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+a la razón de frecuencias de cada uno) que, apilados, sumen exactamente
+una octava:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>×</mo><mi>s</mi><mo>×</mo><mi>⋯</mi><mo>×</mo><mi>s</mi><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">12 veces</mtext><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>s</mi><mn>12</mn></msup><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">s \times s \times \cdots \times s \ (\text{12 veces}) = s^{12} = 2</annotation></semantics></math></p>
+<p>Despejando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">s = 2^{1/12}</annotation></semantics></math></p>
+<p>Esta es, literalmente, toda la “receta” del temperamento igual de
+doce tonos: una sola ecuación. Calculemos su valor numérico. Necesitamos
+la raíz duodécima de 2, que podemos obtener con logaritmos (la misma
+herramienta de M1 §6): si
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">s = 2^{1/12}</annotation></semantics></math>,
+entonces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>0.083333</mn></mrow><annotation encoding="application/x-tex">\log_2(s) = 1/12 = 0.083333</annotation></semantics></math>,
+y usando cambio de base
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.693147</mn></mrow><annotation encoding="application/x-tex">\ln(2) = 0.693147</annotation></semantics></math>):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>1</mn><mn>12</mn></mfrac><mo>×</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>0.693147</mn><mn>12</mn></mfrac><mo>=</mo><mn>0.057762</mn></mrow><annotation encoding="application/x-tex">\ln(s) = \frac{1}{12} \times \ln(2) = \frac{0.693147}{12} = 0.057762</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msup><mi>e</mi><mn>0.057762</mn></msup><mo>=</mo><mn>1.059463</mn></mrow><annotation encoding="application/x-tex">s = e^{0.057762} = 1.059463</annotation></semantics></math></p>
+<p>Verifiquemos elevando a la doceava potencia:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>1.059463</mn><mn>12</mn></msup><mo>=</mo><mn>1.999999</mn><mi>.</mi><mi>.</mi><mi>.</mi><mo>≈</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">1.059463^{12} = 1.999999... \approx 2</annotation></semantics></math>
+✓ (el pequeño residuo es solo redondeo de la calculadora; con más
+decimales,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mn>1.0594630943</mn><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">2^{1/12} = 1.0594630943...</annotation></semantics></math>,
+y su duodécima potencia da 2 exacto).</p>
+<p>¿Cuántos cents mide este semitono? Aplicando la definición de M1
+§6.3:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mtext mathvariant="normal">semitono ET</mtext></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><mfrac><mn>1</mn><mn>12</mn></mfrac><mo>=</mo><mn>100</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents exactos</mtext></mrow></mrow><annotation encoding="application/x-tex">c_{\text{semitono ET}} = 1200 \times \log_2(2^{1/12}) = 1200 \times \frac{1}{12} = 100 \text{ cents exactos}</annotation></semantics></math></p>
+<p>Fíjate en algo importante que ya adelantamos en M1: este no es un
+resultado “aproximado que redondea bonito” — es una identidad algebraica
+exacta, consecuencia directa de que el cent se <strong>definió</strong>
+(M1 §6.3) precisamente para que esto ocurriera. El semitono del
+temperamento igual mide 100.000000… cents, sin ninguna cifra decimal
+escondida, por la misma razón por la que un metro mide exactamente 100
+centímetros: es la unidad calibrada a partir del objeto.</p>
+<p>La <strong>quinta</strong> del temperamento igual son siete de estos
+semitonos apilados:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mtext mathvariant="normal">ET</mtext></msub><mo>=</mo><msup><mi>s</mi><mn>7</mn></msup><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><mn>7</mn></msup><mo>=</mo><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex">Q_{\text{ET}} = s^7 = \left(2^{1/12}\right)^7 = 2^{7/12}</annotation></semantics></math></p>
+<p>Calculemos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>0.583333</mn></mrow><annotation encoding="application/x-tex">7/12 = 0.583333</annotation></semantics></math>,
+así que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>Q</mi><mtext mathvariant="normal">ET</mtext></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.583333</mn><mo>×</mo><mn>0.693147</mn><mo>=</mo><mn>0.404336</mn></mrow><annotation encoding="application/x-tex">\ln(Q_{\text{ET}}) = 0.583333 \times 0.693147 = 0.404336</annotation></semantics></math>,
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mtext mathvariant="normal">ET</mtext></msub><mo>=</mo><msup><mi>e</mi><mn>0.404336</mn></msup><mo>=</mo><mn>1.498307</mn></mrow><annotation encoding="application/x-tex">Q_{\text{ET}} = e^{0.404336} = 1.498307</annotation></semantics></math>.</p>
+<p>En cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>1200</mn><mo>×</mo><mn>7</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>700</mn></mrow><annotation encoding="application/x-tex">c = 1200 \times 7/12 = 700</annotation></semantics></math>
+cents exactos (por la misma razón algebraica de arriba). Comparemos con
+la quinta justa de M1 §6.4 (701.955 c):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>700.000</mn><mo>=</mo><mn>1.955</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">701.955 - 700.000 = 1.955 \text{ cents}</annotation></semantics></math></p>
+<p>La quinta del temperamento igual es <strong>1.955 cents más
+angosta</strong> que la quinta pura — una diferencia diminuta, muy por
+debajo del umbral de 5 cents de M1 §6.5, razón por la cual el oído la
+tolera sin esfuerzo. Y aquí aparece la aritmética que le da nombre a
+todo el módulo: doce quintas de 1.955 cents de déficit cada una reparten
+exactamente</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>1.955</mn><mo>=</mo><mn>23.460</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow></mrow><annotation encoding="application/x-tex">12 \times 1.955 = 23.460 \text{ cents}</annotation></semantics></math></p>
+<p>que es, cifra por cifra, la coma pitagórica completa (verificaremos
+esta identidad con más decimales en el ejercicio 2). No sobra nada, no
+falta nada: la coma entera, ni un ápice más ni menos, queda distribuida
+en partes matemáticamente idénticas entre las doce quintas. Es, en el
+sentido más literal, la “política de reparto” más simétrica que
+existe.</p>
+<h3
+id="tabla-completa-los-doce-intervalos-del-temperamento-igual-contra-sus-equivalentes-justos">3.3
+Tabla completa: los doce intervalos del temperamento igual contra sus
+equivalentes justos</h3>
+<p>Extendamos la comparación a los doce semitonos de la octava, no solo
+a la quinta. Cada intervalo del temperamento igual mide, por
+construcción, un múltiplo exacto de 100 cents (grado
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">100n</annotation></semantics></math>
+cents). Comparémoslo con el intervalo justo “más cercano”
+tradicionalmente asociado a ese grado de la escala:</p>
+<div class="table-scroll"><table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Grado</th>
+<th>Intervalo (nombre)</th>
+<th>Cents ET</th>
+<th>Razón justa asociada</th>
+<th>Cents justos</th>
+<th>Diferencia (ET − justo)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Unísono</td>
+<td>0.000</td>
+<td>1/1</td>
+<td>0.000</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Segunda menor</td>
+<td>100.000</td>
+<td>16/15</td>
+<td>111.731</td>
+<td><strong>−11.731</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Segunda mayor (tono)</td>
+<td>200.000</td>
+<td>9/8</td>
+<td>203.910</td>
+<td><strong>−3.910</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tercera menor</td>
+<td>300.000</td>
+<td>6/5</td>
+<td>315.641</td>
+<td><strong>−15.641</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Tercera mayor</td>
+<td>400.000</td>
+<td>5/4</td>
+<td>386.314</td>
+<td><strong>+13.686</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Cuarta justa</td>
+<td>500.000</td>
+<td>4/3</td>
+<td>498.045</td>
+<td><strong>+1.955</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Tritono</td>
+<td>600.000</td>
+<td>45/32</td>
+<td>590.224</td>
+<td>+9.776</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Quinta justa</td>
+<td>700.000</td>
+<td>3/2</td>
+<td>701.955</td>
+<td><strong>−1.955</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Sexta menor</td>
+<td>800.000</td>
+<td>8/5</td>
+<td>813.686</td>
+<td><strong>−13.686</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Sexta mayor</td>
+<td>900.000</td>
+<td>5/3</td>
+<td>884.359</td>
+<td><strong>+15.641</strong></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Séptima menor</td>
+<td>1000.000</td>
+<td>16/9</td>
+<td>996.090</td>
+<td>+3.910</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Séptima mayor</td>
+<td>1100.000</td>
+<td>15/8</td>
+<td>1088.269</td>
+<td>+11.731</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Octava</td>
+<td>1200.000</td>
+<td>2/1</td>
+<td>1200.000</td>
+<td>0.000</td>
+</tr>
+</tbody>
+</table></div>
+<p>(Todas las cifras verificadas numéricamente; el tritono no tiene un
+único candidato justo canónico — 45/32, 25/18 y 7/5 compiten por ese
+lugar — así que su fila es más una referencia orientativa que una
+comparación definitiva, y no la vas a necesitar para los
+ejercicios.)</p>
+<p>Tres observaciones importantes, que ya conocías en parte desde M1
+pero que ahora tienen su cuadro completo:</p>
+<ol type="1">
+<li><strong>La cuarta y la quinta casi no se mueven</strong>: ±1.955
+cents, invisibles al oído en la práctica normal. Es la razón por la que
+el temperamento igual “se sale con la suya” tan fácilmente en el
+registro de acordes de quintas y cuartas (power chords, organum,
+acompañamientos de guitarra).</li>
+<li><strong>Las terceras y sextas son las que pagan la cuenta</strong>:
+13.686 a 15.641 cents de desviación, siete u ocho veces más que las
+quintas. Fíjate en la simetría casi perfecta: la tercera mayor se
+ensancha (+13.686) casi lo mismo que la sexta menor se angosta (−13.686)
+— son intervalos complementarios (suman una octava), así que sus errores
+son iguales y de signo opuesto. Lo mismo ocurre entre la tercera menor
+(−15.641) y la sexta mayor (+15.641).</li>
+<li><strong>Unísono y octava son perfectos</strong>: 0.000 cents de
+diferencia, siempre, en cualquier sistema de afinación razonable. La
+octava es el único intervalo que el temperamento igual (y prácticamente
+cualquier sistema de este curso) nunca sacrifica.</li>
+</ol>
+<h3 id="lo-irracional-hecho-música">3.4 Lo irracional hecho música</h3>
+<p>Aquí llegamos al punto más extraño, filosóficamente, de todo el
+módulo.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+es un número <strong>irracional</strong>: no se puede escribir como
+cociente de dos enteros. La demostración es corta y usa la misma
+herramienta del ejercicio 11 de M1 (unicidad de la factorización en
+primos).</p>
+<p>Supongamos, por contradicción, que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mi>p</mi><mi>/</mi><mi>q</mi></mrow><annotation encoding="application/x-tex">2^{1/12} = p/q</annotation></semantics></math>
+para algún par de enteros positivos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>,</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p, q</annotation></semantics></math>
+(en su forma más simple, sin factores comunes). Elevando ambos lados a
+la doceava potencia:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>=</mo><msup><mi>p</mi><mn>12</mn></msup><mi>/</mi><msup><mi>q</mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">2 = p^{12}/q^{12}</annotation></semantics></math>,
+es decir,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msup><mi>q</mi><mn>12</mn></msup><mo>=</mo><msup><mi>p</mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">2 q^{12} = p^{12}</annotation></semantics></math>.
+Miremos cuántas veces aparece el factor 2 en cada lado. Escribamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><msup><mn>2</mn><mi>a</mi></msup><mo>⋅</mo><msup><mi>q</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">q = 2^a \cdot q&#39;</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><msup><mn>2</mn><mi>b</mi></msup><mo>⋅</mo><msup><mi>p</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">p = 2^b \cdot p&#39;</annotation></semantics></math>,
+con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>q</mi><mo>′</mo></msup><annotation encoding="application/x-tex">q&#39;</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>p</mi><mo>′</mo></msup><annotation encoding="application/x-tex">p&#39;</annotation></semantics></math>
+impares. El lado izquierdo es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>a</mi></msup><msup><mi>q</mi><mo>′</mo></msup><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mo>+</mo><mn>12</mn><mi>a</mi></mrow></msup><mo>⋅</mo><msup><mi>q</mi><mo>′</mo></msup><msup><mi></mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">2 \cdot (2^a q&#39;)^{12} = 2^{1+12a} \cdot q&#39;^{12}</annotation></semantics></math>;
+el lado derecho es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>b</mi></msup><msup><mi>p</mi><mo>′</mo></msup><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup><mo>=</mo><msup><mn>2</mn><mrow><mn>12</mn><mi>b</mi></mrow></msup><mo>⋅</mo><msup><mi>p</mi><mo>′</mo></msup><msup><mi></mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">(2^b p&#39;)^{12} = 2^{12b} \cdot p&#39;^{12}</annotation></semantics></math>.
+Como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>q</mi><mo>′</mo></msup><msup><mi></mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">q&#39;^{12}</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>p</mi><mo>′</mo></msup><msup><mi></mi><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">p&#39;^{12}</annotation></semantics></math>
+son impares, para que ambos lados sean iguales necesitamos que las
+potencias de 2 coincidan exactamente:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>+</mo><mn>12</mn><mi>a</mi><mo>=</mo><mn>12</mn><mi>b</mi></mrow><annotation encoding="application/x-tex">1 + 12a = 12b</annotation></semantics></math>,
+es decir,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo stretchy="false" form="prefix">(</mo><mi>b</mi><mo>−</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">12(b - a) = 1</annotation></semantics></math>.
+Pero el lado izquierdo es un múltiplo de 12, y 1 no lo es:
+contradicción. Por lo tanto
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+no puede escribirse como razón de enteros: es irracional.</p>
+<p>La consecuencia musical de este hecho aritmético es radical, y vale
+la pena decirla sin adornos: <strong>en el temperamento igual, salvo la
+octava, ningún intervalo corresponde a una razón de números enteros
+pequeños</strong>. No hay ninguna quinta que sea, de verdad,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">3/2</annotation></semantics></math>;
+no hay ninguna tercera que sea, de verdad,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>.
+En rigor matemático estricto, <strong>no existe ni una sola quinta “de
+verdad” en un piano moderno</strong> — cada una de las doce es una
+aproximación irracional, calculada para que el sistema cierre
+perfectamente en doce pasos, pero ninguna coincide, ni por asomo, con la
+razón simple que hace que dos series armónicas compartan parciales sin
+batir (M1 §5.2). Todo, en el temperamento igual, es aproximación. Esto
+contrasta radicalmente con la pitagórica (M3) o la justa (M4), donde
+<em>algunos</em> intervalos son perfectamente racionales y sin batido —
+el temperamento igual sacrificó esa posibilidad <em>en cada uno</em> de
+sus doce intervalos, a cambio de la simetría total que describimos en
+3.1.</p>
+<p>¿Por qué, entonces, funciona igual de bien en la práctica — por qué
+millones de músicos tocan afinados sin quejarse? Por al menos tres
+razones que ya tienes en tu caja de herramientas:</p>
+<ul>
+<li><strong>Tolerancia perceptual</strong> (M1 §6.5): 2 cents de
+desviación en una quinta son, para casi cualquier oyente,
+indistinguibles de una quinta pura; incluso los 14 cents de la tercera,
+aunque objetivamente mayores, caen dentro de lo que el oído humano
+aprende a reclasificar como “textura normal” en vez de “error” tras
+exposición repetida (volveremos sobre esto en 3.6).</li>
+<li><strong>El timbre enmascara</strong>: un instrumento real no suena
+con un tono puro sino con toda su serie de armónicos superpuestos (M1
+§3), y varios de esos armónicos naturales ya se desvían de las notas del
+teclado en cantidades comparables (el armónico 7 cae 31 cents bajo el
+Sib, el 11 cae 49 cents entre Fa y Fa#, según la tabla de M1 §3.2). El
+oído ya está acostumbrado a convivir con desviaciones de esa magnitud
+dentro de un mismo timbre; una tercera 14 cents ancha no destaca tanto
+en ese contexto.</li>
+<li><strong>El vibrato</strong>: en instrumentos de afinación variable
+(voz, cuerdas frotadas, viento), el vibrato hace oscilar la altura
+varios cents por encima y por debajo del centro nominal, de manera
+continua y periódica. Una desviación fija de 14 cents queda,
+literalmente, “escondida dentro” de la amplitud típica de un vibrato
+expresivo normal — lo cual, dicho sea de paso, es una de las razones por
+las que instrumentos de afinación fija (piano) sí exponen el defecto con
+más crudeza que una cuerda o una voz tocando la misma tercera.</li>
+</ul>
+<h3
+id="historia-honesta-nadie-inventó-el-temperamento-igual-en-el-siglo-xviii">3.5
+Historia honesta: nadie “inventó” el temperamento igual en el siglo
+XVIII</h3>
+<p>Existe un mito muy difundido — y falso — según el cual Johann
+Sebastian Bach “inventó” el temperamento igual, y que <em>El clave bien
+temperado</em> (1722, 1742) demuestra que todas las tonalidades suenan
+iguales bajo su sistema. Ya en M6 vimos por qué esto es incorrecto en su
+forma fuerte: lo que Bach usaba con toda probabilidad era algún
+<strong>buen temperamento circulante</strong> (Werckmeister III,
+Kirnberger, o algo cercano a Vallotti), no un temperamento igual
+estricto — y el título de la obra, “bien temperado”
+(<em>wohltemperirte</em>), en el alemán de la época significaba
+precisamente “temperado de forma que todas las tonalidades sean
+utilizables”, no “temperado de forma idéntica en todas”. La evidencia de
+color de tonalidades en las propias piezas (tonalidades más lejanas
+escritas con más disonancia estructural) apoya esta lectura. La historia
+real del temperamento igual es más lenta, más internacional, y bastante
+menos romántica que el mito.</p>
+<p><strong>Vincenzo Galilei</strong> (lutenista, teórico, y padre de
+Galileo Galilei) propuso ya en 1581, en su <em>Dialogo della musica
+antica et della moderna</em>, una regla práctica para trastear laúdes:
+dividir la longitud de cada segmento de cuerda por la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><mi>/</mi><mn>17</mn></mrow><annotation encoding="application/x-tex">18/17</annotation></semantics></math>
+para ubicar cada traste sucesivo. Es, en esencia, una aproximación
+empírica y muy temprana al semitono igual — calculemos qué tan buena
+era, con las herramientas de este módulo, en la sección de ejercicios
+(ejercicio 4). Galilei no tenía logaritmos ni la noción de raíz
+duodécima: llegó a una fracción simple, “suficientemente buena al oído”,
+por tanteo práctico de luthier.</p>
+<p><strong>Zhu Zaiyu</strong> (朱載堉, príncipe de la dinastía Ming,
+matemático y músico) resolvió el problema con una precisión asombrosa en
+1584, en su tratado <em>Lülü Jingyi</em> (律呂精義, “Explicación exacta
+de los tubos sonoros”). Usando aritmética manual de altísima precisión
+(múltiples dígitos decimales, calculados sin ayuda de logaritmos ni de
+ninguna tecnología más allá del ábaco y la paciencia), Zhu Zaiyu calculó
+la razón que hoy escribimos como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+con una exactitud que sorprende a los historiadores de la ciencia —
+muchos consideran su trabajo la primera formulación matemáticamente
+rigurosa y explícita del temperamento igual de doce tonos en cualquier
+cultura del mundo, adelantándose por al menos algunos años a los
+primeros cálculos europeos comparables (el matemático flamenco Simon
+Stevin llegó a un resultado equivalente hacia 1585, aparentemente sin
+conexión conocida con el trabajo chino). Vale la pena decirlo sin
+rodeos, porque los libros de historia de la música occidental tienden a
+omitirlo: la prioridad en la formulación matemática del temperamento
+igual es, con la evidencia disponible, china, no europea.</p>
+<p>En los teclados europeos, sin embargo, el temperamento igual tardó
+muchísimo en volverse la norma <strong>práctica</strong>. Durante los
+siglos XVII y XVIII, la teoría matemática existía (Stevin, Mersenne más
+tarde) pero los temperamentos realmente usados por clavecinistas y
+organistas eran mesotónicos o circulantes (M5, M6): sonaban mejor para
+la música tonal de la época, con sus terceras razonablemente puras en
+las tonalidades más usadas. El temperamento igual estricto se vuelve
+<strong>norma de facto en los teclados europeos recién bien entrado el
+siglo XIX</strong> — impulsado, sobre todo, por la industrialización de
+la fabricación de pianos (fábricas como Broadwood, Érard, Steinway,
+produciendo instrumentos en serie que debían sonar de manera consistente
+sin depender de un afinador que rehiciera un temperamento particular en
+cada uno) y por la creciente necesidad de una industria musical
+estandarizada: partituras publicadas para “el piano” en general, no para
+un instrumento afinado a medida. Es revelador que los afinadores
+profesionales ingleses, según documenta el historiador Ross Duffin,
+<strong>resistieron el cambio durante décadas</strong>, defendiendo
+temperamentos circulantes por su superioridad tímbrica incluso cuando la
+industria ya empujaba hacia el temperamento igual — el cambio no fue
+instantáneo ni consensuado, sino gradual y, en más de un caso, resistido
+activamente por quienes mejor conocían la diferencia auditiva.</p>
+<p>Los <strong>órganos</strong> y los <strong>coros</strong>, por su
+parte, adoptaron el temperamento igual todavía más tarde, y en muchos
+casos nunca del todo. Un órgano de tubos es carísimo y extremadamente
+laborioso de re-temperar (cada tubo requiere ajuste individual), así que
+numerosos instrumentos históricos europeos conservaron temperamentos
+mesotónicos o circulantes hasta bien entrado el siglo XX — y muchos
+órganos construidos hoy, para repertorio histórico, se afinan
+deliberadamente en sistemas no igual-temperados. Los coros a capela, por
+su parte, ni siquiera dependen de un temperamento fijo: como vimos en M4
+§7, cantantes y conjuntos de cuerda ajustan la afinación <strong>en
+tiempo real</strong>, de oído, hacia relaciones más puras que las del
+temperamento igual cuando el contexto armónico lo permite — un fenómeno
+conocido como <em>entonación adaptativa</em>, que retomaremos en la
+sección de repertorio.</p>
+<h3 id="el-balance-qué-compra-la-música-con-estos-catorce-cents">3.6 El
+balance: qué compra la música con estos catorce cents</h3>
+<p>Pongamos en una balanza lo que el temperamento igual le regala a la
+música y lo que le cobra por ello.</p>
+<p><strong>Lo que gana:</strong></p>
+<ul>
+<li><strong>Transposición y modulación sin límite.</strong> Cualquier
+pieza puede sonar en cualquier tonalidad, y modular a cualquier otra,
+sin que ningún intervalo se vuelva “peor” que en la tonalidad de origen.
+La quinta del lobo desaparece: no hay ninguna quinta, en ninguna
+tonalidad, que sea inutilizable.</li>
+<li><strong>Una industria estandarizada.</strong> Un piano fabricado en
+Hamburgo suena “igual de afinado” (en el sentido de intervalos internos)
+que uno fabricado en Boston. Un instrumentista puede tocar con cualquier
+orquesta, cualquier pianista puede sentarse en cualquier piano, sin
+negociar un temperamento compartido antes de empezar.</li>
+<li><strong>La atonalidad y el dodecafonismo son hijos directos del
+temperamento igual.</strong> El sistema de doce sonidos de Schoenberg,
+Berg y Webern depende, estructuralmente, de que las doce notas de la
+octava sean <strong>intercambiables entre sí</strong> — que Do# y Reb
+sean literalmente la misma frecuencia, que invertir o transportar una
+serie no altere ninguna relación interna. Ningún temperamento anterior a
+este permite eso sin generar inconsistencias microtonales; el
+temperamento igual lo convierte en una simetría matemática limpia, y esa
+simetría es la que hace posible pensar la música en términos de clases
+de altura (pitch classes) en lugar de notas concretas.</li>
+<li><strong>Instrumentos intercambiables entre sí.</strong> Una flauta,
+un piano y un violín pueden tocar juntos sin que ninguno “imponga” su
+temperamento a los otros, porque todos apuntan al mismo estándar de
+referencia.</li>
+</ul>
+<p><strong>Lo que pierde:</strong></p>
+<ul>
+<li><strong>Las terceras baten, siempre, en todas partes.</strong> Los
+13.686 cents de más de cada tercera mayor (o los 15.641 de menos de cada
+tercera menor) no son un defecto ocasional: están presentes en
+absolutamente cada acorde mayor o menor tocado en temperamento igual,
+sin excepción de tonalidad. Es, como lo describimos ya, un “vibrato de
+fábrica” — una aspereza constante, de baja frecuencia, que varias
+generaciones de oyentes han aprendido a no escuchar como error, sino
+como el sonido normal, esperable, de un acorde de piano.</li>
+<li><strong>El color de tonalidades se reduce a metáfora.</strong> Los
+teóricos barrocos y clásicos describían Do mayor como “simple y límpio”
+y Mi mayor como “brillante y penetrante” porque, en los temperamentos
+que usaban, esas tonalidades tenían terceras con distinto grado de
+pureza — una diferencia física, medible en batidos, no solo una
+convención (como ya viste en M6, y como argumenta el documento “La
+geografía del sonido” del proyecto: <em>“El temperamento igual convirtió
+esas diferencias en convenciones puramente culturales”</em>). Hoy,
+cuando un compositor “elige” escribir en Mi mayor por su carácter
+brillante, está heredando una tradición retórica sin el sustento
+acústico que la originó: el color ya no está en el instrumento, solo en
+la memoria cultural de la palabra.</li>
+<li><strong>La conexión audible con la serie armónica se
+debilita.</strong> Como vimos en 3.4, ningún intervalo del temperamento
+igual (salvo la octava) coincide con una razón entera: la coincidencia
+de armónicos que produce la fusión perceptiva descrita en M1 §5.2 nunca
+ocurre de manera exacta. La música tonal sigue “funcionando” en
+temperamento igual porque las desviaciones son pequeñas, pero la
+relación estructural profunda entre acorde y serie armónica — tan clara
+en la justa entonación de M4 — queda diluida en una aproximación
+constante.</li>
+</ul>
+<h3 id="el-piano-complica-todo-inarmonicidad-y-octavas-estiradas">3.7 El
+piano complica todo: inarmonicidad y octavas estiradas</h3>
+<p>Hasta aquí hemos tratado el temperamento igual como una construcción
+matemática perfecta: doce razones
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{n/12}</annotation></semantics></math>,
+exactas hasta donde quieras llevar los decimales. Pero ningún piano real
+está afinado así. La razón es física, y tiene que ver con algo que dimos
+por sentado desde M1: que la frecuencia de un armónico es
+<em>exactamente</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+veces la fundamental,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = n f_1</annotation></semantics></math>.</p>
+<p>Esa fórmula, recordemos (M1 §3.1), se deriva de una cuerda
+<strong>idealmente flexible</strong>: sin ninguna resistencia a
+doblarse, sujeta solo por sus extremos. Una cuerda de piano real no es
+así: tiene <strong>rigidez</strong> (es una barra metálica gruesa, no un
+hilo perfectamente flexible), y esa rigidez introduce una fuerza de
+restitución adicional que hace que los modos superiores vibren
+<strong>más rápido</strong> de lo que predice la fórmula ideal. El
+modelo físico que describe esto — desarrollado en la literatura de
+acústica de instrumentos, y relevante para cualquier cuerda con masa y
+grosor apreciables, no solo pianos — es:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><mo>⋅</mo><msub><mi>f</mi><mn>1</mn></msub><mo>⋅</mo><msqrt><mrow><mn>1</mn><mo>+</mo><mi>B</mi><mo>⋅</mo><msup><mi>n</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">f_n = n \cdot f_1 \cdot \sqrt{1 + B \cdot n^2}</annotation></semantics></math></p>
+<p>donde
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+es el <strong>coeficiente de inarmonicidad</strong>, un número positivo
+pequeño que depende de la rigidez, el diámetro, la tensión y la longitud
+de la cuerda concreta. Cuanto mayor es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>,
+más se “adelantan” los armónicos superiores respecto de sus posiciones
+ideales — de ahí el nombre: ya no son armónicos exactos, sino
+<strong>parciales inarmónicos</strong>.</p>
+<p>¿De qué tamaño es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+en un piano real? Depende muchísimo del registro. En las cuerdas graves
+— largas, entorchadas con alambre de cobre para aumentar su masa sin
+aumentar su rigidez proporcionalmente —
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+es relativamente pequeño, del orden de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0001</mn><annotation encoding="application/x-tex">0.0001</annotation></semantics></math>;
+en las cuerdas agudas — cortas, delgadas, de acero macizo, y por eso
+proporcionalmente más rígidas respecto de su longitud —
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+puede llegar a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.01</mn><annotation encoding="application/x-tex">0.01</annotation></semantics></math>
+o más, especialmente en pianos pequeños (verticales o de cola corta)
+donde las cuerdas graves son, por restricciones de tamaño del mueble,
+más cortas y gruesas de lo ideal, lo que también les empeora la
+inarmonicidad. Como regla cualitativa:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+tiende a ser más chico en el registro medio del instrumento, y a crecer
+hacia ambos extremos — un poco en el grave (por el compromiso de diseño
+de las cuerdas entorchadas cortas) y bastante más en el agudo (por la
+rigidez intrínseca del acero en cuerdas cortas y tensas).</p>
+<p>La consecuencia práctica es directa y muy audible para cualquier
+afinador profesional: si afinas la octava de un piano de manera
+“matemáticamente perfecta” — haciendo que la fundamental de la nota
+superior coincida exactamente con el doble de la fundamental de la nota
+inferior,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>f</mi><mn>1</mn><mtext mathvariant="normal">arriba</mtext></msubsup><mo>=</mo><mn>2</mn><msubsup><mi>f</mi><mn>1</mn><mtext mathvariant="normal">abajo</mtext></msubsup></mrow><annotation encoding="application/x-tex">f_1^{\text{arriba}} = 2 f_1^{\text{abajo}}</annotation></semantics></math>
+— el <strong>segundo parcial</strong> de la nota grave (que, por
+inarmonicidad, ya no vale
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msubsup><mi>f</mi><mn>1</mn><mtext mathvariant="normal">abajo</mtext></msubsup></mrow><annotation encoding="application/x-tex">2f_1^{\text{abajo}}</annotation></semantics></math>
+sino un poco más) queda <strong>desafinado respecto de la fundamental de
+la nota aguda</strong>, y esa desafinación bate, exactamente con la
+misma lógica de M1 §5.3. Para eliminar ese batido — para que la octava
+suene realmente “lisa” al oído, que es lo que un músico espera de una
+octava — el afinador no tiene más remedio que <strong>estirar la
+octava</strong>: afinar la nota aguda un poquito más aguda de lo que
+dicta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>n</mi><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{n/12}</annotation></semantics></math>
+estricto, hasta que coincida con el parcial 2 (ya inarmónico) de la nota
+grave, en vez de con el doble matemático de su fundamental.</p>
+<p>Este estiramiento, acumulado nota por nota a lo largo de todo el
+teclado, se conoce como la <strong>curva de Railsback</strong> (por el
+físico O. L. Railsback, quien la documentó sistemáticamente en 1938
+midiendo pianos reales): los bajos del piano terminan afinados
+<strong>más graves</strong> de lo que un temperamento igual estricto
+indicaría, y los agudos <strong>más agudos</strong>, con desviaciones
+que pueden llegar a <strong>±30 cents o más</strong> en los extremos del
+teclado — una cantidad enorme comparada con los 2 cents de la quinta
+pitagórica o incluso los 14 cents de la tercera, y muy por encima del
+umbral de audibilidad de M1 §6.5. Dicho sin rodeos: <strong>ningún piano
+afinado “bien”, según el oído de un afinador profesional y según las
+expectativas de cualquier pianista, está en temperamento igual
+estricto</strong>. El temperamento igual es el punto de partida
+matemático de la afinación de un piano, pero la física real de las
+cuerdas obliga a desviarse sistemáticamente de él para que el
+instrumento suene coherente consigo mismo.</p>
+<p>Este fenómeno — que las propiedades físicas reales de un cuerpo
+vibrante (rigidez, geometría, material) alteran su serie de parciales
+respecto del ideal matemático de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">f_n = nf_1</annotation></semantics></math>
+— es exactamente el terreno que explora el documento “La geografía del
+sonido” del proyecto, aplicado no a cuerdas de piano sino a la columna
+de aire de un traverso barroco: allí también la geometría real del
+instrumento (conicidad del tubo, posición de los orificios) determina
+qué tan cerca o lejos está cada parcial de su posición armónica ideal, y
+esa inarmonicidad — lejos de ser un defecto a esconder — es tratada como
+una propiedad acústica que se puede estudiar, modelar y hasta explotar
+composicionalmente. El puente es directo: el mismo concepto que explica
+por qué un piano necesita octavas estiradas explica por qué un
+instrumento de viento histórico tiene digitaciones que “desafinan de
+manera sistemática y predecible” — es la física real del resonador, no
+un error de fabricación, la que fija esas desviaciones.</p>
+<h3
+id="el-temperamento-igual-como-un-punto-en-el-mapa-no-como-el-destino-final">3.8
+El temperamento igual como un punto en el mapa, no como el destino
+final</h3>
+<p>Terminemos esta sección de teoría con una idea que reubica todo lo
+que acabamos de aprender dentro del mapa más grande del curso. En M5
+definimos la familia mesotónica general como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mn>80</mn><mi>/</mi><mn>81</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>a</mi></msup></mrow><annotation encoding="application/x-tex">Q = (3/2) \cdot (80/81)^a</annotation></semantics></math>,
+donde
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+es la fracción de coma sintónica que se resta de cada quinta (1/4, 1/3,
+1/5, 1/6, 2/7…). Preguntémonos: ¿existe algún valor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+para el cual esta familia produzca, como caso particular, exactamente la
+quinta del temperamento igual?</p>
+<p>La quinta de un mesotónico de fracción
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+de coma sintónica mide, en cents:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>Q</mi></msub><mo>=</mo><mn>701.955</mn><mo>−</mo><mi>x</mi><mo>×</mo><mn>21.506</mn></mrow><annotation encoding="application/x-tex">c_Q = 701.955 - x \times 21.506</annotation></semantics></math></p>
+<p>Buscamos el valor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+que dé
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>Q</mi></msub><mo>=</mo><mn>700.000</mn></mrow><annotation encoding="application/x-tex">c_Q = 700.000</annotation></semantics></math>.
+Despejando:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>701.955</mn><mo>−</mo><mn>700.000</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>21.506</mn><mo>=</mo><mn>1.955</mn><mi>/</mi><mn>21.506</mn><mo>≈</mo><mn>1</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">x = (701.955 - 700.000)/21.506 = 1.955/21.506 \approx 1/11</annotation></semantics></math>.
+Verifiquemos con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">x = 1/11</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mfrac><mn>21.506</mn><mn>11</mn></mfrac><mo>=</mo><mn>701.955</mn><mo>−</mo><mn>1.955</mn><mo>=</mo><mn>700.000</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> cents</mtext></mrow><mi>✓</mi></mrow><annotation encoding="application/x-tex">701.955 - \frac{21.506}{11} = 701.955 - 1.955 = 700.000 \text{ cents} \checkmark</annotation></semantics></math></p>
+<p>El temperamento igual de doce tonos es, entonces, el miembro de la
+familia mesotónica correspondiente a <strong>1/11 de coma
+sintónica</strong> — un mesotónico tan suave, tan poco agresivo con las
+quintas, que sus terceras ya no se acercan a la pureza (a diferencia del
+1/4 de coma de M5, diseñado justamente para eso) sino que se alejan
+bastante de ella, en la dirección opuesta. No es una coincidencia
+caprichosa: es la prueba numérica de que el temperamento igual
+<strong>no es una categoría aparte</strong> de todo lo que venimos
+estudiando, sino un caso límite, perfectamente ubicable en el mismo
+continuo que empezamos a explorar en M5. El “zoológico de temperamentos”
+del curso no termina en el temperamento igual: el temperamento igual es,
+simplemente, uno de sus miembros más simétricos.</p>
+<p>Y si el temperamento igual de 12 es un punto en un mapa, la pregunta
+obvia es: ¿por qué 12, y no otro número de divisiones de la octava? Esa
+pregunta abre el Módulo 9, donde vamos a ver sistemas de 19, 31 y 53
+divisiones iguales (EDOs) que aproximan la justa entonación o el
+mesotónico con mucha más fidelidad que 12 — y vamos a entender, usando
+la maquinaria de las <strong>fracciones continuas</strong> aplicadas a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_2(3/2)</annotation></semantics></math>,
+por qué precisamente 12, 19, 31 y 53 son los “buenos candidatos”
+matemáticos para dividir la octava, y por qué 12 sigue siendo, con todos
+sus defectos, un óptimo sorprendentemente bueno para un número tan
+pequeño de notas. No vamos a desarrollar esa matemática todavía — es
+tema de M9 — pero vale la pena saber que la pregunta “¿por qué doce?”
+tiene una respuesta rigurosa, no solo histórica.</p>
+<h2 id="ejercicios-de-cálculo">4. Ejercicios de cálculo</h2>
+<p>Resuelve cada ejercicio mostrando el desarrollo completo. Las
+soluciones están al final.</p>
+<ol type="1">
+<li><p>Calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+con al menos 6 decimales usando logaritmo natural, y verifica que su
+duodécima potencia da 2. A partir de ese valor, calcula la quinta
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{7/12}</annotation></semantics></math>)
+y la tercera mayor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>4</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{4/12}</annotation></semantics></math>)
+del temperamento igual, en razón de frecuencias y en cents.</p></li>
+<li><p>Demuestra que el temperamento igual reparte la coma pitagórica de
+manera exactamente igualitaria: calcula la coma pitagórica con 3
+decimales (recuerda M1 §7), divídela por 12, y compara el resultado con
+la diferencia entre la quinta justa (701.955 c) y la quinta del
+temperamento igual (700 c).</p></li>
+<li><p>Un afinador toca simultáneamente Do4 (261.63 Hz), Mi4 (329.63 Hz)
+y Sol4 (392.00 Hz) — un acorde de Do mayor en temperamento igual. Para
+cada par de notas, identifica el par de armónicos que “casi coincide” en
+una afinación justa (Do–Mi: armónicos 4 y 5; Do–Sol: armónicos 2 y 3;
+Mi–Sol: armónicos 5 y 6) y calcula la frecuencia de batido resultante en
+cada caso.</p></li>
+<li><p>Calcula en cents la aproximación de Galilei para el traste de
+laúd, razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><mi>/</mi><mn>17</mn></mrow><annotation encoding="application/x-tex">18/17</annotation></semantics></math>.
+Compara con el semitono del temperamento igual (100 c) y calcula el
+error acumulado si se aplicara esta razón doce veces seguidas para
+completar una octava.</p></li>
+<li><p>Verifica la identidad del temperamento igual como mesotónico de
+1/11 de coma sintónica: calcula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>21.506</mn><mi>/</mi><mn>11</mn></mrow><annotation encoding="application/x-tex">701.955 - 21.506/11</annotation></semantics></math>
+y compara con 700.000.</p></li>
+<li><p>La rigidez de una cuerda de piano introduce inarmonicidad según
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub><msqrt><mrow><mn>1</mn><mo>+</mo><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">f_n = n f_1 \sqrt{1+Bn^2}</annotation></semantics></math>.
+Si
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>0.0005</mn></mrow><annotation encoding="application/x-tex">B = 0.0005</annotation></semantics></math>,
+calcula cuántos cents por encima de su posición “ideal”
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">2f_1</annotation></semantics></math>)
+queda el segundo parcial real de la cuerda.</p></li>
+<li><p>Repite el ejercicio 6 para el parcial 4 (que interviene en el
+estiramiento de la doble octava) con el mismo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>0.0005</mn></mrow><annotation encoding="application/x-tex">B=0.0005</annotation></semantics></math>,
+y compara el desplazamiento en cents con el del parcial 2.</p></li>
+<li><p>Un lutier del siglo XVI usa la regla de Galilei para colocar 12
+trastes en un laúd de cuerda de 60 cm de largo (medido desde la cejuela
+hasta el puente). Calcula la posición (distancia desde la cejuela) del
+primer traste y del duodécimo traste, y compara la posición del
+duodécimo traste con la mitad exacta de la cuerda (que debería marcar la
+octava).</p></li>
+<li><p>Si Zhu Zaiyu, trabajando en 1584, hubiese obtenido para el
+semitono un valor de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.059463</mn><annotation encoding="application/x-tex">1.059463</annotation></semantics></math>
+(coincidente, hasta 6 decimales, con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>),
+calcula el error en cents entre su resultado y el valor exacto de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+con 10 decimales
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0594630944</mn><annotation encoding="application/x-tex">1.0594630944</annotation></semantics></math>).
+(Este ejercicio ilustra, más que calcula algo nuevo, cuán exigente es
+exigir precisión histórica “perfecta”: incluso una discrepancia en la
+sexta cifra decimal es, en cents, prácticamente cero —
+verifícalo.)</p></li>
+<li><p>Compara cuantitativamente la tercera mayor del temperamento igual
+(400 c) con la tercera mayor justa (386.314 c) y con la tercera
+pitagórica o ditono (81/64, revisar M3). ¿Cuál de las dos terceras
+“impuras” está más cerca de la del temperamento igual?</p></li>
+<li><p>Un cuarteto de cuerdas toca un acorde de Do mayor y, siguiendo
+entonación adaptativa (ajustando de oído hacia la justa entonación),
+afina la tercera Mi a 5/4 justo sobre el Do en vez de a la tercera del
+temperamento igual. Si el Do sostenido está a 261.63 Hz, calcula la
+frecuencia del Mi justo y compárala con el Mi del temperamento igual
+(329.63 Hz): ¿cuántos Hz y cuántos cents de diferencia hay?</p></li>
+<li><p>Considerando que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+tiende a ser mayor en las cuerdas agudas de un piano pequeño que en un
+piano de cola grande, predice (sin calcular, solo razonando a partir de
+la fórmula de la sección 3.7) si un piano pequeño necesita una curva de
+Railsback más pronunciada o más suave que un piano de cola grande, y por
+qué.</p></li>
+</ol>
+<h3 id="soluciones">Soluciones</h3>
+<p><strong>1.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.6931472</mn></mrow><annotation encoding="application/x-tex">\ln(2)=0.6931472</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.6931472</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>0.0577623</mn></mrow><annotation encoding="application/x-tex">\ln(2^{1/12}) = 0.6931472/12 = 0.0577623</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><msup><mi>e</mi><mn>0.0577623</mn></msup><mo>=</mo><mn>1.0594631</mn></mrow><annotation encoding="application/x-tex">2^{1/12} = e^{0.0577623} = 1.0594631</annotation></semantics></math>.
+Verificación:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>1.0594631</mn><mn>12</mn></msup><mo>=</mo><mn>2.0000000</mn></mrow><annotation encoding="application/x-tex">1.0594631^{12} = 2.0000000</annotation></semantics></math>
+(dentro del redondeo). Quinta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>7</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1.0594631</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>7</mn></msup><mo>=</mo><mn>1.4983070</mn></mrow><annotation encoding="application/x-tex">2^{7/12} = (1.0594631)^7 = 1.4983070</annotation></semantics></math>,
+es decir, 700 cents exactos por construcción
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>7</mn><mi>/</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">1200 \times 7/12</annotation></semantics></math>).
+Tercera mayor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>4</mn><mi>/</mi><mn>12</mn></mrow></msup><mo>=</mo><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>3</mn></mrow></msup><mo>=</mo><mn>1.2599210</mn></mrow><annotation encoding="application/x-tex">2^{4/12} = 2^{1/3} = 1.2599210</annotation></semantics></math>,
+400 cents exactos
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><mn>4</mn><mi>/</mi><mn>12</mn></mrow><annotation encoding="application/x-tex">1200\times4/12</annotation></semantics></math>).</p>
+<p><strong>2.</strong> Coma pitagórica:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mstyle displaystyle="true"><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mi>/</mi><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup></mrow><msup><mn>2</mn><mn>7</mn></msup></mfrac></mstyle><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>531441</mn><mi>/</mi><mn>524288</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>23.460</mn></mrow><annotation encoding="application/x-tex">1200 \times \log_2\left(\dfrac{(3/2)^{12}}{2^7}\right) = 1200 \times \log_2(531441/524288) = 23.460</annotation></semantics></math>
+c. Dividida por 12:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>23.460</mn><mi>/</mi><mn>12</mn><mo>=</mo><mn>1.955</mn></mrow><annotation encoding="application/x-tex">23.460/12 = 1.955</annotation></semantics></math>
+c. La diferencia quinta justa − quinta ET es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>700.000</mn><mo>=</mo><mn>1.955</mn></mrow><annotation encoding="application/x-tex">701.955 - 700.000 = 1.955</annotation></semantics></math>
+c. Coinciden exactamente: el reparto es perfectamente igualitario, como
+se afirma en 3.2.</p>
+<p><strong>3.</strong> <em>Do–Mi</em> (armónicos 4 y 5):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>329.63</mn><mo>=</mo><mn>1318.52</mn></mrow><annotation encoding="application/x-tex">4 \times 329.63 = 1318.52</annotation></semantics></math>
+Hz,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>261.63</mn><mo>=</mo><mn>1308.15</mn></mrow><annotation encoding="application/x-tex">5 \times 261.63 = 1308.15</annotation></semantics></math>
+Hz; batido
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>1318.52</mn><mo>−</mo><mn>1308.15</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>10.37</mn></mrow><annotation encoding="application/x-tex">= |1318.52-1308.15| = 10.37</annotation></semantics></math>
+Hz. <em>Do–Sol</em> (armónicos 2 y 3):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>261.63</mn><mo>=</mo><mn>784.89</mn></mrow><annotation encoding="application/x-tex">3 \times 261.63 = 784.89</annotation></semantics></math>
+Hz,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>392.00</mn><mo>=</mo><mn>784.00</mn></mrow><annotation encoding="application/x-tex">2 \times 392.00 = 784.00</annotation></semantics></math>
+Hz; batido
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>784.89</mn><mo>−</mo><mn>784.00</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>0.89</mn></mrow><annotation encoding="application/x-tex">=|784.89-784.00|=0.89</annotation></semantics></math>
+Hz. <em>Mi–Sol</em> (armónicos 5 y 6, tercera menor):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mn>329.63</mn><mo>=</mo><mn>1977.78</mn></mrow><annotation encoding="application/x-tex">6\times329.63=1977.78</annotation></semantics></math>
+Hz,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>392.00</mn><mo>=</mo><mn>1960.00</mn></mrow><annotation encoding="application/x-tex">5\times392.00=1960.00</annotation></semantics></math>
+Hz; batido
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mn>1977.78</mn><mo>−</mo><mn>1960.00</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>17.78</mn></mrow><annotation encoding="application/x-tex">=|1977.78-1960.00|=17.78</annotation></semantics></math>
+Hz. Nota cómo el batido de la tercera mayor (10.37 Hz) y sobre todo el
+de la tercera menor (17.78 Hz) son mucho más rápidos y perceptibles que
+el de la quinta (0.89 Hz) — la misma jerarquía que ya conocíamos en
+cents (1.955 c la quinta contra 13–16 c las terceras) reaparece aquí en
+Hz de batido real.</p>
+<p><strong>4.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>18</mn><mi>/</mi><mn>17</mn></mrow></msub><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>18</mn><mi>/</mi><mn>17</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{18/17} = 1200 \times \log_2(18/17)</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>18</mn><mi>/</mi><mn>17</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1.058824</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.057158</mn></mrow><annotation encoding="application/x-tex">\ln(18/17) = \ln(1.058824) = 0.057158</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.058824</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0.057158</mn><mi>/</mi><mn>0.693147</mn><mo>=</mo><mn>0.082462</mn></mrow><annotation encoding="application/x-tex">\log_2(1.058824) = 0.057158/0.693147 = 0.082462</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mn>18</mn><mi>/</mi><mn>17</mn></mrow></msub><mo>=</mo><mn>98.955</mn></mrow><annotation encoding="application/x-tex">c_{18/17} = 98.955</annotation></semantics></math>
+c. Comparado con los 100 c del semitono ET, cada traste de Galilei queda
+<strong>1.045 cents angosto</strong>. Acumulado doce veces:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>1.045</mn><mo>=</mo><mn>12.545</mn></mrow><annotation encoding="application/x-tex">12 \times 1.045 = 12.545</annotation></semantics></math>
+c de déficit — el duodécimo traste de Galilei, aplicado literalmente
+doce veces seguidas, cae <strong>12.5 cents por debajo</strong> de la
+octava exacta. Es un error pequeño para un método del siglo XVI sin
+logaritmos, pero sí queda, en teoría, por debajo del umbral de
+audibilidad práctico solo si se corrige antes de completar el ciclo — en
+la práctica luthera, los constructores ajustaban el traste más agudo “a
+oído” para cerrar bien la octava, en vez de aplicar la regla doce veces
+sin corrección.</p>
+<p><strong>5.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>21.506</mn><mi>/</mi><mn>11</mn><mo>=</mo><mn>1.9551</mn></mrow><annotation encoding="application/x-tex">21.506/11 = 1.9551</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>701.955</mn><mo>−</mo><mn>1.9551</mn><mo>=</mo><mn>700.0000</mn></mrow><annotation encoding="application/x-tex">701.955 - 1.9551 = 700.0000</annotation></semantics></math>
+(con el redondeo de las cifras canónicas de la tabla). La identidad se
+verifica: el temperamento igual de 12 tonos coincide, hasta la precisión
+de estas cifras, con el mesotónico de 1/11 de coma sintónica.</p>
+<p><strong>6.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n=2</annotation></semantics></math>:
+factor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msqrt><mrow><mn>1</mn><mo>+</mo><mn>0.0005</mn><mo>×</mo><mn>4</mn></mrow></msqrt><mo>=</mo><msqrt><mn>1.002</mn></msqrt><mo>=</mo><mn>1.0009995</mn></mrow><annotation encoding="application/x-tex">=\sqrt{1+0.0005\times4} = \sqrt{1.002} = 1.0009995</annotation></semantics></math>.
+En cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.0009995</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.0014414</mn><mo>=</mo><mn>1.7295</mn></mrow><annotation encoding="application/x-tex">1200 \times \log_2(1.0009995) = 1200 \times 0.0014414 = 1.7295</annotation></semantics></math>
+cents. El segundo parcial real queda <strong>1.73 cents por
+encima</strong> de la posición armónica ideal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msub><mi>f</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">2f_1</annotation></semantics></math>
+— pequeño, pero ya del orden del umbral de percepción de batidos de M1
+§6.5, y suficiente para exigir el estiramiento de octava descrito en
+3.7.</p>
+<p><strong>7.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">n=4</annotation></semantics></math>:
+factor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msqrt><mrow><mn>1</mn><mo>+</mo><mn>0.0005</mn><mo>×</mo><mn>16</mn></mrow></msqrt><mo>=</mo><msqrt><mn>1.008</mn></msqrt><mo>=</mo><mn>1.003992</mn></mrow><annotation encoding="application/x-tex">=\sqrt{1+0.0005\times16}=\sqrt{1.008}=1.003992</annotation></semantics></math>.
+En cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.003992</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.005752</mn><mo>=</mo><mn>6.902</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(1.003992)=1200\times0.005752=6.902</annotation></semantics></math>
+cents. El cuarto parcial se desplaza casi <strong>4 veces más</strong>
+que el segundo (6.90 c contra 1.73 c) — la inarmonicidad crece
+rápidamente con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+(el término
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">Bn^2</annotation></semantics></math>
+dentro de la raíz crece cuadráticamente), razón por la cual las dobles
+octavas necesitan un estiramiento todavía más pronunciado que las
+octavas simples, un hecho bien conocido por cualquier afinador de
+pianos.</p>
+<p><strong>8.</strong> Posición del traste
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+desde la cejuela: si cada traste deja tras de sí una fracción
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>17</mn><mi>/</mi><mn>18</mn></mrow><annotation encoding="application/x-tex">17/18</annotation></semantics></math>
+de la longitud restante, la longitud restante después de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+trastes es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>17</mn><mi>/</mi><mn>18</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">L\times(17/18)^k</annotation></semantics></math>,
+y la posición del traste (distancia desde la cejuela) es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>−</mo><mi>L</mi><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>17</mn><mi>/</mi><mn>18</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>k</mi></msup><mo>=</mo><mi>L</mi><mo>×</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mn>17</mn><mi>/</mi><mn>18</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>k</mi></msup><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">L - L\times(17/18)^k = L\times\left[1-(17/18)^k\right]</annotation></semantics></math>.
+Con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>60</mn></mrow><annotation encoding="application/x-tex">L=60</annotation></semantics></math>
+cm: traste 1:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60</mn><mo>×</mo><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>−</mo><mn>17</mn><mi>/</mi><mn>18</mn><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mn>60</mn><mo>×</mo><mn>0.055556</mn><mo>=</mo><mn>3.333</mn></mrow><annotation encoding="application/x-tex">60\times[1-17/18] = 60\times0.055556=3.333</annotation></semantics></math>
+cm. Traste 12:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60</mn><mo>×</mo><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mn>17</mn><mi>/</mi><mn>18</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">60\times[1-(17/18)^{12}]</annotation></semantics></math>.
+Calculamos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>17</mn><mi>/</mi><mn>18</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>12</mn></msup></mrow><annotation encoding="application/x-tex">(17/18)^{12}</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>17</mn><mi>/</mi><mn>18</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">ln</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>0.944444</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>0.057158</mn></mrow><annotation encoding="application/x-tex">\ln(17/18)=\ln(0.944444)=-0.057158</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>0.057158</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>−</mi><mn>0.685892</mn></mrow><annotation encoding="application/x-tex">12\times(-0.057158)=-0.685892</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mi>−</mi><mn>0.685892</mn></mrow></msup><mo>=</mo><mn>0.503674</mn></mrow><annotation encoding="application/x-tex">e^{-0.685892}=0.503674</annotation></semantics></math>.
+Entonces traste 12
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>60</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>0.503674</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>60</mn><mo>×</mo><mn>0.496326</mn><mo>=</mo><mn>29.780</mn></mrow><annotation encoding="application/x-tex">=60\times(1-0.503674)=60\times0.496326=29.780</annotation></semantics></math>
+cm. La mitad exacta de la cuerda (la octava verdadera) está a 30.000 cm.
+El duodécimo traste de Galilei cae a 29.780 cm, es decir, <strong>2.2 mm
+antes</strong> de la mitad exacta — coherente con el déficit de 12.5
+cents calculado en el ejercicio 4 (un traste “corto” produce una cuerda
+vibrante más larga de lo que tocaría, y por tanto una nota más grave que
+la octava justa).</p>
+<p><strong>9.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+con 10 decimales es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.0594630944</mn><annotation encoding="application/x-tex">1.0594630944</annotation></semantics></math>.
+Si Zhu Zaiyu hubiese obtenido
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.059463</mn><annotation encoding="application/x-tex">1.059463</annotation></semantics></math>
+(6 decimales, truncado), la diferencia absoluta es
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.0000000944</mn><annotation encoding="application/x-tex">0.0000000944</annotation></semantics></math>,
+es decir, prácticamente cero. En cents:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.0594630944</mn><mi>/</mi><mn>1.059463</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.0000000891</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>1200</mn><mo>×</mo><mn>0.0000001286</mn><mo>≈</mo><mn>0.000154</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(1.0594630944/1.059463) = 1200\times\log_2(1.0000000891) \approx 1200\times 0.0000001286 \approx 0.000154</annotation></semantics></math>
+cents — quince milésimas de milésima de cent, absolutamente inaudible e
+irrelevante para cualquier propósito musical. El punto pedagógico: la
+precisión histórica real de Zhu Zaiyu (documentada como notablemente
+alta para el cálculo manual del siglo XVI) ya superaba, con enorme
+margen, cualquier exigencia práctica de afinación.</p>
+<p><strong>10.</strong> Tercera pitagórica (ditono,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mi>/</mi><mn>64</mn></mrow><annotation encoding="application/x-tex">81/64</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>81</mn><mi>/</mi><mn>64</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>407.820</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(81/64) = 407.820</annotation></semantics></math>
+c (cifra canónica de M3). Diferencia con la tercera ET (400 c):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>407.820</mn><mo>−</mo><mn>400</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>7.820</mn></mrow><annotation encoding="application/x-tex">|407.820-400|=7.820</annotation></semantics></math>
+c. Tercera justa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>386.314</mn></mrow><annotation encoding="application/x-tex">5/4=386.314</annotation></semantics></math>
+c): diferencia con la ET,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>400</mn><mo>−</mo><mn>386.314</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>13.686</mn></mrow><annotation encoding="application/x-tex">|400-386.314|=13.686</annotation></semantics></math>
+c. La tercera pitagórica está <strong>más cerca</strong> de la tercera
+del temperamento igual (7.82 c) que la tercera justa (13.69 c) — un dato
+revelador: el temperamento igual, en sus terceras, se parece más al
+“ditono” medieval duro que a la tercera dulce del acorde 4:5:6, aunque
+históricamente se lo asocie con la música tonal centrada en tríadas.</p>
+<p><strong>11.</strong> Mi justo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>261.63</mn><mo>×</mo><mn>5</mn><mi>/</mi><mn>4</mn><mo>=</mo><mn>327.0375</mn></mrow><annotation encoding="application/x-tex">261.63 \times 5/4 = 327.0375</annotation></semantics></math>
+Hz. Mi del temperamento igual: 329.63 Hz. Diferencia:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>329.63</mn><mo>−</mo><mn>327.0375</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>2.5925</mn></mrow><annotation encoding="application/x-tex">|329.63-327.0375| = 2.5925</annotation></semantics></math>
+Hz, equivalente a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>329.63</mn><mi>/</mi><mn>327.0375</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>&#8289;</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1.007928</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1200</mn><mo>×</mo><mn>0.011399</mn><mo>=</mo><mn>13.68</mn></mrow><annotation encoding="application/x-tex">1200\times\log_2(329.63/327.0375) = 1200\times\log_2(1.007928)=1200\times0.011399=13.68</annotation></semantics></math>
+cents — coherente (dentro de redondeo) con los 13.686 c de la tabla de
+3.3. El cuarteto, al preferir el Mi justo, está corrigiendo casi
+exactamente el “exceso” que el temperamento igual le agrega a la tercera
+mayor.</p>
+<p><strong>12.</strong> Un piano pequeño necesita una curva de Railsback
+<strong>más pronunciada</strong> (mayor estiramiento). Sus cuerdas
+graves son, por restricciones del mueble, más cortas y relativamente más
+gruesas de lo ideal para su frecuencia (mayor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+en el grave), y sus cuerdas agudas también tienden a ser más cortas que
+en un piano de cola grande (mayor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+en el agudo). Como el desplazamiento en cents de cada parcial crece con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+(secciones 3.7, y ejercicios 6–7 muestran que el desplazamiento crece
+con
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">Bn^2</annotation></semantics></math>),
+un
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+mayor en ambos extremos del teclado obliga a un estiramiento de octava
+más agresivo para eliminar los batidos entre parciales inarmónicos — es,
+de hecho, una de las razones acústicas por las que los pianos de cola
+grandes tienen fama de sonar “más afinados consigo mismos” que los
+verticales pequeños.</p>
+<h2 id="guía-de-escucha">5. Guía de escucha</h2>
+<p>Dedica 20–25 minutos al laboratorio interactivo de este módulo
+(<code>laboratorio.html</code>) antes de seguir al Módulo 8.</p>
+<ol type="1">
+<li><strong>Comparador de intervalos.</strong> Activa la quinta y la
+tercera mayor en sus versiones justa y de temperamento igual, sobre la
+misma fundamental, y ubica el batido medido para cada una. Confirma de
+oído la jerarquía numérica de la sección 3.3: la quinta casi no bate, la
+tercera bate de forma clara y constante.</li>
+<li><strong>El slider de inarmonicidad.</strong> Con el modelo de cuerda
+inarmónica del laboratorio, sube el parámetro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+desde cero y escucha cómo una octava afinada como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>:</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2:1</annotation></semantics></math>
+exacto empieza a batir contra el segundo parcial, cada vez más rápido.
+Luego activa la corrección de “octava estirada” y comprueba cómo el
+batido desaparece al desplazar la nota superior.</li>
+<li><strong>El mismo pasaje, tres afinaciones.</strong> Escucha la misma
+pieza breve (coral o pasaje homofónico) en temperamento igual, en
+Vallotti (M6) y en mesotónico de 1/4 de coma (M5). Identifica en qué
+acordes concretos cambia más la sensación de aspereza o dulzura, y
+relaciona ese cambio con las cifras de las tablas de M5 y M6.</li>
+<li><strong>Tu propio medidor de tolerancia.</strong> Usa el ejercicio
+de discriminación del laboratorio para encontrar, en cents, el umbral a
+partir del cual <strong>tú</strong> empiezas a notar que una quinta se
+desafina — y compáralo con el umbral de una tercera. ¿Confirmas la regla
+práctica de M1 §6.5 (umbral más bajo, alrededor de unos pocos cents), o
+tu oído es más o menos sensible que el promedio declarado ahí?</li>
+<li><strong>Batidos de un acorde completo.</strong> Reproduce el acorde
+de Do mayor (Do4–Mi4–Sol4) en temperamento igual y trata de “escuchar
+por separado” los tres batidos calculados en el ejercicio 3 (10.37 Hz en
+la tercera, 0.89 Hz en la quinta, 17.78 Hz en la sexta menor Mi–Sol).
+Confirma que el más rápido y molesto es el de la tercera menor, no el de
+la tercera mayor.</li>
+<li><strong>Galilei contra el temperamento igual.</strong> Si el
+laboratorio lo permite, compara el semitono calculado con la razón
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><mi>/</mi><mn>17</mn></mrow><annotation encoding="application/x-tex">18/17</annotation></semantics></math>
+contra el semitono exacto de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>,
+y evalúa si puedes distinguir de oído una diferencia de poco más de 1
+cent por semitono.</li>
+</ol>
+<h2 id="repertorio">6. Repertorio</h2>
+<p><strong>Música que solo es posible en temperamento
+igual:</strong></p>
+<ul>
+<li><strong>Chopin, Preludio Op. 28 n.º 15 en Reb mayor</strong> (“de la
+gota de agua”). La sección central, en Do# menor (enarmónicamente la
+misma tonalidad que Reb mayor, pero escrita con la nota Do# en vez de
+Reb), depende de que Do# y Reb sean, para el intérprete y el oyente,
+exactamente la misma tecla y la misma frecuencia — algo imposible de
+sostener sin desafinación audible en un mesotónico, donde Sol#/Lab (y
+por extensión buena parte de las notas “enarmónicas”) no son
+intercambiables.</li>
+<li><strong>Liszt</strong>, en sus obras más cromáticas y en piezas como
+los <em>Años de peregrinaje</em> tardíos, explota reinterpretaciones
+enarmónicas constantes de acordes disminuidos y de séptima de dominante,
+que solo cierran de manera consistente si las doce clases de altura son
+verdaderamente simétricas.</li>
+<li><strong>Wagner, <em>Tristán e Isolda</em></strong> (el célebre
+“acorde de Tristán” y su ambigüedad armónica). La capacidad del acorde
+de resolverse de múltiples maneras distintas, reinterpretando sus
+propias notas enarmónicamente según hacia dónde se dirige la frase, es
+un recurso que depende centralmente de la simetría total del
+temperamento igual.</li>
+<li><strong>Dodecafonismo y serialismo</strong> (Schoenberg, Berg,
+Webern). Como ya se argumentó en 3.6, todo el aparato teórico de las
+doce clases de altura equivalentes — inversión, retrogradación,
+transposición de series sin alterar sus relaciones internas — presupone
+que las doce notas son intercambiables en un sentido matemático
+estricto.</li>
+<li><strong>Jazz con sustituciones tritonales.</strong> Una sustitución
+de dominante por tritono (reemplazar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">V7</annotation></semantics></math>
+por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>I</mi><mi>I</mi><mn>7</mn></mrow><annotation encoding="application/x-tex">bII7</annotation></semantics></math>)
+funciona armónicamente porque ambos acordes comparten, en temperamento
+igual, exactamente la misma tercera y séptima reinterpretadas
+enarmónicamente — un recurso armónico que no tiene un equivalente limpio
+en sistemas donde las quintas y terceras no son simétricas en todas las
+tonalidades.</li>
+</ul>
+<p><strong>Contraejemplos actuales — quien puede, se escapa del
+temperamento igual:</strong></p>
+<ul>
+<li><strong>Cuartetos de cuerda y coros a capela</strong> de cualquier
+época, cuando ensayan e interpretan sin acompañamiento de instrumentos
+de afinación fija, tienden a ajustar terceras y quintas hacia la justa
+entonación en cuanto el contexto armónico lo permite — el fenómeno de
+<strong>entonación adaptativa</strong> ya mencionado en M4 §7. Es
+revelador: en el momento en que el temperamento igual deja de ser una
+imposición mecánica del instrumento, buena parte de la práctica musical
+viva se aleja de él espontáneamente, hacia relaciones más puras.</li>
+<li>Grabaciones de investigación (por ejemplo, análisis espectrográficos
+de cuartetos profesionales) muestran sistemáticamente que las terceras
+cantadas o tocadas sin teclado de referencia se acercan mucho más a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">5/4</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>/</mi><mn>5</mn></mrow><annotation encoding="application/x-tex">6/5</annotation></semantics></math>
+que a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>400</mn><annotation encoding="application/x-tex">400</annotation></semantics></math>
+y
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>300</mn><annotation encoding="application/x-tex">300</annotation></semantics></math>
+cents exactos — evidencia empírica de que el oído entrenado, liberado de
+la restricción mecánica de un instrumento de afinación fija, prefiere la
+pureza armónica a la simetría matemática.</li>
+</ul>
+<h2 id="mini-composición">7. Mini-composición</h2>
+<p>Escribe un pasaje breve (8 a 16 compases, dos o tres voces) que
+dependa <strong>estructuralmente</strong> de una enarmonía real — es
+decir, un pasaje en el que una misma tecla se reinterprete como Sol# en
+un momento y como Lab en otro, funcionando como <strong>pivote</strong>
+hacia una tonalidad que sería inalcanzable sin ese cambio de función
+armónica (por ejemplo: Sol# como sensible de La menor en la primera
+mitad, reinterpretado como Lab, tercera de Mib mayor, en la segunda).
+Escribe primero la versión completa asumiendo temperamento igual. Luego,
+pregúntate con números (no solo con adjetivos): ¿qué pasaría si
+intentaras tocar exactamente este mismo pasaje en el mesotónico de 1/4
+de coma de M5? Ubica en la partitura el punto exacto donde el pivote
+dejaría de sonar como una reinterpretación elegante y empezaría a sonar
+como un error de afinación — y describe, en cents, cuánto se desafinaría
+ese acorde si Sol# y Lab, en vez de ser la misma nota, difirieran en la
+cantidad típica de una diesis mesotónica (recuerda M5). El objetivo del
+ejercicio es sentir, componiendo, exactamente qué es lo que la música
+“compró” con los catorce cents de ensanchamiento de cada tercera: la
+posibilidad de tratar como idéntico lo que en cualquier otro sistema de
+este curso son, literalmente, dos notas distintas.</p>
+<h2 id="autoevaluación">8. Autoevaluación</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Puedo derivar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+a partir de la condición “doce semitonos idénticos = una octava”, sin
+memorizar el resultado.</label></li>
+<li><label><input type="checkbox" />Puedo calcular la quinta y la
+tercera mayor del temperamento igual en razón de frecuencias y en cents,
+y explicar por qué el semitono mide exactamente 100 cents por
+construcción.</label></li>
+<li><label><input type="checkbox" />Puedo reproducir la tabla completa
+de los doce intervalos ET contra sus equivalentes justos, y explicar por
+qué las terceras y sextas son las más afectadas mientras que cuartas y
+quintas casi no cambian.</label></li>
+<li><label><input type="checkbox" />Puedo demostrar que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mn>1</mn><mi>/</mi><mn>12</mn></mrow></msup><annotation encoding="application/x-tex">2^{1/12}</annotation></semantics></math>
+es irracional, y explicar la consecuencia de que ningún intervalo de ET
+(salvo la octava) sea una razón de enteros.</label></li>
+<li><label><input type="checkbox" />Puedo dar tres razones
+(perceptuales, tímbricas, de vibrato) de por qué el temperamento igual
+“funciona” a pesar de que ninguno de sus intervalos sea
+puro.</label></li>
+<li><label><input type="checkbox" />Puedo desmontar el mito de “Bach
+inventó el temperamento igual” y ubicar correctamente en el tiempo a
+Galilei, Zhu Zaiyu y la adopción industrial del siglo XIX.</label></li>
+<li><label><input type="checkbox" />Puedo explicar qué es la
+inarmonicidad de una cuerda real, escribir la fórmula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><msub><mi>f</mi><mn>1</mn></msub><msqrt><mrow><mn>1</mn><mo>+</mo><mi>B</mi><msup><mi>n</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">f_n = nf_1\sqrt{1+Bn^2}</annotation></semantics></math>,
+y explicar por qué obliga a estirar las octavas de un piano (curva de
+Railsback).</label></li>
+<li><label><input type="checkbox" />Puedo verificar que el temperamento
+igual de 12 tonos es, numéricamente, el mesotónico de 1/11 de coma
+sintónica, y explicar qué significa eso para ubicarlo dentro del mapa
+general de sistemas del curso.</label></li>
+</ul>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Duffin, R. W. <em>How Equal Temperament Ruined Harmony (and Why You
+Should Care)</em>. W. W. Norton, 2007.</li>
+<li>Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>.
+Dover Publications.</li>
+<li>Isacoff, S. <em>Temperament: How Music Became a Battleground for the
+Great Minds of Western Civilization</em>. Vintage, 2003.</li>
+<li>Jorgensen, O. H. <em>Tuning: Containing the Perfection of
+Eighteenth-Century Temperament</em>. Michigan State University Press,
+1991.</li>
+<li>Robinson, K. G. “A Critical Study of Chu Tsai-yü’s Contribution to
+the Theory of Equal Temperament in Chinese Music”. <em>T’oung Pao</em>,
+1980 — sobre la prioridad de Zhu Zaiyu (Chu Tsai-yü) en el cálculo del
+temperamento igual.</li>
+<li>Railsback, O. L. “Scale Temperament as Applied to Piano Tuning”.
+<em>Journal of the Acoustical Society of America</em>, 1938 — origen de
+la curva de estiramiento de octavas.</li>
+<li>Fletcher, N. H. y Rossing, T. D. <em>The Physics of Musical
+Instruments</em>. Springer — capítulo sobre cuerdas rígidas e
+inarmonicidad.</li>
+<li>De la Cuadra, P. “La geografía del sonido” (documento interno del
+proyecto, <code>Fundamentos/Fundamentos.tex</code>) — marco conceptual
+sobre inarmonicidad y geometría de instrumentos reales, referenciado en
+la sección 3.7.</li>
+</ul>
+<h2 id="anticipo">Anticipo</h2>
+<p>Con este módulo cerramos el núcleo histórico occidental: pitagórica,
+justa, mesotónicos, buenos temperamentos y temperamento igual son,
+ahora, cinco políticas de reparto de la misma coma, medibles y
+comparables con las mismas herramientas. En el Módulo 8 vamos a
+ponerlas, por fin, una al lado de la otra — en una sola tabla maestra,
+con métricas cuantitativas de consonancia y una gran sesión de
+identificación auditiva a ciegas — para que puedas elegir un sistema,
+con criterio numérico, según lo que tu música necesite proteger.</p>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p class="stamp">Sistema de Aprendizaje de Afinaciones · Módulo 7</p><button id="progress-btn" class="progress-btn" data-modulo="07-temperamento-igual">✓ Marcar módulo como completado</button></div></footer>
+<script>
+(function(){
+  var KEY = 'afinaciones-progreso';
+  function getProgreso(){
+    try {
+      var v = JSON.parse(localStorage.getItem(KEY));
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function setProgreso(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function estaCompletado(id){
+    return getProgreso().indexOf(id) !== -1;
+  }
+  function alternarCompletado(id){
+    var arr = getProgreso();
+    var i = arr.indexOf(id);
+    if (i === -1) { arr.push(id); } else { arr.splice(i, 1); }
+    setProgreso(arr);
+    return estaCompletado(id);
+  }
+  window.AfinacionesProgreso = {
+    getProgreso: getProgreso,
+    estaCompletado: estaCompletado,
+    alternarCompletado: alternarCompletado
+  };
+})();
+(function(){
+  var btn = document.getElementById('progress-btn');
+  if (!btn) return;
+  var id = btn.getAttribute('data-modulo');
+  function pintar(){
+    if (window.AfinacionesProgreso.estaCompletado(id)) {
+      btn.textContent = '\u2713 Completado';
+      btn.classList.add('done');
+    } else {
+      btn.textContent = '\u2713 Marcar m\u00f3dulo como completado';
+      btn.classList.remove('done');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.AfinacionesProgreso.alternarCompletado(id);
+    pintar();
+  });
+  pintar();
+})();
+</script>
+</body>
+</html>
